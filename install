@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+console.log('✅ Core setup script')
+
+// Future steps: install global git hooks, configs, etc.
