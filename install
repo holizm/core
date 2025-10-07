@@ -1,5 +1,10 @@
 #!/usr/bin/env node
+import { execSync } from 'child_process'
+import path from 'path'
 
-console.log('✅ Core setup script')
+console.log('✅ Running core installation...')
 
-// Future steps: install global git hooks, configs, etc.
+const installHooksPath = path.resolve('./hooks/install-hooks.js')
+execSync(`node ${installHooksPath}`, { stdio: 'inherit' })
+
+console.log('✅ Core installation complete')
