@@ -1,0 +1,3 @@
+- git clone git@github.com:PrimeCoreSolution/core
+- cd core
+- node install
