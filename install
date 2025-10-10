@@ -7,4 +7,7 @@ console.log('✅ Running core installation...')
 const installHooksPath = path.resolve('./hooks/install-hooks.js')
 execSync(`node ${installHooksPath}`, { stdio: 'inherit' })
 
+const installCommandsPath = path.resolve('./commands/install-commands.js')
+execSync(`node ${installCommandsPath}`, { stdio: 'inherit' })
+
 console.log('✅ Core installation complete')
