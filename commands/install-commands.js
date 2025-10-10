@@ -4,7 +4,7 @@ import path from 'path'
 import os from 'os'
 
 console.log('🔧 Registering commands in PATH...')
-
+const commandsDir = "/PrimeCoreSolution/core/commands"
 const homeDir = os.homedir()
 const profileFile = path.join(homeDir, '.bashrc')
 
