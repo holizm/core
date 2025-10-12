@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# === Configuration ===
+# URL for Astrill .deb (64-bit); adjust if version changes
+ASTRILL_DEB_URL="https://www.astrill.com/download/linux"  # This is the landing page; script will parse actual link
+# or use a direct URL if known, e.g.:
+# ASTRILL_DEB_URL="https://downloads.astrill.com/astrill-setup-linux64.deb"
+
+# Temporary working directory
+TMPDIR=$(mktemp -d)
+cd "$TMPDIR"
+
+# Download the Astrill download page
+curl -sL "$ASTRILL_DEB_URL" -o download.html
+
+# Parse the .deb link from the HTML
+deb_link=$(grep -Eo 'href="[^"]+astrill-setup-linux[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
+
+if [[ -z "$deb_link" ]]; then
+    echo "ERROR: Could not find Astrill .deb link from download page."
+    exit 1
+fi
+
+# If link is relative, prefix with domain
+if [[ "$deb_link" =~ ^/ ]]; then
+    deb_link="https://www.astrill.com${deb_link}"
+fi
+
+echo "Found .deb package: $deb_link"
+
+# Download the .deb
+wget -q -O astrill.deb "$deb_link"
+
+# Install it
+sudo dpkg -i astrill.deb || sudo apt-get install -f -y
+
+echo "Astrill .deb installed (or dependencies fixed)."
+
+# Clean up
+cd /
+rm -rf "$TMPDIR"
+
+# === Optional: Setup OpenVPN / WireGuard fallback ===
+
+# Function to configure Astrill via OpenVPN (if you prefer that mode)
+setup_openvpn() {
+    sudo apt-get update
+    sudo apt-get install -y openvpn network-manager-openvpn
+
+    echo "Please login to your Astrill member area, generate OpenVPN config, and place the .ovpn file somewhere convenient."
+    echo "Then you can run: sudo openvpn --config path/to/yourfile.ovpn"
+}
+
+# Function to configure Astrill via WireGuard (Astrill supports WireGuard) :contentReference[oaicite:0]{index=0}
+setup_wireguard() {
+    sudo apt-get update
+    sudo apt-get install -y wireguard
+
+    echo "Please login to Astrill → VPN Services → WireGuard, download the .conf file."
+    echo "Then you can run: sudo wg-quick up /path/to/yourconf.conf"
+}
+
+# Offer choice
+echo "Do you want to setup fallback OpenVPN or WireGuard mode (yes/no)?"
+read -r choice
+if [[ "$choice" == "yes" ]]; then
+    echo "Which mode? 1) openvpn  2) wireguard"
+    read -r mode
+    if [[ "$mode" == "1" ]]; then
+        setup_openvpn
+    elif [[ "$mode" == "2" ]]; then
+        setup_wireguard
+    else
+        echo "Invalid choice, skipping fallback setup."
+    fi
+else
+    echo "Skipping fallback OpenVPN / WireGuard setup."
+fi
+
+echo "Done. You can now run Astrill VPN from your applications menu or via CLI."
+
