@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+tmpdir=$(mktemp -d)
+cd "$tmpdir"
+curl -sL https://www.adspower.com/download -o download.html
+deburl=$(grep -Eo 'href="[^"]+AdsPower[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
+if [[ -z "$deburl" ]]; then
+  echo "Could not find .deb link on AdsPower download page. Open https://www.adspower.com/download manually."
+  exit 1
+fi
+if [[ "$deburl" =~ ^/ ]]; then
+  deburl="https://www.adspower.com${deburl}"
+fi
+wget -q -O adspower.deb "$deburl"
+sudo dpkg -i adspower.deb || sudo apt-get install -f -y
+rm -rf "$tmpdir"
+echo "AdsPower package installed."
+
+if command -v lsb_release >/dev/null 2>&1; then
+  release=$(lsb_release -rs)
+else
+  release=""
+fi
+
+if [[ "$release" == "24.04" || "$release" == "24.04.1" ]]; then
+  sudo bash -c 'cat > /etc/apparmor.d/adspower <<'"'"'EOF
+# This profile allows everything and only exists to give the
+# application a name instead of having the label "unconfined"
+abi <abi/4.0>,
+include <tunables/global>
+
+profile adspower "/opt/AdsPower Global/adspower_global" flags=(default_allow) {
+  userns,
+
+  include if exists <local/adspower>
+}
+EOF'
+  sudo systemctl reload apparmor.service || sudo reboot
+  echo "AppArmor profile created and reloaded (or system will reboot)."
+fi
+
+echo "You can try launching with: adspower_global --no-sandbox --disable-gpu"
