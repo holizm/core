@@ -1,13 +1,12 @@
-#!/usr/bin/env node
-import { execSync } from 'child_process'
-import path from 'path'
+#!/usr/bin/env bash
+set -euo pipefail
 
-console.log('✅ Running core installation...')
+. ./setup/dev/common
 
-const installHooksPath = path.resolve('./hooks/install-hooks.js')
-execSync(`node ${installHooksPath}`, { stdio: 'inherit' })
+info "running system setup ..."
+./setup/dev/setup
 
-const installCommandsPath = path.resolve('./commands/install-commands.js')
-execSync(`node ${installCommandsPath}`, { stdio: 'inherit' })
+node ./hooks/install-hooks.js
+node ./commands/install-commands.js
 
-console.log('✅ Core installation complete')
+success "core installation complete"
