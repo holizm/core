@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# AdsPower
-# Astrill
+bash "$(dirname "$0")/node"
+# bash "$(dirname "$0")/adsPower"
+# bash "$(dirname "$0")/astrill"
