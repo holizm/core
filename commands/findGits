@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+import fs from 'fs'
+import path from 'path'
+import os from 'os'
+
+const HOME = os.homedir()
+
+export const findGits = () => {
+    const items = fs.readdirSync(HOME, { withFileTypes: true })
+    const gitDirs = []
+
+    for (const item of items) {
+        if (!item.isDirectory()) continue
+        const gitPath = path.join(HOME, item.name, '.git')
+        if (fs.existsSync(gitPath) && fs.lstatSync(gitPath).isDirectory()) {
+            gitDirs.push(path.join(HOME, item.name))
+        }
+    }
+
+    return gitDirs
+}
