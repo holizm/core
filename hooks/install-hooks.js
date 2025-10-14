@@ -25,10 +25,15 @@ function buildGlobalHooks() {
         const runnerContent = `#!/usr/bin/env node
 import { execSync } from 'child_process'
 import { join } from 'path'
+
 const scripts = ${JSON.stringify(scripts)}
+
 for (const script of scripts) {
-  console.log('Running', script)
-  execSync('node ' + join('${hookScriptsDir}', script), { stdio: 'inherit' })
+  try {
+    execSync('node ' + join('${hookScriptsDir}', script), { stdio: 'inherit' })
+  } catch {
+    process.exit(1)
+  }
 }
 `
         fs.writeFileSync(runnerPath, runnerContent, { mode: 0o755 })
