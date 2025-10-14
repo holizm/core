@@ -8,7 +8,7 @@ try {
 
     if (branch === 'main') {
         console.error('🚫 Commits to the main branch are not allowed.')
-        process.exit(1) // non-zero exit prevents commit
+        process.exit(1)
     }
 
     console.log(`✅ Commit allowed on branch: ${branch}`)
