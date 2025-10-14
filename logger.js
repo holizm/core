@@ -24,10 +24,8 @@ const formatError = (err) => {
 
 const log = (color, ...args) => {
     const stack = getStack()
-    // console.log(stack)
     const colorCodeStart = color
     const colorCodeReset = '\x1b[0m'
-    const timestamp = new Date().toISOString()
     const message = args.map(arg => {
         if (arg instanceof Error) {
             return formatError(arg)
@@ -37,7 +35,7 @@ const log = (color, ...args) => {
             return String(arg)
         }
     }).join(" ")
-    console.log(`${colorCodeStart}${timestamp} ${message}${colorCodeReset}`)
+    console.log(`${colorCodeStart}${message}${colorCodeReset}`)
 }
 
 export const success = (...args) => {
@@ -45,7 +43,7 @@ export const success = (...args) => {
 }
 
 export const info = (...args) => {
-    log('\x1b[34m', ...args)
+    log('\x1b[36m', ...args)
 }
 
 export const warning = (...args) => {
@@ -54,4 +52,21 @@ export const warning = (...args) => {
 
 export const error = (...args) => {
     log('\x1b[31m', ...args)
+}
+
+export const check = (...args) => {
+    const checkMark = "\u2714"
+    log('\x1b[32m', ...args, checkMark)
+}
+
+export const divide = () => {
+    console.log()
+    console.log('\x1b[35m----------\x1b[0m')
+    console.log()
+}
+
+export const dividedError = (...args) => {
+    divide()
+    error(...args)
+    divide()
 }
