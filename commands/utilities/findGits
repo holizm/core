@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import fs from 'fs'
 import path from 'path'
-import os from 'os'
 
-const HOME = os.homedir()
+const HOME = process.env.HOME
 
 export const findGits = () => {
     const items = fs.readdirSync(HOME, { withFileTypes: true })
