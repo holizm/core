@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
+import { info, divide, success, warning, error } from '../logger.js'
+
+const INSTALLATION_FILE = path.join(os.homedir(), 'installationDate')
+
+let from
+try {
+    from = parseInt(fs.readFileSync(INSTALLATION_FILE, 'utf8').trim(), 10)
+} catch (e) {
+    error(`Cannot read installation date: ${e.message}`)
+    process.exit(1)
+}
+
+const now = Math.floor(Date.now() / 1000)
+const seconds = now - from
+
+const secondsInDay = 60 * 60 * 24
+const secondsInMonth = secondsInDay * 30
+
+const months = Math.floor(seconds / secondsInMonth)
+const days = Math.floor((seconds % secondsInMonth) / secondsInDay)
+
+info("")
+info(`${months} months & ${days} days`)
+divide()
+
+if (months < 2) {
+    success("Everything is good. Happy coding!")
+    divide()
+} else if (months >= 2 && months < 3) {
+    warning("It's better to install everything again. But it's not a force. Do it in your free time.")
+    divide()
+} else {
+    error("It's absolutely necessary to install everything again. It's a force. Do it ASAP.")
+    divide()
+}
