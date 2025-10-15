@@ -9,7 +9,7 @@ function run(cmd) {
     }
 }
 
-export default function checkCpu() {
+export default () => {
     const cpuCores = parseInt(run('nproc')) || 0
     const desirableCoresCount = 4
 
