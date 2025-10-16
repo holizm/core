@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+import { execSync } from "node:child_process"
+// import open from "open"
+
+function run(cmd) {
+    console.log(`> ${cmd}`)
+    return execSync(cmd, { stdio: "pipe" }).toString().trim()
+}
+
+// 1. Get list of dev commits not applied to main
+const cherryRaw = run('git cherry main dev')
+const cherryCommits = cherryRaw
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('+')) // only commits not in main
+    .map(line => line.slice(2).trim()) // remove "+ " prefix
+
+if (!cherryCommits.length) {
+    console.log("No commits to cherry-pick. Exiting.")
+    process.exit(0)
+}
+
+console.log("Commits in dev not yet applied to main:")
+cherryCommits.forEach(hash => console.log(hash))
+
+const tempBranch = `pick-temp-${Date.now()}`
+
+try {
+    // 2. Checkout main and pull
+    run("git checkout main")
+    run("git pull origin main")
+
+    // 3. Create temp branch
+    run(`git checkout -b ${tempBranch}`)
+
+    // 4. Cherry-pick all commits from dev that are not in main
+    run(`git cherry-pick ${cherryCommits.join(' ')}`)
+
+    // 5. Push temp branch
+    run(`git push -u origin ${tempBranch}`)
+
+    // 6. Open PR in browser
+    const remoteUrl = run("git config --get remote.origin.url")
+    const repoUrl = remoteUrl
+        .replace(/^git@github.com:/, "https://github.com/")
+        .replace(/\.git$/, "")
+
+    // open(`${repoUrl}/compare/main...${tempBranch}?expand=1`)
+
+    console.log("\nDone! PR page opened in your browser.")
+    console.log("Review, merge, then optionally delete the temp branch:")
+    console.log(`git branch -d ${tempBranch}`)
+    console.log(`git push origin --delete ${tempBranch}`)
+} catch (err) {
+    console.error("\nError:", err.message)
+    console.error("You might have conflicts during cherry-pick. Resolve them and run:")
+    console.log("git cherry-pick --continue")
+}

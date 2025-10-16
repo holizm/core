@@ -2,5 +2,6 @@
 set -euo pipefail
 
 bash "$(dirname "$0")/node"
+bash "$(dirname "$0")/npmPackages"
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"

@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+import bios from "./pcInfo/bios.js"
+import cpu from "./pcInfo/cpu.js"
+import ram from "./pcInfo/ram.js"
+import storage from "./pcInfo/storage.js"
+import system from "./pcInfo/system.js"
+
+system()
+bios()
+cpu()
+ram()
+storage()
