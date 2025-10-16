@@ -43,9 +43,13 @@ const cloneRepo = (org, repo) => {
     success(`Cloned ${org}/${repo}`)
 
     const gitignorePath = path.join(BASE_DIR, "core", "gitignore")
-    const excludeFile = path.join(dir, '.git', 'info', 'exclude')
+    const infoDir = path.join(dir, '.git', 'info')
+    const excludeFile = path.join(infoDir, 'exclude')
 
     if (fs.existsSync(gitignorePath)) {
+        if (!fs.existsSync(infoDir)) {
+            fs.mkdirSync(infoDir, { recursive: true })
+        }
         fs.copyFileSync(gitignorePath, excludeFile)
         info(`Copied ${gitignorePath} to ${excludeFile}`)
     } else {
