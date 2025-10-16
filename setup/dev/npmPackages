@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+packages=(inquirer)
+
+for pkg in "${packages[@]}"; do
+  if ! npm list -g --depth=0 "$pkg" >/dev/null 2>&1; then
+    npm install -g "$pkg"
+  fi
+done
