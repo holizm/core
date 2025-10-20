@@ -54,6 +54,11 @@ export const error = (...args) => {
     log('\x1b[31m', ...args)
 }
 
+export const errorAndExit = (...args) => {
+    dividedError(...args)
+    process.exit(1)
+}
+
 export const check = (...args) => {
     const checkMark = "\u2714"
     log('\x1b[32m', ...args, checkMark)
