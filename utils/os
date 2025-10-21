@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+import fs from "fs"
+import path from "path"
+import { execSync } from "child_process"
+import { errorAndExit } from "../logger.js"
+import { runOnTerminal } from "./terminal"
+
+export const getOrgRepoFromGit = () => {
+    let url = runOnTerminal("git config --get remote.origin.url")
+    if (!url) errorAndExit("No remote.origin.url found in git config.")
+
+    if (url.endsWith(".git")) url = url.slice(0, -4)
+
+    let repoPath
+    if (url.startsWith("git@")) {
+        [, repoPath] = url.split(":", 2)
+    } else if (url.startsWith("https://") || url.startsWith("http://")) {
+        const parts = url.split("/")
+        repoPath = parts.slice(-2).join("/")
+    } else {
+        errorAndExit(`Unrecognized git remote format: ${url}`)
+    }
+
+    const [org, repo] = repoPath.split("/")
+    return { org, repo }
+}
+
+export const exit = () => process.exit()
+
+const readReplaceWrite = (inputFile, outputFile, flag) => {
+    fs.mkdirSync(path.dirname(outputFile), { recursive: true })
+    const content = fs.readFileSync(inputFile, "utf8")
+    const replaced = content.replace(/\$(\w+)|\${(\w+)}/g, (_, v1, v2) => process.env[v1 || v2] || "")
+    fs.writeFileSync(outputFile, replaced, { flag })
+}
+
+export const replaceEnvs = (inputFile, outputFile) => readReplaceWrite(inputFile, outputFile, "w")
+export const replaceEnvsAndAppend = (inputFile, outputFile) => readReplaceWrite(inputFile, outputFile, "a")
+
+export const isFile = (p) => fs.existsSync(p) && fs.statSync(p).isFile()
+export const isDir = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory()
+
+export const createFileIfNotExists = (p) => {
+    if (fs.existsSync(p)) {
+        if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
+        else return
+    }
+    fs.closeSync(fs.openSync(p, "w"))
+}
+
+export const writeFileIfNotExists = (p, content) => {
+    if (fs.existsSync(p)) {
+        if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
+        else return
+    }
+    fs.writeFileSync(p, content)
+}
+
+export const copyFileIfNotExists = (source, dest) => {
+    if (fs.existsSync(dest)) {
+        if (fs.statSync(dest).isDirectory()) fs.rmSync(dest, { recursive: true, force: true })
+        else return
+    }
+    fs.copyFileSync(source, dest)
+}
+
+export const getFileContent = (p) => fs.readFileSync(p, "utf8")
+export const getFileLines = (p) => fs.readFileSync(p, "utf8").split(/\r?\n/)
+
+export const writeFile = (p, content) => {
+    if (!p) errorAndExit("Path must not be None or empty")
+    fs.mkdirSync(path.dirname(p), { recursive: true })
+    fs.writeFileSync(p, content)
+}
+
+export const getDepth = () => {
+    const parts = process.cwd().split(path.sep).filter(Boolean)
+    return parts.length
+}
+
+export const isRepo = (p = process.cwd()) => fs.existsSync(path.join(p, ".git"))
+
+export const isProcess = () => {
+    if (getDepth() !== 2) return false
+    const folder = path.basename(process.cwd())
+    const keywords = ["accounts", "api", "panel", "site", "etl", "worker"]
+    const folderLower = folder.toLowerCase()
+
+    if (keywords.some(k => folderLower.includes(k))) return true
+
+    const files = fs.readdirSync(process.cwd())
+    const pascalFiles = new Set(files.filter(f => fs.statSync(f).isFile()))
+    for (const keyword of keywords) {
+        if (pascalFiles.has(pascalize(keyword))) return true
+    }
+    return false
+}
+
+export const isAccounts = () => isProcess() && path.basename(process.cwd()) === "accounts"
+export const isApi = () => isProcess() && ["app.js"].some(f => fs.existsSync(path.join(process.cwd(), f)))
+export const isWorker = () => isProcess() && path.basename(process.cwd()).includes("worker")
+export const isPanel = () => isProcess() && path.basename(process.cwd()).includes("panel")
+export const isSite = () => {
+    if (!isProcess()) return false
+    const folder = path.basename(process.cwd())
+    const hasSite = folder.includes("site")
+    const hasApi = folder.includes("api")
+    const hasAppDir = fs.existsSync(path.join(process.cwd(), "pages"))
+    return (hasSite && !hasApi) || hasAppDir
+}
+export const isHeadlessPanel = () => isPanel() && fs.existsSync(path.join(process.cwd(), "headless"))
+export const isEtl = () => isApi() && process.cwd().endsWith("etl")
