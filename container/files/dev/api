@@ -1,0 +1,17 @@
+FROM geshtio/core:latest
+
+ENV PATH="${PATH}:~/core/commands/api:~/core/commands"
+
+RUN apt update -qq \
+    && mkdir -p /tmp/imageResizingAndCompression \
+    && mkdir -p /tmp/videoConversion \
+    && apt install file -qq -y \
+    && apt install gettext-base -qq -y \
+    && apt install apt-utils -qq -y \
+    && apt install libc6-dev -qq -y \
+    && apt install webp -qq -y \
+    && apt install telnet -qq -y \
+    && apt install dnsutils -qq -y \
+    && apt install imagemagick -qq -y \
+    && apt install ffmpeg -qq -y \
+    && npm install -g nodemon
