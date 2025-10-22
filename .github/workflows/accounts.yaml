@@ -3,13 +3,16 @@ name: accounts
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 6'
   push:
     branches:
       - main
+    paths:
+      - 'container/files/dev/accounts'
 
 jobs:
-  builder:
+  build-accounts:
     uses: ./.github/workflows/builder.yaml
     with:
       service: accounts
+    secrets: inherit
