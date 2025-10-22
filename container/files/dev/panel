@@ -1,0 +1,10 @@
+FROM geshtio/core:latest
+
+ENV PATH="${PATH}:~/core/commands/panel:~/core/commands"
+
+RUN npm install --location=global serve -y
+
+RUN echo DefaultLimitNOFILE=65536 > /etc/systemd/system.conf
+RUN echo DefaultLimitNOFILE=65536 > /etc/systemd/user.conf
+
+RUN ulimit -n 65536
