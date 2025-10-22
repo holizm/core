@@ -1,0 +1,3 @@
+FROM holism/core:latest
+
+ENV PATH="${PATH}:~/core/commands/site:~/core/commands"
