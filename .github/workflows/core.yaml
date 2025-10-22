@@ -25,7 +25,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/files/dev/core
+          context: ./container/files/dev/core
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/core:latest
 
