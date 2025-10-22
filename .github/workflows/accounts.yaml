@@ -8,11 +8,12 @@ on:
     branches:
       - main
     paths:
-      - 'container/files/dev/accounts'
+      - 'container/files/prod/accounts'
 
 jobs:
   build-accounts:
     uses: ./.github/workflows/builder.yaml
     with:
       service: accounts
+      dir: prod
     secrets: inherit

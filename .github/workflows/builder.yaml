@@ -6,7 +6,11 @@ on:
       service:
         required: true
         type: string
-
+      dir:
+        required: true
+        type: string
+        default: dev
+        
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -23,8 +27,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./container/files/dev
-          file: ./container/files/dev/${{ inputs.service }}
+          context: ./container/files/${{ inputs.dir }}
+          file: ./container/files/${{ inputs.dir }}/${{ inputs.service }}
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.service }}:latest
 
