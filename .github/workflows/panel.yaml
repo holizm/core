@@ -25,7 +25,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/files/dev/panel
+          context: ./container/files/dev/panel
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/panel:latest
 
