@@ -11,12 +11,13 @@ import {
     success,
 } from "../logger.js"
 import {
-    exit,
     getDepth,
+    getFileLines,
     getOrgRepoFromGit,
+    isFile,
 } from "../scripts/os"
 import { clear } from "../scripts/terminal"
-import setPaths from "../scripts/setPaths.js"
+import getPaths from "../scripts/getPaths.js"
 
 clear()
 
@@ -24,7 +25,8 @@ const cwd = process.cwd()
 if (cwd === "/") {
     errorAndExit("Can not run `start` from the root directory")
 }
-if (cwd === process.env.HOME) {
+const home = process.env.HOME
+if (cwd === home) {
     errorAndExit("Can not run `start` from the home directory")
 }
 
@@ -50,25 +52,51 @@ divide()
 info(`directory: ${cwd}`)
 divide()
 
-const processName = path.basename(cwd)
+let params = {
+    home,
+    org,
+    repo,
+}
 
-const lowercaseOrg = org.toLowerCase()
-const lowercaseRepo = repo.toLowerCase()
-const lowercaseProcess = processName.toLowerCase()
-
-process.env.org = org
-process.env.repo = repo
-process.env.process = processName
-process.env.lowercaseOrg = lowercaseOrg
-process.env.lowercaseRepo = lowercaseRepo
-process.env.lowercaseProcess = lowercaseProcess
+params.processName = path.basename(cwd)
+params.lowercaseOrg = org.toLowerCase()
+params.lowercaseRepo = repo.toLowerCase()
+params.lowercaseProcess = params.processName.toLowerCase()
 
 success(`organization: ${org}`)
 success(`repository: ${repo}`)
-success(`process: ${process}`)
+success(`process: ${params.processName}`)
 
-setPaths()
+params =
+{
+    ...params,
+    ...getPaths(params),
+}
+
+const { tenantsPath } = params
+
+if (!isFile(tenantsPath)) {
+    errorAndExit(`Tenants file not found at path: ${tenantsPath}`)
+}
+
+const lines = getFileLines(tenantsPath)
+
+lines.forEach(line => {
+    const parts = line.trim().split(/\s+/)
+    let tenant, domain, locales, defaultLocale, roles
+    if (parts.length === 5) {
+        [tenant, domain, locales, defaultLocale, roles] = parts
+        roles = roles.split(',')
+    } else if (parts.length === 4) {
+        [tenant, domain, locales, defaultLocale] = parts
+        roles = []
+    } else {
+        errorAndExit(`Incomplete tenant line: ${line}`)
+    }
+    // const localDomain = getLocalHost(domain)
+    // createCertificate(tenant, localDomain)
+    // setupNginx(tenant, localDomain)
+    // setupLocalDns(localDomain)
+})
 
 divide()
-
-

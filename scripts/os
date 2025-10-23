@@ -66,7 +66,11 @@ export const copyFileIfNotExists = (source, dest) => {
 }
 
 export const getFileContent = (p) => fs.readFileSync(p, "utf8")
-export const getFileLines = (p) => fs.readFileSync(p, "utf8").split(/\r?\n/)
+export const getFileLines = (p) => fs
+    .readFileSync(p, "utf8")
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
 
 export const writeFile = (p, content) => {
     if (!p) errorAndExit("Path must not be None or empty")
