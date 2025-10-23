@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-. $HOME/core/setup/dev/common
+HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+
+. "$HOME_DIR/core/setup/dev/common"
 
 info "running system setup ..."
-$HOME/core/setup/dev/setup
+"$HOME_DIR/core/setup/dev/setup"
 
-node $HOME/core/hooks/install-hooks.js
-node $HOME/core/commands/install-commands.js
+node "$HOME_DIR/core/hooks/install-hooks.js"
+node "$HOME_DIR/core/commands/install-commands.js"
 
 success "core installation complete"
