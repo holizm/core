@@ -1,19 +1,20 @@
 export default ({
-    repo,
+    home,
     process,
+    repo,
 }) => {
     const paths = {
-        commonPath: `~/${repo}/common`,
-        connectionStringsPath: `~/${repo}/common/connectionStrings.json`,
-        dependenciesPath: `~/${repo}/common/dependencies`,
-        initialPath: `~/${repo}/common/initial.sql`,
-        menusDirectoryPath: `~/${repo}/${process}/menus`,
-        migrationPath: `~/tmp/${repo}/migration`,
-        privateSettingsPath: `~/${repo}/common/privateSettings.json`,
-        processPath: `~/${repo}/${process}`,
-        publicSettingsPath: `~/${repo}/common/publicSettings.json`,
-        settingsOverridePath: `~/${repo}/${process}/settingsOverride.json`,
-        tenantsPath: `~/${repo}/common/tenants`,
+        commonPath: `${home}/${repo}/common`,
+        connectionStringsPath: `${home}/${repo}/common/connectionStrings.json`,
+        dependenciesPath: `${home}/${repo}/common/dependencies`,
+        initialPath: `${home}/${repo}/common/initial.sql`,
+        menusDirectoryPath: `${home}/${repo}/${process}/menus`,
+        migrationPath: `${home}/tmp/${repo}/migration`,
+        privateSettingsPath: `${home}/${repo}/common/privateSettings.json`,
+        processPath: `${home}/${repo}/${process}`,
+        publicSettingsPath: `${home}/${repo}/common/publicSettings.json`,
+        settingsOverridePath: `${home}/${repo}/${process}/settingsOverride.json`,
+        tenantsPath: `${home}/${repo}/common/tenants`,
     }
     return paths
 }
