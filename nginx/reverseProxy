@@ -2,7 +2,7 @@ server
 {
     listen 80;
     server_name $host;
-    return 301 https://$NginxParamsServerName$NginxParamsRequestUri;
+    return 301 https://$nginxParamsServerName$nginxParamsRequestUri;
 }
 
 server
@@ -20,7 +20,7 @@ server
 
     location /502
     {
-        root ~/gesht/nginx;
+        root $home/core/nginx;
         internal;
     }
 
@@ -30,8 +30,8 @@ server
     }
 
     location ~ ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$2?locale=$1 break;
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$1 break;
+        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$two?locale=$one break;
+        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$one break;
         include /etc/nginx/includes/$host;
     }
 }

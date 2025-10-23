@@ -21,6 +21,8 @@ export default params => {
     params.nginxHttpUpgradeParameter = "$http_upgrade"
     params.nginxParamsSubdomain = "$subdomain"
     params.multitenant = "$multitenant"
+    params.one = "$1"
+    params.two = "$2"
 
     const confDir = `${home}/nginx/conf.d`
     const includesDir = `${home}/nginx/includes`
