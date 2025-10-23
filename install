@@ -2,7 +2,6 @@
 set -euo pipefail
 
 HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
-echo $HOME_DIR
 
 . "$HOME_DIR/core/setup/dev/common"
 

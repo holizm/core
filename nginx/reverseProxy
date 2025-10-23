@@ -26,12 +26,12 @@ server
 
     location /
     {
-        include /etc/nginx/includes/$host;
+        include $home/nginx/includes/$host;
     }
 
     location ~ ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
         rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$two?locale=$one break;
         rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$one break;
-        include /etc/nginx/includes/$host;
+        include $home/nginx/includes/$host;
     }
 }

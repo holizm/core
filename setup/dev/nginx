@@ -12,7 +12,7 @@ import {
 
 const homeDir = process.env.HOME_DIR || os.homedir()
 const nginxConf = '/etc/nginx/nginx.conf'
-const includeLine = `\tinclude ${homeDir}/nginx/*.conf;`
+const includeLine = `\tinclude ${homeDir}/nginx/conf.d/*.conf;`
 
 let content = getFileContent(nginxConf)
 
