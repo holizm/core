@@ -1,9 +1,9 @@
-import fs from "fs"
-import path from "path"
-import { execSync } from "child_process"
+import { getFileContent } from "./os.js"
+import { runOnTerminal } from "./terminal.js"
 
 export default params => {
     const {
+        home,
         host,
         tenant,
         repo,
@@ -19,37 +19,23 @@ export default params => {
     params.nginxParamsSubdomain = "$subdomain"
     params.multitenant = "$multitenant"
 
-    const confDir = "/etc/nginx/conf.d"
-    const includesDir = "/etc/nginx/includes"
+    const confDir = `${home}/conf.d`
+    const includesDir = `${home}/includes`
     const templatePath = "~/gesht/nginx/reverseProxy"
     const includesTemplatePath = "~/gesht/nginx/proxyIncludes"
-    const confFile = path.join(confDir, `${host}.conf`)
-    const includesFile = path.join(includesDir, host)
+    const confFile = `${confDir}/${host}.conf`
+    const includesFile = `${includesDir}/${host}`
 
-    fs.mkdirSync(confDir, { recursive: true })
-    fs.mkdirSync(includesDir, { recursive: true })
+    const includesTemplate = getFileContent(includesTemplatePath)
+    const confTemplateRaw = getFileContent(templatePath)
 
-    execSync(`sudo chmod 777 ${confDir}`)
-    execSync(`sudo chmod 777 ${includesDir}`)
+    const includesContent = includesTemplate.replace(/\$(\w+)/g, (_, name) => params[name] || "")
 
-    for (const filePath of [confFile, includesFile]) {
-        try {
-            if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
-        } catch (e) {
-            console.log(`Error removing ${filePath}: ${e}`)
-        }
-    }
+    let confTemplate = confTemplateRaw.replace("$host", host).replace("$tenant", tenant)
+    const confContent = confTemplate.replace(/\$(\w+)/g, (_, name) => params[name] || "")
 
-    const includesTemplate = fs.readFileSync(includesTemplatePath, "utf8")
-    const confTemplateRaw = fs.readFileSync(templatePath, "utf8")
+    writeFile(includesFile, includesContent)
+    writeFile(confFile, confContent)
 
-    const includesContent = includesTemplate.replace(/\$(\w+)/g, (_, name) => process.env[name] || "")
-
-    let confTemplate = confTemplateRaw.replace("$Host", host).replace("$Tenant", tenant)
-    const confContent = confTemplate.replace(/\$(\w+)/g, (_, name) => process.env[name] || "")
-
-    fs.writeFileSync(includesFile, includesContent)
-    fs.writeFileSync(confFile, confContent)
-
-    execSync("sudo nginx -s reload 1>/dev/null 2>&1")
+    runOnTerminal("sudo nginx -t && sudo systemctl reload nginx 1>/dev/null 2>&1")
 }
