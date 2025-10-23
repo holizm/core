@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-import fs from "fs"
 import path from "path"
 import process from "process"
-import { execSync } from "child_process"
 import {
     errorAndExit,
     divide,
@@ -22,6 +20,7 @@ import getLocalHost from "../scripts/getLocalHost.js"
 import createCertificate from "../scripts/createCertificate.js"
 import setupNginx from "../scripts/setupNginx.js"
 import setupLocalDns from "../scripts/setupLocalDns.js"
+import getRandomPort from "../scripts/getRandomPort.js"
 
 clear()
 
@@ -71,10 +70,10 @@ success(`organization: ${org}`)
 success(`repository: ${repo}`)
 success(`process: ${params.process}`)
 
-params =
-{
+params = {
     ...params,
     ...getPaths(params),
+    ...getRandomPort(),
 }
 
 const { tenantsPath } = params

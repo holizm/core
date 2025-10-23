@@ -1,8 +1,9 @@
-const fs = require('fs')
-const { execSync } = require('child_process')
+import { error } from "../logger.js"
+import { getFileContent } from "./os.js"
+import { runOnTerminal } from "./terminal.js"
 
-export default (envVarName = 'randomPort') => {
-    const [lowerPort, upperPort] = fs.readFileSync('/proc/sys/net/ipv4/ip_local_port_range', 'utf-8')
+export default (propertyName = 'randomPort') => {
+    const [lowerPort, upperPort] = getFileContent('/proc/sys/net/ipv4/ip_local_port_range')
         .trim()
         .split(/\s+/)
         .map(Number)
@@ -11,16 +12,17 @@ export default (envVarName = 'randomPort') => {
     while (true) {
         port = Math.floor(Math.random() * (upperPort - lowerPort + 1)) + lowerPort
         try {
-            const result = execSync('ss -lpn').toString()
+            const result = runOnTerminal('ss -lpn').toString()
             if (!result.includes(`:${port} `)) {
                 break
             }
         } catch (err) {
-            console.error('Error checking port usage:', err)
+            error('Error checking port usage:', err)
             break
         }
     }
 
-    process.env[envVarName] = port.toString()
-    return port
+    const result = {}
+    result[propertyName] = port.toString()
+    return result
 }
