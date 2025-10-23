@@ -19,6 +19,9 @@ import {
 import { clear } from "../scripts/terminal.js"
 import getPaths from "../scripts/getPaths.js"
 import getLocalHost from "../scripts/getLocalHost.js"
+import createCertificate from "../scripts/createCertificate.js"
+import setupNginx from "../scripts/setupNginx.js"
+import setupLocalDns from "../scripts/setupLocalDns.js"
 
 clear()
 
@@ -98,9 +101,14 @@ lines.forEach(line => {
         domain,
         ...params,
     })
-    // createCertificate(tenant, localDomain)
-    // setupNginx(tenant, localDomain)
-    // setupLocalDns(localDomain)
+    params = {
+        ...params,
+        host: localDomain,
+        tenant,
+    }
+    createCertificate(params)
+    setupNginx(params)
+    setupLocalDns(params)
 })
 
 divide()
