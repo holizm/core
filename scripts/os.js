@@ -2,9 +2,8 @@
 
 import fs from "fs"
 import path from "path"
-import { execSync } from "child_process"
 import { errorAndExit } from "../logger.js"
-import { runOnTerminal } from "./terminal"
+import { runOnTerminal } from "./terminal.js"
 
 export const getOrgRepoFromGit = () => {
     let url = runOnTerminal("git config --get remote.origin.url")
