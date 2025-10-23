@@ -72,7 +72,7 @@ export const getFileLines = (p) => fs
     .filter(line => line.length > 0)
 
 export const writeFile = (p, content) => {
-    if (!p) errorAndExit("Path must not be None or empty")
+    if (!p) errorAndExit("Path must not be empty")
     fs.mkdirSync(path.dirname(p), { recursive: true })
     fs.writeFileSync(p, content)
 }

@@ -5,7 +5,7 @@ import os from 'os'
 import { execSync } from 'child_process'
 
 const HOME = os.homedir()
-const CORE_HOOKS_DIR = path.resolve('./hooks')
+const CORE_HOOKS_DIR = path.resolve(`${HOME}/core/hooks`)
 const GLOBAL_TEMPLATES_DIR = path.join(HOME, '.git-templates')
 const GLOBAL_HOOKS_DIR = path.join(GLOBAL_TEMPLATES_DIR, 'hooks')
 

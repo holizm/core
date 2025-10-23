@@ -4,14 +4,14 @@ import os from 'os'
 import {
     getFileContent,
     writeFile,
-} from "../../scripts/os"
+} from "../../scripts/os.js"
 import {
     info,
     warning,
 } from "../../logger.js"
 
 const nginxConf = '/etc/nginx/nginx.conf'
-const includeLine = `    include ${os.homedir()}/nginx/*.conf;`
+const includeLine = `\tinclude ${os.homedir()}/nginx/*.conf;`
 
 let content = getFileContent(nginxConf)
 
