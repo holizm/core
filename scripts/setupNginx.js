@@ -1,4 +1,7 @@
-import { getFileContent } from "./os.js"
+import {
+    getFileContent,
+    writeFile,
+} from "./os.js"
 import { runOnTerminal } from "./terminal.js"
 
 export default params => {
@@ -19,10 +22,10 @@ export default params => {
     params.nginxParamsSubdomain = "$subdomain"
     params.multitenant = "$multitenant"
 
-    const confDir = `${home}/conf.d`
-    const includesDir = `${home}/includes`
-    const templatePath = "~/gesht/nginx/reverseProxy"
-    const includesTemplatePath = "~/gesht/nginx/proxyIncludes"
+    const confDir = `${home}/nginx/conf.d`
+    const includesDir = `${home}/nginx/includes`
+    const templatePath = `${home}/core/nginx/reverseProxy`
+    const includesTemplatePath = `${home}/core/nginx/proxyIncludes`
     const confFile = `${confDir}/${host}.conf`
     const includesFile = `${includesDir}/${host}`
 
