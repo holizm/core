@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+import os from 'os'
+import {
+    getFileContent,
+    writeFile,
+} from "../../scripts/os"
+import {
+    info,
+    warning,
+} from "../../logger.js"
+
+const nginxConf = '/etc/nginx/nginx.conf'
+const includeLine = `    include ${os.homedir()}/nginx/*.conf;`
+
+let content = getFileContent(nginxConf)
+
+if (!content.includes(includeLine.trim())) {
+    const marker = 'include /etc/nginx/sites-enabled/*;'
+    const idx = content.indexOf(marker)
+
+    if (idx !== -1) {
+        const insertPos = idx + marker.length
+        content = content.slice(0, insertPos) + os.EOL + includeLine + content.slice(insertPos)
+        writeFile(nginxConf, content)
+        info('Include line added')
+    } else {
+        warning('Marker line not found. Include not added.')
+    }
+} else {
+    info('Include line already present')
+}
