@@ -1,3 +1,3 @@
-- git clone git@github.com:PrimeCoreSolution/core
+- git clone git@github.com:gesht/core
 - cd core
 - ./install
