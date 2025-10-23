@@ -9,7 +9,7 @@ import {
     success,
 } from "../logger.js"
 
-const DEFAULT_ORG = 'PrimeCoreSolution'
+const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME
 
 const run = cmd => execSync(cmd, { stdio: 'pipe', encoding: 'utf8' })
