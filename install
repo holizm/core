@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-. ./setup/dev/common
+. $HOME/core/setup/dev/common
 
 info "running system setup ..."
-./setup/dev/setup
+$HOME/core/setup/dev/setup
 
-node ./hooks/install-hooks.js
-node ./commands/install-commands.js
+node $HOME/core/hooks/install-hooks.js
+node $HOME/core/commands/install-commands.js
 
 success "core installation complete"
