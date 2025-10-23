@@ -15,9 +15,10 @@ import {
     getFileLines,
     getOrgRepoFromGit,
     isFile,
-} from "../scripts/os"
-import { clear } from "../scripts/terminal"
+} from "../scripts/os.js"
+import { clear } from "../scripts/terminal.js"
 import getPaths from "../scripts/getPaths.js"
+import getLocalHost from "../scripts/getLocalHost.js"
 
 clear()
 
@@ -58,14 +59,14 @@ let params = {
     repo,
 }
 
-params.processName = path.basename(cwd)
+params.process = path.basename(cwd)
 params.lowercaseOrg = org.toLowerCase()
 params.lowercaseRepo = repo.toLowerCase()
-params.lowercaseProcess = params.processName.toLowerCase()
+params.lowercaseProcess = params.process.toLowerCase()
 
 success(`organization: ${org}`)
 success(`repository: ${repo}`)
-success(`process: ${params.processName}`)
+success(`process: ${params.process}`)
 
 params =
 {
@@ -93,7 +94,10 @@ lines.forEach(line => {
     } else {
         errorAndExit(`Incomplete tenant line: ${line}`)
     }
-    // const localDomain = getLocalHost(domain)
+    const localDomain = getLocalHost({
+        domain,
+        ...params,
+    })
     // createCertificate(tenant, localDomain)
     // setupNginx(tenant, localDomain)
     // setupLocalDns(localDomain)

@@ -14,6 +14,7 @@ export default ({
         processPath: `${home}/${repo}/${process}`,
         publicSettingsPath: `${home}/${repo}/common/publicSettings.json`,
         settingsOverridePath: `${home}/${repo}/${process}/settingsOverride.json`,
+        siteFilePath: `${home}/${repo}/${process}/site`,
         tenantsPath: `${home}/${repo}/common/tenants`,
     }
     return paths
