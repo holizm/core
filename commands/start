@@ -22,6 +22,7 @@ import setupNginx from "../scripts/setupNginx.js"
 import setupLocalDns from "../scripts/setupLocalDns.js"
 import getRandomPort from "../scripts/getRandomPort.js"
 import createNetwork from "../scripts/createNetwork.js"
+import ensureDependencies from "../scripts/ensureDependencies.js"
 
 clear()
 
@@ -112,5 +113,6 @@ lines.forEach(line => {
 })
 
 createNetwork(params)
+ensureDependencies(params)
 
 divide()
