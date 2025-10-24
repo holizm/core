@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { execSync } from 'child_process'
-import { findGits } from "./utilities/findGits"
+import { findGits } from "../scripts/findGits.js"
 import {
     info,
     warning,
