@@ -7,14 +7,25 @@ import {
     divide,
     info,
     success,
+    warning,
 } from "../logger.js"
 import {
     getDepth,
     getFileLines,
     getOrgRepoFromGit,
+    isAccounts,
+    isApi,
     isFile,
+    isHeadlessPanel,
+    isPanel,
+    isProcess,
+    isSite,
+    isWorker,
 } from "../scripts/os.js"
-import { clear } from "../scripts/terminal.js"
+import {
+    clear,
+    runOnTerminal,
+} from "../scripts/terminal.js"
 import getPaths from "../scripts/getPaths.js"
 import getLocalHost from "../scripts/getLocalHost.js"
 import createCertificate from "../scripts/createCertificate.js"
@@ -114,5 +125,30 @@ lines.forEach(line => {
 
 createNetwork(params)
 ensureDependencies(params)
-
+params.composeFile = `/tmp/${repo}/${params.process}/dockerCompose.yml`
 divide()
+
+
+if (isAccounts(params)) {
+    startAccounts(params)
+} else if (isApi(params)) {
+    startApi(params)
+} else if (isPanel(params)) {
+    if (isHeadlessPanel(params)) {
+        startHeadlessPanel(params)
+    } else {
+        startPanel(params)
+    }
+} else if (isSite(params)) {
+    startSite(params)
+} else if (isWorker(params)) {
+    startNodeApi(params)
+} else {
+    warning('Unknown process')
+}
+
+let cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans`
+
+info(cmd)
+
+runOnTerminal(cmd)
