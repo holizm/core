@@ -9,9 +9,11 @@ import { createDatabaseContainer } from './createDatabaseContainer.js'
 import {
     copyFileIfNotExists,
     createFileIfNotExists,
+    getFileContent,
     isDir,
     isEtl,
     replaceEnvs,
+    writeFile,
     writeFileIfNotExists,
 } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
@@ -182,12 +184,43 @@ const buildCoreMappings = params => {
 }
 
 const buildLocalSecrets = params => {
-    repo,
-    if (!fs.existsSync('/LocalSecrets')) fs.mkdirSync('/LocalSecrets')
-    runOnTerminal('sudo chmod -R 777 --preserve-root /LocalSecrets')
-    const secretFile = `/LocalSecrets/${repo}.json`
-    if (!fs.existsSync(secretFile)) fs.writeFileSync(secretFile, '{}')
-    runOnTerminal(`sudo chmod 777 --preserve-root ${secretFile}`)
+    const {
+        repo,
+    } = params
+    if (!isFile(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
+    const secretFile = `${home}/secrets/${repo}.json`
+    if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
+}
+
+const buildEnvironmentVariables = params => {
+    const envFile = `${home}/secrets/${directory}.json`
+    if (!isFile(envFile)) return ''
+    try {
+        JSON.parse(getFileContent(envFile))
+    } catch (e) {
+        console.error(`Error: Invalid JSON in ${envFile}`)
+        return ''
+    }
+    const flattened = runOnTerminal(`node ${home}/scripts/flatten.js ${envFile}`)
+    return flattened
+        .split('\n')
+        .filter(Boolean)
+        .map(line => `\n            - ${line}`)
+        .join('')
+}
+
+const createApiContainer = params => {
+    const {
+        composeFile,
+        environmentVariables,
+        volumes,
+    } = params
+    const composeTemplatePath = `${home}/core/container/composes/api`
+    let content = getFileContent(composeTemplatePath)
+    content = content.replace(/\$HOME/g, home)
+    content = content.replace('# - dependenciesPlaceholder', volumes)
+    content = content.replace('# - environmentVariablesPlaceholder', environmentVariables)
+    writeFile(composeFile, content)
 }
 
 export default (params) => {
