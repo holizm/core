@@ -46,6 +46,13 @@ export const createDirIfNotExists = dirPath => {
     }
 }
 
+export const removeAndRecreateDir = dirPath => {
+    if (fs.existsSync(dirPath)) {
+        fs.rmSync(dirPath, { recursive: true })
+    }
+    createDirIfNotExists(dirPath)
+}
+
 export const createFileIfNotExists = (p) => {
     if (fs.existsSync(p)) {
         if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
