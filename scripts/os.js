@@ -40,6 +40,12 @@ export const replaceEnvsAndAppend = (inputFile, outputFile) => readReplaceWrite(
 export const isFile = (p) => fs.existsSync(p) && fs.statSync(p).isFile()
 export const isDir = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory()
 
+export const createDirIfNotExists = dirPath => {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true })
+    }
+}
+
 export const createFileIfNotExists = (p) => {
     if (fs.existsSync(p)) {
         if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
