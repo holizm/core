@@ -21,6 +21,7 @@ import createCertificate from "../scripts/createCertificate.js"
 import setupNginx from "../scripts/setupNginx.js"
 import setupLocalDns from "../scripts/setupLocalDns.js"
 import getRandomPort from "../scripts/getRandomPort.js"
+import createNetwork from "../scripts/createNetwork.js"
 
 clear()
 
@@ -109,5 +110,7 @@ lines.forEach(line => {
     setupNginx(params)
     setupLocalDns(params)
 })
+
+createNetwork(params)
 
 divide()
