@@ -34,6 +34,7 @@ import setupLocalDns from "../scripts/setupLocalDns.js"
 import getRandomPort from "../scripts/getRandomPort.js"
 import createNetwork from "../scripts/createNetwork.js"
 import ensureDependencies from "../scripts/ensureDependencies.js"
+import startApi from "../scripts/startApi.js"
 
 clear()
 
@@ -148,7 +149,5 @@ if (isAccounts(params)) {
 }
 
 let cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans`
-
-info(cmd)
 
 runOnTerminal(cmd)
