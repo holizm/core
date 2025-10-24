@@ -27,15 +27,15 @@ export const getOrgRepoFromGit = () => {
 
 export const exit = () => process.exit()
 
-const readReplaceWrite = (inputFile, outputFile, flag) => {
+const readReplaceWrite = (inputFile, outputFile, flag, params) => {
     fs.mkdirSync(path.dirname(outputFile), { recursive: true })
     const content = fs.readFileSync(inputFile, "utf8")
-    const replaced = content.replace(/\$(\w+)|\${(\w+)}/g, (_, v1, v2) => process.env[v1 || v2] || "")
+    const replaced = content.replace(/\$(\w+)|\${(\w+)}/g, (_, v1, v2) => params[v1 || v2] || "")
     fs.writeFileSync(outputFile, replaced, { flag })
 }
 
-export const replaceEnvs = (inputFile, outputFile) => readReplaceWrite(inputFile, outputFile, "w")
-export const replaceEnvsAndAppend = (inputFile, outputFile) => readReplaceWrite(inputFile, outputFile, "a")
+export const replaceEnvs = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "w", params)
+export const replaceEnvsAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "a", params)
 
 export const isFile = (p) => fs.existsSync(p) && fs.statSync(p).isFile()
 export const isDir = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory()
