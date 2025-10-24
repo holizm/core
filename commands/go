@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+. $HOME/core/setup/dev/common
+
+TARGET=$1
+BASE_DIR="$HOME"
+
+if [ -z "$TARGET" ]; then
+  error "Usage: go <target>"
+  exit 1
+fi
+
+cd "$BASE_DIR/$TARGET" || { error "Directory $BASE_DIR/$TARGET does not exist"; exit 1; }
+
+exec $SHELL
