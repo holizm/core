@@ -4,93 +4,93 @@ import {
     divide,
     info,
 } from '../logger.js'
-import { createGitHubAction } from './createGitHubAction.js'
-import { createDatabaseContainer } from './createDatabaseContainer.js'
+import createGitHubAction from './createGitHubAction.js'
+import createDatabaseContainer from './createDatabaseContainer.js'
 import {
     copyFileIfNotExists,
+    createDirIfNotExists,
     createFileIfNotExists,
     getFileContent,
     isDir,
     isEtl,
+    removeAndRecreateDir,
     replaceEnvs,
     writeFile,
     writeFileIfNotExists,
 } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
 
+const indentation = ' '.repeat(12)
+
 const createNonExistingFiles = params => {
     const {
         commonPath,
         connectionStringsPath,
         dependenciesPath,
+        home,
         initialPath,
-        settingsPath,
+        privateSettingsPath,
+        publicSettingsPath,
     } = params
 
     writeFileIfNotExists('app.js', 'import { start } from "core"\n\nstart()')
-
-    if (!isDir(commonPath)) {
-        fs.mkdirSync(commonPath, { recursive: true })
-    }
-
+    createDirIfNotExists(commonPath)
     createFileIfNotExists(dependenciesPath)
     writeFileIfNotExists(connectionStringsPath, '{}')
     copyFileIfNotExists(`${home}/core/api/initialTemplate`, initialPath)
-    copyFileIfNotExists(`${home}/core/api/settingsTemplate`, settingsPath)
+    copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
+    copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
 }
 
-const linkVSCodeFiles = params => {
+const linkVsCodeFiles = params => {
     const {
-        proc,
+        home,
+        process,
         repo,
     } = params
-    const vsCodePath = `/tmp/${repo}/${proc}/.vscode`
-
-    if (fs.existsSync(vsCodePath)) fs.rmSync(vsCodePath, { recursive: true })
-
-    fs.mkdirSync(vsCodePath, { recursive: true })
-    replaceEnvs(`${home}/core/api/launch`, `${vsCodePath}/launch.json`)
+    const vsCodePath = `/tmp/${repo}/${process}/.vscode`
+    removeAndRecreateDir(vsCodePath)
+    replaceEnvs(`${home}/core/api/launch`, `${vsCodePath}/launch.json`, params)
 }
 
 const buildConfigMappings = params => {
-    const {
+    let {
         connectionStringsPath,
+        home,
         privateSettingsPath,
-        proc,
+        process,
         publicSettingsPath,
         repo,
         settingsOverridePath,
+        volumes,
     } = params
-    let volumes = ''
-
     if (fs.existsSync(connectionStringsPath))
-        volumes += `\n            - /${repo}/common/connectionStrings.json:/${repo}/${proc}/connectionStrings.json`
+        volumes += `\n${indentation}- ${home}/${repo}/common/connectionStrings.json:/${repo}/${process}/connectionStrings.json`
     if (fs.existsSync(privateSettingsPath))
-        volumes += `\n            - /${repo}/common/privateSettings.json:/${repo}/${proc}/privateSettings.json`
+        volumes += `\n${indentation}- ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json`
     if (fs.existsSync(publicSettingsPath))
-        volumes += `\n            - /${repo}/common/publicSettings.json:/${repo}/${proc}/publicSettings.json`
+        volumes += `\n${indentation}- ${home}/${repo}/common/publicSettings.json:/${repo}/${process}/publicSettings.json`
     if (fs.existsSync(settingsOverridePath))
-        volumes += `\n            - /${repo}/${proc}/settingsOverride.json:/${repo}/${proc}/settingsOverride.json`
-
+        volumes += `\n${indentation}- ${home}/${repo}/common/settingsOverride.json:/${repo}/${process}/settingsOverride.json`
     return volumes
 }
 
 const buildDependenciesMappings = params => {
-    const {
+    let {
+        essentialPartsPath,
         dependenciesPath,
         home,
         org,
-        proc,
+        process,
         repo,
+        volumes,
     } = params
-    let volumes = ''
     const knownDirectoryPatterns = ['*Api', '*Panel', 'common', 'site*', '.*', '*Etl']
-
-    const output = runOnTerminal(`(cat "${dependenciesPath}"; echo; (find /${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f3 | sort)) | sort | uniq`)
+    const command = `(cat "${essentialPartsPath}"; echo; cat "${dependenciesPath}"; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | sort)) | sort | uniq`
+    const output = runOnTerminal(command)
     const dependencies = output.split('\n')
-
     for (const dependency of dependencies) {
-        if (!dependency.trim()) continue
+        if (dependency) continue
         if (knownDirectoryPatterns.some(pattern => dependency.startsWith(pattern.replace('*', '')))) continue
 
         let runnablePart = false
@@ -104,21 +104,21 @@ const buildDependenciesMappings = params => {
         const partFilePath = `${home}/${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        volumes += `\n            - ${dependencyBase}:${dependencyBase}`
-        volumes += `\n            - ${partFilePath}:${partFilePath}`
-        volumes += `\n            - ${partFilePath}:/npm/node_modules/${dependency}/part`
-        volumes += `\n            - ${dependencyBase}/business:/npm/node_modules/${dependency}/business`
+        volumes += `\n${indentation}- ${dependencyBase}:${dependencyBase}`
+        volumes += `\n${indentation}- ${partFilePath}:${partFilePath}`
+        volumes += `\n${indentation}- ${partFilePath}:/npm/node_modules/${dependency}/part`
+        volumes += `\n${indentation}- ${dependencyBase}/business:/npm/node_modules/${dependency}/business`
 
         const baseName = path.basename(process.cwd())
         if (baseName.includes('admin'))
-            volumes += `\n            - ${dependencyBase}/api/admin:/npm/node_modules/${dependency}/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/npm/node_modules/${dependency}/api/role`
         if (baseName.includes('site'))
-            volumes += `\n            - ${dependencyBase}/api/site:/npm/node_modules/${dependency}/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/site:/npm/node_modules/${dependency}/api/role`
 
-        if (runnablePart && fs.existsSync(`/${org}/${proc}/api/api/common`))
-            volumes += `\n            - ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
+        if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`))
+            volumes += `\n${indentation}- ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
         if (fs.existsSync(`${dependencyBase}/api/common`))
-            volumes += `\n            - ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
+            volumes += `\n${indentation}- ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
     }
 
     return volumes
@@ -132,27 +132,27 @@ const buildLocalizationMappings = params => {
     let volumes = ''
     const findCommand = `find ${home}/core /${repo} -type d -name localization 2>/dev/null | grep -Ff ${dependenciesPath} -e 'api' | sort`
     const items = runOnTerminal(findCommand).split('\n')
-    for (const item of items) if (item.trim()) volumes += `\n            - ${item}:${item}`
+    for (const item of items) if (item.trim()) volumes += `\n${indentation}- ${item}:${item}`
     return volumes
 }
 
 const buildRunnableApiMappings = params => {
     const {
         repo,
-        proc,
+        process,
     } = params
     let volumes = ''
-    const dirs = runOnTerminal(`find /${repo}/${proc}/ -mindepth 1 -type d -not -name '*controllers*' 2>/dev/null`).split('\n')
-    const links = runOnTerminal(`find /${repo}/${proc}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
-    for (const item of [...dirs, ...links]) if (item.trim()) volumes += `\n            - ${item}:${item}`
+    const dirs = runOnTerminal(`find /${repo}/${process}/ -mindepth 1 -type d -not -name '*controllers*' 2>/dev/null`).split('\n')
+    const links = runOnTerminal(`find /${repo}/${process}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
+    for (const item of [...dirs, ...links]) if (item.trim()) volumes += `\n${indentation}- ${item}:${item}`
     if (fs.existsSync(`/${repo}/common/api`))
-        volumes += `\n            - /${repo}/common/api:/${repo}/${proc}/commonApi`
+        volumes += `\n${indentation}- ${home}/${repo}/common/api:/${repo}/${process}/commonApi`
     const etlPath = path.join(`/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
         for (const child of fs.readdirSync(etlPath)) {
             const childPath = path.join(etlPath, child)
             if (fs.statSync(childPath).isDirectory())
-                volumes += `\n            - ${childPath}:${home}/gesth/toMongo/runnableImporters/${child}`
+                volumes += `\n${indentation}- ${childPath}:${home}/gesth/toMongo/runnableImporters/${child}`
         }
     }
     return volumes
@@ -164,22 +164,22 @@ const buildRunnableMigrationMappings = params => {
     } = params
     let volumes = ''
     if (fs.existsSync(`/${repo}/common/migration`))
-        volumes += `\n            - /${repo}/common/migration:${home}/gesth/migration/runnable`
+        volumes += `\n${indentation}- ${home}/${repo}/common/migration:${home}/gesth/migration/runnable`
     return volumes
 }
 
 const buildCoreMappings = params => {
     const {
         repo,
-        proc,
+        process,
     } = params
     let volumes = ''
-    volumes += `\n            - ${home}/core/api:${home}/core/api`
-    volumes += `\n            - ${home}/core/api/package.json:/${repo}/${proc}/package.json`
-    volumes += `\n            - ${home}/core/api/package-lock.json:/${repo}/${proc}/package-lock.json`
+    volumes += `\n${indentation}- ${home}/core/api:${home}/core/api`
+    volumes += `\n${indentation}- ${home}/core/api/package.json:/${repo}/${process}/package.json`
+    volumes += `\n${indentation}- ${home}/core/api/package-lock.json:/${repo}/${process}/package-lock.json`
     for (const corePart of ['api', 'application', 'cloud', 'core', 'data', 'extensions', 'validation', 'settings'])
-        volumes += `\n            - ${home}/core/api/core/${corePart}:/npm/node_modules/core/${corePart}`
-    volumes += `\n            - /${repo}/${proc}/app.js:/${repo}/${proc}/app.js`
+        volumes += `\n${indentation}- ${home}/core/api/core/${corePart}:/npm/node_modules/core/${corePart}`
+    volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
     return volumes
 }
 
@@ -205,7 +205,7 @@ const buildEnvironmentVariables = params => {
     return flattened
         .split('\n')
         .filter(Boolean)
-        .map(line => `\n            - ${line}`)
+        .map(line => `\n${indentation}- ${line}`)
         .join('')
 }
 
@@ -226,35 +226,58 @@ const createApiContainer = params => {
 export default (params) => {
     const {
     } = params
-    if (isEtl(params)) info('Setting up ETL')
-    else info('Setting up API')
+    if (isEtl(params)) info('setting up ETL')
+    else info('setting up API')
     divide()
-    createNonExistingFiles()
-    linkVSCodeFiles()
+    createNonExistingFiles(params)
+    linkVsCodeFiles(params)
 
     let volumes = ''
-    volumes += buildConfigMappings()
-    volumes += buildDependenciesMappings()
-    volumes += buildLocalizationMappings()
-    volumes += buildRunnableApiMappings()
-    volumes += buildRunnableMigrationMappings()
-    volumes += buildCoreMappings()
+    volumes += buildConfigMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildDependenciesMappings({
+        ...params,
+        volumes,
+    })
+    info(volumes)
+    return
+    volumes += buildLocalizationMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildRunnableApiMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildRunnableMigrationMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildCoreMappings({
+        ...params,
+        volumes,
+    })
 
-    buildLocalSecrets()
+    buildLocalSecrets(params)
 
     let environmentVariables = ''
     environmentVariables += buildEnvironmentVariables('common')
     environmentVariables += buildEnvironmentVariables(process.env.Repository || '')
 
-    if (process.env.ETL !== 'true') createGitHubAction('api')
+    if (process.env.ETL !== 'true') createGitHubAction({
+        ...params,
+        for: 'api',
+    })
 
     const containerName = `${process.env.Repository || ''}Databases`
     const result = runOnTerminal(`docker ps -q -f name=${containerName}`)
     if (!result.trim()) {
         const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
-        createDatabaseContainer()
+        createDatabaseContainer(params)
     }
 
-    createApiContainer(volumes, environmentVariables)
+    createApiContainer(params)
 }
