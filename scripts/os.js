@@ -82,35 +82,36 @@ export const getDepth = () => {
     return parts.length
 }
 
-export const isRepo = (p = process.cwd()) => fs.existsSync(path.join(p, ".git"))
+export const isRepo = params => fs.existsSync(path.join(params.processPath, ".git"))
 
-export const isProcess = () => {
-    if (getDepth() !== 2) return false
-    const folder = path.basename(process.cwd())
+export const isProcess = params => {
+    const { processPath } = params
+    if (getDepth() !== 4) return false
+    const folder = path.basename(processPath)
     const keywords = ["accounts", "api", "panel", "site", "etl", "worker"]
     const folderLower = folder.toLowerCase()
 
     if (keywords.some(k => folderLower.includes(k))) return true
 
-    const files = fs.readdirSync(process.cwd())
-    const pascalFiles = new Set(files.filter(f => fs.statSync(f).isFile()))
+    const files = fs.readdirSync(processPath)
+    const pascalFiles = new Set(files.filter(f => fs.statSync(path.join(processPath, f)).isFile()))
     for (const keyword of keywords) {
         if (pascalFiles.has(pascalize(keyword))) return true
     }
     return false
 }
 
-export const isAccounts = () => isProcess() && path.basename(process.cwd()) === "accounts"
-export const isApi = () => isProcess() && ["app.js"].some(f => fs.existsSync(path.join(process.cwd(), f)))
-export const isWorker = () => isProcess() && path.basename(process.cwd()).includes("worker")
-export const isPanel = () => isProcess() && path.basename(process.cwd()).includes("panel")
-export const isSite = () => {
-    if (!isProcess()) return false
-    const folder = path.basename(process.cwd())
+export const isAccounts = params => isProcess(params) && path.basename(params.processPath) === "accounts"
+export const isApi = params => isProcess(params) && ["app.js"].some(f => fs.existsSync(path.join(params.processPath, f)))
+export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes("worker")
+export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes("panel")
+export const isSite = params => {
+    if (!isProcess(params)) return false
+    const folder = path.basename(params.processPath)
     const hasSite = folder.includes("site")
     const hasApi = folder.includes("api")
-    const hasAppDir = fs.existsSync(path.join(process.cwd(), "pages"))
+    const hasAppDir = fs.existsSync(path.join(params.processPath, "pages"))
     return (hasSite && !hasApi) || hasAppDir
 }
-export const isHeadlessPanel = () => isPanel() && fs.existsSync(path.join(process.cwd(), "headless"))
-export const isEtl = () => isApi() && process.cwd().endsWith("etl")
+export const isHeadlessPanel = params => isPanel(params) && fs.existsSync(path.join(params.processPath, "headless"))
+export const isEtl = params => isApi(params) && params.processPath.endsWith("etl")
