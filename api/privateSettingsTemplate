@@ -1,0 +1,11 @@
+{
+    "changeLogEnabled": true,
+    "compressImages": true,
+    "diskCacheForImages": true,
+    "isDeveloping": true,
+    "otpLength": 6,
+    "performMigrationOnLocalDatabase": false,
+    "resizeImages": true,
+    "useStorageForImages": true,
+    "useStorageForVideos": true
+}

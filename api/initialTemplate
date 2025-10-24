@@ -1,0 +1,7 @@
+import { upsertTenants } from "tenants"
+import { upsertLocales } from "globalization"
+
+export default async () => {
+    const tenants = await upsertTenants()
+    await upsertLocales(tenants)
+}
