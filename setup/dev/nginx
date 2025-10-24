@@ -9,6 +9,7 @@ import {
     info,
     warning,
 } from "../../logger.js"
+import { runOnTerminal } from "../../scripts/terminal.js"
 
 const homeDir = process.env.HOME_DIR || os.homedir()
 const nginxConf = '/etc/nginx/nginx.conf'
@@ -31,3 +32,7 @@ if (!content.includes(includeLine.trim())) {
 } else {
     info('Include line already present')
 }
+
+runOnTerminal(`chmod o+rx ${homeDir}`)
+runOnTerminal(`chmod o+rx ${homeDir}/core`)
+runOnTerminal(`chmod o+rx ${homeDir}/core/nginx`)
