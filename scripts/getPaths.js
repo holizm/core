@@ -7,6 +7,7 @@ export default ({
         commonPath: `${home}/${repo}/common`,
         connectionStringsPath: `${home}/${repo}/common/connectionStrings.json`,
         dependenciesPath: `${home}/${repo}/common/dependencies`,
+        essentialPartsPath: `${home}/core/essentialParts`,
         initialPath: `${home}/${repo}/common/initial.sql`,
         menusDirectoryPath: `${home}/${repo}/${process}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
