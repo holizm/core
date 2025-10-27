@@ -110,9 +110,7 @@ const buildDependenciesMappings = params => {
 
         const dependencyBase = `${home}${dependencyOrgOrRep}/${dependency}/api`
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
-        console.log(dependencyBase, partFilePath)
         if (!fs.existsSync(partFilePath)) continue
-        console.log(dependency)
 
         volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
         volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
@@ -137,11 +135,21 @@ const buildDependenciesMappings = params => {
 const buildLocalizationMappings = params => {
     const {
         dependenciesPath,
+        home,
         repo,
     } = params
     let volumes = ''
-    const findCommand = `find ${home}/core /${repo} -type d -name localization 2>/dev/null | grep -Ff ${dependenciesPath} -e 'api' | sort`
+    const findCommand = `
+    find ${home} -type d -name ".git" 2>/dev/null | while read gitdir; do
+        repoDir=$(dirname "$gitdir")
+        origin=$(git -C "$repoDir" remote get-url origin 2>/dev/null)
+        if [[ "$origin" == *"github.com/gesht/"* ]]; then
+            find "$repoDir" -type d -name "localization" 2>/dev/null
+        fi
+    done | grep -Ff ${dependenciesPath} -e 'api' | sort
+    `
     const items = runOnTerminal(findCommand).split('\n')
+    console.log(items)
     for (const item of items) if (item.trim()) volumes += `\n${indentation}- ${item}:${item}`
     return volumes
 }
@@ -251,12 +259,12 @@ export default (params) => {
         ...params,
         volumes,
     })
-    info(volumes)
-    return
     volumes += buildLocalizationMappings({
         ...params,
         volumes,
     })
+    info(volumes)
+    return
     volumes += buildRunnableApiMappings({
         ...params,
         volumes,
