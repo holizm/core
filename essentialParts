@@ -1,13 +1,7 @@
 accounts
-actions
 aggregates
-annotations
 attributes
-augmentors
-bundling
-capacities
 changeLog
-completion
 contacts
 contentPolicies
 contents
@@ -21,10 +15,8 @@ geo
 globalization
 graphs
 logs
-monetaryValues
 notifications
 parts
-pricing
 reporting
 rules
 scopes
