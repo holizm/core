@@ -85,35 +85,43 @@ const buildDependenciesMappings = params => {
         repo,
         volumes,
     } = params
-    const knownDirectoryPatterns = ['*Api', '*Panel', 'common', 'site*', '.*', '*Etl']
+    const knownDirectoryPatterns = [
+        '\.git',
+        '\w+Api',
+        '\w+Etl',
+        '\w+Panel',
+        'common',
+        'site\w*',
+    ]
     const command = `(cat "${essentialPartsPath}"; echo; cat "${dependenciesPath}"; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | sort)) | sort | uniq`
     const output = runOnTerminal(command)
     const dependencies = output.split('\n')
     for (const dependency of dependencies) {
-        if (dependency) continue
-        if (knownDirectoryPatterns.some(pattern => dependency.startsWith(pattern.replace('*', '')))) continue
+        if (!dependency) continue
+        const isKnownDirectory = knownDirectoryPatterns.some(pattern => new RegExp(pattern).test(dependency))
+        if (isKnownDirectory) continue
 
         let runnablePart = false
-        let dependencyOrgOrRep = 'gesht'
+        let dependencyOrgOrRep = ''
         if (fs.existsSync(`${home}/${repo}/${dependency}`) && dependency !== 'accounts') {
-            dependencyOrgOrRep = repo
+            dependencyOrgOrRep = `/${repo}`
             runnablePart = true
         }
 
-        const dependencyBase = `${home}/${dependencyOrgOrRep}/${dependency}/api`
-        const partFilePath = `${home}/${dependencyOrgOrRep}/${dependency}/part`
+        const dependencyBase = `${home}${dependencyOrgOrRep}/${dependency}/api`
+        const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        volumes += `\n${indentation}- ${dependencyBase}:${dependencyBase}`
-        volumes += `\n${indentation}- ${partFilePath}:${partFilePath}`
+        volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
+        volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
         volumes += `\n${indentation}- ${partFilePath}:/npm/node_modules/${dependency}/part`
-        volumes += `\n${indentation}- ${dependencyBase}/business:/npm/node_modules/${dependency}/business`
+        volumes += `\n${indentation}- ${dependencyBase}/business:/npm/node_modules/${dependency}/api/business`
 
-        const baseName = path.basename(process.cwd())
+        const baseName = path.basename(process)
         if (baseName.includes('admin'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/npm/node_modules/${dependency}/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/npm/node_modules/${dependency}/api/api/role`
         if (baseName.includes('site'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/site:/npm/node_modules/${dependency}/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/site:/npm/node_modules/${dependency}/api/api/role`
 
         if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`))
             volumes += `\n${indentation}- ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
@@ -127,11 +135,21 @@ const buildDependenciesMappings = params => {
 const buildLocalizationMappings = params => {
     const {
         dependenciesPath,
+        home,
         repo,
     } = params
     let volumes = ''
-    const findCommand = `find ${home}/core /${repo} -type d -name localization 2>/dev/null | grep -Ff ${dependenciesPath} -e 'api' | sort`
+    const findCommand = `
+    find ${home} -type d -name ".git" 2>/dev/null | while read gitdir; do
+        repoDir=$(dirname "$gitdir")
+        origin=$(git -C "$repoDir" remote get-url origin 2>/dev/null)
+        if [[ "$origin" == *"github.com/gesht/"* ]]; then
+            find "$repoDir" -type d -name "localization" 2>/dev/null
+        fi
+    done | grep -Ff ${dependenciesPath} -e 'api' | sort
+    `
     const items = runOnTerminal(findCommand).split('\n')
+    console.log(items)
     for (const item of items) if (item.trim()) volumes += `\n${indentation}- ${item}:${item}`
     return volumes
 }
@@ -241,12 +259,12 @@ export default (params) => {
         ...params,
         volumes,
     })
-    info(volumes)
-    return
     volumes += buildLocalizationMappings({
         ...params,
         volumes,
     })
+    info(volumes)
+    return
     volumes += buildRunnableApiMappings({
         ...params,
         volumes,

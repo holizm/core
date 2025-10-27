@@ -1,0 +1,83 @@
+services:
+    api:
+        image: geshtio/api:latest
+        container_name: ${repo}${process}
+        hostname: api
+        working_dir: ${processPath}
+        environment:
+            - org=${org}
+            - repo=${repo}
+            - process=${process}
+            - processPath=${processPath}
+            - apiOrg=${org}
+            - apiRepo=${repo}
+            - apiProcess=${process}
+            - apiProcessPath=${processPath}
+            - environment=development
+            - host=${host}
+            - migrationPath=/tmp/$repo/migration
+
+            # - environmentVariablesPlaceholder
+        volumes:
+            - /tmp/$repo/migration:/tmp/$repo/migration
+            - /tmp/$repo/storage:/storage
+
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
+
+            - ${home}/core:/core
+            - ${home}/fonts:/fonts
+            - ${home}/cloud:/cloud
+            - ${home}/etl:/etl
+            - ${home}/panel/localization:/panel/localization
+            - ${home}/site/localization:/site/localization
+
+            - ${home}/generation/common:/generation/common
+            - ${home}/generation/database:/generation/database
+            - ${home}/generation/order:/generation/order
+            - ${home}/generation/app.js:/generation/app.js
+
+            - ${home}/migration/adHoc:/migration/adHoc
+            - ${home}/migration/environment.js:/migration/environment.js
+            - ${home}/migration/app.js:/migration/app.js
+            - ${home}/migration/migrators:/migration/migrators
+
+            - ${home}/toMongo/importers:/toMongo/importers
+            - ${home}/toMongo/etl:/toMongo/etl
+            - ${home}/toMongo/app.js:/toMongo/app.js
+
+            - ${home}/query/partDropper.js:/query/PartDropper.js
+            - ${home}/query/app.js:/query/app.js
+
+            - /${repo}/common:/${repo}/common
+
+            - ${home}/secrets/common.json:/${processPath}/common.json
+            - ${home}/secrets/${repo}.json:/${processPath}/secrets.json
+
+            # - dependenciesPlaceholder
+            - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
+        ports:
+            - "$randomPort:5000"
+        command: >
+            bash -c '
+                echo -e "\033[0;31mhttps://localhost:$randomPort https://$host"
+                echo "Node"
+                prepareNodeProject generation &&
+                prepareNodeProject migration &&
+                prepareNodeProject query &&
+                prepareNodeProject toMongo &&
+                ln -s -f /npm/node_modules /$processPath &&
+                symlinkCoreAndParts
+                watchForChange &&
+                cd /$repo/$process &&
+                nodemon --watch /gesht --watch /$repo app.js &
+                tail -f /dev/null
+            '
+        stdin_open: true # docker run -i
+        tty: true # docker run -t
+        networks:
+            - ${repo}Network
+
+networks:
+    ${repo}Network:
+        external: true

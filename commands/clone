@@ -42,18 +42,18 @@ const cloneRepo = (org, repo) => {
     run(`mkdir -p ${path.dirname(dir)} && gh repo clone ${org}/${repo} ${dir}`)
     success(`Cloned ${org}/${repo}`)
 
-    const gitignorePath = path.join(BASE_DIR, "core", "gitignore")
+    const gitIgnorePath = path.join(BASE_DIR, "core", "gitIgnore")
     const infoDir = path.join(dir, '.git', 'info')
     const excludeFile = path.join(infoDir, 'exclude')
 
-    if (fs.existsSync(gitignorePath)) {
+    if (fs.existsSync(gitIgnorePath)) {
         if (!fs.existsSync(infoDir)) {
             fs.mkdirSync(infoDir, { recursive: true })
         }
-        fs.copyFileSync(gitignorePath, excludeFile)
-        info(`Copied ${gitignorePath} to ${excludeFile}`)
+        fs.copyFileSync(gitIgnorePath, excludeFile)
+        info(`Copied ${gitIgnorePath} to ${excludeFile}`)
     } else {
-        info(`Gitignore file not found at ${gitignorePath}, skipping copy`)
+        info(`gitIgnore file not found at ${gitIgnorePath}, skipping copy`)
     }
 }
 
