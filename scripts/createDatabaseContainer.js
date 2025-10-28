@@ -8,6 +8,7 @@ import {
     isFile,
     overrideFile,
 } from "./os.js"
+import setupLocalDns from "./setupLocalDns.js"
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
 
@@ -41,7 +42,10 @@ export default params => {
         repo,
         tenantsPath,
     } = params
-
+    setupLocalDns({
+        ...params,
+        host: `${repo}.dev`,
+    })
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getFileLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({

@@ -11,7 +11,7 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=FaMHJGecNag5DKryCH9d
             - MONGO_INITDB_ROOT_PASSWORD=IC1joYMLZTT0fQMJ5qcz
         ports:
-            - $databaseEnginePort:27017
+            - ${databaseEnginePort}:27017
         # logging:
         #     driver: none
         networks:
