@@ -3,7 +3,7 @@ set -euo pipefail
 
 HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 
-. "$HOME_DIR/core/setup/dev/common"
+. "$HOME_DIR/core/scripts/installer.sh"
 
 info "running system setup ..."
 "$HOME_DIR/core/setup/dev/setup"

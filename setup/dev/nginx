@@ -8,7 +8,7 @@ import {
 import {
     info,
     warning,
-} from "../../logger.js"
+} from "../../scripts/logger.js"
 import { runOnTerminal } from "../../scripts/terminal.js"
 
 const homeDir = process.env.HOME_DIR || os.homedir()

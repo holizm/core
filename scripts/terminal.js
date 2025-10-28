@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync, spawnSync } from "child_process"
-import { error } from "../logger.js"
+import { error } from "../scripts/logger.js"
 
 export const clear = () => {
     process.stdout.write("\x1Bc")

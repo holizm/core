@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { info, check, error } from '../../logger.js'
+import { info, check, error } from '../../scripts/logger.js'
 
 function run(cmd) {
     try {

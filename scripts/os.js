@@ -2,7 +2,7 @@
 
 import fs, { rmSync } from "fs"
 import path from "path"
-import { errorAndExit } from "../logger.js"
+import { errorAndExit } from "../scripts/logger.js"
 import { runOnTerminal } from "./terminal.js"
 
 export const getOrgRepoFromGit = () => {

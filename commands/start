@@ -8,7 +8,7 @@ import {
     info,
     success,
     warning,
-} from "../logger.js"
+} from "../scripts/logger.js"
 import {
     getDepth,
     getFileLines,
@@ -18,7 +18,6 @@ import {
     isFile,
     isHeadlessPanel,
     isPanel,
-    isProcess,
     isSite,
     isWorker,
 } from "../scripts/os.js"
@@ -27,10 +26,6 @@ import {
     runOnTerminal,
 } from "../scripts/terminal.js"
 import getPaths from "../scripts/getPaths.js"
-import getLocalHost from "../scripts/getLocalHost.js"
-import createCertificate from "../scripts/createCertificate.js"
-import setupNginx from "../scripts/setupNginx.js"
-import setupLocalDns from "../scripts/setupLocalDns.js"
 import getRandomPort from "../scripts/getRandomPort.js"
 import createNetwork from "../scripts/createNetwork.js"
 import ensureDependencies from "../scripts/ensureDependencies.js"
@@ -98,7 +93,10 @@ if (!isFile(tenantsPath)) {
 }
 
 const lines = getFileLines(tenantsPath)
-lines.forEach(line => processTenantLine({ line }))
+lines.forEach(line => processTenantLine({
+    ...params,
+    line,
+}))
 
 createNetwork(params)
 ensureDependencies(params)
