@@ -1,0 +1,52 @@
+services:
+    database:
+        image: mongo:latest
+        container_name: ${repo}Databases
+        hostname: database
+        volumes:
+            - ${home}/core:/core
+            - /var/tmp/${repo}/databases/data:/data/db
+            - /var/tmp/${repo}/databases/replicaKey:/etc/mongo-keyfile
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=FaMHJGecNag5DKryCH9d
+            - MONGO_INITDB_ROOT_PASSWORD=IC1joYMLZTT0fQMJ5qcz
+        ports:
+            - $databaseEnginePort:27017
+        # logging:
+        #     driver: none
+        networks:
+            - ${repo}Network
+        # command: ["/bin/bash", "-c", "chown root:root /etc/mongo-keyfile && exec mongod --replSet rs0 --keyFile /etc/mongo-keyfile --bind_ip_all"]
+        healthcheck:
+            test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    # initReplicaSet:
+    #     image: mongo:latest
+    #     depends_on:
+    #         database:
+    #             condition: service_healthy
+    #     networks:
+    #         - ${repo}Network
+    #     entrypoint: ["/bin/bash", "-c"]
+    #     command: >
+    #         "
+    #         mongosh --host database
+    #             --username FaMHJGecNag5DKryCH9d
+    #             --password IC1joYMLZTT0fQMJ5qcz
+    #             --authenticationDatabase admin
+    #             --eval '
+    #                 try {
+    #                     const status = rs.status();
+    #                     if (status.ok !== 1) { rs.initiate(); }
+    #                 } catch (e) {
+    #                     if (e.codeName === \"NotYetInitialized\") { rs.initiate(); }
+    #                 }
+    #             ';
+    #         "      
+
+networks:
+    ${repo}Network:
+        external: true
