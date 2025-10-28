@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import fs from "fs"
+import fs, { rmSync } from "fs"
 import path from "path"
 import { errorAndExit } from "../logger.js"
 import { runOnTerminal } from "./terminal.js"
@@ -88,6 +88,11 @@ export const writeFile = (p, content) => {
     if (!p) errorAndExit("Path must not be empty")
     fs.mkdirSync(path.dirname(p), { recursive: true })
     fs.writeFileSync(p, content)
+}
+
+export const overrideFile = (p, content) => {
+    if (isFile(p)) rmSync(p)
+    writeFile(p, content)
 }
 
 export const getDepth = () => {
