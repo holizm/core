@@ -8,7 +8,7 @@ import {
     info,
     success,
     warning,
-} from "../logger.js"
+} from "../scripts/logger.js"
 import {
     getDepth,
     getFileLines,

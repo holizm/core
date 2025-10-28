@@ -5,7 +5,7 @@ import {
     info,
     warning,
     divide,
-} from "../logger.js"
+} from "../scripts/logger.js"
 
 function printStatus(repoPath) {
     try {

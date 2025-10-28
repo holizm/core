@@ -1,7 +1,7 @@
 import { rmSync } from 'fs'
 import { runOnTerminal } from './terminal.js'
 import { getDeterministicPort } from './getDeterministicPort.js'
-import { divide, info } from '../logger.js'
+import { divide, info } from '../scripts/logger.js'
 import processTenantLine from "./processTenantLine.js"
 import {
     getFileContent,

@@ -7,7 +7,7 @@ import {
     dividedError,
     info,
     success,
-} from "../logger.js"
+} from "../scripts/logger.js"
 
 const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME

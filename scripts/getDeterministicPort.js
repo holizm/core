@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import { getFileContent } from "./os.js"
-import { error, errorAndExit } from "../logger.js"
+import { error, errorAndExit } from "../scripts/logger.js"
 
 export default seed => {
     if (!seed) {

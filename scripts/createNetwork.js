@@ -1,4 +1,4 @@
-import { info } from "../logger.js"
+import { info } from "../scripts/logger.js"
 import { runOnTerminal } from "./terminal.js"
 
 export default params => {

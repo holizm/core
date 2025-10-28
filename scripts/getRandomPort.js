@@ -1,4 +1,4 @@
-import { error } from "../logger.js"
+import { error } from "../scripts/logger.js"
 import { getFileContent } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
 
