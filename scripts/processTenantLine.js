@@ -1,6 +1,13 @@
+import { errorAndExit } from "./logger.js"
+import createCertificate from "./createCertificate.js"
+import getLocalHost from "./getLocalHost.js"
+import setupLocalDns from "./setupLocalDns.js"
+import setupNginx from "./setupNginx.js"
+
 export default ({
     line,
     getSpecificDomain,
+    ...rest
 }) => {
     const parts = line.trim().split(/\s+/)
     let tenant, domain, locales, defaultLocale, roles
@@ -15,13 +22,13 @@ export default ({
     }
     let localDomain = getLocalHost({
         domain,
-        ...params,
+        ...rest,
     })
     if (getSpecificDomain instanceof Function) {
         localDomain = getSpecificDomain(localDomain)
     }
-    params = {
-        ...params,
+    let params = {
+        ...rest,
         host: localDomain,
         tenant,
     }

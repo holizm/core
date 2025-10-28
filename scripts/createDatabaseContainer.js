@@ -1,6 +1,5 @@
-import { rmSync } from 'fs'
 import { runOnTerminal } from './terminal.js'
-import { getDeterministicPort } from './getDeterministicPort.js'
+import getDeterministicPort from './getDeterministicPort.js'
 import { divide, info } from '../scripts/logger.js'
 import processTenantLine from "./processTenantLine.js"
 import {
@@ -32,9 +31,9 @@ const createMongoDatabaseContainer = params => {
     info('Creating Mongo container')
     const path = createDatabaseComposeFile({
         ...params,
-        composeTemplatePath: `${home}/container/composes/database`
+        composeTemplatePath: `${home}/core/container/composes/database`
     })
-    runOnTerminal(`docker compose -p "${lowercaseRepo}-databases" -f "${path}" up -d --remove-orphans`)
+    runOnTerminal(`docker compose -p ${lowercaseRepo}-databases -f ${path} up -d --remove-orphans`)
 }
 
 export default params => {
@@ -46,6 +45,7 @@ export default params => {
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getFileLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({
+        ...params,
         line,
         getSpecificDomain: getDatabaseDomain,
     }))
