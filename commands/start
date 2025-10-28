@@ -30,6 +30,7 @@ import getRandomPort from "../scripts/getRandomPort.js"
 import createNetwork from "../scripts/createNetwork.js"
 import ensureDependencies from "../scripts/ensureDependencies.js"
 import startApi from "../scripts/startApi.js"
+import startPanel from "../scripts/startPanel.js"
 import processTenantLine from "../scripts/processTenantLine.js"
 
 clear()

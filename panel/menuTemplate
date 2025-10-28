@@ -1,0 +1,7 @@
+export default [
+    {
+        title: "coreDashboard",
+        icon: "dashboard",
+        path: "/"
+    }
+]

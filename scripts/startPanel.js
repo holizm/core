@@ -1,37 +1,39 @@
-// panel.js
 import fs from "fs"
 import path from "path"
 import { execSync } from "child_process"
+import {
+    divide,
+    info,
+} from "./logger.js"
+import {
+    getFileLines,
+    getFileContent,
+    writeFile,
+    exit,
+    isFile,
+    copyFileIfNotExists,
+} from "./os.js"
+import { runOnTerminal } from "./terminal.js"
+import createGitHubAction from './createGitHubAction.js'
 
-import { info, divide } from "./Logger.js"
-import { setPermissions, runOnTerminal, getFileLines, getFileContent, writeFile } from "./Os.js"
-import { createGitHubAction } from "./CreateGitHubAction.js"
-
-export function createNonExistentFilesForPanel() {
-    const basePath = "/HolismHolding/Infra/Panel"
-    const cwd = process.cwd()
-
+const createNonExistentFiles = params => {
+    const {
+        home,
+    } = params
+    const basePath = `${home}/core/panel`
     const files = {
-        "Menu.jsx": "MenuTemplate",
-        "Routes.jsx": "RoutesTemplate",
-        "HeaderActions.jsx": "HeaderActionsTemplate",
+        "menu.jsx": "menuTemplate",
+        "routes.jsx": "routesTemplate",
+        "headerActions.jsx": "headerActionsTemplate",
     }
-
     for (const [target, template] of Object.entries(files)) {
-        if (!fs.existsSync(target)) {
-            fs.copyFileSync(`${basePath}/${template}`, target)
+        if (!isFile(target)) {
+            copyFileIfNotExists(`${basePath}/${template}`, target)
         }
     }
-
-    const logoPath = process.env.LogoPath
-    if (logoPath && !fs.existsSync(logoPath)) {
-        fs.copyFileSync(`${basePath}/LogoTemplate`, logoPath)
-    }
-
-    setPermissions(cwd)
 }
 
-export function buildDependenciesMappingsForPanel() {
+const buildDependenciesMappings = params => {
     let volumes = ""
     const repository = process.env.Repository
     const processName = process.env.Process
@@ -72,7 +74,7 @@ export function buildDependenciesMappingsForPanel() {
     return volumes
 }
 
-export function buildLocalizationMappingsForPanel() {
+const buildLocalizationMappings = params => {
     let volumes = ""
     const repository = process.env.Repository
     const result = runOnTerminal
@@ -87,7 +89,7 @@ export function buildLocalizationMappingsForPanel() {
     return volumes
 }
 
-export function buildRunnablePanelMappings() {
+const buildRunnablePanelMappings = params => {
     let volumes = ""
     const repository = process.env.Repository
     const processName = process.env.Process
@@ -123,16 +125,17 @@ export function buildRunnablePanelMappings() {
     return volumes
 }
 
-export function startPanel() {
+export default params => {
     info("Setting up Panel")
     divide()
 
-    createNonExistentFilesForPanel()
+    createNonExistentFiles(params)
+    exit()
     createGitHubAction("Panel")
 
-    let volumes = buildDependenciesMappingsForPanel()
-    volumes += buildLocalizationMappingsForPanel()
-    volumes += buildRunnablePanelMappings()
+    let volumes = buildDependenciesMappings(params)
+    volumes += buildLocalizationMappings(params)
+    volumes += buildRunnablePanelMappings(params)
 
     const settingsOverridePath = process.env.SettingsOverridePath
     const tenantsPath = process.env.TenantsPath
