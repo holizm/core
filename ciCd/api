@@ -1,0 +1,8 @@
+
+      - name: Pull geshtio/api
+        run: |
+          docker pull geshtio/api
+
+      - name: Pull geshtio/api-prod
+        run: |
+          docker pull geshtio/api-prod

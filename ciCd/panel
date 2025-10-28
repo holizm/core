@@ -1,0 +1,15 @@
+
+      - name: Change Docker image directory ownership
+        run: sudo chown -R $USER:$USER /var/lib/docker/image
+
+      - name: Cache Docker
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/lib/docker/image
+          key: docker-layers-${{ runner.os }}-pull-image
+
+      - name: Pull images
+        run: |
+          docker pull geshtio/panel
+          docker pull node:lts-trixie-slim
