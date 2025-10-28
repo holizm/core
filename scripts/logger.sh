@@ -15,3 +15,6 @@ info() { printf "${color_cyan}%s${color_reset}\n" "$*"; }
 warning() { printf "${color_yellow}%s${color_reset}\n" "$*"; }
 error() { printf "${color_red}%s${color_reset}\n" "$*" >&2; }
 divide() { printf "\n${color_magenta}----------${color_reset}\n\n"; }
+check() {
+    printf "${color_green}%s;%s${color_reset}\n" "$*" "$check_mark" | column -t -s ';'
+}

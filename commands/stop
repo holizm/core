@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo
+HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$HOME_DIR/core/scripts/logger.sh"
+
+clear
+
+divide
+info "Stopping all ..."
+divide
+
+for i in $(docker ps -a -q --filter name=${1-});
+do
+    export containerName=$(docker container inspect $i | grep "Name.*/" | grep -v = | cut -d'/' -f2 | cut -d'"' -f1)
+    docker rm $i --force 1>/dev/null
+    check $containerName
+done
+
+docker system prune --force 1>/dev/null
+
+divide
+success "Stopped all"
+divide
