@@ -16,6 +16,7 @@ import {
 import { runOnTerminal } from "./terminal.js"
 import createGitHubAction from './createGitHubAction.js'
 import getDependencies from "./getDependencies.js"
+import buildLocalizationMappings from "./buildLocalizationMappings.js"
 
 const indentation = ' '.repeat(12)
 
@@ -77,41 +78,24 @@ const buildDependenciesMappings = params => {
     return volumes
 }
 
-const buildLocalizationMappings = params => {
-    let volumes = ""
-    const repo = process.env.repo
-    const result = runOnTerminal
-        ? runOnTerminal(`find /HolismHolding /${repo} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`)
-        : execSync(`find /HolismHolding /${repo} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`, { encoding: "utf8" })
-
-    for (const item of result.split("\n")) {
-        if (item.trim() === "") continue
-        volumes += `\n${indentation}- ${item}:${item}`
-    }
-
-    return volumes
-}
-
 const buildRunnablePanelMappings = params => {
-    let volumes = ""
-    const repo = process.env.repo
-    const process = process.env.Process
+    let {
+        repo,
+        org,
+        process,
+        volumes,
+        home,
+    } = params
 
-    const dirs = (runOnTerminal
-        ? runOnTerminal("find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort")
-        : execSync("find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort", { encoding: "utf8" })
-    ).split("\n")
+    const dirs = runOnTerminal("find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort").split("\n")
 
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, "")
         if (!replacedItem) continue
-        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/Runnable/${replacedItem}`
+        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/runnable/${replacedItem}`
     }
 
-    const links = (runOnTerminal
-        ? runOnTerminal("find . -mindepth 1 -maxdepth 1 -type l | sort")
-        : execSync("find . -mindepth 1 -maxdepth 1 -type l | sort", { encoding: "utf8" })
-    ).split("\n")
+    const links = runOnTerminal("find . -mindepth 1 -maxdepth 1 -type l | sort").split("\n")
 
     for (const item of links) {
         if (item.trim() === "") continue
@@ -139,36 +123,45 @@ export default params => {
     })
 
     let volumes = ""
-    volumes += buildDependenciesMappings(params)
-    info(volumes)
-    exit()
-    volumes += buildLocalizationMappings(params)
-    volumes += buildRunnablePanelMappings(params)
+    volumes += buildDependenciesMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildLocalizationMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildRunnablePanelMappings({
+        ...params,
+        volumes,
+    })
 
-    const settingsOverridePath = process.env.SettingsOverridePath
-    const tenantsPath = process.env.TenantsPath
-    const menusDirectoryPath = process.env.MenusDirectoryPath
-    const repo = process.env.repo
-    const process = process.env.Process
-
-    if (settingsOverridePath && fs.existsSync(settingsOverridePath)) {
-        volumes += `\n${indentation}- /${repo}/${process}/SettingsOverride.json:/${repo}/${process}/public/SettingsOverride.json`
+    const {
+        composeFile,
+        home,
+        menusDirectoryPath,
+        process,
+        repo,
+        settingsOverridePath,
+        tenantsPath,
+    } = params
+    if (isFile(settingsOverridePath)) {
+        volumes += `\n${indentation}- /${repo}/${process}/settingsOverride.json:/${repo}/${process}/public/settingsOverride.json`
     }
 
-    if (tenantsPath && fs.existsSync(tenantsPath)) {
-        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/Tenants`
+    if (isFile(tenantsPath)) {
+        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/tenants`
     }
 
-    if (menusDirectoryPath && fs.existsSync(menusDirectoryPath)) {
-        volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/Menus`
+    if (isDir(menusDirectoryPath)) {
+        volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
     }
 
-    const composeTemplatePath = "/HolismHolding/Docker/Composes/Panel"
-    const composeFile = process.env.ComposeFile
+    const composeTemplatePath = `${home}/core/container/compose/panel`
 
     let content = getFileContent(composeTemplatePath)
-    content = content.replace(/\$\{([^}]+)\}/g, (_, name) => process.env[name] || "")
-    content = content.replace("DependenciesMappingPlaceHolder", volumes)
+    content = content.replace(/\$\{([^}]+)\}/g, (_, name) => params[name] || "")
+    content = content.replace("dependenciesMappingPlaceHolder", volumes)
 
     writeFile(composeFile, content)
 }
