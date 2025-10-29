@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+import fs from 'fs'
 import path from 'path'
-import { info } from "../scripts/logger.js"
-import camelize from "../scripts/camelize.js"
-import { runOnTerminal } from "../scripts/terminal.js"
+import { info } from '../scripts/logger.js'
+import camelize from '../scripts/camelize.js'
+import { runOnTerminal } from '../scripts/terminal.js'
 
-const list = runOnTerminal('find . -depth')
+const list = runOnTerminal("find . -name .git -prune -o -print")
     .split('\n')
     .filter(Boolean)
     .sort((a, b) => b.split('/').length - a.split('/').length)
@@ -12,7 +13,15 @@ const list = runOnTerminal('find . -depth')
 for (const p of list) {
     const dir = path.dirname(p)
     const base = path.basename(p)
-    const newName = camelize(base)
+    const stat = fs.lstatSync(p)
+
+    const { name: stem, ext } = stat.isDirectory()
+        ? { name: base, ext: '' }
+        : path.parse(base)
+
+    const newStem = camelize(stem)
+    const newName = newStem + ext
+
     if (newName !== base) {
         const newPath = path.join(dir, newName)
         info(base, newName)
