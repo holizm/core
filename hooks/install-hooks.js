@@ -15,29 +15,53 @@ function ensureGlobalHooksDir() {
 
 function buildGlobalHooks() {
     const hookDirs = fs.readdirSync(CORE_HOOKS_DIR, { withFileTypes: true }).filter(d => d.isDirectory())
-
     for (const dir of hookDirs) {
         const hookType = dir.name
         const hookScriptsDir = path.join(CORE_HOOKS_DIR, hookType)
-        const scripts = fs.readdirSync(hookScriptsDir).filter(f => f.endsWith('.js'))
         const runnerPath = path.join(GLOBAL_HOOKS_DIR, hookType)
-
         const runnerContent = `#!/usr/bin/env node
+import fs from 'fs'
 import { execSync } from 'child_process'
 import { join } from 'path'
 
-const scripts = ${JSON.stringify(scripts)}
+const dir = '${hookScriptsDir}'
+
+function firstNonShebangLine(txt) {
+    const lines = txt.split(/\\r?\\n/)
+    let i = 0
+    while (i < lines.length && lines[i].trim() === '') i++
+    if (i < lines.length && lines[i].startsWith('#!')) {
+        i++
+        while (i < lines.length && lines[i].trim() === '') i++
+    }
+    return i < lines.length ? lines[i] : ''
+}
+
+const scripts = fs.readdirSync(dir)
+    .filter(f => f.endsWith('.js'))
+    .filter(f => {
+        const p = join(dir, f)
+        let head = ''
+        try {
+            head = fs.readFileSync(p, 'utf8')
+        } catch {
+            return false
+        }
+        const first = firstNonShebangLine(head).trim()
+        return first !== '// disabled'
+    })
 
 for (const script of scripts) {
-  try {
-    execSync('node ' + join('${hookScriptsDir}', script), { stdio: 'inherit' })
-  } catch {
-    process.exit(1)
-  }
+    try {
+        execSync('node ' + join(dir, script), { stdio: 'inherit' })
+    } catch {
+        process.exit(1)
+    }
 }
 `
         fs.writeFileSync(runnerPath, runnerContent, { mode: 0o755 })
-        console.log(`Installed ${hookType} hook (${scripts.length} script${scripts.length !== 1 ? 's' : ''})`)
+        const scriptsNow = fs.readdirSync(hookScriptsDir).filter(f => f.endsWith('.js'))
+        console.log(`Installed ${hookType} hook (${scriptsNow.length} script${scriptsNow.length !== 1 ? 's' : ''})`)
     }
 }
 
@@ -60,20 +84,23 @@ function linkOrCopyHooks(repoPath) {
     try {
         fs.rmSync(repoHooksDir, { recursive: true, force: true })
         fs.symlinkSync(GLOBAL_HOOKS_DIR, repoHooksDir, 'dir')
-        console.log(`✓ Symlinked hooks → ${repoPath}`)
+        // console.log(`✓ Symlinked hooks → ${repoPath}`)
     } catch {
         fs.mkdirSync(repoHooksDir, { recursive: true })
         for (const file of fs.readdirSync(GLOBAL_HOOKS_DIR)) {
             fs.copyFileSync(path.join(GLOBAL_HOOKS_DIR, file), path.join(repoHooksDir, file))
         }
-        console.log(`✓ Copied hooks → ${repoPath}`)
+        // console.log(`✓ Copied hooks → ${repoPath}`)
     }
 }
 
 function applyHooksToExistingRepos() {
     console.log('Searching for existing git repositories...')
     const repos = findGitRepos()
-    if (!repos.length) return console.log('No existing repositories found.')
+    if (!repos.length) {
+        console.log('No existing repositories found.')
+        return
+    }
     for (const repo of repos) linkOrCopyHooks(repo)
     console.log(`Updated ${repos.length} repositories.`)
 }
