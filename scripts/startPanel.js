@@ -6,15 +6,18 @@ import {
     info,
 } from "./logger.js"
 import {
-    getFileLines,
     getFileContent,
     writeFile,
     exit,
     isFile,
     copyFileIfNotExists,
+    isDir,
 } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
 import createGitHubAction from './createGitHubAction.js'
+import getDependencies from "./getDependencies.js"
+
+const indentation = ' '.repeat(12)
 
 const createNonExistentFiles = params => {
     const {
@@ -34,40 +37,40 @@ const createNonExistentFiles = params => {
 }
 
 const buildDependenciesMappings = params => {
-    let volumes = ""
-    const repository = process.env.Repository
-    const processName = process.env.Process
-    const dependenciesPath = process.env.DependenciesPath
+    let {
+        home,
+        process,
+        repo,
+        volumes,
+    } = params
 
-    const dependencies = getFileLines(dependenciesPath)
+    const dependencies = getDependencies(params)
+
     for (const dependency of dependencies) {
-        if (dependency.trim() === "") continue
 
         let runnablePart = false
-        const dependencyPath = `/${repository}/${dependency}`
+        const dependencyPath = `${home}/${repo}/${dependency}`
         let dependencyBase = ""
 
-        if (fs.existsSync(dependencyPath) && fs.statSync(dependencyPath).isDirectory() && dependency !== "Accounts") {
-            dependencyBase = `${dependencyPath}/Panel`
+        if (isDir(dependencyPath) && dependency !== "accounts") {
+            dependencyBase = `${dependencyPath}/panel`
             runnablePart = true
         } else {
-            dependencyBase = `/HolismHolding/${dependency}/Panel`
+            dependencyBase = `${home}/${dependency}/panel`
         }
-
-        if (dependency === "Common") continue
 
         if (runnablePart) {
-            volumes += `\n            - /${repository}/${dependency}:/${repository}/${dependency}`
+            volumes += `\n${indentation}- ${home}/${repo}/${dependency}:/${dependency}`
         } else {
-            volumes += `\n            - ${dependencyBase}:${dependencyBase}`
+            volumes += `\n${indentation}- ${dependencyBase}:${dependencyBase}`
         }
 
-        if (path.basename(process.cwd()).includes("Admin")) {
-            volumes += `\n            - ${dependencyBase}/Admin:/${repository}/${processName}/src/${dependency}/Admin`
+        if (process.includes("admin")) {
+            volumes += `\n${indentation}- ${dependencyBase}/admin:/${repo}/${process}/src/${dependency}/admin`
         }
 
-        if (fs.existsSync(path.join(dependencyBase, "Common"))) {
-            volumes += `\n            - ${dependencyBase}/Common:/${repository}/${processName}/src/${dependency}/Common`
+        if (fs.existsSync(path.join(dependencyBase, "common"))) {
+            volumes += `\n${indentation}- ${dependencyBase}/common:/${repo}/${process}/src/${dependency}/common`
         }
     }
 
@@ -76,14 +79,14 @@ const buildDependenciesMappings = params => {
 
 const buildLocalizationMappings = params => {
     let volumes = ""
-    const repository = process.env.Repository
+    const repo = process.env.repo
     const result = runOnTerminal
-        ? runOnTerminal(`find /HolismHolding /${repository} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`)
-        : execSync(`find /HolismHolding /${repository} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`, { encoding: "utf8" })
+        ? runOnTerminal(`find /HolismHolding /${repo} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`)
+        : execSync(`find /HolismHolding /${repo} -maxdepth 3 -type d -name Localization 2>/dev/null | sort`, { encoding: "utf8" })
 
     for (const item of result.split("\n")) {
         if (item.trim() === "") continue
-        volumes += `\n            - ${item}:${item}`
+        volumes += `\n${indentation}- ${item}:${item}`
     }
 
     return volumes
@@ -91,8 +94,8 @@ const buildLocalizationMappings = params => {
 
 const buildRunnablePanelMappings = params => {
     let volumes = ""
-    const repository = process.env.Repository
-    const processName = process.env.Process
+    const repo = process.env.repo
+    const process = process.env.Process
 
     const dirs = (runOnTerminal
         ? runOnTerminal("find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort")
@@ -102,7 +105,7 @@ const buildRunnablePanelMappings = params => {
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, "")
         if (!replacedItem) continue
-        volumes += `\n            - /${repository}/${processName}/${replacedItem}:/${repository}/${processName}/src/Runnable/${replacedItem}`
+        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/Runnable/${replacedItem}`
     }
 
     const links = (runOnTerminal
@@ -119,7 +122,7 @@ const buildRunnablePanelMappings = params => {
         const replacedItem = item.replace(/^.\//, "")
         if (!replacedItem) continue
 
-        volumes += `\n            - /${repository}/${processName}/${replacedItem}:/${repository}/${processName}/src/${replacedItem}/${role}`
+        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/${replacedItem}/${role}`
     }
 
     return volumes
@@ -134,28 +137,30 @@ export default params => {
         ...params,
         processType: "panel",
     })
-    exit()
 
-    let volumes = buildDependenciesMappings(params)
+    let volumes = ""
+    volumes += buildDependenciesMappings(params)
+    info(volumes)
+    exit()
     volumes += buildLocalizationMappings(params)
     volumes += buildRunnablePanelMappings(params)
 
     const settingsOverridePath = process.env.SettingsOverridePath
     const tenantsPath = process.env.TenantsPath
     const menusDirectoryPath = process.env.MenusDirectoryPath
-    const repository = process.env.Repository
-    const processName = process.env.Process
+    const repo = process.env.repo
+    const process = process.env.Process
 
     if (settingsOverridePath && fs.existsSync(settingsOverridePath)) {
-        volumes += `\n            - /${repository}/${processName}/SettingsOverride.json:/${repository}/${processName}/public/SettingsOverride.json`
+        volumes += `\n${indentation}- /${repo}/${process}/SettingsOverride.json:/${repo}/${process}/public/SettingsOverride.json`
     }
 
     if (tenantsPath && fs.existsSync(tenantsPath)) {
-        volumes += `\n            - ${tenantsPath}:/${repository}/${processName}/public/Tenants`
+        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/Tenants`
     }
 
     if (menusDirectoryPath && fs.existsSync(menusDirectoryPath)) {
-        volumes += `\n            - ${menusDirectoryPath}:/${repository}/${processName}/src/Menus`
+        volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/Menus`
     }
 
     const composeTemplatePath = "/HolismHolding/Docker/Composes/Panel"

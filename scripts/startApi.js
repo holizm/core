@@ -19,6 +19,7 @@ import {
     writeFileIfNotExists,
 } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
+import getDependencies from "./getDependencies.js"
 
 const indentation = ' '.repeat(12)
 
@@ -77,30 +78,15 @@ const buildConfigMappings = params => {
 
 const buildDependenciesMappings = params => {
     let {
-        essentialPartsPath,
-        dependenciesPath,
         home,
         org,
         process,
         repo,
         volumes,
     } = params
-    const knownDirectoryPatterns = [
-        '\.git',
-        '\w+Api',
-        '\w+Etl',
-        '\w+Panel',
-        'common',
-        'site\w*',
-    ]
-    const command = `(cat "${essentialPartsPath}"; echo; cat "${dependenciesPath}"; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | sort)) | sort | uniq`
-    const output = runOnTerminal(command)
-    const dependencies = output.split('\n')
-    for (const dependency of dependencies) {
-        if (!dependency) continue
-        const isKnownDirectory = knownDirectoryPatterns.some(pattern => new RegExp(pattern).test(dependency))
-        if (isKnownDirectory) continue
 
+    const dependencies = getDependencies(params)
+    for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''
         if (fs.existsSync(`${home}/${repo}/${dependency}`) && dependency !== 'accounts') {
