@@ -1,0 +1,82 @@
+services:
+    panel:
+        image: geshtio/panel:latest
+        container_name: ${repo}${process}
+        hostname: panel
+        ports:
+            - "$randomPort:5173"
+        working_dir: ${processPath}
+        environment:
+            - org=${org}
+            - repo=${repo}
+            - process=${process}
+            - processPath=${processPath}
+        volumes:
+            - ${home}/${repo}/common/dependencies:/${repo}/common/dependencies
+            - ${home}/${repo}/common/publicSettings.json:${processPath}/public/publicSettings.json
+            - ${home}/${repo}/common/privateSettings.json:${processPath}/privateSettings.json
+            - ${home}/core:/core
+            - ${home}/fonts:${processPath}/public/fonts
+            - ${home}/panel:/panel
+            - ${home}/panel/silentCheckSso.html:${processPath}/public/silent-check-sso.html
+            - ${home}/panel/package.json:/npm/core-package.json
+            - ${home}/panel/eslint.config.js:${processPath}/eslint.config.js
+            - ${home}/panel/generateMergedExports.js:${processPath}/generateMergedExports.js
+            - ${home}/panel/findPanelActions.js:${processPath}/findPanelActions.js
+            - ${home}/panel/generatePageFormRoutes.js:${processPath}/generatePageFormRoutes.js
+            - ${home}/panel/generateListRoutes.js:${processPath}/generateListRoutes.js
+            - ${home}/panel/findIcons.js:${processPath}/findIcons.js
+            - ${home}/panel/findRoutes.js:${processPath}/findRoutes.js
+            - ${home}/panel/findMenus.js:${processPath}/findMenus.js
+            - ${home}/panel/findAliases.js:${processPath}/findAliases.js
+            - ${home}/panel/findBreadcrumbs.js:${processPath}/findBreadcrumbs.js
+            - ${home}/panel/findBrowsersAndLookups.js:${processPath}/findBrowsersAndLookups.js
+            - ${home}/panel/registererGenerator.js:${processPath}/registererGenerator.js
+            - ${home}/panel/findClientInitializers.js:${processPath}/findClientInitializers.js
+            - ${home}/panel/findDependencies.js:${processPath}/findDependencies.js
+            - ${home}/panel/findEntityRenderers.js:${processPath}/findEntityRenderers.js
+            - ${home}/panel/findParts.js:${processPath}/findParts.js
+            - ${home}/panel/findServerInitializers.js:${processPath}/findServerInitializers.js
+            - ${home}/panel/wrapAndName.js:${processPath}/wrapAndName.js
+            - ${home}/panel/addPartAndType.js:${processPath}/addPartAndType.js
+            - ${home}/panel/addTitle.js:${processPath}/addTitle.js
+            - ${home}/panel/addProperty.js:${processPath}/addProperty.js
+            - ${home}/panel/index.html:${processPath}/index.html
+            - ${home}/panel/localization:${processPath}/localization
+            - ${home}/panel/package.json:${processPath}/core-package.json
+            - ${home}/panel/postcss.config.js:${processPath}/postcss.config.js
+            - ${home}/panel/src/base:${processPath}/src/base
+            - ${home}/panel/src/components:${processPath}/src/components
+            - ${home}/panel/src/contexts:${processPath}/src/contexts
+            - ${home}/panel/src/hooks:${processPath}/src/hooks
+            - ${home}/panel/src/registries:${processPath}/src/registries
+            - ${home}/panel/src/index.css:${processPath}/src/index.css
+            - ${home}/panel/src/main.jsx:${processPath}/src/main.jsx
+            - ${home}/panel/src/panel:${processPath}/src/panel
+            - ${home}/panel/tailwind.css:${processPath}/tailwind.css
+            - ${home}/panel/vite.config.js:${processPath}/vite.config.js
+            - /tmp/$repo/$process/ast:/tmp/$repo/$process/ast
+            - ${processPath}/panelActions.jsx:${processPath}/src/panelActions.jsx
+            - ${processPath}/menu.jsx:${processPath}/src/menu.jsx
+            - ${processPath}/routes.jsx:${processPath}/src/runnable/routes.jsx
+
+            dependenciesMappingPlaceHolder
+        command: >
+            bash -c
+            "
+            cd ${processPath}
+            && ln -s -f /npm/node_modules ${processPath}
+            && echo -e '\033[0;31m'"https://localhost:$randomPort" "https://$host"
+            && initialize
+            && cd /core/commands/panel
+            && npm install
+            && cd ${processPath}
+            && watch &
+            npm run dev &
+            tail -f /dev/null
+            "
+        networks:
+        - ${repo}Network
+networks:
+    ${repo}Network:
+        external: true

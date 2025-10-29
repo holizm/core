@@ -157,7 +157,7 @@ export default params => {
         volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
     }
 
-    const composeTemplatePath = `${home}/core/container/compose/panel`
+    const composeTemplatePath = `${home}/core/container/composes/panel`
 
     let content = getFileContent(composeTemplatePath)
     content = content.replace(/\$\{([^}]+)\}/g, (_, name) => params[name] || "")
