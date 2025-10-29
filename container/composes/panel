@@ -59,7 +59,7 @@ services:
             - ${home}/${repo}/common/publicSettings.json:/${repo}/${process}/public/publicSettings.json
             - ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json
 
-            - /tmp/$repo/$process/ast:/tmp/$repo/$process/ast
+            - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - ${processPath}/panelActions.jsx:/${repo}/${process}/src/panelActions.jsx
             - ${processPath}/menu.jsx:/${repo}/${process}/src/menu.jsx
             - ${processPath}/routes.jsx:/${repo}/${process}/src/runnable/routes.jsx

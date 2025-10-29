@@ -63,7 +63,7 @@ const buildDependenciesMappings = params => {
         if (runnablePart) {
             volumes += `\n${indentation}- ${home}/${repo}/${dependency}:/${dependency}`
         } else {
-            volumes += `\n${indentation}- ${dependencyBase}:${dependencyBase}`
+            volumes += `\n${indentation}- ${dependencyBase}:/${dependency}`
         }
 
         if (process.includes("admin")) {
