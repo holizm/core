@@ -1,5 +1,5 @@
 
-      - name: Build production docker
+      - name: Build production Docker
         run: |
           cd ~/${repo}/${process}
           ~/core/commands/build

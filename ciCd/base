@@ -1,4 +1,4 @@
-name: ${lowercaseRepo}/${lowercaseProcess}
+name: ${process}
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
       - name: Initialize
         run: |
           echo "~/core/commands" >> $GITHUB_PATH
-          sudo mkdir ~/secrets
+          mkdir ~/secrets
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
           chmod --preserve-root 400 ~/.ssh/id_ed25519
