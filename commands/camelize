@@ -24,7 +24,6 @@ for (const p of list) {
 
     if (newName !== base) {
         const newPath = path.join(dir, newName)
-        info(base, newName)
-        // fs.renameSync(p, newPath)
+        fs.renameSync(p, newPath)
     }
 }
