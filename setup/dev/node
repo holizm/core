@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-. "$script_dir/common"
+HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$HOME_DIR/core/scripts/installer.sh"
 
 install_node() {
     sudo apt-get update -y
