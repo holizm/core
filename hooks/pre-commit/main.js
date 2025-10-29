@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// disabled
 import { execSync } from 'child_process'
 
 try {

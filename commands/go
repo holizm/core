@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-. $HOME/core/setup/dev/common
+. $HOME/core/scripts/logger.sh
 
 TARGET=$1
 BASE_DIR="$HOME"
