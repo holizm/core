@@ -9,9 +9,10 @@ import {
     writeFile,
 } from './os.js'
 
-export const createGitHubAction = params => {
+export default params => {
     const {
-        actionName,
+        home,
+        processType,
         repo,
         lowercaseOrg,
         lowercaseRepo,
@@ -22,11 +23,11 @@ export const createGitHubAction = params => {
     divide()
 
     const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yml`
-    replaceEnvs(`${home}/core/ciCd/base`, gitHubActionPath)
-    const actionFile = `${home}/core/ciCd/${actionName}`
-    replaceEnvsAndAppend(actionFile, gitHubActionPath)
-    replaceEnvsAndAppend(`${home}/core/ciCd/getRepositoryAction`, gitHubActionPath)
-    replaceEnvsAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath)
+    replaceEnvs(`${home}/core/ciCd/base`, gitHubActionPath, params)
+    const actionFile = `${home}/core/ciCd/${processType}`
+    replaceEnvsAndAppend(actionFile, gitHubActionPath, params)
+    replaceEnvsAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
+    replaceEnvsAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
     let content = getFileContent(gitHubActionPath)

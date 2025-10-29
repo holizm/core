@@ -130,8 +130,11 @@ export default params => {
     divide()
 
     createNonExistentFiles(params)
+    createGitHubAction({
+        ...params,
+        processType: "panel",
+    })
     exit()
-    createGitHubAction("Panel")
 
     let volumes = buildDependenciesMappings(params)
     volumes += buildLocalizationMappings(params)

@@ -1,4 +1,4 @@
-name: ${lowercaseRepo}/${lowercaseProcess}
+name: ${process}
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
           chmod --preserve-root 400 ~/.ssh/id_ed25519
-          echo "${{ secrets.PAT }}" > ~/secrets/gitHubAccessToken
+          sudo echo "${{ secrets.PAT }}" > ~/secrets/gitHubAccessToken
           cd ~
           git clone git@github.com:gesht/core
           IFS="/" read -r -a repo_array <<< "${GITHUB_REPOSITORY}"
