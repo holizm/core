@@ -6,6 +6,7 @@ import {
     divide,
     errorAndExit,
     info,
+    success,
     warning,
 } from "../scripts/logger.js"
 import findGits from "../scripts/findGits.js"
