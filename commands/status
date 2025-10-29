@@ -1,31 +1,5 @@
 #!/usr/bin/env node
-import { execSync } from 'child_process'
-import { findGits } from "../scripts/findGits.js"
-import {
-    info,
-    warning,
-    divide,
-} from "../scripts/logger.js"
+import status from "../scripts/status.js"
 
-function printStatus(repoPath) {
-    try {
-        const status = execSync(`git -C ${repoPath} status`, { encoding: 'utf8' })
-        if (/Changes|Untracked/.test(status)) {
-            info(repoPath)
-            const porcelain = execSync(`git -C ${repoPath} status --porcelain`, { encoding: 'utf8' })
-            console.log(porcelain.trim())
-            divide()
-        } else if (/ahead/.test(status)) {
-            warning(`Push ${repoPath}`)
-            divide()
-        } else if (/diverged/.test(status)) {
-            warning(`Sync ${repoPath}`)
-            divide()
-        }
-    } catch (err) {
-        console.error(`\x1b[31mError checking ${repoPath}: ${err.message}\x1b[0m`)
-    }
-}
-
-const gitDirs = findGits()
-for (const repo of gitDirs) printStatus(repo)
+const search = process.argv[2]
+status(search)

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
-import getDeterministicPort from "../scripts/getDeterministicPort.js";
+import findGits from "../scripts/findGits.js"
 
-console.log(getDeterministicPort("somebody"))
+let gits = findGits()
+console.log(gits)
+gits = findGits("blog")
+console.log(gits)
