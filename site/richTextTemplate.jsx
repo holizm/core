@@ -1,7 +1,5 @@
 import { RichText as BaseRichText } from "Base"
 
-const RichText = props => {
+export default props => {
     return <BaseRichText {...props} />
 }
-
-export default RichText
