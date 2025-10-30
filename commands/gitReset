@@ -36,7 +36,7 @@ const resetRepo = async (parent) => {
     }
 }
 
-const gitFolders = findGits(process.argv[2] || process.cwd())
+const gitFolders = findGits(process.argv[2])
 
 for (const gitFolder of gitFolders) {
     const parent = path.dirname(gitFolder)
