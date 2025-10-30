@@ -39,7 +39,7 @@ const resetRepo = async (parent) => {
 const gitFolders = findGits(process.argv[2])
 
 for (const gitFolder of gitFolders) {
-    resetRepo(parent)
+    resetRepo(gitFolder)
 }
 
 divide()
