@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { execSync } from 'child_process'
+import createGitHubAction from "./createGitHubAction.js"
 import {
     divide,
     error,
@@ -11,6 +12,7 @@ import {
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
+    exit,
     getFileContent,
     getFileLines,
     isDir,
@@ -23,14 +25,14 @@ const createNonExistentFiles = params => {
     createDirIfNotExists('pages')
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
+    copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, 'pages/head.jsx')
+    copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, 'pages/layout.jsx')
+    copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, 'pages/index.jsx')
     copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
     copyFileIfNotExists(`${home}/core/site/paginationTemplate.jsx`, 'parts/shared/pagination.jsx')
     copyFileIfNotExists(`${home}/core/site/breadcrumbTemplate.jsx`, 'parts/shared/breadcrumb.jsx')
     copyFileIfNotExists(`${home}/core/site/richTextTemplate.jsx`, 'parts/shared/richText.jsx')
-    copyFileIfNotExists('${home}/core/site/tailwindTemplate.css', 'tailwindTemplate.css')
-    copyFileIfNotExists('${home}/core/site/indexTemplate.jsx', 'pages/index.jsx')
-    copyFileIfNotExists('${home}/core/site/layoutTemplate.jsx', 'pages/layout.jsx')
-    copyFileIfNotExists('${home}/core/site/headTemplate.jsx', 'pages/head.jsx')
+    copyFileIfNotExists(`${home}/core/site/tailwindTemplate.css`, 'tailwindTemplate.css')
 }
 
 const buildDependenciesMpagesings = params => {

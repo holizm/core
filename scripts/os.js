@@ -2,7 +2,10 @@
 
 import fs, { rmSync } from "fs"
 import path from "path"
-import { errorAndExit } from "../scripts/logger.js"
+import {
+    error,
+    errorAndExit,
+} from "../scripts/logger.js"
 import { runOnTerminal } from "./terminal.js"
 
 export const getOrgRepoFromGit = () => {
@@ -74,7 +77,12 @@ export const copyFileIfNotExists = (source, dest) => {
         if (fs.statSync(dest).isDirectory()) fs.rmSync(dest, { recursive: true, force: true })
         else return
     }
-    fs.copyFileSync(source, dest)
+    try {
+        fs.copyFileSync(source, dest)
+    } catch (e) {
+        error(source, dest)
+        error(e)
+    }
 }
 
 export const getFileContent = (p) => fs.readFileSync(p, "utf8")
