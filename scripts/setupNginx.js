@@ -26,8 +26,8 @@ export default params => {
 
     const confDir = `${home}/nginx/conf.d`
     const includesDir = `${home}/nginx/includes`
-    const templatePath = `${home}/core/nginx/reverseProxy`
-    const includesTemplatePath = `${home}/core/nginx/proxyIncludes`
+    const templatePath = `${home}/core/webServer/reverseProxy`
+    const includesTemplatePath = `${home}/core/webServer/proxyIncludes`
     const confFile = `${confDir}/${host}.conf`
     const includesFile = `${includesDir}/${host}`
 

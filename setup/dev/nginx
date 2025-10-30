@@ -35,4 +35,4 @@ if (!content.includes(includeLine.trim())) {
 
 runOnTerminal(`chmod o+rx ${homeDir}`)
 runOnTerminal(`chmod o+rx ${homeDir}/core`)
-runOnTerminal(`chmod o+rx ${homeDir}/core/nginx`)
+runOnTerminal(`chmod o+rx ${homeDir}/core/webServer`)
