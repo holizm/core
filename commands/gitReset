@@ -38,9 +38,7 @@ const resetRepo = async (parent) => {
 
 const gitFolders = findGits(process.argv[2])
 
-for (const gitFolder of gitFolders) {
-    resetRepo(gitFolder)
-}
+await Promise.all(gitFolders.map(gitFolder => resetRepo(gitFolder)))
 
 divide()
 info('Success: Reset all')
