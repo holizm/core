@@ -18,8 +18,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const question = q => new Promise(res => rl.question(q, res))
 
 info()
-warn('Warning: All of your local changes will be deleted permanently.')
-warn('Warning: Are you sure you want to reset? (y/n)')
+warning('Warning: All of your local changes will be deleted permanently.')
+warning('Warning: Are you sure you want to reset? (y/n)')
 
 const consent = await question('> ')
 rl.close()
