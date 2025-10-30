@@ -47,7 +47,7 @@ const buildDependenciesMappings = params => {
         processPath,
         volumes,
     } = params
-    const dependencies = getDependencies()
+    const dependencies = getDependencies(params)
     const instance = `/${repo}/instance`
 
     for (const dependency of dependencies) {
@@ -65,7 +65,7 @@ const buildDependenciesMappings = params => {
 
         const lowercaseDependency = dependency.toLowerCase()
 
-        const pagesPath = path.join(dependencyBase, 'pages')
+        const pagesPath = `${dependencyBase}/pages`
         if (fs.existsSync(pagesPath)) {
             const mappings = []
             fs.readdirSync(pagesPath).forEach(root => {
@@ -85,21 +85,21 @@ const buildDependenciesMappings = params => {
             })
         }
 
-        const pluginFile = path.join(dependencyBase, 'pages/plugin.ts')
+        const pluginFile = `${dependencyBase}/pages/plugin.ts`
         if (fs.existsSync(pluginFile)) {
-            volumes += `\n${indentation}- ${dependencyBase}/pages/Plugin.ts:/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`
+            volumes += `\n${indentation}- ${dependencyBase}/pages/plugin.ts:/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`
         }
 
-        ['parts', 'Contexts', 'Loaders', 'Getters', 'Functions'].forEach(part => {
-            const partPath = path.join(dependencyBase, part)
+        ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
+            const partPath = `${dependencyBase}/${part}`
             if (fs.existsSync(partPath) && fs.readdirSync(partPath).length > 0) {
-                volumes += `\n${indentation}- ${dependencyBase}/${part}:/${repo}/${process}/src/Modules/${dependency}/${part}`
+                volumes += `\n${indentation}- ${dependencyBase}/${part}:/${repo}/${process}/src/parts/${dependency}/${part}`
             }
         })
 
-        const exportsFile = path.join(dependencyBase, 'Exports.jsx')
+        const exportsFile = `${dependencyBase}/exports.jsx`
         if (fs.existsSync(exportsFile) && fs.statSync(exportsFile).size > 0) {
-            volumes += `\n${indentation}- ${dependencyBase}/Exports.jsx:/${repo}/${process}/src/Modules/${dependency}/Exports.jsx`
+            volumes += `\n${indentation}- ${dependencyBase}/exports.jsx:/${repo}/${process}/src/parts/${dependency}/exports.jsx`
         }
     }
 
@@ -150,8 +150,8 @@ const buildOtherMappings = params => {
     const process = process.env.Process
     const processPath = process.env.ProcessPath
 
-    ['Getters', 'Functions', 'Loaders'].forEach(part => {
-        const dirPath = path.join(processPath, part)
+    ['getters', 'functions', 'loaders'].forEach(part => {
+        const dirPath = `${processPath}/${part}`
         if (fs.existsSync(dirPath)) {
             volumes += `\n${indentation}- ${processPath}/${part}:/${repo}/${process}/src/${part}`
         }
