@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+import readline from 'readline'
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import path from 'path'
+import {
+    divide,
+    error,
+    info,
+    success,
+    warning,
+} from "../scripts/logger.js"
+import findGits from '../scripts/findGits.js'
+
+const execPromise = promisify(exec)
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+const question = q => new Promise(res => rl.question(q, res))
+
+info()
+warn('Warning: All of your local changes will be deleted permanently.')
+warn('Warning: Are you sure you want to reset? (y/n)')
+
+const consent = await question('> ')
+rl.close()
+
+if (consent !== 'y') process.exit()
+
+const resetRepo = async (parent) => {
+    try {
+        await execPromise(`git -C "${parent}" reset --hard`)
+        await execPromise(`git -C "${parent}" clean -fxd`)
+        success(`Reset for ${parent} is done`)
+    } catch (e) {
+        error(`Failed to reset ${parent}: ${e.message}`)
+    }
+}
+
+const gitFolders = findGits(process.argv[2] || process.cwd())
+
+for (const gitFolder of gitFolders) {
+    const parent = path.dirname(gitFolder)
+    info(parent)
+    resetRepo(parent)
+}
+
+divide()
+info('Success: Reset all')
+divide()
