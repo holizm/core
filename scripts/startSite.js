@@ -63,7 +63,7 @@ const buildDependenciesMappings = params => {
         }
         const lowercaseDependency = dependency.toLowerCase()
         const pagesPath = `${dependencyBase}/pages`
-        if (fs.existsSync(pagesPath)) {
+        if (isFile(pagesPath)) {
             const mappings = []
             fs.readdirSync(pagesPath).forEach(page => {
                 const pagePath = `${pagesPath}/${page}`
@@ -71,7 +71,7 @@ const buildDependenciesMappings = params => {
                 const pageDirectory = page.split('pages/')[1] || ''
                 if (!pageDirectory.trim()) return
                 const targetPath = `${processPath}/pages/${pageDirectory}`
-                if (!fs.existsSync(targetPath) || fs.readdirSync(targetPath).length === 0) {
+                if (!isFile(targetPath) || fs.readdirSync(targetPath).length === 0) {
                     const source = `${dependencyBase}/pages/${pageDirectory}`
                     const target = `${home}/${repo}/${process}/src/routes/${pageDirectory}`
                     mappings.push([source, target])
@@ -84,19 +84,19 @@ const buildDependenciesMappings = params => {
         }
 
         const pluginFile = `${dependencyBase}/pages/plugin.ts`
-        if (fs.existsSync(pluginFile)) {
+        if (isFile(pluginFile)) {
             volumes += `\n${indentation}- ${dependencyBase}/pages/plugin.ts:/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`
         }
 
         ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
             const partPath = `${dependencyBase}/${part}`
-            if (fs.existsSync(partPath) && fs.readdirSync(partPath).length > 0) {
+            if (isFile(partPath) && fs.readdirSync(partPath).length > 0) {
                 volumes += `\n${indentation}- ${dependencyBase}/${part}:/${repo}/${process}/src/parts/${dependency}/${part}`
             }
         })
 
         const exportsFile = `${dependencyBase}/exports.jsx`
-        if (fs.existsSync(exportsFile) && fs.statSync(exportsFile).size > 0) {
+        if (isFile(exportsFile) && fs.statSync(exportsFile).size > 0) {
             volumes += `\n${indentation}- ${dependencyBase}/exports.jsx:/${repo}/${process}/src/parts/${dependency}/exports.jsx`
         }
     }
@@ -158,9 +158,10 @@ const buildOtherMappings = params => {
         volumes,
     } = params
 
-    ['getters', 'functions', 'loaders'].forEach(part => {
+    const otherDirs = ['getters', 'functions', 'loaders']
+    otherDirs.forEach(part => {
         const dirPath = `${processPath}/${part}`
-        if (fs.existsSync(dirPath)) {
+        if (isDir(dirPath)) {
             volumes += `\n${indentation}- ${processPath}/${part}:/${repo}/${process}/src/${part}`
         }
     })
@@ -169,9 +170,12 @@ const buildOtherMappings = params => {
 }
 
 const ensureLocalSecrets = params => {
-    const repo = process.env.Repository
-    const secretsPath = `/LocalSecrets/${repo}.json`
-    if (!fs.existsSync(secretsPath)) {
+    const {
+        home,
+        repo,
+    } = params
+    const secretsPath = `${home}/secrets/${repo}.json`
+    if (!isFile(secretsPath)) {
         writeFile(secretsPath, '{}')
     }
 }
@@ -204,54 +208,36 @@ export default params => {
         ...params,
         volumes,
     })
-    info(volumes)
-    exit()
-
-    ensureLocalSecrets()
-
-    runOnTerminal('sudo rm -rf /HolismHolding/Site/public/Settings.json')
-    runOnTerminal('sudo rm -rf /HolismHolding/Site/public/SettingsOverride.json')
-
-    const settingsPath = process.env.SettingsPath
-    const publicSettingsPath = process.env.PublicSettingsPath
-    const privateSettingsPath = process.env.PrivateSettingsPath
-    const settingsOverridePath = process.env.SettingsOverridePath
-    const tenantsPath = process.env.TenantsPath
-    const repo = process.env.Repository
-    const process = process.env.Process
-    const composeFile = process.env.ComposeFile
-
-    if (settingsPath && fs.existsSync(settingsPath)) {
-        volumes += `\n${indentation}- ${settingsPath}:/${repo}/${process}/public/Settings.json`
+    ensureLocalSecrets(params)
+    const {
+        composeFile,
+        home,
+        privateSettingsPath,
+        process,
+        publicSettingsPath,
+        repo,
+        settingsOverridePath,
+        tenantsPath,
+    } = params
+    if (privateSettingsPath && isFile(privateSettingsPath)) {
+        volumes += `\n${indentation}- ${privateSettingsPath}:/${repo}/${process}/privateSettings.json`
     }
-    if (privateSettingsPath && fs.existsSync(privateSettingsPath)) {
-        volumes += `\n${indentation}- ${privateSettingsPath}:/${repo}/${process}/PrivateSettings.json`
+    if (publicSettingsPath && isFile(publicSettingsPath)) {
+        volumes += `\n${indentation}- ${publicSettingsPath}:/${repo}/${process}/publicSettings.json`
     }
-    if (publicSettingsPath && fs.existsSync(publicSettingsPath)) {
-        volumes += `\n${indentation}- ${publicSettingsPath}:/${repo}/${process}/PublicSettings.json`
-    }
+    let cacheMappings = `\n${indentation}- ${home}/site/src/routes/clear-cache:/${repo}/${process}/src/routes/clear-cache`
 
-    let cacheMappings = `\n${indentation}- /HolismHolding/Site/src/routes/clear-cache:/${repo}/${process}/src/routes/clear-cache`
-
-    if (settingsOverridePath && fs.existsSync(settingsOverridePath)) {
+    if (settingsOverridePath && isFile(settingsOverridePath)) {
         volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/SettingsOverride.json`
-        try {
-            const data = JSON.parse(fs.readFileSync(settingsOverridePath, 'utf-8'))
-            if (data.NodeApi === true) {
-                cacheMappings = `\n${indentation}- /HolismHolding/Site/src/routes/new-clear-cache:/${repo}/${process}/src/routes/clear-cache`
-                cacheMappings += `\n${indentation}- /HolismHolding/Site/src/routes/show-cache:/${repo}/${process}/src/routes/show-cache`
-            }
-        } catch (err) { }
     }
+    cacheMappings = `\n${indentation}- ${home}/site/src/routes/new-clear-cache:/${repo}/${process}/src/routes/clear-cache`
+    cacheMappings += `\n${indentation}- ${home}/site/src/routes/show-cache:/${repo}/${process}/src/routes/show-cache`
     volumes += cacheMappings
-
-    if (tenantsPath && fs.existsSync(tenantsPath)) {
-        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/Tenants`
+    if (tenantsPath && isFile(tenantsPath)) {
+        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/tenants`
     }
-
-    const composeTemplatePath = '/HolismHolding/Docker/Composes/Site'
+    const composeTemplatePath = `${home}/core/container/composes/site`
     let content = getFileContent(composeTemplatePath)
-    content = content.replace('# - DependenciesPlaceholder', volumes)
-
+    content = content.replace('# - dependenciesPlaceholder', volumes)
     writeFile(composeFile, content)
 }
