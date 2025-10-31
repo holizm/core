@@ -1,6 +1,6 @@
 import fs from 'fs'
-import path from 'path'
-import { execSync } from 'child_process'
+import { basename } from "path"
+import { runOnTerminal } from './terminal.js'
 import createGitHubAction from "./createGitHubAction.js"
 import {
     divide,
@@ -107,21 +107,25 @@ const buildDependenciesMappings = params => {
 }
 
 const buildPagesDirectoryMappings = params => {
-    let volumes = ''
-    const repo = process.env.Repository
-    const process = process.env.Process
-    const processPath = process.env.ProcessPath
+    let {
+        repo,
+        org,
+        home,
+        volumes,
+        process,
+        processPath,
+    } = params
 
-    const files = execSync(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).toString().splitlines()
+    const files = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).split('\n')
     files.forEach(path => {
-        const fileName = path.basename(path)
+        const fileName = basename(path)
         volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/routes/${fileName}`
     })
 
-    const dirs = execSync(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).toString().splitlines()
+    const dirs = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         if (path.trim()) {
-            const fileName = path.basename(path)
+            const fileName = basename(path)
             volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/routes/${fileName}`
         }
     })
@@ -135,9 +139,9 @@ const buildPartsDirectoryMappings = params => {
     const process = process.env.Process
     const processPath = process.env.ProcessPath
 
-    const dirs = execSync(`find ${processPath}/parts -mindepth 1 -type d`).toString().splitlines()
+    const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).toString().splitlines()
     dirs.forEach(path => {
-        const name = path.basename(path)
+        const name = basename(path)
         volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/parts/${name}`
     })
 
@@ -184,12 +188,12 @@ export default params => {
         ...params,
         volumes,
     })
-    info(volumes)
-    exit()
     volumes += buildPagesDirectoryMappings({
         ...params,
         volumes,
     })
+    info(volumes)
+    exit()
     volumes += buildPartsDirectoryMappings({
         ...params,
         volumes,
@@ -201,8 +205,8 @@ export default params => {
 
     ensureLocalSecrets()
 
-    execSync('sudo rm -rf /HolismHolding/Site/public/Settings.json')
-    execSync('sudo rm -rf /HolismHolding/Site/public/SettingsOverride.json')
+    runOnTerminal('sudo rm -rf /HolismHolding/Site/public/Settings.json')
+    runOnTerminal('sudo rm -rf /HolismHolding/Site/public/SettingsOverride.json')
 
     const settingsPath = process.env.SettingsPath
     const publicSettingsPath = process.env.PublicSettingsPath
