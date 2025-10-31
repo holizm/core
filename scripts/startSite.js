@@ -134,12 +134,16 @@ const buildPagesDirectoryMappings = params => {
 }
 
 const buildPartsDirectoryMappings = params => {
-    let volumes = ''
-    const repo = process.env.Repository
-    const process = process.env.Process
-    const processPath = process.env.ProcessPath
+    let {
+        home,
+        repo,
+        org,
+        process,
+        processPath,
+        volume,
+    } = params
 
-    const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).toString().splitlines()
+    const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         const name = basename(path)
         volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/parts/${name}`
@@ -192,12 +196,12 @@ export default params => {
         ...params,
         volumes,
     })
-    info(volumes)
-    exit()
     volumes += buildPartsDirectoryMappings({
         ...params,
         volumes,
     })
+    info(volumes)
+    exit()
     volumes += buildOtherMappings({
         ...params,
         volumes,
