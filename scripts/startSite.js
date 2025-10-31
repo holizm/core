@@ -54,7 +54,6 @@ const buildDependenciesMappings = params => {
         let runnablePart = false
         const dependencyPath = `${home}/${repo}/${dependency}`
         let dependencyBase = ""
-
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
         } else if (isFile(instance) && isDir(`/${getFileContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
@@ -62,15 +61,14 @@ const buildDependenciesMappings = params => {
         } else {
             dependencyBase = `${home}/${dependency}/site`
         }
-
         const lowercaseDependency = dependency.toLowerCase()
-
         const pagesPath = `${dependencyBase}/pages`
         if (fs.existsSync(pagesPath)) {
             const mappings = []
-            fs.readdirSync(pagesPath).forEach(root => {
-                if (!fs.statSync(root).isDirectory()) return
-                const pageDirectory = root.split('pages/')[1] || ''
+            fs.readdirSync(pagesPath).forEach(page => {
+                const pagePath = `${pagesPath}/${page}`
+                if (!fs.statSync(pagePath).isDirectory()) return
+                const pageDirectory = page.split('pages/')[1] || ''
                 if (!pageDirectory.trim()) return
                 const targetPath = `${processPath}/pages/${pageDirectory}`
                 if (!fs.existsSync(targetPath) || fs.readdirSync(targetPath).length === 0) {
@@ -140,7 +138,7 @@ const buildPartsDirectoryMappings = params => {
         org,
         process,
         processPath,
-        volume,
+        volumes,
     } = params
 
     const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
