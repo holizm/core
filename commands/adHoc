@@ -1,8 +1,27 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
+set -euo pipefail
 
-import findGits from "../scripts/findGits.js"
+ROOT="/TempHolism"
+ORG="gesht"
 
-let gits = findGits()
-console.log(gits)
-gits = findGits("blog")
-console.log(gits)
+shopt -s nullglob
+for dir in "$ROOT"/*/; do
+    name="$(basename "$dir")"
+    if [[ -d "$HOME/$name" ]]; then
+        sudo rsync -a --exclude '.git' "$dir" "$HOME/$name/"
+        echo "Copied to ~/$name"
+        continue
+    fi
+    [[ -d "$dir/.git" ]] || git -C "$dir" init
+    git -C "$dir" add .
+    git -C "$dir" commit -m "Update" >/dev/null 2>&1 || true
+    git -C "$dir" branch -M main >/dev/null 2>&1 || true
+    if git -C "$dir" remote get-url origin >/dev/null 2>&1; then
+        git -C "$dir" remote set-url origin "git@github.com:$ORG/$name.git"
+    else
+        git -C "$dir" remote add origin "git@github.com:$ORG/$name.git"
+    fi
+    git -C "$dir" push -u origin main
+    echo "Pushed via SSH to $ORG/$name"
+done
+shopt -u nullglob
