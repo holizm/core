@@ -14,7 +14,7 @@ import {
     isDir,
     isEtl,
     removeAndRecreateDir,
-    replaceEnvs,
+    replaceVariables,
     writeFile,
     writeFileIfNotExists,
 } from "./os.js"
@@ -52,7 +52,7 @@ const linkVsCodeFiles = params => {
     } = params
     const vsCodePath = `/tmp/${repo}/${process}/.vscode`
     removeAndRecreateDir(vsCodePath)
-    replaceEnvs(`${home}/core/api/launch`, `${vsCodePath}/launch.json`, params)
+    replaceVariables(`${home}/core/api/launch`, `${vsCodePath}/launch.json`, params)
 }
 
 const buildConfigMappings = params => {

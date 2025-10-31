@@ -17,6 +17,7 @@ import {
     getFileLines,
     isDir,
     isFile,
+    replaceVariables,
     writeFile,
 } from './os.js'
 import getDependencies from "./getDependencies.js"
@@ -237,7 +238,5 @@ export default params => {
         volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/tenants`
     }
     const composeTemplatePath = `${home}/core/container/composes/site`
-    let content = getFileContent(composeTemplatePath)
-    content = content.replace('# - dependenciesPlaceholder', volumes)
-    writeFile(composeFile, content)
+    replaceVariables(composeTemplatePath, composeFile, params)
 }

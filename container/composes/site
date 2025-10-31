@@ -1,15 +1,15 @@
 services:
     site:
         image: geshtio/site
-        container_name: ${repo}${process}
+        container_name: ${repo}${pascalizedProcess}
         hostname: site
-        working_dir: ${processPath}
+        working_dir: /${repo}/${process}
         environment:
             - NODE_TLS_REJECT_UNAUTHORIZED=0
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=${processPath}
+            - processPath=/${repo}/${process}
             - randomPort=${randomPort}
             - AUTH_SECRET=t69bu9H55yXKQfUfx8fN
             - KEYCLOAK_CLIENT_SECRET=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
@@ -19,59 +19,59 @@ services:
             # - NODE_ENV=production
         volumes:
             - /tmp/mre:/tmp/mre
-            - /core:/core
-            - /policies:/policies
-            - /core/fonts:${processPath}/public/fonts
-            - /site/:/site/
-            - /site/core-package.json:/npm/core-package.json
-            - /site/eslint.config.js:${processPath}/eslint.config.js
-            - /site/.prettierignore:${processPath}/.prettierignore
-            - /site/.prettierrc:${processPath}/.prettierrc
-            - /site/adapters:${processPath}/adapters
-            - /site/buildPolicies:${processPath}/buildPolicies
-            - /site/base:${processPath}/src/base
-            - /site/components:${processPath}/src/baseComponents
-            - /site/getters:${processPath}/src/baseGetters
-            - /site/functions:${processPath}/src/baseFunctions
-            - /site/hooks:${processPath}/src/baseHooks
-            - /site/contexts:${processPath}/src/baseContexts
-            - /site/core-package.json:${processPath}/core-package.json
-            - /site/postcss.config.js:${processPath}/postcss.config.js
-            - /site/src/entry.dev.tsx:${processPath}/src/entry.dev.tsx
-            - /site/src/entry.express.tsx:${processPath}/src/entry.express.tsx
-            - /site/src/entry.preview.tsx:${processPath}/src/entry.preview.tsx
-            - /site/src/entry.ssr.tsx:${processPath}/src/entry.ssr.tsx
-            - /site/src/global.css:${processPath}/src/global.css
-            - /site/src/plugin@_infra.ts:${processPath}/src/routes/plugin@_infra.ts
-            - /site/src/root.jsx:${processPath}/src/root.tsx
-            - /site/src/router-head.jsx:${processPath}/src/router-head.jsx
-            - /site/src/routes/service-worker.ts:${processPath}/src/routes/service-worker.ts
-            # - /site/src/routes/404.tsx:${processPath}/src/routes/404.tsx
-            - /site/src/routes/error:${processPath}/src/routes/error
-            - /site/src/routes/create-blobs:${processPath}/src/routes/create-blobs
-            - /site/tsConfigBase.json:${processPath}/tsConfigBase.json
-            - /site/tailwindBase.css:${processPath}/tailwindBase.css
-            - /site/richTextRendererCollector.js:${processPath}/richTextRendererCollector.js
-            - /site/entityRendererCollector.js:${processPath}/entityRendererCollector.js
-            - /site/paginationBehaviorCollector.js:${processPath}/paginationBehaviorCollector.js
-            - /site/settingsCreator.js:${processPath}/settingsCreator.js
-            - /site/classPrefixer.js:${processPath}/classPrefixer.js
-            - /site/nullLayoutProvider.js:${processPath}/nullLayoutProvider.js
-            - /site/emptyDashboardProvider.js:${processPath}/emptyDashboardProvider.js
-            - /site/loaderProvider.js:${processPath}/loaderProvider.js
-            - /site/telemetry.js:${processPath}/telemetry.js
-            - /site/vite.config.js:${processPath}/vite.config.js
-            - /site/scripts/scroll.js:${processPath}/public/scripts/scroll.js
-            - /site/icons/markerIcon.png:${processPath}/public/icons/marker-icon.png
-            - /site/icons/markerIcon2x.png:${processPath}/public/icons/marker-icon-2x.png
-            - /site/icons/markerShadow.png:${processPath}/public/icons/marker-shadow.png
-            - ${home}/secrets/${repo}.json:${processPath}/public/secrets.json
+            - ${home}/core:/core
+            - ${home}/policies:/policies
+            - ${home}/core/fonts:/${repo}/${process}/public/fonts
+            - ${home}/site/:/site/
+            - ${home}/site/core-package.json:/npm/core-package.json
+            - ${home}/site/eslint.config.js:/${repo}/${process}/eslint.config.js
+            - ${home}/site/.prettierignore:/${repo}/${process}/.prettierignore
+            - ${home}/site/.prettierrc:/${repo}/${process}/.prettierrc
+            - ${home}/site/adapters:/${repo}/${process}/adapters
+            - ${home}/site/buildPolicies:/${repo}/${process}/buildPolicies
+            - ${home}/site/base:/${repo}/${process}/src/base
+            - ${home}/site/components:/${repo}/${process}/src/baseComponents
+            - ${home}/site/getters:/${repo}/${process}/src/baseGetters
+            - ${home}/site/functions:/${repo}/${process}/src/baseFunctions
+            - ${home}/site/hooks:/${repo}/${process}/src/baseHooks
+            - ${home}/site/contexts:/${repo}/${process}/src/baseContexts
+            - ${home}/site/core-package.json:/${repo}/${process}/core-package.json
+            - ${home}/site/postcss.config.js:/${repo}/${process}/postcss.config.js
+            - ${home}/site/src/entry.dev.tsx:/${repo}/${process}/src/entry.dev.tsx
+            - ${home}/site/src/entry.express.tsx:/${repo}/${process}/src/entry.express.tsx
+            - ${home}/site/src/entry.preview.tsx:/${repo}/${process}/src/entry.preview.tsx
+            - ${home}/site/src/entry.ssr.tsx:/${repo}/${process}/src/entry.ssr.tsx
+            - ${home}/site/src/global.css:/${repo}/${process}/src/global.css
+            - ${home}/site/src/plugin@_infra.ts:/${repo}/${process}/src/routes/plugin@_infra.ts
+            - ${home}/site/src/root.jsx:/${repo}/${process}/src/root.tsx
+            - ${home}/site/src/router-head.jsx:/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/routes/service-worker.ts:/${repo}/${process}/src/routes/service-worker.ts
+            # - ${home}/site/src/routes/404.tsx:/${repo}/${process}/src/routes/404.tsx
+            - ${home}/site/src/routes/error:/${repo}/${process}/src/routes/error
+            - ${home}/site/src/routes/create-blobs:/${repo}/${process}/src/routes/create-blobs
+            - ${home}/site/tsConfigBase.json:/${repo}/${process}/tsConfigBase.json
+            - ${home}/site/tailwindBase.css:/${repo}/${process}/tailwindBase.css
+            - ${home}/site/richTextRendererCollector.js:/${repo}/${process}/richTextRendererCollector.js
+            - ${home}/site/entityRendererCollector.js:/${repo}/${process}/entityRendererCollector.js
+            - ${home}/site/paginationBehaviorCollector.js:/${repo}/${process}/paginationBehaviorCollector.js
+            - ${home}/site/settingsCreator.js:/${repo}/${process}/settingsCreator.js
+            - ${home}/site/classPrefixer.js:/${repo}/${process}/classPrefixer.js
+            - ${home}/site/nullLayoutProvider.js:/${repo}/${process}/nullLayoutProvider.js
+            - ${home}/site/emptyDashboardProvider.js:/${repo}/${process}/emptyDashboardProvider.js
+            - ${home}/site/loaderProvider.js:/${repo}/${process}/loaderProvider.js
+            - ${home}/site/telemetry.js:/${repo}/${process}/telemetry.js
+            - ${home}/site/vite.config.js:/${repo}/${process}/vite.config.js
+            - ${home}/site/scripts/scroll.js:/${repo}/${process}/public/scripts/scroll.js
+            - ${home}/site/icons/markerIcon.png:/${repo}/${process}/public/icons/marker-icon.png
+            - ${home}/site/icons/markerIcon2x.png:/${repo}/${process}/public/icons/marker-icon-2x.png
+            - ${home}/site/icons/markerShadow.png:/${repo}/${process}/public/icons/marker-shadow.png
+            - ${home}/secrets/${repo}.json:/${repo}/${process}/public/secrets.json
             - /tmp/$repo/$process/ast:/tmp/$repo/$process/ast
             - /tmp/$repo/$process/analysis:/tmp/$repo/$process/analysis
             - /tmp/$repo/$process/nginxCache:/nginxCache
-            - ${processPath}/tailwind.css:${processPath}/tailwind.css
+            - ${processPath}/tailwind.css:/${repo}/${process}/tailwind.css
 
-            # - DependenciesPlaceholder
+            ${dependenciesPlaceholder}
 
         command: >
             bash -c

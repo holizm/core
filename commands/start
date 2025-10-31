@@ -33,6 +33,8 @@ import startApi from "../scripts/startApi.js"
 import startPanel from "../scripts/startPanel.js"
 import startSite from "../scripts/startSite.js"
 import processTenantLine from "../scripts/processTenantLine.js"
+import pascalize from "../scripts/pascalize.js"
+import camelize from "../scripts/camelize.js"
 
 clear()
 
@@ -74,8 +76,12 @@ let params = {
 }
 
 params.process = path.basename(cwd)
+params.camelizedProcess = camelize(params.process)
+params.pascalizedProcess = pascalize(params.process)
 params.lowercaseOrg = org.toLowerCase()
 params.lowercaseRepo = repo.toLowerCase()
+params.pascalizedRepo = pascalize(repo)
+params.camelizedRepo = camelize(repo)
 params.lowercaseProcess = params.process.toLowerCase()
 
 success(`organization: ${org}`)

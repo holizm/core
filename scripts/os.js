@@ -37,8 +37,8 @@ const readReplaceWrite = (inputFile, outputFile, flag, params) => {
     fs.writeFileSync(outputFile, replaced, { flag })
 }
 
-export const replaceEnvs = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "w", params)
-export const replaceEnvsAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "a", params)
+export const replaceVariables = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "w", params)
+export const replaceVariablesAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "a", params)
 
 export const isFile = (p) => fs.existsSync(p) && fs.statSync(p).isFile()
 export const isDir = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory()

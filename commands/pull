@@ -1,2 +1,74 @@
 #!/usr/bin/env node
-console.log("I'm pull")
+
+import path from 'path'
+import { runOnTerminal } from '../scripts/terminal.js'
+import findGits from '../scripts/findGits.js'
+import {
+    divide,
+    info,
+    warning,
+    success,
+    error,
+} from '../scripts/logger.js'
+// import configVsCode from '../scripts/configVsCode.js'
+// import adHoc from '../scripts/adHoc.js'
+
+const search = process.argv[2]
+const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
+
+runOnTerminal('sudo echo')
+
+divide()
+info('Pulling repos ...')
+divide()
+
+const pullOnce = dir => runOnTerminal(`timeout ${timeoutSeconds} git -C ${dir} pull 2>&1`) || ''
+
+const needsRetry = out => !out || /unexpected disconnect/i.test(out)
+
+const pullWithRetry = async parent => {
+    let out = pullOnce(parent)
+    let retries = 0
+
+    if (/unrelated histories/i.test(out)) {
+        error(parent)
+        error(out)
+        await Promise.resolve(fix(parent))
+        return
+    }
+
+    while ((needsRetry(out)) && retries < 5) {
+        warning(`Retrying ${parent} (Attempt ${retries + 1}/5)`)
+        out = pullOnce(parent)
+        retries++
+        if (/unrelated histories/i.test(out)) {
+            error(parent)
+            error(out)
+            await Promise.resolve(fix(parent))
+            return
+        }
+    }
+
+    if (out && !needsRetry(out)) {
+        await Promise.resolve(check(parent))
+    } else if (retries < 5) {
+        error(`Error for ${parent}`)
+        error(`Message: ${out}`)
+    } else {
+        error(`Exceeded retry limit for ${parent}`)
+        error(`Message: ${out}`)
+    }
+}
+
+const repos = findGits(search)
+await Promise.all(repos.map(repo => {
+    return pullWithRetry(repo)
+}))
+
+divide()
+success('Got all')
+divide()
+
+// await Promise.resolve(configVsCode())
+// await Promise.resolve(adHoc())
+

@@ -4,8 +4,8 @@ import {
 } from './logger.js'
 import {
     getFileContent,
-    replaceEnvs,
-    replaceEnvsAndAppend,
+    replaceVariables,
+    replaceVariablesAndAppend,
     writeFile,
 } from './os.js'
 
@@ -23,11 +23,11 @@ export default params => {
     divide()
 
     const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yml`
-    replaceEnvs(`${home}/core/ciCd/base`, gitHubActionPath, params)
+    replaceVariables(`${home}/core/ciCd/base`, gitHubActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
-    replaceEnvsAndAppend(actionFile, gitHubActionPath, params)
-    replaceEnvsAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
-    replaceEnvsAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath, params)
+    replaceVariablesAndAppend(actionFile, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
     let content = getFileContent(gitHubActionPath)
