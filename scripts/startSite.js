@@ -151,10 +151,12 @@ const buildPartsDirectoryMappings = params => {
 }
 
 const buildOtherMappings = params => {
-    let volumes = ''
-    const repo = process.env.Repository
-    const process = process.env.Process
-    const processPath = process.env.ProcessPath
+    let {
+        process,
+        processPath,
+        repo,
+        volumes,
+    } = params
 
     ['getters', 'functions', 'loaders'].forEach(part => {
         const dirPath = `${processPath}/${part}`
@@ -198,12 +200,12 @@ export default params => {
         ...params,
         volumes,
     })
-    info(volumes)
-    exit()
     volumes += buildOtherMappings({
         ...params,
         volumes,
     })
+    info(volumes)
+    exit()
 
     ensureLocalSecrets()
 
