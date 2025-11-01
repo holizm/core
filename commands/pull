@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-import path from 'path'
-import { runOnTerminal } from '../scripts/terminal.js'
+import { runOnTerminalAsync } from '../scripts/terminal.js'
 import findGits from '../scripts/findGits.js'
 import {
     divide,
@@ -16,18 +15,16 @@ import {
 const search = process.argv[2]
 const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
 
-runOnTerminal('sudo echo')
-
 divide()
 info('Pulling repos ...')
 divide()
 
-const pullOnce = dir => runOnTerminal(`timeout ${timeoutSeconds} git -C ${dir} pull 2>&1`) || ''
+const pullOnce = async dir => runOnTerminalAsync(`timeout ${timeoutSeconds} git -C ${dir} pull 2>&1`) || ''
 
 const needsRetry = out => !out || /unexpected disconnect/i.test(out)
 
 const pullWithRetry = async parent => {
-    let out = pullOnce(parent)
+    let out = await pullOnce(parent)
     let retries = 0
 
     if (/unrelated histories/i.test(out)) {
@@ -50,7 +47,7 @@ const pullWithRetry = async parent => {
     }
 
     if (out && !needsRetry(out)) {
-        await Promise.resolve(check(parent))
+        await Promise.resolve(parent)
     } else if (retries < 5) {
         error(`Error for ${parent}`)
         error(`Message: ${out}`)

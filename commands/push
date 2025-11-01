@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import readline from 'readline'
-import { runOnTerminal } from '../scripts/terminal.js'
+import { runOnTerminal, runOnTerminalAsync } from '../scripts/terminal.js'
 import {
     divide,
     errorAndExit,
@@ -49,7 +49,7 @@ const promptYesNo = async question => {
     return answer.toLowerCase() === 'y'
 }
 
-const commitAndPushRepo = dir => {
+const commitAndPushRepo = async dir => {
     const porcelain = runOnTerminal(`git -C ${dir} status --porcelain`)
     if (!porcelain) return null
 
@@ -58,10 +58,10 @@ const commitAndPushRepo = dir => {
     runOnTerminal(`git -C ${dir} add .`)
     let commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
     if (!commit) commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
-    let push = runOnTerminal(`git -C ${dir} push`)
+    let push = await runOnTerminalAsync(`git -C ${dir} push`)
     if (!push) {
-        runOnTerminal(`git -C ${dir} pull`)
-        push = runOnTerminal(`git -C ${dir} push`)
+        await runOnTerminalAsync(`git -C ${dir} pull`)
+        push = await runOnTerminalAsync(`git -C ${dir} push`)
     }
     return push
 }
