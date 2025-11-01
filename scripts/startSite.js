@@ -64,10 +64,11 @@ const buildDependenciesMappings = params => {
         }
         const lowercaseDependency = dependency.toLowerCase()
         const pagesPath = `${dependencyBase}/pages`
-        if (isFile(pagesPath)) {
+        if (isDir(pagesPath)) {
             const mappings = []
             fs.readdirSync(pagesPath).forEach(page => {
                 const pagePath = `${pagesPath}/${page}`
+                console.log(pagePath)
                 if (!fs.statSync(pagePath).isDirectory()) return
                 const pageDirectory = page.split('pages/')[1] || ''
                 if (!pageDirectory.trim()) return
@@ -237,6 +238,7 @@ export default params => {
     if (tenantsPath && isFile(tenantsPath)) {
         volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/tenants`
     }
+    params.dependenciesPlaceholder = volumes
     const composeTemplatePath = `${home}/core/container/composes/site`
     replaceVariables(composeTemplatePath, composeFile, params)
 }
