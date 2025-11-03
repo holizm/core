@@ -70,14 +70,15 @@ export const check = (...args) => {
     log('\x1b[32m', ...args, checkMark)
 }
 
-export const divide = () => {
-    console.log()
-    console.log('\x1b[35m----------\x1b[0m')
-    console.log()
+export const divide = (toStderr) => {
+    const func = toStderr ? console.error : console.log
+    func()
+    func('\x1b[35m----------\x1b[0m')
+    func()
 }
 
 export const dividedError = (...args) => {
-    divide()
+    divide(true)
     error(...args)
-    divide()
+    divide(true)
 }

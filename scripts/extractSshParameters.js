@@ -4,8 +4,10 @@ import {
     error,
     errorAndExit,
 } from './logger.js'
+import { getFileContent } from "./os.js"
 
 const domain = process.argv[2]
+const home = process.env.HOME
 
 if (!domain) {
     divide()
@@ -14,7 +16,7 @@ if (!domain) {
 }
 
 let secretsFile = ''
-const dir = `/LocalSecrets`
+const dir = `${home}/secrets`
 try {
     const entries = fs.readdirSync(dir)
     for (const file of entries) {
@@ -23,7 +25,7 @@ try {
         let raw
         let parsed
         try {
-            raw = fs.readFileSync(fullPath, 'utf8')
+            raw = getFileContent(fullPath)
             parsed = JSON.parse(raw)
         } catch {
             continue
@@ -46,24 +48,21 @@ try {
 }
 
 if (!secretsFile) {
-    error(`No secrets file found containing domain: ${domain}`)
-    process.exit(1)
+    errorAndExit(`No secrets file found containing domain: ${domain}`)
 }
 
 let fileContent
 try {
-    fileContent = fs.readFileSync(secretsFile, 'utf8')
+    fileContent = getFileContent(secretsFile)
 } catch {
-    error(`Failed to read secrets file: ${secretsFile}`)
-    process.exit(1)
+    errorAndExit(`Failed to read secrets file: ${secretsFile}`)
 }
 
 let json
 try {
     json = JSON.parse(fileContent)
 } catch {
-    error(`Invalid JSON in secrets file: ${secretsFile}`)
-    process.exit(1)
+    errorAndExit(`Invalid JSON in secrets file: ${secretsFile}`)
 }
 
 const sshObj =
@@ -76,13 +75,11 @@ let sshUser = sshObj.user !== undefined && sshObj.user !== null ? String(sshObj.
 let sshIp = sshObj.ip !== undefined && sshObj.ip !== null ? String(sshObj.ip).trim() : ''
 
 if (!sshPort || sshPort === '22') {
-    error(`Invalid SSH port. Specify a non-default port in ${secretsFile}.`)
-    process.exit(1)
+    errorAndExit(`Invalid SSH port. Specify a non-default port in ${secretsFile}.`)
 }
 
 if (!sshUser || sshUser.length !== 20) {
-    error('Invalid SSH user. It must be exactly 20 characters long.')
-    process.exit(1)
+    errorAndExit('Invalid SSH user. It must be exactly 20 characters long.')
 }
 
 if (!sshIp) {
@@ -93,8 +90,7 @@ if (!sshIp) {
     }
 
     if (!sshIp) {
-        error(`Failed to resolve IP for domain: ${domain}`)
-        process.exit(1)
+        errorAndExit(`Failed to resolve IP for domain: ${domain}`)
     }
 }
 
