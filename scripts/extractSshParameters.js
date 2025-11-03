@@ -1,70 +1,100 @@
-import { readdir } from 'fs/promises'
-import { readFile } from 'fs/promises'
+import fs from 'fs'
 import { execSync } from 'child_process'
+import { errorAndExit } from './logger.js'
 
-async function extractSshParams(domain) {
+export default domain => {
     if (!domain) {
-        console.log('-----------------------------')
-        console.error('Ssh to where? Please provide the domain name.')
-        console.log('-----------------------------')
-        process.exit(1)
+        divide()
+        errorAndExit('Ssh to where? Please provide the domain name.')
+        divide()
     }
 
     let secretsFile = ''
-    const files = await readdir('/LocalSecrets')
+    const dir = '/LocalSecrets'
+    try {
+        const entries = fs.readdirSync(dir)
+        for (const file of entries) {
+            if (!file.endsWith('.json')) continue
+            const fullPath = `${dir}/${file}`
+            let raw
+            let parsed
+            try {
+                raw = fs.readFileSync(fullPath, 'utf8')
+                parsed = JSON.parse(raw)
+            } catch {
+                continue
+            }
 
-    for (const file of files) {
-        if (!file.endsWith('.json')) continue
-        const content = await readFile(`/LocalSecrets/${file}`, 'utf-8')
-        let json
-        try {
-            json = JSON.parse(content)
-        } catch {
-            continue
+            if (
+                parsed &&
+                typeof parsed === 'object' &&
+                parsed.ssh &&
+                typeof parsed.ssh === 'object' &&
+                Array.isArray(parsed.ssh.domains) &&
+                parsed.ssh.domains.includes(domain)
+            ) {
+                secretsFile = fullPath
+                break
+            }
         }
-
-        if (json.Ssh &&
-            typeof json.Ssh === 'object' &&
-            Array.isArray(json.Ssh.Domains) &&
-            json.Ssh.Domains.includes(domain)) {
-            secretsFile = `/LocalSecrets/${file}`
-            break
-        }
+    } catch {
+        // directory missing or unreadable -> will trigger 'no secrets file' below
     }
 
     if (!secretsFile) {
-        console.error(`No secrets file found containing domain: ${domain}`)
+        error(`No secrets file found containing domain: ${domain}`)
         process.exit(1)
     }
 
-    const data = JSON.parse(await readFile(secretsFile, 'utf-8'))
-    const ssh = data.Ssh || {}
+    let fileContent
+    try {
+        fileContent = fs.readFileSync(secretsFile, 'utf8')
+    } catch {
+        error(`Failed to read secrets file: ${secretsFile}`)
+        process.exit(1)
+    }
 
-    const sshPort = ssh.Port || ''
-    const sshUser = ssh.User || ''
-    let sshIp = ssh.Ip || ''
+    let json
+    try {
+        json = JSON.parse(fileContent)
+    } catch {
+        error(`Invalid JSON in secrets file: ${secretsFile}`)
+        process.exit(1)
+    }
+
+    const sshObj =
+        json && typeof json === 'object' && json.ssh && typeof json.ssh === 'object'
+            ? json.ssh
+            : {}
+
+    let sshPort = sshObj.port !== undefined && sshObj.port !== null ? String(sshObj.port).trim() : ''
+    let sshUser = sshObj.user !== undefined && sshObj.user !== null ? String(sshObj.user).trim() : ''
+    let sshIp = sshObj.ip !== undefined && sshObj.ip !== null ? String(sshObj.ip).trim() : ''
 
     if (!sshPort || sshPort === '22') {
-        console.error(`Invalid SSH port. Specify a non-default port in ${secretsFile}.`)
+        error(`Invalid SSH port. Specify a non-default port in ${secretsFile}.`)
         process.exit(1)
     }
 
     if (!sshUser || sshUser.length !== 20) {
-        console.error('Invalid SSH user. It must be exactly 20 characters long.')
+        error('Invalid SSH user. It must be exactly 20 characters long.')
         process.exit(1)
     }
 
     if (!sshIp) {
         try {
-            sshIp = execSync(`getent ahosts ${domain} | awk '{print $1; exit}'`).toString().trim()
+            sshIp = execSync(`getent ahosts '${domain}' | awk '{print $1; exit}'`).toString().trim()
         } catch {
-            sshIp = ''
+            // ignore, handled below
         }
+
         if (!sshIp) {
-            console.error(`Failed to resolve IP for domain: ${domain}`)
+            error(`Failed to resolve IP for domain: ${domain}`)
             process.exit(1)
         }
     }
 
-    return { sshPort, sshUser, sshIp }
+    global.sshPort = sshPort
+    global.sshUser = sshUser
+    global.sshIp = sshIp
 }
