@@ -5,8 +5,8 @@
 domain=$1
 shift
 
-read -r sshPort sshUser sshIp < <(node /path/to/extractSshParameters.js "$domain")
-
+read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
+echo $sshUser
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     error "Failed to extract SSH parameters for $domain"
     exit 1
