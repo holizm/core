@@ -2,15 +2,9 @@
 
 . $HOME/core/scripts/logger.sh
 
-if [[ $PWD != "/" ]]; then
-    error "Go to / first, then Ssh from there."
-    exit 1
-fi
-
 domain=$1
 shift
 
-# 🔹 Call the Node helper to extract SSH parameters
 read -r sshPort sshUser sshIp < <(node /path/to/extractSshParameters.js "$domain")
 
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then

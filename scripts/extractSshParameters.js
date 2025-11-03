@@ -10,7 +10,7 @@ export default domain => {
     }
 
     let secretsFile = ''
-    const dir = '/LocalSecrets'
+    const dir = `/LocalSecrets`
     try {
         const entries = fs.readdirSync(dir)
         for (const file of entries) {
