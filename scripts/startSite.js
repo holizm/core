@@ -69,6 +69,12 @@ const buildDependenciesMappings = params => {
             fs.readdirSync(pagesPath).forEach(page => {
                 const pagePath = `${pagesPath}/${page}`
                 console.log(pagePath)
+                /*
+                todo:
+                /route/slug => /route/[slug]
+                /route/id => /route/[id]
+                /camelizedRoute => /kebabized-route
+                */
                 if (!fs.statSync(pagePath).isDirectory()) return
                 const pageDirectory = page.split('pages/')[1] || ''
                 if (!pageDirectory.trim()) return
