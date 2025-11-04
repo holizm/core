@@ -15,6 +15,7 @@ import {
 const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME
 const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
+const cloneConcurrency = process.env.CloneConcurrency && `${process.env.CloneConcurrency}`.trim() !== '' ? Number(process.env.CloneConcurrency) : 8
 
 const needsRetry = out => !out || /unexpected disconnect/i.test(out)
 const pathExists = async p => { try { await fs.access(p); return true } catch { return false } }
@@ -75,15 +76,29 @@ const cloneWithRetry = async (org, repo) => {
     }
 }
 
+const mapLimit = async (items, limit, fn) => {
+    const ret = new Array(items.length)
+    let i = 0
+    const workers = Array(Math.min(limit, items.length)).fill(0).map(async () => {
+        while (true) {
+            const idx = i++
+            if (idx >= items.length) break
+            ret[idx] = await fn(items[idx], idx)
+        }
+    })
+    await Promise.all(workers)
+    return ret
+}
+
 const cloneOrg = async org => {
     divide()
     info(`Cloning all repos from ${org}...`)
     divide()
     const repos = await listRepos(org)
-    for (const full of repos) {
+    await mapLimit(repos, cloneConcurrency, async full => {
         const [, repo] = full.split('/')
-        await cloneWithRetry(org, repo)
-    }
+        return cloneWithRetry(org, repo)
+    })
 }
 
 const [arg1, arg2] = process.argv.slice(2)
