@@ -34,8 +34,6 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
         maxBuffer = 1024 * 1024 * 20
     } = opts
 
-    info(command)
-
     try {
         const { stdout, stderr } = await execAsync(command, {
             cwd,

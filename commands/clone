@@ -1,91 +1,112 @@
 #!/usr/bin/env node
-import { execSync } from 'child_process'
-import fs from 'fs'
+
 import path from 'path'
+import fs from 'fs/promises'
+import { runOnTerminalAsync } from '../scripts/terminal.js'
 import {
     divide,
     dividedError,
     info,
+    warning,
     success,
-} from "../scripts/logger.js"
+    error,
+} from '../scripts/logger.js'
 
 const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME
+const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
 
-const run = cmd => execSync(cmd, { stdio: 'pipe', encoding: 'utf8' })
+const needsRetry = out => !out || /unexpected disconnect/i.test(out)
+const pathExists = async p => { try { await fs.access(p); return true } catch { return false } }
 
-const repoExists = (org, repo) => {
-    try {
-        run(`gh repo view ${org}/${repo}`)
-        return true
-    } catch {
-        return false
-    }
+const repoExists = async (org, repo) => {
+    const out = await runOnTerminalAsync(`timeout ${timeoutSeconds} gh repo view ${org}/${repo} 2>&1`) || ''
+    return !/not found|error|fatal/i.test(out)
 }
 
-const orgExists = org => {
-    try {
-        run(`gh api orgs/${org}`)
-        return true
-    } catch {
-        return false
-    }
+const orgExists = async org => {
+    const out = await runOnTerminalAsync(`timeout ${timeoutSeconds} gh api orgs/${org} 2>&1`) || ''
+    return !/not found|error|fatal/i.test(out)
 }
 
-const cloneRepo = (org, repo) => {
-    const dir = path.join(BASE_DIR, repo)
-    if (fs.existsSync(dir)) {
-        info(`Skipping ${org}/${repo} (already exists)`)
-        return
-    }
-    info(`Cloning ${org}/${repo}...`)
-    run(`mkdir -p ${path.dirname(dir)} && gh repo clone ${org}/${repo} ${dir}`)
-    success(`Cloned ${org}/${repo}`)
+const listRepos = async org => {
+    const out = await runOnTerminalAsync(`timeout ${timeoutSeconds} gh repo list ${org} --limit 1000 --json nameWithOwner -q '.[].nameWithOwner' 2>&1`) || ''
+    return out.trim().split('\n').filter(Boolean)
+}
 
-    const vcsIgnorePath = path.join(BASE_DIR, "core", "vcsIgnore")
+const cloneOnce = async (org, repo, dir) => await runOnTerminalAsync(`timeout ${timeoutSeconds} gh repo clone ${org}/${repo} ${dir} 2>&1`) || ''
+
+const postClone = async dir => {
+    const vcsIgnorePath = path.join(BASE_DIR, 'core', 'vcsIgnore')
     const infoDir = path.join(dir, '.git', 'info')
     const excludeFile = path.join(infoDir, 'exclude')
-
-    if (fs.existsSync(vcsIgnorePath)) {
-        if (!fs.existsSync(infoDir)) {
-            fs.mkdirSync(infoDir, { recursive: true })
-        }
-        fs.copyFileSync(vcsIgnorePath, excludeFile)
+    if (await pathExists(vcsIgnorePath)) {
+        await fs.mkdir(infoDir, { recursive: true })
+        await fs.copyFile(vcsIgnorePath, excludeFile)
         info(`Copied ${vcsIgnorePath} to ${excludeFile}`)
     } else {
         info(`vcsIgnore file not found at ${vcsIgnorePath}, skipping copy`)
     }
 }
 
-const cloneOrg = org => {
+const cloneWithRetry = async (org, repo) => {
+    const dir = path.join(BASE_DIR, repo)
+    if (await pathExists(dir)) {
+        info(`Skipping ${org}/${repo} (already exists)`)
+        return
+    }
+    info(`Cloning ${org}/${repo}...`)
+    let out = await cloneOnce(org, repo, dir)
+    let retries = 0
+    while (needsRetry(out) && retries < 5) {
+        warning(`Retrying ${org}/${repo} (Attempt ${retries + 1}/5)`)
+        out = await cloneOnce(org, repo, dir)
+        retries++
+    }
+    if (out && !needsRetry(out)) {
+        success(`Cloned ${org}/${repo}`)
+        await postClone(dir)
+    } else if (retries < 5) {
+        error(`Error cloning ${org}/${repo}`)
+        error(`Message: ${out}`)
+    } else {
+        error(`Exceeded retry limit for ${org}/${repo}`)
+        error(`Message: ${out}`)
+    }
+}
+
+const cloneOrg = async org => {
     divide()
     info(`Cloning all repos from ${org}...`)
     divide()
-    const output = run(`gh repo list ${org} --limit 1000 --json nameWithOwner -q '.[].nameWithOwner'`)
-    const repos = output.trim().split('\n').filter(Boolean)
+    const repos = await listRepos(org)
     for (const full of repos) {
         const [, repo] = full.split('/')
-        cloneRepo(org, repo)
+        await cloneWithRetry(org, repo)
     }
 }
 
 const [arg1, arg2] = process.argv.slice(2)
 
 if (!arg1) {
-    cloneOrg(DEFAULT_ORG)
+    await cloneOrg(DEFAULT_ORG)
 } else if (!arg2) {
-    if (repoExists(DEFAULT_ORG, arg1)) {
-        cloneRepo(DEFAULT_ORG, arg1)
-    } else if (orgExists(arg1)) {
-        cloneOrg(arg1)
+    if (await orgExists(arg1)) {
+        await cloneOrg(arg1)
+    } else if (await repoExists(DEFAULT_ORG, arg1)) {
+        await cloneWithRetry(DEFAULT_ORG, arg1)
     } else {
-        dividedError(`Neither repo ${DEFAULT_ORG}/${arg1} nor org ${arg1} exists`)
+        dividedError(`Neither org ${arg1} nor repo ${DEFAULT_ORG}/${arg1} exists`)
         process.exit(1)
     }
 } else {
-    if (!repoExists(arg1, arg2)) {
+    if (!(await repoExists(arg1, arg2))) {
         dividedError(`Repo ${arg1}/${arg2} does not exist or access denied`)
         process.exit(1)
     }
-    cloneRepo(arg1, arg2)
+    await cloneWithRetry(arg1, arg2)
 }
+
+divide()
+success('Done')
+divide()
