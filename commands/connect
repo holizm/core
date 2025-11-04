@@ -15,5 +15,5 @@ fi
 if [[ $# -gt 0 ]]; then
     ssh -A -o ServerAliveInterval=15 -p "$sshPort" "$sshUser@$sshIp" "$@"
 else
-    ssh -A -t -o ServerAliveInterval=15 -p "$sshPort" "$sshUser@$sshIp" "sudo -i"
+    ssh -A -t -o ServerAliveInterval=15 -p "$sshPort" "$sshUser@$sshIp"
 fi
