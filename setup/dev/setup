@@ -3,7 +3,7 @@ set -euo pipefail
 
 HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 bash "$(dirname "$0")/node"
-bash "$(dirname "$0")/npmPackages"
+# bash "$(dirname "$0")/npmPackages"
 sudo HOME_DIR="$HOME_DIR" node "$HOME_DIR/core/setup/dev/nginx"
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"
