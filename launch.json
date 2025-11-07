@@ -1,4 +1,10 @@
 {
+    "usage": [
+        "Open the workspace directory, the directory that the command wants to be executed in.",
+        "Copy/paste this file into .vscode/launch.json there.",
+        "Fix the command's path in the `program` attribute",
+        "Use the Run menu => Start debugging"
+    ],
     "version": "0.2.0",
     "configurations": [
         {
