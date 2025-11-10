@@ -64,7 +64,6 @@ ensureDependencies(params)
 params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
 divide()
 
-
 if (isAccounts(params)) {
     startAccounts(params)
 } else if (isApi(params)) {

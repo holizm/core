@@ -8,11 +8,14 @@ import {
     info,
 } from "../scripts/logger.js"
 import { runOnTerminal } from "../scripts/terminal.js"
+import extract from "../scripts/extract.js"
 
 let containerName = process.argv[2] || ""
 if (!containerName) {
-    const repository = params.repository || ""
-    const proc = params.process || ""
+    const {
+        proc,
+        repository,
+    } = extract()
     containerName = `${repository}${proc}`
 }
 
