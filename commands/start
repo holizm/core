@@ -108,7 +108,7 @@ lines.forEach(line => processTenantLine({
 
 createNetwork(params)
 ensureDependencies(params)
-params.composeFile = `/tmp/${repo}/${params.process}/dockerCompose.yml`
+params.composeFile = `/tmp/${repo}/${params.process}/compose.yaml`
 divide()
 
 
@@ -132,4 +132,4 @@ if (isAccounts(params)) {
 
 let cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans`
 
-// runOnTerminal(cmd)
+runOnTerminal(cmd)

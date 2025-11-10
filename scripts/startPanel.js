@@ -163,6 +163,5 @@ export default params => {
     content = content.replace(/\$\{([^}]+)\}/g, (_, name) => params[name] || "")
     content = content.replace("dependenciesMappingPlaceHolder", volumes)
 
-    info(content)
-    // writeFile(composeFile, content)
+    writeFile(composeFile, content)
 }

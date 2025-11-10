@@ -1,7 +1,7 @@
 services:
     panel:
         image: geshtio/panel:latest
-        container_name: ${repo}${process}
+        container_name: ${repo}${pascalizedProcess}
         hostname: panel
         ports:
             - "$randomPort:5173"
@@ -70,7 +70,7 @@ services:
             "
             cd ${processPath}
             && ln -s -f /npm/node_modules ${processPath}
-            && echo -e '\033[0;31m'"https://localhost:$randomPort" "https://$host"
+            && echo -e '\033[0;31m'"https://localhost:${randomPort}" "https://${host}"
             && initialize
             && cd /core/commands/panel
             && npm install
