@@ -14,11 +14,11 @@ import camelize from "../scripts/camelize.js"
 export default () => {
     const cwd = process.cwd()
     if (cwd === "/") {
-        errorAndExit("Can not run `start` from the root directory")
+        errorAndExit("Can not run command from the root directory")
     }
     const home = process.env.HOME
     if (cwd === home) {
-        errorAndExit("Can not run `start` from the home directory")
+        errorAndExit("Can not run command from the home directory")
     }
 
     const {
@@ -27,14 +27,14 @@ export default () => {
     } = getOrgRepoFromGit()
 
     if (org?.toLowerCase() === "gesht") {
-        errorAndExit("Start command is not available for gesht repos. They are not executable/runnable. Run `start` command from a runnable project.")
+        errorAndExit("This command is not available for gesht repos. They are not executable/runnable. Run command command from a runnable project.")
     }
 
     if (org[0] !== org[0].toLowerCase())
         errorAndExit("Invalid Organization. Organization name should start with a lowercase letter.")
 
     if (getDepth() !== 4) {
-        errorAndExit("Start should only be run from inside a process (API, panel, site, worker, etc.)")
+        errorAndExit("This command should only be run from inside a process (API, panel, site, worker, etc.)")
     }
 
     let params = {
