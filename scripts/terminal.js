@@ -3,6 +3,7 @@
 import {
     exec,
     execSync,
+    spawn
 } from 'child_process'
 import { promisify } from 'util'
 import { error, info } from './logger.js'
@@ -51,3 +52,8 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
         return ''
     }
 }
+
+export const runStreaming = (command) => new Promise((resolve, reject) => {
+    const child = spawn(command, { shell: true, stdio: 'inherit' })
+    child.on('close', code => code === 0 ? resolve() : reject(new Error(`exit ${code}`)))
+})
