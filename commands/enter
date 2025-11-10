@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+import process from "node:process"
+import { spawn } from "node:child_process"
+import {
+    divide,
+    errorAndExit,
+    info,
+} from "../scripts/logger.js"
+import { runOnTerminal } from "../scripts/terminal.js"
+
+let containerName = process.argv[2] || ""
+if (!containerName) {
+    const repository = params.repository || ""
+    const proc = params.process || ""
+    containerName = `${repository}${proc}`
+}
+
+const lines = runOnTerminal(`docker ps -a --format "{{.Names}}||{{.Status}}"`).split("\n").filter(Boolean)
+const hit = lines.map(l => l.split("||")).find(([n]) => n.includes(containerName))
+
+if (!hit) {
+    divide()
+    errorAndExit(`No container named ${containerName} is found`)
+}
+
+const [name, status] = hit
+
+if (status.includes("Exited")) {
+    divide()
+    errorAndExit(`Container ${containerName} is stopped`)
+}
+
+divide()
+info(`Entering into ${containerName}`)
+divide()
+
+const child = spawn("docker", ["exec", "-it", name, "bash"], { stdio: "inherit" })
+child.on("exit", code => process.exit(code ?? 0))
