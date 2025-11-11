@@ -12,6 +12,7 @@ export default ({
         initialPath: `${home}/${repo}/common/initial.sql`,
         menusDirectoryPath: `${home}/${repo}/${process}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
+        packageLock: `${home}/${repo}/${process}/packageLock.json`,
         panelPackageJson: `${home}/${repo}/common/panel.json`,
         privateSettingsPath: `${home}/${repo}/common/privateSettings.json`,
         processPath: `${home}/${repo}/${process}`,

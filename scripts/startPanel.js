@@ -12,6 +12,7 @@ import {
     isFile,
     copyFileIfNotExists,
     isDir,
+    writeFileIfNotExists,
 } from "./os.js"
 import { runOnTerminal } from "./terminal.js"
 import createGitHubAction from './createGitHubAction.js'
@@ -140,6 +141,7 @@ export default params => {
         composeFile,
         home,
         menusDirectoryPath,
+        packageLock,
         panelPackageJson,
         process,
         repo,
@@ -161,6 +163,8 @@ export default params => {
     if (isFile(panelPackageJson)) {
         volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
     }
+
+    writeFileIfNotExists(packageLock, "{}")
 
     const composeTemplatePath = `${home}/core/container/composes/panel`
 
