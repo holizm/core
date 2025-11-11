@@ -141,7 +141,7 @@ export default params => {
         composeFile,
         home,
         menusDirectoryPath,
-        packageLock,
+        panelLock,
         panelPackageJson,
         process,
         repo,
@@ -164,7 +164,7 @@ export default params => {
         volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
     }
 
-    writeFileIfNotExists(packageLock, "{}")
+    writeFileIfNotExists(panelLock, "{}")
 
     const composeTemplatePath = `${home}/core/container/composes/panel`
 

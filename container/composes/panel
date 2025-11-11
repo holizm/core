@@ -14,7 +14,7 @@ services:
         volumes:
             - ${home}/.npm:/root/.npm
             - /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules
-            - /${home}/${repo}/${process}/packageLock.json:/${repo}/${process}/package-lock.json
+            - ${home}/${repo}/common/panelLock.json:/${repo}/${process}/package-lock.json
 
             - ${home}/core:/core
 

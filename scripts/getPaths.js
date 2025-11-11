@@ -4,6 +4,7 @@ export default ({
     repo,
 }) => {
     const paths = {
+        apiLock: `${home}/${repo}/common/apiLock.json`,
         apiPackageJson: `${home}/${repo}/common/api.json`,
         commonPath: `${home}/${repo}/common`,
         connectionStringsPath: `${home}/${repo}/common/connectionStrings.json`,
@@ -12,13 +13,14 @@ export default ({
         initialPath: `${home}/${repo}/common/initial.sql`,
         menusDirectoryPath: `${home}/${repo}/${process}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
-        packageLock: `${home}/${repo}/${process}/packageLock.json`,
+        panelLock: `${home}/${repo}/common/panelLock.json`,
         panelPackageJson: `${home}/${repo}/common/panel.json`,
         privateSettingsPath: `${home}/${repo}/common/privateSettings.json`,
         processPath: `${home}/${repo}/${process}`,
         publicSettingsPath: `${home}/${repo}/common/publicSettings.json`,
         settingsOverridePath: `${home}/${repo}/${process}/settingsOverride.json`,
         siteFilePath: `${home}/${repo}/${process}/site`,
+        siteLock: `${home}/${repo}/common/siteLock.json`,
         sitePackageJson: `${home}/${repo}/common/site.json`,
         tenantsPath: `${home}/${repo}/common/tenants`,
     }
