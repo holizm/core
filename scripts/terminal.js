@@ -14,13 +14,15 @@ export const clear = () => {
     process.stdout.write('\x1Bc')
 }
 
-export const runOnTerminal = (command, throwOnError) => {
+export const runOnTerminal = (command, throwOnError, hideError) => {
     try {
         const result = execSync(command, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] })
         return result.trim()
     } catch (e) {
         const msg = e.stderr?.toString().trim() || e.message || String(e)
-        error(msg)
+        if (!hideError) {
+            error(msg)
+        }
         if (throwOnError) throw msg
         return ''
     }
