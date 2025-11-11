@@ -13,6 +13,8 @@ services:
             - processPath=${processPath}
         volumes:
             - ${home}/.npm:/root/.npm
+            - /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules
+
             - ${home}/core:/core
 
             - ${home}/fonts:/${repo}/${process}/public/fonts
