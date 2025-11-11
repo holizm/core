@@ -5,7 +5,7 @@ services:
         hostname: panel
         ports:
             - "$randomPort:5173"
-        working_dir: ${processPath}
+        working_dir: /${repo}/${process}
         environment:
             - org=${org}
             - repo=${repo}
