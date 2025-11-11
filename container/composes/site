@@ -24,7 +24,7 @@ services:
             - ${home}/policies:/policies
             - ${home}/core/fonts:/${repo}/${process}/public/fonts
             - ${home}/site/:/site/
-            - ${home}/site/package.json:/npm/core-package.json
+            - ${home}/site/package.json:/npm/corePackage.json
             - ${home}/site/eslint.config.js:/${repo}/${process}/eslint.config.js
             - ${home}/site/.prettierignore:/${repo}/${process}/.prettierignore
             - ${home}/site/.prettierrc:/${repo}/${process}/.prettierrc
@@ -36,7 +36,7 @@ services:
             - ${home}/site/functions:/${repo}/${process}/src/baseFunctions
             - ${home}/site/hooks:/${repo}/${process}/src/baseHooks
             - ${home}/site/contexts:/${repo}/${process}/src/baseContexts
-            - ${home}/site/package.json:/${repo}/${process}/core-package.json
+            - ${home}/site/package.json:/${repo}/${process}/corePackage.json
             - ${home}/site/postcss.config.js:/${repo}/${process}/postcss.config.js
             - ${home}/site/src/entry.dev.tsx:/${repo}/${process}/src/entry.dev.tsx
             - ${home}/site/src/entry.express.tsx:/${repo}/${process}/src/entry.express.tsx

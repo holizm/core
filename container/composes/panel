@@ -38,8 +38,8 @@ services:
             - ${home}/panel/generatePageFormRoutes.js:/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/index.html:/${repo}/${process}/index.html
             - ${home}/panel/localization:/${repo}/${process}/localization
-            - ${home}/panel/package.json:/${repo}/${process}/core-package.json
-            - ${home}/panel/package.json:/npm/core-package.json
+            - ${home}/panel/package.json:/${repo}/${process}/corePackage.json
+            - ${home}/panel/package.json:/npm/corePackage.json
             - ${home}/panel/postcss.config.js:/${repo}/${process}/postcss.config.js
             - ${home}/panel/registererGenerator.js:/${repo}/${process}/registererGenerator.js
             - ${home}/panel/silentCheckSso.html:/${repo}/${process}/public/silent-check-sso.html
@@ -68,13 +68,13 @@ services:
         command: >
             bash -c
             "
-            cd ${processPath}
-            && ln -s -f /npm/node_modules ${processPath}
+            cd /${repo}/${process}
+            && ln -s -f /npm/node_modules /${repo}/${process}
             && echo -e '\033[0;31m'"https://localhost:${randomPort}" "https://${host}"
             && initialize
             && cd /core/commands/panel
             && npm install
-            && cd ${processPath}
+            && cd /${repo}/${process}
             && watch &
             npm run dev &
             tail -f /dev/null

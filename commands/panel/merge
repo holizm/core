@@ -1,0 +1,26 @@
+import {
+    getFileContent,
+    writeFile,
+} from '../../scripts/os.js'
+
+const {
+    process: proc,
+    repo,
+} = process.env
+const base = `/${repo}/${proc}`
+const corePath = `${base}/corePackage.json`
+const panelPath = `${base}/panel.json`
+const outPath = `${base}/package.json`
+
+const deepMerge = (a, b) => {
+    if (Array.isArray(a) || Array.isArray(b) || typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return b
+    const r = { ...a }
+    for (const k of Object.keys(b)) r[k] = k in a ? deepMerge(a[k], b[k]) : b[k]
+    return r
+}
+
+const core = JSON.parse(getFileContent(corePath))
+const panel = JSON.parse(getFileContent(panelPath))
+const merged = deepMerge(panel, core)
+
+writeFile(outPath, JSON.stringify(merged, null, 4) + '\n')
