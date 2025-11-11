@@ -140,6 +140,7 @@ export default params => {
         composeFile,
         home,
         menusDirectoryPath,
+        panelPackageJson,
         process,
         repo,
         settingsOverridePath,
@@ -155,6 +156,10 @@ export default params => {
 
     if (isDir(menusDirectoryPath)) {
         volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
+    }
+
+    if (isFile(panelPackageJson)) {
+        volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
     }
 
     const composeTemplatePath = `${home}/core/container/composes/panel`
