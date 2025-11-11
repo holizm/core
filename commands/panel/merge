@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {
     getFileContent,
     writeFile,
@@ -19,8 +21,22 @@ const deepMerge = (a, b) => {
     return r
 }
 
+const sortKeysDeep = (x) => {
+    if (Array.isArray(x)) return x.map(sortKeysDeep)
+    if (x && typeof x === 'object') {
+        return Object.keys(x)
+            .sort((a, b) => a.localeCompare(b))
+            .reduce((acc, k) => {
+                acc[k] = sortKeysDeep(x[k])
+                return acc
+            }, {})
+    }
+    return x
+}
+
 const core = JSON.parse(getFileContent(corePath))
 const panel = JSON.parse(getFileContent(panelPath))
 const merged = deepMerge(panel, core)
+const sorted = sortKeysDeep(merged)
 
-writeFile(outPath, JSON.stringify(merged, null, 4) + '\n')
+writeFile(outPath, JSON.stringify(sorted, null, 4) + '\n')
