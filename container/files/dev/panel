@@ -1,6 +1,6 @@
 FROM geshtio/core:latest
 
-ENV PATH="${PATH}:~/core/commands/panel:~/core/commands"
+ENV PATH="${PATH}:/core/commands/panel:/core/commands"
 
 RUN npm install --location=global serve -y
 
