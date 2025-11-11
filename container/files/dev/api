@@ -1,6 +1,6 @@
 FROM geshtio/core:latest
 
-ENV PATH="${PATH}:~/core/commands/api:~/core/commands"
+ENV PATH="${PATH}:/core/commands/api:/core/commands"
 
 RUN apt update -qq \
     && mkdir -p /tmp/imageResizingAndCompression \
