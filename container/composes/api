@@ -1,9 +1,9 @@
 services:
     api:
         image: geshtio/api:latest
-        container_name: ${repo}${process}
+        container_name: ${repo}${pascalizedProcess}
         hostname: api
-        working_dir: ${processPath}
+        working_dir: /${repo}/${process}
         environment:
             - org=${org}
             - repo=${repo}
