@@ -12,6 +12,7 @@ services:
             - process=${process}
             - processPath=${processPath}
         volumes:
+            - ${home}/.npm:/root/.npm
             - ${home}/core:/core
 
             - ${home}/fonts:/${repo}/${process}/public/fonts
@@ -68,7 +69,8 @@ services:
         command: >
             bash -c
             "
-            cd /${repo}/${process}
+            merge
+            && cd /${repo}/${process}
             && ln -s -f /npm/node_modules /${repo}/${process}
             && echo -e '\033[0;31m'"https://localhost:${randomPort}" "https://${host}"
             && initialize
