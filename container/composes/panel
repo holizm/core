@@ -28,11 +28,12 @@ services:
             - ${home}/panel/findBrowsersAndLookups.js:/${repo}/${process}/findBrowsersAndLookups.js
             - ${home}/panel/findClientInitializers.js:/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:/${repo}/${process}/findDependencies.js
-            - ${home}/panel/findItemRenderers.js:/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findIcons.js:/${repo}/${process}/findIcons.js
+            - ${home}/panel/findItemRenderers.js:/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findMenus.js:/${repo}/${process}/findMenus.js
             - ${home}/panel/findPanelActions.js:/${repo}/${process}/findPanelActions.js
             - ${home}/panel/findParts.js:/${repo}/${process}/findParts.js
+            - ${home}/panel/findRichTextComponents.js:/${repo}/${process}/findRichTextComponents.js
             - ${home}/panel/findRoutes.js:/${repo}/${process}/findRoutes.js
             - ${home}/panel/findServerInitializers.js:/${repo}/${process}/findServerInitializers.js
             - ${home}/panel/generateListRoutes.js:/${repo}/${process}/generateListRoutes.js
