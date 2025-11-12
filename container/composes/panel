@@ -73,8 +73,6 @@ services:
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd /${repo}/${process}
             initialize
-            cd /core/commands/panel
-            npm install
             cd /${repo}/${process}
             watch &
             npm run dev &

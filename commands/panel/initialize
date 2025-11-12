@@ -4,7 +4,7 @@ path=/$repo/$process/public/settingsOverride.json
 if [[ ! -f $path ]]; then
     echo "{}" > $path
 fi
-if [[ ! -d /$repo/$process/node_modules ]] && [[ ! -f /$repo/$process/package-lock.json ]]; then
+if [[ ! -d /$repo/$process/node_modules ]] || [[ ! -f /$repo/$process/package-lock.json ]]; then
     cd /$repo/$process
     npm install --legacy-peer-deps
 fi
