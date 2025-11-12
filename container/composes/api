@@ -57,10 +57,10 @@ services:
             # - dependenciesPlaceholder
             - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
         ports:
-            - "$randomPort:5000"
+            - "${randomPort}:5000"
         command: >
             bash -c '
-                echo -e "\033[0;31mhttps://localhost:$randomPort https://$host"
+                echo -e "\033[0;31mhttps://localhost:${randomPort} https://$host"
                 echo "Node"
                 prepareNodeProject generation &&
                 prepareNodeProject migration &&

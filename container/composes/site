@@ -78,7 +78,7 @@ services:
             bash -c
             "
             cd ${processPath}
-            && echo -e '\033[0;31m'"http://localhost:$randomPort" "https://$host"
+            && echo -e '\033[0;31m'"http://localhost:${randomPort}" "https://$host"
             && watchForDirectoryChanges &
             watchForAst &
             initialize &&
