@@ -68,11 +68,10 @@ services:
             dependenciesMappingPlaceHolder
         command: |
             bash -lc '
-            set -Eeuo pipefail
             export PATH=/core/commands/panel:/core/commands:$PATH
             merge
+            printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd /${repo}/${process}
-            printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}" "https://${host}"
             initialize
             cd /core/commands/panel
             npm install
