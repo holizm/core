@@ -25,7 +25,6 @@ services:
             - ${home}/panel/eslint.config.js:/${repo}/${process}/eslint.config.js
             - ${home}/panel/findAliases.js:/${repo}/${process}/findAliases.js
             - ${home}/panel/findBreadcrumbs.js:/${repo}/${process}/findBreadcrumbs.js
-            - ${home}/panel/findBrowsersAndLookups.js:/${repo}/${process}/findBrowsersAndLookups.js
             - ${home}/panel/findClientInitializers.js:/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:/${repo}/${process}/findDependencies.js
             - ${home}/panel/findIcons.js:/${repo}/${process}/findIcons.js
