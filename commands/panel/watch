@@ -1,30 +1,30 @@
-// #!/usr/bin/env node
+#!/usr/bin/env node
 
 // import chokidar from 'chokidar'
-// import { exec } from 'child_process'
-// import { env } from 'process'
-// import path from 'path'
-// import { getDirs } from '../../scripts/os'
+import { exec } from 'child_process'
+import { env } from 'process'
+import path from 'path'
+import { getDirs } from '../../scripts/os.js'
 
-// const {
-//     process: proc,
-//     repo,
-// } = process.env
+const {
+    process: proc,
+    repo,
+} = process.env
 
-// const parts = getDirs(`/${repo}/${proc}/src`)
-// const partDirs = parts.map(dir =>
-//     path.resolve('/', repo, proc, 'src', dir)
-// )
+const parts = getDirs(`/${repo}/${proc}/src`)
+const partDirs = parts.map(dir =>
+    path.resolve('/', repo, proc, 'src', dir)
+)
 
 // partDirs.forEach(dir => console.log(`Watching directory: ${dir}`))
 
-// let timeout = null
-// const debounce = (fn, delay = 100) => {
-//     return (...args) => {
-//         clearTimeout(timeout)
-//         timeout = setTimeout(() => fn(...args), delay)
-//     }
-// }
+let timeout = null
+const debounce = (fn, delay = 100) => {
+    return (...args) => {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => fn(...args), delay)
+    }
+}
 
 // const watcher = chokidar.watch(partDirs, {
 //     ignored: /exports\.jsx$/,
@@ -35,28 +35,29 @@
 //         pollInterval: 10,
 //     }
 // })
+const watcher = { on: () => { } }
 
-// const handleFileChange = debounce((filePath, event) => {
-//     if (!filePath.endsWith('.jsx')) return
+const handleFileChange = debounce((filePath, event) => {
+    if (!filePath.endsWith('.jsx')) return
 
-//     console.log(`Detected ${event}: ${filePath}`)
+    console.log(`Detected ${event}: ${filePath}`)
 
-//     const generateExportsCommand = `node /core/commands/panel/generateExports.js '${filePath}' '${event}'`
-//     const generateAstCommand = `node /core/commands/panel/astGenerator.js '${filePath}'`
+    const generateExportsCommand = `node /core/commands/panel/generateExports.js '${filePath}' '${event}'`
+    const generateAstCommand = `node /core/commands/panel/astGenerator.js '${filePath}'`
 
-//     exec(generateExportsCommand, (err, stdout, stderr) => {
-//         if (stdout) process.stdout.write(stdout)
-//         if (stderr) process.stderr.write(stderr)
-//         if (err) console.error(`Error running generateExports.js: ${err}`)
-//     })
+    exec(generateExportsCommand, (err, stdout, stderr) => {
+        if (stdout) process.stdout.write(stdout)
+        if (stderr) process.stderr.write(stderr)
+        if (err) console.error(`Error running generateExports.js: ${err}`)
+    })
 
-//     exec(generateAstCommand, (err, stdout, stderr) => {
-//         if (stdout) process.stdout.write(stdout)
-//         if (stderr) process.stderr.write(stderr)
-//         if (err) console.error(`Error running astGenerator.js: ${err}`)
-//     })
-// }, 100)
+    exec(generateAstCommand, (err, stdout, stderr) => {
+        if (stdout) process.stdout.write(stdout)
+        if (stderr) process.stderr.write(stderr)
+        if (err) console.error(`Error running astGenerator.js: ${err}`)
+    })
+}, 100)
 
-// watcher.on('all', (event, filePath) => {
-//     handleFileChange(filePath, event)
-// })
+watcher.on('all', (event, filePath) => {
+    handleFileChange(filePath, event)
+})
