@@ -1,37 +1,37 @@
 server
 {
     listen 80;
-    server_name $host;
-    return 301 https://$nginxParamsServerName$nginxParamsRequestUri;
+    server_name ${host};
+    return 301 https://${server_name}${request_uri};
 }
 
 server
 {
     listen 443 http2 ssl;
-    server_name $host;
+    server_name ${host};
     client_max_body_size 0;
     proxy_buffers 4 16k;
     proxy_buffer_size 16k;
 
-    ssl_certificate /tmp/$repo/$process/certificates/$tenant/certificate.pem;
-    ssl_certificate_key /tmp/$repo/$process/certificates/$tenant/key.pem;
+    ssl_certificate /tmp/${repo}/${process}/certificates/${tenant}/certificate.pem;
+    ssl_certificate_key /tmp/${repo}/${process}/certificates/${tenant}/key.pem;
 
     error_page 502 /502.html;
 
     location /502
     {
-        root $home/core/nginx;
+        root ${home}/core/nginx;
         internal;
     }
 
     location /
     {
-        include $home/nginx/includes/$host;
+        include ${home}/nginx/includes/${host};
     }
 
     location ~ ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$two?locale=$one break;
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$one break;
-        include $home/nginx/includes/$host;
+        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$2?locale=$1 break;
+        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$1 break;
+        include ${home}/nginx/includes/${host};
     }
 }
