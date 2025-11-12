@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+import {
+    divide,
+    info,
+} from '../../scripts/logger.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
+
+const {
+    process: proc,
+    repo,
+} = process.env
+
+divide()
+info(`Stopping /${repo}/${proc} ...`)
+divide()
+
+runOnTerminal(`ps -ef | grep 'npm\|vite' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | grep 'npm\|serve' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)

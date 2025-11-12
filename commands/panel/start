@@ -1,3 +1,51 @@
 #!/usr/bin/env node
 
-console.log('hi')
+import {
+    clear,
+} from '../../scripts/terminal.js'
+import stop from './stop'
+
+clear()
+
+
+Stop
+
+if [-f package.json]; then
+Divide
+    Info "Running ..."
+Divide
+DEBUG = "vite:plugin" npm run dev &
+else
+Divide
+    Info "Running /$Repository/$Process ..."
+Divide
+cd / $Repository / $Process
+DEBUG = "vite:plugin" npm run dev &
+    fi
+
+/*
+| Debug Namespace        | Description                                                         |
+| ---------------------- | ------------------------------------------------------------------- |
+| `vite:resolve`         | Logs module resolution (useful for seeing how imports are resolved) |
+| `vite:load`            | Logs when a file is loaded by Vite                                  |
+| `vite:transform`       | Logs file transformations (like Babel, JSX, Vue, etc.)              |
+| `vite:import-analysis` | Logs dependency analysis for each module (can be noisy)             |
+| `vite:hmr`             | Logs hot module replacement behavior                                |
+| `vite:cache`           | Logs file caching (useful for dev server perf, usually noisy)       |
+| `vite:deps`            | Logs dependency pre-bundling (includes esbuild, optimizeDeps)       |
+| `vite:config`          | Logs configuration resolution and merging                           |
+| `vite:spa-fallback`    | Logs when the SPA fallback is triggered for unknown routes          |
+| `vite:html`            | Logs HTML transform pipeline (for `index.html`)                     |
+| `vite:worker`          | Logs worker script resolution and processing                        |
+| `vite:server`          | Logs HTTP server events, middleware, requests                       |
+| `vite:client`          | Logs Vite client side (HMR connection, etc.)                        |
+| `vite:ssr`             | Logs SSR-related transforms                                         |
+| `vite:time`            | Logs time taken for processing files or transforms                  |
+| `vite:optimize-deps`   | Logs optimizeDeps processing with esbuild                           |
+| `vite:plugin`          | Logs plugin application and hook calls                              |
+| `vite:fs`              | Logs file system access, watch events, etc.                         |
+| `vite:build`           | Logs during `vite build`                                            |
+| `vite:manifest`        | Logs creation of build manifest                                     |
+| `vite:logger`          | Internal logger setup                                               |
+| `vite:resolve-id`      | Internals of plugin `resolveId` hook                                |
+*/
