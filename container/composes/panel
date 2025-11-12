@@ -53,7 +53,7 @@ services:
             - ${home}/panel/src/panel:/${repo}/${process}/src/panel
             - ${home}/panel/src/registries:/${repo}/${process}/src/registries
             - ${home}/panel/tailwind.css:/${repo}/${process}/tailwind.css
-            - ${home}/panel/vite.config.js:/${repo}/${process}/vite.config.js
+            - ${home}/panel/viteConfig.js:/${repo}/${process}/vite.config.js
             - ${home}/panel/wrapAndName.js:/${repo}/${process}/wrapAndName.js
 
             - ${home}/${repo}/common/dependencies:/${repo}/common/dependencies
