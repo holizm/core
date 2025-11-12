@@ -28,7 +28,7 @@ services:
             - ${home}/panel/findBrowsersAndLookups.js:/${repo}/${process}/findBrowsersAndLookups.js
             - ${home}/panel/findClientInitializers.js:/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:/${repo}/${process}/findDependencies.js
-            - ${home}/panel/findEntityRenderers.js:/${repo}/${process}/findEntityRenderers.js
+            - ${home}/panel/findItemRenderers.js:/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findIcons.js:/${repo}/${process}/findIcons.js
             - ${home}/panel/findMenus.js:/${repo}/${process}/findMenus.js
             - ${home}/panel/findPanelActions.js:/${repo}/${process}/findPanelActions.js
@@ -41,7 +41,6 @@ services:
             - ${home}/panel/index.html:/${repo}/${process}/index.html
             - ${home}/panel/localization:/${repo}/${process}/localization
             - ${home}/panel/package.json:/${repo}/${process}/corePackage.json
-            - ${home}/panel/package.json:/npm/corePackage.json
             - ${home}/panel/postcss.config.js:/${repo}/${process}/postcss.config.js
             - ${home}/panel/registererGenerator.js:/${repo}/${process}/registererGenerator.js
             - ${home}/panel/silentCheckSso.html:/${repo}/${process}/public/silent-check-sso.html

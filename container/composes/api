@@ -66,7 +66,6 @@ services:
                 prepareNodeProject migration &&
                 prepareNodeProject query &&
                 prepareNodeProject toMongo &&
-                ln -s -f /npm/node_modules /$processPath &&
                 symlinkCoreAndParts
                 watchForChange &&
                 cd /$repo/$process &&

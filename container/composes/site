@@ -24,7 +24,7 @@ services:
             - ${home}/policies:/policies
             - ${home}/core/fonts:/${repo}/${process}/public/fonts
             - ${home}/site/:/site/
-            - ${home}/site/package.json:/npm/corePackage.json
+            - ${home}/site/package.json:/${repo}/${process}/corePackage.json
             - ${home}/site/eslint.config.js:/${repo}/${process}/eslint.config.js
             - ${home}/site/.prettierignore:/${repo}/${process}/.prettierignore
             - ${home}/site/.prettierrc:/${repo}/${process}/.prettierrc
@@ -78,7 +78,6 @@ services:
             bash -c
             "
             cd ${processPath}
-            && ln -s -f /npm/node_modules ${processPath}
             && echo -e '\033[0;31m'"http://localhost:$randomPort" "https://$host"
             && watchForDirectoryChanges &
             watchForAst &
