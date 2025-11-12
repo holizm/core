@@ -162,9 +162,12 @@ export default params => {
 
     if (isFile(panelPackageJson)) {
         volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
+        volumes += `\n${indentation}- /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules`
+        volumes += `\n${indentation}- ${home}/${repo}/common/panelLock.json:/${repo}/${process}/package-lock.json`
         writeFileIfNotExists(panelLock, "{}")
     }
     else {
+        volumes += `\n${indentation}- /tmp/nodeModules:/${repo}/${process}/node_modules`
         volumes += `\n${indentation}- ${home}/panel/lock.json:/${repo}/${process}/package-lock.json`
     }
 
