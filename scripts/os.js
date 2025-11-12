@@ -141,3 +141,10 @@ export const isSite = params => {
 }
 export const isHeadlessPanel = params => isPanel(params) && fs.existsSync(path.join(params.processPath, "headless"))
 export const isEtl = params => isApi(params) && params.processPath.endsWith("etl")
+
+export const getDirs = path => {
+    return fs.readdirSync(path || '.', { withFileTypes: true })
+        .filter(d => d.isDirectory())
+        .map(d => d.name)
+
+}
