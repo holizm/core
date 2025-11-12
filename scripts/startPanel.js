@@ -149,7 +149,7 @@ export default params => {
         tenantsPath,
     } = params
     if (isFile(settingsOverridePath)) {
-        volumes += `\n${indentation}- /${repo}/${process}/settingsOverride.json:/${repo}/${process}/public/settingsOverride.json`
+        volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/settingsOverride.json`
     }
 
     if (isFile(tenantsPath)) {
@@ -162,9 +162,11 @@ export default params => {
 
     if (isFile(panelPackageJson)) {
         volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
+        writeFileIfNotExists(panelLock, "{}")
     }
-
-    writeFileIfNotExists(panelLock, "{}")
+    else {
+        volumes += `\n${indentation}- ${home}/panel/lock.json:/${repo}/${process}/package-lock.json`
+    }
 
     const composeTemplatePath = `${home}/core/container/composes/panel`
 
