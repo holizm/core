@@ -2,6 +2,7 @@
 
 import {
     getFileContent,
+    isFile,
     writeFile,
 } from '../../scripts/os.js'
 
@@ -35,7 +36,11 @@ const sortKeysDeep = (x) => {
 }
 
 const core = JSON.parse(getFileContent(corePath))
-const panel = JSON.parse(getFileContent(panelPath))
+const panel = isFile(panelPath)
+    ?
+    JSON.parse(getFileContent(panelPath))
+    :
+    {}
 const merged = deepMerge(panel, core)
 const sorted = sortKeysDeep(merged)
 
