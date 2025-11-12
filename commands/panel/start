@@ -1,27 +1,34 @@
 #!/usr/bin/env node
 
 import {
+    divide,
+    info,
+} from "../../scripts/logger.js"
+import { isFile } from "../../scripts/os.js"
+import {
     clear,
+    runOnTerminal,
 } from '../../scripts/terminal.js'
-import stop from './stop'
+
+const {
+    process: proc,
+    repo,
+} = process.env
 
 clear()
+const command = `DEBUG="vite:plugin" npm run dev &`
 
+runOnTerminal('stop')
 
-Stop
-
-if [-f package.json]; then
-Divide
-    Info "Running ..."
-Divide
-DEBUG = "vite:plugin" npm run dev &
-else
-Divide
-    Info "Running /$Repository/$Process ..."
-Divide
-cd / $Repository / $Process
-DEBUG = "vite:plugin" npm run dev &
-    fi
+divide()
+if (isFile(`package.json`)) {
+    info('Starting...')
+}
+else {
+    info(`Starting /${repo}/${proc} ...`)
+}
+divide()
+runOnTerminal(command)
 
 /*
 | Debug Namespace        | Description                                                         |
