@@ -1,0 +1,7 @@
+import { ClearCache } from "panel"
+import { ChooseLocale } from "globalization"
+
+export default <>
+    <ChooseLocale />
+    <ClearCache />
+</>

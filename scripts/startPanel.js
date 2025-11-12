@@ -29,7 +29,7 @@ const createNonExistentFiles = params => {
     const files = {
         "menu.jsx": "menuTemplate",
         "routes.jsx": "routesTemplate",
-        "headerActions.jsx": "headerActionsTemplate",
+        "appActions.jsx": "appActionsTemplate",
     }
     for (const [target, template] of Object.entries(files)) {
         if (!isFile(target)) {
