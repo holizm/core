@@ -3,11 +3,12 @@
 import {
     divide,
     info,
-} from "../../scripts/logger.js"
-import { isFile } from "../../scripts/os.js"
+} from '../../scripts/logger.js'
+import { isFile } from '../../scripts/os.js'
 import {
     clear,
     runOnTerminal,
+    runStreaming,
 } from '../../scripts/terminal.js'
 
 const {
@@ -15,20 +16,24 @@ const {
     repo,
 } = process.env
 
-clear()
-const command = `DEBUG="vite:plugin" npm run dev &`
+const main = async () => {
+    clear()
+    runOnTerminal('stop')
 
-runOnTerminal('stop')
+    divide()
+    if (isFile('package.json')) {
+        info('Starting...')
+    } else {
+        info(`Starting /${repo}/${proc} ...`)
+    }
+    divide()
 
-divide()
-if (isFile(`package.json`)) {
-    info('Starting...')
+    await runStreaming(`DEBUG='vite:plugin' npm run dev`)
 }
-else {
-    info(`Starting /${repo}/${proc} ...`)
-}
-divide()
-runOnTerminal(command)
+
+main().catch(e => {
+    info(String(e))
+})
 
 /*
 | Debug Namespace        | Description                                                         |
