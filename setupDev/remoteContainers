@@ -2,12 +2,36 @@
 
 . "$scripts/installer.sh"
 
-install_vscode_remote_containers() {
-    if code --list-extensions | grep -q 'ms-vscode-remote.remote-containers'; then
-        timeout 50s code --install-extension ms-vscode-remote.remote-containers --force 2>&1 >/dev/null || return
+installRemoteContainers() {
+    local ext="ms-vscode-remote.remote-containers"
+    local installed
+    local latest
+
+    installed=$(code --list-extensions --show-versions 2>/dev/null \
+        | grep "$ext" \
+        | awk -F'[@]' '{print $2}')
+
+    latest=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json; api-version=7.1-preview.1" \
+        --data '{
+            "filters":[
+                {
+                    "criteria":[{"filterType":7,"value":"ms-vscode-remote.remote-containers"}]
+                }
+            ],
+            "flags":914
+        }' \
+        "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery?api-version=7.1-preview.1" \
+        | grep -oP '"version":"\K[^"]+' \
+        | head -n 1)
+
+    if [ -n "$installed" ] && [ "$installed" = "$latest" ]; then
         return
     fi
-    timeout 50s code --install-extension ms-vscode-remote.remote-containers
+
+    code --uninstall-extension "$ext" >/dev/null 2>&1 || true
+    timeout 50s code --install-extension "$ext" --force
 }
 
-install vscode-remote-containers install_vscode_remote_containers
+install vscode-remote-containers installRemoteContainers
