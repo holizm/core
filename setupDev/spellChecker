@@ -3,11 +3,35 @@
 . "$scripts/installer.sh"
 
 installSpellChecker() {
-    if code --list-extensions | grep -q 'streetsidesoftware.code-spell-checker'; then
-        timeout 50s code --install-extension streetsidesoftware.code-spell-checker --force 2>&1 >/dev/null || return
+    local ext="streetsidesoftware.code-spell-checker"
+    local installed
+    local latest
+
+    installed=$(code --list-extensions --show-versions 2>/dev/null \
+        | grep "$ext" \
+        | awk -F'[@]' '{print $2}')
+
+    latest=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json; api-version=7.1-preview.1" \
+        --data '{
+            "filters":[
+                {
+                    "criteria":[{"filterType":7,"value":"streetsidesoftware.code-spell-checker"}]
+                }
+            ],
+            "flags":914
+        }' \
+        "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery?api-version=7.1-preview.1" \
+        | grep -oP '"version":"\K[^"]+' \
+        | head -n 1)
+
+    if [ -n "$installed" ] && [ "$installed" = "$latest" ]; then
         return
     fi
-    timeout 50s code --install-extension streetsidesoftware.code-spell-checker
+
+    code --uninstall-extension "$ext" >/dev/null 2>&1 || true
+    timeout 50s code --install-extension "$ext" --force
 }
 
 install vscode-code-spell-checker installSpellChecker

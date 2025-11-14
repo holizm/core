@@ -8,8 +8,8 @@ $setupDev/chrome
 $setupDev/vsCode
 $setupDev/speedTest
 $setupDev/remoteContainers
-exit
 $setupDev/spellChecker
+exit
 $setupDev/git
 $setupDev/gh
 $setupDev/docker
