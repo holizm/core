@@ -3,9 +3,11 @@
 . "$scripts/installer.sh"
 
 installSpeedTest() {
-    sudo apt-get install gnupg1 apt-transport-https dirmngr
+    sudo apt-get install -y gnupg1 apt-transport-https dirmngr
     curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
-    sudo apt-get install speedtest
+    sudo sed -i 's/noble/jammy/g' /etc/apt/sources.list.d/ookla_speedtest-cli.list
+    sudo apt-get update -y
+    sudo apt-get install -y speedtest
 }
 
 install speedtest installSpeedTest

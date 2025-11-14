@@ -2,11 +2,11 @@
 
 . "$scripts/installer.sh"
 
-install_stretchly() {
+installStrechly() {
     wget -q --show-progress $(curl -s https://api.github.com/repos/hovancik/stretchly/releases/latest | grep "browser_download_url.*amd64.deb" | cut -d : -f 2,3 | tr -d \")
     debFiles=$(ls stretchly*.deb)
     sudo dpkg -i $debFiles
     sudo apt-get install -f -y
 }
 
-install stretchly install_stretchly
+install stretchly installStrechly

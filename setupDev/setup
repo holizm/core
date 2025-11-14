@@ -6,6 +6,7 @@ set -euo pipefail
 install curl
 $setupDev/chrome
 $setupDev/vsCode
+$setupDev/speedTest
 $setupDev/remoteContainers
 exit
 $setupDev/spellChecker
@@ -14,7 +15,8 @@ $setupDev/gh
 $setupDev/docker
 $setupDev/rustDesk
 $setupDev/anyDesk
-$setupDev/speedTest
+install zip
+install unzip
 install simplescreenrecorder
 install nginx
 install telnet
