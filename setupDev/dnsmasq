@@ -2,11 +2,11 @@
 
 . "$scripts/installer.sh"
 
-install_dnsmasq() {
+installDnsmasq() {
     sudo apt install dnsmasq -y
     sudo systemctl stop systemd-resolved
     sudo systemctl disable systemd-resolved
     sudo systemctl restart dnsmasq
 }
 
-install dnsmasq install_dnsmasq
+install dnsmasq installDnsmasq

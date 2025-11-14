@@ -2,7 +2,7 @@
 
 . "$scripts/installer.sh"
 
-install_anydesk() {
+installAnyDesk() {
     sudo rm -f /etc/apt/sources.list.d/anydesk-stable.list
     sudo rm -f /etc/apt/sources.list.d/anydesk.list
     sudo rm -f /usr/share/keyrings/anydesk.gpg
@@ -13,4 +13,4 @@ install_anydesk() {
     sudo apt-get install -y anydesk
 }
 
-install anydesk install_anydesk
+install anydesk installAnyDesk

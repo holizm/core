@@ -2,7 +2,7 @@
 
 . "$scripts/installer.sh"
 
-install_docker() {
+installDocker() {
     sudo apt-get update -y
     sudo apt-get install -y ca-certificates curl gnupg
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -12,4 +12,4 @@ install_docker() {
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
-install docker install_docker
+install docker installDocker

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-. "$scripts/installer.sh"
-
-install_hump() {
-    pip install --break-system-packages pyhumps 1>/dev/null 2>&1
-}
-
-install hump install_hump

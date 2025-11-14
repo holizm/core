@@ -35,13 +35,9 @@ install dconf-editor
 $setupDev/safeEyes
 # $setupDev/stretchly
 # $setupDev/warpCli
-
-InstallBashCompletion
-InstallInflect
-InstallHump
-InstallLineProfiler
-InstallAzureCli
-InstallRclone
+# $setupDev/bashCompletion
+$setupDev/azureCli
+$setupDev/rClone
 $setupDev/node
 # bash "$(dirname "$0")/npmPackages"
 sudo homeDir="$homeDir" node "$setupDev/nginx"
