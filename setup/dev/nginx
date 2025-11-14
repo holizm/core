@@ -11,7 +11,7 @@ import {
 } from "../../scripts/logger.js"
 import { runOnTerminal } from "../../scripts/terminal.js"
 
-const homeDir = process.env.HOME_DIR || os.homedir()
+const homeDir = process.env.homeDir || os.homedir()
 const nginxConf = '/etc/nginx/nginx.conf'
 const includeLine = `\tinclude ${homeDir}/nginx/conf.d/*.conf;`
 

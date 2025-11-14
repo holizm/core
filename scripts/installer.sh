@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 
-. "$HOME_DIR/core/scripts/logger.sh"
+. "$homeDir/core/scripts/logger.sh"
 
 install() {
     local cmd_name="$1"

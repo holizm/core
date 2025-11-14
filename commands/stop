@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo
-HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
-. "$HOME_DIR/core/scripts/logger.sh"
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$homeDir/core/scripts/logger.sh"
 
 clear
 
