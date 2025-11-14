@@ -1,6 +1,47 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+. "$scripts/installer.sh"
+
+install curl
+$setupDev/chrome
+$setupDev/vsCode
+$setupDev/removeContainers
+$setupDev/spellChecker
+$setupDev/git
+$setupDev/gh
+$setupDev/docker
+$setupDev/rustDesk
+$setupDev/anyDesk
+install simplescreenrecorder
+install nginx
+install telnet
+$setupDev/mkcert
+$setupDev/micro
+install trans translate-shell
+$setupDev/beyondCompare
+install sshd openssh-server
+install http httpie
+install pip python3-pip
+install nmap
+install jq
+install cloc
+install progress
+install rename
+install parallel
+install baobab
+install dconf-editor
+# $setupDev/dnsmasq
+$setupDev/safeEyes
+# $setupDev/stretchly
+# $setupDev/warpCli
+
+InstallBashCompletion
+InstallInflect
+InstallHump
+InstallLineProfiler
+InstallAzureCli
+InstallRclone
 $setupDev/node
 # bash "$(dirname "$0")/npmPackages"
 sudo homeDir="$homeDir" node "$setupDev/nginx"

@@ -15,6 +15,7 @@ clear
 divide
 info "running system setup ..."
 divide
+
 $setupDev/setup
 
 node "$homeDir/core/hooks/install-hooks.js"
