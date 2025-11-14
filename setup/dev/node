@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-HOME_DIR=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 . "$HOME_DIR/core/scripts/installer.sh"
 
 install_node() {
