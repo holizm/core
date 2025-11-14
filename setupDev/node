@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$homeDir/core/scripts/installer.sh"
+. "$scripts/installer.sh"
 
 install_node() {
     sudo apt-get update -y
