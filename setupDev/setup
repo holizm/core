@@ -14,6 +14,7 @@ $setupDev/gh
 $setupDev/docker
 $setupDev/rustDesk
 $setupDev/anyDesk
+$setupDev/speedTest
 install simplescreenrecorder
 install nginx
 install telnet
