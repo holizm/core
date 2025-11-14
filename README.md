@@ -1,3 +1,4 @@
+- cd ~
 - git clone git@github.com:gesht/core
 - cd core
-- ./install
+- ./commands/setup

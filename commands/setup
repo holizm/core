@@ -1,2 +1,24 @@
 #!/usr/bin/env bash
-~/core/setup
+set -euo pipefail
+
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+setupDev="$homeDir/core/setupDev"
+scripts="$homeDir/core/scripts"
+
+export homeDir
+export setupDev
+export scripts
+
+. "$scripts/logger.sh"
+
+clear
+divide
+info "running system setup ..."
+divide
+
+$setupDev/setup
+
+node "$homeDir/core/hooks/install-hooks.js"
+node "$homeDir/core/commands/install-commands.js"
+
+success "core installation complete"
