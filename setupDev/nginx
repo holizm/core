@@ -1,38 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
-import os from 'os'
-import {
-    getFileContent,
-    writeFile,
-} from "../scripts/os.js"
-import {
-    info,
-    warning,
-} from "../scripts/logger.js"
-import { runOnTerminal } from "../scripts/terminal.js"
+. "$scripts/installer.sh"
 
-const homeDir = process.env.homeDir
-const nginxConf = '/etc/nginx/nginx.conf'
-const includeLine = `\tinclude ${homeDir}/nginx/conf.d/*.conf;`
-
-let content = getFileContent(nginxConf)
-
-if (!content.includes(includeLine.trim())) {
-    const marker = 'include /etc/nginx/sites-enabled/*;'
-    const idx = content.indexOf(marker)
-
-    if (idx !== -1) {
-        const insertPos = idx + marker.length
-        content = content.slice(0, insertPos) + os.EOL + includeLine + content.slice(insertPos)
-        writeFile(nginxConf, content)
-        info('Include line added')
-    } else {
-        warning('Marker line not found. Include not added.')
-    }
-} else {
-    info('Include line already present')
+install_nginx() {
+    sudo apt-get update -y
+    sudo apt-get install -y nginx
 }
 
-runOnTerminal(`chmod o+rx ${homeDir}`)
-runOnTerminal(`chmod o+rx ${homeDir}/core`)
-runOnTerminal(`chmod o+rx ${homeDir}/core/webServer`)
+install nginx install_nginx

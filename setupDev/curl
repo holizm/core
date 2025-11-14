@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_curl() {
+    sudo apt-get update -y
+    sudo apt-get install -y curl
+}
+
+install curl install_curl
