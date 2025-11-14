@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_http() {
+    sudo apt-get install -y httpie
+}
+
+install http install_http

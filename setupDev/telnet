@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_telnet() {
+    sudo apt-get install -y telnet
+}
+
+install telnet install_telnet

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_pip() {
+    sudo apt-get install -y python3-pip
+}
+
+install pip install_pip

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_simplescreenrecorder() {
+    sudo apt-get install -y simplescreenrecorder
+}
+
+install simplescreenrecorder install_simplescreenrecorder
