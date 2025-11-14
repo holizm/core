@@ -2,7 +2,7 @@
 set -euo pipefail
 
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
-setupDev="$homeDir/core/setup/dev"
+setupDev="$homeDir/core/setupDev"
 scripts="$homeDir/core/scripts"
 
 export homeDir

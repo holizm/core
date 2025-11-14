@@ -3,6 +3,6 @@ set -euo pipefail
 
 $setupDev/node
 # bash "$(dirname "$0")/npmPackages"
-sudo homeDir="$homeDir" node "$homeDir/core/setup/dev/nginx"
+sudo homeDir="$homeDir" node "$setupDev/nginx"
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"
