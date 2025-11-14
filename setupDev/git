@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+installGh() {
+    sudo apt-get install -y git
+    git config --global init.defaultBranch main
+    git config core.filemode true
+}
+
+install gh installGh

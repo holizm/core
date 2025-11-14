@@ -9,7 +9,6 @@ $setupDev/vsCode
 $setupDev/speedTest
 $setupDev/remoteContainers
 $setupDev/spellChecker
-exit
 $setupDev/git
 $setupDev/gh
 $setupDev/docker
@@ -24,6 +23,7 @@ $setupDev/mkcert
 $setupDev/micro
 install trans translate-shell
 $setupDev/beyondCompare
+exit
 install sshd openssh-server
 install http httpie
 install pip python3-pip
