@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_micro() {
+    sudo chmod -R 777 --preserve-root /usr/local/bin
+    cd /usr/local/bin
+    sudo curl https://getmic.ro | bash
+}
+
+install micro install_micro

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_rustdesk() {
+    wget https://github.com/rustdesk/rustdesk/releases/download/1.2.3-2/rustdesk-1.2.3-2-x86_64.deb -O /Temp/RustDesk.deb
+    sudo chmod +x /Temp/RustDesk.deb
+    sudo apt-get install -y /Temp/RustDesk.deb
+    sudo rm -f /Temp/RustDesk.deb
+}
+
+install rustdesk install_rustdesk

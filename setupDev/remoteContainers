@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_vscode_remote_containers() {
+    if code --list-extensions | grep -q 'ms-vscode-remote.remote-containers'; then
+        timeout 50s code --install-extension ms-vscode-remote.remote-containers --force 2>&1 >/dev/null || return
+        return
+    fi
+    timeout 50s code --install-extension ms-vscode-remote.remote-containers
+}
+
+install vscode-remote-containers install_vscode_remote_containers
