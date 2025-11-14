@@ -6,7 +6,7 @@ set -euo pipefail
 install curl
 $setupDev/chrome
 $setupDev/vsCode
-$setupDev/removeContainers
+$setupDev/remoteContainers
 $setupDev/spellChecker
 $setupDev/git
 $setupDev/gh
