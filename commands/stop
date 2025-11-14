@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+sudo echo
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$homeDir/core/scripts/logger.sh"
+
+clear
+
+divide
+warning "Test with/without VPN"
+divide
+
+sudo apt update
+sudo apt upgrade -y
