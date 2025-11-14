@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+install_azure_cli() {
+    if command -v az >/dev/null 2>&1; then
+        return
+    fi
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+}
+
+install azure-cli install_azure_cli
