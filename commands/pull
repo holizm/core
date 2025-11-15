@@ -48,6 +48,7 @@ const pullWithRetry = async parent => {
 
     if (out && !needsRetry(out)) {
         await Promise.resolve(parent)
+        success(parent)
     } else if (retries < 5) {
         error(`Error for ${parent}`)
         error(`Message: ${out}`)
