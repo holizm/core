@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { runOnTerminalAsync } from '../scripts/terminal.js'
-import findGits from '../scripts/findGits.js'
+import findRepos from '../scripts/findRepos.js'
 import {
     divide,
     info,
@@ -58,7 +58,7 @@ const pullWithRetry = async parent => {
     }
 }
 
-const repos = findGits(search)
+const repos = findRepos(search)
 await Promise.all(repos.map(repo => {
     return pullWithRetry(repo)
 }))

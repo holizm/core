@@ -9,7 +9,7 @@ import {
     success,
     warning,
 } from "../scripts/logger.js"
-import findGits from "../scripts/findGits.js"
+import findRepos from "../scripts/findRepos.js"
 import { exit } from "../scripts/os.js"
 import status from "../scripts/status.js"
 
@@ -85,7 +85,7 @@ divide()
 warning('Still pushing? (y,n)')
 const ok = await promptYesNo('')
 if (!ok) process.exit(0)
-const repos = findGits(search)
+const repos = findRepos(search)
 await Promise.all(repos.map(dir => Promise.resolve().then(() => commitAndPushRepo(dir))))
 pushAheadRepos(search)
 divide()

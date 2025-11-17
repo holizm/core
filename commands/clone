@@ -11,6 +11,7 @@ import {
     success,
     error,
 } from '../scripts/logger.js'
+import setVcsIgnores from "../scripts/setVcsIgnores.js"
 
 const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME
@@ -37,19 +38,6 @@ const listRepos = async org => {
 
 const cloneOnce = async (org, repo, dir) => await runOnTerminalAsync(`timeout ${timeoutSeconds} gh repo clone ${org}/${repo} ${dir} 2>&1`) || ''
 
-const postClone = async dir => {
-    const vcsIgnorePath = path.join(BASE_DIR, 'core', 'vcsIgnore')
-    const infoDir = path.join(dir, '.git', 'info')
-    const excludeFile = path.join(infoDir, 'exclude')
-    if (await pathExists(vcsIgnorePath)) {
-        await fs.mkdir(infoDir, { recursive: true })
-        await fs.copyFile(vcsIgnorePath, excludeFile)
-        info(`Copied ${vcsIgnorePath} to ${excludeFile}`)
-    } else {
-        info(`vcsIgnore file not found at ${vcsIgnorePath}, skipping copy`)
-    }
-}
-
 const cloneWithRetry = async (org, repo) => {
     const dir = path.join(BASE_DIR, repo)
     if (await pathExists(dir)) {
@@ -66,7 +54,7 @@ const cloneWithRetry = async (org, repo) => {
     }
     if (out && !needsRetry(out)) {
         success(`Cloned ${org}/${repo}`)
-        await postClone(dir)
+        await setVcsIgnores(dir)
     } else if (retries < 5) {
         error(`Error cloning ${org}/${repo}`)
         error(`Message: ${out}`)

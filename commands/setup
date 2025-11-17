@@ -20,5 +20,6 @@ $setupDev/setup
 
 node "$homeDir/core/hooks/install-hooks.js"
 node "$homeDir/core/commands/install-commands.js"
+node "$homeDir/core/scripts/setVcsIgnores.js"
 
 success "core installation complete"

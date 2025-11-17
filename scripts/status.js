@@ -1,5 +1,5 @@
 import { runOnTerminal } from "./terminal.js"
-import findGits from './findGits.js'
+import findRepos from './findRepos.js'
 import {
     divide,
     info,
@@ -27,6 +27,6 @@ function printStatus(repoPath) {
 }
 
 export default search => {
-    const gitDirs = findGits(search)
+    const gitDirs = findRepos(search)
     for (const repo of gitDirs) printStatus(repo)
 }

@@ -11,7 +11,7 @@ import {
     success,
     warning,
 } from "../scripts/logger.js"
-import findGits from '../scripts/findGits.js'
+import findRepos from '../scripts/findRepos.js'
 
 const execPromise = promisify(exec)
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
@@ -36,7 +36,7 @@ const resetRepo = async (parent) => {
     }
 }
 
-const gitFolders = findGits(process.argv[2])
+const gitFolders = findRepos(process.argv[2])
 
 await Promise.all(gitFolders.map(gitFolder => resetRepo(gitFolder)))
 
