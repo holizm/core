@@ -5,9 +5,10 @@ import { execSync } from "child_process"
 import path from "path"
 import { parse } from "@babel/parser"
 import traverseModule from "@babel/traverse"
-import generate from "@babel/generator"
+import generateModule from "@babel/generator"
 import camelCase from "lodash.camelcase"
 
+const generate = generateModule.default
 const traverse = traverseModule.default
 
 const knownPackages = new Set([

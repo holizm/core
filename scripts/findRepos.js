@@ -1,25 +1,23 @@
 #!/usr/bin/env node
-import fs from 'fs'
-import path from 'path'
+import { execSync } from 'child_process'
 
-const HOME = process.env.HOME
+const home = process.env.HOME
 
 export default (search = '') => {
-    search = search.toLowerCase()
-    const items = fs.readdirSync(HOME, { withFileTypes: true })
-    const gitDirs = []
+    const term = search.toLowerCase()
+    const command = `find "${home}" -maxdepth 2 -type d -name ".git"`
+    const result = execSync(command, { encoding: 'utf8' }).trim()
 
-    for (const item of items) {
-        if (!item.isDirectory()) continue
-        if (!/^[a-zA-Z0-9]+$/.test(item.name)) continue
+    if (!result) return []
 
-        if (search && !item.name.toLowerCase().includes(search)) continue
+    const lines = result.split('\n')
+    const dirs = lines.map(line => {
+        const repo = line.replace(/\/\.git$/, '')
+        return repo
+    })
 
-        const gitPath = path.join(HOME, item.name, '.git')
-        if (fs.existsSync(gitPath) && fs.lstatSync(gitPath).isDirectory()) {
-            gitDirs.push(path.join(HOME, item.name))
-        }
-    }
-
-    return gitDirs
+    return dirs.filter(dir => {
+        const base = dir.split('/').pop().toLowerCase()
+        return term ? base.includes(term) : true
+    })
 }
