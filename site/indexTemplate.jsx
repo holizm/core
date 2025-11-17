@@ -1,5 +1,5 @@
-import { component$ } from "@builder.io/qwik"
-import { routeLoader$ } from "@builder.io/qwik-city"
+import { component$ } from "builder.io/qwik"
+import { routeLoader$ } from "builder.io/qwikCity"
 
 const getData = routeLoader$(async props => {
 

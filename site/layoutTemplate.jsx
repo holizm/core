@@ -1,8 +1,8 @@
 import {
     component$,
     Slot,
-} from "@builder.io/qwik"
-import { routeLoader$ } from "@builder.io/qwik-city"
+} from "builder.io/qwik"
+import { routeLoader$ } from "builder.io/qwikCity"
 
 const getData = routeLoader$(async props => {
 
