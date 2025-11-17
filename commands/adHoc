@@ -48,5 +48,5 @@ function processFile(file) {
     if (changed) fs.writeFileSync(file, s.toString())
 }
 
-const root = process.argv[2] || process.cwd()
+const root = process.env.HOME
 for (const file of getFiles(root)) processFile(file)
