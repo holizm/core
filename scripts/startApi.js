@@ -35,7 +35,7 @@ const createNonExistingFiles = params => {
         publicSettingsPath,
     } = params
 
-    writeFileIfNotExists('app.js', 'import { start } from "core"\n\nstart()')
+    writeFileIfNotExists('app.js', 'import { start } from 'core'\n\nstart()')
     createDirIfNotExists(commonPath)
     createFileIfNotExists(dependenciesPath)
     writeFileIfNotExists(connectionStringsPath, '{}')

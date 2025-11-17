@@ -1,4 +1,4 @@
-import { DefaultBreadcrumb } from "core"
+import { DefaultBreadcrumb } from 'core'
 
 export default ({ breadcrumb }) => {
 
