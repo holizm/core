@@ -30,7 +30,7 @@ services:
             - ${home}/panel/findIcons.js:/${repo}/${process}/findIcons.js
             - ${home}/panel/findItemRenderers.js:/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findMenus.js:/${repo}/${process}/findMenus.js
-            - ${home}/panel/findPanelActions.js:/${repo}/${process}/findPanelActions.js
+            - ${home}/panel/findAppActions.js:/${repo}/${process}/findAppActions.js
             - ${home}/panel/findParts.js:/${repo}/${process}/findParts.js
             - ${home}/panel/findRichTextComponents.js:/${repo}/${process}/findRichTextComponents.js
             - ${home}/panel/findRoutes.js:/${repo}/${process}/findRoutes.js
@@ -61,7 +61,7 @@ services:
             - ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json
 
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
-            - ${processPath}/panelActions.jsx:/${repo}/${process}/src/panelActions.jsx
+            - ${processPath}/appActions.jsx:/${repo}/${process}/src/appActions.jsx
             - ${processPath}/menu.jsx:/${repo}/${process}/src/menu.jsx
             - ${processPath}/routes.jsx:/${repo}/${process}/src/runnable/routes.jsx
 
