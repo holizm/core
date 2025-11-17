@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+import fs from "fs"
+import { execSync } from "child_process"
+import camelCase from "lodash.camelcase"
+import MagicString from "magic-string"
+
+const fromRegex = /from\s+['"]([^'"]+)['"]/g
+
+function camelizePath(value) {
+    const parts = value.split("/")
+    return parts
+        .map(p => {
+            if (p === "." || p === "..") return p
+            const dot = p.lastIndexOf(".")
+            if (dot === -1) return camelCase(p)
+            const name = p.slice(0, dot)
+            const ext = p.slice(dot)
+            return `${camelCase(name)}${ext}`
+        })
+        .join("/")
+}
+
+function getFiles(root) {
+    const cmd = `find "${root}" -type f \\( -name "*.js" -o -name "*.jsx" \\) -not -path "*/node_modules/*"`
+    return execSync(cmd, { encoding: "utf8" })
+        .split("\n")
+        .filter(Boolean)
+}
+
+function processFile(file) {
+    const text = fs.readFileSync(file, "utf8")
+    const s = new MagicString(text)
+    let changed = false
+
+    for (const match of text.matchAll(fromRegex)) {
+        const original = match[1]
+        const updated = camelizePath(original)
+        if (updated !== original) {
+            const full = match[0]
+            const start = match.index + full.indexOf(original)
+            const end = start + original.length
+            s.overwrite(start, end, updated)
+            changed = true
+        }
+    }
+
+    if (changed) fs.writeFileSync(file, s.toString())
+}
+
+const root = process.argv[2] || process.cwd()
+for (const file of getFiles(root)) processFile(file)
