@@ -1,52 +1,14 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
-import fs from "fs"
-import { execSync } from "child_process"
-import camelCase from "lodash.camelcase"
-import MagicString from "magic-string"
+dirs=$(find ~ -maxdepth 1 -type d \
+    -exec sh -c '[ -f "$1/part" ] && [ ! -d "$1/.git" ] && basename "$1"' _ {} \;)
 
-const fromRegex = /from\s+['"]([^'"]+)['"]/g
-
-function camelizePath(value) {
-    const parts = value.split("/")
-    return parts
-        .map(p => {
-            if (p === "." || p === "..") return p
-            const dot = p.lastIndexOf(".")
-            if (dot === -1) return camelCase(p)
-            const name = p.slice(0, dot)
-            const ext = p.slice(dot)
-            return `${camelCase(name)}${ext}`
-        })
-        .join("/")
-}
-
-function getFiles(root) {
-    const cmd = `find "${root}" -type f \\( -name "*.js" -o -name "*.jsx" \\) -not -path "*/node_modules/*"`
-    return execSync(cmd, { encoding: "utf8" })
-        .split("\n")
-        .filter(Boolean)
-}
-
-function processFile(file) {
-    const text = fs.readFileSync(file, "utf8")
-    const s = new MagicString(text)
-    let changed = false
-
-    for (const match of text.matchAll(fromRegex)) {
-        const original = match[1]
-        const updated = camelizePath(original)
-        if (updated !== original) {
-            const full = match[0]
-            const start = match.index + full.indexOf(original)
-            const end = start + original.length
-            s.overwrite(start, end, updated)
-            changed = true
-        }
-    }
-
-    if (changed) fs.writeFileSync(file, s.toString())
-}
-
-const root = process.env.HOME
-for (const file of getFiles(root)) processFile(file)
+for dir in $dirs; do
+    cd ~/"$dir"
+    git init
+    git remote remove origin 2>/dev/null
+    git remote add origin "git@github.com:gesht/$dir"
+    git add .
+    git commit -m "auto"
+    git push -u origin main || git push -u origin master
+done
