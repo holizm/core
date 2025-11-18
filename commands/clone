@@ -11,7 +11,7 @@ import {
     success,
     error,
 } from '../scripts/logger.js'
-import setVcsIgnores from "../scripts/setVcsIgnores.js"
+import setVcsIgnore from "../scripts/setVcsIgnore.js"
 
 const DEFAULT_ORG = 'gesht'
 const BASE_DIR = process.env.HOME
@@ -54,7 +54,7 @@ const cloneWithRetry = async (org, repo) => {
     }
     if (out && !needsRetry(out)) {
         success(`Cloned ${org}/${repo}`)
-        await setVcsIgnores(dir)
+        await setVcsIgnore(dir)
     } else if (retries < 5) {
         error(`Error cloning ${org}/${repo}`)
         error(`Message: ${out}`)
