@@ -5,10 +5,11 @@ dirs=$(find ~ -maxdepth 1 -type d \
 
 for dir in $dirs; do
     cd ~/"$dir"
+    rm -rf .git
     git init
-    git remote remove origin 2>/dev/null
     git remote add origin "git@github.com:gesht/$dir"
     git add .
-    git commit -m "auto"
-    git push -u origin main || git push -u origin master
+    git commit -m auto
+    git branch -M main
+    git push -uf origin main
 done
