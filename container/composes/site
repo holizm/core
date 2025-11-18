@@ -53,7 +53,7 @@ services:
             - ${home}/site/tsConfigBase.json:/${repo}/${process}/tsConfigBase.json
             - ${home}/site/tailwindBase.css:/${repo}/${process}/tailwindBase.css
             - ${home}/site/richTextRendererCollector.js:/${repo}/${process}/richTextRendererCollector.js
-            - ${home}/site/entityRendererCollector.js:/${repo}/${process}/entityRendererCollector.js
+            - ${home}/site/itemRendererCollector.js:/${repo}/${process}/itemRendererCollector.js
             - ${home}/site/paginationBehaviorCollector.js:/${repo}/${process}/paginationBehaviorCollector.js
             - ${home}/site/settingsCreator.js:/${repo}/${process}/settingsCreator.js
             - ${home}/site/classPrefixer.js:/${repo}/${process}/classPrefixer.js
