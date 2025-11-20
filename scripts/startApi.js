@@ -255,7 +255,7 @@ export default (params) => {
         volumes,
     })
 
-    // buildLocalSecrets(params)
+    buildLocalSecrets(params)
 
     // let environmentVariables = ''
     // environmentVariables += buildEnvironmentVariables('common')

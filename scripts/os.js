@@ -128,7 +128,7 @@ export const isProcess = params => {
 }
 
 export const isAccounts = params => isProcess(params) && path.basename(params.processPath) === "accounts"
-export const isApi = params => isProcess(params) && ["app.js"].some(f => fs.existsSync(path.join(params.processPath, f)))
+export const isApi = params => isProcess(params) && (["app.js"].some(f => fs.existsSync(path.join(params.processPath, f))) || path.basename(params.processPath).endsWith("Api"))
 export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes("worker")
 export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes("Panel")
 export const isSite = params => {

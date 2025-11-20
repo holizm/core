@@ -10,7 +10,7 @@ export default ({
         connectionStringsPath: `${home}/${repo}/common/connectionStrings.json`,
         dependenciesPath: `${home}/${repo}/common/dependencies`,
         essentialPartsPath: `${home}/core/essentialParts`,
-        initialPath: `${home}/${repo}/common/initial.sql`,
+        initialPath: `${home}/${repo}/common/initial.js`,
         menusDirectoryPath: `${home}/${repo}/${process}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
         panelLock: `${home}/${repo}/common/panelLock.json`,
