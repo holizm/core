@@ -13,6 +13,7 @@ import {
     getFileContent,
     isDir,
     isEtl,
+    isFile,
     removeAndRecreateDir,
     replaceVariables,
     writeFile,
@@ -178,44 +179,31 @@ const buildCoreMappings = params => {
     return volumes
 }
 
-const buildLocalSecrets = params => {
-    const {
+const buildSecrets = params => {
+    let {
+        home,
+        process,
         repo,
+        volumes,
     } = params
-    if (!isFile(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
+    if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
+    const commonFile = `${home}/secrets/common.json`
+    if (!isFile(commonFile)) fs.writeFileSync(commonFile, '{}')
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
-}
 
-const buildEnvironmentVariables = params => {
-    const envFile = `${home}/secrets/${directory}.json`
-    if (!isFile(envFile)) return ''
-    try {
-        JSON.parse(getFileContent(envFile))
-    } catch (e) {
-        console.error(`Error: Invalid JSON in ${envFile}`)
-        return ''
-    }
-    const flattened = runOnTerminal(`node ${home}/scripts/flatten.js ${envFile}`)
-    return flattened
-        .split('\n')
-        .filter(Boolean)
-        .map(line => `\n${indentation}- ${line}`)
-        .join('')
+    volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/common.json`
+    volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/repo.json`
+    return volumes
 }
 
 const createApiContainer = params => {
     const {
         composeFile,
-        environmentVariables,
-        volumes,
+        home,
     } = params
     const composeTemplatePath = `${home}/core/container/composes/api`
-    let content = getFileContent(composeTemplatePath)
-    content = content.replace(/\$HOME/g, home)
-    content = content.replace('# - dependenciesPlaceholder', volumes)
-    content = content.replace('# - environmentVariablesPlaceholder', environmentVariables)
-    writeFile(composeFile, content)
+    replaceVariables(composeTemplatePath, composeFile, params)
 }
 
 export default (params) => {
@@ -254,25 +242,26 @@ export default (params) => {
         ...params,
         volumes,
     })
+    volumes += buildSecrets({
+        ...params,
+        volumes,
+    })
 
-    buildLocalSecrets(params)
-
-    // let environmentVariables = ''
-    // environmentVariables += buildEnvironmentVariables('common')
-    // environmentVariables += buildEnvironmentVariables(repo)
-
-    // if (isEtl(params) !== 'true') createGitHubAction({
-    //     ...params,
-    //     for: 'api',
-    // })
+    if (!isEtl(params)) {
+        createGitHubAction({
+            ...params,
+            processType: 'api',
+        })
+    }
 
     const containerName = `${repo}Databases`
-    const result = runOnTerminal(`docker ps -q -f name=${containerName}`)
+    const command = `docker ps -q -f name=${containerName}`
+    const result = runOnTerminal(command)
     if (!result.trim()) {
         const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
         createDatabaseContainer(params)
     }
 
-    // createApiContainer(params)
+    createApiContainer(params)
 }

@@ -17,7 +17,7 @@ services:
             - host=${host}
             - migrationPath=/tmp/$repo/migration
 
-            # - environmentVariablesPlaceholder
+            ${environmentVariablesPlaceholder}
         volumes:
             - /tmp/$repo/migration:/tmp/$repo/migration
             - /tmp/$repo/storage:/storage
@@ -54,7 +54,7 @@ services:
             - ${home}/secrets/common.json:/${processPath}/common.json
             - ${home}/secrets/${repo}.json:/${processPath}/secrets.json
 
-            # - dependenciesPlaceholder
+            ${dependenciesPlaceholder}
             - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
         ports:
             - "${randomPort}:5000"
@@ -72,8 +72,8 @@ services:
                 nodemon --watch /gesht --watch /$repo app.js &
                 tail -f /dev/null
             '
-        stdin_open: true # docker run -i
-        tty: true # docker run -t
+        stdin_open: true
+        tty: true
         networks:
             - ${repo}Network
 
