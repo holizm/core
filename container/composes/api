@@ -15,12 +15,12 @@ services:
             - apiProcessPath=${processPath}
             - environment=development
             - host=${host}
-            - migrationPath=/tmp/$repo/migration
+            - migrationPath=/tmp/${repo}/migration
 
             ${environmentVariablesPlaceholder}
         volumes:
-            - /tmp/$repo/migration:/tmp/$repo/migration
-            - /tmp/$repo/storage:/storage
+            - /tmp/${repo}/migration:/tmp/${repo}/migration
+            - /tmp/${repo}/storage:/storage
 
             - /etc/localtime:/etc/localtime:ro
             - /etc/timezone:/etc/timezone:ro
@@ -60,7 +60,7 @@ services:
             - "${randomPort}:5000"
         command: >
             bash -c '
-                echo -e "\033[0;31mhttps://localhost:${randomPort} https://$host"
+                echo -e "\033[0;31mhttps://localhost:${randomPort}"
                 echo "Node"
                 prepareNodeProject generation &&
                 prepareNodeProject migration &&
@@ -68,8 +68,8 @@ services:
                 prepareNodeProject toMongo &&
                 symlinkCoreAndParts
                 watchForChange &&
-                cd /$repo/$process &&
-                nodemon --watch /gesht --watch /$repo app.js &
+                cd /${repo}/${process} &&
+                nodemon --watch /gesht --watch /${repo} app.js &
                 tail -f /dev/null
             '
         stdin_open: true
