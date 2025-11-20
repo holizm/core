@@ -113,6 +113,24 @@ const buildRunnablePanelMappings = params => {
     return volumes
 }
 
+const buildSecrets = params => {
+    let {
+        home,
+        process,
+        repo,
+        volumes,
+    } = params
+    if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
+    const commonFile = `${home}/secrets/common.json`
+    if (!isFile(commonFile)) fs.writeFileSync(commonFile, '{}')
+    const secretFile = `${home}/secrets/${repo}.json`
+    if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
+
+    volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/public/common.json`
+    volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/public/repo.json`
+    return volumes
+}
+
 export default params => {
     info("Setting up Panel")
     divide()
@@ -133,6 +151,10 @@ export default params => {
         volumes,
     })
     volumes += buildRunnablePanelMappings({
+        ...params,
+        volumes,
+    })
+    volumes += buildSecrets({
         ...params,
         volumes,
     })
