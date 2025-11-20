@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+echo "Linking: $1"
+export TargetProject=$1
+export Path=/HolismHolding/$1
+ln -s -f /HolismHolding/NodeApi/package.json $Path
+ln -s -f /HolismHolding/NodeApi/package-lock.json $Path
+ln -s -f /HolismHolding/NodeApi/Core $Path
+ln -s -f /HolismHolding/NodeApi/Application.js $Path
+ln -s -f /npm/node_modules $Path
+
+files=(
+    "PublicSettings.json"
+    "Settings.json"
+    "SettingsOverride.json"
+    "Common.json"
+    "LocalSecrets.json"
+    "ConnectionStrings.json"
+)
+
+for file in "${files[@]}"; do
+    if [ -f /$ApiRepository/$ApiProcess/$file ]; then
+        cp /$ApiRepository/$ApiProcess/$file $Path
+    fi
+done
+
+find \
+    /HolismHolding \
+    /$Repository/$Module \
+    -type f \
+    -name Part \
+    -not -path '*/Migration/*' \
+    -not -path '*/Query/*' \
+    -not -path '*/Generation/*' \
+    | \
+while read Part;
+do
+    PartName=$(basename $(dirname $Part))
+    mkdir -p /HolismHolding/$TargetProject/$PartName
+    cp $Part /HolismHolding/$TargetProject/$PartName
+done
+
+cp -r /$ApiRepository/$ApiProcess/.vscode $Path
+chmod -R 777 --preserve-root $Path/.vscode
+sed -i "s/$ApiRepository/HolismHolding/g" $Path/.vscode/launch.json
+sed -i "s/$ApiProcess/$TargetProject/g" $Path/.vscode/launch.json

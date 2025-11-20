@@ -62,10 +62,10 @@ services:
             bash -c '
                 echo -e "\033[0;31mhttps://localhost:${randomPort}"
                 echo "Node"
-                prepareNodeProject generation &&
-                prepareNodeProject migration &&
-                prepareNodeProject query &&
-                prepareNodeProject toMongo &&
+                prepare generation &&
+                prepare migration &&
+                prepare query &&
+                prepare toMongo &&
                 symlinkCoreAndParts
                 watchForChange &&
                 cd /${repo}/${process} &&
