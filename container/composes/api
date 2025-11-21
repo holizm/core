@@ -61,6 +61,7 @@ services:
             - "${randomPort}:5000"
         command: >
             bash -c '
+                export PATH=/core/commands/api:/core/commands:$PATH
                 echo -e "\033[0;31mhttps://localhost:${randomPort}"
                 echo "Node"
                 merge api
