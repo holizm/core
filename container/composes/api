@@ -59,21 +59,21 @@ services:
             - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
         ports:
             - "${randomPort}:5000"
-        command: >
-            bash -c '
-                export PATH=/core/commands/api:/core/commands:$PATH
-                echo -e "\033[0;31mhttps://localhost:${randomPort}"
-                echo "Node"
-                merge api
-                prepare generation &&
-                prepare migration &&
-                prepare query &&
-                prepare toMongo &&
-                symlinkCoreAndParts
-                watch &&
-                cd /${repo}/${process} &&
-                nodemon --watch /${repo} process.js &
-                tail -f /dev/null
+        command: |
+            bash -lc '
+            export PATH=/core/commands/api:/core/commands:$PATH
+            echo -e "\033[0;31mhttps://localhost:${randomPort}"
+            echo "Node"
+            merge api
+            prepare generation &&
+            prepare migration &&
+            prepare query &&
+            prepare toMongo &&
+            symlinkCoreAndParts
+            watch &&
+            cd /${repo}/${process} &&
+            nodemon --watch /${repo} process.js &
+            tail -f /dev/null
             '
         stdin_open: true
         tty: true
