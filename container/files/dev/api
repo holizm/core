@@ -10,6 +10,7 @@ RUN apt update -qq \
     && apt install apt-utils -qq -y \
     && apt install libc6-dev -qq -y \
     && apt install webp -qq -y \
+    && apt install libavif-bin -qq -y \
     && apt install telnet -qq -y \
     && apt install dnsutils -qq -y \
     && apt install imagemagick -qq -y \
