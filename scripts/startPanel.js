@@ -1,10 +1,10 @@
-import fs from "fs"
-import path from "path"
-import { execSync } from "child_process"
+import fs from 'fs'
+import path from 'path'
+import { execSync } from 'child_process'
 import {
     divide,
     info,
-} from "./logger.js"
+} from './logger.js'
 import {
     getFileContent,
     writeFile,
@@ -13,14 +13,13 @@ import {
     copyFileIfNotExists,
     isDir,
     writeFileIfNotExists,
-} from "./os.js"
-import { runOnTerminal } from "./terminal.js"
+} from './os.js'
+import { runOnTerminal } from './terminal.js'
 import createGitHubAction from './createGitHubAction.js'
-import getDependencies from "./getDependencies.js"
-import buildLocalizationMappings from "./buildLocalizationMappings.js"
-import buildPackageMapping from "./buildPackageMapping.js"
-
-const indentation = ' '.repeat(12)
+import getDependencies from './getDependencies.js'
+import buildLocalizationMappings from './buildLocalizationMappings.js'
+import buildPackageMapping from './buildPackageMapping.js'
+import indentation from './indentation.js'
 
 const createNonExistentFiles = params => {
     const {
@@ -28,9 +27,9 @@ const createNonExistentFiles = params => {
     } = params
     const basePath = `${home}/core/panel`
     const files = {
-        "menu.jsx": "menuTemplate",
-        "routes.jsx": "routesTemplate",
-        "appActions.jsx": "appActionsTemplate",
+        'menu.jsx': 'menuTemplate',
+        'routes.jsx': 'routesTemplate',
+        'appActions.jsx': 'appActionsTemplate',
     }
     for (const [target, template] of Object.entries(files)) {
         if (!isFile(target)) {
@@ -53,9 +52,9 @@ const buildDependenciesMappings = params => {
 
         let runnablePart = false
         const dependencyPath = `${home}/${repo}/${dependency}`
-        let dependencyBase = ""
+        let dependencyBase = ''
 
-        if (isDir(dependencyPath) && dependency !== "accounts") {
+        if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/panel`
             runnablePart = true
         } else {
@@ -68,11 +67,11 @@ const buildDependenciesMappings = params => {
             volumes += `\n${indentation}- ${dependencyBase}:/${dependency}`
         }
 
-        if (process.includes("admin")) {
+        if (process.includes('admin')) {
             volumes += `\n${indentation}- ${dependencyBase}/admin:/${repo}/${process}/src/${dependency}/admin`
         }
 
-        if (fs.existsSync(path.join(dependencyBase, "common"))) {
+        if (fs.existsSync(path.join(dependencyBase, 'common'))) {
             volumes += `\n${indentation}- ${dependencyBase}/common:/${repo}/${process}/src/${dependency}/common`
         }
     }
@@ -89,23 +88,23 @@ const buildRunnablePanelMappings = params => {
         home,
     } = params
 
-    const dirs = runOnTerminal("find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort").split("\n")
+    const dirs = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort').split('\n')
 
     for (const item of dirs) {
-        const replacedItem = item.replace(/^.\//, "")
+        const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
         volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/runnable/${replacedItem}`
     }
 
-    const links = runOnTerminal("find . -mindepth 1 -maxdepth 1 -type l | sort").split("\n")
+    const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
 
     for (const item of links) {
-        if (item.trim() === "") continue
+        if (item.trim() === '') continue
         const linkTarget = fs.readlinkSync(item)
-        const parts = linkTarget.replace(/^\/+/, "").split("/")
-        const role = parts.length > 4 ? parts[4] : "Role"
+        const parts = linkTarget.replace(/^\/+/, '').split('/')
+        const role = parts.length > 4 ? parts[4] : 'Role'
 
-        const replacedItem = item.replace(/^.\//, "")
+        const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
 
         volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/${replacedItem}/${role}`
@@ -133,16 +132,16 @@ const buildSecrets = params => {
 }
 
 export default params => {
-    info("Setting up Panel")
+    info('Setting up Panel')
     divide()
 
     createNonExistentFiles(params)
     createGitHubAction({
         ...params,
-        processType: "panel",
+        processType: 'panel',
     })
 
-    let volumes = ""
+    let volumes = ''
     volumes += buildDependenciesMappings({
         ...params,
         volumes,

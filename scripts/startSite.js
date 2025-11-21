@@ -1,7 +1,7 @@
 import fs from 'fs'
-import { basename } from "path"
+import { basename } from 'path'
 import { runOnTerminal } from './terminal.js'
-import createGitHubAction from "./createGitHubAction.js"
+import createGitHubAction from './createGitHubAction.js'
 import {
     divide,
     error,
@@ -20,9 +20,8 @@ import {
     replaceVariables,
     writeFile,
 } from './os.js'
-import getDependencies from "./getDependencies.js"
-
-const indentation = ' '.repeat(12)
+import getDependencies from './getDependencies.js'
+import indentation from './indentation.js'
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -54,7 +53,7 @@ const buildDependenciesMappings = params => {
     for (const dependency of dependencies) {
         let runnablePart = false
         const dependencyPath = `${home}/${repo}/${dependency}`
-        let dependencyBase = ""
+        let dependencyBase = ''
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
         } else if (isFile(instance) && isDir(`/${getFileContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
@@ -196,7 +195,7 @@ export default params => {
     createNonExistentFiles(params)
     createGitHubAction({
         ...params,
-        processType: "site",
+        processType: 'site',
     })
 
     let volumes = ''

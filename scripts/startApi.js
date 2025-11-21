@@ -18,13 +18,12 @@ import {
     replaceVariables,
     writeFile,
     writeFileIfNotExists,
-} from "./os.js"
-import { runOnTerminal } from "./terminal.js"
-import getDependencies from "./getDependencies.js"
-import buildLocalizationMappings from "./buildLocalizationMappings.js"
-import buildPackageMapping from "./buildPackageMapping.js"
-
-const indentation = ' '.repeat(12)
+} from './os.js'
+import { runOnTerminal } from './terminal.js'
+import getDependencies from './getDependencies.js'
+import buildLocalizationMappings from './buildLocalizationMappings.js'
+import buildPackageMapping from './buildPackageMapping.js'
+import indentation from './indentation.js'
 
 const createNonExistingFiles = params => {
     const {
