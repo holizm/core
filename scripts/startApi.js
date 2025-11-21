@@ -102,19 +102,19 @@ const buildDependenciesMappings = params => {
 
         volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
         volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
-        volumes += `\n${indentation}- ${partFilePath}:/npm/node_modules/${dependency}/part`
-        volumes += `\n${indentation}- ${dependencyBase}/business:/npm/node_modules/${dependency}/api/business`
+        volumes += `\n${indentation}- ${partFilePath}:/root/.npm/node_modules/${dependency}/part`
+        volumes += `\n${indentation}- ${dependencyBase}/business:/root/.npm/node_modules/${dependency}/api/business`
 
         const baseName = path.basename(process)
         if (baseName.includes('admin'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/npm/node_modules/${dependency}/api/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/root/.npm/node_modules/${dependency}/api/api/role`
         if (baseName.includes('site'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/site:/npm/node_modules/${dependency}/api/api/role`
+            volumes += `\n${indentation}- ${dependencyBase}/api/site:/root/.npm/node_modules/${dependency}/api/api/role`
 
         if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`))
-            volumes += `\n${indentation}- ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
+            volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
         if (fs.existsSync(`${dependencyBase}/api/common`))
-            volumes += `\n${indentation}- ${dependencyBase}/api/common:/npm/node_modules/${dependency}/api/common`
+            volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
     }
 
     return volumes
@@ -174,7 +174,7 @@ const buildCoreMappings = params => {
         'validation',
         'settings'
     ])
-        volumes += `\n${indentation}- ${home}/api/${corePart}:/npm/node_modules/core/${corePart}`
+        volumes += `\n${indentation}- ${home}/api/${corePart}:/root/.npm/node_modules/core/${corePart}`
     volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
     return volumes
 }
@@ -246,6 +246,7 @@ export default (params) => {
         ...params,
         volumes,
     })
+    params.volumes = volumes
 
     if (!isEtl(params)) {
         createGitHubAction({
@@ -260,7 +261,7 @@ export default (params) => {
     if (!result.trim()) {
         const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
-        createDatabaseContainer(params)
+        // createDatabaseContainer(params)
     }
     createApiContainer(params)
 }

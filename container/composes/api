@@ -19,6 +19,7 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
+            - ${home}/.npm:/root/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
             - /tmp/${repo}/storage:/storage
 

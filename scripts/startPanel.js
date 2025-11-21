@@ -192,12 +192,8 @@ export default params => {
         volumes += `\n${indentation}- /tmp/nodeModules:/${repo}/${process}/node_modules`
         volumes += `\n${indentation}- ${home}/panel/lock.json:/${repo}/${process}/package-lock.json`
     }
+    params.volumes = volumes
 
     const composeTemplatePath = `${home}/core/container/composes/panel`
-
-    let content = getFileContent(composeTemplatePath)
-    content = content.replace(/\$\{([^}]+)\}/g, (_, name) => params[name] || "")
-    content = content.replace("dependenciesMappingPlaceHolder", volumes)
-
-    writeFile(composeFile, content)
+    replaceVariables(composeTemplatePath, composeFile, params)
 }
