@@ -16,7 +16,6 @@ import {
     isFile,
     removeAndRecreateDir,
     replaceVariables,
-    writeFile,
     writeFileIfNotExists,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
@@ -65,17 +64,15 @@ const buildConfigMappings = params => {
         publicSettingsPath,
         repo,
         settingsOverridePath,
-        volumes,
     } = params
     if (fs.existsSync(connectionStringsPath))
-        volumes += `\n${indentation}- ${home}/${repo}/common/connectionStrings.json:/${repo}/${process}/connectionStrings.json`
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/connectionStrings.json:/${repo}/${process}/connectionStrings.json`
     if (fs.existsSync(privateSettingsPath))
-        volumes += `\n${indentation}- ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json`
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json`
     if (fs.existsSync(publicSettingsPath))
-        volumes += `\n${indentation}- ${home}/${repo}/common/publicSettings.json:/${repo}/${process}/publicSettings.json`
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/publicSettings.json:/${repo}/${process}/publicSettings.json`
     if (fs.existsSync(settingsOverridePath))
-        volumes += `\n${indentation}- ${home}/${repo}/common/settingsOverride.json:/${repo}/${process}/settingsOverride.json`
-    return volumes
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/settingsOverride.json:/${repo}/${process}/settingsOverride.json`
 }
 
 const buildDependenciesMappings = params => {
@@ -84,7 +81,6 @@ const buildDependenciesMappings = params => {
         org,
         process,
         repo,
-        volumes,
     } = params
 
     const dependencies = getDependencies(params)
@@ -100,14 +96,12 @@ const buildDependenciesMappings = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
-        volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
+        params.volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
+        params.volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
 
         const baseName = path.basename(process)
 
     }
-
-    return volumes
 }
 
 const buildRunnableApiMappings = params => {
@@ -115,33 +109,29 @@ const buildRunnableApiMappings = params => {
         home,
         process,
         repo,
-        volumes,
     } = params
     const dirs = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type d 2>/dev/null`).split('\n')
     const links = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
-    for (const item of [...dirs, ...links]) if (item) volumes += `\n${indentation}- ${item}:${item}`
+    for (const item of [...dirs, ...links]) if (item) params.volumes += `\n${indentation}- ${item}:${item}`
     if (fs.existsSync(`${home}/${repo}/common/api`))
-        volumes += `\n${indentation}- ${home}/${repo}/common/api:/${repo}/${process}/commonApi`
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/api:/${repo}/${process}/commonApi`
     const etlPath = path.join(`${home}/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
         for (const child of fs.readdirSync(etlPath)) {
             const childPath = path.join(etlPath, child)
             if (fs.statSync(childPath).isDirectory())
-                volumes += `\n${indentation}- ${childPath}:/toMongo/runnableImporters/${child}`
+                params.volumes += `\n${indentation}- ${childPath}:/toMongo/runnableImporters/${child}`
         }
     }
-    return volumes
 }
 
 const buildRunnableMigrationMappings = params => {
     let {
         home,
         repo,
-        volumes,
     } = params
     if (fs.existsSync(`${home}/${repo}/common/migration`))
-        volumes += `\n${indentation}- ${home}/${repo}/common/migration:/migration/runnable`
-    return volumes
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/migration:/migration/runnable`
 }
 
 const buildCoreMappings = params => {
@@ -149,13 +139,11 @@ const buildCoreMappings = params => {
         home,
         process,
         repo,
-        volumes,
     } = params
-    volumes += `\n${indentation}- ${home}/api:/api`
-    volumes += `\n${indentation}- ${home}/api/package.json:/${repo}/${process}/package.json`
-    volumes += `\n${indentation}- ${home}/api/package-lock.json:/${repo}/${process}/package-lock.json`
-    volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
-    return volumes
+    params.volumes += `\n${indentation}- ${home}/api:/api`
+    params.volumes += `\n${indentation}- ${home}/api/package.json:/${repo}/${process}/package.json`
+    params.volumes += `\n${indentation}- ${home}/api/package-lock.json:/${repo}/${process}/package-lock.json`
+    params.volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
 }
 
 const buildSecrets = params => {
@@ -163,7 +151,6 @@ const buildSecrets = params => {
         home,
         process,
         repo,
-        volumes,
     } = params
     if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
     const commonFile = `${home}/secrets/common.json`
@@ -171,9 +158,8 @@ const buildSecrets = params => {
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
 
-    volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/common.json`
-    volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/repo.json`
-    return volumes
+    params.volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/common.json`
+    params.volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/repo.json`
 }
 
 const createApiContainer = params => {
@@ -187,9 +173,6 @@ const createApiContainer = params => {
 
 export default (params) => {
     const {
-        apiLock,
-        apiPackageJson,
-        home,
         repo,
     } = params
     if (isEtl(params)) info('setting up ETL')
@@ -198,40 +181,15 @@ export default (params) => {
     createNonExistingFiles(params)
     linkVsCodeFiles(params)
 
-    let volumes = ''
-    volumes += buildConfigMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildDependenciesMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildLocalizationMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildRunnableApiMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildRunnableMigrationMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildCoreMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildSecrets({
-        ...params,
-        volumes,
-    })
-    volumes += buildPackageMapping({
-        ...params,
-        volumes,
-    })
-    params.volumes = volumes
+    params.volumes = ''
+    buildConfigMappings(params)
+    buildDependenciesMappings(params)
+    buildLocalizationMappings(params)
+    buildRunnableApiMappings(params)
+    buildRunnableMigrationMappings(params)
+    buildCoreMappings(params)
+    buildSecrets(params)
+    buildPackageMapping(params)
 
     if (!isEtl(params)) {
         createGitHubAction({

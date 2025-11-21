@@ -1,18 +1,13 @@
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
 import {
     divide,
     info,
 } from './logger.js'
 import {
-    getFileContent,
-    writeFile,
-    exit,
     isFile,
     copyFileIfNotExists,
     isDir,
-    writeFileIfNotExists,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
 import createGitHubAction from './createGitHubAction.js'
@@ -43,7 +38,6 @@ const buildDependenciesMappings = params => {
         home,
         process,
         repo,
-        volumes,
     } = params
 
     const dependencies = getDependencies(params)
@@ -62,30 +56,25 @@ const buildDependenciesMappings = params => {
         }
 
         if (runnablePart) {
-            volumes += `\n${indentation}- ${home}/${repo}/${dependency}:/${dependency}`
+            params.volumes += `\n${indentation}- ${home}/${repo}/${dependency}:/${dependency}`
         } else {
-            volumes += `\n${indentation}- ${dependencyBase}:/${dependency}`
+            params.volumes += `\n${indentation}- ${dependencyBase}:/${dependency}`
         }
 
         if (process.includes('admin')) {
-            volumes += `\n${indentation}- ${dependencyBase}/admin:/${repo}/${process}/src/${dependency}/admin`
+            params.volumes += `\n${indentation}- ${dependencyBase}/admin:/${repo}/${process}/src/${dependency}/admin`
         }
 
         if (fs.existsSync(path.join(dependencyBase, 'common'))) {
-            volumes += `\n${indentation}- ${dependencyBase}/common:/${repo}/${process}/src/${dependency}/common`
+            params.volumes += `\n${indentation}- ${dependencyBase}/common:/${repo}/${process}/src/${dependency}/common`
         }
     }
-
-    return volumes
 }
 
 const buildRunnablePanelMappings = params => {
     let {
         repo,
-        org,
         process,
-        volumes,
-        home,
     } = params
 
     const dirs = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort').split('\n')
@@ -93,7 +82,7 @@ const buildRunnablePanelMappings = params => {
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
-        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/runnable/${replacedItem}`
+        params.volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/runnable/${replacedItem}`
     }
 
     const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
@@ -107,10 +96,8 @@ const buildRunnablePanelMappings = params => {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
 
-        volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/${replacedItem}/${role}`
+        params.volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/${replacedItem}/${role}`
     }
-
-    return volumes
 }
 
 const buildSecrets = params => {
@@ -118,7 +105,6 @@ const buildSecrets = params => {
         home,
         process,
         repo,
-        volumes,
     } = params
     if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
     const commonFile = `${home}/secrets/common.json`
@@ -126,9 +112,8 @@ const buildSecrets = params => {
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
 
-    volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/public/common.json`
-    volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/public/repo.json`
-    return volumes
+    params.volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/public/common.json`
+    params.volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/public/repo.json`
 }
 
 export default params => {
@@ -141,47 +126,30 @@ export default params => {
         processType: 'panel',
     })
 
-    let volumes = ''
-    volumes += buildDependenciesMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildLocalizationMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildRunnablePanelMappings({
-        ...params,
-        volumes,
-    })
-    volumes += buildSecrets({
-        ...params,
-        volumes,
-    })
-    volumes += buildPackageMapping({
-        ...params,
-        volumes,
-    })
+    params.volumes = ''
+    buildDependenciesMappings(params)
+    buildLocalizationMappings(params)
+    buildRunnablePanelMappings(params)
+    buildSecrets(params)
+    buildPackageMapping(params)
 
     const {
         composeFile,
         home,
         menusDirectoryPath,
-        panelLock,
-        panelPackageJson,
         process,
         repo,
         settingsOverridePath,
         tenantsPath,
     } = params
     if (isFile(settingsOverridePath)) {
-        volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/settingsOverride.json`
+        params.volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/settingsOverride.json`
     }
     if (isFile(tenantsPath)) {
-        volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/tenants`
+        params.volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/tenants`
     }
     if (isDir(menusDirectoryPath)) {
-        volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
+        params.volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
     }
     params.volumes = volumes
     const composeTemplatePath = `${home}/core/container/composes/panel`
