@@ -6,21 +6,20 @@ export default params => {
         home,
         process,
         repo,
-        type,
-        volumes,
+        processType,
     } = params
-    const packageJson = params[`${type}PackageJson`]
-    const lock = params[`${type}Lock`]
+    const packageJson = params[`${processType}PackageJson`]
+    const lock = params[`${processType}Lock`]
 
+    params.volumes += `\n${indentation}- ${home}/${processType}/package.json:/${repo}/${process}/${processType}.json`
     if (isFile(packageJson)) {
-        volumes += `\n${indentation}- ${packageJson}:/${repo}/${process}/${type}.json`
-        volumes += `\n${indentation}- /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules`
-        volumes += `\n${indentation}- ${home}/${repo}/common/${type}Lock.json:/${repo}/${process}/package-lock.json`
+        params.volumes += `\n${indentation}- ${packageJson}:/${repo}/${process}/${processType}.json`
+        params.volumes += `\n${indentation}- /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules`
+        params.volumes += `\n${indentation}- ${home}/${repo}/common/${processType}Lock.json:/${repo}/${process}/package-lock.json`
         writeFileIfNotExists(lock, '{}')
     }
     else {
-        volumes += `\n${indentation}- /tmp/nodeModules:/${repo}/${process}/node_modules`
-        volumes += `\n${indentation}- ${home}/${type}/lock.json:/${repo}/${process}/package-lock.json`
+        params.volumes += `\n${indentation}- /tmp/nodeModules:/${repo}/${process}/node_modules`
+        params.volumes += `\n${indentation}- ${home}/${processType}/lock.json:/${repo}/${process}/package-lock.json`
     }
-    return volumes
 }

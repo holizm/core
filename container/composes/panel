@@ -40,7 +40,6 @@ services:
             - ${home}/panel/generatePageFormRoutes.js:/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/index.html:/${repo}/${process}/index.html
             - ${home}/panel/localization:/${repo}/${process}/localization
-            - ${home}/panel/package.json:/${repo}/${process}/corePackage.json
             - ${home}/panel/postcssConfig.js:/${repo}/${process}/postcss.config.js
             - ${home}/panel/registererGenerator.js:/${repo}/${process}/registererGenerator.js
             - ${home}/panel/silentCheckSso.html:/${repo}/${process}/public/silent-check-sso.html

@@ -120,11 +120,9 @@ export default params => {
     info('Setting up Panel')
     divide()
 
+    params.processType = 'panel'
     createNonExistentFiles(params)
-    createGitHubAction({
-        ...params,
-        processType: 'panel',
-    })
+    createGitHubAction(params)
 
     params.volumes = ''
     buildDependenciesMappings(params)

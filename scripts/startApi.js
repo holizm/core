@@ -141,8 +141,6 @@ const buildCoreMappings = params => {
         repo,
     } = params
     params.volumes += `\n${indentation}- ${home}/api:/api`
-    params.volumes += `\n${indentation}- ${home}/api/package.json:/${repo}/${process}/package.json`
-    params.volumes += `\n${indentation}- ${home}/api/package-lock.json:/${repo}/${process}/package-lock.json`
     params.volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
 }
 
@@ -182,6 +180,7 @@ export default (params) => {
     linkVsCodeFiles(params)
 
     params.volumes = ''
+    params.processType = 'api'
     buildConfigMappings(params)
     buildDependenciesMappings(params)
     buildLocalizationMappings(params)
@@ -191,12 +190,7 @@ export default (params) => {
     buildSecrets(params)
     buildPackageMapping(params)
 
-    if (!isEtl(params)) {
-        createGitHubAction({
-            ...params,
-            processType: 'api',
-        })
-    }
+    if (!isEtl(params)) createGitHubAction(params)
 
     const containerName = `${repo}Databases`
     const command = `docker ps -q -f name=${containerName}`

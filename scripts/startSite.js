@@ -170,11 +170,9 @@ export default params => {
     info('Setting up site')
     divide()
 
+    params.processType = 'site'
     createNonExistentFiles(params)
-    createGitHubAction({
-        ...params,
-        processType: 'site',
-    })
+    createGitHubAction(params)
 
     params.volumes = ''
     buildDependenciesMappings(params)
