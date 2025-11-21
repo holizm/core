@@ -65,13 +65,14 @@ services:
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
             echo "Node"
             merge api
-            prepare generation &&
-            prepare migration &&
-            prepare query &&
-            prepare toMongo &&
+            prepare generation
+            prepare migration
+            prepare query
+            prepare toMongo
             symlinkCoreAndParts
-            watch &&
-            cd /${repo}/${process} &&
+            watch
+            cd /${repo}/${process}
+            initialize
             nodemon --watch /${repo} process.js &
             tail -f /dev/null
             '

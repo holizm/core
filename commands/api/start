@@ -27,6 +27,7 @@ const main = async () => {
         info(`Starting /${repo}/${proc} ...`)
     }
     divide()
+    runOnTerminal('initialize')
     const command = `nodemon --watch /${repo} --ignore "**/*.json" process.js`
     console.log(command)
     await runStreaming(command)
