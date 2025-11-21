@@ -46,7 +46,7 @@ services:
             - ${home}/toMongo/etl:/toMongo/etl
             - ${home}/toMongo/app.js:/toMongo/app.js
 
-            - ${home}/query/partDropper.js:/query/PartDropper.js
+            - ${home}/query/partDropper.js:/query/partDropper.js
             - ${home}/query/app.js:/query/app.js
 
             - /${repo}/common:/${repo}/common
@@ -67,9 +67,9 @@ services:
                 prepare query &&
                 prepare toMongo &&
                 symlinkCoreAndParts
-                watchForChange &&
+                watch &&
                 cd /${repo}/${process} &&
-                nodemon --watch /gesht --watch /${repo} app.js &
+                nodemon --watch /${repo} process.js &
                 tail -f /dev/null
             '
         stdin_open: true
