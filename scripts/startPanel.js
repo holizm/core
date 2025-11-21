@@ -18,6 +18,7 @@ import { runOnTerminal } from "./terminal.js"
 import createGitHubAction from './createGitHubAction.js'
 import getDependencies from "./getDependencies.js"
 import buildLocalizationMappings from "./buildLocalizationMappings.js"
+import buildPackageMapping from "./buildPackageMapping.js"
 
 const indentation = ' '.repeat(12)
 
@@ -158,6 +159,10 @@ export default params => {
         ...params,
         volumes,
     })
+    volumes += buildPackageMapping({
+        ...params,
+        volumes,
+    })
 
     const {
         composeFile,
@@ -173,27 +178,13 @@ export default params => {
     if (isFile(settingsOverridePath)) {
         volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/settingsOverride.json`
     }
-
     if (isFile(tenantsPath)) {
         volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/tenants`
     }
-
     if (isDir(menusDirectoryPath)) {
         volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
     }
-
-    if (isFile(panelPackageJson)) {
-        volumes += `\n${indentation}- ${panelPackageJson}:/${repo}/${process}/panel.json`
-        volumes += `\n${indentation}- /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules`
-        volumes += `\n${indentation}- ${home}/${repo}/common/panelLock.json:/${repo}/${process}/package-lock.json`
-        writeFileIfNotExists(panelLock, "{}")
-    }
-    else {
-        volumes += `\n${indentation}- /tmp/nodeModules:/${repo}/${process}/node_modules`
-        volumes += `\n${indentation}- ${home}/panel/lock.json:/${repo}/${process}/package-lock.json`
-    }
     params.volumes = volumes
-
     const composeTemplatePath = `${home}/core/container/composes/panel`
     replaceVariables(composeTemplatePath, composeFile, params)
 }

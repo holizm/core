@@ -22,6 +22,7 @@ import {
 import { runOnTerminal } from "./terminal.js"
 import getDependencies from "./getDependencies.js"
 import buildLocalizationMappings from "./buildLocalizationMappings.js"
+import buildPackageMapping from "./buildPackageMapping.js"
 
 const indentation = ' '.repeat(12)
 
@@ -187,6 +188,8 @@ const createApiContainer = params => {
 
 export default (params) => {
     const {
+        apiLock,
+        apiPackageJson,
         home,
         repo,
     } = params
@@ -222,6 +225,10 @@ export default (params) => {
         volumes,
     })
     volumes += buildSecrets({
+        ...params,
+        volumes,
+    })
+    volumes += buildPackageMapping({
         ...params,
         volumes,
     })
