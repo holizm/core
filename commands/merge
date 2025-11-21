@@ -4,16 +4,19 @@ import {
     getFileContent,
     isFile,
     writeFile,
-} from '../../scripts/os.js'
+} from '../scripts/os.js'
 
 const {
     process: proc,
     repo,
 } = process.env
+
+const arg = process.argv[2]
+
 const base = `/${repo}/${proc}`
-const corePath = `${base}/corePackage.json`
-const panelPath = `${base}/panel.json`
-const outPath = `${base}/package.json`
+const corePackagePath = `${base}/corePackage.json`
+const runnablePackagePath = `${base}/runnablePackage.json`
+const packagePath = `${base}/package.json`
 
 const deepMerge = (a, b) => {
     if (Array.isArray(a) || Array.isArray(b) || typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return b
@@ -22,7 +25,7 @@ const deepMerge = (a, b) => {
     return r
 }
 
-const sortKeysDeep = (x) => {
+const sortKeysDeep = x => {
     if (Array.isArray(x)) return x.map(sortKeysDeep)
     if (x && typeof x === 'object') {
         return Object.keys(x)
@@ -35,13 +38,12 @@ const sortKeysDeep = (x) => {
     return x
 }
 
-const core = JSON.parse(getFileContent(corePath))
-const panel = isFile(panelPath)
-    ?
-    JSON.parse(getFileContent(panelPath))
-    :
-    {}
-const merged = deepMerge(panel, core)
+const core = JSON.parse(getFileContent(corePackagePath))
+const runnable = isFile(runnablePackagePath)
+    ? JSON.parse(getFileContent(runnablePackagePath))
+    : {}
+
+const merged = deepMerge(runnable, core)
 const sorted = sortKeysDeep(merged)
 
-writeFile(outPath, JSON.stringify(sorted, null, 4) + '\n')
+writeFile(packagePath, JSON.stringify(sorted, null, 4) + '\n')

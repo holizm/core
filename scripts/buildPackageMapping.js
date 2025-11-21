@@ -11,7 +11,7 @@ export default params => {
     const packageJson = params[`${processType}PackageJson`]
     const lock = params[`${processType}Lock`]
 
-    params.volumes += `\n${indentation}- ${home}/${processType}/package.json:/${repo}/${process}/${processType}.json`
+    params.volumes += `\n${indentation}- ${home}/${processType}/package.json:/${repo}/${process}/corePackage.json`
     if (isFile(packageJson)) {
         params.volumes += `\n${indentation}- ${packageJson}:/${repo}/${process}/${processType}.json`
         params.volumes += `\n${indentation}- /tmp/${repo}/${process}/nodeModules:/${repo}/${process}/node_modules`

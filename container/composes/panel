@@ -68,7 +68,7 @@ services:
         command: |
             bash -lc '
             export PATH=/core/commands/panel:/core/commands:$PATH
-            merge
+            merge panel
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd /${repo}/${process}
             initialize

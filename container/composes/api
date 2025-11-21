@@ -63,6 +63,7 @@ services:
             bash -c '
                 echo -e "\033[0;31mhttps://localhost:${randomPort}"
                 echo "Node"
+                merge api
                 prepare generation &&
                 prepare migration &&
                 prepare query &&
