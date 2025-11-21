@@ -27,8 +27,9 @@ const main = async () => {
         info(`Starting /${repo}/${proc} ...`)
     }
     divide()
-
-    await runStreaming(`nodemon --watch /$apiRepo --ignore "**/*.json" process.js`)
+    const command = `nodemon --watch /${repo} --ignore "**/*.json" process.js`
+    console.log(command)
+    await runStreaming(command)
 }
 
 main().catch(e => {

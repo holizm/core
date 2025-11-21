@@ -36,19 +36,19 @@ services:
             - ${home}/generation/common:/generation/common
             - ${home}/generation/database:/generation/database
             - ${home}/generation/order:/generation/order
-            - ${home}/generation/app.js:/generation/app.js
+            - ${home}/generation/process.js:/generation/process.js
 
             - ${home}/migration/adHoc:/migration/adHoc
             - ${home}/migration/environment.js:/migration/environment.js
-            - ${home}/migration/app.js:/migration/app.js
+            - ${home}/migration/process.js:/migration/process.js
             - ${home}/migration/migrators:/migration/migrators
 
             - ${home}/toMongo/importers:/toMongo/importers
             - ${home}/toMongo/etl:/toMongo/etl
-            - ${home}/toMongo/app.js:/toMongo/app.js
+            - ${home}/toMongo/process.js:/toMongo/process.js
 
             - ${home}/query/partDropper.js:/query/partDropper.js
-            - ${home}/query/app.js:/query/app.js
+            - ${home}/query/process.js:/query/process.js
 
             - /${repo}/common:/${repo}/common
 

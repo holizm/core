@@ -35,7 +35,7 @@ const createNonExistingFiles = params => {
         publicSettingsPath,
     } = params
 
-    writeFileIfNotExists('app.js', 'import { start } from \'core\'\n\nstart()')
+    writeFileIfNotExists('process.js', 'import { start } from \'core\'\n\nstart()')
     createDirIfNotExists(commonPath)
     createFileIfNotExists(dependenciesPath)
     writeFileIfNotExists(connectionStringsPath, '{}')
@@ -141,7 +141,7 @@ const buildCoreMappings = params => {
         repo,
     } = params
     params.volumes += `\n${indentation}- ${home}/api:/api`
-    params.volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
+    params.volumes += `\n${indentation}- ${home}/${repo}/${process}/process.js:/${repo}/${process}/process.js`
 }
 
 const buildSecrets = params => {
