@@ -5,9 +5,10 @@ import {
     info,
 } from './logger.js'
 import {
-    isFile,
     copyFileIfNotExists,
     isDir,
+    isFile,
+    replaceVariables,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
 import createGitHubAction from './createGitHubAction.js'
@@ -149,7 +150,6 @@ export default params => {
     if (isDir(menusDirectoryPath)) {
         params.volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
     }
-    params.volumes = volumes
     const composeTemplatePath = `${home}/core/container/composes/panel`
     replaceVariables(composeTemplatePath, composeFile, params)
 }
