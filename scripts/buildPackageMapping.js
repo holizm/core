@@ -1,10 +1,12 @@
+import { isFile } from './os.js'
 import indentation from './indentation.js'
 
 export default params => {
     let {
-        type,
-        repo,
+        home,
         process,
+        repo,
+        type,
         volumes,
     } = params
     const packageJson = params[`${type}PackageJson`]
