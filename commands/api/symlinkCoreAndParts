@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+find -L /npm/node_modules -maxdepth 1 -mindepth 1 -type d -name '[A-Z]*' |
+while read file;
+do
+    ln -s -f $file /$ApiRepository/$ApiProcess 
+done

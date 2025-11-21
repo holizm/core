@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+exit
 
 echo "Linking: $1"
 export targetProject=$1
