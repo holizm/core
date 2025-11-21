@@ -102,19 +102,9 @@ const buildDependenciesMappings = params => {
 
         volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
         volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
-        volumes += `\n${indentation}- ${partFilePath}:/root/.npm/node_modules/${dependency}/part`
-        volumes += `\n${indentation}- ${dependencyBase}/business:/root/.npm/node_modules/${dependency}/api/business`
 
         const baseName = path.basename(process)
-        if (baseName.includes('admin'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/admin:/root/.npm/node_modules/${dependency}/api/api/role`
-        if (baseName.includes('site'))
-            volumes += `\n${indentation}- ${dependencyBase}/api/site:/root/.npm/node_modules/${dependency}/api/api/role`
 
-        if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`))
-            volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
-        if (fs.existsSync(`${dependencyBase}/api/common`))
-            volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
     }
 
     return volumes
@@ -164,17 +154,6 @@ const buildCoreMappings = params => {
     volumes += `\n${indentation}- ${home}/api:/api`
     volumes += `\n${indentation}- ${home}/api/package.json:/${repo}/${process}/package.json`
     volumes += `\n${indentation}- ${home}/api/package-lock.json:/${repo}/${process}/package-lock.json`
-    for (const corePart of [
-        'api',
-        'application',
-        'cloud',
-        'core',
-        'data',
-        'extensions',
-        'validation',
-        'settings'
-    ])
-        volumes += `\n${indentation}- ${home}/api/${corePart}:/root/.npm/node_modules/core/${corePart}`
     volumes += `\n${indentation}- ${home}/${repo}/${process}/app.js:/${repo}/${process}/app.js`
     return volumes
 }

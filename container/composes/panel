@@ -65,7 +65,7 @@ services:
             - ${processPath}/menu.jsx:/${repo}/${process}/src/menu.jsx
             - ${processPath}/routes.jsx:/${repo}/${process}/src/runnable/routes.jsx
 
-            dependenciesMappingPlaceHolder
+            ${volumes}
         command: |
             bash -lc '
             export PATH=/core/commands/panel:/core/commands:$PATH
