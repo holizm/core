@@ -1,46 +1,47 @@
 #!/usr/bin/env bash
 
 echo "Linking: $1"
-export TargetProject=$1
-export Path=/HolismHolding/$1
-ln -s -f /HolismHolding/NodeApi/package.json $Path
-ln -s -f /HolismHolding/NodeApi/package-lock.json $Path
-ln -s -f /HolismHolding/NodeApi/Core $Path
-ln -s -f /HolismHolding/NodeApi/Application.js $Path
-ln -s -f /npm/node_modules $Path
+export targetProject=$1
+export targetPath=~/$1
+
+ln -s -f /api/package.json $targetPath
+ln -s -f /api/package-lock.json $targetPath
+ln -s -f /api/core $targetPath
+ln -s -f /api/process.js $targetPath
+ln -s -f /npm/node_modules $targetPath
 
 files=(
-    "PublicSettings.json"
-    "Settings.json"
-    "SettingsOverride.json"
-    "Common.json"
-    "LocalSecrets.json"
-    "ConnectionStrings.json"
+    "privateSettings.json"
+    "publicSettings.json"
+    "settingsOverride.json"
+    "common.json"
+    "repo.json"
+    "instance.json"
+    "connectionStrings.json"
 )
 
 for file in "${files[@]}"; do
-    if [ -f /$ApiRepository/$ApiProcess/$file ]; then
-        cp /$ApiRepository/$ApiProcess/$file $Path
+    if [ -f /$apiRepo/$apiProcess/$file ]; then
+        cp /$apiRepo/$apiProcess/$file $targetPath
     fi
 done
 
 find \
-    /HolismHolding \
-    /$Repository/$Module \
+    / \
+    /$repo/$process \
     -type f \
-    -name Part \
-    -not -path '*/Migration/*' \
-    -not -path '*/Query/*' \
-    -not -path '*/Generation/*' \
+    -name part \
+    -not -path '*/migration/*' \
+    -not -path '*/query/*' \
+    -not -path '*/generation/*' \
     | \
-while read Part;
+while read part;
 do
-    PartName=$(basename $(dirname $Part))
-    mkdir -p /HolismHolding/$TargetProject/$PartName
-    cp $Part /HolismHolding/$TargetProject/$PartName
+    partName=$(basename $(dirname $part))
+    mkdir -p /$targetProject/$partName
+    cp $part /$targetProject/$partName
 done
 
-cp -r /$ApiRepository/$ApiProcess/.vscode $Path
-chmod -R 777 --preserve-root $Path/.vscode
-sed -i "s/$ApiRepository/HolismHolding/g" $Path/.vscode/launch.json
-sed -i "s/$ApiProcess/$TargetProject/g" $Path/.vscode/launch.json
+cp -r /$apiRepo/$apiProcess/.vscode $targetPath
+sed -i "s/$apiRepo//g" $targetPath/.vscode/launch.json
+sed -i "s/$apiProcess/$targetProject/g" $targetPath/.vscode/launch.json
