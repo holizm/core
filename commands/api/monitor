@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-exit
-
-directories=$(find -L /$apiRepo/$apiProcess/node_modules -maxdepth 1 -mindepth 1 -type d -name '[A-Z]*')
+directories=$(find /spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort)
 
 node /core/commands/api/generateExports.mjs $directories
 node /core/commands/api/generatePackageJsonFiles.mjs $directories

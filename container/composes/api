@@ -70,7 +70,7 @@ services:
             prepare query
             prepare toMongo
             symlinkCoreAndParts
-            watch
+            monitor
             cd /${repo}/${process}
             initialize
             nodemon --watch /${repo} process.js &

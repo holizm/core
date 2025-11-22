@@ -29,8 +29,8 @@ const getFiles = async directory => {
 
 for (let i = 0; i < directories.length; i++) {
     const directory = directories[i];
-    const root = `/npm/node_modules/${directory.split('node_modules')[1].split('/')[1]}`
-    const exportsFilePath = join(root, 'Exports.js')
+    const root = `/root/.npm/node_modules/${directory}`
+    const exportsFilePath = join(root, 'exports.js')
     const files = await getFiles(directory)
     const exports = files.map(i => `export * from '${i}'`).join('\n')
     writeFileSync(exportsFilePath, exports)

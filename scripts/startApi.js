@@ -96,9 +96,27 @@ const buildDependenciesMappings = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.volumes += `\n${indentation}- ${home}${dependencyOrgOrRep}/${dependency}:/spl/${dependency}`
         params.volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
         params.volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
+
+
+        params.volumes += `\n${indentation}- ${partFilePath}:/root/.npm/node_modules/${dependency}/part`
+        params.volumes += `\n${indentation}- ${dependencyBase}/business:/root/.npm/node_modules/${dependency}/business`
+
+        const basename = path.basename(process.cwd())
+        if (basename.startsWith("admin")) {
+            params.volumes += `\n${indentation}- ${dependencyBase}/api/admin:/root/.npm/node_modules/${dependency}/api/role`
+        }
+        if (basename.includes("site")) {
+            params.volumes += `\n${indentation}- ${dependencyBase}/api/site:/root/.npm/node_modules/${dependency}/api/role`
+        }
+
+        if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`)) {
+            params.volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
+        }
+        if (fs.existsSync(`${dependencyBase}/api/common`)) {
+            params.volumes += `\n${indentation}- ${dependencyBase}/api/common:/root/.npm/node_modules/${dependency}/api/common`
+        }
 
         const baseName = path.basename(process)
 
