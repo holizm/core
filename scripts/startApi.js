@@ -80,6 +80,7 @@ const buildDependenciesMappings = params => {
         home,
         org,
         process,
+        processPath,
         repo,
     } = params
 
@@ -103,7 +104,7 @@ const buildDependenciesMappings = params => {
         params.volumes += `\n${indentation}- ${partFilePath}:/root/.npm/node_modules/${dependency}/part`
         params.volumes += `\n${indentation}- ${dependencyBase}/business:/root/.npm/node_modules/${dependency}/business`
 
-        const basename = path.basename(process.cwd())
+        const basename = path.basename(processPath)
         if (basename.startsWith("admin")) {
             params.volumes += `\n${indentation}- ${dependencyBase}/api/admin:/root/.npm/node_modules/${dependency}/api/role`
         }
