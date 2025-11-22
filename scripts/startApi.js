@@ -96,6 +96,7 @@ const buildDependenciesMappings = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
+        params.volumes += `\n${indentation}- ${home}${dependencyOrgOrRep}/${dependency}:/spl/${dependency}`
         params.volumes += `\n${indentation}- ${dependencyBase}:/${dependency}/api`
         params.volumes += `\n${indentation}- ${partFilePath}:/${dependency}/part`
 
