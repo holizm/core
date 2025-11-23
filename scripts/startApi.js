@@ -74,10 +74,12 @@ const buildConfigMappings = params => {
         if (isFile(sourcePath))
             params.addVolume(`${commonPath}/${filename}`, `/${repo}/${process}/${filename}`)
     }
-    writeFileIfNotExists(`${home}/secrets/common.json`, '{}')
-    writeFileIfNotExists(`${home}/secrets/${repo}.json`, '{}')
-    params.addVolume(commonFile, `/${repo}/${process}/common.json`)
-    params.addVolume(secretFile, `/${repo}/${process}/repo.json`)
+    const commonFile = `${home}/secrets/common.json`
+    const repoFile = `${home}/secrets/${repo}.json`
+    writeFileIfNotExists(commonFile, '{}')
+    writeFileIfNotExists(repoFile, '{}')
+    params.addVolume(commonFile, `/ ${repo}/${process}/common.json`)
+    params.addVolume(repoFile, `/ ${repo} /${process}/repo.json`)
 }
 
 const buildDependenciesMappings = params => {
@@ -93,16 +95,16 @@ const buildDependenciesMappings = params => {
     for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''
-        if (fs.existsSync(`${home}/${repo}/${dependency}`) && dependency !== 'accounts') {
-            dependencyOrgOrRep = `/${repo}`
+        if (fs.existsSync(`${home} /${repo}/${dependency} `) && dependency !== 'accounts') {
+            dependencyOrgOrRep = `/ ${repo} `
             runnablePart = true
         }
 
-        const dependencyBase = `${home}${dependencyOrgOrRep}/${dependency}/api`
-        const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
+        const dependencyBase = `${home}${dependencyOrgOrRep} /${dependency}/api`
+        const partFilePath = `${home}${dependencyOrgOrRep} /${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.addVolume(`${dependencyBase}`, `/${dependency}/api`)
+        params.addVolume(`${dependencyBase} `, ` / ${dependency}/api`)
         params.addVolume(`${partFilePath}`, `/${dependency}/part`)
 
 
@@ -131,6 +133,7 @@ const buildDependenciesMappings = params => {
 
 const buildRunnableApiMappings = params => {
     let {
+        commonPath,
         home,
         process,
         repo,
@@ -151,10 +154,7 @@ const buildRunnableApiMappings = params => {
 }
 
 const buildRunnableMigrationMappings = params => {
-    let {
-        home,
-        repo,
-    } = params
+    let { commonPath } = params
     if (fs.existsSync(`${commonPath}/migration`))
         params.addVolume(`${commonPath}/migration`, `/migration/runnable`)
 }
