@@ -54,7 +54,6 @@ services:
 
             - ${home}/secrets/common.json:/${processPath}/common.json
             - ${home}/secrets/${repo}.json:/${processPath}/secrets.json
-
             ${volumes}
             - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
         ports:

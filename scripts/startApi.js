@@ -84,6 +84,7 @@ const mapConfigs = params => {
 const mapDependencies = params => {
     let {
         home,
+        nodeModules,
         org,
         process,
         processPath,
@@ -94,8 +95,8 @@ const mapDependencies = params => {
     for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''
-        if (fs.existsSync(`${home}/${repo}/${dependency} `) && dependency !== 'accounts') {
-            dependencyOrgOrRep = `/${repo} `
+        if (fs.existsSync(`${home}/${repo}/${dependency}`) && dependency !== 'accounts') {
+            dependencyOrgOrRep = `/${repo}`
             runnablePart = true
         }
 
@@ -103,10 +104,9 @@ const mapDependencies = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.addVolume(`${dependencyBase} `, `/spl/${dependency}`)
-        params.addVolume(`${dependencyBase} `, `/${dependency}/api`)
+        params.addVolume(`${dependencyBase}`, `/spl/${dependency}`)
+        params.addVolume(`${dependencyBase}`, `/${dependency}/api`)
         params.addVolume(`${partFilePath}`, `/${dependency}/part`)
-
 
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
@@ -189,13 +189,13 @@ export default params => {
     linkVsCodeFiles(params)
 
     params.processType = 'api'
+    mapNode(params)
     mapConfigs(params)
     mapDependencies(params)
     mapLocalizations(params)
     mapRunnable(params)
     mapRunnableMigrations(params)
     mapCore(params)
-    mapNode(params)
     params.joinVolumes()
 
     if (!isEtl(params)) createGitHubAction(params)

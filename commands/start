@@ -70,7 +70,8 @@ params.addVolume = (left, right) => {
     params.volumes.push({ left, right })
 }
 params.joinVolumes = () => {
-    params.volumes = params.volumes
+    params.volumes.sort((a, b) => a.left.localeCompare(b.left))
+    params.volumes = '\n' + params.volumes
         .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
         .join('\n')
 }
