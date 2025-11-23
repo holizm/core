@@ -27,6 +27,7 @@ services:
             - /etc/timezone:/etc/timezone:ro
 
             - ${home}/core:/core
+            - ${home}/core:/spl/core
             - ${home}/fonts:/fonts
             - ${home}/cloud:/cloud
             - ${home}/etl:/etl

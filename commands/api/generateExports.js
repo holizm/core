@@ -1,37 +1,28 @@
 #!/usr/bin/env node
 
-import util from 'util'
-import { exec } from 'child_process'
-import { join } from 'path'
-import { writeFileSync } from 'fs'
+import { runOnTerminal } from '/core/scripts/terminal.js'
+import { writeFile } from '/core/scripts/os.js'
 
-const promisifiedExec = util.promisify(exec)
 const [, , ...directories] = process.argv
+const {
+    process: proc,
+    repo,
+} = process.env
+
+const nodeModules = `/${repo}/${proc}/node_modules`
 
 const getFiles = async directory => {
-    try {
-        const root = `/npm/node_modules/${directory.split('node_modules')[1].split('/')[1]}`
-        const command = `find ${root} -mindepth 2 -type f -name '*.js'`
-        const { stdout, stderr } = await promisifiedExec(command)
-        if (stderr) {
-            console.log('stderr:', stderr, command)
-            return []
-        }
-        return stdout
-            .split('\n')
-            .filter(file => file)
-            .map(file => file.trim())
-    } catch (err) {
-        console.error(err)
-        return ''
-    }
+    const root = `${nodeModules}/${directory}`
+    const command = `find ${root} -mindepth 2 -type f -name '*.js'`
+    const files = runOnTerminal(command).split('\n')
+    return files
 }
 
 for (let i = 0; i < directories.length; i++) {
     const directory = directories[i];
-    const root = `/root/.npm/node_modules/${directory}`
-    const exportsFilePath = join(root, 'exports.js')
+    const root = `${nodeModules}/${directory}`
+    const exportsFilePath = `${root}/exports.js`
     const files = await getFiles(directory)
     const exports = files.map(i => `export * from '${i}'`).join('\n')
-    writeFileSync(exportsFilePath, exports)
+    writeFile(exportsFilePath, exports)
 }

@@ -2,8 +2,8 @@
 
 directories=$(find /spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort)
 
-node /core/commands/api/generateExports.mjs $directories
-node /core/commands/api/generatePackageJsonFiles.mjs $directories
+node /core/commands/api/generateExports.js $directories
+node /core/commands/api/generatePackageJsonFiles.js $directories
 
 inotifywait -m -r \
 -e modify \
@@ -19,5 +19,5 @@ do
     export event
     export file
     echo $directory $file $event
-    node /core/commands/api/generateExports.mjs $directory
+    node /core/commands/api/generateExports.js $directory
 done
