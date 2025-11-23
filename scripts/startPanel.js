@@ -14,7 +14,7 @@ import { runOnTerminal } from './terminal.js'
 import createGitHubAction from './createGitHubAction.js'
 import getDependencies from './getDependencies.js'
 import buildLocalizationMappings from './buildLocalizationMappings.js'
-import buildPackageMapping from './buildPackageMapping.js'
+import mapNode from './mapNode.js'
 import indentation from './indentation.js'
 
 const createNonExistentFiles = params => {
@@ -130,7 +130,7 @@ export default params => {
     buildLocalizationMappings(params)
     buildRunnablePanelMappings(params)
     buildSecrets(params)
-    buildPackageMapping(params)
+    mapNode(params)
 
     const {
         composeFile,

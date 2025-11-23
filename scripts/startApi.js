@@ -21,7 +21,7 @@ import {
 import { runOnTerminal } from './terminal.js'
 import getDependencies from './getDependencies.js'
 import buildLocalizationMappings from './buildLocalizationMappings.js'
-import buildPackageMapping from './buildPackageMapping.js'
+import mapNode from './mapNode.js'
 import indentation from './indentation.js'
 
 const createNonExistingFiles = params => {
@@ -208,7 +208,7 @@ export default (params) => {
     buildRunnableMigrationMappings(params)
     buildCoreMappings(params)
     buildSecrets(params)
-    buildPackageMapping(params)
+    mapNode(params)
 
     if (!isEtl(params)) createGitHubAction(params)
 
