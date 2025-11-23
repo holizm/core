@@ -10,7 +10,6 @@ import {
     copyFileIfNotExists,
     createDirIfNotExists,
     createFileIfNotExists,
-    isDir,
     isEtl,
     isFile,
     removeAndRecreateDir,
@@ -19,7 +18,7 @@ import {
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
 import getDependencies from './getDependencies.js'
-import buildLocalizationMappings from './buildLocalizationMappings.js'
+import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 
 const createNonExistingFiles = params => {
@@ -53,7 +52,7 @@ const linkVsCodeFiles = params => {
     replaceVariables(`${home}/core/api/launch`, `${vsCodePath}/launch.json`, params)
 }
 
-const buildConfigMappings = params => {
+const mapConfigs = params => {
     let {
         commonPath,
         connectionStringsPath,
@@ -78,11 +77,11 @@ const buildConfigMappings = params => {
     const repoFile = `${home}/secrets/${repo}.json`
     writeFileIfNotExists(commonFile, '{}')
     writeFileIfNotExists(repoFile, '{}')
-    params.addVolume(commonFile, `/ ${repo}/${process}/common.json`)
-    params.addVolume(repoFile, `/ ${repo} /${process}/repo.json`)
+    params.addVolume(commonFile, `/${repo}/${process}/common.json`)
+    params.addVolume(repoFile, `/${repo}/${process}/repo.json`)
 }
 
-const buildDependenciesMappings = params => {
+const mapDependencies = params => {
     let {
         home,
         org,
@@ -95,16 +94,17 @@ const buildDependenciesMappings = params => {
     for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''
-        if (fs.existsSync(`${home} /${repo}/${dependency} `) && dependency !== 'accounts') {
-            dependencyOrgOrRep = `/ ${repo} `
+        if (fs.existsSync(`${home}/${repo}/${dependency} `) && dependency !== 'accounts') {
+            dependencyOrgOrRep = `/${repo} `
             runnablePart = true
         }
 
-        const dependencyBase = `${home}${dependencyOrgOrRep} /${dependency}/api`
-        const partFilePath = `${home}${dependencyOrgOrRep} /${dependency}/part`
+        const dependencyBase = `${home}${dependencyOrgOrRep}/${dependency}/api`
+        const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.addVolume(`${dependencyBase} `, ` / ${dependency}/api`)
+        params.addVolume(`${dependencyBase} `, `/spl/${dependency}`)
+        params.addVolume(`${dependencyBase} `, `/${dependency}/api`)
         params.addVolume(`${partFilePath}`, `/${dependency}/part`)
 
 
@@ -131,7 +131,7 @@ const buildDependenciesMappings = params => {
     }
 }
 
-const buildRunnableApiMappings = params => {
+const mapRunnable = params => {
     let {
         commonPath,
         home,
@@ -153,13 +153,13 @@ const buildRunnableApiMappings = params => {
     }
 }
 
-const buildRunnableMigrationMappings = params => {
+const mapRunnableMigrations = params => {
     let { commonPath } = params
     if (fs.existsSync(`${commonPath}/migration`))
         params.addVolume(`${commonPath}/migration`, `/migration/runnable`)
 }
 
-const buildCoreMappings = params => {
+const mapCore = params => {
     let {
         home,
         process,
@@ -182,19 +182,19 @@ export default params => {
     const {
         repo,
     } = params
-    if (isEtl(params)) info('setting up ETL')
-    else info('setting up API')
+    if (isEtl(params)) info('Setting up ETL')
+    else info('Setting up API')
     divide()
     createNonExistingFiles(params)
     linkVsCodeFiles(params)
 
     params.processType = 'api'
-    buildConfigMappings(params)
-    buildDependenciesMappings(params)
-    buildLocalizationMappings(params)
-    buildRunnableApiMappings(params)
-    buildRunnableMigrationMappings(params)
-    buildCoreMappings(params)
+    mapConfigs(params)
+    mapDependencies(params)
+    mapLocalizations(params)
+    mapRunnable(params)
+    mapRunnableMigrations(params)
+    mapCore(params)
     mapNode(params)
     params.joinVolumes()
 

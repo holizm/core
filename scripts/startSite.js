@@ -16,7 +16,7 @@ import {
     writeFile,
 } from './os.js'
 import getDependencies from './getDependencies.js'
-import indentation from './indentation.js'
+import mapNode from '../scripts/mapNode.js'
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -33,7 +33,7 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/tailwindTemplate.css`, 'tailwindTemplate.css')
 }
 
-const buildDependenciesMappings = params => {
+const mapDependencies = params => {
     let {
         home,
         repo,
@@ -62,7 +62,7 @@ const buildDependenciesMappings = params => {
                 const pagePath = `${pagesPath}/${page}`
                 console.log(pagePath)
                 /*
-                todo:
+                todo`,`
                 /route/slug => /route/[slug]
                 /route/id => /route/[id]
                 /camelizedRoute => /kebabized-route
@@ -79,30 +79,30 @@ const buildDependenciesMappings = params => {
             })
             mappings.sort((a, b) => a[1].localeCompare(b[1]))
             mappings.forEach(([source, target]) => {
-                params.volumes += `\n${indentation}- ${source}:${target}`
+                params.addVolume(`${source}`, `${target}`)
             })
         }
 
         const pluginFile = `${dependencyBase}/pages/plugin.ts`
         if (isFile(pluginFile)) {
-            params.volumes += `\n${indentation}- ${dependencyBase}/pages/plugin.ts:/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`
+            params.addVolume(`${dependencyBase}/pages/plugin.ts`, `/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`)
         }
 
         ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
             const partPath = `${dependencyBase}/${part}`
             if (isFile(partPath) && fs.readdirSync(partPath).length > 0) {
-                params.volumes += `\n${indentation}- ${dependencyBase}/${part}:/${repo}/${process}/src/parts/${dependency}/${part}`
+                params.addVolume(`${dependencyBase}/${part}`, `/${repo}/${process}/src/parts/${dependency}/${part}`)
             }
         })
 
         const exportsFile = `${dependencyBase}/exports.jsx`
         if (isFile(exportsFile) && fs.statSync(exportsFile).size > 0) {
-            params.volumes += `\n${indentation}- ${dependencyBase}/exports.jsx:/${repo}/${process}/src/parts/${dependency}/exports.jsx`
+            params.addVolume(`${dependencyBase}/exports.jsx`, `/${repo}/${process}/src/parts/${dependency}/exports.jsx`)
         }
     }
 }
 
-const buildPagesDirectoryMappings = params => {
+const mapPages = params => {
     let {
         process,
         processPath,
@@ -112,19 +112,19 @@ const buildPagesDirectoryMappings = params => {
     const files = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).split('\n')
     files.forEach(path => {
         const fileName = basename(path)
-        params.volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/routes/${fileName}`
+        params.addVolume(`${path}`, `/${repo}/${process}/src/routes/${fileName}`)
     })
 
     const dirs = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         if (path.trim()) {
             const fileName = basename(path)
-            params.volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/routes/${fileName}`
+            params.addVolume(`${path}`, `/${repo}/${process}/src/routes/${fileName}`)
         }
     })
 }
 
-const buildPartsDirectoryMappings = params => {
+const mapParts = params => {
     let {
         process,
         processPath,
@@ -134,11 +134,11 @@ const buildPartsDirectoryMappings = params => {
     const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         const name = basename(path)
-        params.volumes += `\n${indentation}- ${path}:/${repo}/${process}/src/parts/${name}`
+        params.addVolume(`${path}`, `/${repo}/${process}/src/parts/${name}`)
     })
 }
 
-const buildOtherMappings = params => {
+const mapOthers = params => {
     let {
         process,
         processPath,
@@ -149,7 +149,7 @@ const buildOtherMappings = params => {
     otherDirs.forEach(part => {
         const dirPath = `${processPath}/${part}`
         if (isDir(dirPath)) {
-            params.volumes += `\n${indentation}- ${processPath}/${part}:/${repo}/${process}/src/${part}`
+            params.addVolume(`${processPath}/${part}`, `/${repo}/${process}/src/${part}`)
         }
     })
 }
@@ -175,10 +175,11 @@ export default params => {
     createGitHubAction(params)
 
     params.volumes = ''
-    buildDependenciesMappings(params)
-    buildPagesDirectoryMappings(params)
-    buildPartsDirectoryMappings(params)
-    buildOtherMappings(params)
+    mapDependencies(params)
+    mapPages(params)
+    mapParts(params)
+    mapOthers(params)
+    mapNode(params)
     ensureLocalSecrets(params)
     const {
         composeFile,
@@ -191,21 +192,19 @@ export default params => {
         tenantsPath,
     } = params
     if (privateSettingsPath && isFile(privateSettingsPath)) {
-        params.volumes += `\n${indentation}- ${privateSettingsPath}:/${repo}/${process}/privateSettings.json`
+        params.addVolume(`${privateSettingsPath}`, `/${repo}/${process}/privateSettings.json`)
     }
     if (publicSettingsPath && isFile(publicSettingsPath)) {
-        params.volumes += `\n${indentation}- ${publicSettingsPath}:/${repo}/${process}/publicSettings.json`
+        params.addVolume(`${publicSettingsPath}`, `/${repo}/${process}/publicSettings.json`)
     }
-    let cacheMappings = `\n${indentation}- ${home}/site/src/routes/clear-cache:/${repo}/${process}/src/routes/clear-cache`
 
     if (settingsOverridePath && isFile(settingsOverridePath)) {
-        params.volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/SettingsOverride.json`
+        params.addVolume(`${settingsOverridePath}`, `/${repo}/${process}/public/SettingsOverride.json`)
     }
-    cacheMappings = `\n${indentation}- ${home}/site/src/routes/new-clear-cache:/${repo}/${process}/src/routes/clear-cache`
-    cacheMappings += `\n${indentation}- ${home}/site/src/routes/show-cache:/${repo}/${process}/src/routes/show-cache`
-    params.volumes += cacheMappings
+    params.addVolume(`${home}/site/src/routes/new-clear-cache`, `/${repo}/${process}/src/routes/clear-cache`)
+    params.addVolume(`${home}/site/src/routes/show-cache`, `/${repo}/${process}/src/routes/show-cache`)
     if (tenantsPath && isFile(tenantsPath)) {
-        params.volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/tenants`
+        params.addVolume(`${tenantsPath}`, `/${repo}/${process}/tenants`)
     }
     params.dependenciesPlaceholder = volumes
     const composeTemplatePath = `${home}/core/container/composes/site`

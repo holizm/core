@@ -13,9 +13,8 @@ import {
 import { runOnTerminal } from './terminal.js'
 import createGitHubAction from './createGitHubAction.js'
 import getDependencies from './getDependencies.js'
-import buildLocalizationMappings from './buildLocalizationMappings.js'
+import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
-import indentation from './indentation.js'
 
 const createNonExistentFiles = params => {
     const {
@@ -34,7 +33,7 @@ const createNonExistentFiles = params => {
     }
 }
 
-const buildDependenciesMappings = params => {
+const mapDependencies = params => {
     let {
         home,
         process,
@@ -57,22 +56,22 @@ const buildDependenciesMappings = params => {
         }
 
         if (runnablePart) {
-            params.volumes += `\n${indentation}- ${home}/${repo}/${dependency}:/${dependency}`
+            params.addVolume(`${home}/${repo}/${dependency}`, `/${dependency}`)
         } else {
-            params.volumes += `\n${indentation}- ${dependencyBase}:/${dependency}`
+            params.addVolume(`${dependencyBase}`, `/${dependency}`)
         }
 
         if (process.includes('admin')) {
-            params.volumes += `\n${indentation}- ${dependencyBase}/admin:/${repo}/${process}/src/${dependency}/admin`
+            params.addVolume(`${dependencyBase}/admin`, `/${repo}/${process}/src/${dependency}/admin`)
         }
 
         if (fs.existsSync(path.join(dependencyBase, 'common'))) {
-            params.volumes += `\n${indentation}- ${dependencyBase}/common:/${repo}/${process}/src/${dependency}/common`
+            params.addVolume(`${dependencyBase}/common`, `/${repo}/${process}/src/${dependency}/common`)
         }
     }
 }
 
-const buildRunnablePanelMappings = params => {
+const mapRunnable = params => {
     let {
         repo,
         process,
@@ -83,7 +82,7 @@ const buildRunnablePanelMappings = params => {
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
-        params.volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/runnable/${replacedItem}`
+        params.addVolume(`/${repo}/${process}/${replacedItem}`, `/${repo}/${process}/src/runnable/${replacedItem}`)
     }
 
     const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
@@ -97,11 +96,11 @@ const buildRunnablePanelMappings = params => {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
 
-        params.volumes += `\n${indentation}- /${repo}/${process}/${replacedItem}:/${repo}/${process}/src/${replacedItem}/${role}`
+        params.addVolume(`/${repo}/${process}/${replacedItem}`, `/${repo}/${process}/src/${replacedItem}/${role}`)
     }
 }
 
-const buildSecrets = params => {
+const mapSecrets = params => {
     let {
         home,
         process,
@@ -113,8 +112,8 @@ const buildSecrets = params => {
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
 
-    params.volumes += `\n${indentation}- ${commonFile}:/${repo}/${process}/public/common.json`
-    params.volumes += `\n${indentation}- ${secretFile}:/${repo}/${process}/public/repo.json`
+    params.addVolume(`${commonFile}`, `/${repo}/${process}/public/common.json`)
+    params.addVolume(`${secretFile}`, `/${repo}/${process}/public/repo.json`)
 }
 
 export default params => {
@@ -125,11 +124,10 @@ export default params => {
     createNonExistentFiles(params)
     createGitHubAction(params)
 
-    params.volumes = ''
-    buildDependenciesMappings(params)
-    buildLocalizationMappings(params)
-    buildRunnablePanelMappings(params)
-    buildSecrets(params)
+    mapDependencies(params)
+    mapLocalizations(params)
+    mapRunnable(params)
+    mapSecrets(params)
     mapNode(params)
 
     const {
@@ -142,13 +140,13 @@ export default params => {
         tenantsPath,
     } = params
     if (isFile(settingsOverridePath)) {
-        params.volumes += `\n${indentation}- ${settingsOverridePath}:/${repo}/${process}/public/settingsOverride.json`
+        params.addVolume(`${settingsOverridePath}`, `/${repo}/${process}/public/settingsOverride.json`)
     }
     if (isFile(tenantsPath)) {
-        params.volumes += `\n${indentation}- ${tenantsPath}:/${repo}/${process}/public/tenants`
+        params.addVolume(`${tenantsPath}`, `/${repo}/${process}/public/tenants`)
     }
     if (isDir(menusDirectoryPath)) {
-        params.volumes += `\n${indentation}- ${menusDirectoryPath}:/${repo}/${process}/src/menus`
+        params.addVolume(`${menusDirectoryPath}`, `/${repo}/${process}/src/menus`)
     }
     const composeTemplatePath = `${home}/core/container/composes/panel`
     replaceVariables(composeTemplatePath, composeFile, params)

@@ -5,7 +5,6 @@ export default params => {
         dependenciesPath,
         home,
     } = params
-    let volumes = ''
     const findCommand = `
     find ${home} -type d -name '.git' 2>/dev/null | while read gitdir; do
         repoDir=$(dirname '$gitdir')
@@ -16,6 +15,5 @@ export default params => {
     done | grep -Ff ${dependenciesPath} -e 'api' | sort
     `
     const items = runOnTerminal(findCommand).split('\n')
-    for (const item of items) if (item.trim()) volumes += `\n${indentation}- ${item}:${item}`
-    return volumes
+    for (const item of items) if (item.trim()) params.addVolume(`${item}`, `${item}`)
 }
