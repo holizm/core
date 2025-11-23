@@ -58,19 +58,26 @@ const buildConfigMappings = params => {
         commonPath,
         connectionStringsPath,
         privateSettingsPath,
-        process,
         publicSettingsPath,
-        repo,
         settingsOverridePath,
+        home,
+        process,
+        repo,
     } = params
-    if (fs.existsSync(connectionStringsPath))
-        params.addVolume(`${commonPath}/connectionStrings.json`, `/${repo}/${process}/connectionStrings.json`)
-    if (fs.existsSync(privateSettingsPath))
-        params.addVolume(`${commonPath}/privateSettings.json`, `/${repo}/${process}/privateSettings.json`)
-    if (fs.existsSync(publicSettingsPath))
-        params.addVolume(`${commonPath}/publicSettings.json`, `/${repo}/${process}/publicSettings.json`)
-    if (fs.existsSync(settingsOverridePath))
-        params.addVolume(`${commonPath}/settingsOverride.json`, `/${repo}/${process}/settingsOverride.json`)
+    const items = [
+        [connectionStringsPath, 'connectionStrings.json'],
+        [privateSettingsPath, 'privateSettings.json'],
+        [publicSettingsPath, 'publicSettings.json'],
+        [settingsOverridePath, 'settingsOverride.json'],
+    ]
+    for (const [sourcePath, filename] of items) {
+        if (isFile(sourcePath))
+            params.addVolume(`${commonPath}/${filename}`, `/${repo}/${process}/${filename}`)
+    }
+    writeFileIfNotExists(`${home}/secrets/common.json`, '{}')
+    writeFileIfNotExists(`${home}/secrets/${repo}.json`, '{}')
+    params.addVolume(commonFile, `/${repo}/${process}/common.json`)
+    params.addVolume(secretFile, `/${repo}/${process}/repo.json`)
 }
 
 const buildDependenciesMappings = params => {
@@ -162,22 +169,6 @@ const buildCoreMappings = params => {
     params.addVolume(`${home}/${repo}/${process}/process.js`, `/${repo}/${process}/process.js`)
 }
 
-const buildSecrets = params => {
-    let {
-        home,
-        process,
-        repo,
-    } = params
-    if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
-    const commonFile = `${home}/secrets/common.json`
-    if (!isFile(commonFile)) fs.writeFileSync(commonFile, '{}')
-    const secretFile = `${home}/secrets/${repo}.json`
-    if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
-
-    params.addVolume(`${commonFile}`, `/${repo}/${process}/common.json`)
-    params.addVolume(`${secretFile}`, `/${repo}/${process}/repo.json`)
-}
-
 const createApiContainer = params => {
     const {
         composeFile,
@@ -204,7 +195,6 @@ export default params => {
     buildRunnableApiMappings(params)
     buildRunnableMigrationMappings(params)
     buildCoreMappings(params)
-    buildSecrets(params)
     mapNode(params)
     params.joinVolumes()
 
