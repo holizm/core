@@ -112,10 +112,10 @@ const mapDependencies = params => {
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
 
         const basename = path.basename(processPath)
-        if (basename.startsWith("admin")) {
+        if (basename.startsWith('admin')) {
             params.addVolume(`${dependencyBase}/api/admin`, `${nodeModules}/${dependency}/api/role`)
         }
-        if (basename.includes("site")) {
+        if (basename.includes('site')) {
             params.addVolume(`${dependencyBase}/api/site`, `${nodeModules}/${dependency}/api/role`)
         }
 
@@ -162,9 +162,24 @@ const mapRunnableMigrations = params => {
 const mapCore = params => {
     let {
         home,
+        nodeModules,
         process,
         repo,
     } = params
+    const coreItems = [
+        'api',
+        'application',
+        'cloud',
+        'core',
+        'data',
+        'extensions',
+        'validation',
+        'settings',
+    ]
+    for (const coreItem of coreItems) {
+        console.log(coreItem)
+        params.addVolume(`${home}/core/${coreItem}`, `/${nodeModules}/core/${coreItem}`)
+    }
     params.addVolume(`${home}/api`, `/api`)
     params.addVolume(`${home}/${repo}/${process}/process.js`, `/${repo}/${process}/process.js`)
 }
