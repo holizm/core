@@ -30,6 +30,7 @@ import startPanel from "../scripts/startPanel.js"
 import startSite from "../scripts/startSite.js"
 import processTenantLine from "../scripts/processTenantLine.js"
 import extract from "../scripts/extract.js"
+import indentation from '../scripts/indentation.js'
 
 clear()
 
@@ -63,6 +64,16 @@ createNetwork(params)
 ensureDependencies(params)
 params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
 divide()
+
+params.volumes = []
+params.addVolume = (left, right) => {
+    params.volumes.push({ left, right })
+}
+params.joinVolumes = () => {
+    params.volumes = params.volumes
+        .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
+        .join('\n')
+}
 
 if (isAccounts(params)) {
     startAccounts(params)
