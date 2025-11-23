@@ -2,15 +2,21 @@
 
 import util from 'util'
 import { exec } from 'child_process'
-import { join } from 'path'
 import { writeFileSync } from 'fs'
 
 const promisifiedExec = util.promisify(exec)
 const [, , ...directories] = process.argv
+const {
+    process: proc,
+    repo,
+} = process.env
+
+const nodeModules = `/${repo}/${proc}/node_modules`
 
 const getImportedParts = async directory => {
     try {
-        const command = `grep -r --include='*.js' -h 'import ' '${directory}' | sed -E 's/.*from ['\\\']([^'\\\']+)['\\\'].*/\\1/' | sort | uniq`
+        const command = `grep -r --include="*.js" -h "import " "${directory}" | sed -E "s/.*from ['\\\"]([^'\\\"]+)['\\\"].*/\\1/" | sort | uniq`
+        console.log(command)
         const { stdout, stderr } = await promisifiedExec(command)
         if (stderr) {
             console.log('stderr:', stderr, command)
@@ -32,7 +38,7 @@ const getImportedParts = async directory => {
 
 for (let i = 0; i < directories.length; i++) {
     const directory = directories[i]
-    const packageFilePath = join(directory, 'package.json')
+    const packageFilePath = `${nodeModules}/${directory}/package.json`
     const importedParts = await getImportedParts(directory)
     const content = {
         type: 'module',

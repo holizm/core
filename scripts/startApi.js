@@ -177,7 +177,7 @@ const mapCore = params => {
         'settings',
     ]
     for (const coreItem of coreItems) {
-        params.addVolume(`${home}/core/${coreItem}`, `/${nodeModules}/core/${coreItem}`)
+        params.addVolume(`${home}/api/${coreItem}`, `/${nodeModules}/core/${coreItem}`)
     }
     params.addVolume(`${home}/api`, `/api`)
     params.addVolume(`${home}/${repo}/${process}/process.js`, `/${repo}/${process}/process.js`)
