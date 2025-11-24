@@ -8,11 +8,11 @@ services:
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=${processPath}
+            - processPath=/${repo}/${process}
             - apiOrg=${org}
             - apiRepo=${repo}
             - apiProcess=${process}
-            - apiProcessPath=${processPath}
+            - apiProcessPath=/${repo}/${process}
             - environment=development
             - host=${host}
             - migrationPath=/tmp/${repo}/migration
@@ -53,10 +53,10 @@ services:
 
             - /${repo}/common:/${repo}/common
 
-            - ${home}/secrets/common.json:/${processPath}/common.json
-            - ${home}/secrets/${repo}.json:/${processPath}/secrets.json
+            - ${home}/secrets/common.json:/${repo}/${process}/common.json
+            - ${home}/secrets/${repo}.json:/${repo}/${process}/secrets.json
             ${volumes}
-            - /tmp/${repo}/${process}/.vscode:${processPath}/.vscode
+            - /tmp/${repo}/${process}/.vscode:/${repo}/${process}/.vscode
         ports:
             - "${randomPort}:5000"
         command: |
