@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+// . Load
+
+import {
+    info,
+    success,
+} from '../../scripts/logger'
+import run from './prepareQuery'
+
+// clear
+
+// StartTimer
+
+// . PrepareQuery
+
+divide()
+info('Dropping all databases ...')
+divide()
+
+run({
+    command: 'dropDatabases'
+})
+
+divide()
+success('Dropped all databases')
+divide()
+
+// StopTimer

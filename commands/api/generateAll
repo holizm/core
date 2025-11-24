@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+import {
+    divide,
+    info,
+} from '../../scripts/logger.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
+
+runOnTerminal('dropAll')
+
+// startTimer2
+
+// export DependenciesPath=/$ApiRepository/Common/Dependencies
+
+// while read Dependency; do
+//     Part=$Dependency
+//     if [ -d /$ApiRepository/$Dependency ]; then
+//         OrgOrRepo=$ApiRepository
+//     else
+//         OrgOrRepo=HolismHolding
+//     fi
+//     if [ ! -f "/$OrgOrRepo/$Part/Part.json" ] && [ ! -f "/$OrgOrRepo/$Part/Part" ]; then
+//         Warning "Did not found Part.json for $OrgOrRepo/$Part";
+//         continue;
+//     fi
+//     cd /$OrgOrRepo/$Part
+//     Generate "Fast"
+// done <<< "$(grep -xFf $DependenciesPath /HolismHolding/Generation/Order; grep -vxFf /HolismHolding/Generation/Order $DependenciesPath)"
+
+// InsertData
+
+// stopTimer2
