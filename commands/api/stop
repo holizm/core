@@ -4,29 +4,16 @@ import {
     divide,
     info,
 } from '../../scripts/logger.js'
-import { isFile } from '../../scripts/os.js'
-import {
-    clear,
-    runOnTerminal,
-    runStreaming,
-} from '../../scripts/terminal.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
 
 const {
     process: proc,
     repo,
 } = process.env
 
-console.log('hi')
-
-clear()
-runOnTerminal('stop')
-
 divide()
-if (isFile('package.json')) {
-    info('Stopping...')
-} else {
-    info(`Stopping /${repo}/${proc} ...`)
-}
+info(`Stopping /${repo}/${proc} ...`)
 divide()
 
-// await runStreaming(`pkill -f "nodemon --watch /${repo}"`)
+runOnTerminal(`ps -ef | grep 'nodemon' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | grep 'node process.js' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
