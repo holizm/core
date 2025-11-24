@@ -1,7 +1,7 @@
 {
     "name": "import-camelcase-tool",
     "version": "1.0.0",
-    "type": "part",
+    "type": "module",
     "private": true,
     "scripts": {
         "start": "node index.js"
