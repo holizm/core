@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-rm -rf /etc/webServer/conf.d/*
-rm -rf /etc/webServer/includes/*
+rm -rf /etc/nginx/conf.d/*
+rm -rf /etc/nginx/includes/*
 rm -rf ~/webServer/conf.d/*
 rm -rf ~/webServer/includes/*
 

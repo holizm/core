@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 directories=$(find /spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort)
-echo $directories
 
 node /core/commands/api/generateExports.js $directories
 node /core/commands/api/generatePackageJsonFiles.js $directories
-echo "done"
 
 inotifywait -m -r \
 -e modify \
