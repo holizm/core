@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-exit
-
 find /spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort |
-while read file;
+while read part;
 do
-    ln -s -f $file /$apiRepo/$apiProcess 
+    ln -s -f /$apiRepo/$apiProcess/node_modules/$part /$apiRepo/$apiProcess 
 done

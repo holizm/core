@@ -16,7 +16,6 @@ const nodeModules = `/${repo}/${proc}/node_modules`
 const getImportedParts = async directory => {
     try {
         const command = `grep -r --include="*.js" -h "import " "${directory}" | sed -E "s/.*from ['\\\"]([^'\\\"]+)['\\\"].*/\\1/" | sort | uniq`
-        console.log(command)
         const { stdout, stderr } = await promisifiedExec(command)
         if (stderr) {
             console.log('stderr:', stderr, command)
