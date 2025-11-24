@@ -40,7 +40,7 @@ for (let i = 0; i < directories.length; i++) {
     const packageFilePath = `${nodeModules}/${directory}/package.json`
     const importedParts = await getImportedParts(directory)
     const content = {
-        type: 'module',
+        type: 'part',
         main: 'exports.js',
         dependencies: importedParts
     }

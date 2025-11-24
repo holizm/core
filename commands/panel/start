@@ -38,11 +38,11 @@ main().catch(e => {
 /*
 | Debug Namespace        | Description                                                         |
 | ---------------------- | ------------------------------------------------------------------- |
-| `vite:resolve`         | Logs module resolution (useful for seeing how imports are resolved) |
+| `vite:resolve`         | Logs part resolution (useful for seeing how imports are resolved) |
 | `vite:load`            | Logs when a file is loaded by Vite                                  |
 | `vite:transform`       | Logs file transformations (like Babel, JSX, Vue, etc.)              |
-| `vite:import-analysis` | Logs dependency analysis for each module (can be noisy)             |
-| `vite:hmr`             | Logs hot module replacement behavior                                |
+| `vite:import-analysis` | Logs dependency analysis for each part (can be noisy)             |
+| `vite:hmr`             | Logs hot part replacement behavior                                |
 | `vite:cache`           | Logs file caching (useful for dev server perf, usually noisy)       |
 | `vite:deps`            | Logs dependency pre-bundling (includes esbuild, optimizeDeps)       |
 | `vite:config`          | Logs configuration resolution and merging                           |
