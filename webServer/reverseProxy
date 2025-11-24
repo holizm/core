@@ -20,18 +20,18 @@ server
 
     location /502
     {
-        root ${home}/core/nginx;
+        root ${home}/core/webServer;
         internal;
     }
 
     location /
     {
-        include ${home}/nginx/includes/${host};
+        include ${home}/webServer/includes/${host};
     }
 
     location ~ ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
         rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$2?locale=$1 break;
         rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$1 break;
-        include ${home}/nginx/includes/${host};
+        include ${home}/webServer/includes/${host};
     }
 }

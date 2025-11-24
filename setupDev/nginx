@@ -13,7 +13,7 @@ import { runOnTerminal } from "../scripts/terminal.js"
 
 const homeDir = process.env.homeDir
 const nginxConf = '/etc/nginx/nginx.conf'
-const includeLine = `\tinclude ${homeDir}/nginx/conf.d/*.conf;`
+const includeLine = `\tinclude ${homeDir}/webServer/conf.d/*.conf;`
 
 let content = getFileContent(nginxConf)
 
