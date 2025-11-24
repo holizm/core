@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+rm -rf /etc/nginx/conf.d/*
+rm -rf /etc/nginx/includes/*
+rm -rf ~/nginx/conf.d/*
+rm -rf ~/nginx/includes/*
+
+if ! systemctl is-active --quiet nginx; then
+    sudo systemctl start nginx
+fi
+
+if sudo nginx -t; then
+    sudo systemctl restart nginx
+else
+    echo "Nginx test failed"
+fi
