@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../../scripts/terminal.js'
+import { warning } from '../../scripts/logger.js'
+import {
+    startTimer,
+    stopTimer
+} from '../../scripts/timer.js'
+import fs from 'fs'
+import path from 'path'
+import { isFile } from "../../scripts/os.js"
+import run from "./run"
+
+const args = process.argv.slice(2)
+let name = args[0] || ''
+
+startTimer()
+
+if (name === '') {
+    await runOnTerminal('extract forPart')
+} else {
+    name = name.replace('/', '')
+    const cmd = `
+        find /spl \
+            -maxdepth 1 -mindepth 1 -type d \
+            -not -name "core" \
+            -name ${name} 2>/dev/null
+    `
+    const result = runOnTerminal(cmd.trim())
+    const dirs = result.split('\n').filter(Boolean)
+
+    for (const dir of dirs) {
+        const partFile = path.join(dir, 'part')
+        if (isFile(partFile)) {
+            process.chdir(dir)
+            runOnTerminal(`generate`)
+        }
+    }
+    stopTimer()
+    process.exit(0)
+}
+
+const pwd = process.cwd()
+const partFile = path.join(pwd, 'part')
+
+if (!isFile(partFile)) {
+    warning(`Did not find ${pwd}/part`)
+    stopTimer()
+    process.exit(0)
+}
+
+run({
+    partPath: pwd,
+    org: process.env.org,
+    repo: process.env.repo,
+    part: process.env.part,
+})
+
+stopTimer()

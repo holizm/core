@@ -2,10 +2,7 @@
 
 import { runOnTerminal } from '../../scripts/terminal.js'
 
-const run = (...args) => {
+export default (...args) => {
     const cmd = `node --preserve-symlinks /query/process.js ${args.map(a => `'${a}'`).join(' ')}`
     runOnTerminal(cmd)
 }
-
-process.chdir('/HolismHolding/Query')
-run(...process.argv.slice(2))
