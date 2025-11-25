@@ -4,29 +4,52 @@ import {
     divide,
     info,
 } from '../../scripts/logger.js'
+import { getFileLines, isDir } from "../../scripts/os.js"
 import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    startTimer,
+    stopTimer
+} from '../../scripts/timer.js'
+
+const {
+    process: proc,
+    repo,
+} = process.env
 
 runOnTerminal('dropAll')
 
-// startTimer2
+startTimer('generateAll')
+const dependenciesPath = `${repo}/common/dependencies`
+const orderFile = '/generation/order'
+const orderList = getFileLines(orderFile)
+const depsList = getFileLines(dependenciesPath)
 
-// export DependenciesPath=/$ApiRepository/Common/Dependencies
+const set = new Set(depsList)
 
-// while read Dependency; do
-//     Part=$Dependency
-//     if [ -d /$ApiRepository/$Dependency ]; then
-//         OrgOrRepo=$ApiRepository
-//     else
-//         OrgOrRepo=HolismHolding
-//     fi
-//     if [ ! -f "/$OrgOrRepo/$Part/Part.json" ] && [ ! -f "/$OrgOrRepo/$Part/Part" ]; then
-//         Warning "Did not found Part.json for $OrgOrRepo/$Part";
-//         continue;
-//     fi
-//     cd /$OrgOrRepo/$Part
-//     Generate "Fast"
-// done <<< "$(grep -xFf $DependenciesPath /HolismHolding/Generation/Order; grep -vxFf /HolismHolding/Generation/Order $DependenciesPath)"
+const first = orderList.filter(x => set.has(x))
+const second = depsList.filter(x => !orderList.includes(x))
+const finalList = [...first, ...second]
 
-// InsertData
+for (const dependency of finalList) {
+    let orgOrRepo
+    if (isDir(`/${apiRepository}/${dependency}`)) {
+        orgOrRepo = apiRepository
+    } else {
+        orgOrRepo = 'gesht'
+    }
 
-// stopTimer2
+    const base = `/${orgOrRepo}/${dependency}`
+    const part = `${base}/part`
+
+    if (!isFile(part)) {
+        warning(`Did not find part file for ${orgOrRepo}/${dependency}`)
+        continue
+    }
+
+    process.chdir(base)
+    runOnTerminal('generate')
+}
+
+runOnTerminal('insertData')
+
+stopTimer('generateAll')
