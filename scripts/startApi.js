@@ -220,7 +220,7 @@ export default params => {
     if (!result.trim()) {
         const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
-        // createDatabaseContainer(params)
+        createDatabaseContainer(params)
     }
     createApiContainer(params)
 }

@@ -1,24 +1,21 @@
 #!/usr/bin/env bash
-exit
 
 echo "Linking: $1"
 export targetProject=$1
-export targetPath=~/$1
+export targetPath=/$1
 
-ln -s -f /api/package.json $targetPath
-ln -s -f /api/package-lock.json $targetPath
-ln -s -f /api/core $targetPath
-ln -s -f /api/process.js $targetPath
-ln -s -f /npm/node_modules $targetPath
+ln -s -f /$apiRepo/$apiProcess/package.json $targetPath
+ln -s -f /$apiRepo/$apiProcess/package-lock.json $targetPath
+ln -s -f /$apiRepo/$apiProcess/node_modules $targetPath
 
 files=(
+    "common.json"
+    "connectionStrings.json"
+    "instance.json"
     "privateSettings.json"
     "publicSettings.json"
-    "settingsOverride.json"
-    "common.json"
     "repo.json"
-    "instance.json"
-    "connectionStrings.json"
+    "settingsOverride.json"
 )
 
 for file in "${files[@]}"; do
@@ -27,20 +24,17 @@ for file in "${files[@]}"; do
     fi
 done
 
-find \
-    / \
-    /$repo/$process \
-    -type f \
-    -name part \
-    -not -path '*/migration/*' \
-    -not -path '*/query/*' \
-    -not -path '*/generation/*' \
+find /spl \
+    -maxdepth 1 \
+    -mindepth 1 \
+    -type d \
     | \
 while read part;
 do
-    partName=$(basename $(dirname $part))
-    mkdir -p /$targetProject/$partName
-    cp $part /$targetProject/$partName
+    partName=$(basename $part)
+    echo $part $partName
+    # mkdir -p /$targetProject/$partName
+    # cp $part /$targetProject/$partName
 done
 
 cp -r /$apiRepo/$apiProcess/.vscode $targetPath
