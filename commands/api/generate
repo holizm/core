@@ -1,24 +1,78 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '../../scripts/terminal.js'
-import { warning } from '../../scripts/logger.js'
+import fs from 'fs'
+import path from 'path'
 import {
     startTimer,
     stopTimer
 } from '../../scripts/timer.js'
-import fs from 'fs'
-import path from 'path'
-import { isFile } from "../../scripts/os.js"
-import run from "./run"
+import {
+    divide,
+    info,
+    warning,
+} from '../../scripts/logger.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    getFileLines,
+    isDir,
+    isFile,
+} from "../../scripts/os.js"
 import extract from "../../scripts/extract.js"
+import run from "./run"
 
 const args = process.argv.slice(2)
-let name = args[0]
-
-startTimer()
+let name = args[0] || ''
 const params = extract()
 
+startTimer()
+
+if (!name) {
+    runOnTerminal('dropAll')
+
+    const {
+        process: proc,
+        repo,
+        apiRepository,
+    } = process.env
+
+    const dependenciesPath = `${repo}/common/dependencies`
+    const orderFile = '/generation/order'
+    const orderList = getFileLines(orderFile)
+    const depsList = getFileLines(dependenciesPath)
+
+    const set = new Set(depsList)
+
+    const first = orderList.filter(x => set.has(x))
+    const second = depsList.filter(x => !orderList.includes(x))
+    const finalList = [...first, ...second]
+
+    for (const dependency of finalList) {
+        let orgOrRepo
+        if (isDir(`/${apiRepository}/${dependency}`)) {
+            orgOrRepo = apiRepository
+        } else {
+            orgOrRepo = 'gesht'
+        }
+
+        const base = `/${orgOrRepo}/${dependency}`
+        const partFile = `${base}/part`
+
+        if (!isFile(partFile)) {
+            warning(`Did not find part file for ${orgOrRepo}/${dependency}`)
+            continue
+        }
+
+        process.chdir(base)
+        runOnTerminal('generate')
+    }
+
+    runOnTerminal('insertData')
+    stopTimer()
+    process.exit(0)
+}
+
 name = name.replace('/', '')
+
 const command = `
         find /spl \
             -maxdepth 1 -mindepth 1 -type d \
@@ -27,7 +81,7 @@ const command = `
     `
 const result = runOnTerminal(command)
 const dirs = result.split('\n').filter(Boolean)
-console.log(dirs)
+
 for (const dir of dirs) {
     const partFile = path.join(dir, 'part')
     if (isFile(partFile)) {
@@ -35,7 +89,6 @@ for (const dir of dirs) {
         runOnTerminal(`generate`)
     }
 }
-stopTimer()
 
 const pwd = process.cwd()
 const partFile = path.join(pwd, 'part')
