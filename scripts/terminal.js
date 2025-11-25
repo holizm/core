@@ -16,7 +16,7 @@ export const clear = () => {
 
 export const runOnTerminal = (command, throwOnError, hideError) => {
     try {
-        const result = execSync(command, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] })
+        const result = execSync(command.trim(), { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] })
         return result.trim()
     } catch (e) {
         const msg = e.stderr?.toString().trim() || e.message || String(e)
@@ -38,7 +38,7 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
     } = opts
 
     try {
-        const { stdout, stderr } = await execAsync(command, {
+        const { stdout, stderr } = await execAsync(command.trim(), {
             cwd,
             env,
             timeout: timeoutMs,
@@ -55,7 +55,7 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
     }
 }
 
-export const runStreaming = (command) => new Promise((resolve, reject) => {
-    const child = spawn(command, { shell: true, stdio: 'inherit' })
+export const runStreaming = command => new Promise((resolve, reject) => {
+    const child = spawn(command.trim(), { shell: true, stdio: 'inherit' })
     child.on('close', code => code === 0 ? resolve() : reject(new Error(`exit ${code}`)))
 })

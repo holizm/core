@@ -12,23 +12,23 @@ import { isFile } from "../../scripts/os.js"
 import run from "./run"
 
 const args = process.argv.slice(2)
-let name = args[0] || ''
+let name = args[0]
 
 startTimer()
 
-if (name === '') {
-    await runOnTerminal('extract forPart')
+if (!name) {
+    runOnTerminal('extract forPart')
 } else {
     name = name.replace('/', '')
-    const cmd = `
+    const command = `
         find /spl \
             -maxdepth 1 -mindepth 1 -type d \
             -not -name "core" \
-            -name ${name} 2>/dev/null
+            -name '*${name}*' 2>/dev/null
     `
-    const result = runOnTerminal(cmd.trim())
+    const result = runOnTerminal(command)
     const dirs = result.split('\n').filter(Boolean)
-
+    console.log(dirs)
     for (const dir of dirs) {
         const partFile = path.join(dir, 'part')
         if (isFile(partFile)) {

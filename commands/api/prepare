@@ -32,7 +32,6 @@ find /spl \
 while read part;
 do
     partName=$(basename $part)
-    echo $part $partName
     # mkdir -p /$targetProject/$partName
     # cp $part /$targetProject/$partName
 done
