@@ -10,35 +10,32 @@ import fs from 'fs'
 import path from 'path'
 import { isFile } from "../../scripts/os.js"
 import run from "./run"
+import extract from "../../scripts/extract.js"
 
 const args = process.argv.slice(2)
 let name = args[0]
 
 startTimer()
+const params = extract()
 
-if (!name) {
-    runOnTerminal('extract forPart')
-} else {
-    name = name.replace('/', '')
-    const command = `
+name = name.replace('/', '')
+const command = `
         find /spl \
             -maxdepth 1 -mindepth 1 -type d \
             -not -name "core" \
             -name '*${name}*' 2>/dev/null
     `
-    const result = runOnTerminal(command)
-    const dirs = result.split('\n').filter(Boolean)
-    console.log(dirs)
-    for (const dir of dirs) {
-        const partFile = path.join(dir, 'part')
-        if (isFile(partFile)) {
-            process.chdir(dir)
-            runOnTerminal(`generate`)
-        }
+const result = runOnTerminal(command)
+const dirs = result.split('\n').filter(Boolean)
+console.log(dirs)
+for (const dir of dirs) {
+    const partFile = path.join(dir, 'part')
+    if (isFile(partFile)) {
+        process.chdir(dir)
+        runOnTerminal(`generate`)
     }
-    stopTimer()
-    process.exit(0)
 }
+stopTimer()
 
 const pwd = process.cwd()
 const partFile = path.join(pwd, 'part')
@@ -49,11 +46,6 @@ if (!isFile(partFile)) {
     process.exit(0)
 }
 
-run({
-    partPath: pwd,
-    org: process.env.org,
-    repo: process.env.repo,
-    part: process.env.part,
-})
+run(params)
 
 stopTimer()
