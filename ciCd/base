@@ -18,7 +18,7 @@ jobs:
           chmod --preserve-root 400 ~/.ssh/id_ed25519
           echo "${{ secrets.PAT }}" > ~/secrets/gitHubAccessToken
           cd ~
-          git clone git@github.com:gesht/core
+          git clone git@github.com:holizm/core
           IFS="/" read -r -a repo_array <<< "${GITHUB_REPOSITORY}"
           echo "gitHubOrganization=${repo_array[0]}" >> $GITHUB_ENV
           echo "gitHubRepository=${repo_array[1]}" >> $GITHUB_ENV

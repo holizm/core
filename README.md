@@ -1,4 +1,4 @@
 - cd ~
-- git clone git@github.com:gesht/core
+- git clone git@github.com:holizm/core
 - cd core
 - ./commands/setup
