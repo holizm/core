@@ -26,8 +26,8 @@ export default () => {
         repo,
     } = getOrgRepoFromGit()
 
-    if (org?.toLowerCase() === "gesht") {
-        errorAndExit("This command is not available for gesht repos. They are not executable/runnable. Run command command from a runnable project.")
+    if (org?.toLowerCase() === "holizm") {
+        errorAndExit("This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.")
     }
 
     if (org[0] !== org[0].toLowerCase())

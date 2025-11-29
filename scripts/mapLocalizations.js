@@ -9,7 +9,7 @@ export default params => {
     find ${home} -type d -name '.git' 2>/dev/null | while read gitdir; do
         repoDir=$(dirname '$gitdir')
         origin=$(git -C '$repoDir' remote get-url origin 2>/dev/null)
-        if [[ '$origin' == *'github.com/gesht/'* ]]; then
+        if [[ '$origin' == *'github.com/holizm/'* ]]; then
             find '$repoDir' -type d -name 'localization' 2>/dev/null
         fi
     done | grep -Ff ${dependenciesPath} -e 'api' | sort

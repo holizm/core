@@ -13,7 +13,7 @@ import {
 } from '../scripts/logger.js'
 import setVcsIgnore from "../scripts/setVcsIgnore.js"
 
-const DEFAULT_ORG = 'gesht'
+const DEFAULT_ORG = 'holizm'
 const BASE_DIR = process.env.HOME
 const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
 const cloneConcurrency = process.env.CloneConcurrency && `${process.env.CloneConcurrency}`.trim() !== '' ? Number(process.env.CloneConcurrency) : 8

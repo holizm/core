@@ -35,7 +35,7 @@ import indentation from '../scripts/indentation.js'
 clear()
 
 divide()
-info("gesht start")
+info("holizm start")
 divide()
 info(`directory: ${process.cwd()}`)
 divide()

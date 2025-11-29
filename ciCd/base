@@ -23,6 +23,6 @@ jobs:
           echo "gitHubOrganization=${repo_array[0]}" >> $GITHUB_ENV
           echo "gitHubRepository=${repo_array[1]}" >> $GITHUB_ENV
 
-      - name: Clone gesht
+      - name: Clone holizm
         run: |
-          clone gesht
+          clone holizm

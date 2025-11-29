@@ -51,7 +51,7 @@ if (!name) {
         if (isDir(`/${apiRepository}/${dependency}`)) {
             orgOrRepo = apiRepository
         } else {
-            orgOrRepo = 'gesht'
+            orgOrRepo = 'holizm'
         }
 
         const base = `/${orgOrRepo}/${dependency}`
