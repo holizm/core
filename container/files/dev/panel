@@ -1,4 +1,4 @@
-FROM geshtio/core:latest
+FROM nefcanto/core:latest
 
 ENV PATH="${PATH}:/core/commands/panel:/core/commands"
 

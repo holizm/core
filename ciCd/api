@@ -1,8 +1,8 @@
 
-      - name: Pull geshtio/api
+      - name: Pull nefcanto/api
         run: |
-          docker pull geshtio/api
+          docker pull nefcanto/api
 
-      - name: Pull geshtio/api-prod
+      - name: Pull nefcanto/api-prod
         run: |
-          docker pull geshtio/api-prod
+          docker pull nefcanto/api-prod

@@ -1,6 +1,6 @@
 services:
     site:
-        image: geshtio/site
+        image: nefcanto/site
         container_name: ${repo}${pascalizedProcess}
         hostname: site
         working_dir: /${repo}/${process}

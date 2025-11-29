@@ -11,5 +11,5 @@
 
       - name: Pull images
         run: |
-          docker pull geshtio/panel
+          docker pull nefcanto/panel
           docker pull node:lts-trixie-slim

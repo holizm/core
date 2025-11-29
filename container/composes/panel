@@ -1,6 +1,6 @@
 services:
     panel:
-        image: geshtio/panel:latest
+        image: nefcanto/panel:latest
         container_name: ${repo}${pascalizedProcess}
         hostname: panel
         ports:

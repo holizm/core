@@ -1,6 +1,6 @@
 services:
     api:
-        image: geshtio/api:latest
+        image: nefcanto/api:latest
         container_name: ${repo}${pascalizedProcess}
         hostname: api
         working_dir: /${repo}/${process}
