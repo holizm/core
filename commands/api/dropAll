@@ -1,29 +1,31 @@
 #!/usr/bin/env node
 
-// . Load
-
 import {
+    divide,
     info,
     success,
-} from '../../scripts/logger'
-import run from './prepareQuery'
+} from '../../scripts/logger.js'
+import {
+    startTimer,
+    stopTimer,
+} from '../../scripts/timer.js'
+import run from './run'
 
-// clear
-
-// StartTimer
-
-// . PrepareQuery
+startTimer('dropAll')
 
 divide()
 info('Dropping all databases ...')
 divide()
 
-run({
-    command: 'dropDatabases'
-})
+const params = {
+    app: 'query',
+    command: 'dropParts',
+}
+
+run(params)
 
 divide()
 success('Dropped all databases')
 divide()
 
-// StopTimer
+stopTimer('dropAll')

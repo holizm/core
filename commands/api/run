@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    runOnTerminal,
+} from '../../scripts/terminal.js'
 
 export default params => {
     console.log('from run', params)
-    const app = params.app
-    const args = Object.entries(params)
-        .map(([k, v]) => `--${k}='${v}'`)
+    const {
+        app,
+        ...rest
+    } = params
+    const args = Object.entries(rest)
+        .map(([k, v]) => `${k}=${v}`)
         .join(' ')
     const cmd = `node --preserve-symlinks /${app}/process.js ${args}`
     runOnTerminal(cmd)
