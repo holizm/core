@@ -1,15 +1,45 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-dirs=$(find ~ -maxdepth 1 -type d \
-    -exec sh -c '[ -f "$1/part" ] && [ ! -d "$1/.git" ] && basename "$1"' _ {} \;)
+GITHUB_ORG=holizm
+REMOTE_PREFIX=git@github.com
+VISIBILITY=private
+ERROR_COLOR="\033[0;31m"
+RESET_COLOR="\033[0m"
 
-for dir in $dirs; do
-    cd ~/"$dir"
-    rm -rf .git
-    git init
-    git remote add origin "git@github.com:gesht/$dir"
-    git add .
-    git commit -m auto
-    git branch -M main
-    git push -uf origin main
+trap 'echo -e "${ERROR_COLOR}An error occurred. Exiting...${RESET_COLOR}"' ERR
+
+for dir in "$HOME"/*/; do
+  [ -e "$dir" ] || continue
+  repo_path="${dir%/}"
+  repo_name="$(basename "$repo_path")"
+  if [ -d "$repo_path/.git" ] || [ -f "$repo_path/.git" ]; then
+    echo "Processing $repo_name"
+    cd "$repo_path"
+    
+    # Check if the repo exists on GitHub
+    if ! gh repo view "$GITHUB_ORG/$repo_name" >/dev/null 2>&1; then
+      echo -e "Repo $repo_name doesn't exist, creating it..."
+      if ! gh repo create "$GITHUB_ORG/$repo_name" --$VISIBILITY --confirm 2>/dev/null; then
+        echo -e "${ERROR_COLOR}Error creating repository $repo_name${RESET_COLOR}"
+        continue
+      fi
+    else
+      echo -e "Repo $repo_name already exists on GitHub, skipping creation."
+    fi
+
+    # Set remote URL
+    remote_url="$REMOTE_PREFIX:$GITHUB_ORG/$repo_name.git"
+    git remote remove origin 2>/dev/null || true
+    git remote add origin "$remote_url"
+
+    # Push silently
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+    if ! git push -u origin "$branch" >/dev/null 2>&1; then
+      echo -e "${ERROR_COLOR}Error pushing $repo_name to remote$RESET_COLOR"
+      continue
+    fi
+    
+    echo "Successfully pushed $repo_name -> $remote_url (branch: $branch)"
+  fi
 done
