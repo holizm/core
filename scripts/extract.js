@@ -1,24 +1,24 @@
-import path from "path"
-import process from "process"
+import path from 'path'
+import process from 'process'
 import {
     errorAndExit,
     success,
-} from "../scripts/logger.js"
+} from '../scripts/logger.js'
 import {
     getDepth,
     getOrgRepoFromGit,
-} from "../scripts/os.js"
-import pascalize from "../scripts/pascalize.js"
-import camelize from "../scripts/camelize.js"
+} from '../scripts/os.js'
+import pascalize from '../scripts/pascalize.js'
+import camelize from '../scripts/camelize.js'
 
 export default () => {
     const cwd = process.cwd()
-    if (cwd === "/") {
-        errorAndExit("Can not run command from the root directory")
+    if (cwd === '/') {
+        errorAndExit('Can not run command from the root directory')
     }
     const home = process.env.HOME
     if (cwd === home) {
-        errorAndExit("Can not run command from the home directory")
+        errorAndExit('Can not run command from the home directory')
     }
 
     const {
@@ -26,15 +26,15 @@ export default () => {
         repo,
     } = getOrgRepoFromGit()
 
-    if (org?.toLowerCase() === "holizm") {
-        errorAndExit("This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.")
+    if (org?.toLowerCase() === 'holizm') {
+        errorAndExit('This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.')
     }
 
-    if (org[0] !== org[0].toLowerCase())
-        errorAndExit("Invalid Organization. Organization name should start with a lowercase letter.")
+    if (org[0] !== org[0].toLowerCase() && org !== 'HolismProjects')
+        errorAndExit('Invalid Organization. Organization name should start with a lowercase letter.', org)
 
     if (getDepth() !== 4) {
-        errorAndExit("This command should only be run from inside a process (API, panel, site, worker, etc.)")
+        errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)')
     }
 
     let params = {
