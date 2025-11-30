@@ -5,7 +5,6 @@ import {
 } from '../../scripts/terminal.js'
 
 export default params => {
-    console.log('from run', params)
     const {
         app,
         ...rest

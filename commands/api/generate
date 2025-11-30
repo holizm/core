@@ -7,6 +7,7 @@ import {
 } from '../../scripts/timer.js'
 import {
     divide,
+    errorAndExit,
     info,
     warning,
 } from '../../scripts/logger.js'
@@ -20,16 +21,11 @@ import extract from "../../scripts/extract.js"
 import run from "./run"
 
 const args = process.argv.slice(2)
-let name = args[0] || ''
-divide()
-const params = extract({
-    container: true,
-})
-divide()
+let search = args[0] || ''
 
 startTimer()
 
-if (!name) {
+if (!search) {
     runOnTerminal('dropAll', { show: true })
 
     const {
@@ -76,19 +72,20 @@ if (!name) {
     process.exit(0)
 }
 
-name = name.replace('/', '')
+search = search.replace('/', '')
 
 const command = `
-        find /spl \
-            -maxdepth 1 -mindepth 1 -type d \
-            -not -name "core" \
-            -name '*${name}*' 2>/dev/null
-    `
+    find / \
+        -maxdepth 1 -mindepth 1 -type d \
+        -name '*${search}*' \
+        -exec test -f "{}/part" \\; \
+        -print 2>/dev/null
+`
 const result = runOnTerminal(command)
 const dirs = result.split('\n').filter(Boolean)
 if (dirs.length > 1) {
     for (const dir of dirs) {
-        const partFile = path.join(dir, 'part')
+        const partFile = `${dir}/part`
         if (isFile(partFile)) {
             process.chdir(dir)
             runOnTerminal(`generate ${dir}`, { show: true })
@@ -98,16 +95,27 @@ if (dirs.length > 1) {
     process.exit(0)
 }
 
-const pwd = process.cwd()
-const partFile = path.join(pwd, 'part')
+if (dirs.length === 0) {
+    errorAndExit(`No part is found for search ${search}`)
+}
+
+process.chdir(dirs[0])
+divide()
+const params = extract({
+    container: true,
+})
+divide()
+const partFile = `/${params.repo}/part`
 
 if (!isFile(partFile)) {
-    warning(`Did not find ${pwd}/part`)
+    warning(`Did not find ${partFile}`)
     stopTimer()
     process.exit(0)
 }
 
-// run(params)
-console.log("running run with", params)
+run({
+    ...params,
+    app: 'generation',
+})
 
 stopTimer()
