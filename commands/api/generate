@@ -21,7 +21,9 @@ import run from "./run"
 
 const args = process.argv.slice(2)
 let name = args[0] || ''
-const params = extract()
+const params = extract({
+    container: true,
+})
 
 startTimer()
 
@@ -62,7 +64,7 @@ if (!name) {
         }
 
         process.chdir(base)
-        runOnTerminal('generate')
+        runOnTerminal(`generate ${dependency}`)
     }
 
     runOnTerminal('insertData')
@@ -80,13 +82,16 @@ const command = `
     `
 const result = runOnTerminal(command)
 const dirs = result.split('\n').filter(Boolean)
-
-for (const dir of dirs) {
-    const partFile = path.join(dir, 'part')
-    if (isFile(partFile)) {
-        process.chdir(dir)
-        runOnTerminal(`generate`)
+if (dirs.length > 1) {
+    for (const dir of dirs) {
+        const partFile = path.join(dir, 'part')
+        if (isFile(partFile)) {
+            process.chdir(dir)
+            runOnTerminal(`generate ${dir}`)
+        }
     }
+    stopTimer()
+    process.exit(0)
 }
 
 const pwd = process.cwd()
@@ -98,6 +103,7 @@ if (!isFile(partFile)) {
     process.exit(0)
 }
 
-run(params)
+// run(params)
+console.log("running run with", params)
 
 stopTimer()

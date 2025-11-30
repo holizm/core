@@ -11,7 +11,19 @@ import {
 import pascalize from '../scripts/pascalize.js'
 import camelize from '../scripts/camelize.js'
 
-export default () => {
+const getOrgRepoFromDir = dir => {
+    const parts = dir.split('/')
+    const repo = parts[1]
+    return {
+        org: 'na',
+        repo,
+    }
+}
+
+export default params => {
+    const {
+        container,
+    } = params || {}
     const cwd = process.cwd()
     if (cwd === '/') {
         errorAndExit('Can not run command from the root directory')
@@ -24,7 +36,11 @@ export default () => {
     const {
         org,
         repo,
-    } = getOrgRepoFromGit()
+    } = container
+            ?
+            getOrgRepoFromDir(cwd)
+            :
+            getOrgRepoFromGit()
 
     if (org?.toLowerCase() === 'holizm') {
         errorAndExit('This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.')
@@ -33,11 +49,14 @@ export default () => {
     if (org[0] !== org[0].toLowerCase() && org !== 'HolismProjects')
         errorAndExit('Invalid Organization. Organization name should start with a lowercase letter.', org)
 
-    if (getDepth() !== 4) {
+    const depth = getDepth()
+
+    if ((container && depth !== 2) || (!container && depth !== 4)) {
         errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)')
     }
 
-    let params = {
+    params = {
+        ...params,
         home,
         org,
         repo,
