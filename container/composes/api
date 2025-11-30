@@ -51,7 +51,7 @@ services:
             - ${home}/query/partDropper.js:/query/partDropper.js
             - ${home}/query/process.js:/query/process.js
 
-            - /${repo}/common:/${repo}/common
+            - ${home}/${repo}/common:/${repo}/common
 
             - ${home}/secrets/common.json:/${repo}/${process}/common.json
             - ${home}/secrets/${repo}.json:/${repo}/${process}/secrets.json

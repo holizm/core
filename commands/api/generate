@@ -21,9 +21,11 @@ import run from "./run"
 
 const args = process.argv.slice(2)
 let name = args[0] || ''
+divide()
 const params = extract({
     container: true,
 })
+divide()
 
 startTimer()
 
@@ -36,35 +38,37 @@ if (!name) {
         apiRepository,
     } = process.env
 
-    const dependenciesPath = `${repo}/common/dependencies`
+    const essentialPartsPath = `/core/essentialParts`
+    const partsPath = `/${repo}/common/dependencies`
     const orderFile = '/generation/order'
     const orderList = getFileLines(orderFile)
-    const depsList = getFileLines(dependenciesPath)
+    const essentialParts = getFileLines(essentialPartsPath)
+    const parts = getFileLines(partsPath)
 
-    const set = new Set(depsList)
+    const set = new Set([...essentialParts, ...parts])
 
     const first = orderList.filter(x => set.has(x))
-    const second = depsList.filter(x => !orderList.includes(x))
+    const second = parts.filter(x => !orderList.includes(x))
     const finalList = [...first, ...second]
 
-    for (const dependency of finalList) {
+    for (const part of finalList) {
         let orgOrRepo
-        if (isDir(`/${apiRepository}/${dependency}`)) {
+        if (isDir(`/${apiRepository}/${part}`)) {
             orgOrRepo = apiRepository
         } else {
             orgOrRepo = 'holizm'
         }
 
-        const base = `/${orgOrRepo}/${dependency}`
+        const base = `/${part}`
         const partFile = `${base}/part`
 
         if (!isFile(partFile)) {
-            warning(`Did not find part file for ${orgOrRepo}/${dependency}`)
+            warning(`Did not find part file for ${partFile}`)
             continue
         }
 
         process.chdir(base)
-        runOnTerminal(`generate ${dependency}`)
+        runOnTerminal(`generate ${part}`)
     }
 
     runOnTerminal('insertData')
