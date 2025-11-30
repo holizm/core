@@ -9,7 +9,10 @@ import {
 import { runOnTerminal } from "./terminal.js"
 
 export const getOrgRepoFromGit = () => {
-    let url = runOnTerminal("git config --get remote.origin.url", false, true)
+    let url = runOnTerminal("git config --get remote.origin.url", {
+        throwOnError: false,
+        hideError: true,
+    })
     if (!url) errorAndExit("Not a git repo")
 
     if (url.endsWith(".git")) url = url.slice(0, -4)

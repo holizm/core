@@ -1,31 +1,51 @@
 #!/usr/bin/env node
 
-import {
-    exec,
-    execSync,
-    spawn
-} from 'child_process'
-import { promisify } from 'util'
-import { error, info } from './logger.js'
+import { execSync } from 'child_process'
+import { Writable } from 'stream'
+import { error } from './logger.js'
 
-const execAsync = promisify(exec)
+export const clear = () => process.stdout.write('\x1Bc')
 
-export const clear = () => {
-    process.stdout.write('\x1Bc')
-}
+export const runOnTerminal = (command, { throwOnError = false, hideError = false, show = true } = {}) => {
+    const trimmed = command.trim()
 
-export const runOnTerminal = (command, throwOnError, hideError) => {
-    try {
-        const result = execSync(command.trim(), { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] })
-        return result.trim()
-    } catch (e) {
-        const msg = e.stderr?.toString().trim() || e.message || String(e)
-        if (!hideError) {
-            error(msg)
+    const captured = { stdout: '', stderr: '' }
+
+    const stdout = new Writable({
+        write(chunk, _, cb) {
+            captured.stdout += chunk.toString()
+            if (show) process.stdout.write(chunk)
+            cb()
         }
-        if (throwOnError) throw msg
-        return ''
+    })
+
+    const stderr = new Writable({
+        write(chunk, _, cb) {
+            captured.stderr += chunk.toString()
+            if (show && !hideError) process.stderr.write(chunk)
+            cb()
+        }
+    })
+
+    let result
+    try {
+        result = execSync(trimmed, {
+            shell: true,
+            windowsHide: true,
+            stdio: ['ignore', 'pipe', 'pipe'],
+            encoding: 'buffer'   // important: we handle raw buffers
+        })
+        captured.stdout += result.toString()   // fallback if any buffered data
+    } catch (e) {
+        if (e.stdout) captured.stdout += e.stdout.toString()
+        if (e.stderr) captured.stderr += e.stderr.toString()
+
+        const errMsg = captured.stderr || e.message || String(e)
+        if (!hideError && show) error(errMsg.trim())
+        if (throwOnError) throw new Error(errMsg.trim())
     }
+
+    return (captured.stdout + captured.stderr).trim()
 }
 
 export const runOnTerminalAsync = async (command, opts = {}) => {
