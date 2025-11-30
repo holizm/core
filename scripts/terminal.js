@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process'
+import {
+    exec,
+    execSync,
+    spawn,
+} from 'child_process'
 import { Writable } from 'stream'
+import { promisify } from 'util'
 import { error } from './logger.js'
+
+const execAsync = promisify(exec)
 
 export const clear = () => process.stdout.write('\x1Bc')
 
