@@ -3,9 +3,8 @@
 import {
     exec,
     execSync,
-    spawn,
+    spawn
 } from 'child_process'
-import { Writable } from 'stream'
 import { promisify } from 'util'
 import { error } from './logger.js'
 
@@ -13,46 +12,44 @@ const execAsync = promisify(exec)
 
 export const clear = () => process.stdout.write('\x1Bc')
 
-export const runOnTerminal = (command, { throwOnError = false, hideError = false, show = true } = {}) => {
+export const runOnTerminal = (command, params) => {
+    const {
+        throwOnError = false,
+        hideErrors = false,
+        show = false
+    } = params || {}
     const trimmed = command.trim()
 
-    const captured = { stdout: '', stderr: '' }
+    let stdout = ''
+    let stderr = ''
 
-    const stdout = new Writable({
-        write(chunk, _, cb) {
-            captured.stdout += chunk.toString()
-            if (show) process.stdout.write(chunk)
-            cb()
-        }
-    })
-
-    const stderr = new Writable({
-        write(chunk, _, cb) {
-            captured.stderr += chunk.toString()
-            if (show && !hideError) process.stderr.write(chunk)
-            cb()
-        }
-    })
-
-    let result
     try {
-        result = execSync(trimmed, {
+        const buffer = execSync(trimmed, {
             shell: true,
             windowsHide: true,
             stdio: ['ignore', 'pipe', 'pipe'],
-            encoding: 'buffer'   // important: we handle raw buffers
+            encoding: 'buffer'
         })
-        captured.stdout += result.toString()   // fallback if any buffered data
-    } catch (e) {
-        if (e.stdout) captured.stdout += e.stdout.toString()
-        if (e.stderr) captured.stderr += e.stderr.toString()
 
-        const errMsg = captured.stderr || e.message || String(e)
-        if (!hideError && show) error(errMsg.trim())
-        if (throwOnError) throw new Error(errMsg.trim())
+        stdout = buffer.toString()
+
+        if (show) process.stdout.write(stdout)
+
+    } catch (e) {
+        if (e.stdout) stdout = e.stdout.toString()
+        if (e.stderr) stderr = e.stderr.toString()
+
+        if (show) {
+            if (stdout) process.stdout.write(stdout)
+            if (stderr && !hideErrors) process.stderr.write(stderr)
+        }
+
+        const msg = (stderr || e.message || String(e)).trim()
+        if (!hideErrors && show) error(msg)
+        if (throwOnError) throw new Error(msg)
     }
 
-    return (captured.stdout + captured.stderr).trim()
+    return `${stdout}${stderr}`.trim()
 }
 
 export const runOnTerminalAsync = async (command, opts = {}) => {
@@ -72,8 +69,7 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
             maxBuffer,
             shell: true
         })
-        const out = `${stdout || ''}${stderr || ''}`.trim()
-        return out
+        return `${stdout || ''}${stderr || ''}`.trim()
     } catch (e) {
         const msg = (e.stderr || e.stdout || e.message || String(e)).trim()
         error(msg)

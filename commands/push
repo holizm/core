@@ -13,7 +13,7 @@ import findRepos from "../scripts/findRepos.js"
 import { exit } from "../scripts/os.js"
 import status from "../scripts/status.js"
 
-const gitGet = key => runOnTerminal(`git config --global ${key}`)
+const gitGet = key => runOnTerminal(`git config --global ${key}`, { show: false })
 
 const ensureGitConfig = () => {
     const gitName = gitGet('user.name')
