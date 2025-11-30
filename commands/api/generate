@@ -114,8 +114,10 @@ if (!isFile(partFile)) {
 }
 
 run({
-    ...params,
     app: 'generation',
+    part: params.repo,
+    partPath: `/${params.repo}`,
+    show: true,
 })
 
 stopTimer()

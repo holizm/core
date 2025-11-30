@@ -13,5 +13,5 @@ export default params => {
         .map(([k, v]) => `${k}=${v}`)
         .join(' ')
     const cmd = `node --preserve-symlinks /${app}/process.js ${args}`
-    runOnTerminal(cmd)
+    runOnTerminal(cmd, params)
 }
