@@ -30,7 +30,7 @@ divide()
 startTimer()
 
 if (!name) {
-    runOnTerminal('dropAll')
+    runOnTerminal('dropAll', { show: true })
 
     const {
         process: proc,
@@ -68,10 +68,10 @@ if (!name) {
         }
 
         process.chdir(base)
-        runOnTerminal(`generate ${part}`)
+        runOnTerminal(`generate ${part}`, { show: true })
     }
 
-    runOnTerminal('insertData')
+    // runOnTerminal('insertData', { show: true })
     stopTimer()
     process.exit(0)
 }
@@ -91,7 +91,7 @@ if (dirs.length > 1) {
         const partFile = path.join(dir, 'part')
         if (isFile(partFile)) {
             process.chdir(dir)
-            runOnTerminal(`generate ${dir}`)
+            runOnTerminal(`generate ${dir}`, { show: true })
         }
     }
     stopTimer()
