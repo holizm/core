@@ -11,8 +11,7 @@ const {
 
 const nodeModules = `/${repo}/${proc}/node_modules`
 
-const getFiles = async directory => {
-    const root = `${nodeModules}/${directory}`
+const getFiles = async root => {
     const command = `find ${root} -mindepth 2 -type f -name '*.js'`
     const files = runOnTerminal(command).split('\n')
     return files
@@ -22,7 +21,10 @@ for (let i = 0; i < directories.length; i++) {
     const directory = directories[i];
     const root = `${nodeModules}/${directory}`
     const exportsFilePath = `${root}/exports.js`
-    const files = await getFiles(directory)
+    const files = await getFiles(root)
+    if (files.some(i => !i)) {
+        console.log(root, files)
+    }
     const exports = files.map(i => `export * from '${i}'`).join('\n')
     writeFile(exportsFilePath, exports)
 }
