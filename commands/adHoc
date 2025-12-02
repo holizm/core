@@ -1,45 +1,27 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env node
 
-GITHUB_ORG=holizm
-REMOTE_PREFIX=git@github.com
-VISIBILITY=private
-ERROR_COLOR="\033[0;31m"
-RESET_COLOR="\033[0m"
+import { execSync } from 'child_process'
+import { readFileSync, writeFileSync } from 'fs'
+import { homedir } from 'os'
+import path from 'path'
+import camelcase from 'camelcase'
 
-trap 'echo -e "${ERROR_COLOR}An error occurred. Exiting...${RESET_COLOR}"' ERR
+const homeDir = homedir()
 
-for dir in "$HOME"/*/; do
-  [ -e "$dir" ] || continue
-  repo_path="${dir%/}"
-  repo_name="$(basename "$repo_path")"
-  if [ -d "$repo_path/.git" ] || [ -f "$repo_path/.git" ]; then
-    echo "Processing $repo_name"
-    cd "$repo_path"
-    
-    # Check if the repo exists on GitHub
-    if ! gh repo view "$GITHUB_ORG/$repo_name" >/dev/null 2>&1; then
-      echo -e "Repo $repo_name doesn't exist, creating it..."
-      if ! gh repo create "$GITHUB_ORG/$repo_name" --$VISIBILITY --confirm 2>/dev/null; then
-        echo -e "${ERROR_COLOR}Error creating repository $repo_name${RESET_COLOR}"
-        continue
-      fi
-    else
-      echo -e "Repo $repo_name already exists on GitHub, skipping creation."
-    fi
+const findParts = () => {
+    const result = execSync(`find ${homeDir} -maxdepth 2 -type f -name 'part'`, { encoding: 'utf-8' })
+    return result.split('\n').filter(Boolean)
+}
 
-    # Set remote URL
-    remote_url="$REMOTE_PREFIX:$GITHUB_ORG/$repo_name.git"
-    git remote remove origin 2>/dev/null || true
-    git remote add origin "$remote_url"
+const processFile = (filePath) => {
+    const content = readFileSync(filePath, 'utf-8')
+    const camelizedContent = content
+        .split(/\s+/)
+        .map(word => camelcase(word))
+        .join(' ')
+    writeFileSync(filePath, camelizedContent, 'utf-8')
+}
 
-    # Push silently
-    branch="$(git rev-parse --abbrev-ref HEAD)"
-    if ! git push -u origin "$branch" >/dev/null 2>&1; then
-      echo -e "${ERROR_COLOR}Error pushing $repo_name to remote$RESET_COLOR"
-      continue
-    fi
-    
-    echo "Successfully pushed $repo_name -> $remote_url (branch: $branch)"
-  fi
-done
+const files = findParts()
+
+files.forEach(file => processFile(file))
