@@ -19,5 +19,6 @@ do
     export event
     export file
     echo $directory $file $event
-    node /core/commands/api/generateExports.js $directory
+    topLevelDir=$(echo $directory | cut -d'/' -f1)
+    node /core/commands/api/generateExports.js $topLevelDir
 done
