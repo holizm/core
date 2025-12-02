@@ -17,12 +17,12 @@ const processFile = (filePath) => {
     const content = readFileSync(filePath, 'utf-8')
     const camelizedContent = content
         .split(/\r?\n/)
-        .map(line =>
-            line
-                .split(/\s+/)
-                .map(word => camelize(word))
-                .join(' ')
-        )
+        .map(line => {
+            const leadingSpaces = line.match(/^\s*/)[0]
+            const words = line.trim().split(/\s+/)
+            const camelizedWords = words.map(word => camelize(word))
+            return leadingSpaces + camelizedWords.join(' ')
+        })
         .join('\n')
     writeFileSync(filePath, camelizedContent, 'utf-8')
 }
