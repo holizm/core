@@ -67,7 +67,7 @@ if (!search) {
         runOnTerminal(`generate ${part}`, { show: true })
     }
 
-    // runOnTerminal('insertData', { show: true })
+    runOnTerminal('insertData', { show: true })
     stopTimer()
     process.exit(0)
 }

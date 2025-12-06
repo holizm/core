@@ -16,8 +16,9 @@ let files = runOnTerminal(findCmd).split('\n')
 
 let initialFile = `/${repo}/common/initial.js`
 if (isFile(initialFile)) files.push(initialFile)
-
 run({
-    command: 'insertFiles',
+    app: 'query',
+    command: 'insertData',
     files,
+    show: true,
 })
