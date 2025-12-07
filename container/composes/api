@@ -69,9 +69,9 @@ services:
             prepare query
             prepare toMongo
             symlinkCoreAndParts
+            initialize
             monitor &
             cd /${repo}/${process}
-            initialize
             nodemon --watch /${repo} process.js &
             tail -f /dev/null
             '
