@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. /core/scripts/initializeApiBarrels.sh
+
 inotifywait -m -r \
 -e modify \
 -e move \
