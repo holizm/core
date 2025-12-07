@@ -148,6 +148,8 @@ export default params => {
     if (isDir(menusDirectoryPath)) {
         params.addVolume(`${menusDirectoryPath}`, `/${repo}/${process}/src/menus`)
     }
+
+    params.joinVolumes()
     const composeTemplatePath = `${home}/core/container/composes/panel`
     replaceVariables(composeTemplatePath, composeFile, params)
 }
