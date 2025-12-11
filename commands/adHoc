@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { exec } from 'child_process'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 
 const getFiles = () => new Promise((resolve, reject) => {
     const cmd = `find . -type f -name "*.jsx" -not -path "*/node_modules/*" -not -path "*/.config/*" -exec grep -l "export default\\s*[A-Z]" {} +`
@@ -20,6 +20,14 @@ getFiles().then(files => {
     files.forEach(f => {
         const content = readFileSync(f, 'utf8')
         const name = extractName(content)
-        console.log(f, name)
+        if (!name) return
+        const lines = content.split('\n')
+        const idx = lines.findIndex(l => l.includes(`const ${name}`))
+        if (idx === -1) return
+        const line = lines[idx]
+        const replaced = line.replace(new RegExp(`const\\s+${name}\\s*=\\s*`), 'export default ')
+        lines[idx] = replaced
+        writeFileSync(f, lines.join('\n'))
+        console.log('updated', f)
     })
 })
