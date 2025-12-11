@@ -1,36 +1,25 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process'
-import { readFileSync, writeFileSync } from 'fs'
-import { homedir } from 'os'
-import camelize from '../scripts/camelize.js'
+import { exec } from 'child_process'
+import { readFileSync } from 'fs'
 
-const homeDir = homedir()
+const getFiles = () => new Promise((resolve, reject) => {
+    const cmd = `find . -type f -name "*.jsx" -not -path "*/node_modules/*" -not -path "*/.config/*" -exec grep -l "export default\\s*[A-Z]" {} +`
+    exec(cmd, (err, stdout) => {
+        if (err && !stdout) return reject(err)
+        resolve(stdout.split('\n').filter(x => x.trim() !== ''))
+    })
+})
 
-const processJsonFile = (filePath) => {
-    const content = readFileSync(filePath, 'utf-8')
-    const json = JSON.parse(content)
-
-    const camelizeKeys = obj => {
-        if (Array.isArray(obj)) {
-            return obj.map(camelizeKeys)
-        } else if (obj && typeof obj === 'object') {
-            return Object.fromEntries(
-                Object.entries(obj).map(([key, value]) => [camelize(key), camelizeKeys(value)])
-            )
-        } else {
-            return obj
-        }
-    }
-
-    const camelizedJson = camelizeKeys(json)
-    writeFileSync(filePath, JSON.stringify(camelizedJson, null, 4), 'utf-8')
+const extractName = content => {
+    const m = content.match(/export default\s*([A-Z][A-Za-z0-9_]*)/)
+    return m ? m[1] : null
 }
 
-const findLocalizationJsons = () => {
-    const result = execSync(`find ${homeDir} -type f -path '*/localization/*.json'`, { encoding: 'utf-8' })
-    return result.split('\n').filter(Boolean)
-}
-
-const jsonFiles = findLocalizationJsons()
-jsonFiles.forEach(file => processJsonFile(file))
+getFiles().then(files => {
+    files.forEach(f => {
+        const content = readFileSync(f, 'utf8')
+        const name = extractName(content)
+        console.log(f, name)
+    })
+})
