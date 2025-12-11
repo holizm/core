@@ -23,11 +23,16 @@ getFiles().then(files => {
         if (!name) return
         const lines = content.split('\n')
         const idx = lines.findIndex(l => l.includes(`const ${name}`))
-        if (idx === -1) return
-        const line = lines[idx]
-        const replaced = line.replace(new RegExp(`const\\s+${name}\\s*=\\s*`), 'export default ')
-        lines[idx] = replaced
-        writeFileSync(f, lines.join('\n'))
+        if (idx !== -1) {
+            lines[idx] = lines[idx].replace(new RegExp(`const\\s+${name}\\s*=\\s*`), 'export default ')
+        }
+        const exportIdx = lines.findIndex(l => l.match(new RegExp(`export default\\s*${name}`)))
+        if (exportIdx !== -1) {
+            lines.splice(exportIdx, 1)
+        }
+        const cleaned = lines.map(l => l.replace(/\s+$/, ''))
+        const finalContent = cleaned.join('\n').replace(/\n*$/, '\n')
+        writeFileSync(f, finalContent)
         console.log('updated', f)
     })
 })
