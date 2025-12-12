@@ -1,7 +1,7 @@
 import { ClearCache } from "panel"
-import { ChooseLocale } from "globalization"
+import { GlobalizationChooseLocale } from "globalization"
 
 export default <>
-    <ChooseLocale />
+    <GlobalizationChooseLocale />
     <ClearCache />
 </>
