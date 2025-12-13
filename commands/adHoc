@@ -12,13 +12,13 @@ const getFiles = () => new Promise((resolve, reject) => {
 })
 
 const extractName = content => {
-    const m = content.match(/export default\s*([A-Z][A-Za-z0-9_]*)/)
+    const m = content.match(/export default\s+(\w+)/)
+    console.log(m)
     return m ? m[1] : null
 }
 
 getFiles().then(files => {
-    const temp = [files[0]]
-    temp.forEach(f => {
+    files.forEach(f => {
         const content = readFileSync(f, 'utf8')
         const name = extractName(content)
         if (!name) return
@@ -36,4 +36,4 @@ getFiles().then(files => {
         writeFileSync(f, finalContent)
         console.log('updated', f)
     })
-})
+});
