@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+import findRepos from '../scripts/findRepos.js'
+import { runOnTerminal } from '../scripts/terminal.js'
+
+const gits = findRepos()
+
+const dirs = gits.join(' ')
+runOnTerminal(`cloc ${dirs}`, { show: true })
