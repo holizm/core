@@ -4,7 +4,7 @@ import { exec } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
 
 const getFiles = () => new Promise((resolve, reject) => {
-    const cmd = `find . -type f -name "*.jsx" -not -path "*/node_modules/*" -not -path "*/.config/*" -exec grep -l "export default\\s*[A-Z]" {} +`
+    const cmd = `find . -type f -name "*.jsx" -not -path "*/node_modules/*" -not -path "*/.config/*" -exec grep -l "export default\\s+\\w+$" {} +`
     exec(cmd, (err, stdout) => {
         if (err && !stdout) return reject(err)
         resolve(stdout.split('\n').filter(x => x.trim() !== ''))
