@@ -7,7 +7,7 @@ import {
 } from '../../scripts/terminal.js'
 import run from './run'
 
-const repo = process.env.apiRepository
+const repo = process.env.apiRepo
 
 clear()
 
