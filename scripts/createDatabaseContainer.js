@@ -17,7 +17,7 @@ const createDatabaseComposeFile = params => {
         repo,
         composeTemplatePath,
     } = params
-    const composePath = `/tmp/${repo}/databases/dockerCompose.yml`
+    const composePath = `/tmp/${repo}/databases/compose.yaml`
     const content = getFileContent(composeTemplatePath)
     const substituted = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
     overrideFile(composePath, substituted)
