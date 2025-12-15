@@ -67,7 +67,6 @@ const mapConfigs = params => {
         [connectionStringsPath, 'connectionStrings.json'],
         [privateSettingsPath, 'privateSettings.json'],
         [publicSettingsPath, 'publicSettings.json'],
-        [settingsOverridePath, 'settingsOverride.json'],
     ]
     for (const [sourcePath, filename] of items) {
         if (isFile(sourcePath))
@@ -79,6 +78,9 @@ const mapConfigs = params => {
     writeFileIfNotExists(repoFile, '{}')
     params.addVolume(commonFile, `/${repo}/${process}/common.json`)
     params.addVolume(repoFile, `/${repo}/${process}/repo.json`)
+    if (isFile(settingsOverridePath)) {
+        params.addVolume(settingsOverridePath, `/${repo}/${process}/settingsOverride.json`)
+    }
 }
 
 const mapDependencies = params => {
