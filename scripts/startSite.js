@@ -174,7 +174,6 @@ export default params => {
     createNonExistentFiles(params)
     createGitHubAction(params)
 
-    params.volumes = ''
     mapDependencies(params)
     mapPages(params)
     mapParts(params)
@@ -206,7 +205,7 @@ export default params => {
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `/${repo}/${process}/tenants`)
     }
-    params.dependenciesPlaceholder = volumes
+    params.joinVolumes()
     const composeTemplatePath = `${home}/core/container/composes/site`
     replaceVariables(composeTemplatePath, composeFile, params)
 }

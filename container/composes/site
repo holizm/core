@@ -70,7 +70,7 @@ services:
             - /tmp/$repo/$process/webServerCache:/webServerCache
             - ${processPath}/tailwind.css:/${repo}/${process}/tailwind.css
 
-            ${dependenciesPlaceholder}
+            ${volumes}
 
         command: >
             bash -c
