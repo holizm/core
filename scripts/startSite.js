@@ -30,7 +30,7 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/paginationTemplate.jsx`, 'parts/shared/pagination.jsx')
     copyFileIfNotExists(`${home}/core/site/breadcrumbTemplate.jsx`, 'parts/shared/breadcrumb.jsx')
     copyFileIfNotExists(`${home}/core/site/richTextTemplate.jsx`, 'parts/shared/richText.jsx')
-    copyFileIfNotExists(`${home}/core/site/tailwindTemplate.css`, 'tailwindTemplate.css')
+    copyFileIfNotExists(`${home}/core/site/tailwindTemplate.css`, 'tailwind.css')
 }
 
 const mapDependencies = params => {
