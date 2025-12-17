@@ -72,15 +72,15 @@ services:
 
             ${volumes}
 
-        command: >
-            bash -c
-            "
-            cd ${processPath}
-            && echo -e '\033[0;31m'"http://localhost:${randomPort}" "https://$host"
-            && watchForDirectoryChanges &
+        command: |
+            bash -lc '
+            export PATH=/core/commands/site:/core/commands:$PATH
+            cd /${repo}/${process}
+            printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
+            watchForDirectoryChanges &
             watchForAst &
             initialize &&
             start &
             tail -f /dev/null
-            "
+            '
         network_mode: "host"
