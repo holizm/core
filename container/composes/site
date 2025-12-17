@@ -76,6 +76,7 @@ services:
             bash -lc '
             export PATH=/core/commands/site:/core/commands:$PATH
             cd /${repo}/${process}
+            merge site
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             watchForDirectoryChanges &
             watchForAst &

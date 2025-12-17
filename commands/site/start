@@ -18,7 +18,7 @@ const {
 } = process.env
 
 const main = async () => {
-    clear()
+    // clear()
     runOnTerminal('stop')
 
     divide()
