@@ -24,7 +24,7 @@ services:
             - ${home}/policies:/policies
             - ${home}/core/fonts:/${repo}/${process}/public/fonts
             - ${home}/site/:/site/
-            - ${home}/site/eslint.config.js:/${repo}/${process}/eslint.config.js
+            - ${home}/site/eslintConfig.js:/${repo}/${process}/eslint.config.js
             - ${home}/site/.prettierignore:/${repo}/${process}/.prettierignore
             - ${home}/site/.prettierrc:/${repo}/${process}/.prettierrc
             - ${home}/site/adapters:/${repo}/${process}/adapters
@@ -35,19 +35,19 @@ services:
             - ${home}/site/functions:/${repo}/${process}/src/baseFunctions
             - ${home}/site/hooks:/${repo}/${process}/src/baseHooks
             - ${home}/site/contexts:/${repo}/${process}/src/baseContexts
-            - ${home}/site/postcss.config.js:/${repo}/${process}/postcss.config.js
-            - ${home}/site/src/entry.dev.tsx:/${repo}/${process}/src/entry.dev.tsx
-            - ${home}/site/src/entry.express.tsx:/${repo}/${process}/src/entry.express.tsx
-            - ${home}/site/src/entry.preview.tsx:/${repo}/${process}/src/entry.preview.tsx
-            - ${home}/site/src/entry.ssr.tsx:/${repo}/${process}/src/entry.ssr.tsx
+            - ${home}/site/postcssConfig.js:/${repo}/${process}/postcss.config.js
+            - ${home}/site/src/entryDev.tsx:/${repo}/${process}/src/entry.dev.tsx
+            - ${home}/site/src/entryExpress.tsx:/${repo}/${process}/src/entry.express.tsx
+            - ${home}/site/src/entryPreview.tsx:/${repo}/${process}/src/entry.preview.tsx
+            - ${home}/site/src/entrySsr.tsx:/${repo}/${process}/src/entry.ssr.tsx
             - ${home}/site/src/global.css:/${repo}/${process}/src/global.css
-            - ${home}/site/src/plugin@_infra.ts:/${repo}/${process}/src/routes/plugin@_infra.ts
+            - ${home}/site/src/pluginInfra.ts:/${repo}/${process}/src/routes/plugin@_infra.ts
             - ${home}/site/src/root.jsx:/${repo}/${process}/src/root.tsx
-            - ${home}/site/src/router-head.jsx:/${repo}/${process}/src/router-head.jsx
-            - ${home}/site/src/routes/service-worker.ts:/${repo}/${process}/src/routes/service-worker.ts
+            - ${home}/site/src/routerHead.jsx:/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/routes/serviceWorker.ts:/${repo}/${process}/src/routes/service-worker.ts
             # - ${home}/site/src/routes/404.tsx:/${repo}/${process}/src/routes/404.tsx
             - ${home}/site/src/routes/error:/${repo}/${process}/src/routes/error
-            - ${home}/site/src/routes/create-blobs:/${repo}/${process}/src/routes/create-blobs
+            - ${home}/site/src/routes/createBlobs:/${repo}/${process}/src/routes/create-blobs
             - ${home}/site/tsConfigBase.json:/${repo}/${process}/tsConfigBase.json
             - ${home}/site/tailwindBase.css:/${repo}/${process}/tailwindBase.css
             - ${home}/site/richTextRendererCollector.js:/${repo}/${process}/richTextRendererCollector.js
@@ -59,7 +59,7 @@ services:
             - ${home}/site/emptyDashboardProvider.js:/${repo}/${process}/emptyDashboardProvider.js
             - ${home}/site/loaderProvider.js:/${repo}/${process}/loaderProvider.js
             - ${home}/site/telemetry.js:/${repo}/${process}/telemetry.js
-            - ${home}/site/vite.config.js:/${repo}/${process}/vite.config.js
+            - ${home}/site/viteConfig.js:/${repo}/${process}/vite.config.js
             - ${home}/site/scripts/scroll.js:/${repo}/${process}/public/scripts/scroll.js
             - ${home}/site/icons/markerIcon.png:/${repo}/${process}/public/icons/marker-icon.png
             - ${home}/site/icons/markerIcon2x.png:/${repo}/${process}/public/icons/marker-icon-2x.png

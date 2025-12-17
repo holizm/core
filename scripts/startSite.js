@@ -200,8 +200,8 @@ export default params => {
     if (settingsOverridePath && isFile(settingsOverridePath)) {
         params.addVolume(`${settingsOverridePath}`, `/${repo}/${process}/public/settingsOverride.json`)
     }
-    params.addVolume(`${home}/site/src/routes/clear-cache`, `/${repo}/${process}/src/routes/clear-cache`)
-    params.addVolume(`${home}/site/src/routes/show-cache`, `/${repo}/${process}/src/routes/show-cache`)
+    params.addVolume(`${home}/site/src/routes/clearCache`, `/${repo}/${process}/src/routes/clear-cache`)
+    params.addVolume(`${home}/site/src/routes/showCache`, `/${repo}/${process}/src/routes/show-cache`)
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `/${repo}/${process}/tenants`)
     }
