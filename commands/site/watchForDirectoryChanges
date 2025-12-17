@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+. /core/scripts/initializeSiteBarrels.sh
+
+inotifywait -m -r \
+-e modify \
+-e move \
+-e create \
+-e delete \
+--exclude "exports.js" \
+-q \
+/$repo/$process/src/pageParts |
+while IFS=' ' read directory event file
+do
+    export directory
+    export event
+    export file
+    echo $directory $file $event
+    topLevelDir=$(echo $directory | cut -d'/' -f1)
+    node /core/commands/api/generateExports.js $topLevelDir
+done
