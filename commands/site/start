@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+import {
+    divide,
+    info,
+} from '../../scripts/logger.js'
+import { isFile } from '../../scripts/os.js'
+import {
+    clear,
+    runOnTerminal,
+    runStreaming,
+} from '../../scripts/terminal.js'
+
+const {
+    process: proc,
+    randomPort,
+    repo,
+} = process.env
+
+const main = async () => {
+    clear()
+    runOnTerminal('stop')
+
+    divide()
+    if (isFile('package.json')) {
+        info('Starting...')
+    } else {
+        info(`Starting /${repo}/${proc} ...`)
+    }
+    divide()
+
+    await runStreaming(`npm run dev -- --port ${randomPort}`)
+}
+
+main().catch(e => {
+    info(String(e))
+})
