@@ -6,9 +6,6 @@ import path from 'path'
 const repo = process.argv[2]
 const process = process.argv[3]
 
-const getDirectoryFiles = dir =>
-    fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile())
-
 const getApplicationParts = () =>
     fs.readdirSync(`/${repo}/${process}/src/applicationParts`)
 
