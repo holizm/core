@@ -134,7 +134,7 @@ const mapParts = params => {
     const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         const name = basename(path)
-        params.addVolume(`${path}`, `/${repo}/${process}/src/parts/${name}`)
+        params.addVolume(`${path}`, `/${repo}/${process}/src/pageParts/${name}`)
     })
 }
 
