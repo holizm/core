@@ -25,8 +25,8 @@ services:
             - ${home}/core/fonts:/${repo}/${process}/public/fonts
             - ${home}/site/:/site/
             - ${home}/site/eslintConfig.js:/${repo}/${process}/eslint.config.js
-            - ${home}/site/.prettierignore:/${repo}/${process}/.prettierignore
-            - ${home}/site/.prettierrc:/${repo}/${process}/.prettierrc
+            - ${home}/site/prettierIgnore:/${repo}/${process}/.prettierignore
+            - ${home}/site/prettierRuntimeConfiguration:/${repo}/${process}/.prettierrc
             - ${home}/site/adapters:/${repo}/${process}/adapters
             - ${home}/site/buildPolicies:/${repo}/${process}/buildPolicies
             - ${home}/site/base:/${repo}/${process}/src/base
