@@ -6,8 +6,8 @@ import path from 'path'
 const repo = process.env.repo
 const proc = process.env.process
 
-const getApplicationParts = () =>
-    fs.readdirSync(`/${repo}/${proc}/src/applicationParts`)
+const getParts = () =>
+    fs.readdirSync(`/${repo}/${proc}/src/parts`)
 
 const getPageParts = () =>
     fs.readdirSync(`/${repo}/${proc}/src/pageParts`)
@@ -26,7 +26,7 @@ const aliases = {
     paginationBehaviors: 'src/paginationBehaviors'
 }
 
-const applicationParts = getApplicationParts()
+const parts = getParts()
 const pageParts = getPageParts()
 const srcDirectories = getSrcDirectories()
 
@@ -39,8 +39,8 @@ for (const srcDirectory of srcDirectories) {
     }
 }
 
-for (const applicationPart of applicationParts) {
-    aliases[applicationPart] = `src/applicationParts/${applicationPart}/exports`
+for (const part of parts) {
+    aliases[part] = `src/parts/${part}/exports`
 }
 
 for (const pagePart of pageParts) {
