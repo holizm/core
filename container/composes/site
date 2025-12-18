@@ -29,12 +29,12 @@ services:
             - ${home}/site/prettierRuntimeConfiguration:/${repo}/${process}/.prettierrc
             - ${home}/site/adapters:/${repo}/${process}/adapters
             - ${home}/site/buildPolicies:/${repo}/${process}/buildPolicies
-            - ${home}/site/base:/${repo}/${process}/src/base
-            - ${home}/site/components:/${repo}/${process}/src/baseComponents
-            - ${home}/site/getters:/${repo}/${process}/src/baseGetters
-            - ${home}/site/functions:/${repo}/${process}/src/baseFunctions
-            - ${home}/site/hooks:/${repo}/${process}/src/baseHooks
-            - ${home}/site/contexts:/${repo}/${process}/src/baseContexts
+            - ${home}/site/core:/${repo}/${process}/src/core
+            - ${home}/site/components:/${repo}/${process}/src/coreComponents
+            - ${home}/site/getters:/${repo}/${process}/src/coreGetters
+            - ${home}/site/functions:/${repo}/${process}/src/coreFunctions
+            - ${home}/site/hooks:/${repo}/${process}/src/coreHooks
+            - ${home}/site/contexts:/${repo}/${process}/src/coreContexts
             - ${home}/site/postcssConfig.js:/${repo}/${process}/postcss.config.js
             - ${home}/site/src/entryDev.tsx:/${repo}/${process}/src/entry.dev.tsx
             - ${home}/site/src/entryExpress.tsx:/${repo}/${process}/src/entry.express.tsx
@@ -48,8 +48,8 @@ services:
             # - ${home}/site/src/routes/404.tsx:/${repo}/${process}/src/routes/404.tsx
             - ${home}/site/src/routes/error:/${repo}/${process}/src/routes/error
             - ${home}/site/src/routes/createBlobs:/${repo}/${process}/src/routes/create-blobs
-            - ${home}/site/tsConfigBase.json:/${repo}/${process}/tsConfigBase.json
-            - ${home}/site/tailwindBase.css:/${repo}/${process}/tailwindBase.css
+            - ${home}/site/coreTsConfig.json:/${repo}/${process}/coreTsConfig.json
+            - ${home}/site/coreTailwind.css:/${repo}/${process}/coreTailwind.css
             - ${home}/site/richTextRendererCollector.js:/${repo}/${process}/richTextRendererCollector.js
             - ${home}/site/itemRendererCollector.js:/${repo}/${process}/itemRendererCollector.js
             - ${home}/site/paginationBehaviorCollector.js:/${repo}/${process}/paginationBehaviorCollector.js
