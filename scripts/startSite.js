@@ -68,12 +68,12 @@ const mapDependencies = params => {
                 /camelizedRoute => /kebabized-route
                 */
                 if (!fs.statSync(pagePath).isDirectory()) return
-                const pageDirectory = page.split('pages/')[1] || ''
+                const pageDirectory = page.split('pages/')[0] || ''
                 if (!pageDirectory.trim()) return
                 const targetPath = `${processPath}/pages/${pageDirectory}`
                 if (!isFile(targetPath) || fs.readdirSync(targetPath).length === 0) {
                     const source = `${dependencyBase}/pages/${pageDirectory}`
-                    const target = `${home}/${repo}/${process}/src/routes/${pageDirectory}`
+                    const target = `/${repo}/${process}/src/routes/${pageDirectory}`
                     mappings.push([source, target])
                 }
             })
