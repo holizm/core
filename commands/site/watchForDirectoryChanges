@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. /core/scripts/initializeSiteBarrels.sh
+node /core/commands/site/initializeSiteBarrels.js
 
 inotifywait -m -r \
 -e modify \

@@ -3,17 +3,17 @@
 import fs from 'fs'
 import path from 'path'
 
-const repo = process.argv[2]
-const process = process.argv[3]
+const repo = process.env.repo
+const proc = process.env.process
 
 const getApplicationParts = () =>
-    fs.readdirSync(`/${repo}/${process}/src/applicationParts`)
+    fs.readdirSync(`/${repo}/${proc}/src/applicationParts`)
 
 const getPageParts = () =>
-    fs.readdirSync(`/${repo}/${process}/src/pageParts`)
+    fs.readdirSync(`/${repo}/${proc}/src/pageParts`)
 
 const getSrcDirectories = () =>
-    fs.readdirSync(`/${repo}/${process}/src`)
+    fs.readdirSync(`/${repo}/${proc}/src`)
 
 
 const aliases = {
@@ -52,7 +52,7 @@ const sortedAliases = Object.fromEntries(
 )
 
 let tsConfigContent = `{
-    "extends": "./tsConfigBase",
+    "extends": "./coreTsConfig",
     "compilerOptions": {
         "paths": {
 `
@@ -72,7 +72,7 @@ tsConfigContent += `        }
 }
 `
 
-const tsConfigFilePath = `/${repo}/${process}/tsconfig.json`
+const tsConfigFilePath = `/${repo}/${proc}/tsconfig.json`
 
 if (fs.existsSync(tsConfigFilePath)) {
     const existingContent = fs.readFileSync(tsConfigFilePath, 'utf8')
@@ -82,5 +82,3 @@ if (fs.existsSync(tsConfigFilePath)) {
 } else {
     fs.writeFileSync(tsConfigFilePath, tsConfigContent)
 }
-
-return aliases
