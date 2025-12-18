@@ -90,15 +90,10 @@ const mapDependencies = params => {
 
         ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
             const partPath = `${dependencyBase}/${part}`
-            if (isFile(partPath) && fs.readdirSync(partPath).length > 0) {
+            if (isDir(partPath) && fs.readdirSync(partPath).length > 0) {
                 params.addVolume(`${dependencyBase}/${part}`, `/${repo}/${process}/src/parts/${dependency}/${part}`)
             }
         })
-
-        const exportsFile = `${dependencyBase}/exports.jsx`
-        if (isFile(exportsFile) && fs.statSync(exportsFile).size > 0) {
-            params.addVolume(`${dependencyBase}/exports.jsx`, `/${repo}/${process}/src/parts/${dependency}/exports.jsx`)
-        }
     }
 }
 

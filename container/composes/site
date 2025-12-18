@@ -30,7 +30,7 @@ services:
             - ${home}/site/adapters:/${repo}/${process}/adapters
             - ${home}/site/buildPolicies:/${repo}/${process}/buildPolicies
             - ${home}/site/core:/${repo}/${process}/src/core
-            - ${home}/site/components:/${repo}/${process}/src/coreComponents
+            - ${home}/site/pageParts:/${repo}/${process}/src/coreParts
             - ${home}/site/getters:/${repo}/${process}/src/coreGetters
             - ${home}/site/functions:/${repo}/${process}/src/coreFunctions
             - ${home}/site/hooks:/${repo}/${process}/src/coreHooks

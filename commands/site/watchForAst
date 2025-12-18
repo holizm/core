@@ -8,7 +8,7 @@ shopt -s globstar
 
 inotifywait -m \
 /$repo/$process/src/core*/*.jsx \
-/$repo/$process/src/components/**/*.jsx \
+/$repo/$process/src/coreParts/**/*.jsx \
 /$repo/$process/src/routes/**/*.jsx \
 /$repo/$process/src/routes/*.jsx \
 -r \
