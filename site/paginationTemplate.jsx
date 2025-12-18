@@ -1,4 +1,4 @@
-import { Pagination as BasePagination } from "base"
+import { Pagination as BasePagination } from "core"
 
 export default ({ metadata }) => {
 
