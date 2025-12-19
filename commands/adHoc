@@ -1,52 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
-import { exec } from 'node:child_process'
-import { promises as fs } from 'node:fs'
-import os from 'node:os'
+ORG=holizm
+TEAM_SLUG=readers
 
-const homeDir = os.homedir()
-const command = `find "${homeDir}" -type f -name "*.jsx" -path "*/site/*"`
-
-exec(command, async (error, stdout, stderr) => {
-    if (error) {
-        console.error(`Error: ${error.message}`)
-        return
-    }
-    if (stderr) {
-        console.error(`Stderr: ${stderr}`)
-        return
-    }
-
-    const files = stdout.split('\n').filter(Boolean)
-
-    for (const file of files) {
-        try {
-            let content = await fs.readFile(file, 'utf8')
-            const importRegex = /(from\s+['"])([^'"]+)(['"])/g
-            let hasChanges = false
-
-            content = content.replace(importRegex, (match, prefix, importPath, suffix) => {
-                if (!importPath.includes('/')) return match
-
-                const newPath = importPath
-                    .split('/')
-                    .map((segment, index) => index === 0 ? segment : segment[0].toLowerCase() + segment.slice(1))
-                    .join('/')
-
-                if (newPath !== importPath) {
-                    hasChanges = true
-                    return `${prefix}${newPath}${suffix}`
-                }
-
-                return match
-            })
-
-            if (hasChanges) {
-                console.log(`Updated imports in ${file}`)
-                await fs.writeFile(file, content, 'utf8')
-            }
-        } catch (err) {
-            console.error(`Failed to process ${file}: ${err.message}`)
-        }
-    }
-})
+gh api "orgs/$ORG/repos?per_page=100" --paginate --jq '.[].name' | while read repo
+do
+  if gh api "orgs/$ORG/teams/$TEAM_SLUG/repos/$ORG/$repo" >/dev/null 2>&1
+  then
+    echo "skipped $repo"
+  else
+    gh api -X PUT "orgs/$ORG/teams/$TEAM_SLUG/repos/$ORG/$repo" -f permission=pull >/dev/null
+    echo "added $repo"
+  fi
+done
