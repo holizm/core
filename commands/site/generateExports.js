@@ -3,7 +3,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const directory = process.argv[2]
+const directory = process.argv[2] || `/${process.env.repo}/${process.env.process}/src`
 const event = process.argv[3]
 const file = process.argv[4]
 

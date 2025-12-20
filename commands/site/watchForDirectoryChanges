@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 node /core/commands/site/initializeSiteBarrels.js
+node /core/commands/site/generateExports.js
 
 inotifywait -m -r \
 -e modify \
@@ -17,5 +18,5 @@ do
     export file
     echo $directory $file $event
     topLevelDir=$(echo $directory | cut -d'/' -f1)
-    node /core/commands/api/generateExports.js $topLevelDir
+    node /core/commands/site/generateExports.js $topLevelDir
 done
