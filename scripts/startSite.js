@@ -60,7 +60,6 @@ const mapDependencies = params => {
             const mappings = []
             fs.readdirSync(pagesPath).forEach(page => {
                 const pagePath = `${pagesPath}/${page}`
-                console.log(pagePath)
                 /*
                 todo`,`
                 /route/slug => /route/[slug]

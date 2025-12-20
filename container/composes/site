@@ -65,9 +65,9 @@ services:
             - ${home}/site/icons/markerIcon2x.png:/${repo}/${process}/public/icons/marker-icon-2x.png
             - ${home}/site/icons/markerShadow.png:/${repo}/${process}/public/icons/marker-shadow.png
             - ${home}/secrets/${repo}.json:/${repo}/${process}/public/secrets.json
-            - /tmp/$repo/$process/ast:/tmp/$repo/$process/ast
-            - /tmp/$repo/$process/analysis:/tmp/$repo/$process/analysis
-            - /tmp/$repo/$process/webServerCache:/webServerCache
+            - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
+            - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
+            - /tmp/${repo}/${process}/webServerCache:/webServerCache
             - ${processPath}/tailwind.css:/${repo}/${process}/tailwind.css
 
             ${volumes}
