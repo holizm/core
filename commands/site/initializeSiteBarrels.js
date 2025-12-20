@@ -19,7 +19,7 @@ const getSrcDirectories = () =>
 const aliases = {
     qwik: 'node_modules/@builder.io/qwik',
     qwikCity: 'node_modules/@builder.io/qwik-city',
-    base: 'src/base/exports',
+    core: 'src/core/exports',
     richTextComponents: 'src/richTextComponents',
     entityRendererComponents: 'src/itemRendererComponents',
     loaders: 'src/loaders',
