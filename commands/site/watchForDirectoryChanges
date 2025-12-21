@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 node /core/commands/site/initializeSiteBarrels.js
-node /core/commands/site/generateExports.js
+
+for dir in /$repo/$process/src/parts/*; do
+    [ -d "$dir" ] || continue
+    topLevelDir=$(basename "$dir")
+    node /core/commands/site/generateExports.js "$topLevelDir"
+done
 
 inotifywait -m -r \
 -e modify \
@@ -17,6 +22,6 @@ do
     export event
     export file
     echo $directory $file $event
-    topLevelDir=$(echo $directory | cut -d'/' -f1)
-    node /core/commands/site/generateExports.js $topLevelDir
+    topLevelDir=$(echo "$directory" | cut -d'/' -f1)
+    node /core/commands/site/generateExports.js "$topLevelDir"
 done
