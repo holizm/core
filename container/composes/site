@@ -69,6 +69,8 @@ services:
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/webServerCache:/webServerCache
             - ${processPath}/tailwind.css:/${repo}/${process}/tailwind.css
+            - ${home}/${repo}/common/publicSettings.json:/${repo}/${process}/public/publicSettings.json
+            - ${home}/${repo}/common/privateSettings.json:/${repo}/${process}/privateSettings.json
 
             ${volumes}
 
