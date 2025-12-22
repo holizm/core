@@ -1,4 +1,7 @@
-import { isFile } from './os.js'
+import {
+    isFile,
+    writeFileIfNotExists,
+} from './os.js'
 
 export default params => {
     let {
