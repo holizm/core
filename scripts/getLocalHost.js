@@ -15,15 +15,17 @@ export default params => {
     }
     const baseDomain = parts.join(".")
     let clean = process
-    for (const affix of ["Site", "Panel", "Api", "Databases", "New"]) {
-        clean = clean.replaceAll(affix, "")
+    const affixes = ["Site", "Panel", "Api", "Databases", "New"]
+    for (const affix of affixes) {
+        const regex = new RegExp(`^${affix}|${affix}$`, 'i')
+        clean = clean.replace(regex, "")
     }
     if (isFile(siteFilePath)) clean = ""
     clean = clean.trim().toLowerCase()
     const subdomains = []
 
-    if (process.includes("Api")) subdomains.push("api")
-    if (process.includes("New")) subdomains.push("new")
+    if (process.endsWith("Api")) subdomains.push("api")
+    if (process.startsWith("New") || process.endsWith("New")) subdomains.push("new")
     if (clean) subdomains.push(clean)
 
     const subdomainPrefix = subdomains.join(".")
