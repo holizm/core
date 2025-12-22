@@ -15,6 +15,7 @@ import createGitHubAction from './createGitHubAction.js'
 import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
+import mapSettings from "./mapSettings.js"
 
 const createNonExistentFiles = params => {
     const {
@@ -125,6 +126,7 @@ export default params => {
     createGitHubAction(params)
 
     mapDependencies(params)
+    mapSettings(params)
     mapLocalizations(params)
     mapRunnable(params)
     mapSecrets(params)
@@ -136,12 +138,8 @@ export default params => {
         menusDirectoryPath,
         process,
         repo,
-        settingsOverridePath,
         tenantsPath,
     } = params
-    if (isFile(settingsOverridePath)) {
-        params.addVolume(`${settingsOverridePath}`, `/${repo}/${process}/public/settingsOverride.json`)
-    }
     if (isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `/${repo}/${process}/public/tenants`)
     }

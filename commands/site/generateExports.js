@@ -3,12 +3,17 @@
 import fs from 'fs'
 import path from 'path'
 
-const directory = process.argv[2] || `/${process.env.repo}/${process.env.process}/src`
+const directory = `/${process.env.repo}/${process.env.process}/src/parts/${process.argv[2]}`
 const event = process.argv[3]
 const file = process.argv[4]
 
-const getDirectoryFiles = dir =>
-    fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile())
+const getDirectoryFiles = dir => {
+    try {
+        return fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile())
+    } catch (error) {
+        console.log(dir)
+    }
+}
 
 
 if (directory.endsWith('pageParts/')) process.exit()

@@ -17,6 +17,7 @@ import {
 } from './os.js'
 import getDependencies from './getDependencies.js'
 import mapNode from '../scripts/mapNode.js'
+import mapSettings from "./mapSettings.js"
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -169,6 +170,7 @@ export default params => {
     createGitHubAction(params)
 
     mapDependencies(params)
+    mapSettings(params)
     mapPages(params)
     mapParts(params)
     mapOthers(params)
@@ -177,23 +179,10 @@ export default params => {
     const {
         composeFile,
         home,
-        privateSettingsPath,
         process,
-        publicSettingsPath,
         repo,
-        settingsOverridePath,
         tenantsPath,
     } = params
-    if (privateSettingsPath && isFile(privateSettingsPath)) {
-        params.addVolume(`${privateSettingsPath}`, `/${repo}/${process}/privateSettings.json`)
-    }
-    if (publicSettingsPath && isFile(publicSettingsPath)) {
-        params.addVolume(`${publicSettingsPath}`, `/${repo}/${process}/publicSettings.json`)
-    }
-
-    if (settingsOverridePath && isFile(settingsOverridePath)) {
-        params.addVolume(`${settingsOverridePath}`, `/${repo}/${process}/public/settingsOverride.json`)
-    }
     params.addVolume(`${home}/site/src/routes/clearCache`, `/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/showCache`, `/${repo}/${process}/src/routes/show-cache`)
     if (tenantsPath && isFile(tenantsPath)) {

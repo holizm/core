@@ -20,6 +20,7 @@ import { runOnTerminal } from './terminal.js'
 import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
+import mapSettings from "./mapSettings.js"
 
 const createNonExistingFiles = params => {
     const {
@@ -50,37 +51,6 @@ const linkVsCodeFiles = params => {
     const vsCodePath = `/tmp/${repo}/${process}/.vscode`
     removeAndRecreateDir(vsCodePath)
     replaceVariables(`${home}/core/api/launch`, `${vsCodePath}/launch.json`, params)
-}
-
-const mapConfigs = params => {
-    let {
-        commonPath,
-        connectionStringsPath,
-        privateSettingsPath,
-        publicSettingsPath,
-        settingsOverridePath,
-        home,
-        process,
-        repo,
-    } = params
-    const items = [
-        [connectionStringsPath, 'connectionStrings.json'],
-        [privateSettingsPath, 'privateSettings.json'],
-        [publicSettingsPath, 'publicSettings.json'],
-    ]
-    for (const [sourcePath, filename] of items) {
-        if (isFile(sourcePath))
-            params.addVolume(`${commonPath}/${filename}`, `/${repo}/${process}/${filename}`)
-    }
-    const commonFile = `${home}/secrets/common.json`
-    const repoFile = `${home}/secrets/${repo}.json`
-    writeFileIfNotExists(commonFile, '{}')
-    writeFileIfNotExists(repoFile, '{}')
-    params.addVolume(commonFile, `/${repo}/${process}/common.json`)
-    params.addVolume(repoFile, `/${repo}/${process}/repo.json`)
-    if (isFile(settingsOverridePath)) {
-        params.addVolume(settingsOverridePath, `/${repo}/${process}/settingsOverride.json`)
-    }
 }
 
 const mapDependencies = params => {
@@ -206,7 +176,7 @@ export default params => {
 
     params.processType = 'api'
     mapNode(params)
-    mapConfigs(params)
+    mapSettings(params)
     mapDependencies(params)
     mapLocalizations(params)
     mapRunnable(params)
