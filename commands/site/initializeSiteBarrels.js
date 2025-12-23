@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 
 import fs from 'fs'
-import path from 'path'
 
 const repo = process.env.repo
 const proc = process.env.process
 
-const getParts = () =>
-    fs.readdirSync(`/${repo}/${proc}/src/parts`)
+const partsBase = `/${repo}/${proc}/src/parts`
+const pagePartsBase = `/${repo}/${proc}/src/pageParts`
+const srcBase = `/${repo}/${proc}/src`
 
-const getPageParts = () =>
-    fs.readdirSync(`/${repo}/${proc}/src/pageParts`)
-
-const getSrcDirectories = () =>
-    fs.readdirSync(`/${repo}/${proc}/src`)
-
+const getDirs = base =>
+    fs.readdirSync(base).filter(d =>
+        fs.statSync(`${base}/${d}`).isDirectory()
+    )
 
 const aliases = {
     qwik: 'node_modules/@builder.io/qwik',
@@ -26,25 +24,25 @@ const aliases = {
     paginationBehaviors: 'src/paginationBehaviors'
 }
 
-const parts = getParts()
-const pageParts = getPageParts()
-const srcDirectories = getSrcDirectories()
+const srcDirectories = getDirs(srcBase)
 
-for (const srcDirectory of srcDirectories) {
-    if (srcDirectory === 'getters') {
+for (const dir of srcDirectories) {
+    if (dir === 'getters') {
         aliases.getters = 'src/getters/exports'
     }
-    if (srcDirectory === 'functions') {
+    if (dir === 'functions') {
         aliases.functions = 'src/functions/exports'
     }
 }
 
+const parts = getDirs(partsBase)
 for (const part of parts) {
     aliases[part] = `src/parts/${part}/exports`
 }
 
+const pageParts = getDirs(pagePartsBase)
 for (const pagePart of pageParts) {
-    aliases[pagePart] = `src/pageParts/${pagePart}/exports`
+    aliases[pagePart] = `src/pageParts/${pagePart}Exports`
 }
 
 const sortedAliases = Object.fromEntries(
@@ -57,13 +55,13 @@ let tsConfigContent = `{
         "paths": {
 `
 
-const aliasKeys = Object.keys(sortedAliases)
-const lastAliasKey = aliasKeys[aliasKeys.length - 1]
+const keys = Object.keys(sortedAliases)
+const lastKey = keys[keys.length - 1]
 
-for (const aliasKey of aliasKeys) {
-    tsConfigContent += `            "${aliasKey}": [
-                "${sortedAliases[aliasKey]}"
-            ]${aliasKey === lastAliasKey ? '' : ','}
+for (const key of keys) {
+    tsConfigContent += `            "${key}": [
+                "${sortedAliases[key]}"
+            ]${key === lastKey ? '' : ','}
 `
 }
 
@@ -75,10 +73,4 @@ tsConfigContent += `        }
 const tsConfigFilePath = `/${repo}/${proc}/tsconfig.json`
 
 if (fs.existsSync(tsConfigFilePath)) {
-    const existingContent = fs.readFileSync(tsConfigFilePath, 'utf8')
-    if (existingContent !== tsConfigContent) {
-        fs.writeFileSync(tsConfigFilePath, tsConfigContent)
-    }
-} else {
-    fs.writeFileSync(tsConfigFilePath, tsConfigContent)
-}
+    if (fs.r
