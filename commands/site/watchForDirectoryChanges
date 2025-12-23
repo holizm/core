@@ -5,6 +5,11 @@ for dir in /$repo/$process/src/parts/*; do
     topLevelDir=$(basename "$dir")
     node /core/commands/site/generateExports.js "$topLevelDir"
 done
+for dir in /$repo/$process/src/pageParts/*; do
+    [ -d "$dir" ] || continue
+    topLevelDir=$(basename "$dir")
+    node /core/commands/site/generateExports.js "$topLevelDir"
+done
 
 node /core/commands/site/initializeSiteBarrels.js
 

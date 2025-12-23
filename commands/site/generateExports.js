@@ -57,13 +57,13 @@ const exportsPath = `${directory}/exports.jsx`
 if (fs.existsSync(exportsPath)) {
     const existingContent = fs.readFileSync(exportsPath, 'utf8')
     if (existingContent === content) {
-        console.log('exports.jsx is up-to-date.')
+        console.log(`exports.jsx is up-to-date. ${directory}`)
     } else {
-        // console.log(`Updating the exports.jsx of ${directory} ...`)
+        console.log(`Updating the exports.jsx of ${directory} ...`)
         fs.writeFileSync(exportsPath, content)
     }
 } else {
-    // console.log(`Updating the exports.jsx of ${directory} ...`)
+    console.log(`Updating the exports.jsx of ${directory} ...`)
     fs.writeFileSync(exportsPath, content)
 }
 
