@@ -3,9 +3,8 @@
 import fs from 'fs'
 import path from 'path'
 
-const directory = `/${process.env.repo}/${process.env.process}/src/parts/${process.argv[2]}`
-const event = process.argv[3]
-const file = process.argv[4]
+const where = process.argv[3]
+const directory = `/${process.env.repo}/${process.env.process}/src/${where}/${process.argv[2]}`
 
 const getDirectoryFiles = dir => {
     try {

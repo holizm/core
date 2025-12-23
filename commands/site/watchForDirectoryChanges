@@ -3,12 +3,12 @@
 for dir in /$repo/$process/src/parts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
-    node /core/commands/site/generateExports.js "$topLevelDir"
+    node /core/commands/site/generateExports.js "$topLevelDir" parts
 done
 for dir in /$repo/$process/src/pageParts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
-    node /core/commands/site/generateExports.js "$topLevelDir"
+    node /core/commands/site/generateExports.js "$topLevelDir" pageParts
 done
 
 node /core/commands/site/initializeSiteBarrels.js
@@ -28,6 +28,6 @@ do
     export file
     # echo $directory $file $event
     topLevelDir=$(echo "$directory" | cut -d'/' -f1)
-    node /core/commands/site/generateExports.js "$topLevelDir"
+    node /core/commands/site/generateExports.js "$topLevelDir" parts
     node /core/commands/site/initializeSiteBarrels.js
 done
