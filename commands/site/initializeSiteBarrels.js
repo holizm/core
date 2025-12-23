@@ -44,6 +44,7 @@ for (const part of parts) {
 }
 
 for (const pagePart of pageParts) {
+    console.log(pagePart)
     aliases[pagePart] = `src/pageParts/${pagePart}/exports`
 }
 

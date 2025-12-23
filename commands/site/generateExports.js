@@ -59,11 +59,11 @@ if (fs.existsSync(exportsPath)) {
     if (existingContent === content) {
         console.log('exports.jsx is up-to-date.')
     } else {
-        console.log(`Updating the exports.jsx of ${directory} ...`)
+        // console.log(`Updating the exports.jsx of ${directory} ...`)
         fs.writeFileSync(exportsPath, content)
     }
 } else {
-    console.log(`Updating the exports.jsx of ${directory} ...`)
+    // console.log(`Updating the exports.jsx of ${directory} ...`)
     fs.writeFileSync(exportsPath, content)
 }
 
