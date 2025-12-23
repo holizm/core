@@ -26,8 +26,13 @@ do
     export directory
     export event
     export file
-    # echo $directory $file $event
+    echo $directory $file $event
     topLevelDir=$(echo "$directory" | cut -d'/' -f1)
-    node /core/commands/site/generateExports.js "$topLevelDir" parts
+    if [[ "$directory" == *"/pageParts/"* ]]; then
+        target=pageParts
+    else
+        target=parts
+    fi
+    node /core/commands/site/generateExports.js "$topLevelDir" "$target"
     node /core/commands/site/initializeSiteBarrels.js
 done

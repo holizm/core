@@ -3,66 +3,51 @@
 import fs from 'fs'
 import path from 'path'
 
-const where = process.argv[3]
-const directory = `/${process.env.repo}/${process.env.process}/src/${where}/${process.argv[2]}`
+const topLevelDir = process.argv[2]
+const target = process.argv[3]
 
-const getDirectoryFiles = dir => {
-    try {
-        return fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile())
-    } catch (error) {
-        console.log(dir)
-    }
-}
+const repo = process.env.repo
+const processName = process.env.process
 
+const baseDir = `/${repo}/${processName}/src/${target}`
+const sourceDir = path.join(baseDir, topLevelDir)
 
-if (directory.endsWith('pageParts/')) process.exit()
+const exportsPath =
+    target === 'parts'
+        ? path.join(sourceDir, 'exports.jsx')
+        : path.join(baseDir, `${topLevelDir}Exports.jsx`)
 
-const directoryFiles = getDirectoryFiles(directory)
+const files = fs.readdirSync(sourceDir).filter(f =>
+    f.endsWith('.jsx') &&
+    fs.statSync(path.join(sourceDir, f)).isFile()
+)
 
-let content = ''
-const fileImports = []
-const fileExports = []
+const imports = files
+    .filter(f => f !== 'exports.jsx' && !f.endsWith('Exports.jsx'))
+    .map(f => {
+        const name = f.replace('.jsx', '')
+        const importPath =
+            target === 'parts'
+                ? `./${name}`
+                : `./${topLevelDir}/${name}`
+        return `import ${name} from "${importPath}"\n`
+    })
+    .sort()
+    .join('')
 
-for (const file of directoryFiles) {
-    if (file !== 'exports.jsx') {
-        const fileWithoutExtension = file.replace('.jsx', '')
-        fileImports.push(`import ${fileWithoutExtension} from "./${fileWithoutExtension}"\n`)
-    }
-}
+const exports = files
+    .filter(f => f !== 'exports.jsx' && !f.endsWith('Exports.jsx'))
+    .map(f => {
+        const name = f.replace('.jsx', '')
+        return `export { ${name} }\n`
+    })
+    .sort()
+    .join('')
 
-fileImports.sort()
-
-for (const fileImport of fileImports) {
-    content += fileImport
-}
-
-content += '\n'
-
-for (const file of directoryFiles) {
-    if (file !== 'exports.jsx') {
-        const fileWithoutExtension = file.replace('.jsx', '')
-        fileExports.push(`export { ${fileWithoutExtension} }\n`)
-    }
-}
-
-fileExports.sort()
-
-for (const fileExport of fileExports) {
-    content += fileExport
-}
-
-const exportsPath = `${directory}/exports.jsx`
+const content = `${imports}\n${exports}`
 
 if (fs.existsSync(exportsPath)) {
-    const existingContent = fs.readFileSync(exportsPath, 'utf8')
-    if (existingContent === content) {
-        console.log(`exports.jsx is up-to-date. ${directory}`)
-    } else {
-        console.log(`Updating the exports.jsx of ${directory} ...`)
-        fs.writeFileSync(exportsPath, content)
-    }
-} else {
-    console.log(`Updating the exports.jsx of ${directory} ...`)
-    fs.writeFileSync(exportsPath, content)
+    if (fs.readFileSync(exportsPath, 'utf8') === content) process.exit(0)
 }
 
+fs.writeFileSync(exportsPath, content)
