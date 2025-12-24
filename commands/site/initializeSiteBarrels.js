@@ -73,4 +73,9 @@ tsConfigContent += `        }
 const tsConfigFilePath = `/${repo}/${proc}/tsconfig.json`
 
 if (fs.existsSync(tsConfigFilePath)) {
-    if (fs.r
+    if (fs.readFileSync(tsConfigFilePath, 'utf8') !== tsConfigContent) {
+        fs.writeFileSync(tsConfigFilePath, tsConfigContent)
+    }
+} else {
+    fs.writeFileSync(tsConfigFilePath, tsConfigContent)
+}
