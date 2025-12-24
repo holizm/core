@@ -17,6 +17,11 @@ const exportsPath =
         ? path.join(sourceDir, 'exports.jsx')
         : path.join(baseDir, `${topLevelDir}Exports.jsx`)
 
+
+if (exportsPath.includes("/pageParts/Exports.jsx")) {
+    process.exit()
+}
+
 const files = fs.readdirSync(sourceDir).filter(f =>
     f.endsWith('.jsx') &&
     fs.statSync(path.join(sourceDir, f)).isFile()
