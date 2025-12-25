@@ -29,9 +29,9 @@ server
         include ${home}/webServer/includes/${host};
     }
 
-    location ~ ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$2?locale=$1 break;
-        rewrite ^/(en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$1 break;
+    location ~ ^/(fa|en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)(/|$) {
+        rewrite ^/(fa|en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)/(.*)$ /$2?locale=$1 break;
+        rewrite ^/(fa|en|ar|bn|de|es|fr|hi|it|ja|ko|pt|ru|ta|tr|ur|vi|zh)$ /?locale=$1 break;
         include ${home}/webServer/includes/${host};
     }
 }
