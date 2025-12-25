@@ -40,13 +40,13 @@ for (const part of parts) {
     aliases[part] = `src/parts/${part}/exports`
 }
 
-const pageParts = getDirs(pagePartsBase)
-for (const pagePart of pageParts) {
-    const files = fs.readdirSync(`${pagePartsBase}/${pagePart}`)
-    const exportFile = files.find(f => f.endsWith('Exports.jsx') || f.endsWith('Exports.ts') || f.endsWith('Exports.tsx'))
-    if (exportFile) {
-        aliases[pagePart] = `src/pageParts/${exportFile.replace(/\.[^/.]+$/, '')}`
-    }
+const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
+    f.endsWith('Exports.jsx') || f.endsWith('Exports.ts') || f.endsWith('Exports.tsx')
+)
+
+for (const file of pagePartsFiles) {
+    const key = file.replace(/Exports\.[^/.]+$/, '')
+    aliases[key] = `src/pageParts/${file.replace(/\.[^/.]+$/, '')}`
 }
 
 const sortedAliases = Object.fromEntries(
