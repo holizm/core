@@ -31,7 +31,7 @@ const importExportData = foundFiles
     .filter(f => !f.endsWith('/exports.jsx') && !f.endsWith('Exports.jsx'))
     .map(fullPath => {
         const rawName = path.basename(fullPath).replace('.jsx', '')
-        const isComponent = fullPath.split('/parts/').length === 3
+        const isComponent = fullPath.split('/parts/').length === 3 || target === 'pageParts'
         const name = isComponent ? pascalize(rawName) : camelize(rawName)
         const importPath = `./${path.relative(sourceDir, fullPath).replace('.jsx', '')}`
         return { name, importLine: `import ${name} from "${importPath}"\n`, exportLine: `export { ${name} }\n` }
