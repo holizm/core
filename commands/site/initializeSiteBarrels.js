@@ -42,7 +42,8 @@ for (const part of parts) {
 
 const pageParts = getDirs(pagePartsBase)
 for (const pagePart of pageParts) {
-    aliases[pagePart] = `src/pageParts/${pagePart}Exports`
+    const baseName = pagePart.replace(/Parts$/, '')
+    aliases[pagePart] = `src/pageParts/${baseName}Exports`
 }
 
 const sortedAliases = Object.fromEntries(
