@@ -42,8 +42,11 @@ for (const part of parts) {
 
 const pageParts = getDirs(pagePartsBase)
 for (const pagePart of pageParts) {
-    const baseName = pagePart.replace(/Parts$/, '')
-    aliases[pagePart] = `src/pageParts/${baseName}Exports`
+    const files = fs.readdirSync(`${pagePartsBase}/${pagePart}`)
+    const exportFile = files.find(f => f.endsWith('Exports.jsx') || f.endsWith('Exports.ts') || f.endsWith('Exports.tsx'))
+    if (exportFile) {
+        aliases[pagePart] = `src/pageParts/${exportFile.replace(/\.[^/.]+$/, '')}`
+    }
 }
 
 const sortedAliases = Object.fromEntries(
