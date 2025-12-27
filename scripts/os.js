@@ -60,6 +60,8 @@ export const removeAndRecreateDir = dirPath => {
 }
 
 export const createFileIfNotExists = (p) => {
+    const dir = path.dirname(p)
+    fs.mkdirSync(dir, { recursive: true })
     if (fs.existsSync(p)) {
         if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
         else return
@@ -68,6 +70,8 @@ export const createFileIfNotExists = (p) => {
 }
 
 export const writeFileIfNotExists = (p, content) => {
+    const dir = path.dirname(p)
+    fs.mkdirSync(dir, { recursive: true })
     if (fs.existsSync(p)) {
         if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
         else return
