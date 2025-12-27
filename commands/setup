@@ -22,6 +22,6 @@ node "$homeDir/core/hooks/install-hooks.js"
 node "$homeDir/core/commands/install-commands.js"
 node "$homeDir/core/scripts/setVcsIgnores.js"
 
-sudo chmod u+w /etc/hosts
+. "$scripts/configureHosts.sh"
 
 success "core installation complete"
