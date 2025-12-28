@@ -12,6 +12,7 @@ export default params => {
         settingsOverridePath,
         home,
         process,
+        processPath,
         processType,
         repo,
     } = params
@@ -24,8 +25,9 @@ export default params => {
     ]
     for (const [sourcePath, filename] of items) {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
+        const isOverride = filename === "settingsOverride.json"
         if (isFile(sourcePath))
-            params.addVolume(`${commonPath}/${filename}`, `/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
+            params.addVolume(`${isOverride ? processPath : commonPath}/${filename}`, `/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
     }
     const commonFile = `${home}/secrets/common.json`
     const repoFile = `${home}/secrets/${repo}.json`
