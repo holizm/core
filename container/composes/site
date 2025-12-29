@@ -19,7 +19,7 @@ services:
             # - NODE_ENV=production
         volumes:
             - /tmp/mre:/tmp/mre
-            - ${home}/.npm:${home}/.npm
+            - ${home}/packages/site:${home}/.npm
             - ${home}/core:/core
             - ${home}/policies:/policies
             - ${home}/core/fonts:/${repo}/${process}/public/fonts

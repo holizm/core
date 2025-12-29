@@ -12,7 +12,7 @@ services:
             - process=${process}
             - processPath=${processPath}
         volumes:
-            - ${home}/.npm:/root/.npm
+            - ${home}/packages/panel:/root/.npm
 
             - ${home}/core:/core
 

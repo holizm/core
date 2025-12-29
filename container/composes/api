@@ -19,7 +19,7 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
-            - ${home}/.npm:/root/.npm
+            - ${home}/packages/api:/root/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
             - /tmp/${repo}/storage:/storage
 
