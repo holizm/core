@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$homeDir/core/scripts/logger.sh"
+
+function getCurrentDns {
+    local dnsResolver=$(sudo lsof -i :53 | awk 'NR>1 {print $1}' | uniq)
+    if [[ $dnsResolver == "dnsmasq" ]]; then
+        echo $(grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\n' ' ')
+    else
+        echo $(grep '^nameserver' /run/systemd/resolve/resolv.conf | awk '{print $2}' | tr '\n' ' ')
+    fi
+}
+
+function flushDnsCache {
+    if systemctl is-active --quiet systemd-resolved; then
+        sudo systemd-resolve --flush-caches
+    elif command -v resolvectl &>/dev/null; then
+        sudo resolvectl flush-caches
+    fi
+}
+
+function applyDns {
+    local key=$1
+    if [[ -z ${dnsProviders[$key]} ]]; then
+        error "DNS key '$key' not found!"
+        info "Keys are:"
+        for key in "${!dnsProviders[@]}"; do
+            info " $key"
+        done
+        exit 1
+    fi
+
+    IFS='|' read -r name ips <<<"${dnsProviders[$key]}"
+    info "Applying DNS configuration: $name ($ips)"
+
+    local dnsResolver=$(sudo lsof -i :53 | awk 'NR>1 {print $1}' | uniq)
+
+    if [[ $dnsResolver == "dnsmasq" ]]; then
+        currentConfig=$(grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\n' ' ')
+        if [[ "$currentConfig" != "$ips" ]]; then
+            sudo sed -i "/^server=/d" /etc/dnsmasq.conf
+            echo "$ips" | tr ' ' '\n' | while read server; do
+                echo "server=$server" | sudo tee -a /etc/dnsmasq.conf > /dev/null
+            done
+            sudo systemctl restart dnsmasq
+        fi
+    else
+        connections=()
+        while IFS= read -r connection; do
+            connections+=("$connection")
+        done < <(nmcli --terse --fields NAME connection show --active | grep -vE '^\s*$')
+        for connection in "${connections[@]}"; do
+            nmcli connection modify "$connection" ipv4.dns "$ips"
+            nmcli connection modify "$connection" ipv4.ignore-auto-dns yes
+            nmcli connection down "$connection"
+            nmcli connection up "$connection"
+        done
+    fi
+
+    flushDnsCache
+    success "DNS servers updated to $name ($ips)."
+}
+
+function switchDns {
+    local currentDns=$(getCurrentDns)
+    local newDnsKey=""
+    for key in "${!dnsProviders[@]}"; do
+        IFS='|' read -r name ips <<<"${dnsProviders[$key]}"
+        if [[ $currentDns == *$(echo $ips | awk '{print $1}')* ]]; then
+            newDnsKey=$(nextDnsKey $key)
+            break
+        fi
+    done
+
+    if [[ -z $newDnsKey ]]; then
+        newDnsKey="cloudflare"
+    fi
+
+    applyDns $newDnsKey
+}
+
+function nextDnsKey {
+    local currentKey=$1
+    local keys=("${!dnsProviders[@]}")
+    for i in "${!keys[@]}"; do
+        if [[ ${keys[$i]} == "$currentKey" ]]; then
+            nextIndex=$(( (i + 1) % ${#keys[@]} ))
+            echo ${keys[$nextIndex]}
+            return
+        fi
+    done
+}
+
+if [[ $# -eq 0 ]]; then
+    switchDns
+else
+    applyDns $1
+fi
