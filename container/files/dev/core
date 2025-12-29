@@ -1,7 +1,7 @@
 FROM node:lts-trixie-slim
 
-RUN groupadd --gid 1000 dev \
-    && useradd --uid 1000 --gid dev --shell /bin/bash --create-home dev \
+RUN usermod -l dev node \
+    && groupmod -n dev node \
     && mkdir -p /home/dev && chown -R dev:dev /home/dev
 
 RUN sed -i 's/^Components: main$/& contrib non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
