@@ -63,7 +63,7 @@ const mapDependencies = params => {
         }
 
         if (process.includes('admin')) {
-            params.addVolume(`${dependencyBase}/admin`, `/${repo}/${process}/src/${dependency}/admin`)
+            params.addVolume(`${dependencyBase}/admin`, `${home}/${repo}/${process}/src/${dependency}/admin`)
         }
 
         if (fs.existsSync(path.join(dependencyBase, 'common'))) {

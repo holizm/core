@@ -22,53 +22,53 @@ services:
             - ${home}/packages/site:${home}/.npm
             - ${home}/core:/core
             - ${home}/policies:/policies
-            - ${home}/core/fonts:/${repo}/${process}/public/fonts
+            - ${home}/core/fonts:${home}/${repo}/${process}/public/fonts
             - ${home}/site/:/site/
-            - ${home}/site/eslintConfig.js:/${repo}/${process}/eslint.config.js
-            - ${home}/site/prettierIgnore:/${repo}/${process}/.prettierignore
-            - ${home}/site/prettierRuntimeConfiguration:/${repo}/${process}/.prettierrc
-            - ${home}/site/adapters:/${repo}/${process}/adapters
-            - ${home}/site/buildPolicies:/${repo}/${process}/buildPolicies
-            - ${home}/site/core:/${repo}/${process}/src/core
-            - ${home}/site/pageParts:/${repo}/${process}/src/coreParts
-            - ${home}/site/getters:/${repo}/${process}/src/coreGetters
-            - ${home}/site/functions:/${repo}/${process}/src/coreFunctions
-            - ${home}/site/hooks:/${repo}/${process}/src/coreHooks
-            - ${home}/site/contexts:/${repo}/${process}/src/coreContexts
-            - ${home}/site/postcssConfig.js:/${repo}/${process}/postcss.config.js
-            - ${home}/site/src/entryDev.tsx:/${repo}/${process}/src/entry.dev.tsx
-            - ${home}/site/src/entryExpress.tsx:/${repo}/${process}/src/entry.express.tsx
-            - ${home}/site/src/entryPreview.tsx:/${repo}/${process}/src/entry.preview.tsx
-            - ${home}/site/src/entrySsr.tsx:/${repo}/${process}/src/entry.ssr.tsx
-            - ${home}/site/src/global.css:/${repo}/${process}/src/global.css
-            - ${home}/site/src/pluginInfra.ts:/${repo}/${process}/src/routes/plugin@_infra.ts
-            - ${home}/site/src/root.jsx:/${repo}/${process}/src/root.tsx
-            - ${home}/site/src/routerHead.jsx:/${repo}/${process}/src/router-head.jsx
-            - ${home}/site/src/routes/serviceWorker.ts:/${repo}/${process}/src/routes/service-worker.ts
-            # - ${home}/site/src/routes/404.tsx:/${repo}/${process}/src/routes/404.tsx
-            - ${home}/site/src/routes/error:/${repo}/${process}/src/routes/error
-            - ${home}/site/src/routes/createBlobs:/${repo}/${process}/src/routes/create-blobs
-            - ${home}/site/coreTsConfig.json:/${repo}/${process}/coreTsConfig.json
-            - ${home}/site/coreTailwind.css:/${repo}/${process}/coreTailwind.css
-            - ${home}/site/richTextRendererCollector.js:/${repo}/${process}/richTextRendererCollector.js
-            - ${home}/site/itemRendererCollector.js:/${repo}/${process}/itemRendererCollector.js
-            - ${home}/site/paginationBehaviorCollector.js:/${repo}/${process}/paginationBehaviorCollector.js
-            - ${home}/site/settingsCreator.js:/${repo}/${process}/settingsCreator.js
-            - ${home}/site/classPrefixer.js:/${repo}/${process}/classPrefixer.js
-            - ${home}/site/nullLayoutProvider.js:/${repo}/${process}/nullLayoutProvider.js
-            - ${home}/site/emptyDashboardProvider.js:/${repo}/${process}/emptyDashboardProvider.js
-            - ${home}/site/loaderProvider.js:/${repo}/${process}/loaderProvider.js
-            - ${home}/site/telemetry.js:/${repo}/${process}/telemetry.js
-            - ${home}/site/viteConfig.js:/${repo}/${process}/vite.config.js
-            - ${home}/site/scripts/scroll.js:/${repo}/${process}/public/scripts/scroll.js
-            - ${home}/site/icons/markerIcon.png:/${repo}/${process}/public/icons/marker-icon.png
-            - ${home}/site/icons/markerIcon2x.png:/${repo}/${process}/public/icons/marker-icon-2x.png
-            - ${home}/site/icons/markerShadow.png:/${repo}/${process}/public/icons/marker-shadow.png
-            - ${home}/secrets/${repo}.json:/${repo}/${process}/public/secrets.json
+            - ${home}/site/eslintConfig.js:${home}/${repo}/${process}/eslint.config.js
+            - ${home}/site/prettierIgnore:${home}/${repo}/${process}/.prettierignore
+            - ${home}/site/prettierRuntimeConfiguration:${home}/${repo}/${process}/.prettierrc
+            - ${home}/site/adapters:${home}/${repo}/${process}/adapters
+            - ${home}/site/buildPolicies:${home}/${repo}/${process}/buildPolicies
+            - ${home}/site/core:${home}/${repo}/${process}/src/core
+            - ${home}/site/pageParts:${home}/${repo}/${process}/src/coreParts
+            - ${home}/site/getters:${home}/${repo}/${process}/src/coreGetters
+            - ${home}/site/functions:${home}/${repo}/${process}/src/coreFunctions
+            - ${home}/site/hooks:${home}/${repo}/${process}/src/coreHooks
+            - ${home}/site/contexts:${home}/${repo}/${process}/src/coreContexts
+            - ${home}/site/postcssConfig.js:${home}/${repo}/${process}/postcss.config.js
+            - ${home}/site/src/entryDev.tsx:${home}/${repo}/${process}/src/entry.dev.tsx
+            - ${home}/site/src/entryExpress.tsx:${home}/${repo}/${process}/src/entry.express.tsx
+            - ${home}/site/src/entryPreview.tsx:${home}/${repo}/${process}/src/entry.preview.tsx
+            - ${home}/site/src/entrySsr.tsx:${home}/${repo}/${process}/src/entry.ssr.tsx
+            - ${home}/site/src/global.css:${home}/${repo}/${process}/src/global.css
+            - ${home}/site/src/pluginInfra.ts:${home}/${repo}/${process}/src/routes/plugin@_infra.ts
+            - ${home}/site/src/root.jsx:${home}/${repo}/${process}/src/root.tsx
+            - ${home}/site/src/routerHead.jsx:${home}/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/routes/serviceWorker.ts:${home}/${repo}/${process}/src/routes/service-worker.ts
+            # - ${home}/site/src/routes/404.tsx:${home}/${repo}/${process}/src/routes/404.tsx
+            - ${home}/site/src/routes/error:${home}/${repo}/${process}/src/routes/error
+            - ${home}/site/src/routes/createBlobs:${home}/${repo}/${process}/src/routes/create-blobs
+            - ${home}/site/coreTsConfig.json:${home}/${repo}/${process}/coreTsConfig.json
+            - ${home}/site/coreTailwind.css:${home}/${repo}/${process}/coreTailwind.css
+            - ${home}/site/richTextRendererCollector.js:${home}/${repo}/${process}/richTextRendererCollector.js
+            - ${home}/site/itemRendererCollector.js:${home}/${repo}/${process}/itemRendererCollector.js
+            - ${home}/site/paginationBehaviorCollector.js:${home}/${repo}/${process}/paginationBehaviorCollector.js
+            - ${home}/site/settingsCreator.js:${home}/${repo}/${process}/settingsCreator.js
+            - ${home}/site/classPrefixer.js:${home}/${repo}/${process}/classPrefixer.js
+            - ${home}/site/nullLayoutProvider.js:${home}/${repo}/${process}/nullLayoutProvider.js
+            - ${home}/site/emptyDashboardProvider.js:${home}/${repo}/${process}/emptyDashboardProvider.js
+            - ${home}/site/loaderProvider.js:${home}/${repo}/${process}/loaderProvider.js
+            - ${home}/site/telemetry.js:${home}/${repo}/${process}/telemetry.js
+            - ${home}/site/viteConfig.js:${home}/${repo}/${process}/vite.config.js
+            - ${home}/site/scripts/scroll.js:${home}/${repo}/${process}/public/scripts/scroll.js
+            - ${home}/site/icons/markerIcon.png:${home}/${repo}/${process}/public/icons/marker-icon.png
+            - ${home}/site/icons/markerIcon2x.png:${home}/${repo}/${process}/public/icons/marker-icon-2x.png
+            - ${home}/site/icons/markerShadow.png:${home}/${repo}/${process}/public/icons/marker-shadow.png
+            - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/webServerCache:/webServerCache
-            - ${processPath}/tailwind.css:/${repo}/${process}/tailwind.css
+            - ${processPath}/tailwind.css:${home}/${repo}/${process}/tailwind.css
 
             ${volumes}
 

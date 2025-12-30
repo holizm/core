@@ -51,12 +51,12 @@ services:
             - ${home}/query/partDropper.js:/query/partDropper.js
             - ${home}/query/process.js:/query/process.js
 
-            - ${home}/${repo}/common:/${repo}/common
+            - ${home}/${repo}/common:${home}/${repo}/common
 
-            - ${home}/secrets/common.json:/${repo}/${process}/common.json
-            - ${home}/secrets/${repo}.json:/${repo}/${process}/secrets.json
+            - ${home}/secrets/common.json:${home}/${repo}/${process}/common.json
+            - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/secrets.json
             ${volumes}
-            - /tmp/${repo}/${process}/.vscode:/${repo}/${process}/.vscode
+            - /tmp/${repo}/${process}/.vscode:${home}/${repo}/${process}/.vscode
         ports:
             - "${randomPort}:5000"
         command: |
