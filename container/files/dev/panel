@@ -3,10 +3,8 @@ FROM nefcanto/core:latest
 ENV PATH="${PATH}:/core/commands/panel:/core/commands"
 
 USER root
-RUN npm install --location=global serve
-USER dev
-
-RUN echo DefaultLimitNOFILE=65536 > /etc/systemd/system.conf
-RUN echo DefaultLimitNOFILE=65536 > /etc/systemd/user.conf
+RUN npm install --location=global serve \
+ && echo DefaultLimitNOFILE=65536 > /etc/systemd/system.conf \
+ && echo DefaultLimitNOFILE=65536 > /etc/systemd/user.conf
 
 RUN ulimit -n 65536
