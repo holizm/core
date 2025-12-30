@@ -96,6 +96,6 @@ if (isAccounts(params)) {
 
 let cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
 console.log(cmd)
-runOnTerminal(cmd)
-cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
-await runStreaming(cmd)
+// runOnTerminal(cmd)
+// cmd = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
+// await runStreaming(cmd)
