@@ -3,16 +3,16 @@ services:
         image: nefcanto/api:latest
         container_name: ${repo}${pascalizedProcess}
         hostname: api
-        working_dir: /${repo}/${process}
+        working_dir: ${home}/${repo}/${process}
         environment:
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=/${repo}/${process}
+            - processPath=${home}/${repo}/${process}
             - apiOrg=${org}
             - apiRepo=${repo}
             - apiProcess=${process}
-            - apiProcessPath=/${repo}/${process}
+            - apiProcessPath=${home}/${repo}/${process}
             - environment=development
             - host=${host}
             - migrationPath=/tmp/${repo}/migration
@@ -71,7 +71,7 @@ services:
             symlinkCoreAndParts
             initialize
             monitor &
-            cd /${repo}/${process}
+            cd ${home}/${repo}/${process}
             nodemon --watch /${repo} process.js &
             tail -f /dev/null
             '

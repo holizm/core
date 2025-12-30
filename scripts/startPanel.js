@@ -67,7 +67,7 @@ const mapDependencies = params => {
         }
 
         if (fs.existsSync(path.join(dependencyBase, 'common'))) {
-            params.addVolume(`${dependencyBase}/common`, `/${repo}/${process}/src/${dependency}/common`)
+            params.addVolume(`${dependencyBase}/common`, `${home}/${repo}/${process}/src/${dependency}/common`)
         }
     }
 }
@@ -83,7 +83,7 @@ const mapRunnable = params => {
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
-        params.addVolume(`/${repo}/${process}/${replacedItem}`, `/${repo}/${process}/src/runnable/${replacedItem}`)
+        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${home}/${repo}/${process}/src/runnable/${replacedItem}`)
     }
 
     const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
@@ -97,7 +97,7 @@ const mapRunnable = params => {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
 
-        params.addVolume(`/${repo}/${process}/${replacedItem}`, `/${repo}/${process}/src/${replacedItem}/${role}`)
+        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${home}/${repo}/${process}/src/${replacedItem}/${role}`)
     }
 }
 
@@ -113,8 +113,8 @@ const mapSecrets = params => {
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
 
-    params.addVolume(`${commonFile}`, `/${repo}/${process}/public/common.json`)
-    params.addVolume(`${secretFile}`, `/${repo}/${process}/public/repo.json`)
+    params.addVolume(`${commonFile}`, `${home}/${repo}/${process}/public/common.json`)
+    params.addVolume(`${secretFile}`, `${home}/${repo}/${process}/public/repo.json`)
 }
 
 export default params => {
@@ -141,10 +141,10 @@ export default params => {
         tenantsPath,
     } = params
     if (isFile(tenantsPath)) {
-        params.addVolume(`${tenantsPath}`, `/${repo}/${process}/public/tenants`)
+        params.addVolume(`${tenantsPath}`, `${home}/${repo}/${process}/public/tenants`)
     }
     if (isDir(menusDirectoryPath)) {
-        params.addVolume(`${menusDirectoryPath}`, `/${repo}/${process}/src/menus`)
+        params.addVolume(`${menusDirectoryPath}`, `${home}/${repo}/${process}/src/menus`)
     }
 
     params.joinVolumes()

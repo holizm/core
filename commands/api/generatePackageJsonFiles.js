@@ -11,7 +11,7 @@ const {
     repo,
 } = process.env
 
-const nodeModules = `/${repo}/${proc}/node_modules`
+const nodeModules = `${home}/${repo}/${proc}/node_modules`
 
 const getImportedParts = async directory => {
     try {

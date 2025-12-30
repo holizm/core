@@ -35,7 +35,7 @@ if (!search) {
     } = process.env
 
     const essentialPartsPath = `/core/essentialParts`
-    const partsPath = `/${repo}/common/dependencies`
+    const partsPath = `${home}/${repo}/common/dependencies`
     const orderFile = '/generation/order'
     const orderList = getFileLines(orderFile)
     const essentialParts = getFileLines(essentialPartsPath)

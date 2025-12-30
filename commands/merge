@@ -13,7 +13,7 @@ const {
 
 const arg = process.argv[2]
 
-const base = `/${repo}/${proc}`
+const base = `${home}/${repo}/${proc}`
 const corePackagePath = `${base}/corePackage.json`
 const runnablePackagePath = `${base}/runnablePackage.json`
 const packagePath = `${base}/package.json`

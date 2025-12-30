@@ -11,7 +11,7 @@ const {
     repo,
 } = process.env
 
-const parts = getDirs(`/${repo}/${proc}/src`)
+const parts = getDirs(`${home}/${repo}/${proc}/src`)
 const partDirs = parts.map(dir =>
     path.resolve('/', repo, proc, 'src', dir)
 )

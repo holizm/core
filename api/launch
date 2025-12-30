@@ -9,7 +9,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "/${repo}/${process}/process.js",
+            "program": "/${home}/${repo}/${process}/process.js",
             "runtimeArgs": [
                 "--preserve-symlinks",
                 "--watch",

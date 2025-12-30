@@ -5,7 +5,7 @@ services:
         hostname: panel
         ports:
             - "${randomPort}:5173"
-        working_dir: /${repo}/${process}
+        working_dir: ${home}/${repo}/${process}
         environment:
             - org=${org}
             - repo=${repo}
@@ -70,9 +70,9 @@ services:
             export PATH=/core/commands/panel:/core/commands:$PATH
             merge panel
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
-            cd /${repo}/${process}
+            cd ${home}/${repo}/${process}
             initialize
-            cd /${repo}/${process}
+            cd ${home}/${repo}/${process}
             /core/commands/panel/watch &
             npm run dev &
             tail -f /dev/null

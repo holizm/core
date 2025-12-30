@@ -24,7 +24,7 @@ const main = async () => {
     if (isFile('package.json')) {
         info('Starting...')
     } else {
-        info(`Starting /${repo}/${proc} ...`)
+        info(`Starting ~/${repo}/${proc} ...`)
     }
     divide()
     runOnTerminal('initialize')

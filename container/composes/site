@@ -3,13 +3,13 @@ services:
         image: nefcanto/site
         container_name: ${repo}${pascalizedProcess}
         hostname: site
-        working_dir: /${repo}/${process}
+        working_dir: ${home}/${repo}/${process}
         environment:
             - NODE_TLS_REJECT_UNAUTHORIZED=0
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=/${repo}/${process}
+            - processPath=${home}/${repo}/${process}
             - randomPort=${randomPort}
             - AUTH_SECRET=t69bu9H55yXKQfUfx8fN
             - KEYCLOAK_CLIENT_SECRET=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
@@ -75,7 +75,7 @@ services:
         command: |
             bash -lc '
             export PATH=/core/commands/site:/core/commands:$PATH
-            cd /${repo}/${process}
+            cd ${home}/${repo}/${process}
             merge site
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             watchForDirectoryChanges &

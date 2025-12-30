@@ -12,7 +12,7 @@ const target = process.argv[3]
 const repo = process.env.repo
 const processName = process.env.process
 
-const baseDir = `/${repo}/${processName}/src/${target}`
+const baseDir = `${home}/${repo}/${processName}/src/${target}`
 const sourceDir = path.join(baseDir, topLevelDir)
 
 const exportsPath =

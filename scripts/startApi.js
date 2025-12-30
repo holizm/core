@@ -114,7 +114,7 @@ const mapRunnable = params => {
     const links = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
     for (const item of [...dirs, ...links]) if (item) params.addVolume(`${item}`, `${item}`)
     if (fs.existsSync(`${commonPath}/api`))
-        params.addVolume(`${commonPath}/api`, `/${repo}/${process}/commonApi`)
+        params.addVolume(`${commonPath}/api`, `${home}/${repo}/${process}/commonApi`)
     const etlPath = path.join(`${home}/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
         for (const child of fs.readdirSync(etlPath)) {
@@ -152,7 +152,7 @@ const mapCore = params => {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`)
     }
     params.addVolume(`${home}/api`, `/api`)
-    params.addVolume(`${home}/${repo}/${process}/process.js`, `/${repo}/${process}/process.js`)
+    params.addVolume(`${home}/${repo}/${process}/process.js`, `${home}/${repo}/${process}/process.js`)
 }
 
 const createApiContainer = params => {

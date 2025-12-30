@@ -9,7 +9,7 @@ const {
     repo,
 } = process.env
 
-const nodeModules = `/${repo}/${proc}/node_modules`
+const nodeModules = `${home}/${repo}/${proc}/node_modules`
 
 const getFiles = async root => {
     const command = `find ${root} -mindepth 2 -type f -name '*.js'`

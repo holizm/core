@@ -5,9 +5,9 @@ import fs from 'fs'
 const repo = process.env.repo
 const proc = process.env.process
 
-const partsBase = `/${repo}/${proc}/src/parts`
-const pagePartsBase = `/${repo}/${proc}/src/pageParts`
-const srcBase = `/${repo}/${proc}/src`
+const partsBase = `${home}/${repo}/${proc}/src/parts`
+const pagePartsBase = `${home}/${repo}/${proc}/src/pageParts`
+const srcBase = `${home}/${repo}/${proc}/src`
 
 const getDirs = base =>
     fs.readdirSync(base).filter(d =>
@@ -74,7 +74,7 @@ tsConfigContent += `        }
 }
 `
 
-const tsConfigFilePath = `/${repo}/${proc}/tsconfig.json`
+const tsConfigFilePath = `${home}/${repo}/${proc}/tsconfig.json`
 
 if (fs.existsSync(tsConfigFilePath)) {
     if (fs.readFileSync(tsConfigFilePath, 'utf8') !== tsConfigContent) {

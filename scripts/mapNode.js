@@ -11,17 +11,17 @@ export default params => {
     const lock = params[`${processType}Lock`]
     const hasCustomPackages = isFile(packageJson)
 
-    params.addVolume(`${home}/${processType}/package.json`, `/${repo}/${process}/corePackage.json`)
+    params.addVolume(`${home}/${processType}/package.json`, `${home}/${repo}/${process}/corePackage.json`)
     if (hasCustomPackages) {
-        params.addVolume(`${packageJson}`, `/${repo}/${process}/${processType}.json`)
-        params.addVolume(`/var/tmp/${repo}/${process}/nodeModules`, `/${repo}/${process}/node_modules`)
-        params.addVolume(`${home}/${repo}/common/${processType}Lock.json`, `/${repo}/${process}/package-lock.json`)
+        params.addVolume(`${packageJson}`, `${home}/${repo}/${process}/${processType}.json`)
+        params.addVolume(`/var/tmp/${repo}/${process}/nodeModules`, `${home}/${repo}/${process}/node_modules`)
+        params.addVolume(`${home}/${repo}/common/${processType}Lock.json`, `${home}/${repo}/${process}/package-lock.json`)
         writeFileIfNotExists(lock, '{}')
-        params.nodeModules = `/${repo}/${process}/node_modules`
+        params.nodeModules = `${home}/${repo}/${process}/node_modules`
     }
     else {
-        params.addVolume(`/var/tmp/${processType}/nodeModules`, `/${repo}/${process}/node_modules`)
-        params.addVolume(`${home}/${processType}/lock.json`, `/${repo}/${process}/package-lock.json`)
-        params.nodeModules = `/${repo}/${process}/node_modules`
+        params.addVolume(`/var/tmp/${processType}/nodeModules`, `${home}/${repo}/${process}/node_modules`)
+        params.addVolume(`${home}/${processType}/lock.json`, `${home}/${repo}/${process}/package-lock.json`)
+        params.nodeModules = `${home}/${repo}/${process}/node_modules`
     }
 }
