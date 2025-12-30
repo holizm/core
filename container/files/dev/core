@@ -2,6 +2,10 @@ FROM node:lts-trixie-slim
 
 RUN usermod -d /home/dev -l dev node
 
+ENV NPM_CONFIG_PREFIX=/home/dev/.npm-global
+
+ENV PATH=$PATH:/home/dev/.npm-global/bin
+
 RUN sed -i 's/^Components: main$/& contrib non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
     && apt-get update -qq -y \
     && apt-get upgrade -qq -y \
