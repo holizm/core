@@ -10,6 +10,7 @@ const {
     process: proc,
     repo,
 } = process.env
+const home = process.env.HOME
 
 const arg = process.argv[2]
 
