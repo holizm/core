@@ -2,6 +2,7 @@ FROM nefcanto/core:latest
 
 ENV PATH="${PATH}:/core/commands/api:/core/commands"
 
+USER root
 RUN apt update -qq \
     && mkdir -p /tmp/imageResizingAndCompression \
     && mkdir -p /tmp/videoConversion \
@@ -16,3 +17,4 @@ RUN apt update -qq \
     && apt install imagemagick -qq -y \
     && apt install ffmpeg -qq -y \
     && npm install -g nodemon
+USER dev
