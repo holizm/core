@@ -6,5 +6,6 @@ USER root
 RUN npm install --location=global serve \
  && echo DefaultLimitNOFILE=65536 > /etc/systemd/system.conf \
  && echo DefaultLimitNOFILE=65536 > /etc/systemd/user.conf
+USER dev
 
 RUN ulimit -n 65536
