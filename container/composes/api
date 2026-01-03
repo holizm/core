@@ -5,6 +5,7 @@ services:
         hostname: api
         working_dir: ${home}/${repo}/${process}
         environment:
+            - home=${home}
             - org=${org}
             - repo=${repo}
             - process=${process}

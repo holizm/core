@@ -77,9 +77,9 @@ const mapDependencies = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.addVolume(`${dependencyBase}`, `/spl/${dependency}`)
-        params.addVolume(`${dependencyBase}`, `/${dependency}/api`)
-        params.addVolume(`${partFilePath}`, `/${dependency}/part`)
+        params.addVolume(`${dependencyBase}`, `${home}/spl/${dependency}`)
+        params.addVolume(`${dependencyBase}`, `${home}/${dependency}/api`)
+        params.addVolume(`${partFilePath}`, `${home}/${dependency}/part`)
 
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
@@ -121,7 +121,7 @@ const mapRunnable = params => {
         for (const child of fs.readdirSync(etlPath)) {
             const childPath = path.join(etlPath, child)
             if (fs.statSync(childPath).isDirectory())
-                params.addVolume(`${childPath}`, `/toMongo/runnableImporters/${child}`)
+                params.addVolume(`${childPath}`, `${home}/toMongo/runnableImporters/${child}`)
         }
     }
 }
@@ -129,7 +129,7 @@ const mapRunnable = params => {
 const mapRunnableMigrations = params => {
     let { commonPath } = params
     if (fs.existsSync(`${commonPath}/migration`))
-        params.addVolume(`${commonPath}/migration`, `/migration/runnable`)
+        params.addVolume(`${commonPath}/migration`, `${home}/migration/runnable`)
 }
 
 const mapCore = params => {
@@ -152,7 +152,7 @@ const mapCore = params => {
     for (const coreItem of coreItems) {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`)
     }
-    params.addVolume(`${home}/api`, `/api`)
+    params.addVolume(`${home}/api`, `${home}/api`)
     params.addVolume(`${home}/${repo}/${process}/process.js`, `${home}/${repo}/${process}/process.js`)
 }
 
@@ -174,9 +174,9 @@ export default params => {
     divide()
     params.processType = 'api'
     createNonExistingFiles(params)
-    linkVsCodeFiles(params)
 
     createDirectories(params)
+    linkVsCodeFiles(params)
     mapNode(params)
     mapSettings(params)
     mapDependencies(params)
