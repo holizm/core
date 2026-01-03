@@ -1,6 +1,6 @@
 FROM nefcanto/core:latest
 
-ENV PATH="${PATH}:/core/commands/api:/core/commands"
+ENV PATH="${PATH}:${HOME}/core/commands/api:${HOME}/core/commands"
 
 USER root
 RUN apt update -qq \

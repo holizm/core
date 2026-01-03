@@ -12,13 +12,13 @@ services:
             - process=${process}
             - processPath=${processPath}
         volumes:
-            - ${home}/packages/panel:/home/dev/.npm
+            - ${home}/packages/panel:${home}/.npm
 
-            - ${home}/core:/core
+            - ${home}/core:${home}/core
 
             - ${home}/fonts:${home}/${repo}/${process}/public/fonts
 
-            - ${home}/panel:/panel
+            - ${home}/panel:${home}/panel
             - ${home}/panel/addPartAndType.js:${home}/${repo}/${process}/addPartAndType.js
             - ${home}/panel/addProperty.js:${home}/${repo}/${process}/addProperty.js
             - ${home}/panel/addTitle.js:${home}/${repo}/${process}/addTitle.js
@@ -67,7 +67,7 @@ services:
             ${volumes}
         command: |
             bash -lc '
-            export PATH=/core/commands/panel:/core/commands:$PATH
+            export PATH=${home}/core/commands/panel:${home}/core/commands:$PATH
             merge panel
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd ${home}/${repo}/${process}

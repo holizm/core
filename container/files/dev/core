@@ -2,6 +2,7 @@ FROM node:lts-trixie-slim
 
 RUN groupmod -n dev node
 RUN usermod -d /home/dev -l dev node
+ENV HOME=/home/dev
 
 RUN sed -i 's/^Components: main$/& contrib non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
     && apt-get update -qq -y \

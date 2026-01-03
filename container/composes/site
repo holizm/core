@@ -20,10 +20,10 @@ services:
         volumes:
             - /tmp/mre:/tmp/mre
             - ${home}/packages/site:${home}/.npm
-            - ${home}/core:/core
-            - ${home}/policies:/policies
+            - ${home}/core:${home}/core
+            - ${home}/policies:${home}/policies
             - ${home}/core/fonts:${home}/${repo}/${process}/public/fonts
-            - ${home}/site/:/site/
+            - ${home}/site/:${home}/site/
             - ${home}/site/eslintConfig.js:${home}/${repo}/${process}/eslint.config.js
             - ${home}/site/prettierIgnore:${home}/${repo}/${process}/.prettierignore
             - ${home}/site/prettierRuntimeConfiguration:${home}/${repo}/${process}/.prettierrc
@@ -67,14 +67,14 @@ services:
             - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
-            - /tmp/${repo}/${process}/webServerCache:/webServerCache
+            - /tmp/${repo}/${process}/webServerCache:${home}/webServerCache
             - ${processPath}/tailwind.css:${home}/${repo}/${process}/tailwind.css
 
             ${volumes}
 
         command: |
             bash -lc '
-            export PATH=/core/commands/site:/core/commands:$PATH
+            export PATH=${home}/core/commands/site:${home}/core/commands:$PATH
             cd ${home}/${repo}/${process}
             merge site
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"

@@ -21,35 +21,35 @@ services:
         volumes:
             - ${home}/packages/api:/home/dev/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
-            - /tmp/${repo}/storage:/storage
+            - /tmp/${repo}/storage:/tmp/${repo}storage
 
             - /etc/localtime:/etc/localtime:ro
             - /etc/timezone:/etc/timezone:ro
 
-            - ${home}/core:/core
-            - ${home}/core:/spl/core
-            - ${home}/fonts:/fonts
-            - ${home}/cloud:/cloud
-            - ${home}/etl:/etl
-            - ${home}/panel/localization:/panel/localization
-            - ${home}/site/localization:/site/localization
+            - ${home}/core:${home}/core
+            - ${home}/core:${home}/spl/core
+            - ${home}/fonts:${home}/fonts
+            - ${home}/cloud:${home}/cloud
+            - ${home}/etl:${home}/etl
+            - ${home}/panel/localization:${home}/panel/localization
+            - ${home}/site/localization:${home}/site/localization
 
-            - ${home}/generation/common:/generation/common
-            - ${home}/generation/database:/generation/database
-            - ${home}/generation/order:/generation/order
-            - ${home}/generation/process.js:/generation/process.js
+            - ${home}/generation/common:${home}/generation/common
+            - ${home}/generation/database:${home}/generation/database
+            - ${home}/generation/order:${home}/generation/order
+            - ${home}/generation/process.js:${home}/generation/process.js
 
-            - ${home}/migration/adHoc:/migration/adHoc
-            - ${home}/migration/environment.js:/migration/environment.js
-            - ${home}/migration/process.js:/migration/process.js
-            - ${home}/migration/migrators:/migration/migrators
+            - ${home}/migration/adHoc:${home}/migration/adHoc
+            - ${home}/migration/environment.js:${home}/migration/environment.js
+            - ${home}/migration/process.js:${home}/migration/process.js
+            - ${home}/migration/migrators:${home}/migration/migrators
 
-            - ${home}/toMongo/importers:/toMongo/importers
-            - ${home}/toMongo/etl:/toMongo/etl
-            - ${home}/toMongo/process.js:/toMongo/process.js
+            - ${home}/toMongo/importers:${home}/toMongo/importers
+            - ${home}/toMongo/etl:${home}/toMongo/etl
+            - ${home}/toMongo/process.js:${home}/toMongo/process.js
 
-            - ${home}/query/partDropper.js:/query/partDropper.js
-            - ${home}/query/process.js:/query/process.js
+            - ${home}/query/partDropper.js:${home}/query/partDropper.js
+            - ${home}/query/process.js:${home}/query/process.js
 
             - ${home}/${repo}/common:${home}/${repo}/common
 
@@ -61,7 +61,7 @@ services:
             - "${randomPort}:5000"
         command: |
             bash -lc '
-            export PATH=/core/commands/api:/core/commands:$PATH
+            export PATH=${home}/core/commands/api:${home}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
             merge api
             prepare generation
