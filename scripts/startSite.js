@@ -18,6 +18,7 @@ import {
 import getDependencies from './getDependencies.js'
 import mapNode from '../scripts/mapNode.js'
 import mapSettings from "./mapSettings.js"
+import createDirectories from "./createDirectories.js"
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -167,6 +168,7 @@ export default params => {
 
     params.processType = 'site'
     createNonExistentFiles(params)
+    createDirectories(params)
     createGitHubAction(params)
 
     mapDependencies(params)

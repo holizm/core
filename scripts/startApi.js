@@ -21,6 +21,7 @@ import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapSettings from "./mapSettings.js"
+import createDirectories from "./createDirectories.js"
 
 const createNonExistingFiles = params => {
     const {
@@ -171,10 +172,11 @@ export default params => {
     if (isEtl(params)) info('Setting up ETL')
     else info('Setting up API')
     divide()
+    params.processType = 'api'
     createNonExistingFiles(params)
     linkVsCodeFiles(params)
 
-    params.processType = 'api'
+    createDirectories(params)
     mapNode(params)
     mapSettings(params)
     mapDependencies(params)
