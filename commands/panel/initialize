@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 base=$home/$repo/$process
-path=$home/public/settingsOverride.json
+path=$base/public/settingsOverride.json
 if [[ ! -f $path ]]; then
     echo "{}" > $path
 fi
