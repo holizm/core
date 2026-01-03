@@ -70,9 +70,9 @@ divide()
 
 params.volumes = []
 params.addVolume = (left, right) => {
-    if (right === '/home/dev/jzp/adminPanel') {
-        error(right, getStack())
-    }
+    // if (right === '/home/dev/x/adminPanel') {
+    //     error(right, getStack())
+    // }
     params.volumes.push({ left, right })
 }
 params.joinVolumes = () => {
