@@ -1,0 +1,4 @@
+cp ~/$repo/$process/corePackage.json ~/.npm/package.json
+cd ~/.npm
+
+npm-check -u
