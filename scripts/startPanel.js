@@ -57,9 +57,10 @@ const mapDependencies = params => {
         }
 
         if (runnablePart) {
-            params.addVolume(`${home}/${repo}/${dependency}`, `/${dependency}`)
+            console.log(dependency)
+            params.addVolume(`${home}/${repo}/${dependency}`, `${home}/${repo}/${dependency}`)
         } else {
-            params.addVolume(`${dependencyBase}`, `/${dependency}`)
+            params.addVolume(dependencyBase, dependencyBase)
         }
 
         if (process.includes('admin')) {

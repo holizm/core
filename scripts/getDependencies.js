@@ -9,12 +9,13 @@ export default params => {
     } = params
 
     const knownDirectoryPatterns = [
-        '\.git',
-        '\w+Api',
-        '\w+Etl',
-        '\w+Panel',
-        'common',
-        'site\w*',
+        '^\\.git$',
+        '^\\.github$',
+        '^\\w+Api$',
+        '^\\w+Etl$',
+        '^\\w+Panel$',
+        '^common$',
+        '^site\\w*$'
     ]
 
     const command = `(cat '${essentialPartsPath}'; echo; cat '${dependenciesPath}'; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | sort)) | sort | uniq`

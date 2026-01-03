@@ -5,6 +5,8 @@ import {
     divide,
     info,
     warning,
+    error,
+    getStack,
 } from "../scripts/logger.js"
 import {
     getFileLines,
@@ -31,6 +33,7 @@ import startSite from "../scripts/startSite.js"
 import processTenantLine from "../scripts/processTenantLine.js"
 import extract from "../scripts/extract.js"
 import indentation from '../scripts/indentation.js'
+import createTempDirectories from "../scripts/createTempDirectories.js"
 
 clear()
 
@@ -67,6 +70,9 @@ divide()
 
 params.volumes = []
 params.addVolume = (left, right) => {
+    if (right === '/home/dev/jzp/adminPanel') {
+        error(right, getStack())
+    }
     params.volumes.push({ left, right })
 }
 params.joinVolumes = () => {
@@ -75,6 +81,8 @@ params.joinVolumes = () => {
         .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
         .join('\n')
 }
+
+createTempDirectories(params)
 
 if (isAccounts(params)) {
     startAccounts(params)
