@@ -4,11 +4,14 @@ export default params => {
     const {
         home,
         process,
+        processType,
         repo,
     } = params
     const tempDirs = [
         `/tmp/${repo}`,
         `/tmp/${repo}/${process}`,
+        `${home}/packages`,
+        `${home}/packages/${processType}`,
     ]
     for (const tempDir of tempDirs) {
         createDirIfNotExists(tempDir)

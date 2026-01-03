@@ -15,7 +15,8 @@ import createGitHubAction from './createGitHubAction.js'
 import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
-import mapSettings from "./mapSettings.js"
+import mapSettings from './mapSettings.js'
+import createDirectories from './createDirectories.js'
 
 const createNonExistentFiles = params => {
     const {
@@ -125,6 +126,7 @@ export default params => {
 
     params.processType = 'panel'
     createNonExistentFiles(params)
+    createDirectories(params)
     createGitHubAction(params)
 
     mapDependencies(params)

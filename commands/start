@@ -33,7 +33,7 @@ import startSite from "../scripts/startSite.js"
 import processTenantLine from "../scripts/processTenantLine.js"
 import extract from "../scripts/extract.js"
 import indentation from '../scripts/indentation.js'
-import createTempDirectories from "../scripts/createTempDirectories.js"
+import createDirectories from "../scripts/createDirectories.js"
 
 clear()
 
@@ -81,8 +81,6 @@ params.joinVolumes = () => {
         .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
         .join('\n')
 }
-
-createTempDirectories(params)
 
 if (isAccounts(params)) {
     startAccounts(params)

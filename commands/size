@@ -1,0 +1,1 @@
+du . --apparent-size -h | sort -h
