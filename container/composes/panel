@@ -74,7 +74,7 @@ services:
             cd ${home}/${repo}/${process}
             initialize
             cd ${home}/${repo}/${process}
-            /core/commands/panel/watch &
+            ${home}/core/commands/panel/watch &
             npm run dev &
             tail -f /dev/null
             '
