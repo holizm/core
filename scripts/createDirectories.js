@@ -1,4 +1,4 @@
-import { createDirIfNotExists } from "./os.js"
+import { createDirIfNotExists } from './os.js'
 
 export default params => {
     const {
@@ -8,19 +8,24 @@ export default params => {
         repo,
     } = params
     const tempDirs = [
-        `/tmp/${repo}`,
-        `/tmp/${repo}/common`,
-        `/tmp/${repo}/${process}`,
-        `/tmp/${repo}/${process}/ast`,
+        [`/tmp/${repo}`, `${home}/${repo}`],
+        [`/tmp/${repo}/common`, `${home}/${repo}/common`],
+        [`/tmp/${repo}/${process}`, `${home}/${repo}/${process}`],
+        [`/tmp/${repo}/${process}/ast`, `${home}/${repo}/${process}/ast`],
         `/var/tmp/${repo}`,
         `/var/tmp/${repo}/${processType}`,
         `/var/tmp/${repo}/${processType}/nodeModules`,
-        `${home}/packages`,
-        `${home}/packages/${processType}`,
+        [`${home}/packages`, `${home}/packages`],
+        [`${home}/packages/${processType}`, `${home}/packages/${processType}`],
     ]
     for (const tempDir of tempDirs) {
-        createDirIfNotExists(tempDir)
-        const containerPath = tempDir.replace('/tmp', home)
-        params.addVolume(tempDir, containerPath)
+        if (Array.isArray(tempDir)) {
+            const [left, right] = tempDir
+            createDirIfNotExists(left)
+            params.addVolume(left, right)
+        }
+        else {
+            createDirIfNotExists(tempDir)
+        }
     }
 }
