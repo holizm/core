@@ -60,7 +60,6 @@ services:
             - ${home}/${repo}/common/publicSettings.json:${home}/${repo}/${process}/public/publicSettings.json
             - ${home}/${repo}/common/privateSettings.json:${home}/${repo}/${process}/privateSettings.json
 
-            - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - ${processPath}/appActions.jsx:${home}/${repo}/${process}/src/appActions.jsx
             - ${processPath}/menu.jsx:${home}/${repo}/${process}/src/menu.jsx
             - ${processPath}/routes.jsx:${home}/${repo}/${process}/src/runnable/routes.jsx

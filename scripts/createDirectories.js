@@ -9,7 +9,12 @@ export default params => {
     } = params
     const tempDirs = [
         `/tmp/${repo}`,
+        `/tmp/${repo}/common`,
         `/tmp/${repo}/${process}`,
+        `/tmp/${repo}/${process}/ast`,
+        `/var/tmp/${repo}`,
+        `/var/tmp/${repo}/${processType}`,
+        `/var/tmp/${repo}/${processType}/nodeModules`,
         `${home}/packages`,
         `${home}/packages/${processType}`,
     ]

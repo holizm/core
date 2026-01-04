@@ -14,7 +14,7 @@ export default params => {
     params.addVolume(`${home}/${processType}/package.json`, `${home}/${repo}/${process}/corePackage.json`)
     if (hasCustomPackages) {
         params.addVolume(`${packageJson}`, `${home}/${repo}/${process}/${processType}.json`)
-        params.addVolume(`/var/tmp/${repo}/${process}/nodeModules`, `${home}/${repo}/${process}/node_modules`)
+        params.addVolume(`/var/tmp/${repo}/${processType}/nodeModules`, `${home}/${repo}/${process}/node_modules`)
         params.addVolume(`${home}/${repo}/common/${processType}Lock.json`, `${home}/${repo}/${process}/package-lock.json`)
         writeFileIfNotExists(lock, '{}')
         params.nodeModules = `${home}/${repo}/${process}/node_modules`
