@@ -15,6 +15,8 @@ export default params => {
         `/var/tmp/${repo}`,
         `/var/tmp/${repo}/${processType}`,
         `/var/tmp/${repo}/${processType}/nodeModules`,
+        `/var/tmp/${processType}`,
+        `/var/tmp/${processType}/nodeModules`,
         [`${home}/packages`, `${home}/packages`],
         [`${home}/packages/${processType}`, `${home}/packages/${processType}`],
     ]
