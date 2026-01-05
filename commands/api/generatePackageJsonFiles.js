@@ -7,6 +7,7 @@ import { writeFileSync } from 'fs'
 const promisifiedExec = util.promisify(exec)
 const [, , ...directories] = process.argv
 const {
+    home,
     process: proc,
     repo,
 } = process.env

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '/core/scripts/terminal.js'
-import { writeFile } from '/core/scripts/os.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
+import { writeFile } from '../../scripts/os.js'
 
 const [, , ...directories] = process.argv
 const {
+    home,
     process: proc,
     repo,
 } = process.env
