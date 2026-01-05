@@ -70,9 +70,9 @@ divide()
 
 params.volumes = []
 params.addVolume = (left, right) => {
-    if (right.includes('node_modules')) {
-        error(right, getStack())
-    }
+    // if (right.includes('node_modules')) {
+    //     error(right, getStack())
+    // }
     params.volumes.push({ left, right })
 }
 params.joinVolumes = () => {
