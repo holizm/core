@@ -1,3 +1,5 @@
+import { rmSync } from 'fs'
+import getDependencies from "./getDependencies.js"
 import { createDirIfNotExists } from './os.js'
 
 export default params => {
@@ -7,6 +9,8 @@ export default params => {
         processType,
         repo,
     } = params
+    // rmSync(`/tmp/${repo}/${process}`, { recursive: true })
+    const hasSourceDirectory = ['panel', 'site'].includes(processType)
     const tempDirs = [
         [`/tmp/${repo}`, `${home}/${repo}`],
         [`/tmp/${repo}/common`, `${home}/${repo}/common`],
@@ -20,6 +24,13 @@ export default params => {
         [`${home}/packages`, `${home}/packages`],
         [`${home}/packages/${processType}`, `${home}/packages/${processType}`],
     ]
+    if (hasSourceDirectory) {
+        tempDirs.push([`/tmp/${repo}/${process}/src`, `${home}/${repo}/${process}/src`])
+    }
+    const dependencies = getDependencies(params)
+    for (const dependency of dependencies) {
+        tempDirs.push([`/tmp/${repo}/${process}/src/${dependency}`, `${home}/${repo}/${process}/${hasSourceDirectory ? '/src' : ''}/${dependency}`])
+    }
     for (const tempDir of tempDirs) {
         if (Array.isArray(tempDir)) {
             const [left, right] = tempDir
