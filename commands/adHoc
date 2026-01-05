@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-ORG=holizm
-TEAM_SLUG=readers
+homeDir="$HOME"
 
-gh api "orgs/$ORG/repos?per_page=100" --paginate --jq '.[].name' | while read repo
-do
-  if gh api "orgs/$ORG/teams/$TEAM_SLUG/repos/$ORG/$repo" >/dev/null 2>&1
-  then
-    echo "skipped $repo"
-  else
-    gh api -X PUT "orgs/$ORG/teams/$TEAM_SLUG/repos/$ORG/$repo" -f permission=pull >/dev/null
-    echo "added $repo"
-  fi
+# Compute default permissions for directories from umask
+umask_val=$(umask)
+default_perm=$(printf "%o" $(( 0777 & ~0$umask_val )))
+
+find "$homeDir" -maxdepth 1 -type d | while read -r dir; do
+    if [ -d "$dir/.git" ]; then
+        echo "Processing git repo: $dir"
+        find "$dir" -type d | while read -r subdir; do
+            sudo chmod "$default_perm" "$subdir"
+        done
+    fi
 done
