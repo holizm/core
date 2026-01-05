@@ -24,7 +24,7 @@ for file in "${files[@]}"; do
     fi
 done
 
-find /spl \
+find $home/spl \
     -maxdepth 1 \
     -mindepth 1 \
     -type d \

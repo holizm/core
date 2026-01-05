@@ -167,6 +167,7 @@ const createApiContainer = params => {
 
 export default params => {
     const {
+        home,
         repo,
     } = params
     if (isEtl(params)) info('Setting up ETL')
@@ -175,7 +176,15 @@ export default params => {
     params.processType = 'api'
     createNonExistingFiles(params)
 
-    createDirectories(params)
+    createDirectories({
+        ...params,
+        extraDirectories: [
+            [`/tmp/migration`, `${home}/migration`],
+            [`/tmp/generation`, `${home}/generation`],
+            [`/tmp/query`, `${home}/query`],
+            [`/tmp/toMongo`, `${home}/toMongo`],
+        ]
+    })
     linkVsCodeFiles(params)
     mapNode(params)
     mapSettings(params)

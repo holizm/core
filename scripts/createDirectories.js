@@ -4,6 +4,7 @@ import { createDirIfNotExists } from './os.js'
 
 export default params => {
     const {
+        extraDirectories,
         home,
         process,
         processType,
@@ -21,15 +22,19 @@ export default params => {
         `/var/tmp/${repo}/${processType}/nodeModules`,
         `/var/tmp/${processType}`,
         `/var/tmp/${processType}/nodeModules`,
+        [`/tmp/spl`, `${home}/spl`],
         [`${home}/packages`, `${home}/packages`],
         [`${home}/packages/${processType}`, `${home}/packages/${processType}`],
     ]
+    if (extraDirectories) {
+        tempDirs.push(...extraDirectories)
+    }
     if (hasSourceDirectory) {
         tempDirs.push([`/tmp/${repo}/${process}/src`, `${home}/${repo}/${process}/src`])
     }
     const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
-        tempDirs.push([`/tmp/${repo}/${process}/src/${dependency}`, `${home}/${repo}/${process}/${hasSourceDirectory ? '/src' : ''}/${dependency}`])
+        tempDirs.push([`/tmp/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`, `${home}/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`])
     }
     for (const tempDir of tempDirs) {
         if (Array.isArray(tempDir)) {
