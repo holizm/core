@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+. "$scripts/installer.sh"
+
+installMongoCompass() {
+    latestUrl=$(curl -sL https://www.mongodb.com/try/download/compass | grep -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1)
+
+    if [ -z "$latestUrl" ]; then
+        echo "Could not find the latest MongoDB Compass .deb URL."
+        return
+    fi
+
+    echo "Downloading MongoDB Compass from $latestUrl..."
+    wget "$latestUrl" -O mongodb-compass.deb
+    if [ $? -eq 0 ]; then
+        echo ""
+    else
+        echo "Failed to download MongoDB Compass. Please check your internet connection."
+        return
+    fi
+
+    sudo dpkg -i mongodb-compass.deb
+    sudo apt-get install -f -y
+    rm mongodb-compass.deb
+}
+
+install mongo-compass installMongoCompass
