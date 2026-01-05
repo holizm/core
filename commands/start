@@ -9,9 +9,11 @@ import {
     getStack,
 } from "../scripts/logger.js"
 import {
+    createDirIfNotExists,
     getFileLines,
     isAccounts,
     isApi,
+    isDir,
     isFile,
     isHeadlessPanel,
     isPanel,
@@ -34,6 +36,7 @@ import processTenantLine from "../scripts/processTenantLine.js"
 import extract from "../scripts/extract.js"
 import indentation from '../scripts/indentation.js'
 import createDirectories from "../scripts/createDirectories.js"
+import ensurePathExistsOrCreateIt from "../scripts/ensurePathExistsOrCreateIt.js"
 
 clear()
 
@@ -73,6 +76,7 @@ params.addVolume = (left, right) => {
     // if (right.includes('node_modules')) {
     //     error(right, getStack())
     // }
+    ensurePathExistsOrCreateIt(left)
     params.volumes.push({ left, right })
 }
 params.joinVolumes = () => {
