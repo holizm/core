@@ -22,6 +22,7 @@ import run from "./run"
 
 const args = process.argv.slice(2)
 let search = args[0] || ''
+const { home } = process.env
 
 startTimer()
 
@@ -34,9 +35,9 @@ if (!search) {
         apiRepository,
     } = process.env
 
-    const essentialPartsPath = `/core/essentialParts`
+    const essentialPartsPath = `${home}/core/essentialParts`
     const partsPath = `${home}/${repo}/common/dependencies`
-    const orderFile = '/generation/order'
+    const orderFile = `${home}/generation/order`
     const orderList = getFileLines(orderFile)
     const essentialParts = getFileLines(essentialPartsPath)
     const parts = getFileLines(partsPath)
@@ -55,7 +56,7 @@ if (!search) {
             orgOrRepo = 'holizm'
         }
 
-        const base = `/${part}`
+        const base = `${home}/${part}`
         const partFile = `${base}/part`
 
         if (!isFile(partFile)) {
@@ -75,7 +76,7 @@ if (!search) {
 search = search.replace('/', '')
 
 const command = `
-    find / \
+    find ${home} \
         -maxdepth 1 -mindepth 1 -type d \
         -name '*${search}*' \
         -exec test -f "{}/part" \\; \
@@ -105,7 +106,7 @@ const params = extract({
     container: true,
 })
 divide()
-const partFile = `/${params.repo}/part`
+const partFile = `${home}/${params.repo}/part`
 
 if (!isFile(partFile)) {
     warning(`Did not find ${partFile}`)
@@ -116,7 +117,7 @@ if (!isFile(partFile)) {
 run({
     app: 'generation',
     part: params.repo,
-    partPath: `/${params.repo}`,
+    partPath: `${home}/${params.repo}`,
     show: true,
 })
 
