@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-find $home/spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort |
+find "$home/spl" -maxdepth 1 -mindepth 1 -type d | sed "s|^$home/spl/||" | sort |
 while read part;
 do
     ln -s -f $home/$apiRepo/$apiProcess/node_modules/$part $home/$apiRepo/$apiProcess 
