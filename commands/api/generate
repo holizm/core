@@ -68,9 +68,9 @@ if (!search) {
         runOnTerminal(`generate ${part}`, { show: true })
     }
 
-    runOnTerminal('insertData', { show: true })
-    stopTimer()
-    process.exit(0)
+    // runOnTerminal('insertData', { show: true })
+    // stopTimer()
+    // process.exit(0)
 }
 
 search = search.replace('/', '')

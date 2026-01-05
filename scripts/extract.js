@@ -13,7 +13,7 @@ import camelize from '../scripts/camelize.js'
 
 const getOrgRepoFromDir = dir => {
     const parts = dir.split('/')
-    const repo = parts[1]
+    const repo = parts[3]
     return {
         org: 'na',
         repo,
@@ -51,9 +51,9 @@ export default params => {
 
     const depth = getDepth()
 
-    if ((container && (depth < 1 || depth > 2)) || (!container && depth !== 4)) {
-        errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)', cwd)
-    }
+    // if ((container && (depth < 1 || depth > 2)) || (!container && depth !== 4)) {
+    //     errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)', cwd)
+    // }
 
     params = {
         ...params,
