@@ -3,5 +3,5 @@
 find $home/spl -maxdepth 1 -mindepth 1 -type d | sed 's|/spl/||' | sort |
 while read part;
 do
-    ln -s -f $home/$apiRepo/$apiProcess/node_modules/$part /$apiRepo/$apiProcess 
+    ln -s -f $home/$apiRepo/$apiProcess/node_modules/$part $home/$apiRepo/$apiProcess 
 done

@@ -10,11 +10,16 @@ divide
 info "Stopping all ..."
 divide
 
-for i in $(docker ps -a -q --filter name=${1-});
+pattern="${1:-}"
+
+docker ps -a -q | while read -r i
 do
-    export containerName=$(docker container inspect $i | grep "Name.*/" | grep -v = | cut -d'/' -f2 | cut -d'"' -f1)
-    docker rm $i --force 1>/dev/null
-    check $containerName
+    containerName=$(docker inspect "$i" | grep 'Name.*/' | grep -v = | cut -d'/' -f2 | cut -d'"' -f1)
+
+    if [[ -z "$pattern" ]] || echo "$containerName" | grep -iq "$pattern"; then
+        docker rm "$i" --force 1>/dev/null
+        check "$containerName"
+    fi
 done
 
 docker system prune --force 1>/dev/null

@@ -2,11 +2,11 @@
 
 echo "Linking: $1"
 export targetProject=$1
-export targetPath=/$1
+export targetPath=$home/$1
 
-ln -s -f /$apiRepo/$apiProcess/package.json $targetPath
-ln -s -f /$apiRepo/$apiProcess/package-lock.json $targetPath
-ln -s -f /$apiRepo/$apiProcess/node_modules $targetPath
+ln -s -f $home/$apiRepo/$apiProcess/package.json $targetPath
+ln -s -f $home/$apiRepo/$apiProcess/package-lock.json $targetPath
+ln -s -f $home/$apiRepo/$apiProcess/node_modules $targetPath
 
 files=(
     "common.json"
@@ -19,8 +19,8 @@ files=(
 )
 
 for file in "${files[@]}"; do
-    if [ -f /$apiRepo/$apiProcess/$file ]; then
-        cp /$apiRepo/$apiProcess/$file $targetPath
+    if [ -f $home/$apiRepo/$apiProcess/$file ]; then
+        cp $home/$apiRepo/$apiProcess/$file $targetPath
     fi
 done
 
@@ -36,6 +36,6 @@ do
     # cp $part /$targetProject/$partName
 done
 
-cp -r /$apiRepo/$apiProcess/.vscode $targetPath
+cp -r $home/$apiRepo/$apiProcess/.vscode $targetPath
 sed -i "s/$apiRepo//g" $targetPath/.vscode/launch.json
 sed -i "s/$apiProcess/$targetProject/g" $targetPath/.vscode/launch.json
