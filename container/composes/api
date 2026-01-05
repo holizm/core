@@ -53,6 +53,7 @@ services:
             - ${home}/query/process.js:${home}/query/process.js
 
             - ${home}/${repo}/common:${home}/${repo}/common
+            - ${home}/${repo}/common/dependencies:${home}/${repo}/common/dependencies
 
             - ${home}/secrets/common.json:${home}/${repo}/${process}/common.json
             - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/secrets.json

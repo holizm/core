@@ -7,6 +7,7 @@ import {
 } from '../../scripts/timer.js'
 import {
     divide,
+    error,
     errorAndExit,
     info,
     warning,
@@ -42,15 +43,15 @@ if (!search) {
     const essentialParts = getFileLines(essentialPartsPath)
     const parts = getFileLines(partsPath)
 
-    const set = new Set([...essentialParts, ...parts])
+    const set = Array.from(new Set([...essentialParts, ...parts]))
 
-    const first = orderList.filter(x => set.has(x))
-    const second = parts.filter(x => !orderList.includes(x))
+    const first = orderList.filter(x => set.includes(x))
+    const second = set.filter(x => !orderList.includes(x))
     const finalList = [...first, ...second]
 
     for (const part of finalList) {
         let orgOrRepo
-        if (isDir(`/${apiRepository}/${part}`)) {
+        if (isDir(`${home}/${apiRepository}/${part}`)) {
             orgOrRepo = apiRepository
         } else {
             orgOrRepo = 'holizm'
@@ -69,8 +70,8 @@ if (!search) {
     }
 
     // runOnTerminal('insertData', { show: true })
-    // stopTimer()
-    // process.exit(0)
+    stopTimer()
+    process.exit(0)
 }
 
 search = search.replace('/', '')
