@@ -52,7 +52,8 @@ services:
             - ${home}/query/partDropper.js:${home}/query/partDropper.js
             - ${home}/query/process.js:${home}/query/process.js
 
-            - ${home}/${repo}/common:${home}/${repo}/common
+            - ${home}/${repo}/common/tenants:${home}/${repo}/common/tenants
+            - ${home}/${repo}/common/initial.js:${home}/${repo}/common/initial.js
             - ${home}/${repo}/common/dependencies:${home}/${repo}/common/dependencies
 
             - ${home}/secrets/common.json:${home}/${repo}/${process}/common.json
