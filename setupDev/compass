@@ -13,9 +13,9 @@ installMongoCompass() {
     echo "Downloading MongoDB Compass from $latestUrl..."
     wget "$latestUrl" -O mongodb-compass.deb
     if [ $? -eq 0 ]; then
-        echo ""
+        echo " "
     else
-        echo "Failed to download MongoDB Compass. Please check your internet connection."
+        error "Failed to download MongoDB Compass. Please check your internet connection."
         return
     fi
 
