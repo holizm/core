@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 
-homeDir="$HOME"
-
-find "$homeDir" -maxdepth 1 -type d | while read -r dir; do
-    if [ -d "$dir/.git" ]; then
-        echo "Processing git repo: $dir"
-        find "$dir" -type d | while read -r subdir; do
-            sudo chown dev:dev "$subdir"
-        done
+find . -maxdepth 1 -type d | while read -r dir; do
+        chown dev:dev "$dir"
     fi
 done

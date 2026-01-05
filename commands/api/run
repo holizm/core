@@ -5,6 +5,7 @@ import {
 } from '../../scripts/terminal.js'
 
 export default params => {
+    const home = process.env.home
     const {
         app,
         ...rest
@@ -12,6 +13,6 @@ export default params => {
     const args = Object.entries(rest)
         .map(([k, v]) => `${k}=${v}`)
         .join(' ')
-    const cmd = `node --preserve-symlinks /${app}/process.js ${args}`
+    const cmd = `node --preserve-symlinks ${home}/${app}/process.js ${args}`
     runOnTerminal(cmd, params)
 }
