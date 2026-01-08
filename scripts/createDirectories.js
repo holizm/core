@@ -12,6 +12,7 @@ export default params => {
     } = params
     // rmSync(`/tmp/${repo}/${process}`, { recursive: true })
     const hasSourceDirectory = ['panel', 'site'].includes(processType)
+    const hasRunnableDirectory = ['panel'].includes(processType)
     const tempDirs = [
         [`/tmp/${repo}`, `${home}/${repo}`],
         [`/tmp/${repo}/common`, `${home}/${repo}/common`],
@@ -31,6 +32,9 @@ export default params => {
     }
     if (hasSourceDirectory) {
         tempDirs.push([`/tmp/${repo}/${process}/src`, `${home}/${repo}/${process}/src`])
+    }
+    if (hasRunnableDirectory) {
+        tempDirs.push([`/tmp/${repo}/${process}/runnable`, `${home}/${repo}/${process}/src/runnable`])
     }
     const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
