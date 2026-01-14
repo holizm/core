@@ -111,7 +111,7 @@ export const overrideFile = (p, content) => {
 }
 
 export const getDepth = () => {
-    const parts = process.cwd().split(path.sep).filter(Boolean)
+    const parts = process.cwd().split('/').filter(Boolean)
     return parts.length
 }
 
