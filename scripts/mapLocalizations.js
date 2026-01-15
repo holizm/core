@@ -1,19 +1,26 @@
 import { runOnTerminal } from './terminal.js'
+import getDependencies from "./getDependencies.js"
 
 export default params => {
     const {
-        dependenciesPath,
         home,
     } = params
     const findCommand = `
-    find ${home} -type d -name '.git' 2>/dev/null | while read gitdir; do
-        repoDir=$(dirname '$gitdir')
-        origin=$(git -C '$repoDir' remote get-url origin 2>/dev/null)
-        if [[ '$origin' == *'github.com/holizm/'* ]]; then
-            find '$repoDir' -type d -name 'localization' 2>/dev/null
-        fi
-    done | grep -Ff ${dependenciesPath} -e 'api' | sort
+        find ${home} -type d -name '.git' 2>/dev/null | 
+        while read gitdir; do
+            repoDir=$(dirname $gitdir)
+            find $repoDir -type d -name localization
+        done | 
+        sort
     `
+    const dependencies = getDependencies(params)
     const items = runOnTerminal(findCommand).split('\n')
-    for (const item of items) if (item.trim()) params.addVolume(`${item}`, `${item}`)
+    for (const item of items) {
+        if (item.includes('/core/')) {
+            params.addVolume(item, item)
+        }
+        if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {
+            params.addVolume(item, item)
+        }
+    }
 }
