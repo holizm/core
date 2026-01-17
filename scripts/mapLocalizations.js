@@ -4,6 +4,7 @@ import getDependencies from "./getDependencies.js"
 export default params => {
     const {
         home,
+        repo,
     } = params
     const coreLocalizations = [
         `${home}/core/localization`,
@@ -26,7 +27,8 @@ export default params => {
     const items = runOnTerminal(findCommand).split('\n')
     for (const item of items) {
         if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {
-            params.addVolume(item, item)
+            const rightSide = item.replace(`/${repo}`, '')
+            params.addVolume(item, rightSide)
         }
     }
 }
