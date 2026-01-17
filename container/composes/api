@@ -71,7 +71,6 @@ services:
             prepare migration
             prepare query
             prepare toMongo
-            symlinkCoreAndParts
             initialize
             monitor &
             cd ${home}/${repo}/${process}

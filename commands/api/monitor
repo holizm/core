@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. /core/scripts/initializeApiBarrels.sh
+. $home/core/scripts/initializeApiBarrels.sh
 
 inotifywait -m -r \
 -e modify \
@@ -17,5 +17,5 @@ do
     export file
     echo $directory $file $event
     topLevelDir=$(echo $directory | cut -d'/' -f1)
-    node /core/commands/api/generateExports.js $topLevelDir
+    node $home/core/commands/api/generateExports.js $topLevelDir
 done
