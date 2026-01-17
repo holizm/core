@@ -41,7 +41,7 @@ services:
             - ${home}/site/src/entryPreview.tsx:${home}/${repo}/${process}/src/entry.preview.tsx
             - ${home}/site/src/entrySsr.tsx:${home}/${repo}/${process}/src/entry.ssr.tsx
             - ${home}/site/src/global.css:${home}/${repo}/${process}/src/global.css
-            - ${home}/site/src/pluginInfra.ts:${home}/${repo}/${process}/src/routes/plugin@_infra.ts
+            - ${home}/site/src/pluginCore.ts:${home}/${repo}/${process}/src/routes/plugin@_core.ts
             - ${home}/site/src/root.jsx:${home}/${repo}/${process}/src/root.tsx
             - ${home}/site/src/routerHead.jsx:${home}/${repo}/${process}/src/router-head.jsx
             - ${home}/site/src/routes/serviceWorker.ts:${home}/${repo}/${process}/src/routes/service-worker.ts
