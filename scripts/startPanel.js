@@ -58,7 +58,6 @@ const mapDependencies = params => {
         }
 
         if (runnablePart) {
-            console.log(dependency)
             params.addVolume(`${home}/${repo}/${dependency}`, `${home}/${repo}/${dependency}`)
         } else {
             params.addVolume(dependencyBase, dependencyBase)
