@@ -1,4 +1,3 @@
-import { rmSync } from 'fs'
 import getDependencies from "./getDependencies.js"
 import { createDirIfNotExists } from './os.js'
 
@@ -13,6 +12,7 @@ export default params => {
     // rmSync(`/tmp/${repo}/${process}`, { recursive: true })
     const hasSourceDirectory = ['panel', 'site'].includes(processType)
     const hasRunnableDirectory = ['panel'].includes(processType)
+    const isApi = processType === 'api'
     const tempDirs = [
         [`/tmp/${repo}`, `${home}/${repo}`],
         [`/tmp/${repo}/common`, `${home}/${repo}/common`],
@@ -31,14 +31,29 @@ export default params => {
         tempDirs.push(...extraDirectories)
     }
     if (hasSourceDirectory) {
-        tempDirs.push([`/tmp/${repo}/${process}/src`, `${home}/${repo}/${process}/src`])
+        tempDirs.push([
+            `/tmp/${repo}/${process}/src`,
+            `${home}/${repo}/${process}/src`
+        ])
     }
     if (hasRunnableDirectory) {
-        tempDirs.push([`/tmp/${repo}/${process}/runnable`, `${home}/${repo}/${process}/src/runnable`])
+        tempDirs.push([
+            `/tmp/${repo}/${process}/runnable`,
+            `${home}/${repo}/${process}/src/runnable`
+        ])
     }
     const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
-        tempDirs.push([`/tmp/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`, `${home}/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`])
+        tempDirs.push([
+            `/tmp/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`,
+            `${home}/${repo}/${process}/${hasSourceDirectory ? 'src/' : ''}${dependency}`
+        ])
+        if (isApi) {
+            tempDirs.push([
+                `/tmp/${repo}/${process}/${dependency}`,
+                `${home}/${repo}/${process}/node_modules/${dependency}`,
+            ])
+        }
     }
     for (const tempDir of tempDirs) {
         if (Array.isArray(tempDir)) {
