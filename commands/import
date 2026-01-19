@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
+. "$homeDir/core/scripts/logger.sh"
+
+sudo echo
+clear
+
+divide
+info "Holism import"
+divide
+
+domain=$1
+search=$2
+
+if [[ -z "$domain" ]]; then
+    error "domain is not provided"
+    divide
+    exit
+fi
+
+secretFile=""
+for file in $homeDir/secrets/*.json; do
+    if jq -e --arg domain "$domain" '.deployment.instances and (.deployment.instances[] | select(.domain == $domain))' "$file" >/dev/null; then
+        secretFile="$file"
+        break
+    fi
+done
+
+if [[ -z "$secretFile" ]]; then
+    error "No matching secrets file found for $domain in $homeDir/secrets"
+    divide
+    exit
+fi
+
+gitHubRepo=$(jq -r --arg domain "$domain" '.deployment | select(.instances[].domain == $domain) | .gitHubRepo' "$secretFile")
+serverDirectory=$(jq -r --arg domain "$domain" '.deployment.instances[] | select(.domain == $domain) | .serverDirectory' "$secretFile")
+
+if [[ -z "$gitHubRepo" || "$gitHubRepo" == "null" ]]; then
+    error "gitHubRepo not found for $domain"
+    divide
+    exit
+fi
+if [[ -z "$serverDirectory" || "$serverDirectory" == "null" ]]; then
+    error "serverDirectory not found for $domain"
+    divide
+    exit
+fi
+
+targetContainer="${gitHubRepo}Databases"
+
+ExtractSshParams
+
+tempDir=/tmp/$domain/databasesBackup
+sudo rm -rf $tempDir
+mkdir -p $tempDir
+
+info "Downloading parts ..."
+divide
+
+if [[ -z "$search" ]]; then
+    Scp $domain:/$serverDirectory/backupDirectory/databases $tempDir
+    mv $tempDir/databases/* $tempDir
+    rm -rf $tempDir/databases
+else
+    Scp "$domain:/$serverDirectory/backupDirectory/databases/*$search*.archive" $tempDir
+fi
+
+divide
+info "Deleting existing parts ..."
+divide
+
+docker exec $targetContainer mongosh \
+    --quiet \
+    --username FaMHJGecNag5DKryCH9d \
+    --password IC1joYMLZTT0fQMJ5qcz \
+    --authenticationDatabase admin \
+    --eval "db.adminCommand({ listDatabases: 1 }).databases.map(d => d.name).join('\n')" |
+while read database; do
+    if [[ "$database" == "admin" || "$database" == "local" || "$database" == "config" ]]; then
+        continue
+    fi
+    if [[ -n "$search" && "$database" != *"$search"* ]]; then
+        continue
+    fi
+    docker exec $targetContainer mongosh --quiet \
+        --username FaMHJGecNag5DKryCH9d \
+        --password IC1joYMLZTT0fQMJ5qcz \
+        --authenticationDatabase admin \
+        --eval "void db.getSiblingDB('$database').dropDatabase()"
+    success "$database dropped"
+done
+
+divide
+info "Importing parts ..."
+divide
+
+find $tempDir -mindepth 1 -maxdepth 1 -type f -name "*.archive" | sort |
+while read archivePath; do
+    baseName=$(basename "$archivePath")
+    databaseName=$(echo "$baseName" | cut -d'.' -f1)
+
+    docker cp "$archivePath" "$targetContainer:/tmp/$baseName" 1>/dev/null
+
+    docker exec $targetContainer mongorestore \
+        --username=FaMHJGecNag5DKryCH9d \
+        --password=IC1joYMLZTT0fQMJ5qcz \
+        --authenticationDatabase=admin \
+        --archive=/tmp/$baseName \
+        --drop \
+        --quiet \
+        --gzip
+
+    success "$databaseName imported"
+done
+
+divide
+success "Import finished for $domain"
+divide
