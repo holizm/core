@@ -6,27 +6,41 @@ import {
     warning,
 } from './logger.js'
 
-function printStatus(repoPath) {
-    try {
-        const status = runOnTerminal(`git -C ${repoPath} status`)
-        if (/Changes|Untracked/.test(status)) {
-            info(repoPath)
-            const porcelain = runOnTerminal(`git -C ${repoPath} status --porcelain`)
-            console.log(porcelain.trim())
-            divide()
-        } else if (/ahead/.test(status)) {
-            warning(`Push ${repoPath}`)
-            divide()
-        } else if (/diverged/.test(status)) {
-            warning(`Sync ${repoPath}`)
-            divide()
+const getRepoStatus = repoPath => {
+    const s = runOnTerminal(`git -C ${repoPath} status`)
+
+    if (/Changes|Untracked/.test(s)) {
+        const porcelain = runOnTerminal(`git -C ${repoPath} status --porcelain`).trim()
+
+        info(repoPath)
+        console.log(porcelain)
+        divide()
+
+        return {
+            type: 'dirty',
+            repo: repoPath,
+            porcelain
         }
-    } catch (err) {
-        console.error(`\x1b[31mError checking ${repoPath}: ${err.message}\x1b[0m`)
     }
+
+    if (/ahead/.test(s)) {
+        warning(`Push ${repoPath}`)
+        divide()
+
+        return { type: 'ahead', repo: repoPath }
+    }
+
+    if (/diverged/.test(s)) {
+        warning(`Sync ${repoPath}`)
+        divide()
+
+        return { type: 'diverged', repo: repoPath }
+    }
+
+    return { type: 'clean', repo: repoPath }
 }
 
 export default search => {
     const gitDirs = findRepos(search)
-    for (const repo of gitDirs) printStatus(repo)
+    return gitDirs.map(getRepoStatus)
 }
