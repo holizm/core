@@ -10,10 +10,10 @@ import {
     warning,
 } from "../scripts/logger.js"
 import findRepos from "../scripts/findRepos.js"
-import { exit } from "../scripts/os.js"
 import status from "../scripts/status.js"
 
-const gitGet = key => runOnTerminal(`git config --global ${key}`, { show: false })
+const gitGet = key =>
+    runOnTerminal(`git config --global ${key}`, { show: false })
 
 const ensureGitConfig = () => {
     const gitName = gitGet('user.name')
@@ -22,75 +22,80 @@ const ensureGitConfig = () => {
     const signingKey = gitGet('user.signingkey')
     const commitSign = gitGet('commit.gpgsign')
 
-    if (!gitName) {
-        errorAndExit('Git user.name is not set')
-    }
-    if (!gitEmail) {
-        errorAndExit('Git user.email is not set')
-    }
-    if (gpgFormat !== 'ssh') {
-        errorAndExit("Git gpg.format is not 'ssh'")
-    }
-    if (!signingKey) {
-        errorAndExit('Git user.signingkey is not set')
-    }
-    if (commitSign !== 'true') {
-        errorAndExit('Git commit.gpgsign is not enabled')
-    }
+    if (!gitName) errorAndExit('Git user.name is not set')
+    if (!gitEmail) errorAndExit('Git user.email is not set')
+    if (gpgFormat !== 'ssh') errorAndExit("Git gpg.format is not 'ssh'")
+    if (!signingKey) errorAndExit('Git user.signingkey is not set')
+    if (commitSign !== 'true') errorAndExit('Git commit.gpgsign is not enabled')
 
     info()
     info(`Git configuration OK: ${gitName} <${gitEmail}>, signing enabled with ${signingKey}`)
 }
 
 const promptYesNo = async question => {
-    const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
-    const answer = await new Promise(resolve => rl.question(question, a => resolve(a.trim())))
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    })
+    const answer = await new Promise(resolve =>
+        rl.question(question, a => resolve(a.trim()))
+    )
     rl.close()
     return answer.toLowerCase() === 'y'
 }
 
 const commitAndPushRepo = async dir => {
     const porcelain = runOnTerminal(`git -C ${dir} status --porcelain`)
-    if (!porcelain) return null
+    if (!porcelain) return
 
     info(dir)
     info(porcelain)
+
     runOnTerminal(`git -C ${dir} add .`)
+
     let commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
-    if (!commit) commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
+    if (!commit) {
+        commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
+    }
+
     let push = await runOnTerminalAsync(`git -C ${dir} push`)
     if (!push) {
         await runOnTerminalAsync(`git -C ${dir} pull`)
-        push = await runOnTerminalAsync(`git -C ${dir} push`)
+        await runOnTerminalAsync(`git -C ${dir} push`)
     }
-    return push
 }
 
-const pushAheadRepos = search => {
-    const results = status(search)
-
+const pushAheadRepos = async results => {
     const aheadDirs = results
         .filter(r => r.type === 'ahead')
         .map(r => r.repo)
 
     for (const dir of aheadDirs) {
-        runOnTerminal(`git -C ${dir} push`)
+        await runOnTerminalAsync(`git -C ${dir} push`)
     }
 }
 
 const search = process.argv[2]
+
 ensureGitConfig()
 divide()
 info('Getting the current status ...')
 divide()
-status(search)
+
+const results = status(search)
+
 divide()
 warning('Still pushing? (y,n)')
 const ok = await promptYesNo('')
 if (!ok) process.exit(0)
+
 const repos = findRepos(search)
-await Promise.all(repos.map(dir => Promise.resolve().then(() => commitAndPushRepo(dir))))
-pushAheadRepos(search)
+for (const dir of repos) {
+    await commitAndPushRepo(dir)
+}
+
+await pushAheadRepos(results)
+
 divide()
 success('Pushed all')
 divide()
