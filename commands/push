@@ -67,9 +67,12 @@ const commitAndPushRepo = async dir => {
 }
 
 const pushAheadRepos = search => {
-    const lines = status(search)
-    if (!lines) return
-    const aheadDirs = lines.filter(l => l.startsWith('Push ')).map(l => l.split(' ').slice(1).join(' '))
+    const results = status(search)
+
+    const aheadDirs = results
+        .filter(r => r.type === 'ahead')
+        .map(r => r.repo)
+
     for (const dir of aheadDirs) {
         runOnTerminal(`git -C ${dir} push`)
     }
