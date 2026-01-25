@@ -1,99 +1,104 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
-homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
-. "$homeDir/core/scripts/logger.sh"
+import dnsProviders from '../scripts/dnsProviders.js'
+import { runOnTerminal } from '../scripts/terminal.js'
+import { info, error, success } from '../scripts/logger.js'
 
-function getCurrentDns {
-    local dnsResolver=$(sudo lsof -i :53 | awk 'NR>1 {print $1}' | uniq)
-    if [[ $dnsResolver == "dnsmasq" ]]; then
-        echo $(grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\n' ' ')
-    else
-        echo $(grep '^nameserver' /run/systemd/resolve/resolv.conf | awk '{print $2}' | tr '\n' ' ')
-    fi
+const getCurrentDns = () => {
+    const dnsResolver = runOnTerminal(
+        `lsof -i :53 | awk 'NR>1 {print $1}' | uniq`
+    )
+
+    return dnsResolver === 'dnsmasq'
+        ? runOnTerminal(
+            `grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\\n' ' '`
+        )
+        : runOnTerminal(
+            `grep '^nameserver' /run/systemd/resolve/resolv.conf | awk '{print $2}' | tr '\\n' ' '`
+        )
 }
 
-function flushDnsCache {
-    if systemctl is-active --quiet systemd-resolved; then
-        sudo systemd-resolve --flush-caches
-    elif command -v resolvectl &>/dev/null; then
-        sudo resolvectl flush-caches
-    fi
+const flushDnsCache = () => {
+    if (runOnTerminal(`systemctl is-active systemd-resolved`, { hideErrors: true })) {
+        runOnTerminal(`sudo systemd-resolve --flush-caches`, { hideErrors: true })
+    } else if (runOnTerminal(`command -v resolvectl`, { hideErrors: true })) {
+        runOnTerminal(`sudo resolvectl flush-caches`, { hideErrors: true })
+    }
 }
 
-function applyDns {
-    local key=$1
-    if [[ -z ${dnsProviders[$key]} ]]; then
-        error "DNS key '$key' not found!"
-        info "Keys are:"
-        for key in "${!dnsProviders[@]}"; do
-            info " $key"
-        done
-        exit 1
-    fi
+const applyDns = key => {
+    if (!dnsProviders[key]) {
+        error(`DNS key '${key}' not found!`)
+        info('Keys are:')
+        Object.keys(dnsProviders).forEach(k => info(` ${k}`))
+        process.exit(1)
+    }
 
-    IFS='|' read -r name ips <<<"${dnsProviders[$key]}"
-    info "Applying DNS configuration: $name ($ips)"
+    const [name, ips] = dnsProviders[key].split('|')
+    info(`Applying DNS configuration: ${name} (${ips})`)
 
-    local dnsResolver=$(sudo lsof -i :53 | awk 'NR>1 {print $1}' | uniq)
+    const dnsResolver = runOnTerminal(
+        `lsof -i :53 | awk 'NR>1 {print $1}' | uniq`
+    )
 
-    if [[ $dnsResolver == "dnsmasq" ]]; then
-        currentConfig=$(grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\n' ' ')
-        if [[ "$currentConfig" != "$ips" ]]; then
-            sudo sed -i "/^server=/d" /etc/dnsmasq.conf
-            echo "$ips" | tr ' ' '\n' | while read server; do
-                echo "server=$server" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-            done
-            sudo systemctl restart dnsmasq
-        fi
-    else
-        connections=()
-        while IFS= read -r connection; do
-            connections+=("$connection")
-        done < <(nmcli --terse --fields NAME connection show --active | grep -vE '^\s*$')
-        for connection in "${connections[@]}"; do
-            nmcli connection modify "$connection" ipv4.dns "$ips"
-            nmcli connection modify "$connection" ipv4.ignore-auto-dns yes
-            nmcli connection down "$connection"
-            nmcli connection up "$connection"
-        done
-    fi
+    if (dnsResolver === 'dnsmasq') {
+        const currentConfig = runOnTerminal(
+            `grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\\n' ' '`
+        )
 
-    flushDnsCache
-    success "DNS servers updated to $name ($ips)."
+        if (currentConfig !== ips) {
+            runOnTerminal(`sudo sed -i "/^server=/d" /etc/dnsmasq.conf`)
+            ips.split(' ').forEach(ip => {
+                runOnTerminal(`echo "server=${ip}" | sudo tee -a /etc/dnsmasq.conf > /dev/null`)
+            })
+            runOnTerminal(`sudo systemctl restart dnsmasq`)
+        }
+    } else {
+        const connections = runOnTerminal(
+            `nmcli --terse --fields NAME connection show --active | grep -vE '^\\s*$'`
+        )
+            .split('\n')
+            .filter(Boolean)
+
+        connections.forEach(connection => {
+            runOnTerminal(`nmcli connection modify "${connection}" ipv4.dns "${ips}"`)
+            runOnTerminal(`nmcli connection modify "${connection}" ipv4.ignore-auto-dns yes`)
+            runOnTerminal(`nmcli connection down "${connection}"`)
+            runOnTerminal(`nmcli connection up "${connection}"`)
+        })
+    }
+
+    flushDnsCache()
+    success(`DNS servers updated to ${name} (${ips}).`)
 }
 
-function switchDns {
-    local currentDns=$(getCurrentDns)
-    local newDnsKey=""
-    for key in "${!dnsProviders[@]}"; do
-        IFS='|' read -r name ips <<<"${dnsProviders[$key]}"
-        if [[ $currentDns == *$(echo $ips | awk '{print $1}')* ]]; then
-            newDnsKey=$(nextDnsKey $key)
-            break
-        fi
-    done
-
-    if [[ -z $newDnsKey ]]; then
-        newDnsKey="cloudflare"
-    fi
-
-    applyDns $newDnsKey
+const nextDnsKey = currentKey => {
+    const keys = Object.keys(dnsProviders)
+    const index = keys.indexOf(currentKey)
+    return index === -1 ? null : keys[(index + 1) % keys.length]
 }
 
-function nextDnsKey {
-    local currentKey=$1
-    local keys=("${!dnsProviders[@]}")
-    for i in "${!keys[@]}"; do
-        if [[ ${keys[$i]} == "$currentKey" ]]; then
-            nextIndex=$(( (i + 1) % ${#keys[@]} ))
-            echo ${keys[$nextIndex]}
-            return
-        fi
-    done
+const switchDns = () => {
+    const currentDns = getCurrentDns()
+    let newDnsKey = ''
+
+    Object.entries(dnsProviders).some(([key, value]) => {
+        const [, ips] = value.split('|')
+        const firstIp = ips.split(' ')[0]
+        if (currentDns.includes(firstIp)) {
+            newDnsKey = nextDnsKey(key)
+            return true
+        }
+        return false
+    })
+
+    applyDns(newDnsKey || 'cloudflare')
 }
 
-if [[ $# -eq 0 ]]; then
-    switchDns
-else
-    applyDns $1
-fi
+const args = process.argv.slice(2)
+
+if (args.length === 0) {
+    switchDns()
+} else {
+    applyDns(args[0])
+}
