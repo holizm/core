@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 import readline from 'readline'
-import { runOnTerminal, runOnTerminalAsync } from '../scripts/terminal.js'
+import {
+    runOnTerminal,
+    runStreaming
+} from '../scripts/terminal.js'
 import {
     divide,
     errorAndExit,
@@ -44,35 +47,22 @@ const promptYesNo = async question => {
     return answer.toLowerCase() === 'y'
 }
 
-const commitAndPushRepo = async dir => {
+const commitRepo = dir => {
     const porcelain = runOnTerminal(`git -C ${dir} status --porcelain`)
-    if (!porcelain) return
+    if (!porcelain) return false
 
-    info(dir)
-    info(porcelain)
-
+    info(`Committing ${dir}`)
     runOnTerminal(`git -C ${dir} add .`)
+    runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
 
-    let commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
-    if (!commit) {
-        commit = runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
-    }
-
-    let push = await runOnTerminalAsync(`git -C ${dir} push`)
-    if (!push) {
-        await runOnTerminalAsync(`git -C ${dir} pull`)
-        await runOnTerminalAsync(`git -C ${dir} push`)
-    }
+    return true
 }
 
-const pushAheadRepos = async results => {
-    const aheadDirs = results
-        .filter(r => r.type === 'ahead')
-        .map(r => r.repo)
-
-    for (const dir of aheadDirs) {
-        await runOnTerminalAsync(`git -C ${dir} push`)
-    }
+const pushRepoStreaming = dir => {
+    info(`→ pushing ${dir}`)
+    return runStreaming(`git -C ${dir} push`)
+        .then(() => success(`✓ pushed ${dir}`))
+        .catch(e => warning(`✗ failed ${dir}: ${e.message}`))
 }
 
 const search = process.argv[2]
@@ -90,11 +80,24 @@ const ok = await promptYesNo('')
 if (!ok) process.exit(0)
 
 const repos = findRepos(search)
+
+const toPush = []
+
 for (const dir of repos) {
-    await commitAndPushRepo(dir)
+    if (commitRepo(dir)) toPush.push(dir)
 }
 
-await pushAheadRepos(results)
+const ahead = results
+    .filter(r => r.type === 'ahead')
+    .map(r => r.repo)
+
+const unique = [...new Set([...toPush, ...ahead])]
+
+divide()
+info(`Pushing ${unique.length} repos in parallel`)
+divide()
+
+await Promise.all(unique.map(pushRepoStreaming))
 
 divide()
 success('Pushed all')
