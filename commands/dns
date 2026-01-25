@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+import dnsProviders from '../scripts/dnsProviders.js'
+import { runOnTerminal } from '../scripts/terminal.js'
+import { info } from '../scripts/logger.js'
+
+const dnsResolver = runOnTerminal(
+    `lsof -i :53 | awk 'NR>1 {print $1}' | uniq`
+)
+
+const currentNameServers =
+    dnsResolver === 'dnsmasq'
+        ? runOnTerminal(
+            `grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}'`
+        )
+        : runOnTerminal(
+            `grep nameserver /run/systemd/resolve/resolv.conf | awk '{print $2}'`
+        )
+
+let matchedKey = ''
+
+Object.entries(dnsProviders).some(([key, value]) => {
+    const [, ips] = value.split('|')
+
+    return ips.split(' ').some(ip => {
+        if (currentNameServers.includes(ip)) {
+            matchedKey = key
+            return true
+        }
+        return false
+    })
+})
+
+if (matchedKey) {
+    const [name] = dnsProviders[matchedKey].split('|')
+    info(`Current DNS is from ${name}`)
+} else {
+    info('Current DNS is unknown')
+}
+
+info('DNS IPs are:')
+info(currentNameServers)
