@@ -17,6 +17,21 @@ const currentNameServers =
             `grep nameserver /run/systemd/resolve/resolv.conf | awk '{print $2}'`
         )
 
+const isPrivateDns = currentNameServers
+    .split('\n')
+    .some(ip =>
+        ip.startsWith('192.168.') ||
+        ip.startsWith('10.') ||
+        ip.match(/^172\.(1[6-9]|2\d|3[0-1])\./)
+    )
+
+if (isPrivateDns) {
+    info('DNS is set to DHCP (auto)')
+    info('DNS IPs are:')
+    info(currentNameServers)
+    process.exit()
+}
+
 let matchedKey = ''
 
 Object.entries(dnsProviders).some(([key, value]) => {
