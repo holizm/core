@@ -26,11 +26,48 @@ const flushDnsCache = () => {
     }
 }
 
+const setAutoDns = () => {
+    const dnsResolver = runOnTerminal(
+        `lsof -i :53 | awk 'NR>1 {print $1}' | uniq`
+    )
+
+    if (dnsResolver === 'dnsmasq') {
+        info('Resetting DNS to DHCP (dnsmasq)')
+
+        runOnTerminal(`sudo sed -i "/^server=/d" /etc/dnsmasq.conf`)
+        runOnTerminal(`sudo systemctl restart dnsmasq`)
+    } else {
+        info('Resetting DNS to DHCP (NetworkManager)')
+
+        const connections = runOnTerminal(
+            `nmcli --terse --fields NAME connection show --active | grep -vE '^\\s*$'`
+        )
+            .split('\n')
+            .filter(Boolean)
+
+        connections.forEach(connection => {
+            runOnTerminal(`nmcli connection modify "${connection}" ipv4.ignore-auto-dns no`)
+            runOnTerminal(`nmcli connection modify "${connection}" ipv4.dns ""`)
+            runOnTerminal(`nmcli connection down "${connection}"`)
+            runOnTerminal(`nmcli connection up "${connection}"`)
+        })
+    }
+
+    flushDnsCache()
+    success('DNS reset to DHCP defaults')
+}
+
 const applyDns = key => {
+    if (key === 'auto') {
+        setAutoDns()
+        return
+    }
+
     if (!dnsProviders[key]) {
         error(`DNS key '${key}' not found!`)
         info('Keys are:')
         Object.keys(dnsProviders).forEach(k => info(` ${k}`))
+        info(' auto')
         process.exit(1)
     }
 
@@ -69,7 +106,7 @@ const applyDns = key => {
     }
 
     flushDnsCache()
-    success(`DNS servers updated to ${name} (${ips}).`)
+    success(`DNS servers updated to ${name} (${ips})`)
 }
 
 const nextDnsKey = currentKey => {
