@@ -41,7 +41,7 @@ import ensurePathExistsOrCreateIt from "../scripts/ensurePathExistsOrCreateIt.js
 clear()
 
 divide()
-info("holizm start")
+info("holism start")
 divide()
 info(`directory: ${process.cwd()}`)
 divide()
