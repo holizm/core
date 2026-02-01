@@ -4,46 +4,51 @@ set -euo pipefail
 . "$scripts/installer.sh"
 
 install curl
-$setupDev/chrome
-$setupDev/vsCode
-$setupDev/speedTest
-$setupDev/remoteContainers
-$setupDev/spellChecker
-$setupDev/git
-$setupDev/gh
-$setupDev/docker
-$setupDev/rustDesk
-$setupDev/anyDesk
-$setupDev/compass
-install zip
-install unzip
-install simplescreenrecorder
-install nginx
-install telnet
-$setupDev/mkcert
-$setupDev/micro
-install trans translate-shell
-$setupDev/beyondCompare
-install sshd openssh-server
-install http httpie
-install pip python3-pip
-install nmap
 install jq
+install nmap
 install cloc
+install parallel
 install progress
 install rename
-install parallel
 install baobab
 install dconf-editor
-# $setupDev/dnsmasq
+install nginx
+install simplescreenrecorder
+install sshd openssh-server
+install telnet
+install trans translate-shell
+install unzip
+install zip
+install http httpie
+install pip python3-pip
+
+$setupDev/git
+$setupDev/gh
+$setupDev/chrome
+$setupDev/vsCode
+$setupDev/spellChecker
+$setupDev/speedTest
+$setupDev/remoteContainers
+
+$setupDev/docker
+$setupDev/node
+sudo homeDir="$homeDir" node "$setupDev/nginx"
+
+$setupDev/micro
+$setupDev/mkcert
+$setupDev/rClone
+$setupDev/azureCli
+
+$setupDev/anyDesk
+$setupDev/rustDesk
+$setupDev/compass
+$setupDev/beyondCompare
 $setupDev/safeEyes
+
+# $setupDev/dnsmasq
 # $setupDev/stretchly
 # $setupDev/warpCli
 # $setupDev/bashCompletion
-$setupDev/azureCli
-$setupDev/rClone
-$setupDev/node
 # bash "$(dirname "$0")/npmPackages"
-sudo homeDir="$homeDir" node "$setupDev/nginx"
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"

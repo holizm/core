@@ -13,7 +13,7 @@ export scripts
 
 clear
 divide
-info "running system setup ..."
+info "running setup ..."
 divide
 
 $setupDev/setup
@@ -24,4 +24,4 @@ node "$homeDir/core/scripts/setVcsIgnores.js"
 
 . "$scripts/configureHosts.sh"
 
-success "core installation complete"
+success "setup complete"
