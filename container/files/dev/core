@@ -12,6 +12,7 @@ RUN sed -i 's/^Components: main$/& contrib non-free-firmware/' /etc/apt/sources.
     && npm install --location=global npm npm-check \
     && cd /usr/local/bin && curl -fsSL https://getmic.ro | bash \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+# npx npm-check-updates => no need to install things, and auto update of package.json via -u flag
 
 USER dev
 
