@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+. $HOME/core/scripts/logger.sh
+
+domain=$1
+
+if [[ -z "$domain" ]]; then
+    errorAndExit "Usage: copyId domain"
+fi
+
+read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
+
+if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
+    errorAndExit "Failed to extract SSH parameters for $domain"
+fi
+
+ssh-copy-id -p "$sshPort" "$sshUser@$sshIp"
