@@ -2,11 +2,11 @@
 
 . $HOME/core/scripts/logger.sh
 
-domain=$1
-
-if [[ -z "$domain" ]]; then
+if [[ $# -eq 0 ]]; then
     errorAndExit "Usage: copyId domain"
 fi
+
+domain=$1
 
 read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 
