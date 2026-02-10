@@ -6,7 +6,8 @@ export default params => {
     copy({ ...params, repo: 'fonts' })
     copy({ ...params, repo: 'api' })
     copy({ ...params, repo: 'cloud' })
-    copyDependencies({ processType: 'api' })
+    copyDependencies({ ...params, processType: 'api' })
+
 }
 /*
 function CopyNodeApiBuildScript() {
