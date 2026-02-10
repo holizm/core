@@ -4,6 +4,7 @@ import { runOnTerminal } from "./terminal.js"
 
 export default params => {
     const {
+        home,
         org,
         process,
         repo,

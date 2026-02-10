@@ -59,6 +59,8 @@ params.imageName = `ghcr.io/$LowercaseOrg/${params.lowercaseRepo}/${params.lower
 
 divide()
 
+info(isApi(params))
+
 if (isApi(params)) {
     buildApi(params)
 } else if (isPanel(params)) {
