@@ -1,0 +1,83 @@
+#!/usr/bin/env node
+
+import {
+    errorAndExit,
+    divide,
+    info,
+    warning,
+    error,
+    getStack,
+} from "../scripts/logger.js"
+import {
+    createDirIfNotExists,
+    getFileLines,
+    isAccounts,
+    isApi,
+    isDir,
+    isFile,
+    isHeadlessPanel,
+    isPanel,
+    isSite,
+    isWorker,
+} from "../scripts/os.js"
+import {
+    clear,
+    runOnTerminal,
+    runStreaming,
+} from "../scripts/terminal.js"
+import getPaths from "../scripts/getPaths.js"
+import getRandomPort from "../scripts/getRandomPort.js"
+import createNetwork from "../scripts/createNetwork.js"
+import ensureDependencies from "../scripts/ensureDependencies.js"
+import buildApi from "../scripts/buildApi.js"
+import buildPanel from "../scripts/buildPanel.js"
+import buildSite from "../scripts/buildSite.js"
+import processTenantLine from "../scripts/processTenantLine.js"
+import extract from "../scripts/extract.js"
+import indentation from '../scripts/indentation.js'
+import createDirectories from "../scripts/createDirectories.js"
+import ensurePathExistsOrCreateIt from "../scripts/ensurePathExistsOrCreateIt.js"
+
+clear()
+
+divide()
+info("holism build")
+divide()
+info(`directory: ${process.cwd()}`)
+divide()
+
+let params = extract()
+
+params = {
+    ...params,
+    ...getPaths(params),
+}
+
+ensureDependencies(params)
+params.containerFile = `/tmp/build/${params.repo}/${params.process}/container`
+params.imageName = `ghcr.io/$LowercaseOrg/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
+
+divide()
+
+if (isApi(params)) {
+    buildApi(params)
+} else if (isPanel(params)) {
+    if (isHeadlessPanel(params)) {
+        buildHeadlessPanel(params)
+    } else {
+        buildPanel(params)
+    }
+} else if (isSite(params)) {
+    buildSite(params)
+} else if (isWorker(params)) {
+    buildApi(params)
+} else {
+    warning('Unknown process')
+}
+
+let cmd = `sudo docker --debug build \
+-f ${params.container} \
+-t ${params.imageName} \
+/tmp/build --no-cache --progress=plain`
+console.log(cmd)
+runOnTerminal(cmd)
