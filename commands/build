@@ -1,47 +1,33 @@
 #!/usr/bin/env node
 
 import {
-    errorAndExit,
     divide,
     info,
     warning,
-    error,
-    getStack,
-} from "../scripts/logger.js"
+} from '../scripts/logger.js'
 import {
-    createDirIfNotExists,
-    getFileLines,
-    isAccounts,
     isApi,
-    isDir,
-    isFile,
     isHeadlessPanel,
     isPanel,
     isSite,
     isWorker,
-} from "../scripts/os.js"
+    removeAndRecreateDir,
+} from '../scripts/os.js'
 import {
     clear,
     runOnTerminal,
-    runStreaming,
-} from "../scripts/terminal.js"
-import getPaths from "../scripts/getPaths.js"
-import getRandomPort from "../scripts/getRandomPort.js"
-import createNetwork from "../scripts/createNetwork.js"
-import ensureDependencies from "../scripts/ensureDependencies.js"
-import buildApi from "../scripts/buildApi.js"
-import buildPanel from "../scripts/buildPanel.js"
-import buildSite from "../scripts/buildSite.js"
-import processTenantLine from "../scripts/processTenantLine.js"
-import extract from "../scripts/extract.js"
-import indentation from '../scripts/indentation.js'
-import createDirectories from "../scripts/createDirectories.js"
-import ensurePathExistsOrCreateIt from "../scripts/ensurePathExistsOrCreateIt.js"
+} from '../scripts/terminal.js'
+import getPaths from '../scripts/getPaths.js'
+import ensureDependencies from '../scripts/ensureDependencies.js'
+import buildApi from '../scripts/buildApi.js'
+import buildPanel from '../scripts/buildPanel.js'
+import buildSite from '../scripts/buildSite.js'
+import extract from '../scripts/extract.js'
 
 clear()
 
 divide()
-info("holism build")
+info('holism build')
 divide()
 info(`directory: ${process.cwd()}`)
 divide()
@@ -54,12 +40,11 @@ params = {
 }
 
 ensureDependencies(params)
-params.containerFile = `/tmp/build/${params.repo}/${params.process}/container`
+params.containerFile = `${params.buildPath}/container`
 params.imageName = `ghcr.io/$LowercaseOrg/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
 divide()
-
-info(isApi(params))
+removeAndRecreateDir(params.buildPath)
 
 if (isApi(params)) {
     buildApi(params)
