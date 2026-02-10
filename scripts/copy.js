@@ -5,12 +5,11 @@ import { runOnTerminal } from "./terminal.js"
 export default params => {
     const {
         buildPath,
-        processPath,
-        org,
+        home,
         repo,
     } = params
-    info(`Copying ${org}/${repo} ...`)
-    const command = `sudo cp -a ${processPath} ${buildPath}`
+    info(`Copying ${home}/${repo} ...`)
+    const command = `cp -r ${home}/${repo} ${buildPath}`
     info(command)
     runOnTerminal(command)
 }

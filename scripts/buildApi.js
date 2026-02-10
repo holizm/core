@@ -2,10 +2,10 @@ import copyDependencies from './copyDependencies.js'
 import copy from './copy.js'
 
 export default params => {
-    copy({ repo: 'core' })
-    copy({ repo: 'fonts' })
-    copy({ repo: 'api' })
-    copy({ repo: 'cloud' })
+    copy({ ...params, repo: 'core' })
+    copy({ ...params, repo: 'fonts' })
+    copy({ ...params, repo: 'api' })
+    copy({ ...params, repo: 'cloud' })
     copyDependencies({ processType: 'api' })
 }
 /*

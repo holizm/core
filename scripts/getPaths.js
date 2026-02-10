@@ -9,7 +9,7 @@ export default ({
     const paths = {
         apiLock: `${commonPath}/apiLock.json`,
         apiPackageJson: `${commonPath}/api.json`,
-        buildPath: `/tmp/build/${repo}/${process}`,
+        buildPath: `/tmp/build`,
         commonPath,
         connectionStringsPath: `${commonPath}/connectionStrings.json`,
         dependenciesPath: `${commonPath}/dependencies`,
@@ -21,7 +21,6 @@ export default ({
         panelPackageJson: `${commonPath}/panel.json`,
         privateSettingsPath: `${commonPath}/privateSettings.json`,
         processPath,
-        processPath: `${processPath}`,
         publicSettingsPath: `${commonPath}/publicSettings.json`,
         repoPath,
         settingsOverridePath: `${processPath}/settingsOverride.json`,
