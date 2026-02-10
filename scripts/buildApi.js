@@ -1,12 +1,17 @@
 import copyDependencies from './copyDependencies.js'
 import copy from './copy.js'
 
+const copyBuildScript = params => {
+
+}
+
 export default params => {
-    copy({ ...params, repo: 'core' })
-    copy({ ...params, repo: 'fonts' })
-    copy({ ...params, repo: 'api' })
-    copy({ ...params, repo: 'cloud' })
+    copy({ ...params, directory: 'core' })
+    copy({ ...params, directory: 'fonts' })
+    copy({ ...params, directory: 'api' })
+    copy({ ...params, directory: 'cloud' })
     copyDependencies({ ...params, processType: 'api' })
+    copy({ ...params, directory: params.repo })
 
 }
 /*
@@ -27,10 +32,6 @@ function RemoveNodeLocalSecrets() {
 function BuildNodeApi() {
     export PATH = "${PATH}"
 
-
-    CopyDependencies Api
-    Copy $Repository Common
-    Copy $Repository $Process
     CopyNodeApiBuildScript
 
     RemoveGitDirectories

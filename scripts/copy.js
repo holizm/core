@@ -5,14 +5,14 @@ import { runOnTerminal } from "./terminal.js"
 export default params => {
     const {
         buildPath,
-        repoPath,
+        directory,
         home,
-        repo,
+        repoPath,
     } = params
-    info(`Copying ${home}/${repo} ...`)
-    let command = `cp -r ${home}/${repo} ${buildPath}`
-    if (isDir(`${repoPath}/${repo}`)) {
-        command = `cp -r ${repoPath}/${repo} ${buildPath}`
+    info(`Copying ${home}/${directory} ...`)
+    let command = `cp -r ${home}/${directory} ${buildPath}`
+    if (isDir(`${repoPath}/${directory}`)) {
+        command = `cp -r ${repoPath}/${directory} ${buildPath}`
     }
     info(command)
     runOnTerminal(command)

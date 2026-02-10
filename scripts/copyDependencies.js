@@ -13,7 +13,7 @@ export default params => {
     createDirIfNotExists(`/tmp/build/${repo}/${process}`)
     const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
-        copy({ ...params, repo: dependency })
+        copy({ ...params, directory: dependency })
     }
 }
 /*
