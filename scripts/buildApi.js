@@ -10,7 +10,7 @@ export default params => {
     copy({ ...params, directory: 'cloud' })
     copyDependencies({ ...params })
     copy({ ...params, directory: params.repo })
-    replaceVariables(`${home}/core/scripts/apiBuildScript.js`, params.buildPath, params)
+    replaceVariables(`${params.home}/core/scripts/apiBuildScript.js`, params.buildPath, params)
     removeVcsDirectories(params)
     replaceVariables(params.containerPath)
 }

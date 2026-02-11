@@ -16,23 +16,3 @@ export default params => {
         copy({ ...params, directory: dependency })
     }
 }
-/*
-function CopyDependencies()
-{
-
-    while IFS= read -r Dependency || [ -n '$Dependency' ]
-    do
-        if [ -d '/$Repository/$Dependency' ] && [ '$Dependency' != 'Accounts' ]; then
-            Info 'Copying /$Repository/$Dependency';
-            cp -r /$Repository/$Dependency /Build/$Repository/$Dependency
-        else
-            if [ ! -d /HolismHolding/$Dependency ]; then
-                continue;
-            fi
-            Info 'Copying /HolismHolding/$Dependency';
-            cp -r /HolismHolding/$Dependency /Build/HolismHolding/$Dependency
-        fi
-    done < $DependenciesPath
-}
-
-*/

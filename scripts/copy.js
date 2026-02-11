@@ -14,6 +14,5 @@ export default params => {
     if (isDir(`${repoPath}/${directory}`)) {
         command = `cp -r ${repoPath}/${directory} ${buildPath}`
     }
-    info(command)
     runOnTerminal(command)
 }
