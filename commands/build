@@ -41,7 +41,7 @@ params = {
 
 ensureDependencies(params)
 params.containerFile = `${params.buildPath}/container`
-params.imageName = `ghcr.io/$LowercaseOrg/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
+params.imageName = `ghcr.io/$lowercaseOrg/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
 divide()
 removeAndRecreateDir(params.buildPath)
@@ -62,8 +62,8 @@ if (isApi(params)) {
     warning('Unknown process')
 }
 
-let cmd = `sudo docker --debug build \
--f ${params.container} \
+let cmd = `docker --debug build \
+-f ${params.containerFile} \
 -t ${params.imageName} \
 /tmp/build --no-cache --progress=plain`
 console.log(cmd)

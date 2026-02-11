@@ -4,22 +4,19 @@ import { replaceVariables } from './os.js'
 import removeVcsDirectories from './removeVcsDirectories.js'
 
 export default params => {
+    const {
+        buildPath,
+        containerPath,
+        home,
+        repo,
+    } = params
     copy({ ...params, directory: 'core' })
     copy({ ...params, directory: 'fonts' })
     copy({ ...params, directory: 'api' })
     copy({ ...params, directory: 'cloud' })
     copyDependencies({ ...params })
-    copy({ ...params, directory: params.repo })
-    replaceVariables(`${params.home}/core/scripts/apiBuildScript.js`, params.buildPath, params)
+    copy({ ...params, directory: repo })
+    replaceVariables(`${home}/core/scripts/apiBuildScript.js`, `${buildPath}/buildScript.js`, params)
     removeVcsDirectories(params)
-    replaceVariables(params.containerPath)
+    replaceVariables(`${home}/core/container/files/prod/api`, `${buildPath}/container`, params)
 }
-/*
-
-function BuildNodeApi() {
-    export PATH = '${PATH}'
-
-    envsubst < /HolismHolding/Docker / Files / Prod / NodeApi > $Containerfile
-}
-
-*/
