@@ -1,41 +1,23 @@
 import copyDependencies from './copyDependencies.js'
 import copy from './copy.js'
-
-const copyBuildScript = params => {
-
-}
+import { replaceVariables } from './os.js'
+import removeVcsDirectories from './removeVcsDirectories.js'
 
 export default params => {
     copy({ ...params, directory: 'core' })
     copy({ ...params, directory: 'fonts' })
     copy({ ...params, directory: 'api' })
     copy({ ...params, directory: 'cloud' })
-    copyDependencies({ ...params, processType: 'api' })
+    copyDependencies({ ...params })
     copy({ ...params, directory: params.repo })
-
+    replaceVariables(`${home}/core/scripts/apiBuildScript.js`, params.buildPath, params)
+    removeVcsDirectories(params)
+    replaceVariables(params.containerPath)
 }
 /*
-function CopyNodeApiBuildScript() {
-    export Dependency = '$Dependency'
-    export DependencyBase = '$DependencyBase'
-    export RunnableModule = '$RunnableModule'
-    export DependencyOrgOrRep = '$DependencyOrgOrRep'
-    export Directories = '$Directories'
-    envsubst < /HolismHolding/Infra / Api / Prod / NodeBuildScript > /Build/Build
-}
-
-function RemoveNodeLocalSecrets() {
-    echo "Removing local secrets"
-    find. | grep LocalSecrets | xargs sudo rm - rf
-}
 
 function BuildNodeApi() {
-    export PATH = "${PATH}"
-
-    CopyNodeApiBuildScript
-
-    RemoveGitDirectories
-    RemoveNodeLocalSecrets
+    export PATH = '${PATH}'
 
     envsubst < /HolismHolding/Docker / Files / Prod / NodeApi > $Containerfile
 }
