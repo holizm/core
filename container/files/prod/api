@@ -1,15 +1,13 @@
-FROM node:lts-trixie-slim
+FROM nefcanto/api AS builder
 
-RUN sed -i 's/^Components: main$/& contrib non-free-firmware/' /etc/apt/sources.list.d/debian.sources
+COPY . /home/dev
 
-RUN apt update -qq \
-    && mkdir -p /tmp/imageResizingAndCompression \
-    && mkdir -p /tmp/videoConversion \
-    && apt install -qq -y apt-utils libgdiplus libc6-dev \
-    && apt install -qq -y procps \
-    && apt install -qq webp -y \
-    && apt install -qq file -y \
-    && apt install -qq imagemagick -y \
-    && apt install -qq bsdmainutils -y \
-    && apt install -qq translate-shell -y \
-    && apt install -qq ffmpeg -y
+RUN ls -lah /home/dev
+
+# FROM holism/node-api-prod-base:latest
+# COPY /HolismHolding /HolismHolding
+# COPY --from=builder /npm /npm
+# COPY --from=builder ${ProcessPath} ${ProcessPath}
+# WORKDIR ${ProcessPath}
+# RUN PATH="${PATH}:/Commands"
+# CMD [ "/bin/bash", "-c", "node ${ProcessPath}/App.js & tail -f /dev/null" ]

@@ -15,7 +15,7 @@ import {
 } from '../scripts/os.js'
 import {
     clear,
-    runOnTerminal,
+    runStreaming,
 } from '../scripts/terminal.js'
 import getPaths from '../scripts/getPaths.js'
 import ensureDependencies from '../scripts/ensureDependencies.js'
@@ -41,7 +41,7 @@ params = {
 
 ensureDependencies(params)
 params.containerFile = `${params.buildPath}/container`
-params.imageName = `ghcr.io/$lowercaseOrg/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
+params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
 divide()
 removeAndRecreateDir(params.buildPath)
@@ -66,5 +66,4 @@ let cmd = `docker --debug build \
 -f ${params.containerFile} \
 -t ${params.imageName} \
 /tmp/build --no-cache --progress=plain`
-console.log(cmd)
-runOnTerminal(cmd)
+runStreaming(cmd)
