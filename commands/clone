@@ -33,9 +33,7 @@ const orgExists = async org => {
 
 const listRepos = async org => {
     const command = `timeout ${timeoutSeconds} gh repo list ${org} --limit 1000 --json nameWithOwner -q '.[].nameWithOwner' 2>&1`
-    console.log(command)
     const out = await runOnTerminalAsync(command) || ''
-    console.log('Repos list', out)
     return out.trim().split('\n').filter(Boolean)
 }
 
