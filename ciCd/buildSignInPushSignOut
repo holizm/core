@@ -1,17 +1,17 @@
 
-      - name: Build production Docker
-        run: |
-          cd ~/${repo}/${process}
-          start
+            - name: Build production Docker
+              run: |
+                  cd ~/${repo}/${process}
+                  start
 
-      - name: Sign in to GitHub Container Registry
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            - name: Sign in to GitHub Container Registry
+              run: |
+                  echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push the image
-        run: |
-          docker push ghcr.io/dockerImageNamePlaceHolder:latest
+            - name: Push the image
+              run: |
+                  docker push ghcr.io/dockerImageNamePlaceHolder:latest
 
-      - name: Sign out from GitHub Container Registry
-        run: |
-          docker logout
+            - name: Sign out from GitHub Container Registry
+              run: |
+                  docker logout
