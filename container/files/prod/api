@@ -3,11 +3,11 @@ FROM nefcanto/api AS builder
 COPY . /home/dev
 
 RUN ls -lah /home/dev
+RUN node /home/dev/buildScript.js
 
-# FROM nefcanto/node-api-prod-base:latest
-# COPY /HolismHolding /HolismHolding
-# COPY --from=builder /npm /npm
-# COPY --from=builder ${ProcessPath} ${ProcessPath}
-# WORKDIR ${ProcessPath}
-# RUN PATH="${PATH}:/Commands"
-# CMD [ "/bin/bash", "-c", "node ${ProcessPath}/App.js & tail -f /dev/null" ]
+FROM nefcanto/api-prod-base:latest
+COPY --from=builder /home/dev /home/dev
+COPY --from=builder ${processPath} ${processPath}
+WORKDIR ${processPath}
+RUN PATH="${PATH}:/home/dev/core/commands"
+CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]
