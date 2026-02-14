@@ -3,12 +3,15 @@ name: builder
 on:
   workflow_call:
     inputs:
-      service:
+      file:
         required: true
         type: string
       dir:
         type: string
         default: dev
+      tag:
+        required: false
+        type: string
         
 jobs:
   build-and-push:
@@ -27,9 +30,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./container/files/${{ inputs.dir }}
-          file: ./container/files/${{ inputs.dir }}/${{ inputs.service }}
+          file: ./container/files/${{ inputs.dir }}/${{ inputs.file }}
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.service }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.tag || inputs.file }}:latest
 
       - name: Log out from Docker Hub
         run: docker logout

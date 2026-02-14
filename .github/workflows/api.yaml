@@ -14,5 +14,5 @@ jobs:
   build:
     uses: ./.github/workflows/builder.yaml
     with:
-      service: api
+      file: api
     secrets: inherit
