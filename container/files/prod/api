@@ -5,9 +5,9 @@ COPY . /home/dev
 RUN ls -lah /home/dev
 RUN node /home/dev/buildScript.js
 
-FROM nefcanto/api-prod-base:latest
-COPY --from=builder /home/dev /home/dev
-COPY --from=builder ${processPath} ${processPath}
-WORKDIR ${processPath}
-RUN PATH="${PATH}:/home/dev/core/commands"
-CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]
+# FROM nefcanto/api-prod-base:latest
+# COPY --from=builder /home/dev /home/dev
+# COPY --from=builder ${processPath} ${processPath}
+# WORKDIR ${processPath}
+# RUN PATH="${PATH}:/home/dev/core/commands"
+# CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]

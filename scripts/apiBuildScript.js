@@ -1,14 +1,15 @@
-import { info } from './logger.js'
-import { runOnTerminal } from './terminal.js'
-import { copyFileIfNotExists } from './os.js'
+import { info } from './core/scripts/logger.js'
+import { runOnTerminal } from './core/scripts/terminal.js'
+import { copyFileIfNotExists } from './core/scripts/os.js'
 
 const copyBase = params => {
     const {
         home,
-        apiPackagePath,
+        coreApiPackageJson,
     } = params
     info('Copying core...')
-    copyFileIfNotExists(`${apiPackagePath}`,)
+    copyFileIfNotExists(`${coreApiPackageJson}`, `${processPath}/corePackage.json`)
+    copyFileIfNotExists(`${coreApiPackageJson}`, processPath)
 }
 /*
 #!/bin/bash
