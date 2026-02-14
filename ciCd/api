@@ -1,8 +1,8 @@
 
             - name: Pull nefcanto/api
               run: |
-                  docker pull nefcanto/api
+                    docker pull nefcanto/api
 
             - name: Pull nefcanto/api-prod-base
               run: |
-                  docker pull nefcanto/api-prod-base
+                    docker pull nefcanto/api-prod-base

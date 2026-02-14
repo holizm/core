@@ -14,17 +14,17 @@ jobs:
 
             - name: Initialize
               run: |
-                  echo "~/core/commands" >> $GITHUB_PATH
-                  mkdir ~/secrets
-                  mkdir -p ~/.ssh
-                  echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
-                  chmod --preserve-root 400 ~/.ssh/id_ed25519
-                  cd ~
-                  git clone git@github.com:holizm/core
-                  IFS="/" read -r -a repo_array <<< "${GITHUB_REPOSITORY}"
-                  echo "gitHubOrganization=${repo_array[0]}" >> $GITHUB_ENV
-                  echo "gitHubRepository=${repo_array[1]}" >> $GITHUB_ENV
+                    echo "~/core/commands" >> $GITHUB_PATH
+                    mkdir ~/secrets
+                    mkdir -p ~/.ssh
+                    echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
+                    chmod --preserve-root 400 ~/.ssh/id_ed25519
+                    cd ~
+                    git clone git@github.com:holizm/core
+                    IFS="/" read -r -a repo_array <<< "${GITHUB_REPOSITORY}"
+                    echo "gitHubOrganization=${repo_array[0]}" >> $GITHUB_ENV
+                    echo "gitHubRepository=${repo_array[1]}" >> $GITHUB_ENV
 
             - name: Clone holizm
               run: |
-                  clone holizm
+                    clone holizm
