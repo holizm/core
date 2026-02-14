@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-    GH_TOKEN: ${{ github.token }}
+    GH_TOKEN: ${{ secrets.PAT }}
 
 jobs:
   buildAndPush:
@@ -19,7 +19,6 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
           chmod --preserve-root 400 ~/.ssh/id_ed25519
-          echo "${{ secrets.PAT }}" > ~/secrets/gitHubAccessToken
           cd ~
           git clone git@github.com:holizm/core
           IFS="/" read -r -a repo_array <<< "${GITHUB_REPOSITORY}"
