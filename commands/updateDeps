@@ -16,7 +16,7 @@ for repoName in "${repos[@]}"; do
 
   cp "$basePath/$repoName/package.json" .
 
-  sudo npx npm-check-updates -u
+  npx npm-check-updates -u
 
   cp package.json "$basePath/$repoName/package.json"
 
