@@ -10,25 +10,30 @@ mkdir -p "$tempDir"
 cd "$tempDir"
 
 for repoName in "${repos[@]}"; do
-  echo "---- Processing $repoName ----"
+    echo "---- Processing $repoName ----"
 
-  rm -f package.json
+    rm -f package.json
 
-  cp "$basePath/$repoName/package.json" .
+    cp "$basePath/$repoName/package.json" .
 
-  npx npm-check-updates -u
+    npx npm-check-updates -u || true
 
-  cp package.json "$basePath/$repoName/package.json"
+    cp package.json "$basePath/$repoName/package.json"
 
-  cd "$basePath/$repoName"
+    cd "$basePath/$repoName"
 
-  git add package.json
-  git commit -m "update dependencies"
-  git push
+    git add package.json
 
-  cd "$tempDir"
+    if ! git diff --cached --quiet; then
+    git commit -m "update dependencies"
+    git push
+    else
+    echo "No changes to commit for $repoName"
+    fi
 
-  echo "---- Done $repoName ----"
+    cd "$tempDir"
+
+    echo "---- Done $repoName ----"
 done
 
 echo "All repos updated."
