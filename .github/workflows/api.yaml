@@ -11,7 +11,7 @@ on:
       - 'container/files/dev/api'
 
 jobs:
-  build-api:
+  build:
     uses: ./.github/workflows/builder.yaml
     with:
       service: api

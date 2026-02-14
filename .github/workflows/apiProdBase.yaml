@@ -1,4 +1,4 @@
-name: accounts
+name: apiProdBase
 
 on:
   workflow_dispatch:
@@ -8,12 +8,12 @@ on:
     branches:
       - main
     paths:
-      - 'container/files/prod/accounts'
+      - 'container/files/prod/apiProdBase'
 
 jobs:
   build:
     uses: ./.github/workflows/builder.yaml
     with:
-      service: accounts
+      service: apiProdBase
       dir: prod
     secrets: inherit

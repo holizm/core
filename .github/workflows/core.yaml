@@ -11,7 +11,7 @@ on:
       - 'container/files/dev/core'
 
 jobs:
-  build-core:
+  build:
     uses: ./.github/workflows/builder.yaml
     with:
       service: core

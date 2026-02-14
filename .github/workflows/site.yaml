@@ -11,7 +11,7 @@ on:
       - 'container/files/dev/site'
 
 jobs:
-  build-site:
+  build:
     uses: ./.github/workflows/builder.yaml
     with:
       service: site

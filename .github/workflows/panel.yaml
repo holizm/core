@@ -11,7 +11,7 @@ on:
       - 'container/files/dev/panel'
 
 jobs:
-  build-panel:
+  build:
     uses: ./.github/workflows/builder.yaml
     with:
       service: panel
