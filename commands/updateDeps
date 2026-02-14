@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+basePath="/home/dev"
+tempDir="/tmp/temp"
+repos=("api" "panel" "site")
+
+mkdir -p "$tempDir"
+cd "$tempDir"
+
+for repoName in "${repos[@]}"; do
+  echo "---- Processing $repoName ----"
+
+  rm -f package.json
+
+  cp "$basePath/$repoName/package.json" .
+
+  sudo npx npm-check-updates -u
+
+  cp package.json "$basePath/$repoName/package.json"
+
+  cd "$basePath/$repoName"
+
+  git add package.json
+  git commit -m "update dependencies"
+  git push
+
+  cd "$tempDir"
+
+  echo "---- Done $repoName ----"
+done
+
+echo "All repos updated."
