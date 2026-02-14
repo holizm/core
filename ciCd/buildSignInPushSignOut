@@ -2,7 +2,7 @@
       - name: Build production Docker
         run: |
           cd ~/${repo}/${process}
-          ~/core/commands/build
+          start
 
       - name: Sign in to GitHub Container Registry
         run: |

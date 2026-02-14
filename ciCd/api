@@ -3,6 +3,6 @@
         run: |
           docker pull nefcanto/api
 
-      - name: Pull nefcanto/api-prod
+      - name: Pull nefcanto/api-prod-base
         run: |
-          docker pull nefcanto/api-prod
+          docker pull nefcanto/api-prod-base
