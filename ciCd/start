@@ -1,0 +1,5 @@
+
+            - name: Start the container
+              run: |
+                  cd ~/${repo}/${process}
+                  start

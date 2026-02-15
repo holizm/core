@@ -1,0 +1,4 @@
+
+            - name: Push the image
+              run: |
+                  docker push ghcr.io/dockerImageNamePlaceHolder:latest

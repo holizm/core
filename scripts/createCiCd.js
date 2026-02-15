@@ -27,7 +27,12 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
     replaceVariablesAndAppend(actionFile, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/start`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/build`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/push`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, gitHubActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
     let content = getFileContent(gitHubActionPath)

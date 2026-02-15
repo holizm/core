@@ -1,0 +1,5 @@
+
+
+            - name: Sign out from container registry
+              run: |
+                  docker logout
