@@ -9,6 +9,8 @@ install_node() {
     sudo apt-get install -y nodejs
     node -v
     npm -v
+    echo 'export NODE_OPTIONS="--trace-deprecation"' >> ~/.bashrc
+    export NODE_OPTIONS="--trace-deprecation"
 }
 
 install node install_node
