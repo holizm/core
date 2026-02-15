@@ -108,11 +108,11 @@ if (isAccounts(params)) {
 }
 
 let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
-// console.log(command)
+// info(command)
 runOnTerminal(command)
 command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
 if (params.isCiCd) {
-    runOnTerminal(command)
+    info("In CI/CD, we don't see the log of the container.")
 }
 else {
     await runStreaming(command)
