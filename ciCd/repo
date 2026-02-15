@@ -1,4 +1,4 @@
 
-            - name: Get runnable
+            - name: Clone runnable
               run: |
                     clone $gitHubOrganization $gitHubRepository
