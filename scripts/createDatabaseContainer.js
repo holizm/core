@@ -29,7 +29,7 @@ const createMongoDatabaseContainer = params => {
         home,
         lowercaseRepo,
     } = params
-    info('Creating Mongo container')
+    info('Creating database container')
     const path = createDatabaseComposeFile({
         ...params,
         composeTemplatePath: `${home}/core/container/composes/database`
