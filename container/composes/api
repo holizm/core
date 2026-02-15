@@ -17,6 +17,7 @@ services:
             - environment=development
             - host=${host}
             - migrationPath=/tmp/${repo}/migration
+            - isCiCd=${isCiCd}
 
             ${environmentVariablesPlaceholder}
         volumes:
@@ -67,14 +68,16 @@ services:
             export PATH=${home}/core/commands/api:${home}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
             merge api
-            prepare generation
-            prepare migration
-            prepare query
-            prepare toMongo
-            initialize
-            monitor &
-            cd ${home}/${repo}/${process}
-            nodemon --watch /${repo} process.js &
+            if [ "$isCiCd" != "true" ]; then
+                prepare generation
+                prepare migration
+                prepare query
+                prepare toMongo
+                initialize
+                monitor &
+                cd ${home}/${repo}/${process}
+                nodemon --watch /${repo} process.js &
+            fi
             tail -f /dev/null
             '
         stdin_open: true
