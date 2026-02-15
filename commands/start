@@ -47,6 +47,7 @@ info(`directory: ${process.cwd()}`)
 divide()
 
 let params = extract()
+params.isCiCd = process.env.GITHUB_ACTIONS === 'true'
 
 params = {
     ...params,
@@ -61,10 +62,12 @@ if (!isFile(tenantsPath)) {
 }
 
 const lines = getFileLines(tenantsPath)
-lines.forEach(line => processTenantLine({
-    ...params,
-    line,
-}))
+if (!params.isCiCd) {
+    lines.forEach(line => processTenantLine({
+        ...params,
+        line,
+    }))
+}
 
 createNetwork(params)
 ensureDependencies(params)
