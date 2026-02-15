@@ -39,9 +39,13 @@ const createMongoDatabaseContainer = params => {
 
 export default params => {
     const {
+        isCiCd,
         repo,
         tenantsPath,
     } = params
+    if (isCiCd) {
+        return
+    }
     setupLocalDns({
         ...params,
         host: `${repo}.dev`,
