@@ -4,7 +4,7 @@ import {
     divide,
     info,
 } from '../scripts/logger.js'
-import createGitHubAction from './createGitHubAction.js'
+import createCiCd from './createCiCd.js'
 import createDatabaseContainer from './createDatabaseContainer.js'
 import {
     copyFileIfNotExists,
@@ -195,7 +195,7 @@ export default params => {
     mapCore(params)
     params.joinVolumes()
 
-    if (!isEtl(params)) createGitHubAction(params)
+    if (!isEtl(params)) createCiCd(params)
 
     const containerName = `${repo}Databases`
     const command = `docker ps -q -f name=${containerName}`

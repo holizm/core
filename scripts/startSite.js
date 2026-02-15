@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { basename } from 'path'
 import { runOnTerminal } from './terminal.js'
-import createGitHubAction from './createGitHubAction.js'
+import createCiCd from './createCiCd.js'
 import {
     divide,
     info,
@@ -169,7 +169,7 @@ export default params => {
     params.processType = 'site'
     createNonExistentFiles(params)
     createDirectories(params)
-    createGitHubAction(params)
+    createCiCd(params)
 
     mapDependencies(params)
     mapSettings(params)

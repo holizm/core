@@ -4,7 +4,7 @@
                   cd ~/${repo}/${process}
                   start
 
-            - name: Sign in to GitHub Container Registry
+            - name: Sign in to container registry
               run: |
                   echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
@@ -12,6 +12,6 @@
               run: |
                   docker push ghcr.io/dockerImageNamePlaceHolder:latest
 
-            - name: Sign out from GitHub Container Registry
+            - name: Sign out from container registry
               run: |
                   docker logout

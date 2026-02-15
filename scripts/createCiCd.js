@@ -22,7 +22,7 @@ export default params => {
 
     divide()
 
-    const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yml`
+    const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yaml`
     replaceVariables(`${home}/core/ciCd/base`, gitHubActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
     replaceVariablesAndAppend(actionFile, gitHubActionPath, params)
@@ -34,6 +34,6 @@ export default params => {
     content = content.replace(/dockerImageNamePlaceHolder/g, dockerImageName)
     writeFile(gitHubActionPath, content)
 
-    success('Created GitHub action')
+    success('Created CI/CD')
     divide()
 }

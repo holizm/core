@@ -11,7 +11,7 @@ import {
     replaceVariables,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
-import createGitHubAction from './createGitHubAction.js'
+import createCiCd from './createCiCd.js'
 import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
@@ -126,7 +126,7 @@ export default params => {
     params.processType = 'panel'
     createNonExistentFiles(params)
     createDirectories(params)
-    createGitHubAction(params)
+    createCiCd(params)
 
     mapDependencies(params)
     mapSettings(params)
