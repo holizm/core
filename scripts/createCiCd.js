@@ -24,9 +24,9 @@ export default params => {
 
     const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yaml`
     replaceVariables(`${home}/core/ciCd/base`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
     replaceVariablesAndAppend(actionFile, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/buildSignInPushSignOut`, gitHubActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
