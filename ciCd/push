@@ -1,4 +1,4 @@
 
             - name: Push the image
               run: |
-                  docker push ghcr.io/dockerImageNamePlaceHolder:latest
+                    docker push ghcr.io/dockerImageNamePlaceHolder:latest

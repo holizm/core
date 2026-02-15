@@ -1,4 +1,18 @@
-
             - name: Get the composed code
               run: |
-                  
+                    container=$(docker ps -q | head -n 1)
+
+                    mkdir -p /tmp/dev
+
+                    docker exec "$container" bash -c '
+                        for dir in /home/dev/*; do
+                            if [ -d "$dir/.git" ]; then
+                                echo "$dir"
+                            fi
+                        done
+                    ' | while read repo; do
+                        name=$(basename "$repo")
+                        docker cp "$container":"$repo" "/tmp/dev/$name"
+                    done
+
+                    docker cp "$container":/home/dev/spl /tmp/dev/spl
