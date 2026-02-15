@@ -16,7 +16,7 @@ import setVcsIgnore from "../scripts/setVcsIgnore.js"
 const DEFAULT_ORG = 'holizm'
 const BASE_DIR = process.env.HOME
 const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
-const cloneConcurrency = process.env.CloneConcurrency && `${process.env.CloneConcurrency}`.trim() !== '' ? Number(process.env.CloneConcurrency) : 32
+const cloneConcurrency = process.env.CloneConcurrency && `${process.env.CloneConcurrency}`.trim() !== '' ? Number(process.env.CloneConcurrency) : 8
 
 const needsRetry = out => !out || /unexpected disconnect/i.test(out)
 const pathExists = async p => { try { await fs.access(p); return true } catch { return false } }
