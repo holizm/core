@@ -3,3 +3,4 @@
               run: |
                     cd ~/${repo}/${process}
                     start
+                    cat /tmp/${repo}/${process}/compose.yaml
