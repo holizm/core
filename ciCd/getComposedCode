@@ -1,3 +1,4 @@
+
             - name: Get the composed code
               run: |
                     container=$(docker ps -q | head -n 1)
