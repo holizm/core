@@ -43,8 +43,8 @@ const readReplaceWrite = (inputFile, outputFile, flag, params) => {
 export const replaceVariables = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "w", params)
 export const replaceVariablesAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "a", params)
 
-export const isFile = p => fs.existsSync(p) && fs.statSync(p).isFile()
-export const isDir = p => fs.existsSync(p) && fs.statSync(p).isDirectory()
+export const isFile = p => p && fs.existsSync(p) && fs.statSync(p).isFile()
+export const isDir = p => p && fs.existsSync(p) && fs.statSync(p).isDirectory()
 
 export const createDirIfNotExists = dirPath => {
     if (!fs.existsSync(dirPath)) {
