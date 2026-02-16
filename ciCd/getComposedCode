@@ -1,13 +1,15 @@
 
             - name: Get the composed code
               run: |
-                    docker exec -it "$container" ls -la /home/dev
                     container=$(docker ps -q | head -n 1)
+
+                    docker exec -it "$container" ls -la /home/runner
+                    docker exec -it "$container" ls -la /home/dev
 
                     mkdir -p /tmp/dev
 
                     docker exec "$container" bash -c '
-                        for dir in /home/dev/*; do
+                        for dir in /home/runner/*; do
                             if [ -d "$dir/.git" ]; then
                                 echo "$dir"
                             fi
@@ -17,4 +19,4 @@
                         docker cp "$container":"$repo" "/tmp/dev/$name"
                     done
 
-                    docker cp "$container":/home/dev/spl /tmp/dev/spl
+                    docker cp "$container":/home/runner/spl /tmp/dev/spl
