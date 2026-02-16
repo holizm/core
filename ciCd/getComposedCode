@@ -1,11 +1,27 @@
 
             - name: Get the composed code
               run: |
-                    docker ps
-                    container=$(docker ps -q | head -n 1)
+                    echo "Waiting for container to start..."
 
-                    docker exec -it "$container" ls -la /home/runner
-                    docker exec -it "$container" ls -la /home/dev
+                    container=""
+
+                    for i in {1..30}; do
+                        container=$(docker ps --format "{{.ID}}" | head -n 1)
+                        if [ -n "$container" ]; then
+                            echo "Container found: $container"
+                            break
+                        fi
+                        sleep 2
+                    done
+
+                    if [ -z "$container" ]; then
+                        echo "No running container found after waiting."
+                        docker ps -a
+                        exit 1
+                    fi
+
+                    docker exec "$container" ls -la /home/runner || true
+                    docker exec "$container" ls -la /home/dev || true
 
                     mkdir -p /tmp/dev
 
@@ -20,4 +36,4 @@
                         docker cp "$container":"$repo" "/tmp/dev/$name"
                     done
 
-                    docker cp "$container":/home/runner/spl /tmp/dev/spl
+                    docker cp "$container":/home/runner/spl /tmp/dev/spl || true
