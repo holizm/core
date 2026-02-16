@@ -1,6 +1,7 @@
 
             - name: Get the composed code
               run: |
+                    docker ps
                     container=$(docker ps -q | head -n 1)
 
                     docker exec -it "$container" ls -la /home/runner
