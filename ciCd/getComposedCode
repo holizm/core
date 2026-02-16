@@ -3,7 +3,7 @@
               run: |
                     container=$(docker ps -q | head -n 1)
 
-                    mkdir -p /home/dev
+                    mkdir -p /tmp/dev
 
                     docker exec "$container" bash -c '
                         for dir in /home/dev/*; do
@@ -13,7 +13,7 @@
                         done
                     ' | while read repo; do
                         name=$(basename "$repo")
-                        docker cp "$container":"$repo" "/home/dev/$name"
+                        docker cp "$container":"$repo" "/tmp/dev/$name"
                     done
 
-                    docker cp "$container":/home/dev/spl /home/dev/spl
+                    docker cp "$container":/home/dev/spl /tmp/dev/spl
