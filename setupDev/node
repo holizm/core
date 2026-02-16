@@ -12,11 +12,17 @@ installNode() {
     export NODE_OPTIONS="--trace-deprecation"
 }
 
-latestLts=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)][0].version')
+latestLts=$(curl -s https://nodejs.org/dist/index.json)
 
-installedMajor=$(node --version)
+if [[ -z "$latestLts" ]]; then
+    errorAndExit "Change your internet or DNS"
+fi
 
-if [[ "$installedMajor" == "$latestLts" ]]; then
+latestLts=$(echo "$latestLts" | jq -r '[.[] | select(.lts != false)][0].version')
+
+installedVersion=$(node --version 2>/dev/null || true)
+
+if [[ "$installedVersion" == "$latestLts" ]]; then
     success "Node.js $checkMark"
 else
     install node installNode
