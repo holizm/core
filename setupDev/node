@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
-
 . "$scripts/installer.sh"
+. "$scripts/logger.sh"
 
 installNode() {
     sudo apt-get update -y
-    sudo apt-get install -y curl ca-certificates gnupg
+    sudo apt-get install -y curl ca-certificates gnupg jq
     curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
     sudo apt-get install -y nodejs
-    node -v
-    npm -v
+
     echo 'export NODE_OPTIONS="--trace-deprecation"' >> ~/.bashrc
     export NODE_OPTIONS="--trace-deprecation"
 }
 
-install node installNode
+latestLts=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)][0].version')
+
+installedMajor=$(node --version)
+
+if [[ "$installedMajor" == "$latestLts" ]]; then
+    success "Node.js $checkMark"
+else
+    install node installNode
+fi

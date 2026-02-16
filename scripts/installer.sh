@@ -5,25 +5,25 @@ homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 . "$homeDir/core/scripts/logger.sh"
 
 install() {
-    local cmd_name="$1"
-    local pkg_or_func="${2:-}"
+    local commandName="$1"
+    local packageOrFunction="${2:-}"
 
-    if command -v "$cmd_name" &>/dev/null; then
-        success "$cmd_name $check_mark"
+    if command -v "$commandName" &>/dev/null; then
+        success "$commandName $checkMark"
         return
     fi
 
-    info "installing $cmd_name ..."
+    info "installing $commandName ..."
 
-    if [[ -n "$pkg_or_func" ]]; then
-        if declare -f "$pkg_or_func" &>/dev/null; then
-            "$pkg_or_func" || error "failed to install $cmd_name"
+    if [[ -n "$packageOrFunction" ]]; then
+        if declare -f "$packageOrFunction" &>/dev/null; then
+            "$packageOrFunction" || error "failed to install $commandName"
         else
-            sudo apt-get install -y "$pkg_or_func" || error "failed to install $cmd_name"
+            sudo apt-get install -y "$packageOrFunction" || error "failed to install $commandName"
         fi
     else
-        sudo apt-get install -y "$cmd_name" || error "failed to install $cmd_name"
+        sudo apt-get install -y "$commandName" || error "failed to install $commandName"
     fi
 
-    success "installed $cmd_name"
+    success "installed $commandName"
 }
