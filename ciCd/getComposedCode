@@ -21,7 +21,6 @@
                     fi
 
                     docker exec "$container" ls -la /home/runner || true
-                    docker exec "$container" ls -la /home/dev || true
 
                     mkdir -p /tmp/dev
 
