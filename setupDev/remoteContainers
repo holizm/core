@@ -25,7 +25,8 @@ installRemoteContainers() {
     #     "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery?api-version=7.1-preview.1" \
     #     | grep -oP '"version":"\K[^"]+' \
     #     | head -n 1)
-    latest=0.431.1
+
+    latest=0.442.0
 
     if [ -n "$installed" ] && [ "$installed" = "$latest" ]; then
         return
