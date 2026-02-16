@@ -2,10 +2,10 @@
 
 . "$scripts/installer.sh"
 
-install_safeeyes() {
+installSafeEyes() {
     sudo add-apt-repository ppa:safeeyes-team/safeeyes -y
     sudo apt-get update
     sudo apt-get install safeeyes -y
 }
 
-install safeeyes install_safeeyes
+install safeeyes installSafeEyes

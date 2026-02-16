@@ -2,8 +2,8 @@
 
 . "$scripts/installer.sh"
 
-install_pip() {
+installPip() {
     sudo apt-get install -y python3-pip
 }
 
-install pip install_pip
+install pip installPip

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-. "$scripts/installer.sh"
-
-installRclone () {
-    curl https://rclone.org/install.sh | sudo bash
-}
-
-install rclone installAzureCli

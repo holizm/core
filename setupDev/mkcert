@@ -2,7 +2,7 @@
 
 . "$scripts/installer.sh"
 
-install_mkcert() {
+installMkcert() {
     sudo apt-get install -y libnss3-tools
     wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -O mkcert
     sudo cp mkcert /usr/local/bin/mkcert
@@ -10,4 +10,4 @@ install_mkcert() {
     mkcert -install
 }
 
-install mkcert install_mkcert
+install mkcert installMkcert

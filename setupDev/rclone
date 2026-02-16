@@ -2,11 +2,8 @@
 
 . "$scripts/installer.sh"
 
-install_rclone() {
-    if command -v rclone >/dev/null 2>&1; then
-        return
-    fi
+installRclone() {
     curl https://rclone.org/install.sh | sudo bash
 }
 
-install rclone install_rclone
+install rclone installRclone

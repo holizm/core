@@ -2,11 +2,11 @@
 
 . "$scripts/installer.sh"
 
-install_rustdesk() {
+installRustDesk() {
     wget https://github.com/rustdesk/rustdesk/releases/download/1.2.3-2/rustdesk-1.2.3-2-x86_64.deb -O /tmp/rustDesk.deb
     sudo chmod +x /tmp/rustDesk.deb
     sudo apt-get install -y /tmp/rustDesk.deb
     sudo rm -f /tmp/rustDesk.deb
 }
 
-install rustdesk install_rustdesk
+install rustdesk installRustDesk

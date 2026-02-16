@@ -2,8 +2,8 @@
 
 . "$scripts/installer.sh"
 
-install_remmina() {
+installRemmina() {
     sudo apt-get install -y remmina remmina-plugin-rdp
 }
 
-install remmina install_remmina
+install remmina installRemmina
