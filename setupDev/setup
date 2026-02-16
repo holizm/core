@@ -36,7 +36,7 @@ sudo homeDir="$homeDir" node "$setupDev/nginx"
 
 $setupDev/micro
 $setupDev/mkcert
-$setupDev/rClone
+$setupDev/rclone
 $setupDev/azureCli
 
 $setupDev/anyDesk
