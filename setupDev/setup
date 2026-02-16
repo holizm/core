@@ -3,47 +3,47 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
-# install curl
-# install jq
-# install nmap
-# install cloc
-# install parallel
-# install progress
-# install rename
-# install baobab
-# install dconf-editor
-# install nginx
-# install simplescreenrecorder
-# install sshd openssh-server
-# install telnet
-# install trans translate-shell
-# install unzip
-# install zip
-# install http httpie
-# install pip python3-pip
+install curl
+install jq
+install nmap
+install cloc
+install parallel
+install progress
+install rename
+install baobab
+install dconf-editor
+install nginx
+install simplescreenrecorder
+install sshd openssh-server
+install telnet
+install trans translate-shell
+install unzip
+install zip
+install http httpie
+install pip python3-pip
 
-# $setupDev/git
-# $setupDev/gh
-# $setupDev/chrome
-# $setupDev/vsCode
-# $setupDev/spellChecker
-# $setupDev/speedTest
-# $setupDev/remoteContainers
+$setupDev/git
+$setupDev/gh
+$setupDev/chrome
+$setupDev/vsCode
+$setupDev/spellChecker
+$setupDev/speedTest
+$setupDev/remoteContainers
 
-# $setupDev/docker
+$setupDev/docker
 $setupDev/node
-# sudo homeDir="$homeDir" node "$setupDev/nginx"
+sudo homeDir="$homeDir" node "$setupDev/nginx"
 
-# $setupDev/micro
-# $setupDev/mkcert
-# $setupDev/rClone
-# $setupDev/azureCli
+$setupDev/micro
+$setupDev/mkcert
+$setupDev/rClone
+$setupDev/azureCli
 
-# $setupDev/anyDesk
-# $setupDev/rustDesk
-# $setupDev/compass
-# $setupDev/beyondCompare
-# $setupDev/safeEyes
+$setupDev/anyDesk
+$setupDev/rustDesk
+$setupDev/compass
+$setupDev/beyondCompare
+$setupDev/safeEyes
 
 # $setupDev/dnsmasq
 # $setupDev/stretchly
