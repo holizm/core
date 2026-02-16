@@ -3,7 +3,8 @@ FROM nefcanto/api AS builder
 COPY . /home/dev
 
 RUN ls -lah /home/dev
-RUN node /home/dev/buildScript.js
+WORKDIR ${processPath}
+RUN npm install --legacy-peer-deps
 
 # FROM nefcanto/api-prod-base:latest
 # COPY --from=builder /home/dev /home/dev

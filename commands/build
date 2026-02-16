@@ -47,17 +47,17 @@ divide()
 removeAndRecreateDir(params.buildPath)
 
 if (isApi(params)) {
-    buildApi(params)
+    console.log('to be implemented')
 } else if (isPanel(params)) {
     if (isHeadlessPanel(params)) {
-        buildHeadlessPanel(params)
+        console.log('to be implemented')
     } else {
-        buildPanel(params)
+        console.log('to be implemented')
     }
 } else if (isSite(params)) {
-    buildSite(params)
+    console.log('to be implemented')
 } else if (isWorker(params)) {
-    buildApi(params)
+    console.log('to be implemented')
 } else {
     warning('Unknown process')
 }
@@ -65,5 +65,5 @@ if (isApi(params)) {
 let cmd = `docker --debug build \
 -f ${params.containerFile} \
 -t ${params.imageName} \
-/tmp/build --no-cache --progress=plain`
+/home/dev --no-cache --progress=plain`
 runStreaming(cmd)
