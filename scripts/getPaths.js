@@ -7,7 +7,6 @@ export default ({
     const processPath = `${repoPath}/${process}`
     const commonPath = `${repoPath}/common`
     const paths = {
-        buildPath: `/tmp/build`,
         commonPath,
         connectionStringsPath: `${commonPath}/connectionStrings.json`,
         coreApiLock: `${home}/api/lock.json`,

@@ -26,35 +26,25 @@ clear()
 divide()
 info('holism build')
 divide()
-info(`directory: ${process.cwd()}`)
-divide()
 
-let params = extract()
-
-params = {
-    ...params,
-    ...getPaths(params),
-}
-
-ensureDependencies(params)
-params.containerFile = `${params.buildPath}/container`
+let params = {}
+params.containerFile = `/tmp/dev/container`
 params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
 divide()
-removeAndRecreateDir(params.buildPath)
 
 if (isApi(params)) {
-    console.log('to be implemented')
+    params.sourceContainerFile = 'api'
 } else if (isPanel(params)) {
     if (isHeadlessPanel(params)) {
-        console.log('to be implemented')
+        params.sourceContainerFile = 'headlessPanel'
     } else {
-        console.log('to be implemented')
+        params.sourceContainerFile = 'panel'
     }
 } else if (isSite(params)) {
-    console.log('to be implemented')
+    params.sourceContainerFile = 'site'
 } else if (isWorker(params)) {
-    console.log('to be implemented')
+    params.sourceContainerFile = 'worker'
 } else {
     warning('Unknown process')
 }
