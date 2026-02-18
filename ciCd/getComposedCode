@@ -1,20 +1,33 @@
-
             - name: Get the composed code
               run: |
                     echo "Waiting for container to start..."
 
                     container=""
+                    state=""
 
                     for i in {1..30}; do
-                        container=$(docker ps --format "{{.ID}}" | head -n 1)
+                        container=$(docker ps -aq --format "{{.ID}}" | head -n 1)
+
                         if [ -n "$container" ]; then
-                            echo "Container found: $container"
-                            break
+                            state=$(docker inspect -f '{{.State.Status}}' "$container")
+
+                            if [ "$state" = "created" ]; then
+                                echo "Container is created. Starting..."
+                                docker start "$container"
+                                sleep 2
+                                continue
+                            fi
+
+                            if [ "$state" = "running" ]; then
+                                echo "Container found and running: $container"
+                                break
+                            fi
                         fi
+
                         sleep 2
                     done
 
-                    if [ -z "$container" ]; then
+                    if [ -z "$container" ] || [ "$state" != "running" ]; then
                         echo "No running container found after waiting."
                         docker ps -a
                         exit 1
