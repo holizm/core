@@ -109,7 +109,7 @@ if (isAccounts(params)) {
 
 let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans`
 if (!params.isCiCd) {
-    composeCommand += ' -d'
+    command += ' -d'
 }
 // info(command)
 runOnTerminal(command)
