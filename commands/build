@@ -19,9 +19,6 @@ import {
 } from '../scripts/terminal.js'
 import getPaths from '../scripts/getPaths.js'
 import ensureDependencies from '../scripts/ensureDependencies.js'
-import buildApi from '../scripts/buildApi.js'
-import buildPanel from '../scripts/buildPanel.js'
-import buildSite from '../scripts/buildSite.js'
 import extract from '../scripts/extract.js'
 
 clear()

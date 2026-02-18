@@ -33,8 +33,6 @@
                         exit 1
                     fi
 
-                    docker exec "$container" ls -la /home/runner || true
-
                     mkdir -p /tmp/dev
 
                     docker exec "$container" bash -c '
@@ -49,3 +47,5 @@
                     done
 
                     docker cp "$container":/home/runner/spl /tmp/dev/spl || true
+
+                    ls -lah /tmp/dev
