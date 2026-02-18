@@ -107,10 +107,7 @@ if (isAccounts(params)) {
     warning('Unknown process')
 }
 
-let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans`
-if (!params.isCiCd) {
-    command += ' -d'
-}
+let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
 // info(command)
 runOnTerminal(command)
 command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
