@@ -22,6 +22,7 @@ import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapSettings from "./mapSettings.js"
 import createDirectories from "./createDirectories.js"
+import removeRootOwnedDirectories from "./removeRootOwnedDirectories.js"
 
 const createNonExistingFiles = params => {
     const {
@@ -185,6 +186,7 @@ export default params => {
             [`/tmp/toMongo`, `${home}/toMongo`],
         ]
     })
+    removeRootOwnedDirectories(params)
     linkVsCodeFiles(params)
     mapNode(params)
     mapSettings(params)

@@ -18,6 +18,7 @@ export default params => {
         [`/tmp/${repo}/common`, `${home}/${repo}/common`],
         [`/tmp/${repo}/${process}`, `${home}/${repo}/${process}`],
         [`/tmp/${repo}/${process}/ast`, `${home}/${repo}/${process}/ast`],
+        [`/tmp/${repo}/${process}/node_modules`, `${home}/${repo}/${process}/node_modules`],
         `/var/tmp/${repo}`,
         `/var/tmp/${repo}/${processType}`,
         `/var/tmp/${repo}/${processType}/nodeModules`,
