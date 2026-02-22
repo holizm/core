@@ -42,6 +42,16 @@ export default params => {
             `${home}/${repo}/${process}/src/runnable`
         ])
     }
+    for (const tempDir of tempDirs) {
+        if (Array.isArray(tempDir)) {
+            const [left, right] = tempDir
+            createDirIfNotExists(left)
+            params.addVolume(left, right)
+        }
+        else {
+            createDirIfNotExists(tempDir)
+        }
+    }
     const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
         tempDirs.push([
@@ -53,16 +63,6 @@ export default params => {
                 `/tmp/${repo}/${process}/${dependency}`,
                 `${home}/${repo}/${process}/node_modules/${dependency}`,
             ])
-        }
-    }
-    for (const tempDir of tempDirs) {
-        if (Array.isArray(tempDir)) {
-            const [left, right] = tempDir
-            createDirIfNotExists(left)
-            params.addVolume(left, right)
-        }
-        else {
-            createDirIfNotExists(tempDir)
         }
     }
 }
