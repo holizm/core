@@ -28,7 +28,7 @@ info('holism build')
 divide()
 
 let params = {}
-params.containerFile = `/tmp/dev/container`
+params.containerFile = `/tmp/build/container`
 params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
 divide()
@@ -52,5 +52,5 @@ if (isApi(params)) {
 let cmd = `docker --debug build \
 -f ${params.containerFile} \
 -t ${params.imageName} \
-/tmp/dev --no-cache --progress=plain`
+/tmp/build --no-cache --progress=plain`
 runStreaming(cmd)

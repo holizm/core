@@ -33,7 +33,7 @@
                         exit 1
                     fi
 
-                    mkdir -p /tmp/dev
+                    mkdir -p /tmp/build
 
                     docker exec -u $(id -u):$(id -g) "$container" bash -c '
                         for dir in "$HOME"/*; do
@@ -43,9 +43,9 @@
                         done
                     ' | while read repo; do
                         name=$(basename "$repo")
-                        docker cp "$container":"$repo" "/tmp/dev/$name"
+                        docker cp "$container":"$repo" "/tmp/build/$name"
                     done
 
-                    docker cp "$container":"$HOME/spl" /tmp/dev/spl || true
+                    docker cp "$container":"$HOME/spl" /tmp/build/spl || true
 
-                    ls -lah /tmp/dev
+                    ls -lah /tmp/build

@@ -2,6 +2,7 @@
             - name: Start the container
               run: |
                     echo $HOME
+                    ls -lah /home
                     ls -lah $HOME
                     cd ~/${repo}/${process}
                     start
