@@ -1,0 +1,5 @@
+
+            - name: Clone holizm
+              if: startsWith(runner.name, 'GitHub')
+              run: |
+                    clone holizm

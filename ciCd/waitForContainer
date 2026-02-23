@@ -1,0 +1,36 @@
+
+            - name: Waiting for container to start
+              run: |
+                    container=""
+                    state=""
+
+                    for i in {1..30}; do
+                        container=$(docker ps -aq --format "{{.ID}}" | head -n 1)
+
+                        if [ -n "$container" ]; then
+                            state=$(docker inspect -f '{{.State.Status}}' "$container")
+
+                            if [ "$state" = "created" ]; then
+                                echo "Container is created. Starting..."
+                                docker start "$container"
+                                sleep 2
+                                continue
+                            fi
+
+                            if [ "$state" = "running" ]; then
+                                echo "Container found and running: $container"
+                                break
+                            fi
+                        fi
+
+                        sleep 2
+                    done
+
+                    if [ -z "$container" ] || [ "$state" != "running" ]; then
+                        echo "No running container found after waiting."
+                        docker ps -a
+                        exit 1
+                    fi
+
+                    export $container
+                    export $state

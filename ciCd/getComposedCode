@@ -1,40 +1,12 @@
+
             - name: Get the composed code
               run: |
-                    echo "Waiting for container to start..."
-
-                    container=""
-                    state=""
-
-                    for i in {1..30}; do
-                        container=$(docker ps -aq --format "{{.ID}}" | head -n 1)
-
-                        if [ -n "$container" ]; then
-                            state=$(docker inspect -f '{{.State.Status}}' "$container")
-
-                            if [ "$state" = "created" ]; then
-                                echo "Container is created. Starting..."
-                                docker start "$container"
-                                sleep 2
-                                continue
-                            fi
-
-                            if [ "$state" = "running" ]; then
-                                echo "Container found and running: $container"
-                                break
-                            fi
-                        fi
-
-                        sleep 2
-                    done
-
-                    if [ -z "$container" ] || [ "$state" != "running" ]; then
-                        echo "No running container found after waiting."
-                        docker ps -a
-                        exit 1
-                    fi
-
                     mkdir -p /tmp/build
 
+                    docker exec -u $(id -u):$(id -g) "$container" bash -c 'echo $HOME'
+
+                    docker exec "$container" bash -c 'echo "Inside container, HOME=$HOME"'
+                    
                     docker exec -u $(id -u):$(id -g) "$container" bash -c "
                         for dir in \$HOME/*; do
                             if [ -d \"\$dir/.git\" ]; then

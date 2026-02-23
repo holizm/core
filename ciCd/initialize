@@ -1,0 +1,11 @@
+
+            - name: Initialize
+              if: startsWith(runner.name, 'GitHub')
+              run: |
+                    echo "~/core/commands" >> $GITHUB_PATH
+                    mkdir ~/secrets
+                    mkdir -p ~/.ssh
+                    echo "${{ secrets.SSH }}" > ~/.ssh/id_ed25519
+                    chmod --preserve-root 400 ~/.ssh/id_ed25519
+                    cd ~
+                    git clone git@github.com:holizm/core
