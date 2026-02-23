@@ -35,8 +35,8 @@
 
                     mkdir -p /tmp/dev
 
-                    docker exec "$container" bash -c '
-                        for dir in /home/runner/*; do
+                    docker exec -u $(id -u):$(id -g) "$container" bash -c '
+                        for dir in "$HOME"/*; do
                             if [ -d "$dir/.git" ]; then
                                 echo "$dir"
                             fi
@@ -46,6 +46,6 @@
                         docker cp "$container":"$repo" "/tmp/dev/$name"
                     done
 
-                    docker cp "$container":/home/runner/spl /tmp/dev/spl || true
+                    docker cp "$container":"$HOME/spl" /tmp/dev/spl || true
 
                     ls -lah /tmp/dev
