@@ -32,5 +32,5 @@
                         exit 1
                     fi
 
-                    export $container
-                    export $state
+                    export "container=$container"
+                    export "state=$state"
