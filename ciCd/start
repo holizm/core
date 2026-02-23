@@ -6,3 +6,4 @@
                     ls -lah $HOME
                     cd ~/${repo}/${process}
                     start
+                    echo "process=$process" >> $GITHUB_ENV
