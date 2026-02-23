@@ -1,4 +1,5 @@
 
             - name: Sign in to container registry
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin

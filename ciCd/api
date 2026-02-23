@@ -1,8 +1,10 @@
 
             - name: Pull nefcanto/api
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     docker pull nefcanto/api
 
             - name: Pull nefcanto/api-prod-base
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     docker pull nefcanto/api-prod-base

@@ -1,4 +1,5 @@
 
             - name: Push the image
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     docker push ghcr.io/dockerImageNamePlaceHolder:latest

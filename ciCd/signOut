@@ -1,4 +1,5 @@
 
             - name: Sign out from container registry
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     docker logout

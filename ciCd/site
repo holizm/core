@@ -1,8 +1,10 @@
 
             - name: Change Docker image directory ownership
+              if: startsWith(runner.name, 'GitHub')
               run: sudo chown -R $USER:$USER /var/lib/docker/image
 
             - name: Cache Docker
+              if: startsWith(runner.name, 'GitHub')
               uses: actions/cache@v4
               with:
                   path: |
@@ -10,6 +12,7 @@
                   key: docker-layers-${{ runner.os }}-pull-image
 
             - name: Pull images
+              if: startsWith(runner.name, 'GitHub')
               run: |
                     docker pull nefcanto/site
                     docker pull node:lts-trixie-slim
