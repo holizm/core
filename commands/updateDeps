@@ -2,7 +2,7 @@
 
 set -e
 
-basePath="/home/dev"
+basePath="$HOME"
 tempDir="/tmp/temp"
 repos=("api" "panel" "site")
 

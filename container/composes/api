@@ -21,7 +21,7 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
-            - ${home}/packages/api:/home/dev/.npm
+            - ${home}/packages/api:${home}/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
             - /tmp/${repo}/storage:/tmp/${repo}storage
 
