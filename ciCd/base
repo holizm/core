@@ -11,8 +11,3 @@ jobs:
         permissions: write-all
         runs-on: ubuntu-latest
         steps:
-
-            - name: Clone holizm
-              if: startsWith(runner.name, 'GitHub')
-              run: |
-                    clone holizm
