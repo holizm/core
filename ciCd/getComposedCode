@@ -3,6 +3,8 @@
               run: |
                     mkdir -p /tmp/build
 
+                    cat /tmp/$gitHubOrganization/$gitHubRepository/compose.yaml
+
                     docker exec "$container" bash -c 'echo $HOME'
 
                     docker exec "$container" bash -c 'echo "Inside container, HOME=$HOME"'
