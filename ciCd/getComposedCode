@@ -3,11 +3,11 @@
               run: |
                     mkdir -p /tmp/build
 
-                    docker exec -u $(id -u):$(id -g) "$container" bash -c 'echo $HOME'
+                    docker exec "$container" bash -c 'echo $HOME'
 
                     docker exec "$container" bash -c 'echo "Inside container, HOME=$HOME"'
                     
-                    docker exec -u $(id -u):$(id -g) "$container" bash -c "
+                    docker exec "$container" bash -c "
                         for dir in \$HOME/*; do
                             if [ -d \"\$dir/.git\" ]; then
                                 echo \$dir
