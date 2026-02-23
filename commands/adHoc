@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-find /home/dev -type d -name '.git' 2>/dev/null | 
-while read gitdir; do
-    repoDir=$(dirname $gitdir)
-    find $repoDir -type d -name localization
-done | 
-sort
-
