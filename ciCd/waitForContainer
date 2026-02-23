@@ -5,7 +5,7 @@
                     state=""
 
                     for i in {1..30}; do
-                        container=$(docker ps -aq --format "{{.ID}}" | head -n 1)
+                        container=$(docker ps -aq | head -n 1)
 
                         if [ -n "$container" ]; then
                             state=$(docker inspect -f '{{.State.Status}}' "$container")
@@ -32,5 +32,5 @@
                         exit 1
                     fi
 
-                    export "container=$container"
-                    export "state=$state"
+                    echo "container=$container" >> $GITHUB_ENV
+                    echo "state=$state" >> $GITHUB_ENV
