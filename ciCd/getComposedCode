@@ -35,13 +35,13 @@
 
                     mkdir -p /tmp/build
 
-                    docker exec -u $(id -u):$(id -g) "$container" bash -c '
-                        for dir in "$HOME"/*; do
-                            if [ -d "$dir/.git" ]; then
-                                echo "$dir"
+                    docker exec -u $(id -u):$(id -g) "$container" bash -c "
+                        for dir in \$HOME/*; do
+                            if [ -d \"\$dir/.git\" ]; then
+                                echo \$dir
                             fi
                         done
-                    ' | while read repo; do
+                    " | while read repo; do
                         name=$(basename "$repo")
                         docker cp "$container":"$repo" "/tmp/build/$name"
                     done
