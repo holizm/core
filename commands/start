@@ -9,6 +9,7 @@ import {
     getStack,
 } from "../scripts/logger.js"
 import {
+    append,
     createDirIfNotExists,
     getFileLines,
     isAccounts,
@@ -113,6 +114,16 @@ runOnTerminal(command)
 command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
 if (params.isCiCd) {
     info("In CI/CD, we don't see the log of the container.")
+    const envFile = process.env.GITHUB_ENV
+    if (envFile) {
+        Object.entries(params).forEach(([key, value]) => {
+            const type = typeof value
+
+            if (value && type === 'string') {
+                append(envFile, `${key}=${value}\n`)
+            }
+        })
+    }
 }
 else {
     await runStreaming(command)

@@ -110,6 +110,12 @@ export const overrideFile = (p, content) => {
     writeFile(p, content)
 }
 
+export const append = (p, content) => {
+    if (!p) errorAndExit("Path must not be empty")
+    fs.mkdirSync(path.dirname(p), { recursive: true })
+    fs.appendFileSync(p, content)
+}
+
 export const getDepth = () => {
     const parts = process.cwd().split('/').filter(Boolean)
     return parts.length
