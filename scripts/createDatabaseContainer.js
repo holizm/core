@@ -48,7 +48,7 @@ export default params => {
     }
     setupLocalDns({
         ...params,
-        host: `${repo}.dev`,
+        host: `${repo}.local`,
     })
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getFileLines(tenantsPath, 'utf8').filter(Boolean)
