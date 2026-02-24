@@ -14,7 +14,7 @@ export default params => {
     dirs.forEach(dir => {
         runOnTerminal(`
             if [ -d "${dir}" ]; then
-                find "${dir}" -user root -exec chown -h dev:dev {} +
+                sudo find "${dir}" -user root -exec chown -h dev:dev {} +
             fi
         `)
     })
