@@ -7,7 +7,7 @@ import {
     warning,
     error,
     getStack,
-} from "../scripts/logger.js"
+} from '../scripts/logger.js'
 import {
     append,
     createDirIfNotExists,
@@ -20,29 +20,30 @@ import {
     isPanel,
     isSite,
     isWorker,
-} from "../scripts/os.js"
+} from '../scripts/os.js'
 import {
     clear,
     runOnTerminal,
     runStreaming,
-} from "../scripts/terminal.js"
-import getPaths from "../scripts/getPaths.js"
-import getRandomPort from "../scripts/getRandomPort.js"
-import createNetwork from "../scripts/createNetwork.js"
-import ensureDependencies from "../scripts/ensureDependencies.js"
-import startApi from "../scripts/startApi.js"
-import startPanel from "../scripts/startPanel.js"
-import startSite from "../scripts/startSite.js"
-import processTenantLine from "../scripts/processTenantLine.js"
-import extract from "../scripts/extract.js"
+} from '../scripts/terminal.js'
+import getPaths from '../scripts/getPaths.js'
+import getRandomPort from '../scripts/getRandomPort.js'
+import createNetwork from '../scripts/createNetwork.js'
+import ensureDependencies from '../scripts/ensureDependencies.js'
+import startApi from '../scripts/startApi.js'
+import startPanel from '../scripts/startPanel.js'
+import startSite from '../scripts/startSite.js'
+import processTenantLine from '../scripts/processTenantLine.js'
+import extract from '../scripts/extract.js'
 import indentation from '../scripts/indentation.js'
-import createDirectories from "../scripts/createDirectories.js"
-import ensurePathExistsOrCreateIt from "../scripts/ensurePathExistsOrCreateIt.js"
+import createDirectories from '../scripts/createDirectories.js'
+import ensurePathExistsOrCreateIt from '../scripts/ensurePathExistsOrCreateIt.js'
+import changePermissions from '../scripts/changePermissions.js'
 
 clear()
 
 divide()
-info("holism start")
+info('holism start')
 divide()
 info(`directory: ${process.cwd()}`)
 divide()
@@ -114,12 +115,14 @@ if (isAccounts(params)) {
     warning('Unknown process')
 }
 
+changePermissions(params)
+
 let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
 // info(command)
 runOnTerminal(command)
 command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
 if (params.isCiCd) {
-    info("In CI/CD, we don't see the log of the container.")
+    info('In CI/CD, we don't see the log of the container.')
     const envFile = process.env.GITHUB_ENV
     if (envFile) {
         Object.entries(params).forEach(([key, value]) => {
