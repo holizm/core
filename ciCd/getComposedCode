@@ -3,16 +3,19 @@
               run: |
                     mkdir -p /tmp/build
 
+                    runnerUser=$(whoami)
+                    runnerHome="/home/$runnerUser"
+
                     cat /tmp/$gitHubRepository/$process/compose.yaml
 
-                    docker exec "$container" bash -c 'ls -lah /home'
+                    docker exec "$container" bash -c "ls -lah /home"
 
-                    docker exec "$container" bash -c 'echo $HOME'
+                    docker exec "$container" bash -c "echo $runnerHome"
 
-                    docker exec "$container" bash -c 'echo "Inside container, HOME=$HOME"'
-                    
+                    docker exec "$container" bash -c "echo \"Inside container, HOME=$runnerHome\""
+
                     docker exec "$container" bash -c "
-                        for dir in \$HOME/*; do
+                        for dir in $runnerHome/*; do
                             if [ -d \"\$dir/.git\" ]; then
                                 echo \$dir
                             fi
@@ -22,6 +25,6 @@
                         docker cp "$container":"$repo" "/tmp/build/$name"
                     done
 
-                    docker cp "$container":"$HOME/spl" /tmp/build/spl || true
+                    docker cp "$container":"$runnerHome/spl" /tmp/build/spl || true
 
                     ls -lah /tmp/build
