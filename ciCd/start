@@ -1,10 +1,10 @@
 
             - name: Start the container
               run: |
-                    echo HOME inside the runner (hosted or self-hosted) = $HOME
-                    echo Users list:
+                    echo "HOME inside the runner (hosted or self-hosted) = $HOME"
+                    echo "Users list:"
                     ls -lah /home
-                    echo HOME dir list:
+                    echo "HOME dir list:"
                     ls -lah $HOME
                     cd ~/${repo}/${process}
                     echo PWD = $PWD
