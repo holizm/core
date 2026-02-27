@@ -28,6 +28,7 @@ info('holism build')
 divide()
 
 let params = {}
+Object.assign(params, process.env)
 params.containerFile = `/tmp/build/container`
 params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
