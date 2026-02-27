@@ -223,11 +223,12 @@ export const getDirs = path => {
 
 }
 
+console.log("THIS VERSION:", new Date().toISOString())
 
 clear()
 
 divide()
-info('holism build')
+info('holism build 2')
 divide()
 
 let params = {}
