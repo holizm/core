@@ -9,5 +9,5 @@ env:
 jobs:
     buildAndPush:
         permissions: write-all
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
