@@ -8,6 +8,18 @@
 
                     docker exec "$container" bash -c "
                         for dir in $runnerHome/*; do
+                            if [ -d \"\$dir\" ]; then
+                                if [ -d \"\$dir/.git\" ]; then
+                                    echo \"[GIT FOUND] \$dir/.git exists\"
+                                else
+                                    echo \"[NO GIT] \$dir/.git missing\"
+                                fi
+                            fi
+                        done
+                    "
+
+                    docker exec "$container" bash -c "
+                        for dir in $runnerHome/*; do
                             if [ -d \"\$dir/.git\" ]; then
                                 echo \$dir
                             fi
