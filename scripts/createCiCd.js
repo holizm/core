@@ -33,6 +33,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/start`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/waitForContainer`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, gitHubActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/build`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, gitHubActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/push`, gitHubActionPath, params)

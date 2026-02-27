@@ -6,17 +6,6 @@
                     runnerUser=$(whoami)
                     runnerHome="/home/$runnerUser"
 
-                    # cat /tmp/$gitHubRepository/$process/compose.yaml
-
-                    echo "Inside container: ls -lah /home"
-                    docker exec "$container" bash -c "ls -lah /home"
-
-                    echo "Inside container, runner home: ls -lah $runnerHome"
-                    docker exec "$container" bash -c "ls -lah $runnerHome"
-
-                    echo "Inside container, home: ls -lah $HOME"
-                    docker exec "$container" bash -c "ls -lah $HOME"
-
                     docker exec "$container" bash -c "
                         for dir in $runnerHome/*; do
                             if [ -d \"\$dir/.git\" ]; then
@@ -29,6 +18,3 @@
                     done
 
                     docker cp "$container":"$runnerHome/spl" /tmp/build/spl || true
-
-                    echo "Copied items => ls -lah /tmp/build"
-                    ls -lah /tmp/build
