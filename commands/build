@@ -11,11 +11,6 @@ import {
 } from '../scripts/terminal.js'
 import fs, { rmSync } from "fs"
 import path from "path"
-import {
-    error,
-    errorAndExit,
-    info,
-} from "../scripts/logger.js"
 import { runOnTerminal } from "./terminal.js"
 
 export const getOrgRepoFromGit = () => {
