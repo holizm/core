@@ -42,14 +42,6 @@
                     echo "==============================================================="
 
                     echo ""
-                    echo "Runner users list (/etc/passwd):"
-                    cut -d: -f1 /etc/passwd
-
-                    echo ""
-                    echo "Container users list (/etc/passwd):"
-                    docker exec "$container" bash -c "cut -d: -f1 /etc/passwd"
-
-                    echo ""
                     echo "Runner /home listing:"
                     ls -lah /home
 
@@ -63,4 +55,12 @@
 
                     echo ""
                     echo "Container HOME directory listing:"
-                    docker exec "$container" bash -c "ls -lah \$HOME"
+                    docker exec "$container" bash -c 'ls -lah $HOME'
+
+                    echo ""
+                    echo "Container listing of runner home directory:"
+                    docker exec "$container" bash -c "ls -lah $runnerHome || true"
+
+                    echo ""
+                    echo "Build directory listing:"
+                    ls -lah /tmp/build
