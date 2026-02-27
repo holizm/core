@@ -116,8 +116,8 @@ export const append = (p, content) => {
     fs.appendFileSync(p, content)
 }
 
-export const getDepth = () => {
-    const parts = process.cwd().split('/').filter(Boolean)
+export const getDepth = path => {
+    const parts = (path || process.cwd()).split('/').filter(Boolean)
     return parts.length
 }
 
@@ -125,7 +125,7 @@ export const isRepo = params => fs.existsSync(path.join(params.processPath, ".gi
 
 export const isProcess = params => {
     const { processPath } = params
-    if (getDepth() !== 4) return false
+    if (getDepth(processPath) !== 4) return false
     const folder = path.basename(processPath)
     const keywords = ["accounts", "api", "panel", "site", "etl", "worker"]
     const folderLower = folder.toLowerCase()
