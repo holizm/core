@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-colorRed=$(tput setaf 1)
-colorGreen=$(tput setaf 2)
-colorCyan=$(tput setaf 6)
-colorYellow=$(tput setaf 3)
-colorMagenta=$(tput setaf 5)
-colorReset=$(tput sgr0)
+if [[ -t 1 && -n "${TERM:-}" ]]; then
+    colorRed=$(tput setaf 1)
+    colorGreen=$(tput setaf 2)
+    colorCyan=$(tput setaf 6)
+    colorYellow=$(tput setaf 3)
+    colorMagenta=$(tput setaf 5)
+    colorReset=$(tput sgr0)
+else
+    colorRed=""
+    colorGreen=""
+    colorCyan=""
+    colorYellow=""
+    colorMagenta=""
+    colorReset=""
+fi
+
 checkMark=$'\xE2\x9C\x94'
 
 success() { printf "${colorGreen}%s${colorReset}\n" "$*"; }
