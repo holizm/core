@@ -1,28 +1,66 @@
-
-            - name: Print variables
+            - name: Debug Environment Comparison (Runner vs Container)
               run: |
 
                     runnerUser=$(whoami)
-                    runnerHome="/home/$runnerUser"
-                    
-                    echo "HOME inside the runner (hosted or self-hosted) = $HOME"
-                    echo "Users list:"
+                    runnerHome="$HOME"
+                    runnerHostname=$(hostname)
+                    runnerPwd=$(pwd)
+                    runnerUid=$(id -u)
+                    runnerGid=$(id -g)
+                    runnerShell="$SHELL"
+                    runnerProcessPath="$runnerHome/$repo/$process"
+
+                    containerUser=$(docker exec "$container" bash -c 'whoami')
+                    containerHome=$(docker exec "$container" bash -c 'echo $HOME')
+                    containerHostname=$(docker exec "$container" bash -c 'hostname')
+                    containerPwd=$(docker exec "$container" bash -c 'pwd')
+                    containerUid=$(docker exec "$container" bash -c 'id -u')
+                    containerGid=$(docker exec "$container" bash -c 'id -g')
+                    containerShell=$(docker exec "$container" bash -c 'echo $SHELL')
+                    containerProcessPath=$(docker exec "$container" bash -c 'echo $HOME/$repo/$process')
+
+                    echo ""
+                    echo "==============================================================="
+                    echo "               RUNNER  vs  CONTAINER"
+                    echo "==============================================================="
+
+                    printf "%-20s | %-30s | %-30s\n" "VARIABLE" "RUNNER" "CONTAINER"
+                    printf "%-20s-+-%-30s-+-%-30s\n" "--------------------" "------------------------------" "------------------------------"
+
+                    printf "%-20s | %-30s | %-30s\n" "User" "$runnerUser" "$containerUser"
+                    printf "%-20s | %-30s | %-30s\n" "UID" "$runnerUid" "$containerUid"
+                    printf "%-20s | %-30s | %-30s\n" "GID" "$runnerGid" "$containerGid"
+                    printf "%-20s | %-30s | %-30s\n" "Hostname" "$runnerHostname" "$containerHostname"
+                    printf "%-20s | %-30s | %-30s\n" "HOME" "$runnerHome" "$containerHome"
+                    printf "%-20s | %-30s | %-30s\n" "PWD" "$runnerPwd" "$containerPwd"
+                    printf "%-20s | %-30s | %-30s\n" "Shell" "$runnerShell" "$containerShell"
+                    printf "%-20s | %-30s | %-30s\n" "Process Path" "$runnerProcessPath" "$containerProcessPath"
+
+                    echo ""
+                    echo "==============================================================="
+                    echo "Lists"
+                    echo "==============================================================="
+
+                    echo ""
+                    echo "Runner users list (/etc/passwd):"
+                    cut -d: -f1 /etc/passwd
+
+                    echo ""
+                    echo "Container users list (/etc/passwd):"
+                    docker exec "$container" bash -c "cut -d: -f1 /etc/passwd"
+
+                    echo ""
+                    echo "Runner /home listing:"
                     ls -lah /home
-                    echo "HOME dir list:"
-                    ls -lah $HOME
-                    echo "Process path (inside runnable):"
-                    echo "$HOME/$repo/$process"
 
-                    # cat /tmp/$gitHubRepository/$process/compose.yaml
-
-                    echo "Inside container: ls -lah /home"
+                    echo ""
+                    echo "Container /home listing:"
                     docker exec "$container" bash -c "ls -lah /home"
 
-                    echo "Inside container, runner home: ls -lah $runnerHome"
-                    docker exec "$container" bash -c "ls -lah $runnerHome"
+                    echo ""
+                    echo "Runner HOME directory listing:"
+                    ls -lah "$runnerHome"
 
-                    echo "Inside container, home: ls -lah $HOME"
-                    docker exec "$container" bash -c "ls -lah $HOME"
-
-                    echo "Copied items => ls -lah /tmp/build"
-                    ls -lah /tmp/build
+                    echo ""
+                    echo "Container HOME directory listing:"
+                    docker exec "$container" bash -c "ls -lah \$HOME"
