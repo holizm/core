@@ -11,11 +11,11 @@
                     echo "Inside container: ls -lah /home"
                     docker exec "$container" bash -c "ls -lah /home"
 
-                    echo "Inside container, runner home: ls -lah /home/$runnerHome"
-                    docker exec "$container" bash -c "ls -lah /home/$runnerHome"
+                    echo "Inside container, runner home: ls -lah $runnerHome"
+                    docker exec "$container" bash -c "ls -lah $runnerHome"
 
-                    echo "Inside container, home: ls -lah /home/$HOME"
-                    docker exec "$container" bash -c "ls -lah /home/$HOME"
+                    echo "Inside container, home: ls -lah $HOME"
+                    docker exec "$container" bash -c "ls -lah $HOME"
 
                     docker exec "$container" bash -c "
                         for dir in $runnerHome/*; do
