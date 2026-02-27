@@ -4,7 +4,7 @@ echo
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 . "$homeDir/core/scripts/logger.sh"
 
-clear
+[[ -t 1 && -n "${TERM:-}" ]] && clear
 
 divide
 info "Stopping all ..."
