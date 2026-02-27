@@ -30,4 +30,5 @@
 
                     docker cp "$container":"$runnerHome/spl" /tmp/build/spl || true
 
+                    echo "Copied items => ls -lah /tmp/build"
                     ls -lah /tmp/build
