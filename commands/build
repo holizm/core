@@ -237,7 +237,9 @@ params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${par
 
 divide()
 
+info("Before calling isApi")
 if (isApi(params)) {
+    info("After calling isApi")
     params.sourceContainerFile = 'api'
 } else if (isPanel(params)) {
     if (isHeadlessPanel(params)) {
