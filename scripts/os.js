@@ -5,7 +5,6 @@ import path from "path"
 import {
     error,
     errorAndExit,
-    info,
 } from "../scripts/logger.js"
 import { runOnTerminal } from "./terminal.js"
 
@@ -122,78 +121,27 @@ export const getDepth = path => {
     return parts.length
 }
 
-export const isRepo = params => {
-    const repoPath = path.join(params.processPath, ".git")
-    const exists = fs.existsSync(repoPath)
-    info("Checking isRepo for:", params.processPath, "->", exists ? "YES" : "NO", "(.git exists at", repoPath + ")")
-    return exists
-}
+export const isRepo = params => fs.existsSync(path.join(params.processPath, ".git"))
 
 export const isProcess = params => {
     const { processPath } = params
-    const depth = getDepth(processPath)
-    info("Checking isProcess for:", processPath, "-> depth:", depth)
-    if (depth !== 4) {
-        info("Rejected: depth is not 4")
-        return false
-    }
-
+    if (getDepth(processPath) !== 4) return false
     const folder = path.basename(processPath)
     const keywords = ["accounts", "api", "panel", "site", "etl", "worker"]
     const folderLower = folder.toLowerCase()
-    info("Folder name:", folder, "lowercased:", folderLower)
 
-    if (keywords.some(k => folderLower.includes(k))) {
-        info("Accepted: folder name matches keyword")
-        return true
-    }
+    if (keywords.some(k => folderLower.includes(k))) return true
 
     const files = fs.readdirSync(processPath)
-    info("Files in folder:", files)
-
     const pascalFiles = new Set(files.filter(f => fs.statSync(path.join(processPath, f)).isFile()))
-    info("Files (only files, not directories):", Array.from(pascalFiles))
-
     for (const keyword of keywords) {
-        const pascal = pascalize(keyword)
-        if (pascalFiles.has(pascal)) {
-            info("Accepted: found Pascal-cased file matching keyword:", pascal)
-            return true
-        }
+        if (pascalFiles.has(pascalize(keyword))) return true
     }
-
-    info("Rejected: no folder or Pascal-file keyword match")
     return false
 }
 
-export const isAccounts = params => {
-    const result = isProcess(params) && path.basename(params.processPath) === "accounts"
-    info("Checking isAccounts for:", params.processPath, "->", result)
-    return result
-}
-
-export const isApi = params => {
-    if (!isProcess(params)) {
-        info("Rejected isApi: isProcess returned false for", params.processPath)
-        return false
-    }
-
-    const filesToCheck = ["process.js"]
-    const hasFiles = filesToCheck.some(f => {
-        const fullPath = path.join(params.processPath, f)
-        const exists = fs.existsSync(fullPath)
-        info("Checking for file:", fullPath, "->", exists ? "YES" : "NO")
-        return exists
-    })
-
-    const folderName = path.basename(params.processPath)
-    const folderEndsWithApi = folderName.endsWith("Api")
-    info("Folder name:", folderName, "ends with 'Api':", folderEndsWithApi)
-
-    const result = hasFiles || folderEndsWithApi
-    info("Checking isApi for:", params.processPath, "->", result)
-    return result
-}
+export const isAccounts = params => isProcess(params) && path.basename(params.processPath) === "accounts"
+export const isApi = params => isProcess(params) && (["process.js"].some(f => fs.existsSync(path.join(params.processPath, f))) || path.basename(params.processPath).endsWith("Api"))
 export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes("worker")
 export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes("Panel")
 export const isSite = params => {
