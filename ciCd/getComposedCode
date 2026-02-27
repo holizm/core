@@ -20,7 +20,7 @@
 
                     docker exec "$container" bash -c "
                         for dir in $runnerHome/*; do
-                            if [ -d \"\$dir/.git\" ]; then
+                            if [ -d \"\$dir\" ]; then
                                 echo \$dir
                             fi
                         done
