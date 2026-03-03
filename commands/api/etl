@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+. $HOME/core/scripts/logger.sh
+
+clear
+
+stop
+
+divide
+info "Extracting, transforming and loading ..."
+divide
+
+node /holizm/toMongo/process.js $@
