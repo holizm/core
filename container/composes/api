@@ -47,7 +47,7 @@ services:
             - ${home}/migration/migrators:${home}/migration/migrators
 
             - ${home}/toMongo/importers:${home}/toMongo/importers
-            - ${home}/toMongo/etl:${home}/toMongo/etl
+            - ${home}/etl:${home}/toMongo/etl
             - ${home}/toMongo/process.js:${home}/toMongo/process.js
 
             - ${home}/query/partDropper.js:${home}/query/partDropper.js
