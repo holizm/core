@@ -10,4 +10,4 @@ divide
 info "Extracting, transforming and loading ..."
 divide
 
-node /holizm/toMongo/process.js $@
+node ~/toMongo/process.js $@
