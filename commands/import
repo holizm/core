@@ -10,8 +10,7 @@ info "Holism import"
 divide
 
 domain=$1
-# search=$2
-search=""
+search=${2:-""}
 
 if [[ -z "$domain" ]]; then
     error "domain is not provided"
