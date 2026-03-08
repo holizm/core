@@ -9,6 +9,7 @@ import pascalize from '../../scripts/pascalize.js'
 const topLevelDir = process.argv[2]
 const target = process.argv[3]
 
+const home = process.env.home
 const repo = process.env.repo
 const processName = process.env.process
 

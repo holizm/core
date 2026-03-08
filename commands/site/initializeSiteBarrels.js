@@ -2,6 +2,7 @@
 
 import fs from 'fs'
 
+const home = process.env.home
 const repo = process.env.repo
 const proc = process.env.process
 

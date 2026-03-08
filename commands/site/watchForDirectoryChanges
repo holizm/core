@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-for dir in /$repo/$process/src/parts/*; do
+base=$home/$repo/$process
+for dir in $base/src/parts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
-    node /core/commands/site/generateExports.js "$topLevelDir" parts
+    node $home/core/commands/site/generateExports.js "$topLevelDir" parts
 done
-for dir in /$repo/$process/src/pageParts/*; do
+for dir in $base/src/pageParts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
-    node /core/commands/site/generateExports.js "$topLevelDir" pageParts
+    node $home/core/commands/site/generateExports.js "$topLevelDir" pageParts
 done
 
-node /core/commands/site/initializeSiteBarrels.js
+node $home/core/commands/site/initializeSiteBarrels.js
 
 inotifywait -m -r \
 -e modify \
@@ -20,7 +21,7 @@ inotifywait -m -r \
 -e delete \
 --exclude "exports.js" \
 -q \
-/$repo/$process/src/pageParts |
+$base/src/pageParts |
 while IFS=' ' read directory event file
 do
     export directory
@@ -33,6 +34,6 @@ do
     else
         target=parts
     fi
-    node /core/commands/site/generateExports.js "$topLevelDir" "$target"
-    node /core/commands/site/initializeSiteBarrels.js
+    node $home/core/commands/site/generateExports.js "$topLevelDir" "$target"
+    node $home/core/commands/site/initializeSiteBarrels.js
 done
