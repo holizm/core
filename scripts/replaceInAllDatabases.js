@@ -40,6 +40,7 @@ db.getMongo().getDBNames().forEach(dbName => {
             }
             if (Object.keys(updates).length > 0) {
                 print(`Updating ${dbName}.${collName} id=${doc.id}`);
+                print(updates)
                 dbObj[collName].updateOne(
                     { _id: doc._id },
                     { $set: updates }
