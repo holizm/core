@@ -7,5 +7,5 @@ if [[ ! -f $path ]]; then
 fi
 if [[ ! -d $base/node_modules ]] || [[ ! -f $base/package-lock.json ]]; then
     cd $base
-    npm install --legacy-peer-deps
+    installPackages
 fi

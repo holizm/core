@@ -100,6 +100,7 @@ const mapDependencies = params => {
 
 const mapPages = params => {
     let {
+        home,
         process,
         processPath,
         repo,
@@ -122,6 +123,7 @@ const mapPages = params => {
 
 const mapParts = params => {
     let {
+        home,
         process,
         processPath,
         repo,
@@ -136,6 +138,7 @@ const mapParts = params => {
 
 const mapOthers = params => {
     let {
+        home,
         process,
         processPath,
         repo,
