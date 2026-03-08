@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 echo Watching for AST
+base=$home/$repo/$process
 
-cp /core/commands/site/astGenerator.js /$repo/$process
+cp $home/core/commands/site/astGenerator.js $base
 
 shopt -s globstar
 
 inotifywait -m \
-/$repo/$process/src/core*/*.jsx \
-/$repo/$process/src/coreParts/**/*.jsx \
-/$repo/$process/src/routes/**/*.jsx \
-/$repo/$process/src/routes/*.jsx \
+$base/src/core*/*.jsx \
+$base/src/coreParts/**/*.jsx \
+$base/src/routes/**/*.jsx \
+$base/src/routes/*.jsx \
 -r \
 -e modify \
 -e move \
@@ -23,5 +24,5 @@ do
     export file
     export event
     Info $file $event
-    node /$repo/$process/astGenerator.js $file
+    node $base/astGenerator.js $file
 done

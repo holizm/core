@@ -5,6 +5,7 @@ services:
         hostname: site
         working_dir: ${home}/${repo}/${process}
         environment:
+            - home=${home}
             - NODE_TLS_REJECT_UNAUTHORIZED=0
             - org=${org}
             - repo=${repo}
