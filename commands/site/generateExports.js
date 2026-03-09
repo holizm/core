@@ -21,7 +21,7 @@ const exportsPath =
         ? path.join(sourceDir, 'exports.jsx')
         : path.join(baseDir, `${topLevelDir}Exports.jsx`)
 
-if (exportsPath.includes('/pageParts/Exports.jsx')) process.exit()
+if (exportsPath.includes('/pageParts/exports.jsx')) process.exit()
 
 const foundFiles = execSync(`find "${sourceDir}" -type f -name "*.jsx"`)
     .toString()
