@@ -54,7 +54,10 @@ export const createDirIfNotExists = dirPath => {
 
 export const removeAndRecreateDir = dirPath => {
     if (fs.existsSync(dirPath)) {
-        fs.rmSync(dirPath, { recursive: true })
+        fs.rmSync(dirPath, {
+            force: true,
+            recursive: true,
+        })
     }
     createDirIfNotExists(dirPath)
 }
@@ -160,4 +163,15 @@ export const getDirs = path => {
         .filter(d => d.isDirectory())
         .map(d => d.name)
 
+}
+
+export const getFiles = path => {
+    return fs.readdirSync(path || '.', { withFileTypes: true })
+        .filter(d => d.isFile())
+        .map(d => d.name);
+}
+
+export const getDirsAndFiles = path => {
+    return fs.readdirSync(path || '.', { withFileTypes: true })
+        .map(d => d.name)
 }

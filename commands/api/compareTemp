@@ -2,8 +2,14 @@
 
 import { warning } from '../../scripts/logger.js'
 import {
-    isFile,
+    copyFileIfNotExists,
+    createDirIfNotExists,
+    getDirsAndFiles,
+    getFileContent,
     isDir,
+    isFile,
+    removeAndRecreateDir,
+    writeFile,
 } from "../../scripts/os.js"
 import { runOnTerminal } from '../../scripts/terminal.js'
 
@@ -25,29 +31,29 @@ const connectionStringsFilePath = `${home}/${apiRepo}/common/connectionStrings.j
 
 function makeDirectories() {
     if (!isDir(developmentPath)) {
-        fs.mkdirSync(developmentPath, { recursive: true })
+        createDirIfNotExists(developmentPath)
         console.log(`Created directory: ${developmentPath}`)
     }
     if (!isDir(productionPath)) {
-        fs.mkdirSync(productionPath, { recursive: true })
+        createDirIfNotExists(productionPath)
         console.log(`Created directory: ${productionPath}`)
     }
 }
 
 function deleteMatching(basePath, part, typeFilter = '') {
-    if (!fs.existsSync(basePath)) return
+    if (!isDir(basePath)) return
 
-    const files = fs.readdirSync(basePath)
+    const files = getDirsAndFiles(basePath)
     for (const file of files) {
         const filePath = `${basePath}/${file}`
         const shouldDelete = file.includes(part) && (!typeFilter || file.includes(typeFilter))
         if (shouldDelete) {
             try {
-                if (fs.statSync(filePath).isDirectory()) {
-                    fs.rmSync(filePath, { recursive: true, force: true })
+                if (isDir(filePath)) {
+                    removeAndRecreateDir(filePath)
                     console.log(`Removed directory: ${filePath}`)
                 } else {
-                    fs.unlinkSync(filePath)
+                    deleteFile(filePath)
                     console.log(`Removed file: ${filePath}`)
                 }
             } catch (e) {
@@ -65,8 +71,8 @@ function createScripts(part = '') {
     const destConnStrPath = '/HolismHolding/migration/connectionStrings.json'
     const destSettingsPath = '/HolismHolding/migration/settings.json'
 
-    fs.copyFileSync(commonConnStrPath, destConnStrPath)
-    fs.copyFileSync(commonSettingsPath, destSettingsPath)
+    copyFileIfNotExists(commonConnStrPath, destConnStrPath)
+    copyFileIfNotExists(commonSettingsPath, destSettingsPath)
     console.log('Copied connectionStrings.json and settings.json')
 
     const parameters = `Command=GenerateScripts StoragePath=${migrationBaseDir}/${apiRepo}/migration Repository=${apiRepo} Module=${part} Part=${part} EntityType=${typeArg} Type=${part}`
@@ -74,8 +80,8 @@ function createScripts(part = '') {
     run(parameters)
 
     const environmentProd = 'production'
-    let connStrContent = fs.readFileSync(destConnStrPath, 'utf8')
-    let settingsContent = fs.readFileSync(destSettingsPath, 'utf8')
+    let connStrContent = getFileContent(destConnStrPath)
+    let settingsContent = getFileContent(destSettingsPath)
 
     connStrContent = connStrContent
         .replace(/server=[^;]*;/g, `server=${productionDatabaseHost}; port=${productionDatabasePort};`)
@@ -86,8 +92,8 @@ function createScripts(part = '') {
         .replace(/"DatabasePassword"\s*:\s*"[^"]*"/g, `"DatabasePassword": "${productionDatabasePassword}"`)
         .replace(/\}\s*$/, `,"DatabasePort": "${productionDatabasePort}"}`)
 
-    fs.writeFileSync(destConnStrPath, connStrContent)
-    fs.writeFileSync(destSettingsPath, settingsContent)
+    writeFile(destConnStrPath, connStrContent)
+    writeFile(destSettingsPath, settingsContent)
     console.log('Applied production settings.')
 
     if (process.env.isNode) {
@@ -114,8 +120,8 @@ if (!isFile(connectionStringsFilePath)) {
 }
 
 if (!partsArg) {
-    fs.rmSync(developmentPath, { recursive: true, force: true })
-    fs.rmSync(productionPath, { recursive: true, force: true })
+    removeAndRecreateDir(developmentPath)
+    removeAndRecreateDir(productionPath)
     makeDirectories()
     createScripts()
 } else {
