@@ -1,0 +1,135 @@
+#!/usr/bin/env node
+
+import { warning } from '../../scripts/logger.js'
+import {
+    isFile,
+    isDir,
+} from "../../scripts/os.js"
+import { runOnTerminal } from '../../scripts/terminal.js'
+
+const {
+    apiRepo,
+    home,
+    productionDatabaseHost,
+    productionDatabasePassword,
+    productionDatabasePort,
+} = process.env
+
+const partsArg = process.argv[2] || ''
+const typeArg = process.argv[3] || ''
+
+const migrationBaseDir = '/tmp'
+const developmentPath = `${migrationBaseDir}/${apiRepo}/migration/development`
+const productionPath = `${migrationBaseDir}/${apiRepo}/migration/production`
+const connectionStringsFilePath = `${home}/${apiRepo}/common/connectionStrings.json`
+
+function makeDirectories() {
+    if (!isDir(developmentPath)) {
+        fs.mkdirSync(developmentPath, { recursive: true })
+        console.log(`Created directory: ${developmentPath}`)
+    }
+    if (!isDir(productionPath)) {
+        fs.mkdirSync(productionPath, { recursive: true })
+        console.log(`Created directory: ${productionPath}`)
+    }
+}
+
+function deleteMatching(basePath, part, typeFilter = '') {
+    if (!fs.existsSync(basePath)) return
+
+    const files = fs.readdirSync(basePath)
+    for (const file of files) {
+        const filePath = `${basePath}/${file}`
+        const shouldDelete = file.includes(part) && (!typeFilter || file.includes(typeFilter))
+        if (shouldDelete) {
+            try {
+                if (fs.statSync(filePath).isDirectory()) {
+                    fs.rmSync(filePath, { recursive: true, force: true })
+                    console.log(`Removed directory: ${filePath}`)
+                } else {
+                    fs.unlinkSync(filePath)
+                    console.log(`Removed file: ${filePath}`)
+                }
+            } catch (e) {
+                console.error(`❌ Error removing ${filePath}:`, e.message)
+            }
+        }
+    }
+}
+
+function createScripts(part = '') {
+    const environment = 'development'
+
+    const commonConnStrPath = `/${apiRepo}/common/connectionStrings.json`
+    const commonSettingsPath = `/${apiRepo}/common/settings.json`
+    const destConnStrPath = '/HolismHolding/migration/connectionStrings.json'
+    const destSettingsPath = '/HolismHolding/migration/settings.json'
+
+    fs.copyFileSync(commonConnStrPath, destConnStrPath)
+    fs.copyFileSync(commonSettingsPath, destSettingsPath)
+    console.log('Copied connectionStrings.json and settings.json')
+
+    const parameters = `Command=GenerateScripts StoragePath=${migrationBaseDir}/${apiRepo}/migration Repository=${apiRepo} Module=${part} Part=${part} EntityType=${typeArg} Type=${part}`
+
+    run(parameters)
+
+    const environmentProd = 'production'
+    let connStrContent = fs.readFileSync(destConnStrPath, 'utf8')
+    let settingsContent = fs.readFileSync(destSettingsPath, 'utf8')
+
+    connStrContent = connStrContent
+        .replace(/server=[^;]*;/g, `server=${productionDatabaseHost}; port=${productionDatabasePort};`)
+        .replace(/password=[^;]*;/g, `password=${productionDatabasePassword};`)
+
+    settingsContent = settingsContent
+        .replace(/"DatabaseServer"\s*:\s*"[^"]*"/g, `"DatabaseServer": "${productionDatabaseHost}"`)
+        .replace(/"DatabasePassword"\s*:\s*"[^"]*"/g, `"DatabasePassword": "${productionDatabasePassword}"`)
+        .replace(/\}\s*$/, `,"DatabasePort": "${productionDatabasePort}"}`)
+
+    fs.writeFileSync(destConnStrPath, connStrContent)
+    fs.writeFileSync(destSettingsPath, settingsContent)
+    console.log('Applied production settings.')
+
+    if (process.env.isNode) {
+        console.log('')
+    } else {
+        run(parameters)
+    }
+}
+
+function createScriptForPart(part) {
+    if (!typeArg) {
+        deleteMatching(developmentPath, part)
+        deleteMatching(productionPath, part)
+        createScripts(part)
+    } else {
+        deleteMatching(developmentPath, part, typeArg)
+        deleteMatching(productionPath, part, typeArg)
+        createScripts(part)
+    }
+}
+
+if (!isFile(connectionStringsFilePath)) {
+    warning(`Did not find ${connectionStringsFilePath}`)
+}
+
+if (!partsArg) {
+    fs.rmSync(developmentPath, { recursive: true, force: true })
+    fs.rmSync(productionPath, { recursive: true, force: true })
+    makeDirectories()
+    createScripts()
+} else {
+    if (partsArg.includes(',')) {
+        const parts = partsArg.split(',').map(p => p.trim())
+        for (const item of parts) {
+            createScriptForPart(item)
+        }
+    } else {
+        const part = partsArg.replace(/\//g, '')
+        createScriptForPart(part)
+    }
+}
+
+process.env.environment = 'development'
+
+stopTimer(); 
