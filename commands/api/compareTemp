@@ -1,42 +1,37 @@
 #!/usr/bin/env node
 
-import { warning } from '../../scripts/logger.js'
 import {
-    copyFileIfNotExists,
+    error,
+    info,
+} from '../../scripts/logger.js'
+import {
     createDirIfNotExists,
     getDirsAndFiles,
-    getFileContent,
     isDir,
-    isFile,
     removeAndRecreateDir,
-    writeFile,
-} from "../../scripts/os.js"
-import { runOnTerminal } from '../../scripts/terminal.js'
+} from '../../scripts/os.js'
+import run from './run'
 
 const {
     apiRepo,
     home,
-    productionDatabaseHost,
-    productionDatabasePassword,
-    productionDatabasePort,
 } = process.env
 
-const partsArg = process.argv[2] || ''
-const typeArg = process.argv[3] || ''
+const parts = process.argv[2] || ''
+const type = process.argv[3] || ''
 
 const migrationBaseDir = '/tmp'
 const developmentPath = `${migrationBaseDir}/${apiRepo}/migration/development`
 const productionPath = `${migrationBaseDir}/${apiRepo}/migration/production`
-const connectionStringsFilePath = `${home}/${apiRepo}/common/connectionStrings.json`
 
 function makeDirectories() {
     if (!isDir(developmentPath)) {
         createDirIfNotExists(developmentPath)
-        console.log(`Created directory: ${developmentPath}`)
+        info(`Created directory: ${developmentPath}`)
     }
     if (!isDir(productionPath)) {
         createDirIfNotExists(productionPath)
-        console.log(`Created directory: ${productionPath}`)
+        info(`Created directory: ${productionPath}`)
     }
 }
 
@@ -51,91 +46,68 @@ function deleteMatching(basePath, part, typeFilter = '') {
             try {
                 if (isDir(filePath)) {
                     removeAndRecreateDir(filePath)
-                    console.log(`Removed directory: ${filePath}`)
+                    info(`Removed directory: ${filePath}`)
                 } else {
                     deleteFile(filePath)
-                    console.log(`Removed file: ${filePath}`)
+                    info(`Removed file: ${filePath}`)
                 }
             } catch (e) {
-                console.error(`❌ Error removing ${filePath}:`, e.message)
+                error(`❌ Error removing ${filePath}:`, e.message)
             }
         }
     }
 }
 
 function createScripts(part = '') {
-    const environment = 'development'
 
-    const commonConnStrPath = `/${apiRepo}/common/connectionStrings.json`
-    const commonSettingsPath = `/${apiRepo}/common/settings.json`
-    const destConnStrPath = '/HolismHolding/migration/connectionStrings.json'
-    const destSettingsPath = '/HolismHolding/migration/settings.json'
-
-    copyFileIfNotExists(commonConnStrPath, destConnStrPath)
-    copyFileIfNotExists(commonSettingsPath, destSettingsPath)
-    console.log('Copied connectionStrings.json and settings.json')
-
-    const parameters = `Command=GenerateScripts StoragePath=${migrationBaseDir}/${apiRepo}/migration Repository=${apiRepo} Module=${part} Part=${part} EntityType=${typeArg} Type=${part}`
-
-    run(parameters)
-
-    const environmentProd = 'production'
-    let connStrContent = getFileContent(destConnStrPath)
-    let settingsContent = getFileContent(destSettingsPath)
-
-    connStrContent = connStrContent
-        .replace(/server=[^;]*;/g, `server=${productionDatabaseHost}; port=${productionDatabasePort};`)
-        .replace(/password=[^;]*;/g, `password=${productionDatabasePassword};`)
-
-    settingsContent = settingsContent
-        .replace(/"DatabaseServer"\s*:\s*"[^"]*"/g, `"DatabaseServer": "${productionDatabaseHost}"`)
-        .replace(/"DatabasePassword"\s*:\s*"[^"]*"/g, `"DatabasePassword": "${productionDatabasePassword}"`)
-        .replace(/\}\s*$/, `,"DatabasePort": "${productionDatabasePort}"}`)
-
-    writeFile(destConnStrPath, connStrContent)
-    writeFile(destSettingsPath, settingsContent)
-    console.log('Applied production settings.')
-
-    if (process.env.isNode) {
-        console.log('')
-    } else {
-        run(parameters)
+    const params = {
+        app: 'migration',
+        show: true,
+        command: 'generateScripts',
+        storagePath: `${migrationBaseDir}/${apiRepo}/migration`,
+        repo: apiRepo,
+        part,
+        type,
     }
+
+    run({
+        environment: 'development',
+        ...params,
+    })
+
+    run({
+        environment: 'production',
+        ...params,
+    })
 }
 
 function createScriptForPart(part) {
-    if (!typeArg) {
+    if (!type) {
         deleteMatching(developmentPath, part)
         deleteMatching(productionPath, part)
         createScripts(part)
     } else {
-        deleteMatching(developmentPath, part, typeArg)
-        deleteMatching(productionPath, part, typeArg)
+        deleteMatching(developmentPath, part, type)
+        deleteMatching(productionPath, part, type)
         createScripts(part)
     }
 }
 
-if (!isFile(connectionStringsFilePath)) {
-    warning(`Did not find ${connectionStringsFilePath}`)
-}
-
-if (!partsArg) {
+if (!parts) {
     removeAndRecreateDir(developmentPath)
     removeAndRecreateDir(productionPath)
     makeDirectories()
     createScripts()
 } else {
-    if (partsArg.includes(',')) {
-        const parts = partsArg.split(',').map(p => p.trim())
+    if (parts.includes(',')) {
+        const parts = parts
+            .split(',')
+            .map(p => p.trim().replace(/\//g, ''))
         for (const item of parts) {
             createScriptForPart(item)
         }
     } else {
-        const part = partsArg.replace(/\//g, '')
+        const part = parts.replace(/\//g, '')
         createScriptForPart(part)
     }
 }
-
-process.env.environment = 'development'
-
-stopTimer(); 
