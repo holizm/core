@@ -13,9 +13,7 @@
             "runtimeArgs": [
                 "--preserve-symlinks",
                 "--watch",
-                "/core",
-                "--watch",
-                "/$repo"
+                "/${home}"
             ],
             "restart": true,
             "console": "integratedTerminal"

@@ -14,15 +14,13 @@ import run from './run'
 
 const {
     apiRepo,
-    home,
 } = process.env
 
 const parts = process.argv[2] || ''
 const type = process.argv[3] || ''
 
-const migrationBaseDir = '/tmp'
-const developmentPath = `${migrationBaseDir}/${apiRepo}/migration/development`
-const productionPath = `${migrationBaseDir}/${apiRepo}/migration/production`
+const developmentPath = `/tmp/${apiRepo}/migration/development`
+const productionPath = `/tmp/${apiRepo}/migration/production`
 
 function makeDirectories() {
     if (!isDir(developmentPath)) {
@@ -64,19 +62,13 @@ function createScripts(part = '') {
         app: 'migration',
         show: true,
         command: 'generateScripts',
-        storagePath: `${migrationBaseDir}/${apiRepo}/migration`,
+        storagePath: `/tmp/${apiRepo}/migration`,
         repo: apiRepo,
         part,
         type,
     }
 
     run({
-        environment: 'development',
-        ...params,
-    })
-
-    run({
-        environment: 'production',
         ...params,
     })
 }
