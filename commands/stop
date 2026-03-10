@@ -14,8 +14,7 @@ pattern="${1:-}"
 
 docker ps -a -q | while read -r i
 do
-    containerName=$(docker inspect "$i" | grep 'Name.*/' | grep -v = | cut -d'/' -f2 | cut -d'"' -f1)
-
+    containerName=$(docker inspect "$i" | grep -E '"Name":\s*"/[^"]*",' | cut -d'/' -f2 | cut -d'"' -f1)
     if [[ -z "$pattern" ]] || echo "$containerName" | grep -iq "$pattern"; then
         docker rm "$i" --force 1>/dev/null
         check "$containerName"
