@@ -112,5 +112,5 @@ if (!arg1) {
 }
 
 divide()
-success('Done')
+success('done')
 divide()
