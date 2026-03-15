@@ -36,7 +36,7 @@ const pullWithRetry = async parent => {
 
     while ((needsRetry(out)) && retries < 5) {
         warning(`Retrying ${parent} (Attempt ${retries + 1}/5)`)
-        out = pullOnce(parent)
+        out = await pullOnce(parent)
         retries++
         if (/unrelated histories/i.test(out)) {
             error(parent)
@@ -59,9 +59,18 @@ const pullWithRetry = async parent => {
 }
 
 const repos = findRepos(search)
-await Promise.all(repos.map(repo => {
-    return pullWithRetry(repo)
-}))
+// await Promise.all(repos.map(repo => {
+//     return pullWithRetry(repo)
+// }))
+// for (const repo of repos) {
+//     await pullWithRetry(repo)
+// }
+
+for (let i = 0; i < repos.length; i += 3) {
+    const batch = repos.slice(i, i + 3);
+    const promises = batch.map(repo => pullWithRetry(repo));
+    await Promise.all(promises);
+}
 
 divide()
 success('Got all')
