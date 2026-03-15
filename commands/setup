@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# https://iran.chabokan.net/
+
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 setupDev="$homeDir/core/setupDev"
 scripts="$homeDir/core/scripts"
