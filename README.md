@@ -1,4 +1,0 @@
-- cd ~
-- git clone git@github.com:holizm/core
-- cd core
-- ./commands/setup
