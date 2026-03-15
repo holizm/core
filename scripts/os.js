@@ -13,9 +13,15 @@ export const getOrgRepoFromGit = () => {
         throwOnError: false,
         hideError: true,
     })
+
     if (!url) errorAndExit("Not a git repo")
 
     if (url.endsWith(".git")) url = url.slice(0, -4)
+
+    return ({
+        org: 'projects',
+        repo: url.split('/').reverse()[0],
+    })
 
     let repoPath
     if (url.startsWith("git@")) {
