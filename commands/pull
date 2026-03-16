@@ -13,7 +13,7 @@ import {
 // import adHoc from '../scripts/adHoc.js'
 
 const search = process.argv[2]
-const timeoutSeconds = process.env.VcsTimeout && `${process.env.VcsTimeout}`.trim() !== '' ? Number(process.env.VcsTimeout) : 15
+const timeoutSeconds = process.env.vcsTimeout && `${process.env.vcsTimeout}`.trim() !== '' ? Number(process.env.vcsTimeout) : 15
 
 divide()
 info('Pulling repos ...')

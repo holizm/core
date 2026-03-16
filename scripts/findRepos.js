@@ -4,7 +4,8 @@ import { execSync } from 'child_process'
 const home = process.env.HOME
 
 export default (search = '') => {
-    const term = search.toLowerCase()
+    let term = search.toLowerCase()
+    term = term.endsWith('/') ? term.slice(0, -1) : term;
     const command = `find "${home}" -maxdepth 2 -type d -name ".git"`
     const result = execSync(command, { encoding: 'utf8' }).trim()
 
