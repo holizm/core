@@ -2,6 +2,7 @@
 set -euo pipefail
 
 # https://iran.chabokan.net/
+# https://www.arvancloud.ir/fa/dev/linux-repository
 
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 setupDev="$homeDir/core/setupDev"
