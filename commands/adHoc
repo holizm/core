@@ -1,7 +1,12 @@
 #!/bin/bash
 
-repos=(
-  "accounts"   "advertisements"   "aggregates"   "ai"   "annotations"   "announcements"   "api"   "attributes"   "authorization"   "banners"   "blog"   "brands"   "bundling"   "capacities"   "changeLog"   "collaboration"   "collections"   "commissions"   "completion"   "contacts"   "contentPolicies"   "contents"   "contracts"   "core"   "courses"   "currencies"   "customers"   "dashboards"   "dataTypes"   "discounts"   "docs"   "dynamicContacts"   "dynamicParts"   "etl"   "events"   "faqs"   "flashcards"   "flows"   "fonts"   "forms"   "forums"   "galleries"   "generation"   "geo"   "globalization"   "glossary"   "googleDrive"   "grading"   "graphs"   "interfaces"   "internship"   "interview"   "inventory"   "issues"   "jobs"   "jzp"   "links"   "logs"   "marketing"   "media"   "migration"   "monetaryValues"   "navigation"   "nefcanto"   "news"   "notifications"   "orders"   "organization"   "packaging"   "panel"   "parts"   "payment"   "payroll"   "places"   "podcast"   "policies"   "pricing"   "products"   "projects"   "query"   "questions"   "realty"   "reporting"   "rules"   "sales"   "scopes"   "seo"   "server"   "services"   "settings"   "shipment"   "site"   "social"   "stateMachines"   "subscriptions"   "tasks"   "taxonomy"   "telemetry"   "templates"   "tenants"   "testimonials"   "theme001"   "ticketing"   "toMongo"   "units"   "values"   "vlog"   "wallet"   "warranty" )
-
-for repo in "${repos[@]}"; do   git clone ssh://git@holism.ir:48213/~/$repo
+find ~ -maxdepth 1 -type d | cut -d'/' -f4 | sort |
+while read repo;
+do
+	cd ~/$repo
+	git branch | grep master
+	if [[ $? = 0 ]]; then
+		echo $branch
+	fi
 done
+
