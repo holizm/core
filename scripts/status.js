@@ -8,12 +8,33 @@ import {
 
 const getRepoStatus = repoPath => {
     const s = runOnTerminal(`git -C ${repoPath} status`)
+    const home = process.env.HOME
 
     if (/Changes|Untracked/.test(s)) {
         const porcelain = runOnTerminal(`git -C ${repoPath} status --porcelain`).trim()
 
         info(repoPath)
         console.log(porcelain)
+        divide()
+
+        const statusOutput = runOnTerminal(`git -C ${repoPath} status --porcelain`)
+        if (statusOutput) {
+            const changedFiles = statusOutput.split('\n')
+                .filter(line => line.trim() !== '')
+                .map(line => line.split(' ')[1])
+                .filter(file => file)
+
+            for (const file of changedFiles) {
+                const filePath = `${repoPath}/${file}`
+
+                if (filePath.includes(`${home}/policies/`)) {
+                    continue
+                }
+
+                runOnTerminal(`node ${home}/policies/run.js`, { show: true })
+            }
+        }
+
         divide()
 
         return {
