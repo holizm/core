@@ -2,6 +2,7 @@
 
 import { runOnTerminal } from '../../scripts/terminal.js'
 import { writeFile } from '../../scripts/os.js'
+import { warning } from '../../scripts/logger.js'
 
 const [, , ...directories] = process.argv
 const {
@@ -24,7 +25,7 @@ for (let i = 0; i < directories.length; i++) {
     const exportsFilePath = `${root}/exports.js`
     const files = await getFiles(root)
     if (files.some(i => !i)) {
-        console.log(root, files)
+        warning(root, files)
     }
     const exports = files.map(i => `export * from '${i}'`).join('\n')
     writeFile(exportsFilePath, exports)

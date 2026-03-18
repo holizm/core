@@ -2,6 +2,7 @@
 
 import { writeFileSync } from 'fs'
 import { runOnTerminal } from '../../scripts/terminal.js'
+import { error } from '../../scripts/logger.js'
 
 const [, , ...directories] = process.argv
 const {
@@ -26,7 +27,7 @@ const getImportedParts = directory => {
                 return acc
             }, {})
     } catch (err) {
-        console.error(err)
+        error(err)
         return {}
     }
 }
