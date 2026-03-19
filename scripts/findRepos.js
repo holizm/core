@@ -1,13 +1,12 @@
-#!/usr/bin/env node
-import { execSync } from 'child_process'
+import { runOnTerminal } from './terminal.js'
 
 const home = process.env.HOME
 
 export default (search = '') => {
     let term = search.toLowerCase()
     term = term.endsWith('/') ? term.slice(0, -1) : term;
-    const command = `find "${home}" -maxdepth 2 -type d -name ".git"`
-    const result = execSync(command, { encoding: 'utf8' }).trim()
+    const command = `find ${home} -maxdepth 2 -type d -name .git`
+    const result = runOnTerminal(command).trim()
 
     if (!result) return []
 
