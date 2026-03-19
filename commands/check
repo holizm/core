@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+. $HOME/core/scripts/logger.sh
+
+target=$1
+
+if [[ $target == "" ]]; then
+    target=$PWD
+fi
+
+if [[ $target == / ]]; then
+    error 'Checking the root is not possible'
+    exit
+fi
+
+divide
+info "Checking $target ..."
+divide
+
+if [[ $target = /* ]]; then
+    target=$target
+elif [[ $target = ./* ]]; then
+    target=$PWD/${target/.\//}
+else
+    target=$PWD/$target
+fi
+
+if [ -f "$target" ]; then
+    $home/policies/run.js "$target"
+else
+    find -H $target \
+    -mindepth 1 \
+    -type f \
+    -not -name .git \
+    -not -path "*/.git/*" \
+    2>/dev/null |
+    sort |
+    while read file;
+    do
+        $home/policies/run.js "$file"
+    done
+fi
+
+findRepos $target |
+while read repo;
+do
+    $home/policies/git/run.js $repo
+done
+
+divide
