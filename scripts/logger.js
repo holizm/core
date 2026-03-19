@@ -1,16 +1,16 @@
 export const getStack = () => {
     const stack = new Error()
         .stack
-        .split("\n")
+        .split('\n')
         .filter(i => !/^.*(\.vite|keycloak|\.main\.jsx).*/.test(i))
     return stack
 }
 
-const formatError = (err) => {
-    const { name = "Error", message = "", stack = "", ...rest } = err
-    const stackLines = stack.split("\n")
+const formatError = error => {
+    const { name = 'Error', message = '', stack = '', ...rest } = error
+    const stackLines = stack.split('\n')
     stackLines[0] = `${name}: ${message}`
-    let out = stackLines.join("\n")
+    let out = stackLines.join('\n')
     const extraKeys = Object.keys(rest)
     if (extraKeys.length > 0) {
         const extras = {}
@@ -29,12 +29,12 @@ const log = (color, toStderr, ...args) => {
     const message = args.map(arg => {
         if (arg instanceof Error) {
             return formatError(arg)
-        } else if (typeof arg === "object") {
+        } else if (typeof arg === 'object') {
             return JSON.stringify(arg, null, 4)
         } else {
             return String(arg)
         }
-    }).join(" ")
+    }).join(' ')
 
     const output = `${colorCodeStart}${message}${colorCodeReset}`
     if (toStderr) {
@@ -66,7 +66,7 @@ export const errorAndExit = (...args) => {
 }
 
 export const check = (...args) => {
-    const checkMark = "\u2714"
+    const checkMark = '\u2714'
     log('\x1b[32m', false, ...args, checkMark)
 }
 
