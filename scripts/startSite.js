@@ -9,7 +9,7 @@ import {
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
-    getFileContent,
+    getContent,
     isDir,
     isFile,
     replaceVariables,
@@ -51,8 +51,8 @@ const mapDependencies = params => {
         let dependencyBase = ''
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
-        } else if (isFile(instance) && isDir(`/${getFileContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
-            dependencyBase = `${home}/${getFileContent(instance).trim()}/${dependency}/site`
+        } else if (isFile(instance) && isDir(`/${getContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
+            dependencyBase = `${home}/${getContent(instance).trim()}/${dependency}/site`
         } else {
             dependencyBase = `${home}/${dependency}/site`
         }

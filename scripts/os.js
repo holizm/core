@@ -49,6 +49,7 @@ const readReplaceWrite = (inputFile, outputFile, flag, params) => {
 export const replaceVariables = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "w", params)
 export const replaceVariablesAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, "a", params)
 
+export const exists = p => p && fs.existsSync(p)
 export const isFile = p => p && fs.existsSync(p) && fs.statSync(p).isFile()
 export const isDir = p => p && fs.existsSync(p) && fs.statSync(p).isDirectory()
 
@@ -101,8 +102,8 @@ export const copyFileIfNotExists = (source, dest) => {
     }
 }
 
-export const getFileContent = (p) => fs.readFileSync(p, "utf8")
-export const getFileLines = (p) => fs
+export const getContent = (p) => fs.readFileSync(p, "utf8")
+export const getLines = (p) => fs
     .readFileSync(p, "utf8")
     .split(/\r?\n/)
     .map(line => line.trim())

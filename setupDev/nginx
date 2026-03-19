@@ -2,7 +2,7 @@
 
 import os from 'os'
 import {
-    getFileContent,
+    getContent,
     writeFile,
 } from "../scripts/os.js"
 import {
@@ -15,7 +15,7 @@ const homeDir = process.env.homeDir
 const nginxConf = '/etc/nginx/nginx.conf'
 const includeLine = `\tinclude ${homeDir}/webServer/conf.d/*.conf;`
 
-let content = getFileContent(nginxConf)
+let content = getContent(nginxConf)
 
 if (!content.includes(includeLine.trim())) {
     const marker = 'include /etc/nginx/sites-enabled/*;'

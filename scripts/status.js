@@ -24,6 +24,7 @@ const getRepoStatus = repoPath => {
                 .map(line => line.split(' ')[1])
                 .filter(file => file)
 
+
             for (const file of changedFiles) {
                 const filePath = `${repoPath}/${file}`
 
@@ -31,7 +32,7 @@ const getRepoStatus = repoPath => {
                     continue
                 }
 
-                runOnTerminal(`node ${home}/policies/run.js`, { show: true })
+                runOnTerminal(`node ${home}/policies/run.js ${filePath}`, { show: true })
             }
         }
 

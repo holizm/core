@@ -4,7 +4,7 @@ import {
     error,
     errorAndExit,
 } from './logger.js'
-import { getFileContent } from "./os.js"
+import { getContent } from "./os.js"
 
 const domain = process.argv[2]
 const home = process.env.HOME
@@ -25,7 +25,7 @@ try {
         let raw
         let parsed
         try {
-            raw = getFileContent(fullPath)
+            raw = getContent(fullPath)
             parsed = JSON.parse(raw)
         } catch {
             continue
@@ -53,7 +53,7 @@ if (!secretsFile) {
 
 let fileContent
 try {
-    fileContent = getFileContent(secretsFile)
+    fileContent = getContent(secretsFile)
 } catch {
     errorAndExit(`Failed to read secrets file: ${secretsFile}`)
 }

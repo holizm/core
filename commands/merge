@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {
-    getFileContent,
+    getContent,
     isFile,
     writeFile,
 } from '../scripts/os.js'
@@ -39,9 +39,9 @@ const sortKeysDeep = x => {
     return x
 }
 
-const core = JSON.parse(getFileContent(corePackagePath))
+const core = JSON.parse(getContent(corePackagePath))
 const runnable = isFile(runnablePackagePath)
-    ? JSON.parse(getFileContent(runnablePackagePath))
+    ? JSON.parse(getContent(runnablePackagePath))
     : {}
 
 const merged = deepMerge(runnable, core)

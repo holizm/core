@@ -3,8 +3,8 @@ import getDeterministicPort from './getDeterministicPort.js'
 import { divide, info } from '../scripts/logger.js'
 import processTenantLine from "./processTenantLine.js"
 import {
-    getFileContent,
-    getFileLines,
+    getContent,
+    getLines,
     isFile,
     overrideFile,
 } from "./os.js"
@@ -18,7 +18,7 @@ const createDatabaseComposeFile = params => {
         composeTemplatePath,
     } = params
     const composePath = `/tmp/${repo}/databases/compose.yaml`
-    const content = getFileContent(composeTemplatePath)
+    const content = getContent(composeTemplatePath)
     const substituted = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
     overrideFile(composePath, substituted)
     return composePath
@@ -51,7 +51,7 @@ export default params => {
         host: `${repo}.local`,
     })
     params.databaseEnginePort = getDeterministicPort(repo)
-    const lines = getFileLines(tenantsPath, 'utf8').filter(Boolean)
+    const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({
         ...params,
         line,

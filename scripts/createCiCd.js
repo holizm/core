@@ -3,7 +3,7 @@ import {
     success,
 } from './logger.js'
 import {
-    getFileContent,
+    getContent,
     replaceVariables,
     replaceVariablesAndAppend,
     writeFile,
@@ -40,7 +40,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, gitHubActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
-    let content = getFileContent(gitHubActionPath)
+    let content = getContent(gitHubActionPath)
     content = content.replace(/dockerImageNamePlaceHolder/g, dockerImageName)
     writeFile(gitHubActionPath, content)
 

@@ -14,7 +14,7 @@ import {
 } from '../../scripts/logger.js'
 import { runOnTerminal } from '../../scripts/terminal.js'
 import {
-    getFileLines,
+    getLines,
     isDir,
     isFile,
 } from "../../scripts/os.js"
@@ -39,9 +39,9 @@ if (!search) {
     const essentialPartsPath = `${home}/core/essentialParts`
     const partsPath = `${home}/${repo}/common/dependencies`
     const orderFile = `${home}/generation/order`
-    const orderList = getFileLines(orderFile)
-    const essentialParts = getFileLines(essentialPartsPath)
-    const parts = getFileLines(partsPath)
+    const orderList = getLines(orderFile)
+    const essentialParts = getLines(essentialPartsPath)
+    const parts = getLines(partsPath)
 
     const set = Array.from(new Set([...essentialParts, ...parts]))
 

@@ -1,6 +1,6 @@
 import { warning } from './logger.js'
 import {
-    getFileContent,
+    getContent,
     isDir,
     isFile,
 } from './os.js'
@@ -10,7 +10,7 @@ export default params => {
         composeFile,
     } = params
 
-    const content = getFileContent(composeFile)
+    const content = getContent(composeFile)
 
     const volumeRegex = /^\s*-\s*([^:\n]+):([^:\n]+)/gm
     const matches = [...content.matchAll(volumeRegex)]

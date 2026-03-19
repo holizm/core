@@ -11,7 +11,7 @@ import {
 import {
     append,
     createDirIfNotExists,
-    getFileLines,
+    getLines,
     isAccounts,
     isApi,
     isDir,
@@ -63,7 +63,7 @@ if (!isFile(tenantsPath)) {
     errorAndExit(`Tenants file not found at path: ${tenantsPath}`)
 }
 
-const lines = getFileLines(tenantsPath)
+const lines = getLines(tenantsPath)
 if (!params.isCiCd) {
     lines.forEach(line => processTenantLine({
         ...params,
