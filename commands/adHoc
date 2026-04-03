@@ -3,11 +3,11 @@
 find ~ -maxdepth 1 -type d | cut -d'/' -f4 | sort |
 while read repo;
 do
-	cd ~/$repo
+    cd ~/$repo
     git remote -v | grep holism
-	if [[ $? = 0 ]]; then
-		git remote set-url origin ssh://git@server107.paydardata.com:22/~/$repo
+    if [[ $? = 0 ]]; then
+        git remote set-url origin ssh://git@server107.paydardata.com:22/~/$repo
         git pull
-	fi
+    fi
 done
 
