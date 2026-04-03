@@ -51,9 +51,9 @@ export default params => {
 
     const depth = getDepth()
 
-    // if ((container && (depth < 1 || depth > 2)) || (!container && depth !== 4)) {
-    //     errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)', cwd)
-    // }
+    if ((container && (depth < 1 || depth > 2)) || (!container && depth !== 4)) {
+        errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)', cwd)
+    }
 
     params = {
         ...params,

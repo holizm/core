@@ -21,6 +21,8 @@ import createDirectories from './createDirectories.js'
 const createNonExistentFiles = params => {
     const {
         home,
+        privateSettingsPath,
+        publicSettingsPath,
     } = params
     const basePath = `${home}/core/panel`
     const files = {
@@ -33,6 +35,8 @@ const createNonExistentFiles = params => {
             copyFileIfNotExists(`${basePath}/${template}`, target)
         }
     }
+    copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
+    copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
 }
 
 const mapDependencies = params => {

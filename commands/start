@@ -39,6 +39,7 @@ import indentation from '../scripts/indentation.js'
 import createDirectories from '../scripts/createDirectories.js'
 import ensurePathExistsOrCreateIt from '../scripts/ensurePathExistsOrCreateIt.js'
 import changePermissions from '../scripts/changePermissions.js'
+import ensureTenants from '../scripts/ensureTenants.js'
 
 clear()
 
@@ -59,9 +60,7 @@ params = {
 
 const { tenantsPath } = params
 
-if (!isFile(tenantsPath)) {
-    errorAndExit(`Tenants file not found at path: ${tenantsPath}`)
-}
+ensureTenants(params)
 
 const lines = getLines(tenantsPath)
 if (!params.isCiCd) {
