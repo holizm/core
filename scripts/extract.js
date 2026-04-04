@@ -2,6 +2,7 @@ import path from 'path'
 import process from 'process'
 import {
     errorAndExit,
+    info,
     success,
 } from '../scripts/logger.js'
 import {
@@ -51,8 +52,14 @@ export default params => {
 
     const depth = getDepth()
 
-    if ((container && (depth < 1 || depth > 2)) || (!container && depth !== 4)) {
-        errorAndExit('This command should only be run from inside a process (API, panel, site, worker, etc.)', cwd)
+    const invalidDepthMessage = 'This command should only be run from inside a process (API, panel, site, worker, etc.)'
+
+    if (container && depth !== 3) {
+        errorAndExit(invalidDepthMessage, cwd, process.argv)
+    }
+
+    if (!container && depth !== 4) {
+        errorAndExit(invalidDepthMessage, cwd)
     }
 
     params = {
