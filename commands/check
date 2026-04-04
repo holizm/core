@@ -3,6 +3,7 @@
 . $HOME/core/scripts/logger.sh
 
 target=$1
+home=$HOME
 
 if [[ $target == "" ]]; then
     target=$PWD
@@ -26,7 +27,7 @@ else
 fi
 
 if [ -f "$target" ]; then
-    $home/policies/run.js "$target"
+    node $home/policies/run.js "$target"
 else
     find -H $target \
     -mindepth 1 \
@@ -37,14 +38,14 @@ else
     sort |
     while read file;
     do
-        $home/policies/run.js "$file"
+        node $home/policies/run.js "$file"
     done
 fi
 
-findRepos $target |
-while read repo;
-do
-    $home/policies/git/run.js $repo
-done
+# findRepos $target |
+# while read repo;
+# do
+#     node $home/policies/git/run.js $repo
+# done
 
 divide
