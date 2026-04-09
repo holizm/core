@@ -1,13 +1,42 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-find ~ -maxdepth 1 -type d | cut -d'/' -f4 | sort |
-while read repo;
-do
-    cd ~/$repo
-    git remote -v | grep holism
-    if [[ $? = 0 ]]; then
-        git remote set-url origin ssh://git@server107.paydardata.com:22/~/$repo
-        git pull
-    fi
-done
+import { execSync } from "child_process"
+import fs from "fs"
+import inflection from "inflection"
+
+const getPartFiles = () => {
+    const output = execSync('find -type f -name part', { encoding: 'utf-8' })
+    return output.split('\n').filter(Boolean)
+}
+
+const isTopLevel = line => line.trim().length > 0 && !line.startsWith(' ') && !line.startsWith('\t')
+
+const processFile = filePath => {
+    const content = fs.readFileSync(filePath, 'utf-8')
+
+    const updated = content
+        .split('\n')
+        .map(line => {
+            if (!isTopLevel(line)) return line
+
+            const parts = line.trim().split(/\s+/)
+            if (parts.length === 0) return line
+
+            const singular = inflection.singularize(parts[0])
+
+            if (singular === parts[0]) return line
+
+            return line.replace(parts[0], singular)
+        })
+        .join('\n')
+
+    fs.writeFileSync(filePath, updated)
+}
+
+const main = () => {
+    const files = getPartFiles()
+    files.forEach(processFile)
+}
+
+main()
 
