@@ -5,7 +5,7 @@ import fs from "fs"
 import inflection from "inflection"
 
 const getPartFiles = () => {
-    const output = execSync('find -type f -name part', { encoding: 'utf-8' })
+    const output = execSync('find /home/dev -type f -name part', { encoding: 'utf-8' })
     return output.split('\n').filter(Boolean)
 }
 
