@@ -43,7 +43,7 @@ const generateIndex = (dir, files, packageName) => {
         .map(file => {
             const rel = './' + path.relative(dir, file).replace(/\\/g, '/')
             const name = toExportName(file)
-            return `export { default as ${name} } from '${rel}'`
+            return `export * from '${rel}'`
         })
         .sort()
 
