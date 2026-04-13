@@ -1,4 +1,4 @@
-import { RichText as BaseRichText } from "core"
+import { RichText as BaseRichText } from 'core'
 
 export default props => {
     return <BaseRichText {...props} />
