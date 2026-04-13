@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { getContent } from "./os.js"
+import { getContent } from './os.js'
 
 export default params => {
     const { host } = params

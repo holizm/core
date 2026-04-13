@@ -18,7 +18,7 @@ export default () => {
     else
         error(`RAM is low: ${totalGb} GB. Recommended at least ${desirableGb} GB`)
 
-    const ramType = run("sudo dmidecode -t memory | grep 'Type:' | grep -v Unknown | head -1 | awk '{print $2}'") || 'Unknown'
+    const ramType = run('sudo dmidecode -t memory | grep 'Type: ' | grep -v Unknown | head -1 | awk '{ print $2 }'') || 'Unknown'
 
     if (ramType !== 'DDR4')
         error(`Your RAM type is ${ramType}. It's not DDR4. Consider upgrading for better performance`)

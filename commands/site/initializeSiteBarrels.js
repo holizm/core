@@ -55,17 +55,17 @@ const sortedAliases = Object.fromEntries(
 )
 
 let tsConfigContent = `{
-    "extends": "./coreTsConfig",
-    "compilerOptions": {
-        "paths": {
+    'extends': './coreTsConfig',
+    'compilerOptions': {
+        'paths': {
 `
 
 const keys = Object.keys(sortedAliases)
 const lastKey = keys[keys.length - 1]
 
 for (const key of keys) {
-    tsConfigContent += `            "${key}": [
-                "${sortedAliases[key]}"
+    tsConfigContent += `            '${key}': [
+                '${sortedAliases[key]}'
             ]${key === lastKey ? '' : ','}
 `
 }

@@ -1,6 +1,6 @@
-import { error } from "../scripts/logger.js"
-import { getContent } from "./os.js"
-import { runOnTerminal } from "./terminal.js"
+import { error } from '../scripts/logger.js'
+import { getContent } from './os.js'
+import { runOnTerminal } from './terminal.js'
 
 export default (propertyName = 'randomPort') => {
     const [lowerPort, upperPort] = getContent('/proc/sys/net/ipv4/ip_local_port_range')

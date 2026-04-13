@@ -1,16 +1,16 @@
-let searchText = "yourTextHere";
-let regex = new RegExp(searchText, "i");
+let searchText = 'yourTextHere';
+let regex = new RegExp(searchText, 'i');
 
 let filter = {
     contents: [
-        "repetitionsCounts",
-        "parts",
-        "values",
+        'repetitionsCounts',
+        'parts',
+        'values',
     ]
 };
 
 db.getMongo().getDBNames().forEach(dbName => {
-    if (["admin", "config", "local"].includes(dbName)) return;
+    if (['admin', 'config', 'local'].includes(dbName)) return;
     if (filter && Object.keys(filter).length > 0 && !filter.hasOwnProperty(dbName)) return;
 
     let dbObj = db.getSiblingDB(dbName);

@@ -1,4 +1,4 @@
-import { runOnTerminal } from "./terminal.js"
+import { runOnTerminal } from './terminal.js'
 import findRepos from './findRepos.js'
 import {
     divide,

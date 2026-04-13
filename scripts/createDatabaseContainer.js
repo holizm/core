@@ -1,14 +1,14 @@
 import { runOnTerminal } from './terminal.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import { divide, info } from '../scripts/logger.js'
-import processTenantLine from "./processTenantLine.js"
+import processTenantLine from './processTenantLine.js'
 import {
     getContent,
     getLines,
     isFile,
     overrideFile,
-} from "./os.js"
-import setupLocalDns from "./setupLocalDns.js"
+} from './os.js'
+import setupLocalDns from './setupLocalDns.js'
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
 

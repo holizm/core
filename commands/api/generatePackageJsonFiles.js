@@ -15,7 +15,7 @@ const nodeModules = `${home}/${repo}/${proc}/node_modules`
 
 const getImportedParts = directory => {
     try {
-        const command = `grep -r --include="*.js" -h "import " "${directory}" | sed -E "s/.*from ['\\\"]([^'\\\"]+)['\\\"].*/\\1/" | sort | uniq`
+        const command = `grep -r --include='*.js' -h 'import ' '${directory}' | sed -E 's/.*from ['\\\']([^'\\\']+)['\\\'].*/\\1/' | sort | uniq`
         const output = runOnTerminal(command)
 
         return output

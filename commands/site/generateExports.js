@@ -23,7 +23,7 @@ const exportsPath =
 
 if (exportsPath.includes('/pageParts/exports.jsx')) process.exit()
 
-const foundFiles = execSync(`find "${sourceDir}" -type f -name "*.jsx"`)
+const foundFiles = execSync(`find '${sourceDir}' -type f -name '*.jsx'`)
     .toString()
     .trim()
     .split('\n')
@@ -38,7 +38,7 @@ const importExportData = foundFiles
             target === 'pageParts'
                 ? `./${path.relative(baseDir, fullPath).replace('.jsx', '')}`
                 : `./${path.relative(sourceDir, fullPath).replace('.jsx', '')}`
-        return { name, importLine: `import ${name} from "${importPath}"\n`, exportLine: `export { ${name} }\n` }
+        return { name, importLine: `import ${name} from '${importPath}'\n`, exportLine: `export { ${name} }\n` }
     })
 
 importExportData.sort((a, b) => a.name.localeCompare(b.name))

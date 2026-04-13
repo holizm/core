@@ -1,5 +1,5 @@
-import { replaceVariables } from "./os.js"
-import { runOnTerminal } from "./terminal.js"
+import { replaceVariables } from './os.js'
+import { runOnTerminal } from './terminal.js'
 
 export default params => {
     const {
@@ -17,5 +17,5 @@ export default params => {
     replaceVariables(templatePath, confFile, params)
     replaceVariables(includesTemplatePath, includesFile, params)
 
-    runOnTerminal("sudo nginx -t && sudo systemctl reload nginx 1>/dev/null 2>&1")
+    runOnTerminal('sudo nginx -t && sudo systemctl reload nginx 1>/dev/null 2>&1')
 }

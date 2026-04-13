@@ -1,5 +1,5 @@
-import { info } from "../scripts/logger.js"
-import { runOnTerminal } from "./terminal.js"
+import { info } from '../scripts/logger.js'
+import { runOnTerminal } from './terminal.js'
 
 export default params => {
     const {

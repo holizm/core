@@ -10,7 +10,7 @@ function run(cmd) {
 }
 
 export default () => {
-    const lsblkOutput = run("lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | grep 'disk'") || ''
+    const lsblkOutput = run('lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | grep 'disk'') || ''
     if (!lsblkOutput) {
         error('Could not detect any storage devices')
         return

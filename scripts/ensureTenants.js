@@ -1,7 +1,7 @@
 import {
     isFile,
     writeFile,
-} from "./os.js"
+} from './os.js'
 
 export default params => {
     const {

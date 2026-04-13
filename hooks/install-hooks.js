@@ -66,13 +66,13 @@ for (const script of scripts) {
 }
 
 function configureGitTemplateDir() {
-    execSync(`git config --global init.templateDir "${GLOBAL_TEMPLATES_DIR}"`)
+    execSync(`git config --global init.templateDir '${GLOBAL_TEMPLATES_DIR}'`)
     console.log('Global Git template directory configured')
 }
 
 function findGitRepos() {
     try {
-        const output = execSync(`bash -c "find ~ -type d -name '.git' 2>/dev/null"`, { encoding: 'utf8' })
+        const output = execSync(`bash -c 'find ~ -type d -name '.git' 2>/dev/null'`, { encoding: 'utf8' })
         return output.split('\n').filter(Boolean).map(p => path.dirname(p))
     } catch {
         return []

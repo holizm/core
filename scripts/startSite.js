@@ -17,8 +17,8 @@ import {
 } from './os.js'
 import getDependencies from './getDependencies.js'
 import mapNode from '../scripts/mapNode.js'
-import mapSettings from "./mapSettings.js"
-import createDirectories from "./createDirectories.js"
+import mapSettings from './mapSettings.js'
+import createDirectories from './createDirectories.js'
 
 const createNonExistentFiles = params => {
     const { home } = params

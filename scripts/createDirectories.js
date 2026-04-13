@@ -1,4 +1,4 @@
-import getDependencies from "./getDependencies.js"
+import getDependencies from './getDependencies.js'
 import { createDirIfNotExists } from './os.js'
 
 export default params => {

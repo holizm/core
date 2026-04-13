@@ -25,7 +25,7 @@ export default params => {
     ]
     for (const [sourcePath, filename] of items) {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
-        const isOverride = filename === "settingsOverride.json"
+        const isOverride = filename === 'settingsOverride.json'
         if (isFile(sourcePath))
             params.addVolume(`${isOverride ? processPath : commonPath}/${filename}`, `${home}/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
     }

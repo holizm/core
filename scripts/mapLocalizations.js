@@ -1,5 +1,5 @@
 import { runOnTerminal } from './terminal.js'
-import getDependencies from "./getDependencies.js"
+import getDependencies from './getDependencies.js'
 
 export default params => {
     const {

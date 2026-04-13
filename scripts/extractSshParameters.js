@@ -4,7 +4,7 @@ import {
     error,
     errorAndExit,
 } from './logger.js'
-import { getContent } from "./os.js"
+import { getContent } from './os.js'
 
 const domain = process.argv[2]
 const home = process.env.HOME

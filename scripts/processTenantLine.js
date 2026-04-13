@@ -1,8 +1,8 @@
-import { errorAndExit } from "./logger.js"
-import createCertificate from "./createCertificate.js"
-import getLocalHost from "./getLocalHost.js"
-import setupLocalDns from "./setupLocalDns.js"
-import setupNginx from "./setupNginx.js"
+import { errorAndExit } from './logger.js'
+import createCertificate from './createCertificate.js'
+import getLocalHost from './getLocalHost.js'
+import setupLocalDns from './setupLocalDns.js'
+import setupNginx from './setupNginx.js'
 
 export default ({
     line,

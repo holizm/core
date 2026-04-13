@@ -1,14 +1,14 @@
-var dbName = "database";
-var collectionName = "collection";
-var fieldName = "property";
-var sourceType = "string";
-var targetType = "int";
+var dbName = 'database';
+var collectionName = 'collection';
+var fieldName = 'property';
+var sourceType = 'string';
+var targetType = 'int';
 
 var collection = db[collectionName];
 var totalDocs = collection.countDocuments({ [fieldName]: { $exists: true } });
 
-print("Updating " + totalDocs + " documents in " + dbName + "." + collectionName);
-print("Field: " + fieldName + " (" + sourceType + " -> " + targetType + ")");
+print('Updating ' + totalDocs + ' documents in ' + dbName + '.' + collectionName);
+print('Field: ' + fieldName + ' (' + sourceType + ' -> ' + targetType + ')');
 
 var result = collection.updateMany(
     { [fieldName]: { $exists: true } },
@@ -17,9 +17,9 @@ var result = collection.updateMany(
             $set: {
                 [fieldName]: {
                     $convert: {
-                        input: "$" + fieldName,
-                        to: "int",
-                        onError: "$" + fieldName,
+                        input: '$' + fieldName,
+                        to: 'int',
+                        onError: '$' + fieldName,
                         onNull: null
                     }
                 }
@@ -28,5 +28,5 @@ var result = collection.updateMany(
     ]
 );
 
-print("Modified: " + result.modifiedCount);
-print("Matched: " + result.matchedCount);
+print('Modified: ' + result.modifiedCount);
+print('Matched: ' + result.matchedCount);

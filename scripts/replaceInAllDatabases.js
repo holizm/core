@@ -1,15 +1,15 @@
-let searchText = "yourTextHere";
-let replacementText = "yourNewText";
-let regex = new RegExp(searchText, "gi");
+let searchText = 'yourTextHere';
+let replacementText = 'yourNewText';
+let regex = new RegExp(searchText, 'gi');
 
 let filter = {
     contents: [
-        "parts",
+        'parts',
     ]
 };
 
 db.getMongo().getDBNames().forEach(dbName => {
-    if (["admin", "config", "local"].includes(dbName)) return;
+    if (['admin', 'config', 'local'].includes(dbName)) return;
     if (filter && Object.keys(filter).length > 0 && !filter.hasOwnProperty(dbName)) return;
 
     let dbObj = db.getSiblingDB(dbName);
@@ -32,7 +32,7 @@ db.getMongo().getDBNames().forEach(dbName => {
             let updates = {};
             for (let field of fields) {
                 let value = doc[field];
-                if (typeof value === "string" && regex.test(value)) {
+                if (typeof value === 'string' && regex.test(value)) {
                     regex.lastIndex = 0;
                     let newValue = value.replace(regex, replacementText);
                     updates[field] = newValue;
