@@ -13,7 +13,9 @@ import { error, errorAndExit, info, warning } from '../scripts/logger.js'
 const getTranslation = (value, filePath) => {
     if (filePath.includes('en.json')) return value
     const targetLocale = getFileNameWithoutExtension(filePath)
-    const command = `trans :${targetLocale} -brief -no-bidi "${value.replace(/"/g, '\\"')}"`
+    const escapedValue = value.replace(/'/g, `'\\''`)
+    const command = `trans :${targetLocale} -brief -no-bidi '${escapedValue}'`
+    console.log(command)
     const result = runOnTerminal(command)
     return result
 }
@@ -55,7 +57,7 @@ const localesBasedOnNativeSpeakersPopulation = [
 for (const localizationDirectory of localizationDirectories) {
     const englishFilePath = `${localizationDirectory}/en.json`
 
-    if (isFile(englishFilePath)) {
+    if (!isFile(englishFilePath)) {
         warning(`Warning: ${englishFilePath} does not exist`)
         writeFileIfNotExists(englishFilePath, '{}')
     }
@@ -88,7 +90,7 @@ for (const localizationDirectory of localizationDirectories) {
     for (const locale of localesBasedOnNativeSpeakersPopulation) {
         const localizationFilePath = `${localizationDirectory}/${locale}.json`
 
-        if (isFile(localizationFilePath)) {
+        if (!isFile(localizationFilePath)) {
             warning(`Warning: ${localizationFilePath} does not exist`)
             writeFileIfNotExists(localizationFilePath, '{}')
         }
