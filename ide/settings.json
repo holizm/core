@@ -1,0 +1,40 @@
+{
+    "files.autoSave": "off",
+    "extensions.autoUpdate": false,
+    "cSpell.ignorePaths": [
+        "settings.json",
+        "common/san",
+        "connectionStrings.json",
+        "package.json"
+    ],
+    "workbench.startupEditor": "none",
+    "extensions.ignoreRecommendations": true,
+    "editor.wordWrap": "on",
+    "chat.editor.wordWrap": "on",
+    "files.insertFinalNewline": true,
+    "git.openRepositoryInParentFolders": "never",
+    "explorer.confirmDelete": false,
+    "editor.detectIndentation": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "explorer.confirmDragAndDrop": false,
+    "update.showReleaseNotes": false,
+    "csharp.debug.logging.moduleLoad": false,
+    "javascript.preferences.quoteStyle": "single",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "update.mode": "none",
+    "extensions.autoCheckUpdates": false,
+    "window.dialogStyle": "custom",
+    "files.associations": {
+        "Part": "plaintext"
+    },
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "[yaml]": {
+        "editor.tabSize": 4
+    },
+    "[dockercompose]": {
+        "editor.tabSize": 4
+    }
+}
