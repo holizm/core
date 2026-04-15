@@ -102,6 +102,10 @@ export const copyFileIfNotExists = (source, dest) => {
     }
 }
 
+export const getFileNameWithoutExtension = filePath => {
+    return path.basename(filePath, path.extname(filePath))
+}
+
 export const getContent = (p) => fs.readFileSync(p, 'utf8')
 export const getLines = (p) => fs
     .readFileSync(p, 'utf8')

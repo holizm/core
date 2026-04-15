@@ -1,0 +1,132 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    getContent,
+    getFileNameWithoutExtension,
+    isFile,
+    writeFile,
+    writeFileIfNotExists,
+} from '../scripts/os.js'
+import { error, errorAndExit, info, warning } from '../scripts/logger.js'
+
+const getTranslation = (value, filePath) => {
+    if (filePath.includes('en.json')) return value
+    const targetLocale = getFileNameWithoutExtension(filePath)
+    const command = `trans :${targetLocale} -brief -no-bidi "${value.replace(/"/g, '\\"')}"`
+    const result = runOnTerminal(command)
+    return result
+}
+
+const where = process.argv[2]
+
+let command = 'find ~ -mindepth 2 -maxdepth 4 -type d -name localization 2>/dev/null'
+if (where) command += ` | grep ${where}`
+command += ' | sort'
+
+const output = runOnTerminal(command)
+
+const localizationDirectories = output
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+
+const localesBasedOnNativeSpeakersPopulation = [
+    'zh',
+    'es',
+    'en',
+    'hi',
+    'pt',
+    'bn',
+    'ru',
+    'ja',
+    'vi',
+    'tr',
+    'ko',
+    'fr',
+    'ta',
+    'ar',
+    'de',
+    'ur',
+    'it',
+    'fa',
+]
+
+for (const localizationDirectory of localizationDirectories) {
+    const englishFilePath = `${localizationDirectory}/en.json`
+
+    if (isFile(englishFilePath)) {
+        warning(`Warning: ${englishFilePath} does not exist`)
+        writeFileIfNotExists(englishFilePath, '{}')
+    }
+
+    const englishFileContent = getContent(englishFilePath)
+
+    let englishJson = {}
+
+    try {
+        englishJson = JSON.parse(englishFileContent || '{}')
+
+        const sortedEnglishJson = Object.fromEntries(
+            Object.keys(englishJson)
+                .sort()
+                .map(key => [key, englishJson[key]])
+        )
+
+        writeFile(
+            englishFilePath,
+            JSON.stringify(sortedEnglishJson, null, 4) + '\n'
+        )
+
+        englishJson = sortedEnglishJson
+    } catch (e) {
+        error(`Error parsing ${englishFilePath}`)
+        error(e)
+        continue
+    }
+
+    for (const locale of localesBasedOnNativeSpeakersPopulation) {
+        const localizationFilePath = `${localizationDirectory}/${locale}.json`
+
+        if (isFile(localizationFilePath)) {
+            warning(`Warning: ${localizationFilePath} does not exist`)
+            writeFileIfNotExists(localizationFilePath, '{}')
+        }
+
+        const fileContent = getContent(localizationFilePath)
+
+        let jsonData = JSON.parse(fileContent || '{}')
+
+        for (const englishKey of Object.keys(englishJson)) {
+            if (!(englishKey in jsonData)) {
+                jsonData[englishKey] = ''
+            }
+        }
+
+        for (const key of Object.keys(jsonData)) {
+            if (!(key in englishJson)) {
+                warning(`Deleting ${key} from ${localizationFilePath}`)
+                delete jsonData[key]
+            }
+        }
+
+        for (const [key, value] of Object.entries(jsonData)) {
+            if (!value && englishJson[key]) {
+                const translation = getTranslation(englishJson[key], localizationFilePath)
+                jsonData[key] = translation
+                info(localizationFilePath, key, englishJson[key], translation)
+            }
+        }
+
+        const sortedJson = Object.fromEntries(
+            Object.keys(jsonData)
+                .sort()
+                .map(key => [key, jsonData[key]])
+        )
+
+        writeFile(
+            localizationFilePath,
+            JSON.stringify(sortedJson, null, 4) + '\n'
+        )
+    }
+}
