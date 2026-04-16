@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*'
+find "$@" -type f \
+-not -path '*/node_modules/*' \
+-not -path '*/.git/*' \
+-not -path '*/packages/*' \
+-not -path '*/.cache/*'
