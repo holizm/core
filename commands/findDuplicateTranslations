@@ -1,0 +1,71 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import { getContent } from '../scripts/os.js'
+import {
+    divide,
+    info,
+    warning,
+} from '../scripts/logger.js'
+
+const findCmd = `find . -type f -name en.json -path '*/localization/*' ! -path '*/node_modules/*'`
+const files = runOnTerminal(findCmd).split('\n')
+
+const getPart = file => file.split('/')[1]
+const normalize = key => key.replace(/^[a-zA-Z0-9]+/, '')
+
+const partIndex = new Map()
+const globalIndex = new Map()
+
+for (const file of files) {
+    const part = getPart(file)
+    const json = JSON.parse(getContent(file))
+
+    if (!partIndex.has(part)) partIndex.set(part, new Map())
+
+    const partMap = partIndex.get(part)
+
+    for (const key of Object.keys(json)) {
+        if (!partMap.has(key)) partMap.set(key, [])
+        partMap.get(key).push(file)
+
+        const normalized = normalize(key)
+
+        if (!globalIndex.has(normalized)) {
+            globalIndex.set(normalized, [])
+        }
+
+        globalIndex.get(normalized).push({ part, file, key })
+    }
+}
+
+divide()
+info('\nintra-part duplicates\n')
+divide()
+
+for (const [part, keys] of partIndex.entries()) {
+    for (const [key, files] of keys.entries()) {
+        if (files.length > 1) {
+            warning(`part: ${part}`)
+            warning(`key: ${key}`)
+            files.forEach(f => info(`  - ${f}`))
+            info('')
+        }
+    }
+}
+
+divide()
+info('\ncross-part duplicates\n')
+divide()
+
+// for (const [normalized, occurrences] of globalIndex.entries()) {
+//     const modules = new Set(occurrences.map(o => o.part))
+
+//     if (modules.size > 1) {
+//         warning(`normalized key: ${normalized}`)
+//         occurrences.forEach(o => {
+//             info(`  - [${o.part}] ${o.file} :: ${o.key}`)
+//         })
+//         info('')
+//     }
+// }
