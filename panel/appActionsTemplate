@@ -1,5 +1,5 @@
-import { ClearCache } from "panel"
-import { GlobalizationChooseLocale } from "globalization"
+import { ClearCache } from 'panel'
+import { GlobalizationChooseLocale } from 'globalization'
 
 export default <>
     <GlobalizationChooseLocale />
