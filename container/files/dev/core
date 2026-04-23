@@ -1,5 +1,7 @@
 FROM node:lts-trixie-slim
 
+ENV NODE_OPTIONS="--trace-deprecation"
+
 RUN groupmod -n dev node
 RUN usermod -d /home/dev -l dev node
 ENV HOME=/home/dev
