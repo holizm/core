@@ -1,12 +1,15 @@
 #!/usr/bin/env node
-import bios from "../scripts/pcInfo/bios.js"
-import cpu from "../scripts/pcInfo/cpu.js"
-import ram from "../scripts/pcInfo/ram.js"
-import storage from "../scripts/pcInfo/storage.js"
-import system from "../scripts/pcInfo/system.js"
+
+import bios from '../scripts/pcInfo/bios.js'
+import cpu from '../scripts/pcInfo/cpu.js'
+import ram from '../scripts/pcInfo/ram.js'
+import storage from '../scripts/pcInfo/storage.js'
+import system from '../scripts/pcInfo/system.js'
+import windowingSystem from '../scripts/pcInfo/windowingSystem.js'
 
 system()
 bios()
 cpu()
 ram()
 storage()
+windowingSystem()
