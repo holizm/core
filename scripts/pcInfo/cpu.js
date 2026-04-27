@@ -1,16 +1,11 @@
-import { execSync } from 'child_process'
-import { info, check, error } from '../../scripts/logger.js'
-
-function run(cmd) {
-    try {
-        return execSync(cmd).toString().trim()
-    } catch {
-        return ''
-    }
-}
+import {
+    check,
+    error,
+} from '../logger.js'
+import { runOnTerminal } from '../terminal.js'
 
 export default () => {
-    const cpuCores = parseInt(run('nproc')) || 0
+    const cpuCores = parseInt(runOnTerminal('nproc')) || 0
     const desirableCoresCount = 4
 
     if (cpuCores >= desirableCoresCount)
@@ -18,9 +13,9 @@ export default () => {
     else
         error(`You only have ${cpuCores} cores in your CPU. We need at least ${desirableCoresCount} cores`)
 
-    let clockSpeedMHz = run(`lscpu | awk -F: '/^CPU MHz/ { print $2 }' | xargs`)
+    let clockSpeedMHz = runOnTerminal(`lscpu | awk -F: '/^CPU MHz/ { print $2 }' | xargs`)
     if (!clockSpeedMHz)
-        clockSpeedMHz = run(`awk -F: '/^cpu MHz/ { print $2; exit }' /proc/cpuinfo | xargs`)
+        clockSpeedMHz = runOnTerminal(`awk -F: '/^cpu MHz/ { print $2; exit }' /proc/cpuinfo | xargs`)
 
     if (/^[0-9]+(\.[0-9]+)?$/.test(clockSpeedMHz)) {
         const clockSpeedGHz = (parseFloat(clockSpeedMHz) / 1000).toFixed(2)
@@ -29,8 +24,8 @@ export default () => {
         error('Could not determine clock speed')
     }
 
-    const vendor = run(`lscpu | awk -F: '/^Vendor ID/ { print $2 }' | xargs`) || 'Unknown'
-    const modelName = run(`lscpu | awk -F: '/^Model name/ { print $2 }' | xargs`) || 'Unknown'
+    const vendor = runOnTerminal(`lscpu | awk -F: '/^Vendor ID/ { print $2 }' | xargs`) || 'Unknown'
+    const modelName = runOnTerminal(`lscpu | awk -F: '/^Model name/ { print $2 }' | xargs`) || 'Unknown'
 
     // Extract generation from model number
     const genMatch = modelName.match(/i[3579]-(\d{3,4})[A-Z]*/i)

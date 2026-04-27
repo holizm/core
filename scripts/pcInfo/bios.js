@@ -1,5 +1,8 @@
-import { runOnTerminal } from '../../scripts/terminal.js'
-import { info, check, error } from '../../scripts/logger.js'
+import { runOnTerminal } from '../terminal.js'
+import {
+    check,
+    error,
+} from '../logger.js'
 
 export default () => {
     const biosDate = runOnTerminal(`sudo dmidecode -t bios | grep 'Release Date' | awk '{print $3}'`) || 'Unknown'

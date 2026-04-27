@@ -1,16 +1,11 @@
-import { execSync } from 'child_process'
-import { check, error } from '../../scripts/logger.js'
-
-function run(cmd) {
-    try {
-        return execSync(cmd).toString().trim()
-    } catch {
-        return ''
-    }
-}
+import {
+    check,
+    error,
+} from '../logger.js'
+import { runOnTerminal } from '../terminal.js'
 
 export default () => {
-    const lsblkOutput = run('lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | grep 'disk'') || ''
+    const lsblkOutput = runOnTerminal(`lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | grep 'disk'`) || ''
     if (!lsblkOutput) {
         error('Could not detect any storage devices')
         return
