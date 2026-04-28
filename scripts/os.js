@@ -7,6 +7,7 @@ import {
     errorAndExit,
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
+import camelize from "./camelize.js"
 
 export const getOrgRepoFromGit = () => {
     let url = runOnTerminal('git config --get remote.origin.url', {
@@ -20,7 +21,7 @@ export const getOrgRepoFromGit = () => {
 
     return ({
         org: 'projects',
-        repo: url.split('/').reverse()[0],
+        repo: camelize(url.split('/').reverse()[0]),
     })
 
     let repoPath
@@ -33,7 +34,10 @@ export const getOrgRepoFromGit = () => {
         errorAndExit(`Unrecognized git remote format: ${url}`)
     }
 
-    const [org, repo] = repoPath.split('/')
+    let [org, repo] = repoPath.split('/')
+    org = camelize(org)
+    repo = camelize(repo)
+    // todo: remove these camelizing methods later
     return { org, repo }
 }
 
