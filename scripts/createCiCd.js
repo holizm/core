@@ -22,27 +22,27 @@ export default params => {
 
     divide()
 
-    const gitHubActionPath = `${home}/${repo}/.github/workflows/${process}.yaml`
-    replaceVariables(`${home}/core/ciCd/base`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/initialize`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/extractOrgRepo`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/cloneHolism`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, gitHubActionPath, params)
+    const vcsActionPath = `${home}/${repo}/.github/workflows/${process}.yaml`
+    replaceVariables(`${home}/core/ciCd/base`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/initialize`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/extractOrgRepo`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/cloneHolism`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, vcsActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
-    replaceVariablesAndAppend(actionFile, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/start`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/waitForContainer`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/build`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/push`, gitHubActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, gitHubActionPath, params)
+    replaceVariablesAndAppend(actionFile, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/start`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/waitForContainer`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/build`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/push`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, vcsActionPath, params)
 
     const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
-    let content = getContent(gitHubActionPath)
+    let content = getContent(vcsActionPath)
     content = content.replace(/dockerImageNamePlaceHolder/g, dockerImageName)
-    writeFile(gitHubActionPath, content)
+    writeFile(vcsActionPath, content)
 
     success('Created CI/CD')
     divide()
