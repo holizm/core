@@ -18,7 +18,8 @@ export default params => {
         '^site\\w*$'
     ]
 
-    const command = `(cat '${essentialPartsPath}'; echo; cat '${dependenciesPath}'; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | sort)) | sort | uniq`
+    const command = `(cat '${essentialPartsPath}'; echo; cat '${dependenciesPath}'; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/part" \\; -print | cut -d'/' -f5 | sort)) | sort | uniq`
+
     const output = runOnTerminal(command)
     let dependencies = output.split('\n')
 
