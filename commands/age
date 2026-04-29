@@ -23,17 +23,17 @@ const secondsInMonth = secondsInDay * 30
 const months = Math.floor(seconds / secondsInMonth)
 const days = Math.floor((seconds % secondsInMonth) / secondsInDay)
 
-info("")
+info(``)
 info(`${months} months & ${days} days`)
 divide()
 
 if (months < 2) {
-    success("Everything is good. Happy coding!")
+    success(`Everything is good. Happy coding!`)
     divide()
 } else if (months >= 2 && months < 3) {
-    warning("It's better to install everything again. But it's not a force. Do it in your free time.")
+    warning(`It's better to install everything again. But it's not a force. Do it in your free time.`)
     divide()
 } else {
-    error("It's absolutely necessary to install everything again. It's a force. Do it ASAP.")
+    error(`It’s necessary to reinstall everything from scratch. This is mandatory—please take care of it as soon as possible.`)
     divide()
 }
