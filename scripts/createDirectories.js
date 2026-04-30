@@ -1,5 +1,5 @@
 import getDependencies from './getDependencies.js'
-import { createDirIfNotExists } from './os.js'
+import { createDirIfNotExists, removeAndRecreateDir } from './os.js'
 
 export default params => {
     const {
@@ -13,6 +13,9 @@ export default params => {
     const hasSourceDirectory = ['panel', 'site'].includes(processType)
     const hasRunnableDirectory = ['panel'].includes(processType)
     const isApi = processType === 'api'
+    if (isApi) {
+        removeAndRecreateDir('/tmp/spl')
+    }
     const tempDirs = [
         [`/tmp/${repo}`, `${home}/${repo}`],
         [`/tmp/${repo}/common`, `${home}/${repo}/common`],
