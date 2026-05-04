@@ -1,5 +1,7 @@
+
             - name: Copy holism modules
               run: |
+                    rm -rf /tmp/holismModulesInNodeModules
                     mkdir -p /tmp/holismModulesInNodeModules
 
                     for repo in /tmp/build/*; do

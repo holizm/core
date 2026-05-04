@@ -1,6 +1,7 @@
 
             - name: Get the composed code
               run: |
+                    rm -rf /tmp/build
                     mkdir -p /tmp/build
 
                     runnerUser=$(whoami)
