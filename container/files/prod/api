@@ -1,12 +1,13 @@
 FROM nefcanto/api AS builder
 
 USER root
-RUN rm -rf /home/dev/.npm
+RUN chown -R dev:dev /home/dev
 
 USER dev
 COPY --chown=dev:dev . /home/dev
 
 WORKDIR ${processPath}
+RUN ls -ld /home/dev
 RUN npm install --legacy-peer-deps
 
 # FROM nefcanto/api-prod-base:latest
