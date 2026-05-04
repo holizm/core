@@ -1,0 +1,16 @@
+            - name: Copy holism modules
+              run: |
+                    mkdir -p /tmp/holismModulesInNodeModules
+
+                    for repo in /tmp/build/*; do
+                        if [ -d "$repo/$process/node_modules" ]; then
+                            cd "$repo/$process/node_modules"
+
+                            find -type f -name part -not -path '*/*-*/*' | sort | while read file; do
+                                parent=$(dirname "$file")
+                                name=$(basename "$parent")
+
+                                cp -R "$parent" "/tmp/holismModulesInNodeModules/$name"
+                            done
+                        fi
+                    done

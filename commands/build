@@ -11,15 +11,12 @@ import {
     isPanel,
     isSite,
     isWorker,
-    removeAndRecreateDir,
+    replaceVariables,
 } from '../scripts/os.js'
 import {
     clear,
     runStreaming,
 } from '../scripts/terminal.js'
-import getPaths from '../scripts/getPaths.js'
-import ensureDependencies from '../scripts/ensureDependencies.js'
-import extract from '../scripts/extract.js'
 
 clear()
 
@@ -49,6 +46,10 @@ if (isApi(params)) {
 } else {
     warning('Unknown process')
 }
+params.sourceContainerFile = `${params.home}/core/container/files/prod/${params.sourceContainerFile}`
+console.log(params)
+
+replaceVariables(params.sourceContainerFile, params.containerFile, params)
 
 let cmd = `docker --debug build \
 -f ${params.containerFile} \

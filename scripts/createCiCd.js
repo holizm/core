@@ -33,6 +33,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/start`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/waitForContainer`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, vcsActionPath, params)
+    replaceVariablesAndAppend(`${home}/core/ciCd/copyHolismModules`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/build`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, vcsActionPath, params)
