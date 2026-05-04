@@ -1,5 +1,9 @@
 FROM nefcanto/api AS builder
 
+USER root
+RUN rm -rf /home/dev/.npm
+
+USER dev
 COPY --chown=dev:dev . /home/dev
 
 WORKDIR ${processPath}
