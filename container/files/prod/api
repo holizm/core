@@ -1,8 +1,7 @@
 FROM nefcanto/api AS builder
 
-COPY . /home/dev
+COPY --chown=dev:dev . /home/dev
 
-RUN ls -lah /home/dev
 WORKDIR ${processPath}
 RUN npm install --legacy-peer-deps
 
