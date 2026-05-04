@@ -4,15 +4,13 @@
                     rm -rf /tmp/holismModulesInNodeModules
                     mkdir -p /tmp/holismModulesInNodeModules
 
-                    for repo in /tmp/build/*; do
-                        if [ -d "$repo/$process/node_modules" ]; then
-                            cd "$repo/$process/node_modules"
+                    if [ -d "/tmp/build/$repo/$process/node_modules" ]; then
+                        cd "/tmp/build/$repo/$process/node_modules"
 
-                            find -type f -name part -not -path '*/*-*/*' | sort | while read file; do
-                                parent=$(dirname "$file")
-                                name=$(basename "$parent")
+                        find -type f -name part -not -path '*/*-*/*' | sort | while read file; do
+                            parent=$(dirname "$file")
+                            name=$(basename "$parent")
 
-                                cp -R "$parent" "/tmp/holismModulesInNodeModules/$name"
-                            done
-                        fi
-                    done
+                            cp -R "$parent" "/tmp/holismModulesInNodeModules/$name"
+                        done
+                    fi
