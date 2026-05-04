@@ -1,8 +1,8 @@
 
             - name: Copy holism modules
               run: |
-                    rm -rf /tmp/holismModulesInNodeModules
-                    mkdir -p /tmp/holismModulesInNodeModules
+                    rm -rf /tmp/build/holismModulesInNodeModules
+                    mkdir -p /tmp/build/holismModulesInNodeModules
 
                     if [ -d "/tmp/build/$repo/$process/node_modules" ]; then
                         cd "/tmp/build/$repo/$process/node_modules"
@@ -11,6 +11,6 @@
                             parent=$(dirname "$file")
                             name=$(basename "$parent")
 
-                            cp -R "$parent" "/tmp/holismModulesInNodeModules/$name"
+                            cp -R "$parent" "/tmp/build/holismModulesInNodeModules/$name"
                         done
                     fi
