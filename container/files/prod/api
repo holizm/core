@@ -10,9 +10,15 @@ WORKDIR ${processPath}
 RUN ls -ld /home/dev
 RUN npm install --legacy-peer-deps
 
-# FROM nefcanto/api-prod-base:latest
-# COPY --from=builder /home/dev /home/dev
-# COPY --from=builder ${processPath} ${processPath}
-# WORKDIR ${processPath}
-# RUN PATH="${PATH}:/home/dev/core/commands"
-# CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]
+RUN if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
+  mkdir -p "/home/dev/$repo/$process/node_modules" && \
+  find /home/dev/holismModulesInNodeModules -mindepth 1 -maxdepth 1 -type d -exec cp -r {} "/home/dev/$repo/$process/node_modules/" \; && \
+  rm -rf "/home/dev/holismModulesInNodeModules"; \
+fi
+
+FROM nefcanto/api-prod-base:latest
+COPY --from=builder /home/dev /home/dev
+COPY --from=builder ${processPath} ${processPath}
+WORKDIR ${processPath}
+RUN PATH="${PATH}:/home/dev/core/commands"
+CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]
