@@ -7,10 +7,11 @@
                     if [ -d "/tmp/build/$repo/$process/node_modules" ]; then
                         cd "/tmp/build/$repo/$process/node_modules"
 
-                        find -type f -name part -not -path '*/*-*/*' | sort | while read file; do
+                        find -type f -name export.js -not -path '*/*-*/*' | sort | while read file; do
                             parent=$(dirname "$file")
                             name=$(basename "$parent")
 
                             cp -R "$parent" "/tmp/build/holismModulesInNodeModules/$name"
                         done
+                        cp -R "/tmp/build/$repo/$process/node_modules/core" "/tmp/build/holismModulesInNodeModules/core"
                     fi

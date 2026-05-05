@@ -16,9 +16,9 @@ RUN ls -lah /home/dev/holismModulesInNodeModules
 RUN set -e && \
   if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
     echo "Found holismModulesInNodeModules, starting copy..." && \
-    mkdir -p "/home/dev/$repo/$process/node_modules" && \
-    echo "Target node_modules created at /home/dev/$repo/$process/node_modules" && \
-    cp -r /home/dev/holismModulesInNodeModules/* "/home/dev/$repo/$process/node_modules/" && \
+    mkdir -p "/home/dev/${repo}/${process}/node_modules" && \
+    echo "Target node_modules created at /home/dev/${repo}/${process}/node_modules" && \
+    cp -r /home/dev/holismModulesInNodeModules/* "/home/dev/${repo}/${process}/node_modules/" && \
     echo "Copy completed successfully" && \
     rm -rf /home/dev/holismModulesInNodeModules && \
     echo "Source directory removed"; \
