@@ -48,6 +48,7 @@ if (isApi(params)) {
 }
 params.sourceContainerFile = `${params.home}/core/container/files/prod/${params.sourceContainerFile}`
 console.log(params)
+info(params)
 
 replaceVariables(params.sourceContainerFile, params.containerFile, params)
 
