@@ -17,8 +17,9 @@ RUN if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
 fi
 
 FROM nefcanto/api-prod-base:latest
-COPY --from=builder /home/dev /home/dev
-COPY --from=builder ${processPath} ${processPath}
-WORKDIR ${processPath}
-RUN PATH="${PATH}:/home/dev/core/commands"
-CMD [ "/bin/bash", "-c", "node ${processPath}/process.js & tail -f /dev/null" ]
+COPY --from=builder /home/dev /home/node
+RUN chown -R node:node /home/node
+WORKDIR /home/node/${repo}/${process}
+ENV PATH="${PATH}:/home/node/core/commands"
+USER node
+CMD ["node", "/home/node/${repo}/${process}/process.js"]
