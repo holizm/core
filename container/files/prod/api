@@ -19,11 +19,11 @@ RUN if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
   rm -rf "/home/dev/holismModulesInNodeModules"; \
 fi
 
-RUN mkdir -p /home/export && \
-find /home/dev -mindepth 1 -maxdepth 1 -type d -exec cp -a {} /home/export/ \;
+RUN mkdir -p /tmp/export && \
+find /home/dev -mindepth 1 -maxdepth 1 -type d -exec cp -a {} /tmp/export/ \;
 
 FROM nefcanto/api-prod-base:latest
-COPY --from=builder /home/export/. /home/node/
+COPY --from=builder /tmp/export/. /home/node/
 RUN chown -R node:node /home/node
 WORKDIR /home/node/${repo}/${process}
 ENV PATH="${PATH}:/home/node/core/commands"
