@@ -28,4 +28,5 @@ RUN chown -R node:node /home/node
 WORKDIR /home/node/${repo}/${process}
 ENV PATH="${PATH}:/home/node/core/commands"
 USER node
-CMD ["node", "/home/node/${repo}/${process}/process.js"]
+CMD [ "/bin/bash", "-c", "/home/node/${repo}/${process}/process.js & tail -f /dev/null" ]
+# CMD ["node", "/home/node/${repo}/${process}/process.js"]
