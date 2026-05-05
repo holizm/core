@@ -61,4 +61,4 @@ let cmd = `docker --debug build \
 -f ${params.containerFile} \
 -t ${params.imageName} \
 /tmp/build --no-cache --progress=plain`
-runStreaming(cmd)
+// runStreaming(cmd)
