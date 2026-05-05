@@ -21,7 +21,7 @@ import {
 clear()
 
 divide()
-info('holism build')
+info('holism build 2')
 divide()
 info('holism build after first info')
 
