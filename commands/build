@@ -23,13 +23,17 @@ clear()
 divide()
 info('holism build')
 divide()
+info('holism build after first info')
 
 let params = {}
 Object.assign(params, process.env)
+info('assigned params')
 params.containerFile = `/tmp/build/container`
 params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
+info('added file and image name')
 
 divide()
+info('deciding for type of process')
 
 if (isApi(params)) {
     params.sourceContainerFile = 'api'
@@ -46,6 +50,7 @@ if (isApi(params)) {
 } else {
     warning('Unknown process')
 }
+info('decided')
 params.sourceContainerFile = `${params.home}/core/container/files/prod/${params.sourceContainerFile}`
 console.log(params)
 info(params)
