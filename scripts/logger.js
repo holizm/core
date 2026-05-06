@@ -24,7 +24,6 @@ const formatError = error => {
 
 const log = (color, toStderr, ...args) => {
     const stack = getStack()
-    console.log(stack)
     const colorCodeStart = color
     const colorCodeReset = '\x1b[0m'
     const message = args.map(arg => {
