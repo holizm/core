@@ -19,3 +19,5 @@
                     done
 
                     docker cp "$container":"$runnerHome/spl" /tmp/build/spl || true
+
+                    ls -lah /tmp/build
