@@ -119,9 +119,10 @@ changePermissions(params)
 let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
 // info(command)
 runOnTerminal(command)
-command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
 if (params.isCiCd) {
-    info(`In CI/CD, we don't see the log of the container.`)
+    info(`Showing last 200 log lines in CI/CD`)
+    command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs --tail=200 --no-color`
+    runOnTerminal(command)
     const envFile = process.env.GITHUB_ENV
     if (envFile) {
         Object.entries(params).forEach(([key, value]) => {
@@ -137,5 +138,6 @@ if (params.isCiCd) {
     }
 }
 else {
+    command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
     await runStreaming(command)
 }
