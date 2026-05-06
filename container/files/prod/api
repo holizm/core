@@ -8,10 +8,10 @@ COPY --chown=dev:dev . /home/dev
 
 WORKDIR /home/dev/${repo}/${process}
 RUN ls -ld /home/dev
-RUN npm install --legacy-peer-deps
-
 RUN ls -lah /home/dev
 RUN ls -lah /home/dev/holismModulesInNodeModules
+
+RUN npm install --legacy-peer-deps
 
 RUN set -e && \
   if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
