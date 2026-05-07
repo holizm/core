@@ -1,5 +1,5 @@
 
             - name: Print compose
-              if: true
+              if: false
               run: |
                     cat /tmp/${repo}/${process}/compose.yaml

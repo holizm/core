@@ -1,6 +1,6 @@
 
             - name: Debug Environment Comparison (Runner vs Container)
-              if: true
+              if: false
               run: |
 
                     runnerUser=$(whoami)

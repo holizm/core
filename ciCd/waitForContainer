@@ -40,3 +40,5 @@
 
                     ls -lah /tmp/$repo
                     ls -lah /tmp/$repo/$process
+
+                    docker exec ${repo}${pascalizedProcess} bash -c "ls -lah ${containerHome}/${repo}/${process}"

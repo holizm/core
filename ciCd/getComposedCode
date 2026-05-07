@@ -16,5 +16,3 @@
                     done
 
                     docker cp "$container":"$containerHome/spl" /tmp/build/spl || true
-
-                    ls -lah /tmp/build
