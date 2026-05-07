@@ -2,4 +2,5 @@
             - name: Build the image
               run: |
                     cd /tmp/build
+                    ls -lah
                     ./core/commands/build
