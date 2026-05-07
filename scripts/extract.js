@@ -47,7 +47,7 @@ export default params => {
         errorAndExit('This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.')
     }
 
-    if (org[0] !== org[0].toLowerCase() && org !== 'HolismProjects')
+    if (org[0] !== org[0].toLowerCase() && camelize(org) !== 'holismProjects')
         errorAndExit('Invalid Organization. Organization name should start with a lowercase letter.', org)
 
     const depth = getDepth()
