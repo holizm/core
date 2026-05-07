@@ -3,6 +3,7 @@ import { createDirIfNotExists, removeAndRecreateDir } from './os.js'
 
 export default params => {
     const {
+        containerHome,
         extraDirectories,
         home,
         process,

@@ -7,14 +7,15 @@ export default params => {
     let {
         commonPath,
         connectionStringsPath,
-        privateSettingsPath,
-        publicSettingsPath,
-        settingsOverridePath,
+        containerHome,
         home,
+        privateSettingsPath,
         process,
         processPath,
         processType,
+        publicSettingsPath,
         repo,
+        settingsOverridePath,
     } = params
     const hasPublicSide = ['panel', 'site'].includes(processType)
     const items = [
