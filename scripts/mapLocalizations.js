@@ -14,7 +14,8 @@ export default params => {
         `${home}/site/localization`,
     ]
     for (const item of coreLocalizations) {
-        params.addVolume(item, item)
+        const rightSide = item.replace(home, containerHome)
+        params.addVolume(item, rightSide)
     }
     const findCommand = `
         find ${home} -type d -name '.git' 2>/dev/null |
