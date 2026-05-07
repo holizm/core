@@ -3,6 +3,7 @@ import getDependencies from './getDependencies.js'
 
 export default params => {
     const {
+        containerHome,
         home,
         repo,
     } = params
@@ -27,7 +28,8 @@ export default params => {
     const items = runOnTerminal(findCommand).split('\n')
     for (const item of items) {
         if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {
-            const rightSide = item.replace(`/${repo}`, '')
+            let rightSide = item.replace(`/${repo}`, '')
+            rightSide = item.replace(home, containerHome)
             params.addVolume(item, rightSide)
         }
     }
