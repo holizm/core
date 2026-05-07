@@ -20,7 +20,7 @@ export const getOrgRepoFromGit = () => {
     if (url.endsWith('.git')) url = url.slice(0, -4)
 
     return ({
-        org: 'projects',
+        org: camelize(url.split(':')[1].split('/')[0]),
         repo: camelize(url.split('/').reverse()[0]),
     })
 
