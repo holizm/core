@@ -51,6 +51,7 @@ divide()
 
 let params = extract()
 params.isCiCd = process.env.GITHUB_ACTIONS === 'true'
+params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
 
 params = {
     ...params,
@@ -116,7 +117,6 @@ if (isAccounts(params)) {
 
 changePermissions(params)
 
-params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
 let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
 runOnTerminal(command)
 if (params.isCiCd) {
