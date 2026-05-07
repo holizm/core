@@ -4,11 +4,8 @@
                     rm -rf /tmp/build
                     mkdir -p /tmp/build
 
-                    runnerUser=$(whoami)
-                    runnerHome="/home/$runnerUser"
-
                     docker exec "$container" bash -c "
-                        for dir in $runnerHome/*; do
+                        for dir in $containerHome/*; do
                             if [ -d \"\$dir\" ]; then
                                 echo \$dir
                             fi
@@ -18,6 +15,6 @@
                         docker cp "$container":"$repo" "/tmp/build/$name"
                     done
 
-                    docker cp "$container":"$runnerHome/spl" /tmp/build/spl || true
+                    docker cp "$container":"$containerHome/spl" /tmp/build/spl || true
 
                     ls -lah /tmp/build
