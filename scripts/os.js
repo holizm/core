@@ -15,14 +15,20 @@ export const getOrgRepoFromGit = () => {
         throwOnError: false,
         hideError: true,
     })
-
     if (!url) errorAndExit('Not a git repo')
-
     if (url.endsWith('.git')) url = url.slice(0, -4)
-
-    const orgRepo = {
-        org: camelize(url.split(':')[1].split('/')[0]),
-        repo: camelize(url.split('/').reverse()[0]),
+    let orgRepo
+    if (url.startsWith('https')) {
+        const parts = url.split('/')
+        orgRepo = {
+            org: camelize(parts[3]),
+            repo: camelize(parts[4].replace('.git', '')),
+        }
+    } else {
+        orgRepo = {
+            org: camelize(url.split(':')[1].split('/')[0]),
+            repo: camelize(url.split('/').reverse()[0].replace('.git', '')),
+        }
     }
     info(url, orgRepo)
     return orgRepo
