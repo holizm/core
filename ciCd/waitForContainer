@@ -37,3 +37,6 @@
 
                     echo "Showing last 200 log lines in CI/CD"
                     docker compose -p ${lowercaseRepo}-${lowercaseProcess} -f ${composeFile} logs --tail=200 --no-color
+
+                    ls -lah /tmp/$repo
+                    ls -lah /tmp/$repo/$process
