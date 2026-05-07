@@ -34,3 +34,6 @@
 
                     echo "container=$container" >> $GITHUB_ENV
                     echo "state=$state" >> $GITHUB_ENV
+
+                    echo Showing last 200 log lines in CI/CD`
+                    docker compose -p ${lowercaseRepo}-${lowercaseProcess} -f ${composeFile} logs --tail=200 --no-color
