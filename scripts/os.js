@@ -30,7 +30,6 @@ export const getOrgRepoFromGit = () => {
             repo: camelize(url.split('/').reverse()[0].replace('.git', '')),
         }
     }
-    info(url, orgRepo)
     return orgRepo
 
     let repoPath

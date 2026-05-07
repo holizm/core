@@ -43,9 +43,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/push`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, vcsActionPath, params)
 
-    const dockerImageName = `${lowercaseOrg}/${lowercaseRepo}/${lowercaseProcess}`
     let content = getContent(vcsActionPath)
-    content = content.replace(/dockerImageNamePlaceHolder/g, dockerImageName)
     writeFile(vcsActionPath, content)
 
     success('Created CI/CD')
