@@ -5,6 +5,7 @@ import path from 'path'
 import {
     error,
     errorAndExit,
+    info,
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
 import camelize from "./camelize.js"
@@ -23,7 +24,7 @@ export const getOrgRepoFromGit = () => {
         org: camelize(url.split(':')[1].split('/')[0]),
         repo: camelize(url.split('/').reverse()[0]),
     }
-    console.log(orgRepo)
+    info(orgRepo)
     return orgRepo
 
     let repoPath
