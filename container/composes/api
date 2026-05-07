@@ -21,44 +21,44 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
-            - ${containerHome}/packages/api:${containerHome}/.npm
+            - ${home}/packages/api:${containerHome}/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
             - /tmp/${repo}/storage:/tmp/${repo}storage
 
             - /etc/localtime:/etc/localtime:ro
             - /etc/timezone:/etc/timezone:ro
 
-            - ${containerHome}/core:${containerHome}/core
-            - ${containerHome}/core:${containerHome}/spl/core
-            - ${containerHome}/fonts:${containerHome}/fonts
-            - ${containerHome}/cloud:${containerHome}/cloud
-            - ${containerHome}/etl:${containerHome}/etl
-            - ${containerHome}/panel/localization:${containerHome}/panel/localization
-            - ${containerHome}/site/localization:${containerHome}/site/localization
+            - ${home}/core:${containerHome}/core
+            - ${home}/core:${containerHome}/spl/core
+            - ${home}/fonts:${containerHome}/fonts
+            - ${home}/cloud:${containerHome}/cloud
+            - ${home}/etl:${containerHome}/etl
+            - ${home}/panel/localization:${containerHome}/panel/localization
+            - ${home}/site/localization:${containerHome}/site/localization
 
-            - ${containerHome}/generation/common:${containerHome}/generation/common
-            - ${containerHome}/generation/database:${containerHome}/generation/database
-            - ${containerHome}/generation/order:${containerHome}/generation/order
-            - ${containerHome}/generation/process.js:${containerHome}/generation/process.js
+            - ${home}/generation/common:${containerHome}/generation/common
+            - ${home}/generation/database:${containerHome}/generation/database
+            - ${home}/generation/order:${containerHome}/generation/order
+            - ${home}/generation/process.js:${containerHome}/generation/process.js
 
-            - ${containerHome}/migration/adHoc:${containerHome}/migration/adHoc
-            - ${containerHome}/migration/environment.js:${containerHome}/migration/environment.js
-            - ${containerHome}/migration/process.js:${containerHome}/migration/process.js
-            - ${containerHome}/migration/migrators:${containerHome}/migration/migrators
+            - ${home}/migration/adHoc:${containerHome}/migration/adHoc
+            - ${home}/migration/environment.js:${containerHome}/migration/environment.js
+            - ${home}/migration/process.js:${containerHome}/migration/process.js
+            - ${home}/migration/migrators:${containerHome}/migration/migrators
 
-            - ${containerHome}/toMongo/importers:${containerHome}/toMongo/importers
-            - ${containerHome}/etl:${containerHome}/toMongo/etl
-            - ${containerHome}/toMongo/process.js:${containerHome}/toMongo/process.js
+            - ${home}/toMongo/importers:${containerHome}/toMongo/importers
+            - ${home}/etl:${containerHome}/toMongo/etl
+            - ${home}/toMongo/process.js:${containerHome}/toMongo/process.js
 
-            - ${containerHome}/query/partDropper.js:${containerHome}/query/partDropper.js
-            - ${containerHome}/query/process.js:${containerHome}/query/process.js
+            - ${home}/query/partDropper.js:${containerHome}/query/partDropper.js
+            - ${home}/query/process.js:${containerHome}/query/process.js
 
-            - ${containerHome}/${repo}/common/tenants:${containerHome}/${repo}/common/tenants
-            - ${containerHome}/${repo}/common/initial.js:${containerHome}/${repo}/common/initial.js
-            - ${containerHome}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
+            - ${home}/${repo}/common/tenants:${containerHome}/${repo}/common/tenants
+            - ${home}/${repo}/common/initial.js:${containerHome}/${repo}/common/initial.js
+            - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
 
-            - ${containerHome}/secrets/common.json:${containerHome}/${repo}/${process}/common.json
-            - ${containerHome}/secrets/${repo}.json:${containerHome}/${repo}/${process}/secrets.json
+            - ${home}/secrets/common.json:${containerHome}/${repo}/${process}/common.json
+            - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/secrets.json
             ${volumes}
             - /tmp/${repo}/${process}/.vscode:${containerHome}/${repo}/${process}/.vscode
         ports:

@@ -4,7 +4,7 @@ services:
         container_name: ${repo}Databases
         hostname: database
         volumes:
-            - ${home}/core:${home}/core
+            - ${home}/core:${containerHome}/core
             - /var/tmp/${repo}/databases/data:/data/db
             - /var/tmp/${repo}/databases/replicaKey:/etc/mongo-keyfile
         environment:

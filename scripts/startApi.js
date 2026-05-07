@@ -57,6 +57,7 @@ const linkVsCodeFiles = params => {
 
 const mapDependencies = params => {
     let {
+        containerHome,
         home,
         nodeModules,
         org,
@@ -78,9 +79,9 @@ const mapDependencies = params => {
         const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
         if (!fs.existsSync(partFilePath)) continue
 
-        params.addVolume(`${dependencyBase}`, `${home}/spl/${dependency}`)
-        params.addVolume(`${dependencyBase}`, `${home}/${dependency}/api`)
-        params.addVolume(`${partFilePath}`, `${home}/${dependency}/part`)
+        params.addVolume(`${dependencyBase}`, `${containerHome}/spl/${dependency}`)
+        params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
+        params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
 
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
@@ -116,13 +117,13 @@ const mapRunnable = params => {
     const links = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
     for (const item of [...dirs, ...links]) if (item) params.addVolume(`${item}`, `${item}`)
     if (fs.existsSync(`${commonPath}/api`))
-        params.addVolume(`${commonPath}/api`, `${home}/${repo}/${process}/commonApi`)
+        params.addVolume(`${commonPath}/api`, `${containerHome}/${repo}/${process}/commonApi`)
     const etlPath = path.join(`${home}/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
         for (const child of fs.readdirSync(etlPath)) {
             const childPath = path.join(etlPath, child)
             if (fs.statSync(childPath).isDirectory())
-                params.addVolume(`${childPath}`, `${home}/toMongo/runnableImporters/${child}`)
+                params.addVolume(`${childPath}`, `${containerHome}/toMongo/runnableImporters/${child}`)
         }
     }
 }
@@ -130,11 +131,12 @@ const mapRunnable = params => {
 const mapRunnableMigrations = params => {
     let { commonPath } = params
     if (fs.existsSync(`${commonPath}/migration`))
-        params.addVolume(`${commonPath}/migration`, `${home}/migration/runnable`)
+        params.addVolume(`${commonPath}/migration`, `${containerHome}/migration/runnable`)
 }
 
 const mapCore = params => {
     let {
+        containerHome,
         home,
         nodeModules,
         process,
@@ -153,8 +155,8 @@ const mapCore = params => {
     for (const coreItem of coreItems) {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`)
     }
-    params.addVolume(`${home}/api`, `${home}/api`)
-    params.addVolume(`${home}/${repo}/${process}/process.js`, `${home}/${repo}/${process}/process.js`)
+    params.addVolume(`${home}/api`, `${containerHome}/api`)
+    params.addVolume(`${home}/${repo}/${process}/process.js`, `${containerHome}/${repo}/${process}/process.js`)
 }
 
 const createApiContainer = params => {
@@ -168,6 +170,7 @@ const createApiContainer = params => {
 
 export default params => {
     const {
+        containerHome,
         home,
         repo,
     } = params
@@ -180,10 +183,10 @@ export default params => {
     createDirectories({
         ...params,
         extraDirectories: [
-            [`/tmp/migration`, `${home}/migration`],
-            [`/tmp/generation`, `${home}/generation`],
-            [`/tmp/query`, `${home}/query`],
-            [`/tmp/toMongo`, `${home}/toMongo`],
+            [`/tmp/migration`, `${containerHome}/migration`],
+            [`/tmp/generation`, `${containerHome}/generation`],
+            [`/tmp/query`, `${containerHome}/query`],
+            [`/tmp/toMongo`, `${containerHome}/toMongo`],
         ]
     })
     removeRootOwnedDirectories(params)
