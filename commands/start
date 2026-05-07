@@ -116,7 +116,7 @@ if (isAccounts(params)) {
 
 changePermissions(params)
 
-let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
+let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}${params.isCiCd ? ' --user 1001:1001' : ''} up --remove-orphans -d`
 // info(command)
 runOnTerminal(command)
 if (params.isCiCd) {
