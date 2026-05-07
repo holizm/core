@@ -63,17 +63,17 @@ const mapDependencies = params => {
         }
 
         if (runnablePart) {
-            params.addVolume(`${home}/${repo}/${dependency}`, `${home}/${repo}/${dependency}`)
+            params.addVolume(`${home}/${repo}/${dependency}`, `${containerHome}/${repo}/${dependency}`)
         } else {
             params.addVolume(dependencyBase, dependencyBase)
         }
 
         if (process.includes('admin')) {
-            params.addVolume(`${dependencyBase}/admin`, `${home}/${repo}/${process}/src/${dependency}/admin`)
+            params.addVolume(`${dependencyBase}/admin`, `${containerHome}/${repo}/${process}/src/${dependency}/admin`)
         }
 
         if (fs.existsSync(path.join(dependencyBase, 'common'))) {
-            params.addVolume(`${dependencyBase}/common`, `${home}/${repo}/${process}/src/${dependency}/common`)
+            params.addVolume(`${dependencyBase}/common`, `${containerHome}/${repo}/${process}/src/${dependency}/common`)
         }
     }
 }
@@ -90,7 +90,7 @@ const mapRunnable = params => {
     for (const item of dirs) {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
-        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${home}/${repo}/${process}/src/runnable/${replacedItem}`)
+        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${containerHome}/${repo}/${process}/src/runnable/${replacedItem}`)
     }
 
     const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
@@ -104,7 +104,7 @@ const mapRunnable = params => {
         const replacedItem = item.replace(/^.\//, '')
         if (!replacedItem) continue
 
-        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${home}/${repo}/${process}/src/${replacedItem}/${role}`)
+        params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${containerHome}/${repo}/${process}/src/${replacedItem}/${role}`)
     }
 }
 
@@ -120,8 +120,8 @@ const mapSecrets = params => {
     const secretFile = `${home}/secrets/${repo}.json`
     if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
 
-    params.addVolume(`${commonFile}`, `${home}/${repo}/${process}/public/common.json`)
-    params.addVolume(`${secretFile}`, `${home}/${repo}/${process}/public/repo.json`)
+    params.addVolume(`${commonFile}`, `${containerHome}/${repo}/${process}/public/common.json`)
+    params.addVolume(`${secretFile}`, `${containerHome}/${repo}/${process}/public/repo.json`)
 }
 
 export default params => {
@@ -149,10 +149,10 @@ export default params => {
         tenantsPath,
     } = params
     if (isFile(tenantsPath)) {
-        params.addVolume(`${tenantsPath}`, `${home}/${repo}/${process}/public/tenants`)
+        params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/public/tenants`)
     }
     if (isDir(menusDirectoryPath)) {
-        params.addVolume(`${menusDirectoryPath}`, `${home}/${repo}/${process}/src/menus`)
+        params.addVolume(`${menusDirectoryPath}`, `${containerHome}/${repo}/${process}/src/menus`)
     }
 
     params.joinVolumes()

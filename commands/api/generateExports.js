@@ -6,12 +6,13 @@ import { warning } from '../../scripts/logger.js'
 
 const [, , ...directories] = process.argv
 const {
+    containerHome,
     home,
     process: proc,
     repo,
 } = process.env
 
-const nodeModules = `${home}/${repo}/${proc}/node_modules`
+const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
 
 const getFiles = async root => {
     const command = `find ${root} -mindepth 2 -type f -name '*.js'`

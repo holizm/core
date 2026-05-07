@@ -17,19 +17,19 @@ export default params => {
         removeAndRecreateDir('/tmp/spl')
     }
     const tempDirs = [
-        [`/tmp/${repo}`, `${home}/${repo}`],
-        [`/tmp/${repo}/common`, `${home}/${repo}/common`],
-        [`/tmp/${repo}/${process}`, `${home}/${repo}/${process}`],
-        [`/tmp/${repo}/${process}/ast`, `${home}/${repo}/${process}/ast`],
-        [`/tmp/${repo}/${process}/node_modules`, `${home}/${repo}/${process}/node_modules`],
+        [`/tmp/${repo}`, `${containerHome}/${repo}`],
+        [`/tmp/${repo}/common`, `${containerHome}/${repo}/common`],
+        [`/tmp/${repo}/${process}`, `${containerHome}/${repo}/${process}`],
+        [`/tmp/${repo}/${process}/ast`, `${containerHome}/${repo}/${process}/ast`],
+        [`/tmp/${repo}/${process}/node_modules`, `${containerHome}/${repo}/${process}/node_modules`],
         `/var/tmp/${repo}`,
         `/var/tmp/${repo}/${processType}`,
         `/var/tmp/${repo}/${processType}/nodeModules`,
         `/var/tmp/${processType}`,
         `/var/tmp/${processType}/nodeModules`,
-        [`/tmp/spl`, `${home}/spl`],
-        [`${home}/packages`, `${home}/packages`],
-        [`${home}/packages/${processType}`, `${home}/packages/${processType}`],
+        [`/tmp/spl`, `${containerHome}/spl`],
+        [`${home}/packages`, `${containerHome}/packages`],
+        [`${home}/packages/${processType}`, `${containerHome}/packages/${processType}`],
     ]
     if (extraDirectories) {
         tempDirs.push(...extraDirectories)

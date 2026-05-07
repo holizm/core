@@ -6,12 +6,13 @@ import { error } from '../../scripts/logger.js'
 
 const [, , ...directories] = process.argv
 const {
+    containerHome,
     home,
     process: proc,
     repo,
 } = process.env
 
-const nodeModules = `${home}/${repo}/${proc}/node_modules`
+const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
 
 const getImportedParts = directory => {
     try {

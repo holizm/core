@@ -27,12 +27,12 @@ export default params => {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
         const isOverride = filename === 'settingsOverride.json'
         if (isFile(sourcePath))
-            params.addVolume(`${isOverride ? processPath : commonPath}/${filename}`, `${home}/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
+            params.addVolume(`${isOverride ? processPath : commonPath}/${filename}`, `${containerHome}/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
     }
     const commonFile = `${home}/secrets/common.json`
     const repoFile = `${home}/secrets/${repo}.json`
     writeFileIfNotExists(commonFile, '{}')
     writeFileIfNotExists(repoFile, '{}')
-    params.addVolume(commonFile, `${home}/${repo}/${process}/common.json`)
-    params.addVolume(repoFile, `${home}/${repo}/${process}/repo.json`)
+    params.addVolume(commonFile, `${containerHome}/${repo}/${process}/common.json`)
+    params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json`)
 }

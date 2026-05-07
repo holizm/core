@@ -86,13 +86,13 @@ const mapDependencies = params => {
 
         const pluginFile = `${dependencyBase}/pages/plugin.ts`
         if (isFile(pluginFile)) {
-            params.addVolume(`${dependencyBase}/pages/plugin.ts`, `${home}/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`)
+            params.addVolume(`${dependencyBase}/pages/plugin.ts`, `${containerHome}/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`)
         }
 
         ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
             const partPath = `${dependencyBase}/${part}`
             if (isDir(partPath) && fs.readdirSync(partPath).length > 0) {
-                params.addVolume(`${dependencyBase}/${part}`, `${home}/${repo}/${process}/src/parts/${dependency}/${part}`)
+                params.addVolume(`${dependencyBase}/${part}`, `${containerHome}/${repo}/${process}/src/parts/${dependency}/${part}`)
             }
         })
     }
@@ -109,14 +109,14 @@ const mapPages = params => {
     const files = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).split('\n')
     files.forEach(path => {
         const fileName = basename(path)
-        params.addVolume(`${path}`, `${home}/${repo}/${process}/src/routes/${fileName}`)
+        params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
     })
 
     const dirs = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         if (path.trim()) {
             const fileName = basename(path)
-            params.addVolume(`${path}`, `${home}/${repo}/${process}/src/routes/${fileName}`)
+            params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
         }
     })
 }
@@ -132,7 +132,7 @@ const mapParts = params => {
     const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
     dirs.forEach(path => {
         const name = basename(path)
-        params.addVolume(`${path}`, `${home}/${repo}/${process}/src/pageParts/${name}`)
+        params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/pageParts/${name}`)
     })
 }
 
@@ -148,7 +148,7 @@ const mapOthers = params => {
     otherDirs.forEach(part => {
         const dirPath = `${processPath}/${part}`
         if (isDir(dirPath)) {
-            params.addVolume(`${processPath}/${part}`, `${home}/${repo}/${process}/src/${part}`)
+            params.addVolume(`${processPath}/${part}`, `${containerHome}/${repo}/${process}/src/${part}`)
         }
     })
 }
@@ -188,10 +188,10 @@ export default params => {
         repo,
         tenantsPath,
     } = params
-    params.addVolume(`${home}/site/src/routes/clearCache`, `${home}/${repo}/${process}/src/routes/clear-cache`)
-    params.addVolume(`${home}/site/src/routes/showCache`, `${home}/${repo}/${process}/src/routes/show-cache`)
+    params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
+    params.addVolume(`${home}/site/src/routes/showCache`, `${containerHome}/${repo}/${process}/src/routes/show-cache`)
     if (tenantsPath && isFile(tenantsPath)) {
-        params.addVolume(`${tenantsPath}`, `${home}/${repo}/${process}/tenants`)
+        params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
     params.joinVolumes()
     const composeTemplatePath = `${home}/core/container/composes/site`
