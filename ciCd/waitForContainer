@@ -45,5 +45,3 @@
 
                     echo "ls -lah ${containerHome}/${repo}/${process} inside container"
                     docker exec ${repo}${pascalizedProcess} bash -c "ls -lah ${containerHome}/${repo}/${process}"
-                    echo "whoami inside container"
-                    docker exec ${repo}${pascalizedProcess} bash -c "whoami"
