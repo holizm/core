@@ -74,6 +74,7 @@ if (!params.isCiCd) {
 createNetwork(params)
 ensureDependencies(params)
 params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
+params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 divide()
 
 params.volumes = []

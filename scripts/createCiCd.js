@@ -14,9 +14,6 @@ export default params => {
         home,
         processType,
         repo,
-        lowercaseOrg,
-        lowercaseRepo,
-        lowercaseProcess,
         process,
     } = params
 
