@@ -65,6 +65,7 @@ export default params => {
     params = {
         ...params,
         home,
+        containerHome: '/home/dev',
         org,
         repo,
     }

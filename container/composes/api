@@ -3,17 +3,17 @@ services:
         image: nefcanto/api:latest
         container_name: ${repo}${pascalizedProcess}
         hostname: api
-        working_dir: ${home}/${repo}/${process}
+        working_dir: ${containerHome}/${repo}/${process}
         environment:
-            - home=${home}
+            - home=${containerHome}
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=${home}/${repo}/${process}
+            - processPath=${containerHome}/${repo}/${process}
             - apiOrg=${org}
             - apiRepo=${repo}
             - apiProcess=${process}
-            - apiProcessPath=${home}/${repo}/${process}
+            - apiProcessPath=${containerHome}/${repo}/${process}
             - environment=development
             - host=${host}
             - migrationPath=/tmp/${repo}/migration
@@ -21,51 +21,51 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
-            - ${home}/packages/api:${home}/.npm
+            - ${containerHome}/packages/api:${containerHome}/.npm
             - /tmp/${repo}/migration:/tmp/${repo}/migration
             - /tmp/${repo}/storage:/tmp/${repo}storage
 
             - /etc/localtime:/etc/localtime:ro
             - /etc/timezone:/etc/timezone:ro
 
-            - ${home}/core:${home}/core
-            - ${home}/core:${home}/spl/core
-            - ${home}/fonts:${home}/fonts
-            - ${home}/cloud:${home}/cloud
-            - ${home}/etl:${home}/etl
-            - ${home}/panel/localization:${home}/panel/localization
-            - ${home}/site/localization:${home}/site/localization
+            - ${containerHome}/core:${containerHome}/core
+            - ${containerHome}/core:${containerHome}/spl/core
+            - ${containerHome}/fonts:${containerHome}/fonts
+            - ${containerHome}/cloud:${containerHome}/cloud
+            - ${containerHome}/etl:${containerHome}/etl
+            - ${containerHome}/panel/localization:${containerHome}/panel/localization
+            - ${containerHome}/site/localization:${containerHome}/site/localization
 
-            - ${home}/generation/common:${home}/generation/common
-            - ${home}/generation/database:${home}/generation/database
-            - ${home}/generation/order:${home}/generation/order
-            - ${home}/generation/process.js:${home}/generation/process.js
+            - ${containerHome}/generation/common:${containerHome}/generation/common
+            - ${containerHome}/generation/database:${containerHome}/generation/database
+            - ${containerHome}/generation/order:${containerHome}/generation/order
+            - ${containerHome}/generation/process.js:${containerHome}/generation/process.js
 
-            - ${home}/migration/adHoc:${home}/migration/adHoc
-            - ${home}/migration/environment.js:${home}/migration/environment.js
-            - ${home}/migration/process.js:${home}/migration/process.js
-            - ${home}/migration/migrators:${home}/migration/migrators
+            - ${containerHome}/migration/adHoc:${containerHome}/migration/adHoc
+            - ${containerHome}/migration/environment.js:${containerHome}/migration/environment.js
+            - ${containerHome}/migration/process.js:${containerHome}/migration/process.js
+            - ${containerHome}/migration/migrators:${containerHome}/migration/migrators
 
-            - ${home}/toMongo/importers:${home}/toMongo/importers
-            - ${home}/etl:${home}/toMongo/etl
-            - ${home}/toMongo/process.js:${home}/toMongo/process.js
+            - ${containerHome}/toMongo/importers:${containerHome}/toMongo/importers
+            - ${containerHome}/etl:${containerHome}/toMongo/etl
+            - ${containerHome}/toMongo/process.js:${containerHome}/toMongo/process.js
 
-            - ${home}/query/partDropper.js:${home}/query/partDropper.js
-            - ${home}/query/process.js:${home}/query/process.js
+            - ${containerHome}/query/partDropper.js:${containerHome}/query/partDropper.js
+            - ${containerHome}/query/process.js:${containerHome}/query/process.js
 
-            - ${home}/${repo}/common/tenants:${home}/${repo}/common/tenants
-            - ${home}/${repo}/common/initial.js:${home}/${repo}/common/initial.js
-            - ${home}/${repo}/common/dependencies:${home}/${repo}/common/dependencies
+            - ${containerHome}/${repo}/common/tenants:${containerHome}/${repo}/common/tenants
+            - ${containerHome}/${repo}/common/initial.js:${containerHome}/${repo}/common/initial.js
+            - ${containerHome}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
 
-            - ${home}/secrets/common.json:${home}/${repo}/${process}/common.json
-            - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/secrets.json
+            - ${containerHome}/secrets/common.json:${containerHome}/${repo}/${process}/common.json
+            - ${containerHome}/secrets/${repo}.json:${containerHome}/${repo}/${process}/secrets.json
             ${volumes}
-            - /tmp/${repo}/${process}/.vscode:${home}/${repo}/${process}/.vscode
+            - /tmp/${repo}/${process}/.vscode:${containerHome}/${repo}/${process}/.vscode
         ports:
             - "${randomPort}:5000"
         command: |
             bash -lc '
-            export PATH=${home}/core/commands/api:${home}/core/commands:$PATH
+            export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
             merge api
             if [ "${isCiCd}" != "true" ]; then
@@ -75,7 +75,7 @@ services:
                 prepare toMongo
                 initialize
                 monitor &
-                cd ${home}/${repo}/${process}
+                cd ${containerHome}/${repo}/${process}
                 nodemon --watch /${repo} process.js &
             fi
             tail -f /dev/null
