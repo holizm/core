@@ -17,11 +17,11 @@ export default params => {
         params.addVolume(item, item)
     }
     const findCommand = `
-        find ${home} -type d -name '.git' 2>/dev/null | 
+        find ${home} -type d -name '.git' 2>/dev/null |
         while read gitdir; do
             repoDir=$(dirname $gitdir)
             find $repoDir -type d -name localization
-        done | 
+        done |
         sort
     `
     const dependencies = getDependencies(params)
