@@ -67,8 +67,8 @@ services:
             bash -lc '
             export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
-            merge api
             if [ "${isCiCd}" != "true" ]; then
+                merge api
                 prepare generation
                 prepare migration
                 prepare query
@@ -77,6 +77,8 @@ services:
                 monitor &
                 cd ${containerHome}/${repo}/${process}
                 nodemon --watch /${repo} process.js &
+            else
+                sudo merge api
             fi
             tail -f /dev/null
             '
