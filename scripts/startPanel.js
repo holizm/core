@@ -42,6 +42,7 @@ const createNonExistentFiles = params => {
 
 const mapDependencies = params => {
     let {
+        containerHome,
         home,
         process,
         repo,
@@ -110,6 +111,7 @@ const mapRunnable = params => {
 
 const mapSecrets = params => {
     let {
+        containerHome,
         home,
         process,
         repo,
@@ -142,6 +144,7 @@ export default params => {
 
     const {
         composeFile,
+        containerHome,
         home,
         menusDirectoryPath,
         process,

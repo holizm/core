@@ -109,6 +109,7 @@ const mapDependencies = params => {
 const mapRunnable = params => {
     let {
         commonPath,
+        containerHome,
         home,
         process,
         repo,
@@ -165,6 +166,7 @@ const createApiContainer = params => {
         home,
     } = params
     const composeTemplatePath = `${home}/core/container/composes/api`
+
     replaceVariables(composeTemplatePath, composeFile, params)
 }
 
