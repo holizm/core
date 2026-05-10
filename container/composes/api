@@ -7,6 +7,7 @@ services:
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
+            - containerHome=${containerHome}
             - org=${org}
             - repo=${repo}
             - process=${process}
