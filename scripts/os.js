@@ -8,7 +8,7 @@ import {
     info,
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
-import camelize from "./camelize.js"
+import camelize from './camelize.js'
 
 export const getOrgRepoFromGit = () => {
     let url = runOnTerminal('git config --get remote.origin.url', {

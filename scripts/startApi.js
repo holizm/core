@@ -166,6 +166,7 @@ const createApiContainer = params => {
         home,
     } = params
     const composeTemplatePath = `${home}/core/container/composes/api`
+
     replaceVariables(composeTemplatePath, composeFile, params)
 }
 
