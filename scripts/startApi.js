@@ -176,7 +176,10 @@ export default params => {
         home,
         repo,
     } = params
-    if (isEtl(params)) info('Setting up ETL')
+    if (isEtl(params)) {
+        info('Setting up ETL')
+        params.isEtl = true
+    }
     else info('Setting up API')
     divide()
     params.processType = 'api'

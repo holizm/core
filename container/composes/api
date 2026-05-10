@@ -75,9 +75,13 @@ services:
                 prepare query
                 prepare toMongo
                 initialize
-                monitor &
-                cd ${containerHome}/${repo}/${process}
-                nodemon --watch /${repo} process.js &
+                if [ "${isEtl}" == "true" ]; then
+                    echo "ETL"
+                else
+                    monitor &
+                    cd ${containerHome}/${repo}/${process}
+                    nodemon --watch /${repo} process.js &
+                fi
             fi
             tail -f /dev/null
             '
