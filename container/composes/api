@@ -69,12 +69,13 @@ services:
             export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${randomPort}"
             merge api
+            initialize
             if [ "${isCiCd}" != "true" ]; then
                 prepare generation
                 prepare migration
                 prepare query
                 prepare toMongo
-                initialize
+                install
                 if [ "${isEtl}" == "true" ]; then
                     echo "ETL"
                 else

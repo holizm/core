@@ -1,8 +1,3 @@
 #!/usr/bin/env bash
 
 . $home/core/scripts/initializeApiBarrels.sh
-
-if [[ ! -d $home/$repo/$process/node_modules ]] || [[ ! -f $home/$repo/$process/package-lock.json ]]; then
-    cd $home/$repo/$process
-    npm install --legacy-peer-deps
-fi

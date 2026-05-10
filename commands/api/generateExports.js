@@ -16,7 +16,9 @@ const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
 
 const getFiles = async root => {
     const command = `find ${root} -mindepth 2 -type f -name '*.js'`
-    const files = runOnTerminal(command).split('\n')
+    const files = runOnTerminal(command)
+        .split('\n')
+        .filter(Boolean)
     return files
 }
 
