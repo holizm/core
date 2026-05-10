@@ -30,6 +30,9 @@ export const getOrgRepoFromGit = () => {
             repo: camelize(url.split('/').reverse()[0].replace('.git', '')),
         }
     }
+    if (!orgRepo.org) {
+        orgRepo.org = 'na'
+    }
     return orgRepo
 
     let repoPath
@@ -167,7 +170,7 @@ export const isProcess = params => {
 }
 
 export const isAccounts = params => isProcess(params) && path.basename(params.processPath) === 'accounts'
-export const isApi = params => isProcess(params) && (['process.js'].some(f => fs.existsSync(path.join(params.processPath, f))) || path.basename(params.processPath).endsWith('Api'))
+export const isApi = params => isProcess(params) && (['process.js'].some(f => fs.existsSync(path.join(params.processPath, f))) || path.basename(params.processPath).endsWith('Api') || path.basename(params.processPath) === 'etl')
 export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes('worker')
 export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes('Panel')
 export const isSite = params => {

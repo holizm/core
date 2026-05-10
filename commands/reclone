@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+import extract from '../scripts/extract.js'
+
+const {
+    org,
+    repo,
+} = extract()
+console.log(org, repo)

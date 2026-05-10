@@ -42,6 +42,7 @@ const cloneOnce = async (org, repo, dir) => await runOnTerminalAsync(`timeout ${
 const cloneWithRetry = async (org, repo) => {
     const dir = path.join(BASE_DIR, repo)
     if (await pathExists(dir)) {
+        await setVcsIgnore(dir)
         info(`Skipping ${org}/${repo} (already exists)`)
         return
     }

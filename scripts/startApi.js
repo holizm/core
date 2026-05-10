@@ -109,6 +109,7 @@ const mapDependencies = params => {
 const mapRunnable = params => {
     let {
         commonPath,
+        containerHome,
         home,
         process,
         repo,
