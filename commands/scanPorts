@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+. "$HOME/core/scripts/logger.sh"
+
+if [ -z "$1" ]; then
+  info "Usage: scanPorts <domainOrIp>"
+  exit 1
+fi
+
+target="$1"
+outputDir="/tmp/scannedPorts"
+outputPath="${outputDir}/${target}"
+
+mkdir -p "$outputDir"
+
+echo "Scanning $target..."
+sudo nmap -sS -sV -p- "$target" -oA "$outputPath"
+
+info "Scan complete. Results saved to $outputDir"
