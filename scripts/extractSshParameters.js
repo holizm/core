@@ -10,9 +10,7 @@ const domain = process.argv[2]
 const home = process.env.HOME
 
 if (!domain) {
-    divide()
-    errorAndExit('Ssh to where? Please provide the domain name.')
-    divide()
+    errorAndExit('Missing domain. Please provide a domain name as an argument.')
 }
 
 let secretsFile = ''
@@ -44,7 +42,7 @@ try {
         }
     }
 } catch {
-    // directory missing or unreadable -> will trigger 'no secrets file' below
+    errorAndExit(`Secrets directory not accessible: ${dir}`)
 }
 
 if (!secretsFile) {
@@ -55,14 +53,14 @@ let fileContent
 try {
     fileContent = getContent(secretsFile)
 } catch {
-    errorAndExit(`Failed to read secrets file: ${secretsFile}`)
+    errorAndExit(`Unable to read secrets file: ${secretsFile}`)
 }
 
 let json
 try {
     json = JSON.parse(fileContent)
 } catch {
-    errorAndExit(`Invalid JSON in secrets file: ${secretsFile}`)
+    errorAndExit(`Invalid JSON format in secrets file: ${secretsFile}`)
 }
 
 const sshObj =
@@ -75,11 +73,11 @@ let sshUser = sshObj.user !== undefined && sshObj.user !== null ? String(sshObj.
 let sshIp = sshObj.ip !== undefined && sshObj.ip !== null ? String(sshObj.ip).trim() : ''
 
 if (!sshPort || sshPort === '22') {
-    errorAndExit(`Invalid SSH port. Specify a non-default port in ${secretsFile}.`)
+    errorAndExit(`Invalid SSH port in ${secretsFile}. Please set a custom port.`)
 }
 
 if (!sshUser || sshUser.length !== 20) {
-    errorAndExit('Invalid SSH user. It must be exactly 20 characters long.')
+    errorAndExit('Invalid SSH username. It must be exactly 20 characters long.')
 }
 
 if (!sshIp) {
@@ -90,7 +88,7 @@ if (!sshIp) {
     }
 
     if (!sshIp) {
-        errorAndExit(`Failed to resolve IP for domain: ${domain}`)
+        errorAndExit(`Unable to resolve IP address for domain: ${domain}`)
     }
 }
 
