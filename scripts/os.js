@@ -6,6 +6,7 @@ import {
     error,
     errorAndExit,
     info,
+    warning,
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
 import camelize from './camelize.js'
@@ -31,6 +32,7 @@ export const getOrgRepoFromGit = () => {
         }
     }
     if (!orgRepo.org) {
+        warning(url)
         orgRepo.org = 'na'
     }
     return orgRepo
