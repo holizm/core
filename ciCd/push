@@ -2,4 +2,5 @@
             - name: Push the image
               if: startsWith(runner.name, 'GitHub')
               run: |
+                    echo $imageName
                     docker push $imageName
