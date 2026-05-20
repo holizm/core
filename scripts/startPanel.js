@@ -81,6 +81,7 @@ const mapDependencies = params => {
 
 const mapRunnable = params => {
     let {
+        containerHome,
         home,
         repo,
         process,
