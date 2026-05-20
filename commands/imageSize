@@ -1,4 +1,2 @@
-gh api \
-  -H "Accept: application/vnd.oci.image.manifest.v1+json" \
-  /users/holismprojects/packages/container/adminapi/versions/latest \
-  | jq '.metadata.container.layers[].size' | awk '{sum += $1} END {print sum/1024/1024 " MB"}'
+docker manifest inspect ghcr.io/holismprojects/jzp/adminapi:latest \
+| jq -r '"Size: " + (([.layers[].size] | add / 1024 / 1024 | round)|tostring) + " MB"'
