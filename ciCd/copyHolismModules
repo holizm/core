@@ -13,5 +13,5 @@
 
                             cp -R "$parent" "/tmp/build/holismModulesInNodeModules/$name"
                         done
-                        cp -R "/tmp/build/$repo/$process/node_modules/core" "/tmp/build/holismModulesInNodeModules/core"
+                        [ -d "/tmp/build/$repo/$process/node_modules/core" ] && cp -R "/tmp/build/$repo/$process/node_modules/core" "/tmp/build/holismModulesInNodeModules/core"
                     fi
