@@ -4,6 +4,8 @@ services:
         ${userLine}
         container_name: ${repo}${pascalizedProcess}
         hostname: api
+        ports:
+            - "${randomPort}:5000"
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
@@ -63,8 +65,6 @@ services:
             - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/secrets.json
             ${volumes}
             - /tmp/${repo}/${process}/.vscode:${containerHome}/${repo}/${process}/.vscode
-        ports:
-            - "${randomPort}:5000"
         command: |
             bash -lc '
             export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH

@@ -1,80 +1,83 @@
 services:
     panel:
         image: nefcanto/panel:latest
+        ${userLine}
         container_name: ${repo}${pascalizedProcess}
         hostname: panel
         ports:
             - "${randomPort}:5173"
-        working_dir: ${home}/${repo}/${process}
+        working_dir: ${containerHome}/${repo}/${process}
         environment:
-            - home=${home}
+            - home=${containerHome}
+            - containerHome=${containerHome}
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=${processPath}
+            - processPath=${containerHome}/${repo}/${process}
+            - isCiCd=${isCiCd}
         volumes:
-            - ${home}/packages/panel:${home}/.npm
+            - ${home}/packages/panel:${containerHome}/.npm
 
-            - ${home}/core:${home}/core
+            - ${home}/core:${containerHome}/core
 
-            - ${home}/fonts:${home}/${repo}/${process}/public/fonts
+            - ${home}/fonts:${containerHome}/${repo}/${process}/public/fonts
 
-            - ${home}/panel:${home}/panel
-            - ${home}/panel/addPartAndType.js:${home}/${repo}/${process}/addPartAndType.js
-            - ${home}/panel/addProperty.js:${home}/${repo}/${process}/addProperty.js
-            - ${home}/panel/addTitle.js:${home}/${repo}/${process}/addTitle.js
-            - ${home}/panel/eslint.config.js:${home}/${repo}/${process}/eslint.config.js
-            - ${home}/panel/findAliases.js:${home}/${repo}/${process}/findAliases.js
-            - ${home}/panel/findBreadcrumbs.js:${home}/${repo}/${process}/findBreadcrumbs.js
-            - ${home}/panel/findClientInitializers.js:${home}/${repo}/${process}/findClientInitializers.js
-            - ${home}/panel/findDependencies.js:${home}/${repo}/${process}/findDependencies.js
-            - ${home}/panel/findIcons.js:${home}/${repo}/${process}/findIcons.js
-            - ${home}/panel/findItemRenderers.js:${home}/${repo}/${process}/findItemRenderers.js
-            - ${home}/panel/findMenus.js:${home}/${repo}/${process}/findMenus.js
-            - ${home}/panel/findAppActions.js:${home}/${repo}/${process}/findAppActions.js
-            - ${home}/panel/findParts.js:${home}/${repo}/${process}/findParts.js
-            - ${home}/panel/findRichTextComponents.js:${home}/${repo}/${process}/findRichTextComponents.js
-            - ${home}/panel/findRoutes.js:${home}/${repo}/${process}/findRoutes.js
-            - ${home}/panel/findServerInitializers.js:${home}/${repo}/${process}/findServerInitializers.js
-            - ${home}/panel/generateListRoutes.js:${home}/${repo}/${process}/generateListRoutes.js
-            - ${home}/panel/generateExports.js:${home}/${repo}/${process}/generateExports.js
-            - ${home}/panel/generatePageFormRoutes.js:${home}/${repo}/${process}/generatePageFormRoutes.js
-            - ${home}/panel/index.html:${home}/${repo}/${process}/index.html
-            - ${home}/panel/localization:${home}/${repo}/${process}/localization
-            - ${home}/panel/postcssConfig.js:${home}/${repo}/${process}/postcss.config.js
-            - ${home}/panel/registererGenerator.js:${home}/${repo}/${process}/registererGenerator.js
-            - ${home}/panel/silentCheckSso.html:${home}/${repo}/${process}/public/silent-check-sso.html
-            - ${home}/panel/src/core:${home}/${repo}/${process}/src/core
-            - ${home}/panel/src/components:${home}/${repo}/${process}/src/components
-            - ${home}/panel/src/contexts:${home}/${repo}/${process}/src/contexts
-            - ${home}/panel/src/hooks:${home}/${repo}/${process}/src/hooks
-            - ${home}/panel/src/index.css:${home}/${repo}/${process}/src/index.css
-            - ${home}/panel/src/main.jsx:${home}/${repo}/${process}/src/main.jsx
-            - ${home}/panel/src/panel:${home}/${repo}/${process}/src/panel
-            - ${home}/panel/src/registries:${home}/${repo}/${process}/src/registries
-            - ${home}/panel/tailwind.css:${home}/${repo}/${process}/tailwind.css
-            - ${home}/panel/viteConfig.js:${home}/${repo}/${process}/vite.config.js
-            - ${home}/panel/wrapAndName.js:${home}/${repo}/${process}/wrapAndName.js
+            - ${home}/panel:${containerHome}/panel
+            - ${home}/panel/addPartAndType.js:${containerHome}/${repo}/${process}/addPartAndType.js
+            - ${home}/panel/addProperty.js:${containerHome}/${repo}/${process}/addProperty.js
+            - ${home}/panel/addTitle.js:${containerHome}/${repo}/${process}/addTitle.js
+            - ${home}/panel/eslint.config.js:${containerHome}/${repo}/${process}/eslint.config.js
+            - ${home}/panel/findAliases.js:${containerHome}/${repo}/${process}/findAliases.js
+            - ${home}/panel/findBreadcrumbs.js:${containerHome}/${repo}/${process}/findBreadcrumbs.js
+            - ${home}/panel/findClientInitializers.js:${containerHome}/${repo}/${process}/findClientInitializers.js
+            - ${home}/panel/findDependencies.js:${containerHome}/${repo}/${process}/findDependencies.js
+            - ${home}/panel/findIcons.js:${containerHome}/${repo}/${process}/findIcons.js
+            - ${home}/panel/findItemRenderers.js:${containerHome}/${repo}/${process}/findItemRenderers.js
+            - ${home}/panel/findMenus.js:${containerHome}/${repo}/${process}/findMenus.js
+            - ${home}/panel/findAppActions.js:${containerHome}/${repo}/${process}/findAppActions.js
+            - ${home}/panel/findParts.js:${containerHome}/${repo}/${process}/findParts.js
+            - ${home}/panel/findRichTextComponents.js:${containerHome}/${repo}/${process}/findRichTextComponents.js
+            - ${home}/panel/findRoutes.js:${containerHome}/${repo}/${process}/findRoutes.js
+            - ${home}/panel/findServerInitializers.js:${containerHome}/${repo}/${process}/findServerInitializers.js
+            - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
+            - ${home}/panel/generateExports.js:${containerHome}/${repo}/${process}/generateExports.js
+            - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
+            - ${home}/panel/index.html:${containerHome}/${repo}/${process}/index.html
+            - ${home}/panel/localization:${containerHome}/${repo}/${process}/localization
+            - ${home}/panel/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
+            - ${home}/panel/registererGenerator.js:${containerHome}/${repo}/${process}/registererGenerator.js
+            - ${home}/panel/silentCheckSso.html:${containerHome}/${repo}/${process}/public/silent-check-sso.html
+            - ${home}/panel/src/core:${containerHome}/${repo}/${process}/src/core
+            - ${home}/panel/src/components:${containerHome}/${repo}/${process}/src/components
+            - ${home}/panel/src/contexts:${containerHome}/${repo}/${process}/src/contexts
+            - ${home}/panel/src/hooks:${containerHome}/${repo}/${process}/src/hooks
+            - ${home}/panel/src/index.css:${containerHome}/${repo}/${process}/src/index.css
+            - ${home}/panel/src/main.jsx:${containerHome}/${repo}/${process}/src/main.jsx
+            - ${home}/panel/src/panel:${containerHome}/${repo}/${process}/src/panel
+            - ${home}/panel/src/registries:${containerHome}/${repo}/${process}/src/registries
+            - ${home}/panel/tailwind.css:${containerHome}/${repo}/${process}/tailwind.css
+            - ${home}/panel/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
+            - ${home}/panel/wrapAndName.js:${containerHome}/${repo}/${process}/wrapAndName.js
 
-            - ${home}/${repo}/common/dependencies:${home}/${repo}/common/dependencies
-            - ${home}/${repo}/common/publicSettings.json:${home}/${repo}/${process}/public/publicSettings.json
-            - ${home}/${repo}/common/privateSettings.json:${home}/${repo}/${process}/privateSettings.json
+            - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
+            - ${home}/${repo}/common/publicSettings.json:${containerHome}/${repo}/${process}/public/publicSettings.json
+            - ${home}/${repo}/common/privateSettings.json:${containerHome}/${repo}/${process}/privateSettings.json
 
-            - ${processPath}/appActions.jsx:${home}/${repo}/${process}/src/appActions.jsx
-            - ${processPath}/menu.jsx:${home}/${repo}/${process}/src/menu.jsx
-            - ${processPath}/routes.jsx:${home}/${repo}/${process}/src/runnable/routes.jsx
+            - ${processPath}/appActions.jsx:${containerHome}/${repo}/${process}/src/appActions.jsx
+            - ${processPath}/menu.jsx:${containerHome}/${repo}/${process}/src/menu.jsx
+            - ${processPath}/routes.jsx:${containerHome}/${repo}/${process}/src/runnable/routes.jsx
 
             ${volumes}
         command: |
             bash -lc '
-            export PATH=${home}/core/commands/panel:${home}/core/commands:$PATH
+            export PATH=${containerHome}/core/commands/panel:${containerHome}/core/commands:$PATH
             merge panel
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
-            cd ${home}/${repo}/${process}
+            cd ${containerHome}/${repo}/${process}
             initialize
             if [ "${isCiCd}" != "true" ]; then
                 install
-                cd ${home}/${repo}/${process}
+                cd ${containerHome}/${repo}/${process}
                 ${home}/core/commands/panel/watch &
                 npm run dev &
             fi
