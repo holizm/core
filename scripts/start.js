@@ -123,22 +123,6 @@ export default async overrides => {
 
     if (params.isCiCd) {
         info(`In CI/CD, we don't see the log of the container.`)
-
-        const envFile = process.env.GITHUB_ENV
-
-        if (envFile) {
-            Object.entries(params).forEach(([key, value]) => {
-                if (
-                    (typeof value === 'string' &&
-                        value &&
-                        !value.includes('\n')) ||
-                    (typeof value === 'boolean' &&
-                        value)
-                ) {
-                    append(envFile, `${key}=${value}\n`)
-                }
-            })
-        }
     }
     else {
         command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`

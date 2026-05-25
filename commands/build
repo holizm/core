@@ -53,3 +53,21 @@ let cmd = `docker --debug build \
 -t ${params.imageName} \
 /tmp/build --no-cache --progress=plain`
 runStreaming(cmd)
+
+/*
+const envFile = process.env.GITHUB_ENV
+
+if (envFile) {
+    Object.entries(params).forEach(([key, value]) => {
+        if (
+            (typeof value === 'string' &&
+                value &&
+                !value.includes('\n')) ||
+            (typeof value === 'boolean' &&
+                value)
+        ) {
+            append(envFile, `${key}=${value}\n`)
+        }
+    })
+}
+*/
