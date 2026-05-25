@@ -1,45 +1,11 @@
 #!/usr/bin/env node
 
+import { clear } from '../scripts/terminal.js'
 import {
-    errorAndExit,
     divide,
     info,
-    warning,
-    error,
-    getStack,
 } from '../scripts/logger.js'
-import {
-    append,
-    createDirIfNotExists,
-    getLines,
-    isAccounts,
-    isApi,
-    isDir,
-    isFile,
-    isHeadlessPanel,
-    isPanel,
-    isSite,
-    isWorker,
-} from '../scripts/os.js'
-import {
-    clear,
-    runOnTerminal,
-    runStreaming,
-} from '../scripts/terminal.js'
-import getPaths from '../scripts/getPaths.js'
-import getRandomPort from '../scripts/getRandomPort.js'
-import createNetwork from '../scripts/createNetwork.js'
-import ensureDependencies from '../scripts/ensureDependencies.js'
-import startApi from '../scripts/startApi.js'
-import startPanel from '../scripts/startPanel.js'
-import startSite from '../scripts/startSite.js'
-import processTenantLine from '../scripts/processTenantLine.js'
-import extract from '../scripts/extract.js'
-import indentation from '../scripts/indentation.js'
-import createDirectories from '../scripts/createDirectories.js'
-import ensurePathExistsOrCreateIt from '../scripts/ensurePathExistsOrCreateIt.js'
-import changePermissions from '../scripts/changePermissions.js'
-import ensureTenants from '../scripts/ensureTenants.js'
+import start from '../scripts/start.js'
 
 clear()
 
@@ -49,94 +15,4 @@ divide()
 info(`directory: ${process.cwd()}`)
 divide()
 
-let params = extract()
-params.isCiCd = process.env.isCiCd === 'true'
-params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
-
-params = {
-    ...params,
-    ...getPaths(params),
-    ...getRandomPort(),
-}
-
-const { tenantsPath } = params
-
-ensureTenants(params)
-
-const lines = getLines(tenantsPath)
-if (!params.isCiCd) {
-    lines.forEach(line => processTenantLine({
-        ...params,
-        line,
-    }))
-}
-
-createNetwork(params)
-ensureDependencies(params)
-params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
-params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
-divide()
-
-params.volumes = []
-params.addVolume = (left, right) => {
-    // if (right.includes('node_modules')) {
-    //     error(right, getStack())
-    // }
-    ensurePathExistsOrCreateIt(left)
-    params.volumes.push({ left, right })
-}
-params.joinVolumes = () => {
-    params.volumes.sort((a, b) => a.left.localeCompare(b.left))
-    params.volumes = '\n' + params.volumes
-        .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
-        .join('\n')
-}
-
-if (isAccounts(params)) {
-    params.isAccounts = true
-    startAccounts(params)
-} else if (isApi(params)) {
-    params.isApi = true
-    startApi(params)
-} else if (isPanel(params)) {
-    params.isPanel = true
-    if (isHeadlessPanel(params)) {
-        params.isHeadlessPanel = true
-        startHeadlessPanel(params)
-    } else {
-        startPanel(params)
-    }
-} else if (isSite(params)) {
-    params.isSite = true
-    startSite(params)
-} else if (isWorker(params)) {
-    params.isWorker = true
-    startNodeApi(params)
-} else {
-    warning('Unknown process')
-}
-
-changePermissions(params)
-
-let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
-runOnTerminal(command)
-if (params.isCiCd) {
-    info(`In CI/CD, we don't see the log of the container.`)
-    const envFile = process.env.GITHUB_ENV
-    if (envFile) {
-        Object.entries(params).forEach(([key, value]) => {
-            const type = typeof value
-
-            if (
-                (typeof value === 'string' && value && !value.includes('\n')) ||
-                (typeof value === 'boolean' && value)
-            ) {
-                append(envFile, `${key}=${value}\n`)
-            }
-        })
-    }
-}
-else {
-    command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
-    await runStreaming(command)
-}
+await start()
