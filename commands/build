@@ -17,14 +17,19 @@ import {
     clear,
     runStreaming,
 } from '../scripts/terminal.js'
+import start from '../scripts/start.js'
 
 clear()
+divide()
+
+const params = await start({
+    isCiCd: true,
+})
 
 divide()
 info('holism build')
 divide()
 
-let params = {}
 Object.assign(params, process.env)
 params.containerFile = `/tmp/build/container`
 divide()

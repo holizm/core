@@ -37,7 +37,7 @@ export default async overrides => {
         ...overrides,
     }
 
-    params.isCiCd ??= process.env.isCiCd === 'true'
+    params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
 
     params = {
