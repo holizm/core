@@ -1,0 +1,44 @@
+container=""
+state=""
+
+for i in {1..30}; do
+    container=$(docker ps -aq | head -n 1)
+
+    if [ -n "$container" ]; then
+        state=$(docker inspect -f '{{.State.Status}}' "$container")
+
+        if [ "$state" = "created" ]; then
+            echo "Container is created. Starting..."
+            docker start "$container"
+            sleep 2
+            continue
+        fi
+
+        if [ "$state" = "running" ]; then
+            echo "Container found and running: $container"
+            break
+        fi
+    fi
+
+    sleep 2
+done
+
+if [ -z "$container" ] || [ "$state" != "running" ]; then
+    echo "No running container found after waiting."
+    docker ps -a
+    exit 1
+fi
+
+echo "container=$container" >> $GITHUB_ENV
+echo "state=$state" >> $GITHUB_ENV
+
+echo "Showing last 200 log lines in CI/CD"
+docker compose -p ${lowercaseRepo}-${lowercaseProcess} -f ${composeFile} logs --tail=200 --no-color
+
+echo "ls -lah /tmp/$repo"
+ls -lah /tmp/$repo
+echo "ls -lah /tmp/$repo/$process"
+ls -lah /tmp/$repo/$process
+
+echo "ls -lah ${containerHome}/${repo}/${process} inside container"
+docker exec ${repo}${pascalizedProcess} bash -c "ls -lah ${containerHome}/${repo}/${process}"
