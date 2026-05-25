@@ -41,4 +41,4 @@ echo "ls -lah /tmp/$repo/$process"
 ls -lah /tmp/$repo/$process
 
 echo "ls -lah ${containerHome}/${repo}/${process} inside container"
-docker exec ${repo}${pascalizedProcess} bash -c "ls -lah ${containerHome}/${repo}/${process}"
+docker exec ${containerName} bash -c "ls -lah ${containerHome}/${repo}/${process}"

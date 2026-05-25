@@ -2,7 +2,7 @@ services:
     panel:
         image: nefcanto/panel:latest
         ${userLine}
-        container_name: ${repo}${pascalizedProcess}
+        container_name: ${containerName}
         hostname: panel
         ports:
             - "${randomPort}:5173"

@@ -12,11 +12,7 @@ import extract from "../scripts/extract.js"
 
 let containerName = process.argv[2] || ""
 if (!containerName) {
-    const {
-        pascalizedProcess,
-        repo,
-    } = extract()
-    containerName = `${repo}${pascalizedProcess}`
+    containerName = extract().containerName
 }
 
 const lines = runOnTerminal(`docker ps -a --format "{{.Names}}||{{.Status}}"`).split("\n").filter(Boolean)

@@ -2,7 +2,7 @@ services:
     api:
         image: nefcanto/api:latest
         ${userLine}
-        container_name: ${repo}${pascalizedProcess}
+        container_name: ${containerName}
         hostname: api
         ports:
             - "${randomPort}:5000"

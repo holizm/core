@@ -1,7 +1,7 @@
 services:
     site:
         image: nefcanto/site
-        container_name: ${repo}${pascalizedProcess}
+        container_name: ${containerName}
         hostname: site
         working_dir: ${home}/${repo}/${process}
         environment:
