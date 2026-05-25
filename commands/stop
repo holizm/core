@@ -1,28 +1,59 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
-echo
-homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
-. "$homeDir/core/scripts/logger.sh"
+import { runOnTerminalAsync } from '../scripts/terminal.js'
+import {
+    divide,
+    info,
+    success,
+    check,
+} from '../scripts/logger.js'
 
-[[ -t 1 && -n "${TERM:-}" ]] && clear
+const pattern = process.argv[2] || ''
 
-divide
-info "Stopping all ..."
-divide
+const listContainers = async () => {
+    const out = await runOnTerminalAsync('docker ps -a -q 2>&1')
+    return (out || '')
+        .split('\n')
+        .map(x => x.trim())
+        .filter(Boolean)
+}
 
-pattern="${1:-}"
+const getContainerName = async id => {
+    const out = await runOnTerminalAsync(`docker inspect ${id} 2>&1`)
+    const match = out.match(/"Name":\s*"\/([^"]+)"/i)
+    return match?.[1] || ''
+}
 
-docker ps -a -q | while read -r i
-do
-    containerName=$(docker inspect "$i" | grep -E '"Name":\s*"/[^"]*",' | cut -d'/' -f2 | cut -d'"' -f1)
-    if [[ -z "$pattern" ]] || echo "$containerName" | grep -iq "$pattern"; then
-        docker rm "$i" --force 1>/dev/null
-        check "$containerName"
-    fi
-done
+const removeContainer = async id => {
+    await runOnTerminalAsync(`docker rm ${id} --force 2>&1`)
+}
 
-docker system prune --force 1>/dev/null
+const shouldMatch = name => {
+    if (!pattern) return true
+    return name.toLowerCase().includes(pattern.toLowerCase())
+}
 
-divide
-success "Stopped all"
-divide
+const main = async () => {
+    divide()
+    info('Stopping all ...')
+    divide()
+
+    const containers = await listContainers()
+
+    for (const id of containers) {
+        const name = await getContainerName(id)
+
+        if (!shouldMatch(name)) continue
+
+        await removeContainer(id)
+        check(name)
+    }
+
+    await runOnTerminalAsync('docker system prune --force 2>&1')
+
+    divide()
+    success('Stopped all')
+    divide()
+}
+
+await main()
