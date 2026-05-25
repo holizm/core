@@ -50,7 +50,7 @@ info(`directory: ${process.cwd()}`)
 divide()
 
 let params = extract()
-params.isCiCd = process.env.GITHUB_ACTIONS === 'true'
+params.isCiCd = process.env.isCiCd === 'true'
 params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
 
 params = {
