@@ -27,11 +27,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/repo`, vcsActionPath, params)
     const actionFile = `${home}/core/ciCd/${processType}`
     replaceVariablesAndAppend(actionFile, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/start`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/printCompose`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/start`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/getComposedCode`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/copyHolismModules`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/build`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, vcsActionPath, params)

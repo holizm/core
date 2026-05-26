@@ -25,7 +25,6 @@ clear()
 divide()
 
 let params = extract()
-console.log(params.containerName)
 
 await stop({
     pattern: params.containerName
