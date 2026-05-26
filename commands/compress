@@ -1,1 +1,1 @@
-zip -r "$(basename "$PWD")" ./*
+zip -r "$(basename "${1:-$PWD}")" ./*

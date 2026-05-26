@@ -4,11 +4,11 @@ import {
     divide,
     info,
 } from '../scripts/logger.js'
-import { clear } from '../scripts/terminal.js'
+import { clear, runOnTerminal } from '../scripts/terminal.js'
 import start from '../scripts/start.js'
 import stop from '../scripts/stop.js'
 import extract from '../scripts/extract.js'
-import build from '../scripts/build.js'
+import buildImage from '../scripts/buildImage.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
 import extractComposedCode from '../scripts/extractComposedCode.js'
 
@@ -23,8 +23,14 @@ await stop({
 
 params = await start({
     isCiCd: process.argv[2],
-    build: true,
+    localBuild: true,
 })
+
+const {
+    home,
+    isCiCd,
+    localBuild,
+} = params
 
 divide()
 info('holism build')
@@ -34,8 +40,11 @@ Object.assign(params, process.env)
 extractComposedCode(params)
 copyHolismModules(params)
 
-if (params.isCiCd) {
-    await build(params)
+if (isCiCd) {
+    await buildImage(params)
+}
+if (localBuild) {
+    runOnTerminal(`compress /tmp/build/${repo}/${process}`)
 }
 
 /*

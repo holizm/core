@@ -121,7 +121,7 @@ export default async overrides => {
 
     runOnTerminal(command)
 
-    if (params.isCiCd || params.build) {
+    if (params.isCiCd || params.localBuild) {
         info(`In CI/CD or local build, we don't show the log of the container.`)
     }
     else {
