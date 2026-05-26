@@ -18,11 +18,20 @@ import {
     runStreaming,
 } from '../scripts/terminal.js'
 import start from '../scripts/start.js'
+import stop from '../scripts/stop.js'
+import extract from "../scripts/extract.js"
 
 clear()
 divide()
 
-const params = await start({
+let params = extract()
+console.log(params.containerName)
+
+await stop({
+    pattern: params.containerName
+})
+
+params = await start({
     isCiCd: true,
 })
 
