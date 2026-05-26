@@ -6,17 +6,25 @@ import {
     spawn
 } from 'child_process'
 import { promisify } from 'util'
-import { error } from './logger.js'
+import {
+    error,
+    errorAndExit,
+    getStack,
+} from './logger.js'
 
 const execAsync = promisify(exec)
 
 export const clear = () => process.stdout.write('\x1Bc')
 
 export const runOnTerminal = (command, params) => {
+    if (!command) {
+        errorAndExit(`Command is empty`, getStack())
+    }
     const {
         throwOnError = false,
         hideErrors = false,
-        show = false
+        show = false,
+        splitLines = false,
     } = params || {}
     const trimmed = command.trim()
 
@@ -48,8 +56,12 @@ export const runOnTerminal = (command, params) => {
         if (!hideErrors && show) error(msg)
         if (throwOnError) throw new Error(msg)
     }
+    const result = `${stdout}${stderr}`.trim()
+    if (splitLines) {
+        return result.split('\n')
+    }
 
-    return `${stdout}${stderr}`.trim()
+    return result
 }
 
 export const runOnTerminalAsync = async (command, opts = {}) => {

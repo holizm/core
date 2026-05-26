@@ -1,24 +1,32 @@
 import { info } from './logger.js'
-import { removeAndRecreateDir } from './os.js'
+import { getFileNameWithoutExtension, removeAndRecreateDir } from './os.js'
 import { runOnTerminal } from './terminal.js'
 
 export default params => {
     const {
-        container,
         containerHome,
+        containerName,
+        repo,
     } = params
     removeAndRecreateDir('/tmp/build')
-    const command = `
+    const containerCommand = `
         for dir in ${containerHome}/*; do
             if [ -d $dir ]; then
                 echo $dir
             fi
-        done
+        done | sort
     `
-    const dirs = runOnTerminal(`docker exec ${container} bash -c '${command}'`)
+    const hostCommand = `docker exec ${containerName} bash -c '${containerCommand}'`
+    const dirs = runOnTerminal(hostCommand, { splitLines: true })
     for (const dir of dirs) {
-        info(dir)
-        runOnTerminal(`docker cp $container:$repo '/tmp/build/$name'`)
+        const name = getFileNameWithoutExtension(dir)
+        info(name)
+        runOnTerminal(`
+        docker exec ${containerName} bash -c '
+            cd '${containerHome}' &&
+            tar --exclude='node_modules' -cf - '${name}'
+        ' | tar -xf - -C /tmp/build
+    `)
     }
-    runOnTerminal(`docker cp $container:$containerHome/spl /tmp/build/spl || true`)
+    // runOnTerminal(`docker cp ${containerName}:${containerHome}/spl /tmp/build/spl || true`)
 }
