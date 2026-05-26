@@ -1,1 +1,4 @@
-zip -r "${1:-$PWD}/$(basename "${1:-$PWD}").zip" ./*
+(
+    cd "${1:-$PWD}" &&
+    zip -r "$(basename "$PWD").zip" ./*
+)
