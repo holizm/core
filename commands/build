@@ -9,6 +9,7 @@ import start from '../scripts/start.js'
 import stop from '../scripts/stop.js'
 import extract from '../scripts/extract.js'
 import build from '../scripts/build.js'
+import copyHolismModules from '../scripts/copyHolismModules.js'
 
 clear()
 divide()
@@ -29,6 +30,7 @@ info('holism build')
 divide()
 
 Object.assign(params, process.env)
+copyHolismModules(params)
 
 if (params.isCiCd) {
     await build(params)
