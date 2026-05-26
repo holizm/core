@@ -10,6 +10,7 @@ import stop from '../scripts/stop.js'
 import extract from '../scripts/extract.js'
 import build from '../scripts/build.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
+import extractComposedCode from '../scripts/extractComposedCode.js'
 
 clear()
 divide()
@@ -30,6 +31,7 @@ info('holism build')
 divide()
 
 Object.assign(params, process.env)
+extractComposedCode(params)
 copyHolismModules(params)
 
 if (params.isCiCd) {
