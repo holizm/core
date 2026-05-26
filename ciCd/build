@@ -3,4 +3,4 @@
               run: |
                     cd /tmp/build
                     ls -lah
-                    ./core/commands/build
+                    ./core/commands/build isCiCd=true

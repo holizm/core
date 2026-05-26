@@ -3,23 +3,12 @@
 import {
     divide,
     info,
-    warning,
 } from '../scripts/logger.js'
-import {
-    isApi,
-    isHeadlessPanel,
-    isPanel,
-    isSite,
-    isWorker,
-    replaceVariables,
-} from '../scripts/os.js'
-import {
-    clear,
-    runStreaming,
-} from '../scripts/terminal.js'
+import { clear } from '../scripts/terminal.js'
 import start from '../scripts/start.js'
 import stop from '../scripts/stop.js'
-import extract from "../scripts/extract.js"
+import extract from '../scripts/extract.js'
+import build from '../scripts/build.js'
 
 clear()
 divide()
@@ -31,7 +20,8 @@ await stop({
 })
 
 params = await start({
-    isCiCd: true,
+    isCiCd: process.argv[2],
+    build: true,
 })
 
 divide()
@@ -39,34 +29,10 @@ info('holism build')
 divide()
 
 Object.assign(params, process.env)
-params.containerFile = `/tmp/build/container`
-divide()
 
-if (isApi(params)) {
-    params.sourceContainerFile = 'api'
-} else if (isPanel(params)) {
-    if (isHeadlessPanel(params)) {
-        params.sourceContainerFile = 'headlessPanel'
-    } else {
-        params.sourceContainerFile = 'panel'
-    }
-} else if (isSite(params)) {
-    params.sourceContainerFile = 'site'
-} else if (isWorker(params)) {
-    params.sourceContainerFile = 'worker'
-} else {
-    warning('Unknown process')
+if (params.isCiCd) {
+    await build(params)
 }
-params.sourceContainerFile = `${params.home}/core/container/files/prod/${params.sourceContainerFile}`
-
-replaceVariables(params.sourceContainerFile, params.containerFile, params)
-
-let cmd = `docker --debug build \
--f ${params.containerFile} \
--t ${params.imageName} \
-/tmp/build --no-cache --progress=plain`
-info(cmd, params)
-// runStreaming(cmd)
 
 /*
 const envFile = process.env.GITHUB_ENV

@@ -121,8 +121,8 @@ export default async overrides => {
 
     runOnTerminal(command)
 
-    if (params.isCiCd) {
-        info(`In CI/CD, we don't see the log of the container.`)
+    if (params.isCiCd || params.build) {
+        info(`In CI/CD or local build, we don't show the log of the container.`)
     }
     else {
         command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
