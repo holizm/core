@@ -6,6 +6,41 @@ export const getStack = () => {
     return stack
 }
 
+
+
+const sortObject = value => {
+    if (Array.isArray(value)) {
+        return value.map(sortObject)
+    }
+
+    if (
+        value &&
+        typeof value === 'object' &&
+        !(value instanceof Error)
+    ) {
+        return Object.keys(value)
+            .sort()
+            .reduce((out, key) => {
+                out[key] = sortObject(value[key])
+                return out
+            }, {})
+    }
+
+    return value
+}
+
+const stringify = value => {
+    try {
+        return JSON.stringify(
+            sortObject(value),
+            null,
+            4
+        )
+    } catch {
+        return '[Circular]'
+    }
+}
+
 const formatError = error => {
     const { name = 'Error', message = '', stack = '', ...rest } = error
     const stackLines = stack.split('\n')
@@ -17,7 +52,7 @@ const formatError = error => {
         for (const key of extraKeys) {
             extras[key] = rest[key]
         }
-        out += `\nExtra: ${JSON.stringify(extras, null, 4)}`
+        out += `\nExtra: ${stringify(extras, null, 4)}`
     }
     return out
 }
@@ -30,7 +65,7 @@ const log = (color, toStderr, ...args) => {
         if (arg instanceof Error) {
             return formatError(arg)
         } else if (typeof arg === 'object') {
-            return JSON.stringify(arg, null, 4)
+            return stringify(arg, null, 4)
         } else {
             return String(arg)
         }

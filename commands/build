@@ -65,7 +65,8 @@ let cmd = `docker --debug build \
 -f ${params.containerFile} \
 -t ${params.imageName} \
 /tmp/build --no-cache --progress=plain`
-runStreaming(cmd)
+info(cmd, params)
+// runStreaming(cmd)
 
 /*
 const envFile = process.env.GITHUB_ENV
