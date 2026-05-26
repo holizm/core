@@ -30,6 +30,7 @@ const {
     home,
     isCiCd,
     localBuild,
+    repo,
 } = params
 
 divide()
@@ -44,7 +45,7 @@ if (isCiCd) {
     await buildImage(params)
 }
 if (localBuild) {
-    runOnTerminal(`compress /tmp/build/${repo}/${process}`)
+    runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
 }
 
 /*
