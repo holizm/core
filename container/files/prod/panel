@@ -1,0 +1,20 @@
+FROM nefcanto/panel AS builder
+
+WORKDIR /
+
+COPY . .
+# https://stackoverflow.com/questions/51115856/docker-failed-to-export-image-failed-to-create-image-failed-to-get-layer
+
+RUN true
+
+RUN chmod 777 --preserve-root /build \
+    && bash /build
+
+FROM node:lts-trixie-slim AS runner
+WORKDIR ${processPath}
+ENV NODE_ENV=production
+RUN npm install --location=global serve
+COPY --from=builder ${processPath}/dist .
+
+EXPOSE 3000
+CMD [ "serve", "-s", ".", "-l", "3000" ]
