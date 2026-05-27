@@ -11,6 +11,11 @@ import extract from '../scripts/extract.js'
 import buildImage from '../scripts/buildImage.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
 import extractComposedCode from '../scripts/extractComposedCode.js'
+import {
+    isApi,
+    isPanel,
+    isSite,
+} from '../scripts/os.js'
 
 clear()
 divide()
@@ -30,6 +35,7 @@ const {
     home,
     isCiCd,
     localBuild,
+    processType,
     repo,
 } = params
 
@@ -38,15 +44,18 @@ info('holism build')
 divide()
 
 Object.assign(params, process.env)
-extractComposedCode(params)
-copyHolismModules(params)
+if (isPanel(params)) {
+    runOnTerminal(`docker exec ${containerName} `)
+}
+// extractComposedCode(params)
+// copyHolismModules(params)
 
-if (isCiCd) {
-    await buildImage(params)
-}
-if (localBuild) {
-    runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
-}
+// if (isCiCd) {
+//     await buildImage(params)
+// }
+// if (localBuild) {
+//     runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
+// }
 
 /*
 const envFile = process.env.GITHUB_ENV
