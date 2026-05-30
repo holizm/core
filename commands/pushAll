@@ -1,0 +1,16 @@
+find ~ -maxdepth 2 -type d -name .git |
+sort |
+xargs -P 8 -I {} bash -c '
+    repo=$(dirname "{}")
+
+    output=$(git -C "$repo" push 2>&1)
+    status=$?
+
+    if [ $status -ne 0 ]; then
+        echo "==== ERROR: $repo ===="
+        echo "$output"
+        echo
+    else
+        echo "✔ pushed: $repo"
+    fi
+'
