@@ -4,8 +4,8 @@
 
 installMkcert() {
     sudo apt-get install -y libnss3-tools
-    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -O mkcert
-    sudo cp mkcert /usr/local/bin/mkcert
+    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -O /tmp/mkcert
+    sudo cp /tmp/mkcert /usr/local/bin/mkcert
     sudo chmod +x --preserve-root /usr/local/bin/mkcert
     mkcert -install
 }

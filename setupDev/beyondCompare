@@ -3,8 +3,8 @@
 . "$scripts/installer.sh"
 
 installBeyondCompare() {
-    wget https://www.scootersoftware.com/files/bcompare-4.4.7.28397_amd64.deb
-    sudo apt-get install -y ./bcompare-4.4.7.28397_amd64.deb
+    wget https://www.scootersoftware.com/files/bcompare-4.4.7.28397_amd64.deb -O /tmp/beyondCompare.deb
+    sudo apt-get install -y /tmp/beyondCompare.deb
 }
 
 install bcompare installBeyondCompare
