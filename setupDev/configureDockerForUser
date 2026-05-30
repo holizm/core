@@ -4,3 +4,8 @@ set -euo pipefail
 
 sudo mkdir -p "$HOME/.docker"
 sudo chown -R "$(whoami):$(whoami)" "$HOME/.docker"
+sudo gpasswd -a $USER docker
+newgrp docker
+sudo groupadd docker
+sudo usermod -aG docker ${USER}
+sudo usermod -aG docker $USER

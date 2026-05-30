@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+sudo rm -f /etc/apt/sources.list.d/docker.list
+sudo rm -f /etc/apt/sources.list.d/github-cli.list
+sudo rm -f /etc/apt/sources.list.d/packagecloud*.list
+sudo rm -f /etc/apt/sources.list.d/ookla*.list
+sudo rm -f /etc/apt/sources.list.d/anydesk*.list
+sudo rm -f /etc/apt/sources.list.d/scootersoftware*.list
