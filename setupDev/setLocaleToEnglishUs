@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+currentLang=$(locale | grep '^LANG=' || true)
+currentRegion=$(gsettings get org.gnome.system.locale region || true)
+
+if [[ "$currentLang" == "LANG=en_US.UTF-8" ]] &&
+   [[ "$currentRegion" == "'en_US.UTF-8'" ]]; then
+    exit 0
+fi
+
+sudo update-locale LANG=en_US.UTF-8
+
+gsettings set org.gnome.system.locale region 'en_US.UTF-8'
+
+dbus-send \
+    --print-reply \
+    --system \
+    --dest=org.freedesktop.Accounts \
+    "/org/freedesktop/Accounts/User$UID" \
+    org.freedesktop.Accounts.User.SetFormatsLocale \
+    string:'en_US.UTF-8' \
+    >/dev/null

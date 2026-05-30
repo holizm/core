@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo 'Acquire::http::Timeout "5";' | sudo tee /etc/apt/apt.conf.d/99timeout >/dev/null
+
+# if [[ -f /etc/apt/sources.list.d/ubuntu.sources ]]; then
+#     sudo sed -i 's/ir\.archive\.ubuntu\.com/archive.ubuntu.com/g' /etc/apt/sources.list.d/ubuntu.sources
+# fi

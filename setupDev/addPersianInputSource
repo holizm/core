@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+currentSources=$(gsettings get org.gnome.desktop.input-sources sources)
+
+if grep -q "'ir'" <<< "$currentSources"; then
+    exit 0
+fi
+
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ir')]"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+sudo mkdir -p "$HOME/.docker"
+sudo chown -R "$(whoami):$(whoami)" "$HOME/.docker"

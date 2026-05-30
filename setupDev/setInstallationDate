@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ -f ~/installationDate ]]; then
+    exit 0
+fi
+
+date +%s | sudo tee ~/installationDate >/dev/null

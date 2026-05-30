@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/google-chrome 500 >/dev/null 2>&1
+sudo update-alternatives --set x-www-browser /usr/bin/google-chrome >/dev/null 2>&1

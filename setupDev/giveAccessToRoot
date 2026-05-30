@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
+    sudo mkdir -p /root/.ssh
+
+    sudo ln -sf "$HOME/.ssh/id_ed25519" /root/.ssh/id_ed25519
+    sudo ln -sf "$HOME/.ssh/id_ed25519.pub" /root/.ssh/id_ed25519.pub
+
+    if [[ -f "$HOME/.ssh/known_hosts" ]]; then
+        sudo ln -sf "$HOME/.ssh/known_hosts" /root/.ssh/known_hosts
+    fi
+fi

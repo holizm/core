@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if timedatectl | grep -q "Asia/Tehran"; then
+    exit 0
+fi
+
+sudo timedatectl set-timezone Asia/Tehran

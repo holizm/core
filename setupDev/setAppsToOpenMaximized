@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v devilspie2 >/dev/null 2>&1; then
+    sudo apt-get install -y devilspie2
+fi
+
+mkdir -p "$HOME/.config/devilspie2"
+
+if [[ ! -s "$HOME/.config/devilspie2/maximize.lua" ]]; then
+    curl -fsSL https://raw.githubusercontent.com/HolismHolding/Setup/main/Maximize \
+        -o "$HOME/.config/devilspie2/maximize.lua"
+fi
+
+mkdir -p "$HOME/.config/autostart"
+
+if [[ ! -s "$HOME/.config/autostart/devilspie2.desktop" ]]; then
+    curl -fsSL https://raw.githubusercontent.com/HolismHolding/Setup/main/Autostart \
+        -o "$HOME/.config/autostart/devilspie2.desktop"
+fi

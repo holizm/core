@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 40
+gsettings set org.gnome.desktop.peripherals.keyboard delay 250
