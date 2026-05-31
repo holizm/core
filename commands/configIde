@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    getContent,
+    writeFile,
+} from '../scripts/os.js'
+import {
+    divide,
+    info,
+    warning,
+} from '../scripts/logger.js'
+
+const homeDir = process.env.HOME
+
+const userSettingsPath = `${homeDir}/.config/Code/User/settings.json`
+const infraSettingsPath = `${homeDir}/core/ide/settings.json`
+
+const infraSettings = JSON.parse(getContent(infraSettingsPath))
+
+let userSettingsRaw = getContent(userSettingsPath, true)
+let userSettings
+let action = 'overwrite'
+
+try {
+    userSettings = JSON.parse(userSettingsRaw)
+    action = 'merge'
+} catch {
+    userSettings = JSON.parse(infraSettings)
+}
+
+const mergeConfig = (infraJson) => {
+    const result = { ...userSettings }
+
+    for (const key of Object.keys(infraJson)) {
+        result[key] = infraJson[key]
+    }
+
+    return result
+}
+
+const runnablesOutput = runOnTerminal('runnables')
+const runnables = runnablesOutput
+    .split('\n')
+    .map((line) => line
+        .trim()
+        .replace(/^\//, '')
+        .replace(/-/g, '')
+        .trim()
+    )
+    .filter(Boolean)
+
+const spellingConfiguration = [
+    {
+        name: 'infra',
+        path: `${homeDir}/core/ide/spellCheck/customDictionary`,
+        scope: 'user',
+        addWords: true
+    }
+]
+
+for (const runnable of runnables) {
+    spellingConfiguration.push({
+        name: runnable,
+        path: `${homeDir}/${runnable}/common/dictionary`,
+        scope: 'user',
+        addWords: true
+    })
+}
+
+infraSettings['cSpell.customDictionaries'] = spellingConfiguration
+
+const result =
+    action === 'merge'
+        ? mergeConfig(infraSettings)
+        : infraSettings
+
+writeFile(userSettingsPath, JSON.stringify(result, null, 4))
