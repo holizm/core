@@ -45,7 +45,7 @@ services:
     #                     if (e.codeName === \"NotYetInitialized\") { rs.initiate(); }
     #                 }
     #             ';
-    #         "      
+    #         "
 
 networks:
     ${repo}Network:
