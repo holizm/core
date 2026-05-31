@@ -215,5 +215,5 @@ export default params => {
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
         createDatabaseContainer(params)
     }
-    // createApiContainer(params)
+    createApiContainer(params)
 }

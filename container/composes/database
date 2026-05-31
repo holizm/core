@@ -1,6 +1,6 @@
 services:
     database:
-        image: mongo:latest
+        image: mongo:7.0.34
         container_name: ${repo}Databases
         hostname: database
         volumes:
@@ -12,8 +12,8 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=IC1joYMLZTT0fQMJ5qcz
         ports:
             - ${databaseEnginePort}:27017
-        logging:
-            driver: none
+        # logging:
+        #     driver: none
         networks:
             - ${repo}Network
         # command: ["/bin/bash", "-c", "chown root:root /etc/mongo-keyfile && exec mongod --replSet rs0 --keyFile /etc/mongo-keyfile --bind_ip_all"]

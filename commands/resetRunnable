@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+runnable=$1
+
+. $HOME/core/scripts/logger.sh
+
+if [ -z "$runnable" ]; then
+    errorAndExit "Runnable is not provided"
+fi
+
+stop $runnable
+sudo rm -rf /tmp/$runnable
+sudo rm -rf /var/tmp/$runnable
+find $HOME/webServer -type f -iname "*$runnable*" -delete 2>/dev/null
