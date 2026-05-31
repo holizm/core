@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-import { runOnTerminalAsync } from '../scripts/terminal.js'
+import {
+    runOnTerminal,
+    runOnTerminalAsync,
+} from '../scripts/terminal.js'
 import findRepos from '../scripts/findRepos.js'
 import {
     divide,
@@ -59,23 +62,23 @@ const pullWithRetry = async parent => {
 }
 
 const repos = findRepos(search)
-// await Promise.all(repos.map(repo => {
-//     return pullWithRetry(repo)
-// }))
+await Promise.all(repos.map(repo => {
+    return pullWithRetry(repo)
+}))
 // for (const repo of repos) {
 //     await pullWithRetry(repo)
 // }
 
-for (let i = 0; i < repos.length; i += 3) {
-    const batch = repos.slice(i, i + 3);
-    const promises = batch.map(repo => pullWithRetry(repo));
-    await Promise.all(promises);
-}
+// for (let i = 0; i < repos.length; i += 3) {
+//     const batch = repos.slice(i, i + 3);
+//     const promises = batch.map(repo => pullWithRetry(repo));
+//     await Promise.all(promises);
+// }
 
 divide()
 success('Got all')
 divide()
 
-// await Promise.resolve(configVsCode())
+runOnTerminal('configIde')
 // await Promise.resolve(adHoc())
 
