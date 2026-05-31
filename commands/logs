@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+import extract from '../scripts/extract.js'
+import { info } from '../scripts/logger.js'
+import { runStreaming } from '../scripts/terminal.js'
+
+const isNumeric = value => /^\d+$/.test(String(value))
+
+const arg1 = process.argv[2]
+const arg2 = process.argv[3]
+
+let containerName
+let count
+
+if (!arg1) {
+    const params = extract()
+    containerName = params.containerName
+    count = 20
+} else if (isNumeric(arg1)) {
+    const params = extract()
+    containerName = params.containerName
+    count = arg1
+} else if (isNumeric(arg2)) {
+    containerName = arg1
+    count = arg2
+} else {
+    containerName = arg1
+    count = 20
+}
+
+const command = `docker logs --follow --tail ${count} ${containerName}`
+await runStreaming(command)
