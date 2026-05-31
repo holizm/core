@@ -26,9 +26,9 @@ $setupDev/git
 $setupDev/gh
 $setupDev/chrome
 $setupDev/vsCode
-$setupDev/spellChecker
+# $setupDev/spellChecker
 $setupDev/speedTest
-$setupDev/remoteContainers
+# $setupDev/remoteContainers
 
 $setupDev/docker
 $setupDev/node
@@ -74,3 +74,4 @@ $setupDev/enableDnd
 $setupDev/configureDockerForUser
 $setupDev/setInstallationDate
 $setupDev/removeProblematicSources
+$setupDev/disableInertialScrolling

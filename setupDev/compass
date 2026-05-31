@@ -24,4 +24,4 @@ installMongoCompass() {
     rm mongodb-compass.deb
 }
 
-install mongo-compass installMongoCompass
+install mongodb-compass installMongoCompass

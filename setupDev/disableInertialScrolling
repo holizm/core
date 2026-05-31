@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
+
+cat > ~/.config/gtk-3.0/settings.ini << 'EOF'
+[Settings]
+gtk-kinetic-scrolling=false
+EOF
+
+cat > ~/.config/gtk-4.0/settings.ini << 'EOF'
+[Settings]
+gtk-kinetic-scrolling=false
+EOF

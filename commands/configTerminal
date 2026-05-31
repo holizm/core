@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    getContent,
+    writeFile,
+    exists,
+} from '../scripts/os.js'
+import {
+    divide,
+    info,
+    warning,
+} from '../scripts/logger.js'
+
+const homeDir = process.env.HOME
+
+const bashrcPath = `${homeDir}/.bashrc`
+const dconfPath = `${homeDir}/core/terminal/dconf`
+
+if (!exists(dconfPath)) {
+    warning(`Missing ${dconfPath}`)
+    process.exit(1)
+}
+
+divide()
+info('Configuring terminal')
+
+if (exists(`${homeDir}/core/terminal/bashrc`)) {
+    writeFile(bashrcPath, getContent(`${homeDir}/core/terminal/bashrc`))
+    info('Applied .bashrc')
+}
+
+const dconfContent = getContent(dconfPath)
+
+runOnTerminal(
+    `dconf load /org/gnome/terminal/legacy/profiles:/ << 'EOF'\n${dconfContent}\nEOF`
+)
+
+info('Applied GNOME Terminal config')
+info('Done')

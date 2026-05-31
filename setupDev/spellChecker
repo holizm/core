@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 . "$scripts/installer.sh"
+. "$scripts/logger.sh"
 
 installSpellChecker() {
     local ext="streetsidesoftware.code-spell-checker"
@@ -29,6 +30,9 @@ installSpellChecker() {
     if [ -n "$installed" ] && [ "$installed" = "$latest" ]; then
         return
     fi
+
+    info "installed: $installed"
+    success "latest: $latest"
 
     code --uninstall-extension "$ext" >/dev/null 2>&1 || true
     timeout 50s code --install-extension "$ext" --force
