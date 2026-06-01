@@ -3,8 +3,12 @@
 set -euo pipefail
 
 sudo mkdir -p "$HOME/.docker"
-sudo chown -R "$(whoami):$(whoami)" "$HOME/.docker"
-sudo gpasswd -a $USER docker
-sudo groupadd docker
-sudo usermod -aG docker ${USER}
-sudo usermod -aG docker $USER
+sudo chown -R "$(id -un):$(id -gn)" "$HOME/.docker"
+
+if ! getent group docker >/dev/null; then
+    sudo groupadd docker
+fi
+
+if ! id -nG "$USER" | grep -qw docker; then
+    sudo usermod -aG docker "$USER"
+fi
