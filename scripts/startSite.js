@@ -1,11 +1,14 @@
 import fs from 'fs'
 import { basename } from 'path'
-import { runOnTerminal } from './terminal.js'
+import mapNode from '../scripts/mapNode.js'
 import createCiCd from './createCiCd.js'
+import createDirectories from './createDirectories.js'
+import getDependencies from './getDependencies.js'
 import {
     divide,
     info,
 } from './logger.js'
+import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
@@ -15,10 +18,7 @@ import {
     replaceVariables,
     writeFile,
 } from './os.js'
-import getDependencies from './getDependencies.js'
-import mapNode from '../scripts/mapNode.js'
-import mapSettings from './mapSettings.js'
-import createDirectories from './createDirectories.js'
+import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -37,6 +37,7 @@ const createNonExistentFiles = params => {
 
 const mapDependencies = params => {
     let {
+        containerHome,
         home,
         repo,
         process,
@@ -100,6 +101,7 @@ const mapDependencies = params => {
 
 const mapPages = params => {
     let {
+        containerHome,
         home,
         process,
         processPath,
@@ -123,6 +125,7 @@ const mapPages = params => {
 
 const mapParts = params => {
     let {
+        containerHome,
         home,
         process,
         processPath,
@@ -183,6 +186,7 @@ export default params => {
     ensureLocalSecrets(params)
     const {
         composeFile,
+        containerHome,
         home,
         process,
         repo,
