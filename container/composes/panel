@@ -78,7 +78,7 @@ services:
             if [ "${isCiCd}" != "true" ]; then
                 install
                 cd ${containerHome}/${repo}/${process}
-                ${home}/core/commands/panel/watch &
+                ${containerHome}/core/commands/panel/watch &
                 npm run dev &
             fi
             tail -f /dev/null

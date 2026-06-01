@@ -5,7 +5,3 @@ path=$base/public/settingsOverride.json
 if [[ ! -f $path ]]; then
     echo "{}" > $path
 fi
-if [[ ! -d $base/node_modules ]] || [[ ! -f $base/package-lock.json ]]; then
-    cd $base
-    installPackages
-fi

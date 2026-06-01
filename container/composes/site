@@ -1,16 +1,19 @@
 services:
     site:
         image: nefcanto/site
+        ${userLine}
         container_name: ${containerName}
         hostname: site
-        working_dir: ${home}/${repo}/${process}
+        working_dir: ${containerHome}/${repo}/${process}
         environment:
-            - home=${home}
+            - home=${containerHome}
+            - containerHome=${containerHome}
             - NODE_TLS_REJECT_UNAUTHORIZED=0
             - org=${org}
             - repo=${repo}
             - process=${process}
-            - processPath=${home}/${repo}/${process}
+            - processPath=${containerHome}/${repo}/${process}
+            - isCiCd=${isCiCd}
             - randomPort=${randomPort}
             - AUTH_SECRET=t69bu9H55yXKQfUfx8fN
             - KEYCLOAK_CLIENT_SECRET=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
@@ -20,69 +23,71 @@ services:
             # - NODE_ENV=production
         volumes:
             - /tmp/mre:/tmp/mre
-            - ${home}/packages/site:${home}/.npm
-            - ${home}/core:${home}/core
-            - ${home}/policies:${home}/policies
-            - ${home}/core/fonts:${home}/${repo}/${process}/public/fonts
-            - ${home}/site/:${home}/site/
-            - ${home}/site/eslintConfig.js:${home}/${repo}/${process}/eslint.config.js
-            - ${home}/site/prettierIgnore:${home}/${repo}/${process}/.prettierignore
-            - ${home}/site/prettierRuntimeConfiguration:${home}/${repo}/${process}/.prettierrc
-            - ${home}/site/adapters:${home}/${repo}/${process}/adapters
-            - ${home}/site/buildPolicies:${home}/${repo}/${process}/buildPolicies
-            - ${home}/site/core:${home}/${repo}/${process}/src/core
-            - ${home}/site/pageParts:${home}/${repo}/${process}/src/coreParts
-            - ${home}/site/getters:${home}/${repo}/${process}/src/coreGetters
-            - ${home}/site/functions:${home}/${repo}/${process}/src/coreFunctions
-            - ${home}/site/hooks:${home}/${repo}/${process}/src/coreHooks
-            - ${home}/site/contexts:${home}/${repo}/${process}/src/coreContexts
-            - ${home}/site/postcssConfig.js:${home}/${repo}/${process}/postcss.config.js
-            - ${home}/site/src/entryDev.tsx:${home}/${repo}/${process}/src/entry.dev.tsx
-            - ${home}/site/src/entryExpress.tsx:${home}/${repo}/${process}/src/entry.express.tsx
-            - ${home}/site/src/entryPreview.tsx:${home}/${repo}/${process}/src/entry.preview.tsx
-            - ${home}/site/src/entrySsr.tsx:${home}/${repo}/${process}/src/entry.ssr.tsx
-            - ${home}/site/src/global.css:${home}/${repo}/${process}/src/global.css
-            - ${home}/site/src/pluginCore.ts:${home}/${repo}/${process}/src/routes/plugin@_core.ts
-            - ${home}/site/src/root.jsx:${home}/${repo}/${process}/src/root.tsx
-            - ${home}/site/src/routerHead.jsx:${home}/${repo}/${process}/src/router-head.jsx
-            - ${home}/site/src/routes/serviceWorker.ts:${home}/${repo}/${process}/src/routes/service-worker.ts
-            # - ${home}/site/src/routes/404.tsx:${home}/${repo}/${process}/src/routes/404.tsx
-            - ${home}/site/src/routes/error:${home}/${repo}/${process}/src/routes/error
-            - ${home}/site/src/routes/createBlobs:${home}/${repo}/${process}/src/routes/create-blobs
-            - ${home}/site/coreTsConfig.json:${home}/${repo}/${process}/coreTsConfig.json
-            - ${home}/site/coreTailwind.css:${home}/${repo}/${process}/coreTailwind.css
-            - ${home}/site/richTextRendererCollector.js:${home}/${repo}/${process}/richTextRendererCollector.js
-            - ${home}/site/itemRendererCollector.js:${home}/${repo}/${process}/itemRendererCollector.js
-            - ${home}/site/paginationBehaviorCollector.js:${home}/${repo}/${process}/paginationBehaviorCollector.js
-            - ${home}/site/settingsCreator.js:${home}/${repo}/${process}/settingsCreator.js
-            - ${home}/site/classPrefixer.js:${home}/${repo}/${process}/classPrefixer.js
-            - ${home}/site/nullLayoutProvider.js:${home}/${repo}/${process}/nullLayoutProvider.js
-            - ${home}/site/emptyDashboardProvider.js:${home}/${repo}/${process}/emptyDashboardProvider.js
-            - ${home}/site/loaderProvider.js:${home}/${repo}/${process}/loaderProvider.js
-            - ${home}/site/telemetry.js:${home}/${repo}/${process}/telemetry.js
-            - ${home}/site/viteConfig.js:${home}/${repo}/${process}/vite.config.js
-            - ${home}/site/scripts/scroll.js:${home}/${repo}/${process}/public/scripts/scroll.js
-            - ${home}/site/icons/markerIcon.png:${home}/${repo}/${process}/public/icons/marker-icon.png
-            - ${home}/site/icons/markerIcon2x.png:${home}/${repo}/${process}/public/icons/marker-icon-2x.png
-            - ${home}/site/icons/markerShadow.png:${home}/${repo}/${process}/public/icons/marker-shadow.png
-            - ${home}/secrets/${repo}.json:${home}/${repo}/${process}/public/secrets.json
+            - ${home}/packages/site:${containerHome}/.npm
+            - ${home}/core:${containerHome}/core
+            - ${home}/policies:${containerHome}/policies
+            - ${home}/core/fonts:${containerHome}/${repo}/${process}/public/fonts
+            - ${home}/site/:${containerHome}/site/
+            - ${home}/site/eslintConfig.js:${containerHome}/${repo}/${process}/eslint.config.js
+            - ${home}/site/prettierIgnore:${containerHome}/${repo}/${process}/.prettierignore
+            - ${home}/site/prettierRuntimeConfiguration:${containerHome}/${repo}/${process}/.prettierrc
+            - ${home}/site/adapters:${containerHome}/${repo}/${process}/adapters
+            - ${home}/site/buildPolicies:${containerHome}/${repo}/${process}/buildPolicies
+            - ${home}/site/core:${containerHome}/${repo}/${process}/src/core
+            - ${home}/site/pageParts:${containerHome}/${repo}/${process}/src/coreParts
+            - ${home}/site/getters:${containerHome}/${repo}/${process}/src/coreGetters
+            - ${home}/site/functions:${containerHome}/${repo}/${process}/src/coreFunctions
+            - ${home}/site/hooks:${containerHome}/${repo}/${process}/src/coreHooks
+            - ${home}/site/contexts:${containerHome}/${repo}/${process}/src/coreContexts
+            - ${home}/site/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
+            - ${home}/site/src/entryDev.tsx:${containerHome}/${repo}/${process}/src/entry.dev.tsx
+            - ${home}/site/src/entryExpress.tsx:${containerHome}/${repo}/${process}/src/entry.express.tsx
+            - ${home}/site/src/entryPreview.tsx:${containerHome}/${repo}/${process}/src/entry.preview.tsx
+            - ${home}/site/src/entrySsr.tsx:${containerHome}/${repo}/${process}/src/entry.ssr.tsx
+            - ${home}/site/src/global.css:${containerHome}/${repo}/${process}/src/global.css
+            - ${home}/site/src/pluginCore.ts:${containerHome}/${repo}/${process}/src/routes/plugin@_core.ts
+            - ${home}/site/src/root.jsx:${containerHome}/${repo}/${process}/src/root.tsx
+            - ${home}/site/src/routerHead.jsx:${containerHome}/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/routes/serviceWorker.ts:${containerHome}/${repo}/${process}/src/routes/service-worker.ts
+            # - ${home}/site/src/routes/404.tsx:${containerHome}/${repo}/${process}/src/routes/404.tsx
+            - ${home}/site/src/routes/error:${containerHome}/${repo}/${process}/src/routes/error
+            - ${home}/site/src/routes/createBlobs:${containerHome}/${repo}/${process}/src/routes/create-blobs
+            - ${home}/site/coreTsConfig.json:${containerHome}/${repo}/${process}/coreTsConfig.json
+            - ${home}/site/coreTailwind.css:${containerHome}/${repo}/${process}/coreTailwind.css
+            - ${home}/site/richTextRendererCollector.js:${containerHome}/${repo}/${process}/richTextRendererCollector.js
+            - ${home}/site/itemRendererCollector.js:${containerHome}/${repo}/${process}/itemRendererCollector.js
+            - ${home}/site/paginationBehaviorCollector.js:${containerHome}/${repo}/${process}/paginationBehaviorCollector.js
+            - ${home}/site/settingsCreator.js:${containerHome}/${repo}/${process}/settingsCreator.js
+            - ${home}/site/classPrefixer.js:${containerHome}/${repo}/${process}/classPrefixer.js
+            - ${home}/site/nullLayoutProvider.js:${containerHome}/${repo}/${process}/nullLayoutProvider.js
+            - ${home}/site/emptyDashboardProvider.js:${containerHome}/${repo}/${process}/emptyDashboardProvider.js
+            - ${home}/site/loaderProvider.js:${containerHome}/${repo}/${process}/loaderProvider.js
+            - ${home}/site/telemetry.js:${containerHome}/${repo}/${process}/telemetry.js
+            - ${home}/site/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
+            - ${home}/site/scripts/scroll.js:${containerHome}/${repo}/${process}/public/scripts/scroll.js
+            - ${home}/site/icons/markerIcon.png:${containerHome}/${repo}/${process}/public/icons/marker-icon.png
+            - ${home}/site/icons/markerIcon2x.png:${containerHome}/${repo}/${process}/public/icons/marker-icon-2x.png
+            - ${home}/site/icons/markerShadow.png:${containerHome}/${repo}/${process}/public/icons/marker-shadow.png
+            - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
-            - /tmp/${repo}/${process}/webServerCache:${home}/webServerCache
-            - ${processPath}/tailwind.css:${home}/${repo}/${process}/tailwind.css
+            - /tmp/${repo}/${process}/webServerCache:${containerHome}/webServerCache
+            - ${processPath}/tailwind.css:${containerHome}/${repo}/${process}/tailwind.css
 
             ${volumes}
 
         command: |
             bash -lc '
-            export PATH=${home}/core/commands/site:${home}/core/commands:$PATH
-            cd ${home}/${repo}/${process}
+            export PATH=${containerHome}/core/commands/site:${containerHome}/core/commands:$PATH
             merge site
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
-            watchForDirectoryChanges &
-            watchForAst &
-            initialize &&
-            start &
+            cd ${containerHome}/${repo}/${process}
+            initialize
+            if [ "${isCiCd}" != "true" ]; then
+                watchForDirectoryChanges &
+                watchForAst &
+                start &
+            fi
             tail -f /dev/null
             '
         network_mode: "host"
