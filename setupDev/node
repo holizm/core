@@ -2,6 +2,9 @@
 . "$scripts/installer.sh"
 . "$scripts/logger.sh"
 
+cacheFlag="/var/latestNodeIsInstalled"
+versionCache="/var/latestNodeVersion"
+
 installNode() {
     sudo apt-get update -y
     sudo apt-get install -y curl ca-certificates gnupg jq
@@ -12,18 +15,30 @@ installNode() {
     export NODE_OPTIONS="--trace-deprecation"
 }
 
-latestLts=$(curl -s https://nodejs.org/dist/index.json)
+installedVersion=$(node --version 2>/dev/null || true)
+
+if [[ -f "$cacheFlag" && -n "$installedVersion" ]]; then
+    success "Node.js already up-to-date (cached) $checkMark"
+    exit 0
+fi
+
+latestLts=""
+
+if [[ -f "$versionCache" ]]; then
+    latestLts=$(cat "$versionCache")
+else
+    latestLts=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)][0].version')
+    echo "$latestLts" | sudo tee "$versionCache" >/dev/null
+fi
 
 if [[ -z "$latestLts" ]]; then
     errorAndExit "Change your internet or DNS"
 fi
 
-latestLts=$(echo "$latestLts" | jq -r '[.[] | select(.lts != false)][0].version')
-
-installedVersion=$(node --version 2>/dev/null || true)
-
 if [[ "$installedVersion" == "$latestLts" ]]; then
-    success "Node.js $checkMark"
+    success "Node.js is up to date $checkMark"
+    sudo touch "$cacheFlag"
 else
+    sudo rm -f "$cacheFlag"
     install node installNode
 fi
