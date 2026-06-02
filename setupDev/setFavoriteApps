@@ -6,6 +6,6 @@ gsettings set org.gnome.shell favorite-apps "[
   'org.gnome.Nautilus.desktop',
   'google-chrome.desktop',
   'code.desktop',
-  'org.gnome.Terminal.desktop',
+  'org.gnome.Ptyxis.desktop',
   'org.gnome.gedit.desktop'
 ]"
