@@ -50,10 +50,6 @@ export default params => {
         ...params,
         host: `${repo}.local`,
     })
-    setupLocalDns({
-        ...params,
-        host: `${repo}.prod`,
-    })
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({
