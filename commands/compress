@@ -1,4 +1,4 @@
 (
     cd "${1:-$PWD}" &&
-    zip -r "$(basename "$PWD").zip" ./*
+    zip -yr "$(basename "$PWD").zip" ./*
 )
