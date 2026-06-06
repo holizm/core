@@ -26,7 +26,7 @@ $setupDev/git
 $setupDev/gh
 $setupDev/chrome
 $setupDev/vsCode
-# $setupDev/spellChecker
+$setupDev/spellChecker
 $setupDev/speedTest
 $setupDev/remoteContainers
 
