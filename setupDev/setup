@@ -28,7 +28,7 @@ $setupDev/chrome
 $setupDev/vsCode
 # $setupDev/spellChecker
 $setupDev/speedTest
-# $setupDev/remoteContainers
+$setupDev/remoteContainers
 
 $setupDev/docker
 $setupDev/node
