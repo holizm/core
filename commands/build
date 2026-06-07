@@ -50,7 +50,7 @@ if (localBuild) {
 }
 if (isPanel(params)) {
 }
-copyComposedCode(params)
+await copyComposedCode(params)
 
 if (isCiCd) {
     await buildImage(params)
@@ -60,18 +60,18 @@ if (localBuild) {
 }
 
 await deleteByPatterns('/tmp/build', [
-    '.vscode',
+    '**/.vscode',
     '**/*.yaml',
-    'ast',
-    'certificates',
-    'common.json',
-    'connectionStrings.json',
-    'corePackage.json',
-    'privateSettings.json',
-    'publicSettings.json',
-    'repo.json',
-    'secrets.json',
-    'settingsOverride.json',
+    '**/ast',
+    '**/certificates',
+    '**/common.json',
+    '**/connectionStrings.json',
+    '**/corePackage.json',
+    '**/privateSettings.json',
+    '**/publicSettings.json',
+    '**/repo.json',
+    '**/secrets.json',
+    '**/settingsOverride.json',
 ])
 
 /*
