@@ -10,7 +10,7 @@ import {
 import { runOnTerminal } from './terminal.js'
 import camelize from './camelize.js'
 
-export const deleteByPatterns = async ({ cwd, patterns }) => {
+export const deleteByPatterns = async (cwd, patterns) => {
     const matches = await fg(patterns, {
         cwd,
         dot: true,
