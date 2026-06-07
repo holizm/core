@@ -20,6 +20,9 @@ export default params => {
     const dirs = runOnTerminal(hostCommand, { splitLines: true })
     for (const dir of dirs) {
         const name = getFileNameWithoutExtension(dir)
+        if (name === 'packages') {
+            continue
+        }
         info(name)
         runOnTerminal(`
         docker exec ${containerName} bash -c '

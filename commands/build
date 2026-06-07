@@ -2,7 +2,7 @@
 
 import buildImage from '../scripts/buildImage.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
-import extractComposedCode from '../scripts/extractComposedCode.js'
+import copyComposedCode from '../scripts/copyComposedCode.js'
 import {
     divide,
     info,
@@ -44,11 +44,11 @@ divide()
 Object.assign(params, process.env)
 if (localBuild) {
     removeAndRecreateDir('/tmp/buildProcessSource')
-    runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
+    // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
 }
 if (isPanel(params)) {
 }
-extractComposedCode(params)
+copyComposedCode(params)
 copyHolismModules(params)
 
 if (isCiCd) {
