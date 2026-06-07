@@ -15,6 +15,14 @@ const {
 
 const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
 
+const isRelative = m => m.startsWith('.')
+const isAbsolute = m => m.startsWith('/')
+const getPackageName = m => {
+    const parts = m.split('/')
+    if (m.startsWith('@')) return parts.slice(0, 2).join('/')
+    return parts[0]
+}
+
 const getImportedParts = async dir => {
     await init
     const base = `${nodeModules}/${dir}`
@@ -29,7 +37,12 @@ const getImportedParts = async dir => {
         files.map(async file => {
             const code = await fs.readFile(file, 'utf8')
             const [modules] = parse(code)
-            for (const m of modules) if (m.n) imports.add(m.n)
+            for (const m of modules) {
+                if (!m.n) continue
+                const spec = m.n
+                if (isRelative(spec) || isAbsolute(spec)) continue
+                imports.add(getPackageName(spec))
+            }
         })
     )
     return [...imports].sort()
