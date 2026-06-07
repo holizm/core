@@ -30,19 +30,28 @@ const shouldMatch = (name, pattern) => {
 }
 
 export default async ({ pattern = '' } = {}) => {
-    divide()
-    info('Stopping all ...')
-    divide()
-
     const containers = await listContainers()
+
+    let found = false
 
     for (const id of containers) {
         const name = await getContainerName(id)
 
         if (!shouldMatch(name, pattern)) continue
 
+        if (!found) {
+            divide()
+            info('Stopping all ...')
+            divide()
+            found = true
+        }
+
         await removeContainer(id)
         check(name)
+    }
+
+    if (!found) {
+        return
     }
 
     await runOnTerminalAsync('docker system prune --force 2>&1')

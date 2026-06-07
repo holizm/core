@@ -1,42 +1,47 @@
 #!/usr/bin/env node
 
 import { writeFileSync } from 'fs'
-import { runOnTerminal } from '../../scripts/terminal.js'
-import { error } from '../../scripts/logger.js'
+import fs from 'fs/promises'
+import fg from 'fast-glob'
+import { init, parse } from 'es-module-lexer'
 
 const [, , ...directories] = process.argv
+
 const {
     containerHome,
-    home,
     process: proc,
     repo,
 } = process.env
 
 const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
 
-const getImportedParts = directory => {
-    try {
-        const command = `grep -r --include='*.js' -h 'import ' '${directory}' | sed -E 's/.*from ['\\\']([^'\\\']+)['\\\'].*/\\1/' | sort | uniq`
-        const output = runOnTerminal(command)
+const getImportedParts = async dir => {
+    await init
 
-        return output
-            .split('\n')
-            .filter(importedPart => importedPart)
-            .map(importedPart => importedPart.trim())
-            .reduce((acc, item) => {
-                acc[item] = `file:../${item}`
-                return acc
-            }, {})
-    } catch (err) {
-        error(err)
-        return {}
-    }
+    const files = await fg('**/*.js', {
+        cwd: dir,
+        absolute: true,
+        dot: false,
+        ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+    })
+
+    const imports = new Set()
+
+    await Promise.allSettled(
+        files.map(async file => {
+            const code = await fs.readFile(file, 'utf8')
+            const [modules] = parse(code)
+            for (const m of modules) if (m.n) imports.add(m.n)
+        })
+    )
+
+    return [...imports].sort()
 }
 
-for (let i = 0; i < directories.length; i++) {
-    const directory = directories[i]
+for (const directory of directories) {
     const packageFilePath = `${nodeModules}/${directory}/package.json`
-    const importedParts = getImportedParts(directory)
+
+    const importedParts = await getImportedParts(directory)
 
     const content = {
         type: 'module',

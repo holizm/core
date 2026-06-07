@@ -30,12 +30,17 @@ import indentation from './indentation.js'
 import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
 import changePermissions from './changePermissions.js'
 import ensureTenants from './ensureTenants.js'
+import stop from './stop.js'
 
 export default async overrides => {
     let params = {
         ...extract(),
         ...overrides,
     }
+
+    await stop({
+        pattern: params.containerName
+    })
 
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     params.userLine = params.isCiCd ? `user: "1001:1001"` : ''

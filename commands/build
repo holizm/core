@@ -2,7 +2,6 @@
 
 import buildImage from '../scripts/buildImage.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
-import extract from '../scripts/extract.js'
 import extractComposedCode from '../scripts/extractComposedCode.js'
 import {
     divide,
@@ -14,7 +13,6 @@ import {
     isSite,
 } from '../scripts/os.js'
 import start from '../scripts/start.js'
-import stop from '../scripts/stop.js'
 import {
     clear,
     runOnTerminal,
@@ -24,13 +22,7 @@ import { removeAndRecreateDir } from '../scripts/os.js'
 clear()
 divide()
 
-let params = extract()
-
-await stop({
-    pattern: params.containerName
-})
-
-params = await start({
+const params = await start({
     isCiCd: process.argv[2],
     localBuild: true,
 })
