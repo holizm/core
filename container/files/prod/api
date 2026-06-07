@@ -10,22 +10,8 @@ WORKDIR /home/dev/${repo}/${process}
 RUN ls -ld /home/dev
 RUN ls -lah /home/dev
 RUN find /home/dev/${repo}/${process} -name node_modules -prune -o -print
-RUN ls -lah /home/dev/holismModulesInNodeModules
 
 RUN npm install --legacy-peer-deps
-
-RUN set -e && \
-  if [ -d "/home/dev/holismModulesInNodeModules" ]; then \
-    echo "Found holismModulesInNodeModules, starting copy..." && \
-    mkdir -p "/home/dev/${repo}/${process}/node_modules" && \
-    echo "Target node_modules created at /home/dev/${repo}/${process}/node_modules" && \
-    cp -r /home/dev/holismModulesInNodeModules/* "/home/dev/${repo}/${process}/node_modules/" && \
-    echo "Copy completed successfully" && \
-    rm -rf /home/dev/holismModulesInNodeModules && \
-    echo "Source directory removed"; \
-  else \
-    echo "holismModulesInNodeModules not found, skipping copy"; \
-  fi
 
 RUN mkdir -p /tmp/export && \
 find /home/dev -mindepth 1 -maxdepth 1 -type d -exec cp -a {} /tmp/export/ \;

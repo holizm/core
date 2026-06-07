@@ -2,7 +2,6 @@
 
 import buildImage from '../scripts/buildImage.js'
 import copyHolismModules from '../scripts/copyHolismModules.js'
-import copyComposedCode from '../scripts/copyComposedCode.js'
 import {
     divide,
     info,
@@ -49,7 +48,6 @@ if (localBuild) {
 if (isPanel(params)) {
 }
 copyComposedCode(params)
-copyHolismModules(params)
 
 if (isCiCd) {
     await buildImage(params)
