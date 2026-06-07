@@ -59,7 +59,7 @@ if (localBuild) {
     runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
 }
 
-deleteByPatterns('/tmp/build', [
+await deleteByPatterns('/tmp/build', [
     '.vscode',
     '**/*.yaml',
     'ast',
