@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+import fg from 'fast-glob'
 import fs, { rmSync } from 'fs'
 import path from 'path'
 import {
@@ -10,6 +9,22 @@ import {
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
 import camelize from './camelize.js'
+
+export const deleteByPatterns = async ({ cwd, patterns }) => {
+    const matches = await fg(patterns, {
+        cwd,
+        dot: true,
+        onlyFiles: false,
+        unique: true,
+    })
+    matches.sort((a, b) => b.length - a.length)
+    for (const p of matches) {
+        const fullPath = path.join(cwd, p)
+        if (fs.existsSync(fullPath)) {
+            fs.rmSync(fullPath, { recursive: true, force: true })
+        }
+    }
+}
 
 export const getOrgRepoFromGit = () => {
     let url = runOnTerminal('git config --get remote.origin.url', {

@@ -16,7 +16,10 @@ import {
     clear,
     runOnTerminal,
 } from '../scripts/terminal.js'
-import { removeAndRecreateDir } from '../scripts/os.js'
+import {
+    deleteByPatterns,
+    removeAndRecreateDir,
+} from '../scripts/os.js'
 
 clear()
 divide()
@@ -55,6 +58,21 @@ if (isCiCd) {
 if (localBuild) {
     runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
 }
+
+deleteByPatterns('/tmp/build', [
+    '.vscode',
+    '**/*.yaml',
+    'ast',
+    'certificates',
+    'common.json',
+    'connectionStrings.json',
+    'corePackage.json',
+    'privateSettings.json',
+    'publicSettings.json',
+    'repo.json',
+    'secrets.json',
+    'settingsOverride.json',
+])
 
 /*
 const envFile = process.env.GITHUB_ENV
