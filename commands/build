@@ -1,21 +1,25 @@
 #!/usr/bin/env node
 
+import buildImage from '../scripts/buildImage.js'
+import copyHolismModules from '../scripts/copyHolismModules.js'
+import extract from '../scripts/extract.js'
+import extractComposedCode from '../scripts/extractComposedCode.js'
 import {
     divide,
     info,
 } from '../scripts/logger.js'
-import { clear, runOnTerminal } from '../scripts/terminal.js'
-import start from '../scripts/start.js'
-import stop from '../scripts/stop.js'
-import extract from '../scripts/extract.js'
-import buildImage from '../scripts/buildImage.js'
-import copyHolismModules from '../scripts/copyHolismModules.js'
-import extractComposedCode from '../scripts/extractComposedCode.js'
 import {
     isApi,
     isPanel,
     isSite,
 } from '../scripts/os.js'
+import start from '../scripts/start.js'
+import stop from '../scripts/stop.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
+import { removeAndRecreateDir } from '../scripts/os.js'
 
 clear()
 divide()
@@ -32,10 +36,12 @@ params = await start({
 })
 
 const {
+    containerName,
     home,
     isCiCd,
     localBuild,
     processType,
+    processPath,
     repo,
 } = params
 
@@ -44,18 +50,21 @@ info('holism build')
 divide()
 
 Object.assign(params, process.env)
-if (isPanel(params)) {
-    runOnTerminal(`docker exec ${containerName} `)
+if (localBuild) {
+    removeAndRecreateDir('/tmp/buildProcessSource')
+    runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
 }
-// extractComposedCode(params)
-// copyHolismModules(params)
+if (isPanel(params)) {
+}
+extractComposedCode(params)
+copyHolismModules(params)
 
-// if (isCiCd) {
-//     await buildImage(params)
-// }
-// if (localBuild) {
-//     runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
-// }
+if (isCiCd) {
+    await buildImage(params)
+}
+if (localBuild) {
+    runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
+}
 
 /*
 const envFile = process.env.GITHUB_ENV
