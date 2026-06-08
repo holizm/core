@@ -1,9 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
-import build from './build.js'
+. $HOME/core/scripts/logger.sh
 
-const params = await build({
-    isCiCd: true,
-})
+domain=$1
 
-runOnTerminal(`serverCopy /tmp/`)
+node ~/core/scripts/build.js "$domain"
+echo $repo

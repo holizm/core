@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# set -euo pipefail
 
 if [[ -t 1 && -n "${TERM:-}" ]]; then
     colorRed=$(tput setaf 1)
