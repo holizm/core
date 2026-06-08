@@ -34,7 +34,7 @@ const {
     repo,
 } = params
 
-runOnServer(domain, `mkdir -p /tmp/${repo}`)
+await runOnServer(domain, `mkdir -p /tmp/${repo}`)
 
 divide()
 info('Copying to the server...')
@@ -44,8 +44,8 @@ await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain
 
 divide()
 
-runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
-runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip ${params.process}.zip`)
-runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
+await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
+await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip ${params.process}.zip -o`)
+await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
 
 
