@@ -1,93 +1,18 @@
 #!/usr/bin/env node
 
-import buildImage from '../scripts/buildImage.js'
-import copyComposedCode from '../scripts/copyComposedCode.js'
+import { clear } from '../scripts/terminal.js'
 import {
     divide,
     info,
 } from '../scripts/logger.js'
-import {
-    isApi,
-    isPanel,
-    isSite,
-} from '../scripts/os.js'
-import start from '../scripts/start.js'
-import {
-    clear,
-    runOnTerminal,
-} from '../scripts/terminal.js'
-import {
-    deleteByPatterns,
-    removeAndRecreateDir,
-} from '../scripts/os.js'
+import build from '../scripts/build.js'
 
 clear()
-divide()
-
-const params = await start({
-    isCiCd: process.argv[2],
-    localBuild: true,
-})
-
-const {
-    containerName,
-    home,
-    isCiCd,
-    localBuild,
-    processType,
-    processPath,
-    repo,
-} = params
 
 divide()
 info('holism build')
 divide()
 
-Object.assign(params, process.env)
-if (localBuild) {
-    removeAndRecreateDir('/tmp/buildProcessSource')
-    // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
-}
-if (isPanel(params)) {
-}
-await copyComposedCode(params)
-
-if (isCiCd) {
-    await buildImage(params)
-}
-if (localBuild) {
-    runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
-}
-
-await deleteByPatterns('/tmp/build', [
-    '**/.vscode',
-    '**/*.yaml',
-    '**/ast',
-    '**/certificates',
-    '**/common.json',
-    '**/connectionStrings.json',
-    '**/corePackage.json',
-    '**/privateSettings.json',
-    '**/publicSettings.json',
-    '**/repo.json',
-    '**/secrets.json',
-    '**/settingsOverride.json',
-])
-
-/*
-const envFile = process.env.GITHUB_ENV
-
-if (envFile) {
-    Object.entries(params).forEach(([key, value]) => {
-        if (
-            (typeof value === 'string' &&
-                value &&
-                !value.includes('\n')) ||
-            (typeof value === 'boolean' &&
-                value)
-        ) {
-            append(envFile, `${key}=${value}\n`)
-        }
-    })
-}
-*/
+await build({
+    isCiCd: process.argv[2],
+})
