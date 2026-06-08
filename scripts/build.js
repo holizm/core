@@ -7,11 +7,8 @@ import {
     removeAndRecreateDir,
 } from './os.js'
 
-export default async overrides => {
-    const params = await start({
-        ...overrides,
-        localBuild: true,
-    })
+export default async params => {
+    params = await start(params)
 
     const {
         containerName,
@@ -19,7 +16,12 @@ export default async overrides => {
         localBuild,
         processPath,
         repo,
+        processBuildDir,
     } = params
+
+    params.buildDir = '/tmp/build'
+    params.processBuildDir = `${params.buildDir}/${repo}/${process}`
+
 
     Object.assign(params, process.env)
 
@@ -35,10 +37,10 @@ export default async overrides => {
     }
 
     if (localBuild) {
-        runOnTerminal(`compress /tmp/build/${repo}/${params.process}`)
+        runOnTerminal(`compress ${processBuildDir}`)
     }
 
-    await deleteByPatterns('/tmp/build', [
+    await deleteByPatterns(params.buildDir, [
         '**/.vscode',
         '**/*.yaml',
         '**/ast',

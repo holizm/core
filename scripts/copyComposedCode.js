@@ -4,6 +4,7 @@ import { runOnTerminal, runOnTerminalAsync } from './terminal.js'
 
 const copyTopLevelDirs = async params => {
     const {
+        buildDir,
         containerHome,
         containerName,
     } = params
@@ -25,20 +26,21 @@ const copyTopLevelDirs = async params => {
             docker exec ${containerName} bash -c '
                 cd "${containerHome}" &&
                 tar --exclude="node_modules" -cf - "${name}"
-            ' | tar -xf - -C /tmp/build
+            ' | tar -xf - -C ${buildDir}
         `)
     }))
 }
 
 const copyPartModules = async params => {
     const {
+        buildDir,
         containerHome,
         containerName,
         process,
         repo,
     } = params
     const nodeModulesPath = `${containerHome}/${repo}/${process}/node_modules`
-    const buildNodeModulesPath = `/tmp/build/${repo}/${process}/node_modules`
+    const buildNodeModulesPath = `${buildDir}/${repo}/${process}/node_modules`
     const findPartModulesCommand = `
         for dir in ${nodeModulesPath}/*; do
             if [ -d "$dir" ]; then
@@ -67,7 +69,7 @@ const copyPartModules = async params => {
 }
 
 export default async params => {
-    removeAndRecreateDir('/tmp/build')
+    removeAndRecreateDir(params.buildDir)
     await copyTopLevelDirs(params)
     await copyPartModules(params)
 }

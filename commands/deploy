@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+import build from './build.js'
+
+const params = await build({
+    isCiCd: true,
+})
+
+runOnTerminal(`serverCopy /tmp/`)

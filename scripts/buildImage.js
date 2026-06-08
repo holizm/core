@@ -15,7 +15,7 @@ import {
 } from './terminal.js'
 
 export default async params => {
-    params.containerFile = `/tmp/build/container`
+    params.containerFile = `${params.buildDir}/container`
     divide()
 
     if (isApi(params)) {
@@ -38,8 +38,8 @@ export default async params => {
     replaceVariables(params.sourceContainerFile, params.containerFile, params)
 
     let cmd = `docker --debug build \
--f ${params.containerFile} \
--t ${params.imageName} \
-/tmp/build --no-cache --progress=plain`
+        -f ${params.containerFile} \
+        -t ${params.imageName} \
+        ${params.buildDir} --no-cache --progress=plain`
     runStreaming(cmd)
 }

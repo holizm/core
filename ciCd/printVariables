@@ -65,4 +65,4 @@
 
                     echo ""
                     echo "Build directory listing:"
-                    ls -lah /tmp/build
+                    ls -lah ${buildDir}

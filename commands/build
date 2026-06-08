@@ -15,4 +15,5 @@ divide()
 
 await build({
     isCiCd: process.argv[2],
+    localBuild: true,
 })

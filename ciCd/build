@@ -1,6 +1,6 @@
 
             - name: Build the image
               run: |
-                    cd /tmp/build
+                    cd ${buildDir}
                     ls -lah
                     ./core/commands/build isCiCd=true
