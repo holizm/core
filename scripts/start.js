@@ -44,6 +44,8 @@ export default async overrides => {
 
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
+    params.buildDir = '/tmp/build'
+    params.processBuildDir = `${params.buildDir}/${params.repo}/${params.process}`
 
     params = {
         ...params,

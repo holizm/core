@@ -11,17 +11,14 @@ export default async params => {
     params = await start(params)
 
     const {
+        buildDir,
         containerName,
         isCiCd,
         localBuild,
+        processBuildDir,
         processPath,
         repo,
-        processBuildDir,
     } = params
-
-    params.buildDir = '/tmp/build'
-    params.processBuildDir = `${params.buildDir}/${repo}/${process}`
-
 
     Object.assign(params, process.env)
 
