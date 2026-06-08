@@ -45,7 +45,7 @@ await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain
 divide()
 
 await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
-await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip ${params.process}.zip -o`)
+await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
 await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
 
 
