@@ -6,6 +6,10 @@ import {
     deleteByPatterns,
     removeAndRecreateDir,
 } from './os.js'
+import {
+    divide,
+    info,
+} from './logger.js'
 
 export default async params => {
     params = await start(params)
@@ -27,6 +31,9 @@ export default async params => {
         // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
     }
 
+    divide()
+    info('Copying the composed code...')
+    divide()
     await copyComposedCode(params)
 
     if (isCiCd) {
@@ -34,6 +41,9 @@ export default async params => {
     }
 
     if (localBuild) {
+        divide()
+        info('Compressing...')
+        divide()
         runOnTerminal(`compress ${processBuildDir}`)
     }
 

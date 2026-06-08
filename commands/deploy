@@ -35,4 +35,10 @@ const {
 
 runOnTerminal(`runOnServer ${domain} mkdir -p /tmp/${repo}`)
 
+divide()
+info('Copying to the server...')
+divide()
+
 await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}`)
+
+divide()
