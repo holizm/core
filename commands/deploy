@@ -33,4 +33,6 @@ const {
     repo,
 } = params
 
-await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}/${params.process}`)
+runOnTerminal(`runOnServer ${domain} mkdir -p /tmp/${repo}`)
+
+await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}`)
