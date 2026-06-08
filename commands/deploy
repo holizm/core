@@ -1,8 +1,21 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
-. $HOME/core/scripts/logger.sh
+import { clear } from '../scripts/terminal.js'
+import {
+    divide,
+    info,
+} from '../scripts/logger.js'
+import build from '../scripts/build.js'
 
-domain=$1
+clear()
 
-node ~/core/scripts/build.js "$domain"
-echo $repo
+divide()
+info('holism deploy')
+divide()
+
+const params = await build({
+    isCiCd: false,
+    localBuild: true,
+})
+
+console.log(params)
