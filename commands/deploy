@@ -11,6 +11,7 @@ import {
     info,
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
+import runOnServer from '../scripts/runOnServer.js'
 
 const domain = process.argv[2]
 if (!domain) {
@@ -33,7 +34,7 @@ const {
     repo,
 } = params
 
-runOnTerminal(`runOnServer ${domain} mkdir -p /tmp/${repo}`)
+runOnServer(domain, `mkdir -p /tmp/${repo}`)
 
 divide()
 info('Copying to the server...')
@@ -42,3 +43,9 @@ divide()
 await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}`)
 
 divide()
+
+runOnServer(domain, `mv /tmp/${repo} $HOME/${repo}/${params.process}`)
+runOnServer(domain, `unzip $HOME/${repo}/${params.process}/${params.process}.zip`)
+runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
+
+
