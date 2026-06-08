@@ -36,17 +36,6 @@ export default async params => {
     divide()
     await copyComposedCode(params)
 
-    if (isCiCd) {
-        await buildImage(params)
-    }
-
-    if (localBuild) {
-        divide()
-        info('Compressing...')
-        divide()
-        runOnTerminal(`compress ${processBuildDir}`)
-    }
-
     await deleteByPatterns(params.buildDir, [
         '**/.vscode',
         '**/*.yaml',
@@ -61,6 +50,17 @@ export default async params => {
         '**/secrets.json',
         '**/settingsOverride.json',
     ])
+
+    if (isCiCd) {
+        await buildImage(params)
+    }
+
+    if (localBuild) {
+        divide()
+        info('Compressing...')
+        divide()
+        runOnTerminal(`compress ${processBuildDir}`)
+    }
 
     return params
 }
