@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+. $HOME/core/scripts/logger.sh
+
+domain=$1
+shift
+
+if [[ $# -eq 0 ]]; then
+    error "No command provided"
+    exit 1
+fi
+
+read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
+if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
+    error "Failed to extract SSH parameters for $domain"
+    exit 1
+fi
+
+ssh \
+    -A \
+    -o ServerAliveInterval=15 \
+    -p "$sshPort" \
+    "$sshUser@$sshIp" \
+    "$@"

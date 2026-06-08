@@ -1,11 +1,21 @@
 #!/usr/bin/env node
 
-import { clear } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+    runStreaming,
+} from '../scripts/terminal.js'
 import {
     divide,
+    errorAndExit,
     info,
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
+
+const domain = process.argv[2]
+if (!domain) {
+    errorAndExit('Domain is not provided')
+}
 
 clear()
 
@@ -18,4 +28,9 @@ const params = await build({
     localBuild: true,
 })
 
-console.log(params)
+const {
+    processBuildDir,
+    repo,
+} = params
+
+await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}/${params.process}`)
