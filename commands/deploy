@@ -50,9 +50,11 @@ await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --r
 
 await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
 
+const user = (await runOnServer(domain, 'whoami', true)).trim()
+
 await runOnServer(
     domain,
-    `find /tmp/${repo} -type f -name "exports.js" -exec sed -i 's|/home/dev/|/home/$(whoami)/|g' {} +`
+    `find /tmp/${repo} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`
 )
 
 await runOnServer(

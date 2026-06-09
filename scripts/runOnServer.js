@@ -2,11 +2,21 @@ import {
     divide,
     info,
 } from './logger.js'
-import { runStreaming } from './terminal.js'
+import {
+    runOnTerminal,
+    runStreaming,
+} from './terminal.js'
 
-export default async (domain, command) => {
+export default async (domain, command, returnResults = false) => {
+    const escaped = command.replaceAll(`'`, `'\\''`)
+
     divide()
-    info(`Running command: ${command}`)
+    info(`Running command: ${escaped}`)
     divide()
-    await runStreaming(`runOnServer ${domain} '${command}'`)
+
+    if (returnResults) {
+        return await runOnTerminal(`runOnServer ${domain} '${escaped}'`)
+    }
+
+    await runStreaming(`runOnServer ${domain} '${escaped}'`)
 }
