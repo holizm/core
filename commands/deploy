@@ -12,6 +12,7 @@ import {
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
 import runOnServer from '../scripts/runOnServer.js'
+import { camelize } from '../scripts/camelize.js'
 
 const domain = process.argv[2]
 if (!domain) {
@@ -64,9 +65,11 @@ await runOnServer(
 
 await runOnServer(domain, `rm -rf /tmp/${repo}`)
 
+const fullProcessName = camelize(`${repo} ${params.process}`)
+
 await runOnServer(
     domain,
-    `cd $HOME/${repo}/${params.process} && nohup node process.js > process.log 2>&1 < /dev/null &`
+    `cd $HOME/${repo}/${params.process} && pm2 delete ${fullProcessName} || true && pm2 start process.js --name ${fullProcessName} --update-env`
 )
 
 info('Done')
