@@ -64,4 +64,9 @@ await runOnServer(
 
 await runOnServer(domain, `rm -rf /tmp/${repo}`)
 
+await runOnServer(
+    domain,
+    `cd $HOME/${repo}/${params.process} && nohup node process.js > process.log 2>&1 < /dev/null &`
+)
+
 info('Done')
