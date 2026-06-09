@@ -8,6 +8,7 @@ import {
 import runOnServer from '../scripts/runOnServer.js'
 import {
     runOnTerminal,
+    runStreaming,
 } from '../scripts/terminal.js'
 
 const domain = process.argv[2]
@@ -30,11 +31,11 @@ await runOnServer(
     `mkdir -p /etc/letsencrypt/archive/${domain}`
 )
 
-await runOnTerminal(
+await runStreaming(
     `serverCopy /etc/letsencrypt/live/${domain} ${domain}:/tmp/`
 )
 
-await runOnTerminal(
+await runStreaming(
     `serverCopy /etc/letsencrypt/archive/${domain} ${domain}:/tmp/`
 )
 
