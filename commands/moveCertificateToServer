@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+import {
+    errorAndExit,
+    info,
+    divide,
+} from '../scripts/logger.js'
+import runOnServer from '../scripts/runOnServer.js'
+import {
+    runOnTerminal,
+} from '../scripts/terminal.js'
+
+const domain = process.argv[2]
+
+if (!domain) {
+    errorAndExit('Domain is not provided')
+}
+
+divide()
+info(`Copying certificate for ${domain}`)
+divide()
+
+await runOnServer(
+    domain,
+    `mkdir -p /etc/letsencrypt/live/${domain}`
+)
+
+await runOnServer(
+    domain,
+    `mkdir -p /etc/letsencrypt/archive/${domain}`
+)
+
+await runOnTerminal(
+    `serverCopy /etc/letsencrypt/live/${domain} ${domain}:/tmp/`
+)
+
+await runOnTerminal(
+    `serverCopy /etc/letsencrypt/archive/${domain} ${domain}:/tmp/`
+)
+
+await runOnServer(
+    domain,
+    `cp -a /tmp/${domain}/* /etc/letsencrypt/live/${domain}/`
+)
+
+await runOnServer(
+    domain,
+    `cp -a /tmp/${domain}/* /etc/letsencrypt/archive/${domain}/`
+)
+
+await runOnServer(
+    domain,
+    `rm -rf /tmp/${domain}`
+)
+
+info('Done')
