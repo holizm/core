@@ -12,7 +12,7 @@ import {
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
 import runOnServer from '../scripts/runOnServer.js'
-import { camelize } from '../scripts/camelize.js'
+import camelize from '../scripts/camelize.js'
 
 const domain = process.argv[2]
 if (!domain) {
