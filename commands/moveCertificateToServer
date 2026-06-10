@@ -5,9 +5,9 @@ import {
     info,
     divide,
 } from '../scripts/logger.js'
+
 import runOnServer from '../scripts/runOnServer.js'
 import {
-    runOnTerminal,
     runStreaming,
 } from '../scripts/terminal.js'
 
@@ -21,37 +21,40 @@ divide()
 info(`Copying certificate for ${domain}`)
 divide()
 
-await runOnServer(
-    domain,
-    `mkdir -p /etc/letsencrypt/live/${domain}`
-)
-
-await runOnServer(
-    domain,
-    `mkdir -p /etc/letsencrypt/archive/${domain}`
+await runStreaming(
+    `sudo cp -L -a /etc/letsencrypt/live/${domain} /tmp/live`
 )
 
 await runStreaming(
-    `serverCopy /etc/letsencrypt/live/${domain} ${domain}:/tmp/`
+    `sudo cp -a /etc/letsencrypt/archive/${domain} /tmp/archive`
 )
 
 await runStreaming(
-    `serverCopy /etc/letsencrypt/archive/${domain} ${domain}:/tmp/`
+    `cd /tmp && sudo zip -r live.zip live`
 )
 
-await runOnServer(
-    domain,
-    `cp -a /tmp/${domain}/* /etc/letsencrypt/live/${domain}/`
+await runStreaming(
+    `cd /tmp && sudo zip -r archive.zip archive`
 )
 
-await runOnServer(
-    domain,
-    `cp -a /tmp/${domain}/* /etc/letsencrypt/archive/${domain}/`
+await runStreaming(
+    `serverCopy /tmp/live.zip ${domain}:/tmp/`
 )
 
-await runOnServer(
-    domain,
-    `rm -rf /tmp/${domain}`
+await runStreaming(
+    `serverCopy /tmp/archive.zip ${domain}:/tmp/`
 )
 
+divide()
+info('Now run these commands on the server as the root user:')
+divide()
+
+info(`rm -rf /etc/letsencrypt/live/${domain} /etc/letsencrypt/archive/${domain} /tmp/live /tmp/archive`)
+info(`mkdir -p /etc/letsencrypt/live/${domain} /etc/letsencrypt/archive/${domain}`)
+info(`cd /tmp && unzip -o live.zip && unzip -o archive.zip`)
+info(`cp -a /tmp/live/* /etc/letsencrypt/live/${domain}/`)
+info(`cp -a /tmp/archive/* /etc/letsencrypt/archive/${domain}/`)
+info(`rm -rf /tmp/live /tmp/archive /tmp/live.zip /tmp/archive.zip`)
+
+divide()
 info('Done')
