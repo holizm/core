@@ -69,7 +69,7 @@ const fullProcessName = camelize(`${repo} ${params.process}`)
 
 await runOnServer(
     domain,
-    `cd $HOME/${repo}/${params.process} && pm2 delete ${fullProcessName} || true && pm2 start process.js --name ${fullProcessName} --update-env`
+    `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env`
 )
 
 info('Done')
