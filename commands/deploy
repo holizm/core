@@ -47,7 +47,7 @@ divide()
 
 await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
 await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
-await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry="https://mirror-npm.runflare.com" --legacy-peer-deps`)
+await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
 
 await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
 
