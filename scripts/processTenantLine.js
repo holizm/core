@@ -2,7 +2,7 @@ import { errorAndExit } from './logger.js'
 import createCertificate from './createCertificate.js'
 import getLocalHost from './getLocalHost.js'
 import setupLocalDns from './setupLocalDns.js'
-import setupNginx from './setupNginx.js'
+import setupWebServer from './setupWebServer.js'
 
 export default ({
     line,
@@ -33,6 +33,6 @@ export default ({
         tenant,
     }
     createCertificate(params)
-    setupNginx(params)
+    setupWebServer(params)
     setupLocalDns(params)
 }
