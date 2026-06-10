@@ -60,7 +60,7 @@ $setupDev/setLocaleToEnglishUs
 $setupDev/configureKeyboard
 $setupDev/setFavoriteApps
 $setupDev/setChromeAsDefaultBrowser
-# $setupDev/disableWayland
+$setupDev/disableWayland
 $setupDev/setAppsToOpenMaximized
 $setupDev/preventDockAutoHide
 $setupDev/increaseLimits
