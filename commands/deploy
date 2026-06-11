@@ -67,9 +67,15 @@ await runOnServer(domain, `rm -rf /tmp/${repo}`)
 
 const fullProcessName = camelize(`${repo} ${params.process}`)
 
+const port = (await runOnServer(
+    domain,
+    `grep -oP '127\\.0\\.0\\.1:\\K[0-9]+' $HOME/${repo}/${params.process}/compose.yaml | head -n1`,
+    true
+)).trim()
+
 await runOnServer(
     domain,
-    `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env`
+    `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`
 )
 
 info('Done')
