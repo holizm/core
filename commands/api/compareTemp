@@ -60,11 +60,11 @@ function createScripts(part = '') {
 
     const params = {
         app: 'migration',
-        show: true,
         command: 'generateScripts',
-        storagePath: `/tmp/${apiRepo}/migration`,
-        repo: apiRepo,
         part,
+        repo: apiRepo,
+        show: true,
+        storagePath: `/tmp/${apiRepo}/migration`,
         type,
     }
 

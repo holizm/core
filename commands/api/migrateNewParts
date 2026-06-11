@@ -17,6 +17,5 @@ clear()
 run({
     app: 'migration',
     command: 'newParts',
-    files,
     show: true,
 })
