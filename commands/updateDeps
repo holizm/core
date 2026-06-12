@@ -25,10 +25,10 @@ for repoName in "${repos[@]}"; do
     git add package.json
 
     if ! git diff --cached --quiet; then
-    git commit -m "update dependencies"
-    git push
+        git commit -m "update dependencies"
+        git push
     else
-    echo "No changes to commit for $repoName"
+        echo "No changes to commit for $repoName"
     fi
 
     cd "$tempDir"
