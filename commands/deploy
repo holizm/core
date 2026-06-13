@@ -80,11 +80,11 @@ if (params.isApi) {
     )
     await runOnServer(
         domain,
-        `ln -s -f $HOME/${repo}/common/connectionStrings.json $HOME/${repo}/${process}/connectionStrings.json`
+        `ln -s -f $HOME/${repo}/common/connectionStrings.json $HOME/${repo}/${params.process}/connectionStrings.json`
     )
     await runOnServer(
         domain,
-        `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${process}/privateSettings.json`
+        `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`
     )
 }
 
