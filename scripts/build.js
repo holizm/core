@@ -33,6 +33,8 @@ export default async params => {
 
     Object.assign(params, process.env)
 
+    removeAndRecreateDir(buildDir)
+
     if (localBuild) {
         removeAndRecreateDir('/tmp/buildProcessSource')
         // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
@@ -53,7 +55,6 @@ export default async params => {
                 tar -cf - .
             ' | tar -xf - -C ${buildDir}
         `
-        info(command)
         await runOnTerminalAsync(command)
     }
     else {
@@ -76,6 +77,7 @@ export default async params => {
         '**/repo.json',
         '**/secrets.json',
         '**/settingsOverride.json',
+        '**/tenants',
     ])
 
     if (isCiCd) {
