@@ -17,7 +17,10 @@ export default async params => {
     const {
         buildDir,
         containerName,
+        isApi,
         isCiCd,
+        isPanel,
+        isSite,
         localBuild,
         processBuildDir,
         processPath,
@@ -31,10 +34,28 @@ export default async params => {
         // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
     }
 
-    divide()
-    info('Copying the composed code...')
-    divide()
-    await copyComposedCode(params)
+    if (isPanel) {
+        divide()
+        info('Building the panel...')
+        divide()
+        await runOnTerminal(`docker exec ${containerName} bash -c 'npm run build'`)
+
+        divide()
+        info('Copying the built output...')
+        divide()
+        await runOnTerminalAsync(`
+            docker exec ${containerName} bash -c '
+                cd '${processPath}/dist' &&
+                tar -cf - .
+            ' | tar -xf - -C ${buildDir}
+        `)
+    }
+    else {
+        divide()
+        info('Copying the composed code...')
+        divide()
+        await copyComposedCode(params)
+    }
 
     await deleteByPatterns(params.buildDir, [
         '**/.vscode',
