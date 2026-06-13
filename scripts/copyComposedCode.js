@@ -1,6 +1,9 @@
 import { info } from './logger.js'
 import { createDirIfNotExists, getFileNameWithoutExtension, removeAndRecreateDir } from './os.js'
-import { runOnTerminal, runOnTerminalAsync } from './terminal.js'
+import {
+    runOnTerminal,
+    runOnTerminalAsync,
+} from './terminal.js'
 
 const copyTopLevelDirs = async params => {
     const {

@@ -1,7 +1,11 @@
 import buildImage from './buildImage.js'
 import copyComposedCode from './copyComposedCode.js'
 import start from './start.js'
-import { runOnTerminal } from './terminal.js'
+import {
+    runOnTerminal,
+    runOnTerminalAsync,
+    runStreaming,
+} from './terminal.js'
 import {
     deleteByPatterns,
     removeAndRecreateDir,
@@ -38,17 +42,19 @@ export default async params => {
         divide()
         info('Building the panel...')
         divide()
-        await runOnTerminal(`docker exec ${containerName} bash -c 'npm run build'`)
+        await runStreaming(`docker exec ${containerName} bash -c 'npm run build'`)
 
         divide()
         info('Copying the built output...')
         divide()
-        await runOnTerminalAsync(`
+        const command = `
             docker exec ${containerName} bash -c '
                 cd '${processPath}/dist' &&
                 tar -cf - .
             ' | tar -xf - -C ${buildDir}
-        `)
+        `
+        info(command)
+        await runOnTerminalAsync(command)
     }
     else {
         divide()
