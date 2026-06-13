@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import {
-    runOnTerminal,
+    runStreaming,
 } from '../../scripts/terminal.js'
 
-export default params => {
+export default async params => {
     const home = process.env.home
     const {
         app,
@@ -14,5 +14,5 @@ export default params => {
         .map(([k, v]) => `${k}=${v}`)
         .join(' ')
     const cmd = `node --preserve-symlinks ${home}/${app}/process.js ${args}`
-    runOnTerminal(cmd, params)
+    await runStreaming(cmd, params)
 }

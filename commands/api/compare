@@ -22,7 +22,7 @@ const type = process.argv[3] || ''
 const developmentPath = `/tmp/${apiRepo}/migration/development`
 const productionPath = `/tmp/${apiRepo}/migration/production`
 
-function makeDirectories() {
+const makeDirectories = () => {
     if (!isDir(developmentPath)) {
         createDirIfNotExists(developmentPath)
         info(`Created directory: ${developmentPath}`)
@@ -33,7 +33,7 @@ function makeDirectories() {
     }
 }
 
-function deleteMatching(basePath, part, typeFilter = '') {
+const deleteMatching = async (basePath, part, typeFilter = '') => {
     if (!isDir(basePath)) return
 
     const files = getDirsAndFiles(basePath)
@@ -56,7 +56,7 @@ function deleteMatching(basePath, part, typeFilter = '') {
     }
 }
 
-function createScripts(part = '') {
+const createScripts = async (part = '') => {
 
     const params = {
         app: 'migration',
@@ -68,12 +68,12 @@ function createScripts(part = '') {
         type,
     }
 
-    run({
+    await run({
         ...params,
     })
 }
 
-function createScriptForPart(part) {
+const createScriptForPart = async part => {
     if (!type) {
         deleteMatching(developmentPath, part)
         deleteMatching(productionPath, part)
