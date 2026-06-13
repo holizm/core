@@ -34,6 +34,7 @@ export default async params => {
     Object.assign(params, process.env)
 
     removeAndRecreateDir(buildDir)
+    removeAndRecreateDir(processBuildDir)
 
     if (localBuild) {
         removeAndRecreateDir('/tmp/buildProcessSource')
@@ -53,7 +54,7 @@ export default async params => {
             docker exec ${containerName} bash -c '
                 cd '${processPath}/dist' &&
                 tar -cf - .
-            ' | tar -xf - -C ${buildDir}
+            ' | tar -xf - -C ${processBuildDir}
         `
         await runOnTerminalAsync(command)
     }
