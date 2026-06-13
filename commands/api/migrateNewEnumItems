@@ -8,5 +8,7 @@ clear()
 await run({
     app: 'migration',
     command: 'newEnumItems',
+    part: process.argv[0],
     show: true,
+    type: process.argv[1],
 })
