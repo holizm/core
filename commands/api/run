@@ -11,6 +11,7 @@ export default async params => {
         ...rest
     } = params
     const args = Object.entries(rest)
+        .filter(([, v]) => v !== undefined)
         .map(([k, v]) => `${k}=${v}`)
         .join(' ')
     const cmd = `node --preserve-symlinks ${home}/${app}/process.js ${args}`
