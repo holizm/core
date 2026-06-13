@@ -6,6 +6,7 @@ import {
 } from '../../scripts/logger.js'
 import {
     createDirIfNotExists,
+    deleteFile,
     getDirsAndFiles,
     isDir,
     removeAndRecreateDir,
@@ -44,10 +45,8 @@ const deleteMatching = async (basePath, part, typeFilter = '') => {
             try {
                 if (isDir(filePath)) {
                     removeAndRecreateDir(filePath)
-                    info(`Removed directory: ${filePath}`)
                 } else {
                     deleteFile(filePath)
-                    info(`Removed file: ${filePath}`)
                 }
             } catch (e) {
                 error(`❌ Error removing ${filePath}:`, e.message)

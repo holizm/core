@@ -218,3 +218,20 @@ export const getDirsAndFiles = path => {
     return fs.readdirSync(path || '.', { withFileTypes: true })
         .map(d => d.name)
 }
+
+export const deleteFile = filePath => {
+    if (!filePath) errorAndExit('Path must not be empty')
+
+    if (!fs.existsSync(filePath)) return
+
+    try {
+        if (fs.statSync(filePath).isDirectory()) {
+            fs.rmSync(filePath, { recursive: true, force: true })
+        } else {
+            fs.rmSync(filePath, { force: true })
+        }
+    } catch (e) {
+        error(filePath)
+        error(e)
+    }
+}
