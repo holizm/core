@@ -76,15 +76,15 @@ const port = (await runOnServer(
 if (params.isApi) {
     await runOnServer(
         domain,
-        `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`
-    )
-    await runOnServer(
-        domain,
         `ln -s -f $HOME/${repo}/common/connectionStrings.json $HOME/${repo}/${params.process}/connectionStrings.json`
     )
     await runOnServer(
         domain,
         `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`
+    )
+    await runOnServer(
+        domain,
+        `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`
     )
 }
 
