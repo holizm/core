@@ -21,8 +21,8 @@ divide
 
 $setupDev/setup
 
-node "$homeDir/core/hooks/install-hooks.js"
-node "$homeDir/core/commands/install-commands.js"
+node "$homeDir/core/hooks/installHooks.js"
+node "$homeDir/core/commands/installCommands.js"
 node "$homeDir/core/scripts/setVcsIgnores.js"
 
 . "$scripts/configureHosts.sh"

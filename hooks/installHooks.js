@@ -4,21 +4,22 @@ import path from 'path'
 import os from 'os'
 import { execSync } from 'child_process'
 
-const HOME = os.homedir()
-const CORE_HOOKS_DIR = path.resolve(`${HOME}/core/hooks`)
-const GLOBAL_TEMPLATES_DIR = path.join(HOME, '.git-templates')
-const GLOBAL_HOOKS_DIR = path.join(GLOBAL_TEMPLATES_DIR, 'hooks')
+const home = os.homedir()
+const coreHooksDir = path.resolve(`${home}/core/hooks`)
+const templatesDir = path.join(home, '.gitTemplates')
+const globalHooksDir = path.join(templatesDir, 'hooks')
 
 function ensureGlobalHooksDir() {
-    fs.mkdirSync(GLOBAL_HOOKS_DIR, { recursive: true })
+    fs.mkdirSync(templatesDir, { recursive: true })
+    fs.mkdirSync(globalHooksDir, { recursive: true })
 }
 
 function buildGlobalHooks() {
-    const hookDirs = fs.readdirSync(CORE_HOOKS_DIR, { withFileTypes: true }).filter(d => d.isDirectory())
+    const hookDirs = fs.readdirSync(coreHooksDir, { withFileTypes: true }).filter(d => d.isDirectory())
     for (const dir of hookDirs) {
         const hookType = dir.name
-        const hookScriptsDir = path.join(CORE_HOOKS_DIR, hookType)
-        const runnerPath = path.join(GLOBAL_HOOKS_DIR, hookType)
+        const hookScriptsDir = path.join(coreHooksDir, hookType)
+        const runnerPath = path.join(globalHooksDir, hookType)
         const runnerContent = `#!/usr/bin/env node
 import fs from 'fs'
 import { execSync } from 'child_process'
@@ -66,7 +67,7 @@ for (const script of scripts) {
 }
 
 function configureGitTemplateDir() {
-    execSync(`git config --global init.templateDir '${GLOBAL_TEMPLATES_DIR}'`)
+    execSync(`git config --global init.templateDir '${templatesDir}'`)
     console.log('Global Git template directory configured')
 }
 
@@ -83,12 +84,12 @@ function linkOrCopyHooks(repoPath) {
     const repoHooksDir = path.join(repoPath, '.git', 'hooks')
     try {
         fs.rmSync(repoHooksDir, { recursive: true, force: true })
-        fs.symlinkSync(GLOBAL_HOOKS_DIR, repoHooksDir, 'dir')
+        fs.symlinkSync(globalHooksDir, repoHooksDir, 'dir')
         // console.log(`✓ Symlinked hooks → ${repoPath}`)
     } catch {
         fs.mkdirSync(repoHooksDir, { recursive: true })
-        for (const file of fs.readdirSync(GLOBAL_HOOKS_DIR)) {
-            fs.copyFileSync(path.join(GLOBAL_HOOKS_DIR, file), path.join(repoHooksDir, file))
+        for (const file of fs.readdirSync(globalHooksDir)) {
+            fs.copyFileSync(path.join(globalHooksDir, file), path.join(repoHooksDir, file))
         }
         // console.log(`✓ Copied hooks → ${repoPath}`)
     }

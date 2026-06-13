@@ -16,6 +16,7 @@ services:
             - processPath=${containerHome}/${repo}/${process}
             - isCiCd=${isCiCd}
         volumes:
+            - ${home}/.gitTemplates:${containerHome}/.gitTemplates
             - ${home}/packages/panel:${containerHome}/.npm
 
             - ${home}/core:${containerHome}/core
