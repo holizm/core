@@ -31,6 +31,9 @@ const params = await build({
 })
 
 const {
+    isApi,
+    isPanel,
+    isSite,
     processBuildDir,
     repo,
 } = params
@@ -47,21 +50,14 @@ divide()
 
 await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
 await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
-await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
-
-await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
-
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
-await runOnServer(
-    domain,
-    `find /tmp/${repo} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`
-)
-
-await runOnServer(
-    domain,
-    `cp -R /tmp/${repo}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`
-)
+if (isApi) {
+    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+    await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
+    await runOnServer(domain, `find /tmp/${repo} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
+    await runOnServer(domain, `cp -R /tmp/${repo}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`)
+}
 
 await runOnServer(domain, `rm -rf /tmp/${repo}`)
 
