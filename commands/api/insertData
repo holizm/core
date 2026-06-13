@@ -19,7 +19,7 @@ let files = runOnTerminal(findCmd).split('\n')
 
 let initialFile = `${home}/${apiRepo}/common/initial.js`
 if (isFile(initialFile)) files.push(initialFile)
-run({
+await run({
     app: 'query',
     command: 'insertData',
     files,

@@ -22,7 +22,7 @@ const params = {
     command: 'dropParts',
 }
 
-run(params)
+await run(params)
 
 divide()
 success('Dropped all databases')

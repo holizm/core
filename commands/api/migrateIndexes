@@ -14,7 +14,7 @@ const {
 
 clear()
 
-run({
+await run({
     app: 'migration',
     command: 'indexes',
     show: true,

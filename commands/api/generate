@@ -115,7 +115,7 @@ if (!isFile(partFile)) {
     process.exit(0)
 }
 
-run({
+await run({
     app: 'generation',
     part: params.repo,
     partPath: `${home}/${params.repo}`,
