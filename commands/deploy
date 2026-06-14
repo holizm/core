@@ -84,11 +84,11 @@ if (isApi) {
     )
 }
 else if (isPanel) {
-
     await runOnServer(
         domain,
         `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/publicSettings.json`
     )
+    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start serve --name {fullProcessName} -- -s . -l ${port}`)
 }
 
 info('Done')
