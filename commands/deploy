@@ -69,7 +69,7 @@ const port = (await runOnServer(
     true
 )).trim()
 
-if (params.isApi) {
+if (isApi) {
     await runOnServer(
         domain,
         `ln -s -f $HOME/${repo}/common/connectionStrings.json $HOME/${repo}/${params.process}/connectionStrings.json`
@@ -81,6 +81,13 @@ if (params.isApi) {
     await runOnServer(
         domain,
         `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`
+    )
+}
+else if (isPanel) {
+
+    await runOnServer(
+        domain,
+        `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/publicSettings.json`
     )
 }
 
