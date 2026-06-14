@@ -52,8 +52,8 @@ const runnables = runnablesOutput
 
 const spellingConfiguration = [
     {
-        name: 'infra',
-        path: `${homeDir}/core/ide/spellCheck/customDictionary`,
+        name: 'core',
+        path: `${homeDir}/core/ide/dictionary`,
         scope: 'user',
         addWords: true
     }
