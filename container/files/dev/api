@@ -4,8 +4,6 @@ ENV PATH="${HOME}/core/commands/api:${HOME}/core/commands:${PATH}"
 
 USER root
 RUN apt update -qq \
-    && mkdir -p /tmp/imageResizingAndCompression \
-    && mkdir -p /tmp/videoConversion \
     && apt install file -qq -y \
     && apt install gettext-base -qq -y \
     && apt install apt-utils -qq -y \
