@@ -78,7 +78,6 @@ export default async params => {
         '**/repo.json',
         '**/secrets.json',
         '**/settingsOverride.json',
-        '**/tenants',
     ])
 
     if (isCiCd) {
