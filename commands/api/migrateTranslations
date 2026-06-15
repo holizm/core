@@ -7,6 +7,6 @@ clear()
 
 await run({
     app: 'migration',
-    command: 'newParts',
+    command: 'translations',
     show: true,
 })
