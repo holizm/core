@@ -15,9 +15,9 @@ services:
             - processPath=${containerHome}/${repo}/${process}
             - isCiCd=${isCiCd}
             - randomPort=${randomPort}
-            - AUTH_SECRET=t69bu9H55yXKQfUfx8fN
-            - KEYCLOAK_CLIENT_SECRET=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
-            - KEYCLOAK_ISSUER=https://accounts.holism.ir/realms/development
+            - authSecret=t69bu9H55yXKQfUfx8fN
+            - iamClientSecret=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
+            - iamIssuer=https://accounts.holism.ir/realms/development
             - PROTOCOL_HEADER=x-forwarded-proto
             - HOST_HEADER=x-forwarded-host
             # - NODE_ENV=production
