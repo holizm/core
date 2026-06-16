@@ -42,6 +42,16 @@ const importExportData = foundFiles
         return { name, importLine: `import ${name} from '${importPath}'\n`, exportLine: `export { ${name} }\n` }
     })
 
+const hasLayout = importExportData.some(i => i.name === 'Layout')
+
+if (!hasLayout) {
+    importExportData.push({
+        name: 'Layout',
+        importLine: 'const Layout = null\n',
+        exportLine: 'export { Layout }\n'
+    })
+}
+
 importExportData.sort((a, b) => a.name.localeCompare(b.name))
 
 const imports = importExportData.map(i => i.importLine).join('')
