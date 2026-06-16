@@ -25,8 +25,9 @@ if (exportsPath.includes('/pageParts/exports.jsx')) process.exit()
 
 const foundFiles = execSync(`find '${sourceDir}' -type f -name '*.jsx'`)
     .toString()
-    .trim()
     .split('\n')
+    .map(s => s.trim())
+    .filter(Boolean)
 
 const importExportData = foundFiles
     .filter(f => !f.endsWith('/exports.jsx') && !f.endsWith('Exports.jsx'))
