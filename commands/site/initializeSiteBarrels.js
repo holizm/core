@@ -37,12 +37,15 @@ for (const dir of srcDirectories) {
 }
 
 const parts = getDirs(partsBase)
+
 for (const part of parts) {
     aliases[part] = `src/parts/${part}/exports`
 }
 
 const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
-    f.endsWith('Exports.jsx') || f.endsWith('Exports.ts') || f.endsWith('Exports.tsx')
+    f.endsWith('Exports.jsx')
+    || f.endsWith('Exports.ts')
+    || f.endsWith('Exports.tsx')
 )
 
 for (const file of pagePartsFiles) {
@@ -54,33 +57,25 @@ const sortedAliases = Object.fromEntries(
     Object.entries(aliases).sort(([a], [b]) => a.localeCompare(b))
 )
 
-let tsConfigContent = `{
-    'extends': './coreTsConfig',
-    'compilerOptions': {
-        'paths': {
-`
-
-const keys = Object.keys(sortedAliases)
-const lastKey = keys[keys.length - 1]
-
-for (const key of keys) {
-    tsConfigContent += `            '${key}': [
-                '${sortedAliases[key]}'
-            ]${key === lastKey ? '' : ','}
-`
-}
-
-tsConfigContent += `        }
+const tsConfig = {
+    extends: './coreTsConfig',
+    compilerOptions: {
+        paths: Object.fromEntries(
+            Object.entries(sortedAliases).map(([key, value]) => [
+                key,
+                [value]
+            ])
+        )
     }
 }
-`
+
+const tsConfigContent = JSON.stringify(tsConfig, null, 4)
 
 const tsConfigFilePath = `${home}/${repo}/${proc}/tsconfig.json`
 
-if (fs.existsSync(tsConfigFilePath)) {
-    if (fs.readFileSync(tsConfigFilePath, 'utf8') !== tsConfigContent) {
-        fs.writeFileSync(tsConfigFilePath, tsConfigContent)
-    }
-} else {
+if (
+    !fs.existsSync(tsConfigFilePath)
+    || fs.readFileSync(tsConfigFilePath, 'utf8') !== tsConfigContent
+) {
     fs.writeFileSync(tsConfigFilePath, tsConfigContent)
 }
