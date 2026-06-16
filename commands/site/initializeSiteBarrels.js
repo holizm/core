@@ -20,7 +20,7 @@ const aliases = {
     qwikCity: 'node_modules/@builder.io/qwik-city',
     core: 'src/core/exports',
     richTextComponents: 'src/richTextComponents',
-    entityRendererComponents: 'src/itemRendererComponents',
+    itemRendererComponents: 'src/itemRendererComponents',
     loaders: 'src/loaders',
     paginationBehaviors: 'src/paginationBehaviors'
 }
