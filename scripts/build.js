@@ -40,16 +40,13 @@ export default async params => {
         removeAndRecreateDir('/tmp/buildProcessSource')
         // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
     }
+    divide()
+    info('Copying the composed code...')
+    divide()
 
     if (isPanel) {
-        divide()
-        info('Building the panel...')
-        divide()
         await runStreaming(`docker exec ${containerName} bash -c 'npm run build'`)
 
-        divide()
-        info('Copying the built output...')
-        divide()
         const command = `
             docker exec ${containerName} bash -c '
                 cd '${processPath}/dist' &&
@@ -58,10 +55,26 @@ export default async params => {
         `
         await runOnTerminalAsync(command)
     }
-    else {
-        divide()
-        info('Copying the composed code...')
-        divide()
+    else if (isSite) {
+        await runStreaming(`docker exec ${containerName} bash -c 'npm run build'`)
+        let command = `
+            docker exec ${containerName} bash -c '
+                cd '${processPath}/dist' &&
+                tar -cf - .
+            ' | tar -xf - -C ${processBuildDir}
+        `
+        await runOnTerminalAsync(command)
+        command = `
+            docker exec ${containerName} bash -c '
+                cd '${processPath}/server' &&
+                tar -cf - .
+            ' | tar -xf - -C ${processBuildDir}
+        `
+        await runOnTerminalAsync(command)
+        command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
+        await runOnTerminalAsync(command)
+    }
+    else if (isApi) {
         await copyComposedCode(params)
     }
 
