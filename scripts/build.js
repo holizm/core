@@ -56,23 +56,25 @@ export default async params => {
         await runOnTerminalAsync(command)
     }
     else if (isSite) {
+        removeAndRecreateDir(`${processBuildDir}/dist`)
+        removeAndRecreateDir(`${processBuildDir}/server`)
         await runStreaming(`docker exec ${containerName} bash -c 'npm run build'`)
         let command = `
             docker exec ${containerName} bash -c '
                 cd '${processPath}/dist' &&
                 tar -cf - .
-            ' | tar -xf - -C ${processBuildDir}
+            ' | tar -xf - -C ${processBuildDir}/dist
         `
-        // await runOnTerminalAsync(command)
+        await runOnTerminalAsync(command)
         command = `
             docker exec ${containerName} bash -c '
                 cd '${processPath}/server' &&
                 tar -cf - .
-            ' | tar -xf - -C ${processBuildDir}
+            ' | tar -xf - -C ${processBuildDir}/server
         `
-        // await runOnTerminalAsync(command)
+        await runOnTerminalAsync(command)
         command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
-        // runOnTerminal(command)
+        runOnTerminal(command)
     }
     else if (isApi) {
         await copyComposedCode(params)
