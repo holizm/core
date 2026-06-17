@@ -63,16 +63,16 @@ export default async params => {
                 tar -cf - .
             ' | tar -xf - -C ${processBuildDir}
         `
-        await runOnTerminalAsync(command)
+        // await runOnTerminalAsync(command)
         command = `
             docker exec ${containerName} bash -c '
                 cd '${processPath}/server' &&
                 tar -cf - .
             ' | tar -xf - -C ${processBuildDir}
         `
-        await runOnTerminalAsync(command)
+        // await runOnTerminalAsync(command)
         command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
-        runOnTerminal(command)
+        // runOnTerminal(command)
     }
     else if (isApi) {
         await copyComposedCode(params)
