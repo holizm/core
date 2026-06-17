@@ -52,8 +52,10 @@ await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/$
 await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
-if (isApi) {
+if (isApi || isSite) {
     await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+}
+if (isApi) {
     await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
     await runOnServer(domain, `find /tmp/${repo} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
     await runOnServer(domain, `cp -R /tmp/${repo}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`)
@@ -83,7 +85,6 @@ else if (isSite) {
     await runOnServer(domain, `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`)
     await runOnServer(domain, `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/dist/publicSettings.json`)
     await runOnServer(domain, `ln -s -f $HOME/${repo}/${params.process}/settingsOverride.json $HOME/${repo}/${params.process}/dist/settingsOverride.json`)
-
 }
 
 info('Done')
