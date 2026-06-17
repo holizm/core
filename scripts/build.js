@@ -72,7 +72,7 @@ export default async params => {
         `
         await runOnTerminalAsync(command)
         command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
-        await runOnTerminalAsync(command)
+        runOnTerminal(command)
     }
     else if (isApi) {
         await copyComposedCode(params)
