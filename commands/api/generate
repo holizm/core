@@ -24,7 +24,13 @@ import {
 import extract from '../../scripts/extract.js'
 import run from './run'
 
-clear()
+const isDirectExecution =
+    process.argv[1] &&
+    path.resolve(process.argv[1]) === path.resolve(import.meta.filename)
+
+if (isDirectExecution) {
+    clear()
+}
 
 const args = process.argv.slice(2)
 let search = args[0] || ''
