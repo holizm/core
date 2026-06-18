@@ -20,7 +20,7 @@ files=(
 
 for file in "${files[@]}"; do
     if [ -f $home/$apiRepo/$apiProcess/$file ]; then
-        cp $home/$apiRepo/$apiProcess/$file $targetPath
+        ln -s -f $home/$apiRepo/$apiProcess/$file $targetPath/$file
     fi
 done
 
