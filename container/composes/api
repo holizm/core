@@ -91,6 +91,8 @@ services:
         tty: true
         networks:
             - ${repo}Network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
 networks:
     ${repo}Network:
