@@ -12,14 +12,19 @@ import {
     info,
     warning,
 } from '../../scripts/logger.js'
-import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../../scripts/terminal.js'
 import {
     getLines,
     isDir,
     isFile,
-} from "../../scripts/os.js"
-import extract from "../../scripts/extract.js"
-import run from "./run"
+} from '../../scripts/os.js'
+import extract from '../../scripts/extract.js'
+import run from './run'
+
+clear()
 
 const args = process.argv.slice(2)
 let search = args[0] || ''
@@ -80,7 +85,7 @@ const command = `
     find ${home} \
         -maxdepth 1 -mindepth 1 -type d \
         -name '*${search}*' \
-        -exec test -f "{}/part" \\; \
+        -exec test -f '{}/part' \\; \
         -print 2>/dev/null
 `
 const result = runOnTerminal(command)
