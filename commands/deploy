@@ -82,7 +82,7 @@ else if (isPanel) {
     await runOnServer(domain, `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start /usr/local/node/bin/serve --name ${fullProcessName} -- -s . -l ${port}`)
 }
 else if (isSite) {
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/tenants.json $HOME/${repo}/${params.process}/tenants.json`)
+    await runOnServer(domain, `ln -s -f $HOME/${repo}/tenants $HOME/${repo}/${params.process}/tenants`)
     await runOnServer(domain, `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`)
     await runOnServer(domain, `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/dist/publicSettings.json`)
     await runOnServer(domain, `ln -s -f $HOME/${repo}/${params.process}/settingsOverride.json $HOME/${repo}/${params.process}/dist/settingsOverride.json`)
