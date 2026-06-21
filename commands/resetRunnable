@@ -11,4 +11,14 @@ fi
 stop $runnable
 sudo rm -rf /tmp/$runnable
 sudo rm -rf /var/tmp/$runnable
-find $HOME/webServer -type f -iname "*$runnable*" -delete 2>/dev/null
+
+tenantsPath="$HOME/$runnable/common/tenants"
+
+if [ ! -f "$tenantsPath" ]; then
+    exit 0
+fi
+
+while read -r tenant domain _; do
+    domain=${domain%.*}
+    find $HOME/webServer -type f -iname "*$domain*" -delete 2>/dev/null
+done < "$tenantsPath"
