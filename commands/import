@@ -32,11 +32,11 @@ if [[ -z "$secretFile" ]]; then
     exit
 fi
 
-gitHubRepo=$(jq -r --arg domain "$domain" '.deployment | select(.instances[].domain == $domain) | .gitHubRepo' "$secretFile")
+githubRepo=$(jq -r --arg domain "$domain" '.deployment | select(.instances[].domain == $domain) | .githubRepo' "$secretFile")
 serverDirectory=$(jq -r --arg domain "$domain" '.deployment.instances[] | select(.domain == $domain) | .serverDirectory' "$secretFile")
 
-if [[ -z "$gitHubRepo" || "$gitHubRepo" == "null" ]]; then
-    error "gitHubRepo not found for $domain"
+if [[ -z "$githubRepo" || "$githubRepo" == "null" ]]; then
+    error "githubRepo not found for $domain"
     divide
     exit
 fi
@@ -46,7 +46,7 @@ if [[ -z "$serverDirectory" || "$serverDirectory" == "null" ]]; then
     exit
 fi
 
-targetContainer="${gitHubRepo}Databases"
+targetContainer="${githubRepo}Databases"
 
 read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 

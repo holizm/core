@@ -1,5 +1,5 @@
             
             - name: Extract org and repo
               run: |
-                    echo "gitHubOrganization=${{ github.repository_owner }}" >> $GITHUB_ENV
-                    echo "gitHubRepository=${{ github.event.repository.name }}" >> $GITHUB_ENV
+                    echo "githubOrganization=${{ github.repository_owner }}" >> $GITHUB_ENV
+                    echo "githubRepository=${{ github.event.repository.name }}" >> $GITHUB_ENV
