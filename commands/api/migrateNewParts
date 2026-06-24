@@ -8,5 +8,7 @@ clear()
 await run({
     app: 'migration',
     command: 'newParts',
+    part: process.argv[2],
     show: true,
+    type: process.argv[3],
 })
