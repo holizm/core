@@ -19,6 +19,7 @@ import {
     writeFile,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
+import kebabize from './kebabize.js'
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -34,6 +35,19 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/richTextTemplate.jsx`, 'parts/shared/richText.jsx')
     copyFileIfNotExists(`${home}/core/site/tailwindTemplate.css`, 'tailwind.css')
 }
+
+const normalizeRoute = route => route
+    .split('/')
+    .map(segment => {
+        if (segment === 'id' || segment === 'slug') {
+            return `[${segment}]`
+        }
+        if (segment === 'path') {
+            return `[...path]`
+        }
+        return kebabize(segment)
+    })
+    .join('/')
 
 const mapDependencies = params => {
     let {
@@ -61,27 +75,25 @@ const mapDependencies = params => {
         const pagesPath = `${dependencyBase}/pages`
         if (isDir(pagesPath)) {
             const mappings = []
-            fs.readdirSync(pagesPath).forEach(page => {
-                const pagePath = `${pagesPath}/${page}`
-                /*
-                todo`,`
-                /route/slug => /route/[slug]
-                /route/id => /route/[id]
-                /camelizedRoute => /kebabized-route
-                */
-                if (!fs.statSync(pagePath).isDirectory()) return
-                const pageDirectory = page.split('pages/')[0] || ''
-                if (!pageDirectory.trim()) return
-                const targetPath = `${processPath}/pages/${pageDirectory}`
-                if (!isFile(targetPath) || fs.readdirSync(targetPath).length === 0) {
-                    const source = `${dependencyBase}/pages/${pageDirectory}`
-                    const target = `${home}/${repo}/${process}/src/routes/${pageDirectory}`
+            const paths = runOnTerminal(`find ${pagesPath} -mindepth 1`).split('\n')
+
+            paths.forEach(path => {
+                if (!path.trim()) return
+
+                const relative = path.replace(`${pagesPath}/`, '')
+                const relativePath = normalizeRoute(relative)
+
+                const source = path
+                const targetPath = `${processPath}/pages/${relativePath}`
+
+                if (!isDir(targetPath) || fs.readdirSync(targetPath).length === 0) {
+                    const target = `${home}/${repo}/${process}/src/routes/${relativePath}`
                     mappings.push([source, target])
                 }
             })
             mappings.sort((a, b) => a[1].localeCompare(b[1]))
             mappings.forEach(([source, target]) => {
-                params.addVolume(`${source}`, `${target}`)
+                params.addVolume(source, target)
             })
         }
 
