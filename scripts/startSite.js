@@ -75,7 +75,7 @@ const mapDependencies = params => {
         const pagesPath = `${dependencyBase}/pages`
         if (isDir(pagesPath)) {
             const mappings = []
-            const paths = runOnTerminal(`find ${pagesPath} -mindepth 1`).split('\n')
+            const paths = runOnTerminal(`find ${pagesPath} -mindepth 1 -type d`).split('\n')
 
             paths.forEach(path => {
                 if (!path.trim()) return
