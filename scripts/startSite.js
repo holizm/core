@@ -81,6 +81,9 @@ const mapDependencies = params => {
                 if (!path.trim()) return
 
                 const relative = path.replace(`${pagesPath}/`, '')
+                const ignored = new Set(['id', 'slug', 'path'])
+                if (ignored.has(relative.split('/').at(-1))) return
+
                 const relativePath = normalizeRoute(relative)
 
                 const source = path
