@@ -75,18 +75,17 @@ const mapDependencies = params => {
         const pagesPath = `${dependencyBase}/pages`
         if (isDir(pagesPath)) {
             const mappings = []
-            const paths = runOnTerminal(`find ${pagesPath} -mindepth 1 -type d`).split('\n')
+            const paths = runOnTerminal(`find ${pagesPath} -name index.jsx`).split('\n')
 
             paths.forEach(path => {
                 if (!path.trim()) return
 
-                const relative = path.replace(`${pagesPath}/`, '')
-                const ignored = new Set(['id', 'slug', 'path'])
-                if (ignored.has(relative.split('/').at(-1))) return
+                const dir = path.replace('/index.jsx', '')
+                const relative = dir.replace(`${pagesPath}/`, '')
 
                 const relativePath = normalizeRoute(relative)
 
-                const source = path
+                const source = dir
                 const targetPath = `${processPath}/pages/${relativePath}`
 
                 if (!isDir(targetPath) || fs.readdirSync(targetPath).length === 0) {
