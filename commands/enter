@@ -16,7 +16,10 @@ if (!containerName) {
 }
 
 const lines = runOnTerminal(`docker ps -a --format "{{.Names}}||{{.Status}}"`).split("\n").filter(Boolean)
-const hit = lines.map(l => l.split("||")).find(([n]) => n.includes(containerName))
+
+const hit = lines
+    .map(l => l.split("||"))
+    .find(([name]) => name.endsWith(containerName))
 
 if (!hit) {
     divide()
