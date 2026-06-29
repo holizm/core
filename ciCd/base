@@ -6,6 +6,7 @@ on:
 env:
     GH_TOKEN: ${{ secrets.PAT }}
     isCiCd: true
+    process: ${process}
 
 jobs:
     buildAndPush:
