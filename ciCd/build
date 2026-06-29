@@ -1,6 +1,6 @@
 
             - name: Build the image
               run: |
-                    cd ~/$githubRepository/$process
+                    cd ~/$repo/$process
                     ls -lah
                     ~/core/commands/build isCiCd=true

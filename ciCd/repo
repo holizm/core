@@ -2,4 +2,4 @@
             - name: Clone runnable
               if: startsWith(runner.name, 'GitHub')
               run: |
-                    clone $githubOrganization $githubRepository
+                    clone $org $repo
