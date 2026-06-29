@@ -15,7 +15,6 @@ const getTranslation = (value, filePath) => {
     const targetLocale = getFileNameWithoutExtension(filePath)
     const escapedValue = value.replace(/'/g, `'\\''`)
     const command = `trans :${targetLocale} -brief -no-bidi '${escapedValue}'`
-    console.log(command)
     const result = runOnTerminal(command)
     return result
 }
