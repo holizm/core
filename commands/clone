@@ -13,10 +13,11 @@ import {
 } from '../scripts/logger.js'
 import setVcsIgnore from "../scripts/setVcsIgnore.js"
 
-const DEFAULT_ORG = 'holizm'
-const BASE_DIR = process.env.HOME
+const defaultOrg = 'holizm'
+const baseDir = process.env.HOME
 const timeoutSeconds = process.env.GitTimeout && `${process.env.GitTimeout}`.trim() !== '' ? Number(process.env.GitTimeout) : 15
 const cloneConcurrency = process.env.CloneConcurrency && `${process.env.CloneConcurrency}`.trim() !== '' ? Number(process.env.CloneConcurrency) : 8
+const excludedRepos = ['serverFonts']
 
 const needsRetry = out => !out || /unexpected disconnect/i.test(out)
 const pathExists = async p => { try { await fs.access(p); return true } catch { return false } }
@@ -40,7 +41,7 @@ const listRepos = async org => {
 const cloneOnce = async (org, repo, dir) => await runOnTerminalAsync(`timeout ${timeoutSeconds} gh repo clone ${org}/${repo} ${dir} 2>&1`) || ''
 
 const cloneWithRetry = async (org, repo) => {
-    const dir = path.join(BASE_DIR, repo)
+    const dir = path.join(baseDir, repo)
     if (await pathExists(dir)) {
         await setVcsIgnore(dir)
         info(`Skipping ${org}/${repo} (already exists)`)
@@ -84,7 +85,14 @@ const cloneOrg = async org => {
     divide()
     info(`Cloning all repos from ${org}...`)
     divide()
-    const repos = await listRepos(org)
+    const allRepos = await listRepos(org)
+    const repos = allRepos.filter(full => {
+        const [, repo] = full.split('/')
+        if (excludedRepos.includes(repo)) {
+            return false
+        }
+        return true
+    })
     await mapLimit(repos, cloneConcurrency, async full => {
         const [, repo] = full.split('/')
         return cloneWithRetry(org, repo)
@@ -94,14 +102,14 @@ const cloneOrg = async org => {
 const [arg1, arg2] = process.argv.slice(2)
 
 if (!arg1) {
-    await cloneOrg(DEFAULT_ORG)
+    await cloneOrg(defaultOrg)
 } else if (!arg2) {
     if (await orgExists(arg1)) {
         await cloneOrg(arg1)
-    } else if (await repoExists(DEFAULT_ORG, arg1)) {
-        await cloneWithRetry(DEFAULT_ORG, arg1)
+    } else if (await repoExists(defaultOrg, arg1)) {
+        await cloneWithRetry(defaultOrg, arg1)
     } else {
-        dividedError(`Neither org ${arg1} nor repo ${DEFAULT_ORG}/${arg1} exists`)
+        dividedError(`Neither org ${arg1} nor repo ${defaultOrg}/${arg1} exists`)
         process.exit(1)
     }
 } else {
