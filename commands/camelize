@@ -12,22 +12,28 @@ const list = runOnTerminal("find . -name .git -prune -o -print")
 
 for (const p of list) {
     try {
-        const dir = path.dirname(p)
-        const base = path.basename(p)
+        if (p === '.') continue
+
         const stat = fs.lstatSync(p)
 
-        const { name: stem, ext } = stat.isDirectory()
-            ? { name: base, ext: '' }
-            : path.parse(base)
+        const segments = p.split('/').filter(s => s && s !== '.')
 
-        const newStem = camelize(stem)
-        const newName = newStem + ext
+        const newSegments = segments.map((seg, i) => {
+            const isLast = i === segments.length - 1
 
-        if (newName !== base) {
-            const newPath = path.join(dir, newName)
+            if (isLast && !stat.isDirectory()) {
+                const { name: stem, ext } = path.parse(seg)
+                return camelize(stem) + ext
+            }
+            return camelize(seg)
+        })
+
+        const newPath = './' + newSegments.join('/')
+
+        if (newPath !== p) {
             fs.renameSync(p, newPath)
         }
     } catch (e) {
-        error(e)
+        // error(e)
     }
 }
