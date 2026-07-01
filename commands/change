@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+. $HOME/core/scripts/logger.sh
+
+from=$1
+to=$2
+
+if [[ $from == "" ]]; then
+    error "From is not provided."
+    info "changeFromTo <from> <to>"
+    exit 1
+fi
+
+if [[ $to == "" ]]; then
+    error "To is not provided."
+    info "changeFromTo <from> <to>"
+    exit 1
+fi
+
+divide
+info "Changing file contents (sed)"
+divide
+find "$PWD" -mindepth 1 -type f -not -path "*/.git/*" -not -name ".git" 2>/dev/null | while read -r filePath; do
+    if grep -ql "$from" "$filePath" 2>/dev/null; then
+        info "Changed content in: $filePath"
+        sed -i "s/$from/$to/g" "$filePath"
+    fi
+done
+
+divide
+info "Changing file and directory paths (rename)"
+divide
+find "$PWD" -mindepth 1 -name "*$from*" -not -path "*/.git/*" -not -name ".git" 2>/dev/null | sort -r | while read -r itemPath; do
+    info "Renamed path: $itemPath"
+    rename "s/$from/$to/g" "$itemPath"
+done
+
+divide
+info "Changing symbolic links"
+divide
+find "$PWD" -type l -not -path "*/.git/*" -not -name ".git" 2>/dev/null | while read -r linkPath; do
+    targetPath=$(readlink "$linkPath")
+    if [[ $targetPath == *"$from"* ]]; then
+        newTargetPath="${targetPath/$from/$to}"
+        info "Updated link: $linkPath -> $newTargetPath"
+        if [ -d "$targetPath" ]; then
+            ln -s -f "$newTargetPath" "$(dirname "$linkPath")"
+        else
+            ln -s -f "$newTargetPath" "$linkPath"
+        fi
+    fi
+done
