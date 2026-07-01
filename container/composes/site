@@ -53,7 +53,7 @@ services:
             - ${home}/site/src/routes/error:${containerHome}/${repo}/${process}/src/routes/error
             - ${home}/site/src/routes/createBlobs:${containerHome}/${repo}/${process}/src/routes/create-blobs
             - ${home}/site/coreTsConfig.json:${containerHome}/${repo}/${process}/coreTsConfig.json
-            - ${home}/site/coreTailwind.css:${containerHome}/${repo}/${process}/coreTailwind.css
+            - ${home}/site/core.css:${containerHome}/${repo}/${process}/core.css
             - ${home}/site/richTextRendererCollector.js:${containerHome}/${repo}/${process}/richTextRendererCollector.js
             - ${home}/site/itemRendererCollector.js:${containerHome}/${repo}/${process}/itemRendererCollector.js
             - ${home}/site/paginationBehaviorCollector.js:${containerHome}/${repo}/${process}/paginationBehaviorCollector.js
