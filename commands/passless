@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if sudo grep -q "^$(whoami)" /etc/sudoers; then
     echo "User $(whoami) is already in the sudoers file."

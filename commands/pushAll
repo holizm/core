@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 find ~ -maxdepth 2 -type d -name .git |
 sort |
 xargs -P 8 -I {} bash -c '
