@@ -26,7 +26,6 @@ services:
             - ${home}/packages/site:${containerHome}/.npm
             - ${home}/core:${containerHome}/core
             - ${home}/policies:${containerHome}/policies
-            - ${home}/core/fonts:${containerHome}/${repo}/${process}/public/fonts
             - ${home}/site/:${containerHome}/site/
             - ${home}/site/eslintConfig.js:${containerHome}/${repo}/${process}/eslint.config.js
             - ${home}/site/prettierIgnore:${containerHome}/${repo}/${process}/.prettierignore

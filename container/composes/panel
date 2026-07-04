@@ -21,8 +21,6 @@ services:
 
             - ${home}/core:${containerHome}/core
 
-            - ${home}/fonts:${containerHome}/${repo}/${process}/public/fonts
-
             - ${home}/panel:${containerHome}/panel
             - ${home}/panel/addPartAndType.js:${containerHome}/${repo}/${process}/addPartAndType.js
             - ${home}/panel/addProperty.js:${containerHome}/${repo}/${process}/addProperty.js
