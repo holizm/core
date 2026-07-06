@@ -75,13 +75,23 @@ const mapDependencies = params => {
             runnablePart = true
         }
 
-        const dependencyBase = `${home}${dependencyOrgOrRep}/${dependency}/api`
-        const partFilePath = `${home}${dependencyOrgOrRep}/${dependency}/part`
+        const dependencyRoot = `${home}${dependencyOrgOrRep}/${dependency}`
+        const dependencyBase = `${dependencyRoot}/api`
+        const partFilePath = `${dependencyRoot}/part`
         if (!fs.existsSync(partFilePath)) continue
 
         params.addVolume(`${dependencyBase}`, `${containerHome}/spl/${dependency}`)
         params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
+
+        if (runnablePart) {
+            for (const directory of ['localization', 'panel', 'site']) {
+                const source = `${dependencyRoot}/${directory}`
+                if (fs.existsSync(source)) {
+                    params.addVolume(source, `${containerHome}/${dependency}/${directory}`)
+                }
+            }
+        }
 
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
