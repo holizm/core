@@ -85,7 +85,12 @@ const mapDependencies = params => {
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
 
         if (runnablePart) {
-            for (const directory of ['localization', 'panel', 'site']) {
+            const localizationDirectories = [
+                'localization',
+                'panel/localization',
+                'site/localization',
+            ]
+            for (const directory of localizationDirectories) {
                 const source = `${dependencyRoot}/${directory}`
                 if (fs.existsSync(source)) {
                     params.addVolume(source, `${containerHome}/${dependency}/${directory}`)
