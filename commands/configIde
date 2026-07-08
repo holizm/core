@@ -5,20 +5,17 @@ import {
     getContent,
     writeFile,
 } from '../scripts/os.js'
-import {
-    divide,
-    info,
-    warning,
-} from '../scripts/logger.js'
 
 const homeDir = process.env.HOME
+const ideDir = `${homeDir}/.config/Code/User`
+const coreDir = `${homeDir}/core/ide`
 
-const userSettingsPath = `${homeDir}/.config/Code/User/settings.json`
-const infraSettingsPath = `${homeDir}/core/ide/settings.json`
+const ideSettingsPath = `${ideDir}/settings.json`
+const coreSettingsPath = `${coreDir}/settings.json`
 
-const infraSettings = JSON.parse(getContent(infraSettingsPath))
+const coreSettings = JSON.parse(getContent(coreSettingsPath))
 
-let userSettingsRaw = getContent(userSettingsPath, true)
+let userSettingsRaw = getContent(ideSettingsPath, true)
 let userSettings
 let action = 'overwrite'
 
@@ -26,14 +23,14 @@ try {
     userSettings = JSON.parse(userSettingsRaw)
     action = 'merge'
 } catch {
-    userSettings = JSON.parse(infraSettings)
+    userSettings = coreSettings
 }
 
-const mergeConfig = (infraJson) => {
+const mergeConfig = (coreJson) => {
     const result = { ...userSettings }
 
-    for (const key of Object.keys(infraJson)) {
-        result[key] = infraJson[key]
+    for (const key of Object.keys(coreJson)) {
+        result[key] = coreJson[key]
     }
 
     return result
@@ -68,11 +65,36 @@ for (const runnable of runnables) {
     })
 }
 
-infraSettings['cSpell.customDictionaries'] = spellingConfiguration
+coreSettings['cSpell.customDictionaries'] = spellingConfiguration
 
-const result =
+const settingsResult =
     action === 'merge'
-        ? mergeConfig(infraSettings)
-        : infraSettings
+        ? mergeConfig(coreSettings)
+        : coreSettings
 
-writeFile(userSettingsPath, JSON.stringify(result, null, 4))
+writeFile(ideSettingsPath, JSON.stringify(settingsResult, null, 4))
+
+const ideShortcutsPath = `${ideDir}/keybindings.json`
+const coreShortcutsPath = `${coreDir}/shortcuts.json`
+
+const getKeybindingsArray = (path) => {
+    const raw = getContent(path, true)
+    if (!raw) return []
+
+    try {
+        const parsed = JSON.parse(raw)
+        return Array.isArray(parsed) ? parsed : []
+    } catch {
+        return []
+    }
+}
+
+const coreKeybindings = getKeybindingsArray(coreShortcutsPath)
+const userKeybindings = getKeybindingsArray(ideShortcutsPath)
+
+const finalKeybindings = [
+    ...coreKeybindings,
+    ...userKeybindings
+]
+
+writeFile(ideShortcutsPath, JSON.stringify(finalKeybindings, null, 4))
