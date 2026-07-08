@@ -89,12 +89,29 @@ const getKeybindingsArray = (path) => {
     }
 }
 
+const mergeKeybindings = (core, user) => {
+    const seen = new Set()
+    const result = []
+
+    const process = (list) => {
+        for (const binding of list) {
+            const identifier = `${binding.key}||${binding.command}`
+            if (!seen.has(identifier)) {
+                seen.add(identifier)
+                result.push(binding)
+            }
+        }
+    }
+
+    process(core)
+    process(user)
+
+    return result
+}
+
 const coreKeybindings = getKeybindingsArray(coreShortcutsPath)
 const userKeybindings = getKeybindingsArray(ideShortcutsPath)
 
-const finalKeybindings = [
-    ...coreKeybindings,
-    ...userKeybindings
-]
+const finalKeybindings = mergeKeybindings(coreKeybindings, userKeybindings)
 
 writeFile(ideShortcutsPath, JSON.stringify(finalKeybindings, null, 4))
