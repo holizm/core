@@ -22,7 +22,12 @@ services:
         logging:
             driver: none
         restart: always
-        entrypoint: ["/bin/bash", "-c", "/opt/keycloak/bin/kc.sh start --import-realm --log-level=ROOT:ERROR --log-level=phone_code:DEBUG --optimized"]
+        entrypoint:
+            [
+                "/bin/bash",
+                "-c",
+                "/opt/keycloak/bin/kc.sh start-dev --log-level=ROOT:ERROR --log-level=phone_code:DEBUG --spi-theme-template-cache-enabled=false --spi-theme-resource-cache-enabled=false --import-realm"
+            ]
         depends_on:
             database:
                 condition: service_healthy
@@ -34,7 +39,7 @@ services:
         image: postgres:latest
         container_name: ${instance}AccountsDatabase
         ports:
-            - 127.0.0.1:${${instance}AccountsDatabaseRandomPort}:5432
+            - ${${instance}AccountsDatabaseRandomPort}:5432
         environment:
             - POSTGRES_DB=accounts
             - POSTGRES_USER=${accountsDatabaseUser}
