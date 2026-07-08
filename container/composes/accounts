@@ -46,7 +46,7 @@ services:
             - ${home}/${repo}/accounts/databases:/var/lib/postgresql
         restart: always
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U ${accountsDatabaseUser}"]
+            test: ["CMD-SHELL", "pg_isready -U FaMHJGecNag5DKryCH9d"]
             interval: 5s
             timeout: 5s
             retries: 10
