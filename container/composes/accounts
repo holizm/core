@@ -1,0 +1,51 @@
+services:
+    accounts:
+        image: nefcanto/accounts
+        container_name: ${instance}Accounts
+        hostname: ${instance}Accounts
+        working_dir: /opt/keycloak
+        ports:
+            - ${randomPort}:8080
+        environment:
+            - KEYCLOAK_IMPORT=/opt/keycloak/data/import/dev.json
+            - KC_PROXY_HEADERS=xforwarded
+            - KC_BOOTSTRAP_ADMIN_USERNAME=${accountsAdminUser}
+            - KC_BOOTSTRAP_ADMIN_PASSWORD=${accountsAdminPassword}
+            - KC_DB=postgres
+            - KC_DB_URL_HOST=database
+            - KC_DB_URL_DATABASE=accounts
+            - KC_DB_USERNAME=${accountsDatabaseUser}
+            - KC_DB_PASSWORD=${accountsDatabasePassword}
+            - KC_HTTP_ENABLED=true
+            - KC_HOSTNAME_STRICT=false
+            - KC_DIR=/opt/keycloak/data/import
+        logging:
+            driver: none
+        restart: always
+        entrypoint: ["/bin/bash", "-c", "/opt/keycloak/bin/kc.sh start --import-realm --log-level=ROOT:ERROR --log-level=phone_code:DEBUG --optimized"]
+        depends_on:
+            database:
+                condition: service_healthy
+        volumes:
+            - ${environmentRoot}/accounts/dev.json:/opt/keycloak/data/import/dev.json
+            - ${environmentRoot}/accounts/themes:/opt/keycloak/themes
+
+    database:
+        image: postgres:latest
+        container_name: ${instance}AccountsDatabase
+        ports:
+            - 127.0.0.1:${${instance}AccountsDatabaseRandomPort}:5432
+        environment:
+            - POSTGRES_DB=accounts
+            - POSTGRES_USER=${accountsDatabaseUser}
+            - POSTGRES_PASSWORD=${accountsDatabasePassword}
+        volumes:
+            - ${home}/${instance}/accounts/databases:/var/lib/postgresql
+        logging:
+            driver: none
+        restart: always
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${accountsDatabaseUser}"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
