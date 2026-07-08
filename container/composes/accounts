@@ -1,26 +1,24 @@
 services:
     accounts:
         image: nefcanto/accounts
-        container_name: ${instance}Accounts
-        hostname: ${instance}Accounts
-        working_dir: /opt/keycloak
+        container_name: ${containerName}
+        hostname: accounts
         ports:
-            - ${randomPort}:8080
+            - "${randomPort}:8080"
+        working_dir: /opt/keycloak
         environment:
             - KEYCLOAK_IMPORT=/opt/keycloak/data/import/dev.json
             - KC_PROXY_HEADERS=xforwarded
-            - KC_BOOTSTRAP_ADMIN_USERNAME=${accountsAdminUser}
-            - KC_BOOTSTRAP_ADMIN_PASSWORD=${accountsAdminPassword}
+            - KC_BOOTSTRAP_ADMIN_USERNAME=PZx91EOd84ydum8Z3E6z
+            - KC_BOOTSTRAP_ADMIN_PASSWORD=JNC1gcUVL9O6ZMxr7vKm
             - KC_DB=postgres
             - KC_DB_URL_HOST=database
             - KC_DB_URL_DATABASE=accounts
-            - KC_DB_USERNAME=${accountsDatabaseUser}
-            - KC_DB_PASSWORD=${accountsDatabasePassword}
+            - KC_DB_USERNAME=FaMHJGecNag5DKryCH9d
+            - KC_DB_PASSWORD=IC1joYMLZTT0fQMJ5qcz
             - KC_HTTP_ENABLED=true
             - KC_HOSTNAME_STRICT=false
             - KC_DIR=/opt/keycloak/data/import
-        logging:
-            driver: none
         restart: always
         entrypoint:
             [
@@ -37,17 +35,15 @@ services:
 
     database:
         image: postgres:latest
-        container_name: ${instance}AccountsDatabase
+        container_name: ${repo}AccountsDatabase
         ports:
-            - ${${instance}AccountsDatabaseRandomPort}:5432
+            - ${accountsDatabaseRandomPort}:5432
         environment:
             - POSTGRES_DB=accounts
-            - POSTGRES_USER=${accountsDatabaseUser}
-            - POSTGRES_PASSWORD=${accountsDatabasePassword}
+            - POSTGRES_USER=FaMHJGecNag5DKryCH9d
+            - POSTGRES_PASSWORD=IC1joYMLZTT0fQMJ5qcz
         volumes:
-            - ${home}/${instance}/accounts/databases:/var/lib/postgresql
-        logging:
-            driver: none
+            - ${home}/${repo}/accounts/databases:/var/lib/postgresql
         restart: always
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U ${accountsDatabaseUser}"]

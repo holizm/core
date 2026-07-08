@@ -6,6 +6,7 @@ import {
     replaceVariables,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
+import { info } from '../scripts/logger.js'
 
 const createAccountsContainer = params => {
     const {
@@ -13,6 +14,7 @@ const createAccountsContainer = params => {
         home,
     } = params
 
+    info(params)
     const composeTemplatePath = `${home}/core/container/composes/accounts`
     replaceVariables(composeTemplatePath, composeFile, params)
 }
@@ -20,8 +22,11 @@ const createAccountsContainer = params => {
 export default params => {
     divide()
 
-    getRandomPort('accountsDatabaseRandomPort', params)
-    getRandomPort('accountsAdminerRandomPort', params)
+    params = {
+        ...params,
+        ...getRandomPort('accountsDatabaseRandomPort'),
+        ...getRandomPort('accountsAdminerRandomPort'),
+    }
 
     const { repo } = params
     const containerName = `${repo}Accounts`
