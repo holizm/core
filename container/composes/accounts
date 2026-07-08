@@ -30,8 +30,8 @@ services:
             database:
                 condition: service_healthy
         volumes:
-            - ${environmentRoot}/accounts/dev.json:/opt/keycloak/data/import/dev.json
-            - ${environmentRoot}/accounts/themes:/opt/keycloak/themes
+            - ${home}/accounts/dev.json:/opt/keycloak/data/import/dev.json
+            - ${home}/accounts/themes:/opt/keycloak/themes
 
     database:
         image: postgres:latest

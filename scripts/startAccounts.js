@@ -14,12 +14,13 @@ const createAccountsContainer = params => {
         home,
     } = params
 
-    info(params)
     const composeTemplatePath = `${home}/core/container/composes/accounts`
     replaceVariables(composeTemplatePath, composeFile, params)
 }
 
 export default params => {
+    divide()
+    info('Setting up accounts')
     divide()
 
     params = {
@@ -28,8 +29,7 @@ export default params => {
         ...getRandomPort('accountsAdminerRandomPort'),
     }
 
-    const { repo } = params
-    const containerName = `${repo}Accounts`
+    const { containerName } = params
 
     const result = runOnTerminal(`docker ps -q -f name=${containerName}`)
     if (result.trim()) {
