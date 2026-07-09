@@ -41,7 +41,7 @@ jobs:
             - name: Build and push Docker image
               uses: docker/build-push-action@v5
               with:
-                  context: $HOME
+                  context: ${{ env.HOME }}
                   file: ./core/container/files/${{ inputs.dir }}/${{ inputs.file }}
                   push: true
                   tags: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.tag || inputs.file }}:latest
