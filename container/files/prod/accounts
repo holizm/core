@@ -1,5 +1,7 @@
 FROM quay.io/keycloak/keycloak:latest AS builder
 
+COPY ./phoneCode/target/phone-code-provider.jar /opt/keycloak/providers/
+
 WORKDIR /opt/keycloak
 
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
