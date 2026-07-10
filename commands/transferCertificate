@@ -5,8 +5,7 @@ set -euo pipefail
 . "$HOME/core/scripts/logger.sh"
 
 if [ "$#" -ne 5 ]; then
-    error "Usage:"
-    info "transferCertificate domain sourceHost sourcePort destinationHost destinationPort"
+    error "Usage: transferCertificate <domain> <sourceHost> <sourcePort> <destinationHost> <destinationPort>"
     exit 1
 fi
 
