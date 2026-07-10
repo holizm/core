@@ -6,9 +6,7 @@ import {
     divide,
 } from '../scripts/logger.js'
 import runOnServer from '../scripts/runOnServer.js'
-import {
-    runStreaming,
-} from '../scripts/terminal.js'
+import { runStreaming } from '../scripts/terminal.js'
 
 const domain = process.argv[2]
 
