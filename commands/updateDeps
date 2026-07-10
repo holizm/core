@@ -4,7 +4,7 @@ set -e
 
 basePath="$HOME"
 tempDir="/tmp/temp"
-repos=("api" "panel" "site")
+repos=("api" "panel" "site" "core" "policies")
 
 mkdir -p "$tempDir"
 cd "$tempDir"
