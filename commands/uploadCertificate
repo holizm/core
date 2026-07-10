@@ -13,7 +13,7 @@ import {
 const domain = process.argv[2]
 
 if (!domain) {
-    errorAndExit('Domain is not provided. Usage: moveCertificateToServer <domain>')
+    errorAndExit('Domain is not provided. Usage: uploadCertificate <domain>')
 }
 
 divide()
