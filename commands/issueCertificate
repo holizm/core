@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+import { spawnSync } from 'child_process'
+import {
+    divide,
+    errorAndExit,
+    info,
+} from '../scripts/logger.js'
+import {
+    checkArvanConnection,
+} from '../scripts/arvanDns.js'
+
+const [domain, ...sanDomains] = process.argv.slice(2)
+
+if (!domain) {
+    errorAndExit('Usage: issueCertificate <domain> [sanDomain ...]')
+}
+
+const domains = [...new Set([domain, ...sanDomains])]
+
+for (const item of domains) {
+    if (item !== domain && !item.endsWith(`.${domain}`)) {
+        errorAndExit(`SAN must be a subdomain of ${domain}: ${item}`)
+    }
+}
+
+try {
+    await checkArvanConnection(domain)
+} catch (exception) {
+    errorAndExit(exception.message)
+}
+
+const args = [
+    'certbot',
+    'certonly',
+    '--manual',
+    '--preferred-challenges',
+    'dns',
+    '--cert-name',
+    domain,
+    '--manual-auth-hook',
+    '/home/dev/core/scripts/arvanDnsAuthHook.js',
+    '--manual-cleanup-hook',
+    '/home/dev/core/scripts/arvanDnsCleanupHook.js',
+    '--deploy-hook',
+    '/home/dev/core/scripts/certificateDeployHook.js',
+]
+
+for (const item of domains) {
+    args.push('-d', item)
+}
+
+divide()
+info(`Issuing certificate for ${domains.join(', ')}`)
+divide()
+
+const result = spawnSync('sudo', args, { stdio: 'inherit' })
+
+if (result.error) errorAndExit(result.error)
+process.exit(result.status ?? 1)
