@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import {
+    divide,
     errorAndExit,
     info,
-    divide,
+    success,
 } from '../scripts/logger.js'
 import runOnServer from '../scripts/runOnServer.js'
 import { runStreaming } from '../scripts/terminal.js'
@@ -20,25 +21,26 @@ divide()
 
 await runStreaming(`sudo rm -f /tmp/live_${domain}.zip /tmp/archive_${domain}.zip`)
 
-await runStreaming(`sudo sh -c "cd /etc/letsencrypt/live/${domain} && zip -r -j /tmp/live_${domain}.zip ."`)
 await runStreaming(`sudo sh -c "cd /etc/letsencrypt/archive/${domain} && zip -r -j /tmp/archive_${domain}.zip ."`)
 
-await runStreaming(`sudo chmod 644 /tmp/live_${domain}.zip /tmp/archive_${domain}.zip`)
+await runStreaming(`sudo chmod 644 /tmp/archive_${domain}.zip`)
 
-info(`Uploading archives to ${domain}...`)
-await runStreaming(`serverCopy /tmp/live_${domain}.zip ${domain}:/tmp/`)
+info(`Uploading archive to ${domain}...`)
 await runStreaming(`serverCopy /tmp/archive_${domain}.zip ${domain}:/tmp/`)
 
-await runStreaming(`sudo rm -f /tmp/live_${domain}.zip /tmp/archive_${domain}.zip`)
+await runStreaming(`sudo rm -f /tmp/archive_${domain}.zip`)
 
 divide()
-info('SUCCESS: Files uploaded. Now run these commands on the remote server as root:')
+success('SUCCESS: Certificate archive uploaded. Now run these commands on the remote server as root:')
 divide()
 
 info(`mkdir -p /etc/letsencrypt/live/${domain} /etc/letsencrypt/archive/${domain}`)
-info(`unzip -o /tmp/live_${domain}.zip -d /etc/letsencrypt/live/${domain}/`)
 info(`unzip -o /tmp/archive_${domain}.zip -d /etc/letsencrypt/archive/${domain}/`)
-info(`rm -f /tmp/live_${domain}.zip /tmp/archive_${domain}.zip`)
+info(`rm -f /tmp/archive_${domain}.zip`)
+info(`ln -s -f ../../archive/${domain}/cert1.pem /etc/letsencrypt/live/${domain}/cert.pem`)
+info(`ln -s -f ../../archive/${domain}/chain1.pem /etc/letsencrypt/live/${domain}/chain.pem`)
+info(`ln -s -f ../../archive/${domain}/fullchain1.pem /etc/letsencrypt/live/${domain}/fullchain.pem`)
+info(`ln -s -f ../../archive/${domain}/privkey1.pem /etc/letsencrypt/live/${domain}/privkey.pem`)
 
 divide()
-info('Done')
+info('Then you’re done')
