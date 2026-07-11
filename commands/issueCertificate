@@ -13,7 +13,7 @@ import {
 const [domain, ...sanDomains] = process.argv.slice(2)
 
 if (!domain) {
-    errorAndExit('Usage: issueCertificate <domain> [sanDomain1 sanDomain2 ...]')
+    errorAndExit('Usage: issueCertificate <domain> [additionalDomain1 additionalDomain2 ...]')
 }
 
 const domains = [...new Set([domain, ...sanDomains])]
