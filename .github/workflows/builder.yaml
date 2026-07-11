@@ -32,19 +32,25 @@ jobs:
                   git clone git@github.com:holizm/core
                   git clone git@github.com:holizm/phoneCode
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
-
             - name: Log in to Docker Hub
               run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v5
-              with:
-                  context: ${{ env.HOME }}
-                  file: ./core/container/files/${{ inputs.dir }}/${{ inputs.file }}
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.tag || inputs.file }}:latest
+            - name: Build Docker image
+              run: |
+                  image="${{ secrets.DOCKER_USERNAME }}/${{ inputs.tag || inputs.file }}:latest"
+
+                  docker --debug build \
+                      -f "$HOME/core/container/files/${{ inputs.dir }}/${{ inputs.file }}" \
+                      -t "$image" \
+                      "$HOME" \
+                      --no-cache \
+                      --progress=plain
+
+            - name: Push Docker image
+              run: |
+                  image="${{ secrets.DOCKER_USERNAME }}/${{ inputs.tag || inputs.file }}:latest"
+
+                  docker push "$image"                  
 
             - name: Log out from Docker Hub
               run: docker logout
