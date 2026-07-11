@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. "$HOME/core/scripts/logger.sh"
+
+if [ "$#" -ne 5 ]; then
+    error "Usage: transferCertificate <domain> <sourceHost> <sourcePort> <destinationHost> <destinationPort>"
+    exit 1
+fi
+
+domain="$1"
+sourceHost="$2"
+sourcePort="$3"
+destinationHost="$4"
+destinationPort="$5"
+
+sourceTarget="root@$sourceHost"
+destinationTarget="root@$destinationHost"
+sourceLivePath="/etc/letsencrypt/live/$domain"
+destinationLivePath="/etc/letsencrypt/live/$domain"
+destinationArchivePath="/etc/letsencrypt/archive/$domain"
+localTempPath="$(mktemp -d)"
+destinationTempPath="/tmp/transferCertificate-$domain-$$"
+destinationTempCreated=false
+
+sourceSsh=(ssh -p "$sourcePort")
+sourceScp=(scp -P "$sourcePort")
+destinationSsh=(ssh -p "$destinationPort")
+destinationScp=(scp -P "$destinationPort")
+
+cleanup()
+{
+    rm -rf "$localTempPath"
+
+    if [ "$destinationTempCreated" = true ]; then
+        "${destinationSsh[@]}" "$destinationTarget" "rm -rf '$destinationTempPath'" >/dev/null 2>&1 || true
+    fi
+}
+
+trap cleanup EXIT
+
+resolveSourceFile()
+{
+    local file="$1"
+    "${sourceSsh[@]}" "$sourceTarget" "readlink -f '$sourceLivePath/$file'"
+}
+
+sourceCertFile="$(resolveSourceFile cert.pem)"
+sourceChainFile="$(resolveSourceFile chain.pem)"
+sourceFullchainFile="$(resolveSourceFile fullchain.pem)"
+sourcePrivkeyFile="$(resolveSourceFile privkey.pem)"
+
+info "Certificate transfer"
+info "Domain: $domain"
+info "Source: $sourceHost:$sourcePort"
+info "Destination: $destinationHost:$destinationPort"
+divide
+
+"${sourceSsh[@]}" "$sourceTarget" "
+test -f '$sourceCertFile'
+test -f '$sourceChainFile'
+test -f '$sourceFullchainFile'
+test -f '$sourcePrivkeyFile'
+"
+
+info "Downloading certificate from source server"
+"${sourceScp[@]}" "$sourceTarget:$sourceCertFile" "$localTempPath/cert.pem"
+"${sourceScp[@]}" "$sourceTarget:$sourceChainFile" "$localTempPath/chain.pem"
+"${sourceScp[@]}" "$sourceTarget:$sourceFullchainFile" "$localTempPath/fullchain.pem"
+"${sourceScp[@]}" "$sourceTarget:$sourcePrivkeyFile" "$localTempPath/privkey.pem"
+success "Certificate downloaded"
+divide
+
+info "Uploading certificate to destination server"
+"${destinationSsh[@]}" "$destinationTarget" "mkdir -p '$destinationTempPath' && chmod 700 '$destinationTempPath'"
+destinationTempCreated=true
+"${destinationScp[@]}" "$localTempPath/cert.pem" "$destinationTarget:$destinationTempPath/cert.pem"
+"${destinationScp[@]}" "$localTempPath/chain.pem" "$destinationTarget:$destinationTempPath/chain.pem"
+"${destinationScp[@]}" "$localTempPath/fullchain.pem" "$destinationTarget:$destinationTempPath/fullchain.pem"
+"${destinationScp[@]}" "$localTempPath/privkey.pem" "$destinationTarget:$destinationTempPath/privkey.pem"
+success "Certificate uploaded"
+divide
+
+info "Installing certificate on destination server"
+"${destinationSsh[@]}" "$destinationTarget" "
+rm -rf '$destinationArchivePath' '$destinationLivePath'
+mkdir -p '$destinationArchivePath' '$destinationLivePath'
+mv '$destinationTempPath/cert.pem' '$destinationArchivePath/cert1.pem'
+mv '$destinationTempPath/chain.pem' '$destinationArchivePath/chain1.pem'
+mv '$destinationTempPath/fullchain.pem' '$destinationArchivePath/fullchain1.pem'
+mv '$destinationTempPath/privkey.pem' '$destinationArchivePath/privkey1.pem'
+ln -s '../../archive/$domain/cert1.pem' '$destinationLivePath/cert.pem'
+ln -s '../../archive/$domain/chain1.pem' '$destinationLivePath/chain.pem'
+ln -s '../../archive/$domain/fullchain1.pem' '$destinationLivePath/fullchain.pem'
+ln -s '../../archive/$domain/privkey1.pem' '$destinationLivePath/privkey.pem'
+chmod 644 '$destinationArchivePath/cert1.pem' '$destinationArchivePath/chain1.pem' '$destinationArchivePath/fullchain1.pem'
+chmod 600 '$destinationArchivePath/privkey1.pem'
+rmdir '$destinationTempPath'
+nginx -t
+nginx -s reload
+"
+
+destinationTempCreated=false
+success "Certificate transferred for $domain"

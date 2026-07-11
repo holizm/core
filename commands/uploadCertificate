@@ -6,14 +6,12 @@ import {
     divide,
 } from '../scripts/logger.js'
 import runOnServer from '../scripts/runOnServer.js'
-import {
-    runStreaming,
-} from '../scripts/terminal.js'
+import { runStreaming } from '../scripts/terminal.js'
 
 const domain = process.argv[2]
 
 if (!domain) {
-    errorAndExit('Domain is not provided. Usage: moveCertificateToServer <domain>')
+    errorAndExit('Domain is not provided. Usage: uploadCertificate <domain>')
 }
 
 divide()
