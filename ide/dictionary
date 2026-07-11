@@ -9,8 +9,6 @@ Augmentor
 Augmentors
 Autoplay
 azcopy
-fullchain
-privkey
 Bangla
 Beenhere
 begzar
@@ -49,6 +47,7 @@ filemanager
 filterables
 fluentui
 frontmatter
+fullchain
 FULLTEXT
 gggpet
 gggpid
@@ -125,6 +124,7 @@ paydarsamane
 prefixer
 prepurchase
 Priceables
+privkey
 propertytype
 pydr
 queryparameter
@@ -170,6 +170,7 @@ upsertion
 urlset
 usermod
 varchar
+vazirmatn
 Videocam
 vite
 Vlog
