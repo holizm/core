@@ -43,7 +43,7 @@ services:
             - POSTGRES_USER=FaMHJGecNag5DKryCH9d
             - POSTGRES_PASSWORD=IC1joYMLZTT0fQMJ5qcz
         volumes:
-            - ${home}/${repo}/accounts/databases:/var/lib/postgresql
+            - /var/tmp/${repo}/accounts/databases:/var/lib/postgresql
         restart: always
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U FaMHJGecNag5DKryCH9d"]
