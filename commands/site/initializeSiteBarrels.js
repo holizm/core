@@ -16,30 +16,28 @@ const getDirs = base =>
     )
 
 const aliases = {
-    qwik: 'node_modules/@builder.io/qwik',
-    qwikCity: 'node_modules/@builder.io/qwik-city',
-    core: 'src/core/exports',
-    richTextComponents: 'src/richTextComponents',
-    itemRendererComponents: 'src/itemRendererComponents',
-    loaders: 'src/loaders',
-    paginationBehaviors: 'src/paginationBehaviors'
+    core: './src/core/exports',
+    richTextComponents: './src/richTextComponents',
+    itemRendererComponents: './src/itemRendererComponents',
+    loaders: './src/loaders',
+    paginationBehaviors: './src/paginationBehaviors'
 }
 
 const srcDirectories = getDirs(srcBase)
 
 for (const dir of srcDirectories) {
     if (dir === 'getters') {
-        aliases.getters = 'src/getters/exports'
+        aliases.getters = './src/getters/exports'
     }
     if (dir === 'functions') {
-        aliases.functions = 'src/functions/exports'
+        aliases.functions = './src/functions/exports'
     }
 }
 
 const parts = getDirs(partsBase)
 
 for (const part of parts) {
-    aliases[part] = `src/parts/${part}/exports`
+    aliases[part] = `./src/parts/${part}/exports`
 }
 
 const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
@@ -50,7 +48,7 @@ const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
 
 for (const file of pagePartsFiles) {
     const key = file.replace(/Exports\.[^/.]+$/, '')
-    aliases[key] = `src/pageParts/${file.replace(/\.[^/.]+$/, '')}`
+    aliases[key] = `./src/pageParts/${file.replace(/\.[^/.]+$/, '')}`
 }
 
 const sortedAliases = Object.fromEntries(
@@ -69,7 +67,7 @@ const tsConfig = {
     }
 }
 
-const tsConfigContent = JSON.stringify(tsConfig, null, 4)
+const tsConfigContent = JSON.stringify(tsConfig, null, 4) + '\n'
 
 const tsConfigFilePath = `${home}/${repo}/${proc}/tsconfig.json`
 
