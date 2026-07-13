@@ -1,18 +1,3 @@
 #!/usr/bin/env bash
 
-. $HOME/core/scripts/logger.sh
-
-domain=$1
-shift
-
-read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
-if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
-    error "Failed to extract SSH parameters for $domain"
-    exit 1
-fi
-
-if [[ $# -gt 0 ]]; then
-    ssh -A -o ServerAliveInterval=15 -p "$sshPort" "root@$sshIp" "$@"
-else
-    ssh -A -t -o ServerAliveInterval=15 -p "$sshPort" "root@$sshIp"
-fi
+sshUserOverride=root connect "$@"
