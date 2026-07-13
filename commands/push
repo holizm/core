@@ -58,11 +58,23 @@ const commitRepo = dir => {
     return true
 }
 
-const pushRepoStreaming = dir => {
+const pushRepoStreaming = async dir => {
     info(`→ pushing ${dir}`)
-    return runStreaming(`git -C ${dir} push`)
-        .then(() => success(`✓ pushed ${dir}`))
-        .catch(e => warning(`✗ failed ${dir}: ${e.message}`))
+
+    try {
+        await runStreaming(`git -C ${dir} push`)
+        success(`✓ pushed ${dir}`)
+    } catch (e) {
+        warning(`Push failed for ${dir}, pulling and retrying...`)
+
+        try {
+            await runStreaming(`git -C ${dir} pull`)
+            await runStreaming(`git -C ${dir} push`)
+            success(`✓ pushed ${dir} after retry`)
+        } catch (retryError) {
+            warning(`✗ failed ${dir}: ${retryError.message}`)
+        }
+    }
 }
 
 const search = process.argv[2]
