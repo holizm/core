@@ -2,39 +2,34 @@
 
 import fs from 'fs'
 import path from 'path'
-import { error, info } from '../scripts/logger.js'
-import camelize from '../scripts/camelize.js'
 import { runOnTerminal } from '../scripts/terminal.js'
+import camelize from '../scripts/camelize.js'
 
-const list = runOnTerminal("find . -name .git -prune -o -print")
+const list = runOnTerminal('find . -name .git -prune -o -print')
     .split('\n')
     .filter(Boolean)
     .sort((a, b) => b.split('/').length - a.split('/').length)
 
-for (const p of list) {
+for (const oldPath of list) {
+    if (oldPath === '.') continue
+
     try {
-        if (p === '.') continue
+        const stat = fs.lstatSync(oldPath)
 
-        const stat = fs.lstatSync(p)
+        const dir = path.dirname(oldPath)
+        const base = path.basename(oldPath)
 
-        const segments = p.split('/').filter(s => s && s !== '.')
+        let newBase
 
-        const newSegments = segments.map((seg, i) => {
-            const isLast = i === segments.length - 1
-
-            if (isLast && !stat.isDirectory()) {
-                const { name: stem, ext } = path.parse(seg)
-                return camelize(stem) + ext
-            }
-            return camelize(seg)
-        })
-
-        const newPath = './' + newSegments.join('/')
-
-        if (newPath !== p) {
-            fs.renameSync(p, newPath)
+        if (stat.isDirectory()) {
+            newBase = camelize(base)
+        } else {
+            const { name, ext } = path.parse(base)
+            newBase = camelize(name) + ext
         }
-    } catch (e) {
-        // error(e)
-    }
+
+        if (newBase !== base) {
+            fs.renameSync(oldPath, path.join(dir, newBase))
+        }
+    } catch { }
 }
