@@ -53,7 +53,7 @@ await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${para
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
 if (isApi || isSite) {
-    // await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
 }
 if (isApi) {
     await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
