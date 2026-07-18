@@ -13,7 +13,7 @@ install rename
 install baobab
 install dconf-editor
 install nginx
-install simplescreenrecorder
+install kooha
 install sshd openssh-server
 install telnet
 install trans translate-shell
