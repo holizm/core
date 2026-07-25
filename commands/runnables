@@ -4,20 +4,10 @@
 
 divide
 
-excludeRepos=("generation" "fonts" "policies")
-
 find "$HOME" -type d -name ".git" | while read gitDir; do
   repoDir=$(dirname "$gitDir")
-  if [ -d "$repoDir/common" ]; then
+  if [ -f "$repoDir/common/tenants" ]; then
     name=$(basename "$repoDir")
-    skip=false
-    for ex in "${excludeRepos[@]}"; do
-      if [[ "$name" == "$ex" ]]; then
-        skip=true
-        break
-      fi
-    done
-    $skip && continue
     info "$name"
   fi
 done
