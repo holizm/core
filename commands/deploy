@@ -7,6 +7,7 @@ import {
 } from '../scripts/terminal.js'
 import {
     divide,
+    error,
     errorAndExit,
     info,
 } from '../scripts/logger.js'
@@ -53,7 +54,15 @@ await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${para
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
 if (isApi || isSite) {
-    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+    try {
+        await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+    }
+    catch (e) {
+        divide()
+        info('Warning: npm install failed. Continuing deployment...')
+        error(e)
+        divide()
+    }
 }
 if (isApi) {
     await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
