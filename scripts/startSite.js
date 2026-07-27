@@ -155,6 +155,7 @@ const mapParts = params => {
 
 const mapOthers = params => {
     let {
+        containerHome,
         home,
         process,
         processPath,
