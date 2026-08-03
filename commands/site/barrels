@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
+base=$home/$repo/$process
+for dir in $base/src/parts/*; do
+    [ -d "$dir" ] || continue
+    topLevelDir=$(basename "$dir")
+    node $home/core/commands/site/generateExports.js "$topLevelDir" parts
+done
+for dir in $base/src/pageParts/*; do
+    [ -d "$dir" ] || continue
+    topLevelDir=$(basename "$dir")
+    node $home/core/commands/site/generateExports.js "$topLevelDir" pageParts
+done
 node $home/core/commands/site/initializeSiteBarrels.js
