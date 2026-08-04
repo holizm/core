@@ -3,6 +3,7 @@
 import { runOnTerminal } from '../scripts/terminal.js'
 import {
     getContent,
+    isFile,
     writeFile,
 } from '../scripts/os.js'
 
@@ -15,7 +16,7 @@ const coreSettingsPath = `${coreDir}/settings.json`
 
 const coreSettings = JSON.parse(getContent(coreSettingsPath))
 
-let userSettingsRaw = getContent(ideSettingsPath, true)
+let userSettingsRaw = isFile(ideSettingsPath) ? getContent(ideSettingsPath, true) : '{}'
 let userSettings
 let action = 'overwrite'
 
