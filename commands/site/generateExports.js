@@ -28,9 +28,6 @@ const foundFiles = execSync(`find '${sourceDir}' -type f -name '*.jsx'`)
     .split('\n')
     .map(s => s.trim())
     .filter(Boolean)
-if (topLevelDir === 'orders') {
-    console.log(foundFiles)
-}
 
 const importExportData = foundFiles
     .filter(f => !f.endsWith('/exports.jsx') && !f.endsWith('Exports.jsx'))
@@ -44,9 +41,6 @@ const importExportData = foundFiles
                 : `./${path.relative(sourceDir, fullPath).replace('.jsx', '')}`
         return { name, importLine: `import ${name} from '${importPath}'\n`, exportLine: `export { ${name} }\n` }
     })
-if (topLevelDir === 'orders') {
-    console.log(importExportData)
-}
 
 const hasLayout = importExportData.some(i => i.name === 'Layout')
 
@@ -64,10 +58,6 @@ const imports = importExportData.map(i => i.importLine).join('')
 const exports = importExportData.map(i => i.exportLine).join('')
 
 const content = `${imports}\n${exports}`
-
-if (topLevelDir === 'orders') {
-    console.log(exportsPath, content)
-}
 
 if (fs.existsSync(exportsPath)) {
     if (fs.readFileSync(exportsPath, 'utf8') === content) process.exit(0)
