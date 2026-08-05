@@ -71,7 +71,7 @@ services:
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/webServerCache:${containerHome}/webServerCache
-            - ${processPath}/tailwind.css:${containerHome}/${repo}/${process}/tailwind.css
+            - ${processPath}/style.css:${containerHome}/${repo}/${process}/style.css
 
             ${volumes}
 
