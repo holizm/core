@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    getContent,
+    writeFile,
+} from '../scripts/os.js'
+import {
+    error,
+    info,
+} from '../scripts/logger.js'
+
+const command = 'find ~ -type f -name "*.json" -path "*/localization/*" | sort'
+
+const output = runOnTerminal(command)
+
+const localizationFiles = output
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+
+for (const localizationFilePath of localizationFiles) {
+    const fileContent = getContent(localizationFilePath)
+
+    const fixedContent = fileContent.replace(/,\s*([}\]])/g, '$1')
+
+    try {
+        const json = JSON.parse(fixedContent)
+
+        writeFile(
+            localizationFilePath,
+            JSON.stringify(json, null, 4) + '\n'
+        )
+
+        info(`Fixed ${localizationFilePath}`)
+    } catch (e) {
+        error(`Error parsing ${localizationFilePath}`)
+        error(e)
+    }
+}
