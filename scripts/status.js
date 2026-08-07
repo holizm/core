@@ -32,7 +32,7 @@ const getRepoStatus = repoPath => {
                     continue
                 }
 
-                // runOnTerminal(`node ${home}/policies/run.js ${filePath}`, { show: true })
+                runOnTerminal(`node ${home}/policies/run.js ${filePath}`, { show: true })
             }
         }
 
