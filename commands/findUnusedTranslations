@@ -49,9 +49,11 @@ let unused = 0
 for (const { file, key } of entries) {
     completed++
 
-    const progress = `[${completed}/${entries.length}]`
+    const percent = ((completed / entries.length) * 100).toFixed(1)
 
-    info(`${progress} searching: ${key}`)
+    process.stdout.write(
+        `\r[${completed}/${entries.length}] ${percent}%`
+    )
 
     let used = false
 
@@ -78,11 +80,15 @@ for (const { file, key } of entries) {
     if (!used) {
         unused++
 
+        process.stdout.write('\n')
+
         warning(`unused: ${key}`)
         info(`  - ${file}`)
         info('')
     }
 }
+
+process.stdout.write('\n')
 
 divide()
 info(`\ncompleted: ${completed}`)
