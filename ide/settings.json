@@ -1,40 +1,41 @@
 {
-    "files.autoSave": "off",
-    "extensions.autoUpdate": false,
+    "[dockercompose]": {
+        "editor.tabSize": 4
+    },
+    "[yaml]": {
+        "editor.tabSize": 4
+    },
+    "chat.editor.wordWrap": "on",
+    "csharp.debug.logging.moduleLoad": false,
     "cSpell.ignorePaths": [
         "settings.json",
         "common/san",
         "connectionStrings.json",
         "package.json"
     ],
-    "workbench.startupEditor": "none",
-    "extensions.ignoreRecommendations": true,
-    "editor.wordWrap": "on",
-    "chat.editor.wordWrap": "on",
-    "files.insertFinalNewline": true,
-    "git.openRepositoryInParentFolders": "never",
-    "explorer.confirmDelete": false,
-    "editor.detectIndentation": false,
-    "javascript.updateImportsOnFileMove.enabled": "always",
     "diffEditor.ignoreTrimWhitespace": false,
-    "explorer.confirmDragAndDrop": false,
-    "update.showReleaseNotes": false,
-    "csharp.debug.logging.moduleLoad": false,
-    "javascript.preferences.quoteStyle": "single",
-    "editor.formatOnSave": true,
+    "editor.detectIndentation": false,
     "editor.formatOnPaste": true,
-    "update.mode": "none",
+    "editor.formatOnSave": true,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.wordWrap": "on",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
     "extensions.autoCheckUpdates": false,
-    "window.dialogStyle": "custom",
+    "extensions.autoUpdate": false,
+    "extensions.ignoreRecommendations": true,
     "files.associations": {
         "Part": "plaintext"
     },
-    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "files.autoSave": "off",
+    "files.insertFinalNewline": true,
+    "git.openRepositoryInParentFolders": "never",
+    "javascript.format.semicolons": "remove",
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "update.mode": "none",
+    "update.showReleaseNotes": false,
+    "window.dialogStyle": "custom",
     "workbench.secondarySideBar.defaultVisibility": "hidden",
-    "[yaml]": {
-        "editor.tabSize": 4
-    },
-    "[dockercompose]": {
-        "editor.tabSize": 4
-    }
+    "workbench.startupEditor": "none"
 }
