@@ -36,10 +36,6 @@ export default async params => {
     removeAndRecreateDir(buildDir)
     removeAndRecreateDir(processBuildDir)
 
-    if (localBuild) {
-        removeAndRecreateDir('/tmp/buildProcessSource')
-        // runOnTerminal(`docker cp ${containerName}:${processPath}/. /tmp/buildProcessSource`)
-    }
     divide()
     info('Copying the composed code...')
     divide()
