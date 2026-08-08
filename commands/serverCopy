@@ -6,16 +6,18 @@ sourcePath=$1
 destinationPath=$2
 
 if [[ -z "$sourcePath" || -z "$destinationPath" ]]; then
-    error "Usage: scp source destination"
+    error "Usage: serverCopy source destination"
     exit 1
 fi
 
 if [[ "$sourcePath" == *:* ]]; then
     remote="$sourcePath"
     localPath="$destinationPath"
+    remoteIsSource=true
 elif [[ "$destinationPath" == *:* ]]; then
     remote="$destinationPath"
     localPath="$sourcePath"
+    remoteIsSource=false
 else
     error "Either source or destination must be remote."
     exit 1
@@ -29,21 +31,118 @@ if [[ -z "$remotePath" || "$remotePath" == "$remote" ]]; then
     exit 1
 fi
 
-read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
+read -r sshPort sshUser sshIp < <(
+    node ~/core/scripts/extractSshParameters.js "$domain"
+)
 
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     error "Failed to extract SSH parameters for $domain"
     exit 1
 fi
 
-if ssh -p "$sshPort" "$sshUser@$sshIp" "test -d '$remotePath'" >/dev/null 2>&1; then
-    scpFlags="-r"
-else
-    scpFlags=""
-fi
+if [[ "$remoteIsSource" == true ]]; then
 
-if [[ "$sourcePath" == *:* ]]; then
-    scp -P "$sshPort" $scpFlags "$sshUser@$sshIp:$remotePath" "$localPath"
+    #
+    # Remote -> local
+    #
+
+    if [[ "$remotePath" == *'*'* || "$remotePath" == *'?'* || "$remotePath" == *'['* ]]; then
+
+        remoteDirectory="${remotePath%/*}"
+        remotePattern="${remotePath##*/}"
+
+        mapfile -t remoteFiles < <(
+            ssh -p "$sshPort" "$sshUser@$sshIp" \
+                "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort"
+        )
+
+        if [[ ${#remoteFiles[@]} -eq 0 ]]; then
+            error "No files found matching $remotePath"
+            exit 1
+        fi
+
+        for remoteFile in "${remoteFiles[@]}"; do
+            scp -P "$sshPort" \
+                "$sshUser@$sshIp:$remoteDirectory/$remoteFile" \
+                "$localPath" || exit 1
+        done
+
+    elif ssh -p "$sshPort" "$sshUser@$sshIp" \
+        "test -d '$remotePath'" >/dev/null 2>&1; then
+
+        mapfile -t remoteFiles < <(
+            ssh -p "$sshPort" "$sshUser@$sshIp" \
+                "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort"
+        )
+
+        if [[ ${#remoteFiles[@]} -eq 0 ]]; then
+            error "No files found in $remotePath"
+            exit 1
+        fi
+
+        for remoteFile in "${remoteFiles[@]}"; do
+            scp -P "$sshPort" \
+                "$sshUser@$sshIp:$remotePath/$remoteFile" \
+                "$localPath" || exit 1
+        done
+
+    else
+
+        scp -P "$sshPort" \
+            "$sshUser@$sshIp:$remotePath" \
+            "$localPath" || exit 1
+
+    fi
+
 else
-    scp -P "$sshPort" $scpFlags "$localPath" "$sshUser@$sshIp:$remotePath"
+
+    #
+    # Local -> remote
+    #
+
+    if [[ "$localPath" == *'*'* || "$localPath" == *'?'* || "$localPath" == *'['* ]]; then
+
+        localDirectory="${localPath%/*}"
+        localPattern="${localPath##*/}"
+
+        mapfile -t localFiles < <(
+            find "$localDirectory" -maxdepth 1 -type f -name "$localPattern" -printf '%f\n' | sort
+        )
+
+        if [[ ${#localFiles[@]} -eq 0 ]]; then
+            error "No files found matching $localPath"
+            exit 1
+        fi
+
+        for localFile in "${localFiles[@]}"; do
+            scp -P "$sshPort" \
+                "$localDirectory/$localFile" \
+                "$sshUser@$sshIp:$remotePath" || exit 1
+        done
+
+    elif [[ -d "$localPath" ]]; then
+
+        mapfile -t localFiles < <(
+            find "$localPath" -maxdepth 1 -type f -printf '%f\n' | sort
+        )
+
+        if [[ ${#localFiles[@]} -eq 0 ]]; then
+            error "No files found in $localPath"
+            exit 1
+        fi
+
+        for localFile in "${localFiles[@]}"; do
+            scp -P "$sshPort" \
+                "$localPath/$localFile" \
+                "$sshUser@$sshIp:$remotePath" || exit 1
+        done
+
+    else
+
+        scp -P "$sshPort" \
+            "$localPath" \
+            "$sshUser@$sshIp:$remotePath" || exit 1
+
+    fi
+
 fi
