@@ -42,10 +42,6 @@ fi
 
 if [[ "$remoteIsSource" == true ]]; then
 
-    #
-    # Remote -> local
-    #
-
     if [[ "$remotePath" == *'*'* || "$remotePath" == *'?'* || "$remotePath" == *'['* ]]; then
 
         remoteDirectory="${remotePath%/*}"
@@ -70,6 +66,11 @@ if [[ "$remoteIsSource" == true ]]; then
     elif ssh -p "$sshPort" "$sshUser@$sshIp" \
         "test -d '$remotePath'" >/dev/null 2>&1; then
 
+        directoryName="${remotePath##*/}"
+        localDirectory="$localPath/$directoryName"
+
+        mkdir -p "$localDirectory"
+
         mapfile -t remoteFiles < <(
             ssh -p "$sshPort" "$sshUser@$sshIp" \
                 "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort"
@@ -83,7 +84,7 @@ if [[ "$remoteIsSource" == true ]]; then
         for remoteFile in "${remoteFiles[@]}"; do
             scp -P "$sshPort" \
                 "$sshUser@$sshIp:$remotePath/$remoteFile" \
-                "$localPath" || exit 1
+                "$localDirectory" || exit 1
         done
 
     else
@@ -96,17 +97,13 @@ if [[ "$remoteIsSource" == true ]]; then
 
 else
 
-    #
-    # Local -> remote
-    #
-
     if [[ "$localPath" == *'*'* || "$localPath" == *'?'* || "$localPath" == *'['* ]]; then
 
         localDirectory="${localPath%/*}"
         localPattern="${localPath##*/}"
 
         mapfile -t localFiles < <(
-            find "$localDirectory" -maxdepth 1 -type f -name "$localPattern" -printf '%f\n' | sort
+            find "$localDirectory" -maxdepth 1 -type f -name "$localPattern" -printf '%f\n' | LC_ALL=C sort
         )
 
         if [[ ${#localFiles[@]} -eq 0 ]]; then
@@ -122,8 +119,14 @@ else
 
     elif [[ -d "$localPath" ]]; then
 
+        directoryName="${localPath##*/}"
+        remoteDirectory="$remotePath/$directoryName"
+
+        ssh -p "$sshPort" "$sshUser@$sshIp" \
+            "mkdir -p '$remoteDirectory'" || exit 1
+
         mapfile -t localFiles < <(
-            find "$localPath" -maxdepth 1 -type f -printf '%f\n' | sort
+            find "$localPath" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort
         )
 
         if [[ ${#localFiles[@]} -eq 0 ]]; then
@@ -134,7 +137,7 @@ else
         for localFile in "${localFiles[@]}"; do
             scp -P "$sshPort" \
                 "$localPath/$localFile" \
-                "$sshUser@$sshIp:$remotePath" || exit 1
+                "$sshUser@$sshIp:$remoteDirectory" || exit 1
         done
 
     else
