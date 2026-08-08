@@ -1,0 +1,91 @@
+#!/usr/bin/env node
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import { getContent } from '../scripts/os.js'
+import {
+    divide,
+    info,
+    warning,
+} from '../scripts/logger.js'
+
+const localizationFilesCmd = `
+find $HOME -type f -name '*.json' -path '*/localization/*' ! -path '*/node_modules/*'
+`.trim()
+
+const reposCmd = `
+find $HOME -maxdepth 1 -mindepth 1 -type d -exec test -d "{}/.git" \\; -print0 | sort -z
+`.trim()
+
+const localizationFiles = runOnTerminal(localizationFilesCmd)
+    .split('\n')
+    .map(file => file.trim())
+    .filter(Boolean)
+
+const repos = runOnTerminal(reposCmd)
+    .split('\0')
+    .map(repo => repo.trim())
+    .filter(Boolean)
+
+const entries = []
+
+for (const file of localizationFiles) {
+    const json = JSON.parse(getContent(file))
+
+    for (const key of Object.keys(json)) {
+        entries.push({
+            file,
+            key,
+        })
+    }
+}
+
+divide()
+info(`\nsearching ${entries.length} translations in ${repos.length} repositories\n`)
+divide()
+
+let completed = 0
+let unused = 0
+
+for (const { file, key } of entries) {
+    completed++
+
+    const progress = `[${completed}/${entries.length}]`
+
+    info(`${progress} searching: ${key}`)
+
+    let used = false
+
+    for (const repo of repos) {
+        const searchCmd = `
+            grep -R
+                -F
+                -l
+                --exclude-dir=node_modules
+                --exclude-dir=localization
+                --exclude-dir=.git
+                -- '${key}'
+                '${repo}'
+        `.replace(/\s+/g, ' ').trim()
+
+        const result = runOnTerminal(searchCmd)
+
+        if (result.trim()) {
+            used = true
+            break
+        }
+    }
+
+    if (!used) {
+        unused++
+
+        warning(`unused: ${key}`)
+        info(`  - ${file}`)
+        info('')
+    }
+}
+
+divide()
+info(`\ncompleted: ${completed}`)
+info(`unused: ${unused}`)
+info(`used: ${completed - unused}`)
+divide()
