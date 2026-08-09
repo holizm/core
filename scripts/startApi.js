@@ -159,6 +159,7 @@ const mapCore = params => {
         repo,
     } = params
     const coreItems = [
+        'ai',
         'api',
         'application',
         'cloud',
