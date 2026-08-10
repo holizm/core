@@ -1,5 +1,6 @@
 import { runOnTerminal } from './terminal.js'
 import findRepos from './findRepos.js'
+import { isDir } from './os.js'
 import {
     divide,
     info,
@@ -32,7 +33,16 @@ const getRepoStatus = repoPath => {
                     continue
                 }
 
-                runOnTerminal(`node ${home}/policies/run.js ${filePath}`, { show: true })
+                const targetFiles = isDir(filePath)
+                    ? runOnTerminal(
+                        `find -H "${filePath}" -mindepth 1 -type f -not -name .git -not -path "*/.git/*"`,
+                        { splitLines: true }
+                    ).filter(Boolean)
+                    : [filePath]
+
+                for (const targetFile of targetFiles) {
+                    runOnTerminal(`node ${home}/policies/run.js ${targetFile}`, { show: true })
+                }
             }
         }
 
