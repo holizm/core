@@ -6,6 +6,7 @@ import {
 } from '../scripts/logger.js'
 import createCiCd from './createCiCd.js'
 import createDatabaseContainer from './createDatabaseContainer.js'
+import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
@@ -224,12 +225,21 @@ export default params => {
     if (!isEtl(params)) createCiCd(params)
 
     const containerName = `${repo}Databases`
-    const command = `docker ps -q -f name=${containerName}`
-    const result = runOnTerminal(command)
+    let command = `docker ps -q -f name=${containerName}`
+    let result = runOnTerminal(command)
     if (!result.trim()) {
         const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
         if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
         createDatabaseContainer(params)
+    }
+
+    const containerSearchDatabaseName = `${repo}SearchDatabases`
+    command = `docker ps -q -f name=${containerSearchDatabaseName}`
+    result = runOnTerminal(command)
+    if (!result.trim()) {
+        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
+        if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
+        createSearchDatabaseContainer(params)
     }
     createApiContainer(params)
 }

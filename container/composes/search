@@ -6,7 +6,7 @@ services:
         ports:
             - 127.0.0.1:${databaseSearchPort}:7700
         environment:
-            - MEILI_MASTER_KEY=${searchMasterKey}
+            - MEILI_MASTER_KEY=IC1joYMLZTT0fQMJ5qcz
         volumes:
             - /var/tmp/${repo}/search/databases:/meili_data
         restart: always

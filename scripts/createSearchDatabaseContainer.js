@@ -50,7 +50,7 @@ export default params => {
         ...params,
         host: `${repo}.local`,
     })
-    params.databaseSearchPort = getDeterministicPort(repo)
+    params.databaseSearchPort = getDeterministicPort(`${repo}SearchDatabases`)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({
         ...params,
