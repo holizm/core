@@ -115,6 +115,7 @@
     "coreFullScreen": "전체 화면",
     "coreGenerate": "생성하다",
     "coreGenerateSampleContent": "샘플 콘텐츠 생성",
+    "coreGenerating": "생성 중",
     "coreGo": "가다",
     "coreGoToPage": "페이지로 이동",
     "coreGraph": "그래프",
