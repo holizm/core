@@ -10,7 +10,7 @@ import {
 } from './os.js'
 import setupLocalDns from './setupLocalDns.js'
 
-const getDatabaseDomain = originalDomain => `db.search.${originalDomain}`
+const getSearchDatabaseDomain = originalDomain => `db.search.${originalDomain}`
 
 const createDatabaseComposeFile = params => {
     const {
@@ -29,7 +29,7 @@ const createSearchDatabaseContainer = params => {
         home,
         lowercaseRepo,
     } = params
-    info('Creating database container')
+    info('Creating search database container')
     const path = createDatabaseComposeFile({
         ...params,
         composeTemplatePath: `${home}/core/container/composes/search`
@@ -55,7 +55,7 @@ export default params => {
     lines.forEach(line => processTenantLine({
         ...params,
         line,
-        getSpecificDomain: getDatabaseDomain,
+        getSpecificDomain: getSearchDatabaseDomain,
     }))
 
     divide()
