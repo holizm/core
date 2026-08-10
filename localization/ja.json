@@ -115,6 +115,7 @@
     "coreFullScreen": "全画面表示",
     "coreGenerate": "生成する",
     "coreGenerateSampleContent": "サンプルコンテンツの生成",
+    "coreGenerating": "生成中",
     "coreGo": "行く",
     "coreGoToPage": "ページに移動",
     "coreGraph": "グラフ",

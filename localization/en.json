@@ -115,6 +115,7 @@
     "coreFullScreen": "Full Screen",
     "coreGenerate": "Generate",
     "coreGenerateSampleContent": "Generate sample content",
+    "coreGenerating": "Generating",
     "coreGo": "Go",
     "coreGoToPage": "Go to page",
     "coreGraph": "Graph",

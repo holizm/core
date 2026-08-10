@@ -115,6 +115,7 @@
     "coreFullScreen": "Полноэкранный",
     "coreGenerate": "Генерировать",
     "coreGenerateSampleContent": "Создать образец контента",
+    "coreGenerating": "Создание",
     "coreGo": "Идти",
     "coreGoToPage": "Перейти на страницу",
     "coreGraph": "График",

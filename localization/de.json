@@ -115,6 +115,7 @@
     "coreFullScreen": "Ganzer Bildschirm",
     "coreGenerate": "Erzeugen",
     "coreGenerateSampleContent": "Generieren Sie Beispielinhalte",
+    "coreGenerating": "Generieren",
     "coreGo": "Gehen",
     "coreGoToPage": "Gehe zur Seite",
     "coreGraph": "Graph",
