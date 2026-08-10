@@ -1,0 +1,12 @@
+services:
+    search:
+        image: getmeili/meilisearch:latest
+        container_name: ${containerHome}
+        hostname: search
+        ports:
+            - 127.0.0.1:${deterministicPort}:7700
+        environment:
+            - MEILI_MASTER_KEY=${searchMasterKey}
+        volumes:
+            - /var/tmp/${repo}/search/databases:/meili_data
+        restart: always
