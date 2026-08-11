@@ -13,6 +13,8 @@ export default params => {
     const certPath = join(basePath, 'certificate.pem')
     const keyPath = join(basePath, 'key.pem')
     if (isFile(certPath) && isFile(keyPath)) return
+    console.log(host, 'ce')
+
     runOnTerminal(`mkdir -p ${basePath}`)
     const command = `mkcert -cert-file ${certPath} -key-file ${keyPath} ${host} 2>/dev/null`
     runOnTerminal(command)

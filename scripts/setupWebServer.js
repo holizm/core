@@ -13,7 +13,6 @@ export default params => {
     const includesTemplatePath = `${home}/core/webServer/proxyIncludes`
     const confFile = `${confDir}/${host}.conf`
     const includesFile = `${includesDir}/${host}`
-
     replaceVariables(templatePath, confFile, params)
     replaceVariables(includesTemplatePath, includesFile, params)
 
