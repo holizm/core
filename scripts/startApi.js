@@ -177,6 +177,32 @@ const mapCore = params => {
     params.addVolume(`${home}/${repo}/${process}/process.js`, `${containerHome}/${repo}/${process}/process.js`)
 }
 
+const createDatabases = params => {
+    const {
+        containerHome,
+        home,
+        localBuild,
+        repo,
+    } = params
+    const containerName = `${repo}Databases`
+    let command = `docker ps -q -f name=${containerName}`
+    let result = runOnTerminal(command)
+    if (!result.trim()) {
+        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
+        if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
+        createDatabaseContainer(params)
+    }
+
+    const searchDatabaseContainerName = `${repo}SearchDatabases`
+    command = `docker ps -q -f name=${searchDatabaseContainerName}`
+    result = runOnTerminal(command)
+    if (!result.trim()) {
+        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
+        if (resultExited.trim()) runOnTerminal(`docker rm ${searchDatabaseContainerName}`)
+        createSearchDatabaseContainer(params)
+    }
+}
+
 const createApiContainer = params => {
     const {
         composeFile,
@@ -191,6 +217,7 @@ export default params => {
     const {
         containerHome,
         home,
+        localBuild,
         repo,
     } = params
     if (isEtl(params)) {
@@ -224,22 +251,8 @@ export default params => {
 
     if (!isEtl(params)) createCiCd(params)
 
-    const containerName = `${repo}Databases`
-    let command = `docker ps -q -f name=${containerName}`
-    let result = runOnTerminal(command)
-    if (!result.trim()) {
-        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
-        if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
-        createDatabaseContainer(params)
-    }
-
-    const containerSearchDatabaseName = `${repo}SearchDatabases`
-    command = `docker ps -q -f name=${containerSearchDatabaseName}`
-    result = runOnTerminal(command)
-    if (!result.trim()) {
-        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
-        if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
-        createSearchDatabaseContainer(params)
+    if (!localBuild) {
+        createDatabases(params)
     }
     createApiContainer(params)
 }
