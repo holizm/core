@@ -10,3 +10,9 @@ services:
         volumes:
             - /var/tmp/${repo}/search/databases:/meili_data
         restart: always
+        networks:
+            - ${repo}Network
+
+networks:
+    ${repo}Network:
+        external: true
