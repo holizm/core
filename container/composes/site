@@ -72,9 +72,15 @@ services:
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/webServerCache:${containerHome}/webServerCache
             - ${processPath}/styles:${containerHome}/${repo}/${process}/styles
-            - ${processPath}/style.css:${containerHome}/${repo}/${process}/style.css
 
             ${volumes}
+
+        develop:
+            watch:
+                - action: sync
+                  path: ${processPath}/style.css
+                  target: ${containerHome}/${repo}/${process}/style.css
+                  initial_sync: true
 
         command: |
             bash -lc '

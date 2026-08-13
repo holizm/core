@@ -125,7 +125,14 @@ export default async overrides => {
 
     changePermissions(params)
 
-    let command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} up --remove-orphans -d`
+    const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
+    const shouldWatch = params.isSite && !params.isCiCd && !params.localBuild
+    let command = `${composeCommand} up --remove-orphans ${shouldWatch ? '--watch' : '-d'}`
+
+    if (shouldWatch) {
+        await runStreaming(command)
+        return params
+    }
 
     runOnTerminal(command)
 
@@ -133,7 +140,7 @@ export default async overrides => {
         info(`In CI/CD or local build, we don't show the log of the container.`)
     }
     else {
-        command = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile} logs -f`
+        command = `${composeCommand} logs -f`
 
         await runStreaming(command)
     }
