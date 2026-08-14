@@ -23,6 +23,7 @@ import createNetwork from './createNetwork.js'
 import ensureDependencies from './ensureDependencies.js'
 import startApi from './startApi.js'
 import startPanel from './startPanel.js'
+import startHeadlessPanel from './startHeadlessPanel.js'
 import startSite from './startSite.js'
 import startAccounts from './startAccounts.js'
 import processTenantLine from './processTenantLine.js'
@@ -117,7 +118,7 @@ export default async overrides => {
     }
     else if (isWorker(params)) {
         params.isWorker = true
-        startNodeApi(params)
+        startApi(params)
     }
     else {
         warning('Unknown process')

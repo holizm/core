@@ -51,22 +51,6 @@ export const getOrgRepoFromGit = () => {
         orgRepo.org = 'na'
     }
     return orgRepo
-
-    let repoPath
-    if (url.startsWith('git@')) {
-        [, repoPath] = url.split(':', 2)
-    } else if (url.startsWith('https://') || url.startsWith('http://')) {
-        const parts = url.split('/')
-        repoPath = parts.slice(-2).join('/')
-    } else {
-        errorAndExit(`Unrecognized git remote format: ${url}`)
-    }
-
-    let [org, repo] = repoPath.split('/')
-    org = camelize(org)
-    repo = camelize(repo)
-    // todo: remove these camelizing methods later
-    return { org, repo }
 }
 
 export const exit = () => process.exit()

@@ -1,11 +1,5 @@
 {
-    "name": "import-camelcase-tool",
-    "version": "1.0.0",
     "type": "module",
-    "private": true,
-    "scripts": {
-        "start": "node index.js"
-    },
     "dependencies": {
         "@babel/core": "8.0.1",
         "@babel/generator": "8.0.0",
