@@ -1,0 +1,10 @@
+# Development Rules
+
+- Never add comments to code or configuration files.
+- Preserve all existing comments unless the user explicitly requests their removal.
+- Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
+- Write a JavaScript named import with exactly one imported name on one line: `import { name } from './module.js'`.
+- When a JavaScript named import has two or more imported names, place every imported name on its own line inside a multiline import block.
+- Keep an HTML or JSX opening tag with exactly one attribute on one line.
+- When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
+- Never wrap returned JSX in parentheses.

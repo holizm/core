@@ -146,7 +146,10 @@ const mapRunnable = params => {
 }
 
 const mapRunnableMigrations = params => {
-    let { commonPath } = params
+    let {
+        commonPath,
+        containerHome,
+    } = params
     if (fs.existsSync(`${commonPath}/migration`))
         params.addVolume(`${commonPath}/migration`, `${containerHome}/migration/runnable`)
 }
