@@ -20,3 +20,8 @@
 - Never use the `glob` package or API. Use `fast-glob` for all globbing.
 - Never use GUID terminology or implementations. Use UUID for every globally unique identifier across the platform.
 - When creating a YAML file with an extension, use `.yaml` and never `.yml`.
+- In `.js` and `.jsx` files, always use arrow functions and never use function declaration statements.
+- In `.js` and `.jsx` files, omit parentheses around an arrow function's single identifier parameter.
+- In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
+- When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
+- Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
