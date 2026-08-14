@@ -25,3 +25,4 @@
 - In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
 - When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
 - Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
+- When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
