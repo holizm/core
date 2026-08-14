@@ -8,3 +8,15 @@
 - Keep an HTML or JSX opening tag with exactly one attribute on one line.
 - When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
 - Never wrap returned JSX in parentheses.
+- Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.
+- Use a non-camelCase name only when camelCase would prevent the code or system from running, building, deploying, or interoperating correctly.
+- When non-camelCase is technically required, use only the exact alternative format required by the external constraint, such as lowercase Azure Storage container names.
+- In JavaScript, return `clientError` or `serverError` whenever applicable instead of introducing another error-response pattern.
+- Never use double quotes in `.js` or `.jsx` files.
+- Use single quotes for strings in `.js` and `.jsx` files. When a string contains a single quote, use backticks instead of escaping the single quote or using double quotes.
+- Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
+- When a `.js` or `.jsx` file exports only one default value, export it anonymously unless that value is reused within the same file.
+- When a `.js` or `.jsx` file has exactly one named export, the exported name must exactly match the filename without its extension.
+- Never use the `glob` package or API. Use `fast-glob` for all globbing.
+- Never use GUID terminology or implementations. Use UUID for every globally unique identifier across the platform.
+- When creating a YAML file with an extension, use `.yaml` and never `.yml`.
