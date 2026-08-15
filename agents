@@ -26,3 +26,5 @@
 - When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
 - Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
 - When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
+- Be brief and answer directly. Avoid long answers, filler, repetition, and irrelevant content.
+- When an answer contains many items or troubleshooting options, provide only the first step or option and wait for the user's response before continuing. Provide the entire list only when the user explicitly requests it.
