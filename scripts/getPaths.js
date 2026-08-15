@@ -30,6 +30,7 @@ export default ({
         runnableApiPackageJson: `${commonPath}/apiPackage.json`,
         runnablePanelLock: `${commonPath}/panelLock.json`,
         runnablePanelPackageJson: `${commonPath}/panelPackage.json`,
+        runnableSearchablePropertiesPath: `${commonPath}/runnableSearchableProperties.json`,
         runnableSiteLock: `${commonPath}/siteLock.json`,
         runnableSitePackageJson: `${commonPath}/sitePackage.json`,
         settingsOverridePath: `${processPath}/settingsOverride.json`,

@@ -22,6 +22,7 @@ import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapSettings from './mapSettings.js'
+import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
 import createDirectories from './createDirectories.js'
 import removeRootOwnedDirectories from './removeRootOwnedDirectories.js'
 
@@ -245,6 +246,7 @@ export default params => {
     linkVsCodeFiles(params)
     mapNode(params)
     mapSettings(params)
+    mapRunnableSearchableProperties(params)
     mapDependencies(params)
     mapLocalizations(params)
     mapRunnable(params)
