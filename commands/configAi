@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+import {
+    getContent,
+    writeFile,
+} from '../scripts/os.js'
+import {
+    divide,
+    info,
+} from '../scripts/logger.js'
+
+const home = process.env.HOME
+const sourcePath = `${home}/core/agents`
+const destinationPath = `${home}/.codex/AGENTS.md`
+
+divide()
+info('Configuring AI')
+divide()
+
+writeFile(destinationPath, getContent(sourcePath))
+
+info(`Applied ${destinationPath}`)

@@ -80,5 +80,5 @@ success('Got all')
 divide()
 
 runOnTerminal('configIde')
+runOnTerminal('configAi')
 // await Promise.resolve(adHoc())
-
