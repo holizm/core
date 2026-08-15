@@ -30,7 +30,7 @@ const getImportedParts = async dir => {
         cwd: base,
         absolute: true,
         dot: false,
-        ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+        ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*Test.js']
     })
     const imports = new Set()
     await Promise.allSettled(
