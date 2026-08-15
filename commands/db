@@ -1,0 +1,19 @@
+
+echo 'username: FaMHJGecNag5DKryCH9d'
+echo 'password: IC1joYMLZTT0fQMJ5qcz'
+echo 'searchApiKey : x7W6jDf03aZyoXKylGM6'
+
+docker ps --format '{{.Names}}\t{{.Ports}}' |
+while IFS=$'\t' read -r name ports; do
+    if [[ "$name" == *Databases* && "$name" != *SearchDatabases* ]]; then
+        port=$(echo '$ports' |
+            grep -oE '(0\.0\.0\.0|127\.0\.0\.1):[0-9]+' |
+            head -1 |
+            grep -oE '[0-9]+$')
+
+        echo '+++++++++'
+        echo "$name"
+        echo "port: $port"
+        echo
+    fi
+done
