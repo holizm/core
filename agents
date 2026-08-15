@@ -28,3 +28,4 @@
 - When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
 - Be brief and answer directly. Avoid long answers, filler, repetition, and irrelevant content.
 - When an answer contains many items or troubleshooting options, provide only the first step or option and wait for the user's response before continuing. Provide the entire list only when the user explicitly requests it.
+- Treat the platform as a multi-repository Software Product Line composed of development, API, panel, and site cores; essential parts such as globalization, settings, and attributes; general parts such as blog, courses, products, and orders; and niche parts such as restaurants and salons. No repository is independently runnable. Repositories are composed inside a container to create a runnable project, and the code runs inside that container.
