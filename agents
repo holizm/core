@@ -13,9 +13,11 @@
 - Preserve all existing comments unless the user explicitly requests their removal.
 - Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
 - Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
+- Never allow files to become too large. Split files when they become big into smaller files.
 - Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.
 - Use a non-camelCase name only when camelCase would prevent the code or system from running, building, deploying, or interoperating correctly.
 - When non-camelCase is technically required, use only the exact alternative format required by the external constraint, such as lowercase Azure Storage container names.
+- Whenever you want to import code from external sources, keep in mind that you should change everything to camelCase. For example, when imported code uses `LIMIT_FILE_SIZE`, retain that exact string only at the interoperability boundary and use a camelCase identifier such as `uploadFileTooLarge` everywhere inside the platform.
 - Never use GUID terminology or implementations. Use UUID for every globally unique identifier across the platform.
 - When creating a YAML file with an extension, use `.yaml` and never `.yml`.
 - Never use the `glob` package or API. Use `fast-glob` for all globbing.
@@ -30,6 +32,7 @@
 - When a JavaScript named import has two or more imported names, place every imported name on its own line inside a multiline import block.
 - In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
 - When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
+- Always sort multi-lined attributes in JSX and HTML, and multilined properties in destructured objects or object definitions.
 - Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
 - Keep an HTML or JSX opening tag with exactly one attribute on one line.
 - When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
