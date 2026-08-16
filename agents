@@ -1,35 +1,36 @@
 # Development Rules
 
-- Never add comments to code or configuration files.
-- Preserve all existing comments unless the user explicitly requests their removal.
-- Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
-- Write a JavaScript named import with exactly one imported name on one line: `import { name } from './module.js'`.
-- When a JavaScript named import has two or more imported names, place every imported name on its own line inside a multiline import block.
-- Keep an HTML or JSX opening tag with exactly one attribute on one line.
-- When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
-- Never wrap returned JSX in parentheses.
-- Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.
-- Use a non-camelCase name only when camelCase would prevent the code or system from running, building, deploying, or interoperating correctly.
-- When non-camelCase is technically required, use only the exact alternative format required by the external constraint, such as lowercase Azure Storage container names.
-- In JavaScript, return `clientError` or `serverError` whenever applicable instead of introducing another error-response pattern.
-- Never use double quotes in `.js` or `.jsx` files.
-- Use single quotes for strings in `.js` and `.jsx` files. When a string contains a single quote, use backticks instead of escaping the single quote or using double quotes.
-- Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
-- When a `.js` or `.jsx` file exports only one default value, export it anonymously unless that value is reused within the same file.
-- When a `.js` or `.jsx` file has exactly one named export, the exported name must exactly match the filename without its extension.
-- Never use the `glob` package or API. Use `fast-glob` for all globbing.
-- Never use GUID terminology or implementations. Use UUID for every globally unique identifier across the platform.
-- When creating a YAML file with an extension, use `.yaml` and never `.yml`.
-- In `.js` and `.jsx` files, always use arrow functions and never use function declaration statements.
-- In `.js` and `.jsx` files, omit parentheses around an arrow function's single identifier parameter.
-- In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
-- When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
-- Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
-- When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
-- Be brief and answer directly. Avoid long answers, filler, repetition, and irrelevant content.
-- When an answer contains many items or troubleshooting options, provide only the first step or option and wait for the user's response before continuing. Provide the entire list only when the user explicitly requests it.
 - Treat the platform as a multi-repository Software Product Line composed of development, API, panel, and site cores; essential parts such as globalization, settings, and attributes; general parts such as blog, courses, products, and orders; and niche parts such as restaurants and salons. No repository is independently runnable. Repositories are composed inside a container to create a runnable project, and the code runs inside that container.
 - Development core is in `~/core`, API core is in `~/api`, panel core is in `~/panel`, and site core is in `~/site`. Any top-level directory inside home that has a top-level file named `part` is a part of our SPL.
 - All repositories are mapped to the home directory. Any top-level directory containing a `.git` repository is part of our multi-repository SPL.
 - Any top-level repository containing a `common` directory is a runnable repository.
 - Split each runnable repository into processes, where each process is a top-level directory in that repository. API process names end with `Api`, panel process names end with `Panel`, and site processes are named `site`, end with `Site`, or contain a top-level file named `site`. The prefix of an API or panel process name is the role name.
+- Store localization strings inside `localization` directories. Support each locale with a `localeKey.json` file. Store strings shared among API, panel, and site in the root `localization` directory; otherwise, store them in the relevant process's `localization` directory.
+- Never add comments to code or configuration files.
+- Preserve all existing comments unless the user explicitly requests their removal.
+- Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
+- Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
+- Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.
+- Use a non-camelCase name only when camelCase would prevent the code or system from running, building, deploying, or interoperating correctly.
+- When non-camelCase is technically required, use only the exact alternative format required by the external constraint, such as lowercase Azure Storage container names.
+- Never use GUID terminology or implementations. Use UUID for every globally unique identifier across the platform.
+- When creating a YAML file with an extension, use `.yaml` and never `.yml`.
+- Never use the `glob` package or API. Use `fast-glob` for all globbing.
+- In JavaScript, return `clientError` or `serverError` whenever applicable instead of introducing another error-response pattern.
+- In `.js` and `.jsx` files, always use arrow functions and never use function declaration statements.
+- In `.js` and `.jsx` files, omit parentheses around an arrow function's single identifier parameter.
+- Never use double quotes in `.js` or `.jsx` files.
+- Use single quotes for strings in `.js` and `.jsx` files. When a string contains a single quote, use backticks instead of escaping the single quote or using double quotes.
+- When a `.js` or `.jsx` file exports only one default value, export it anonymously unless that value is reused within the same file.
+- When a `.js` or `.jsx` file has exactly one named export, the exported name must exactly match the filename without its extension.
+- Write a JavaScript named import with exactly one imported name on one line: `import { name } from './module.js'`.
+- When a JavaScript named import has two or more imported names, place every imported name on its own line inside a multiline import block.
+- In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
+- When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
+- Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
+- Keep an HTML or JSX opening tag with exactly one attribute on one line.
+- When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
+- Never wrap returned JSX in parentheses.
+- When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
+- Be brief and answer directly. Avoid long answers, filler, repetition, and irrelevant content.
+- When an answer contains many items or troubleshooting options, provide only the first step or option and wait for the user's response before continuing. Provide the entire list only when the user explicitly requests it.
