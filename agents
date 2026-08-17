@@ -23,6 +23,7 @@
 - Never add comments to code or configuration files.
 - Preserve all existing comments unless the user explicitly requests their removal.
 - Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
+- Always use four spaces for indentation in every file. Never use tabs or two-space indentation.
 - Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
 - Never allow files to become too large. Split files when they become big into smaller files.
 - Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.

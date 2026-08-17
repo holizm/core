@@ -31,6 +31,7 @@ import extract from './extract.js'
 import indentation from './indentation.js'
 import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
 import changePermissions from './changePermissions.js'
+import createCacheServer from './createCacheServer.js'
 import ensureTenants from './ensureTenants.js'
 import stop from './stop.js'
 
@@ -124,6 +125,7 @@ export default async overrides => {
         warning('Unknown process')
     }
 
+    createCacheServer(params)
     changePermissions(params)
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`

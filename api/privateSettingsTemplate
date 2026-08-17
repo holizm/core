@@ -2,6 +2,7 @@
     "changeLogEnabled": true,
     "compressImages": true,
     "diskCacheForImages": true,
+    "enableCacheServer": false,
     "otpLength": 6,
     "performMigrationOnLocalDatabase": false,
     "resizeImages": true,

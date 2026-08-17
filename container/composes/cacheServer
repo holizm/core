@@ -1,0 +1,14 @@
+services:
+    cacheServer:
+        image: redis:alpine
+        container_name: ${repo}CacheServer
+        hostname: cacheServer
+        ports:
+            - 127.0.0.1:${cacheServerPort}:6379
+        restart: always
+        networks:
+            - ${repo}Network
+
+networks:
+    ${repo}Network:
+        external: true
