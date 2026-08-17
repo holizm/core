@@ -196,7 +196,7 @@
     "coreNoItemsFound": "موردی یافت نشد",
     "coreNofollow": "نوفالو شود",
     "coreNonPrintingModel": "حالت غیر چاپی",
-    "coreNonValidSlug": "پیوند یکتا معتبر نیست. فقط خط تیره و حروف فارسی و حروف کوچک انگلیسی و اعداد.",
+    "coreNonValidSlug": "پیوند یکتا معتبر نیست. فقط خط تیره، حروف کوچک انگلیسی و اعداد مجاز هستند.",
     "coreNotFound": "پیدا نشد",
     "coreNote": "توجه",
     "coreNull": "نامشخص",
