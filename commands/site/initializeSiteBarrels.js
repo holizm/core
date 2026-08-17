@@ -48,6 +48,12 @@ const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
 
 for (const file of pagePartsFiles) {
     const key = file.replace(/Exports\.[^/.]+$/, '')
+
+    if (!fs.existsSync(`${pagePartsBase}/${key}`)) {
+        fs.unlinkSync(`${pagePartsBase}/${file}`)
+        continue
+    }
+
     aliases[key] = `./src/pageParts/${file.replace(/\.[^/.]+$/, '')}`
 }
 

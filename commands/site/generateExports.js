@@ -2,65 +2,100 @@
 
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
 import camelize from '../../scripts/camelize.js'
 import pascalize from '../../scripts/pascalize.js'
 
-const topLevelDir = process.argv[2]
+const topLevelDirectory = process.argv[2]
 const target = process.argv[3]
-
 const home = process.env.home
 const repo = process.env.repo
 const processName = process.env.process
 
-const baseDir = `${home}/${repo}/${processName}/src/${target}`
-const sourceDir = path.join(baseDir, topLevelDir)
+if (!topLevelDirectory || !['pageParts', 'parts'].includes(target)) {
+    process.exit(1)
+}
 
-const exportsPath =
-    target === 'parts'
-        ? path.join(sourceDir, 'exports.jsx')
-        : path.join(baseDir, `${topLevelDir}Exports.jsx`)
+const baseDirectory = `${home}/${repo}/${processName}/src/${target}`
+const sourceDirectory = path.join(baseDirectory, topLevelDirectory)
+const exportsPath = target === 'parts'
+    ?
+    path.join(sourceDirectory, 'exports.jsx')
+    :
+    path.join(baseDirectory, `${topLevelDirectory}Exports.jsx`)
 
-if (exportsPath.includes('/pageParts/exports.jsx')) process.exit()
+if (!fs.existsSync(sourceDirectory)) {
+    if (target === 'pageParts' && fs.existsSync(exportsPath)) {
+        fs.unlinkSync(exportsPath)
+    }
 
-const foundFiles = execSync(`find '${sourceDir}' -type f -name '*.jsx'`)
-    .toString()
-    .split('\n')
-    .map(s => s.trim())
-    .filter(Boolean)
+    process.exit(0)
+}
 
-const importExportData = foundFiles
-    .filter(f => !f.endsWith('/exports.jsx') && !f.endsWith('Exports.jsx'))
-    .map(fullPath => {
-        const rawName = path.basename(fullPath).replace('.jsx', '')
-        const isComponent = fullPath.split('/parts/').length === 3 || target === 'pageParts'
-        const name = isComponent ? pascalize(rawName) : camelize(rawName)
-        const importPath =
-            target === 'pageParts'
-                ? `./${path.relative(baseDir, fullPath).replace('.jsx', '')}`
-                : `./${path.relative(sourceDir, fullPath).replace('.jsx', '')}`
-        return { name, importLine: `import ${name} from '${importPath}'\n`, exportLine: `export { ${name} }\n` }
-    })
+const findFiles = directory => fs.readdirSync(directory, {
+    withFileTypes: true,
+}).flatMap(entry => {
+    const entryPath = path.join(directory, entry.name)
 
-const hasLayout = importExportData.some(i => i.name === 'Layout')
+    if (entry.isDirectory()) {
+        return findFiles(entryPath)
+    }
 
-if (!hasLayout) {
+    if (
+        !entry.isFile()
+        || !entry.name.endsWith('.jsx')
+        || entry.name === 'exports.jsx'
+        || entry.name.endsWith('Exports.jsx')
+    ) {
+        return []
+    }
+
+    return [entryPath]
+})
+
+const importExportData = findFiles(sourceDirectory).map(fullPath => {
+    const rawName = path.basename(fullPath, '.jsx')
+    const isComponent = target === 'pageParts'
+        || fullPath.split('/parts/').length === 3
+    const name = isComponent
+        ?
+        pascalize(rawName)
+        :
+        camelize(rawName)
+    const relativePath = target === 'pageParts'
+        ?
+        path.relative(baseDirectory, fullPath)
+        :
+        path.relative(sourceDirectory, fullPath)
+    const importPath = `./${relativePath.replace(/\.jsx$/, '').split(path.sep).join('/')}`
+
+    return {
+        exportLine: `export { ${name} }\n`,
+        importLine: `import ${name} from '${importPath}'\n`,
+        name,
+    }
+})
+
+if (!importExportData.some(item => item.name === 'Layout')) {
     importExportData.push({
-        name: 'Layout',
+        exportLine: 'export { Layout }\n',
         importLine: 'const Layout = null\n',
-        exportLine: 'export { Layout }\n'
+        name: 'Layout',
     })
 }
 
-importExportData.sort((a, b) => a.name.localeCompare(b.name))
+importExportData.sort((first, second) =>
+    first.name.localeCompare(second.name)
+)
 
-const imports = importExportData.map(i => i.importLine).join('')
-const exports = importExportData.map(i => i.exportLine).join('')
-
+const imports = importExportData.map(item => item.importLine).join('')
+const exports = importExportData.map(item => item.exportLine).join('')
 const content = `${imports}\n${exports}`
 
-if (fs.existsSync(exportsPath)) {
-    if (fs.readFileSync(exportsPath, 'utf8') === content) process.exit(0)
+if (
+    fs.existsSync(exportsPath)
+    && fs.readFileSync(exportsPath, 'utf8') === content
+) {
+    process.exit(0)
 }
 
 fs.writeFileSync(exportsPath, content)

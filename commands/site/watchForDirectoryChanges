@@ -1,39 +1,81 @@
 #!/usr/bin/env bash
 
 base=$home/$repo/$process
-for dir in $base/src/parts/*; do
-    [ -d "$dir" ] || continue
-    topLevelDir=$(basename "$dir")
-    node $home/core/commands/site/generateExports.js "$topLevelDir" parts
-done
-for dir in $base/src/pageParts/*; do
-    [ -d "$dir" ] || continue
-    topLevelDir=$(basename "$dir")
-    node $home/core/commands/site/generateExports.js "$topLevelDir" pageParts
-done
+partsBase=$base/src/parts
+pagePartsBase=$base/src/pageParts
+mode=${1:-all}
 
-node $home/core/commands/site/initializeSiteBarrels.js
+initializeExports() {
+    for directory in "$partsBase"/*; do
+        [ -d "$directory" ] || continue
+        topLevelDirectory=$(basename "$directory")
+        node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" parts
+    done
+
+    for directory in "$pagePartsBase"/*; do
+        [ -d "$directory" ] || continue
+        topLevelDirectory=$(basename "$directory")
+        node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" pageParts
+    done
+
+    node "$home/core/commands/site/initializeSiteBarrels.js"
+}
+
+regenerateExports() {
+    directory=$1
+    file=$2
+
+    case "$directory" in
+        "$pagePartsBase"/*)
+            target=pageParts
+            relativeDirectory=${directory#"$pagePartsBase"/}
+            ;;
+        "$partsBase"/*)
+            target=parts
+            relativeDirectory=${directory#"$partsBase"/}
+            ;;
+        *)
+            return
+            ;;
+    esac
+
+    if [ -n "$relativeDirectory" ]; then
+        topLevelDirectory=${relativeDirectory%%/*}
+    else
+        topLevelDirectory=$file
+    fi
+
+    case "$topLevelDirectory" in
+        ''|*.*)
+            return
+            ;;
+    esac
+
+    node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" "$target"
+    node "$home/core/commands/site/initializeSiteBarrels.js"
+}
+
+if [ "$mode" != '--watch-only' ]; then
+    initializeExports
+fi
+
+if [ "$mode" = '--initialize-only' ]; then
+    exit 0
+fi
 
 inotifywait -m -r \
--e modify \
--e move \
--e create \
--e delete \
---exclude "exports.js" \
--q \
-$base/src/pageParts |
-while IFS=' ' read directory event file
-do
-    export directory
-    export event
-    export file
-    echo $directory $file $event
-    topLevelDir=$(echo "$directory" | cut -d'/' -f1)
-    if [[ "$directory" == *"/pageParts/"* ]]; then
-        target=pageParts
-    else
-        target=parts
-    fi
-    node $home/core/commands/site/generateExports.js "$topLevelDir" "$target"
-    node $home/core/commands/site/initializeSiteBarrels.js
+    -e close_write \
+    -e create \
+    -e delete \
+    -e delete_self \
+    -e moved_from \
+    -e moved_to \
+    --exclude '/(exports\.jsx|[^/]+Exports\.(jsx|ts|tsx))$' \
+    --format '%w|%e|%f' \
+    -q \
+    "$partsBase" \
+    "$pagePartsBase" |
+while IFS='|' read -r directory event file; do
+    echo "$directory$file $event"
+    regenerateExports "$directory" "$file"
 done

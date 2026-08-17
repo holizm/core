@@ -90,7 +90,8 @@ services:
             cd ${containerHome}/${repo}/${process}
             initialize
             if [ "${isCiCd}" != "true" ]; then
-                watchForDirectoryChanges &
+                watchForDirectoryChanges --initialize-only
+                watchForDirectoryChanges --watch-only &
                 watchForAst &
                 start &
             fi
