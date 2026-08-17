@@ -37,6 +37,38 @@
 - Use single quotes for strings in `.js` and `.jsx` files. When a string contains a single quote, use backticks instead of escaping the single quote or using double quotes.
 - When a `.js` or `.jsx` file exports only one default value, export it anonymously unless that value is reused within the same file.
 - When a `.js` or `.jsx` file has exactly one named export, the exported name must exactly match the filename without its extension.
+- Order imports from the platform level toward the most concrete application level:
+
+  1. Native platform modules, such as `node:` modules.
+  2. The primary framework or library on which the process is built.
+  3. Complementary third-party libraries, such as Material UI, Headless UI, Recharts, Leaflet, or `nanoid`.
+  4. Platform-owned modules, ordered from the most abstract core layer to the most concrete feature layer.
+
+  Apply these ordering principles:
+
+  1. External modules before platform-owned modules.
+  2. Less UI-specific modules before more UI-specific modules.
+  3. Modules with a larger scope before modules with a smaller scope.
+  4. Peer modules alphabetically.
+
+  In panel code, use this order:
+
+  1. React.
+  2. Complementary third-party libraries, such as Material UI, Headless UI, and Recharts.
+  3. Core modules.
+  4. Contexts.
+  5. Hooks.
+  6. Components, such as lists, forms, dialogs, and dashboards.
+
+  In site code, use this order:
+
+  1. Qwik.
+  2. Qwik City.
+  3. Complementary third-party libraries, such as Leaflet.
+  4. Core modules.
+  5. Parts.
+  6. Shared modules.
+  7. Page-specific modules.
 - Write a JavaScript named import with exactly one imported name on one line: `import { name } from './module.js'`.
 - When a JavaScript named import has two or more imported names, place every imported name on its own line inside a multiline import block.
 - In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
