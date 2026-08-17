@@ -7,6 +7,7 @@
 - Split each runnable repository into processes, where each process is a top-level directory in that repository. API process names end with `Api`, panel process names end with `Panel`, and site processes are named `site`, end with `Site`, or contain a top-level file named `site`. The prefix of an API or panel process name is the role name.
 - Follow the root-leaf complexity gradient: keep leaf layers as simple, clean, and boilerplate-free as possible, and progressively move complexity toward the core. Core layers should contain the greatest complexity.
 - Do not create static export files in leaf layers. Only core repositories may define export files statically. Generate exports dynamically for parts and runnable repositories to keep leaf layers simple and free of boilerplate.
+- Apply the same bundling strategy across all technologies. Bundle the core separately from every part, and create a single bundle for each part. When the core exposes multiple aliases or barrels, create one bundle for each alias or barrel; otherwise, bundle the entire core as a single unit.
 - Some parts contain data that can be defined at five scope levels:
   1. The entire application.
   2. A part of the application.
