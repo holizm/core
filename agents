@@ -5,6 +5,8 @@
 - All repositories are mapped to the home directory. Any top-level directory containing a `.git` repository is part of our multi-repository SPL.
 - Any top-level repository containing a `common` directory is a runnable repository.
 - Split each runnable repository into processes, where each process is a top-level directory in that repository. API process names end with `Api`, panel process names end with `Panel`, and site processes are named `site`, end with `Site`, or contain a top-level file named `site`. The prefix of an API or panel process name is the role name.
+- Follow the root-leaf complexity gradient: keep leaf layers as simple, clean, and boilerplate-free as possible, and progressively move complexity toward the core. Core layers should contain the greatest complexity.
+- Do not create static export files in leaf layers. Only core repositories may define export files statically. Generate exports dynamically for parts and runnable repositories to keep leaf layers simple and free of boilerplate.
 - In front-end development, choose to become an atomic UI and keep components as headless as possible. Use semantic class names rather than utilities. In style files, use `@apply`, `@utility`, and other Tailwind keywords to define the look and feel. Create variables for colors. Compose smaller atomic components into larger components. Do not assume anything beyond what the user has stated. When in doubt, ask and help make the front-end architecture more explicit.
 - Use camelCase for semantic class names assigned to components. All platform-owned custom class names must use camelCase.
 - Do not prefix every class name with its parent or part name. Use natural element names; for example, inside `tags`, name the heading `title`, not `tagsTitle`.
