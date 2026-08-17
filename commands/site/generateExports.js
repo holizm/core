@@ -98,4 +98,7 @@ if (
     process.exit(0)
 }
 
-fs.writeFileSync(exportsPath, content)
+const temporaryPath = `${exportsPath}.temporary`
+
+fs.writeFileSync(temporaryPath, content)
+fs.renameSync(temporaryPath, exportsPath)

@@ -3,23 +3,6 @@
 base=$home/$repo/$process
 partsBase=$base/src/parts
 pagePartsBase=$base/src/pageParts
-mode=${1:-all}
-
-initializeExports() {
-    for directory in "$partsBase"/*; do
-        [ -d "$directory" ] || continue
-        topLevelDirectory=$(basename "$directory")
-        node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" parts
-    done
-
-    for directory in "$pagePartsBase"/*; do
-        [ -d "$directory" ] || continue
-        topLevelDirectory=$(basename "$directory")
-        node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" pageParts
-    done
-
-    node "$home/core/commands/site/initializeSiteBarrels.js"
-}
 
 regenerateExports() {
     directory=$1
@@ -55,14 +38,6 @@ regenerateExports() {
     node "$home/core/commands/site/initializeSiteBarrels.js"
 }
 
-if [ "$mode" != '--watch-only' ]; then
-    initializeExports
-fi
-
-if [ "$mode" = '--initialize-only' ]; then
-    exit 0
-fi
-
 inotifywait -m -r \
     -e close_write \
     -e create \
@@ -70,7 +45,7 @@ inotifywait -m -r \
     -e delete_self \
     -e moved_from \
     -e moved_to \
-    --exclude '/(exports\.jsx|[^/]+Exports\.(jsx|ts|tsx))$' \
+    --exclude '/(exports\.jsx|[^/]+Exports\.(jsx|ts|tsx)|\.[^/]+\.temporary)$' \
     --format '%w|%e|%f' \
     -q \
     "$partsBase" \

@@ -89,9 +89,9 @@ services:
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd ${containerHome}/${repo}/${process}
             initialize
+            barrels
             if [ "${isCiCd}" != "true" ]; then
-                watchForDirectoryChanges --initialize-only
-                watchForDirectoryChanges --watch-only &
+                watchForDirectoryChanges &
                 watchForAst &
                 start &
             fi

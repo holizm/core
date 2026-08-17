@@ -10,10 +10,11 @@ const partsBase = `${home}/${repo}/${proc}/src/parts`
 const pagePartsBase = `${home}/${repo}/${proc}/src/pageParts`
 const srcBase = `${home}/${repo}/${proc}/src`
 
-const getDirs = base =>
-    fs.readdirSync(base).filter(d =>
-        fs.statSync(`${base}/${d}`).isDirectory()
-    )
+const getDirs = base => fs.readdirSync(base, {
+    withFileTypes: true,
+}).filter(entry =>
+    entry.isDirectory()
+).map(entry => entry.name)
 
 const aliases = {
     core: './src/core/exports',
