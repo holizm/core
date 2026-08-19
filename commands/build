@@ -13,7 +13,9 @@ divide()
 info('holism build')
 divide()
 
-await build({
+const params = {
     isCiCd: process.argv[2],
     localBuild: true,
-})
+}
+
+await build(params)
