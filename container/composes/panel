@@ -41,6 +41,7 @@ services:
             - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
             - ${home}/panel/generateExports.js:${containerHome}/${repo}/${process}/generateExports.js
             - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
+            - ${home}/panel/generatePartRoutes.js:${containerHome}/${repo}/${process}/generatePartRoutes.js
             - ${home}/panel/index.html:${containerHome}/${repo}/${process}/index.html
             - ${home}/panel/localization:${containerHome}/${repo}/${process}/localization
             - ${home}/panel/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
