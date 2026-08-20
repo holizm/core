@@ -78,7 +78,7 @@ export default params => {
     params.pascalizedRepo = pascalize(repo)
     params.camelizedRepo = camelize(repo)
     params.lowercaseProcess = params.process.toLowerCase()
-    params.containerName = `${params.lowercaseRepo}${params.pascalizedProcess}`
+    params.containerName = `${params.repo}${params.pascalizedProcess}`
 
     success(`organization: ${org}`)
     success(`repository: ${repo}`)

@@ -69,7 +69,12 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
         path.relative(sourceDirectory, fullPath)
     const isComponent = target === 'pageParts'
         || fullPath.split('/parts/').length === 3
-    const nameSegments = relativePath
+    const namePath = target === 'pageParts'
+        ?
+        path.relative(sourceDirectory, fullPath)
+        :
+        relativePath
+    const nameSegments = namePath
         .replace(/\.jsx$/, '')
         .split(path.sep)
     const componentNameSegments = target === 'parts'
