@@ -70,6 +70,7 @@ services:
             - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
+            - /tmp/${repo}/${process}/uiParts.json:/tmp/${repo}/${process}/uiParts.json
             - /tmp/${repo}/${process}/webServerCache:${containerHome}/webServerCache
             - ${processPath}/styles:${containerHome}/${repo}/${process}/styles
 
@@ -85,11 +86,12 @@ services:
         command: |
             bash -lc '
             export PATH=${containerHome}/core/commands/site:${containerHome}/core/commands:$PATH
+            rm -f /tmp/siteReady
             merge site
             printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
             cd ${containerHome}/${repo}/${process}
             initialize
-            barrels
+            barrels && touch /tmp/siteReady
             if [ "${isCiCd}" != "true" ]; then
                 watchForDirectoryChanges &
                 watchForAst &

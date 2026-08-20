@@ -1,0 +1,103 @@
+#!/usr/bin/env node
+
+import fs from 'fs'
+import path from 'path'
+
+const home = process.env.home
+const processName = process.env.process
+const repo = process.env.repo
+
+if (!home || !processName || !repo) {
+    process.exit(1)
+}
+
+const outputPath = `/tmp/${repo}/${processName}/uiParts.json`
+
+const getDirectories = directory => fs.existsSync(directory)
+    ?
+    fs.readdirSync(directory, {
+        withFileTypes: true,
+    }).filter(entry => entry.isDirectory()).sort((first, second) =>
+        first.name.localeCompare(second.name)
+    )
+    :
+    []
+
+const getJsxFiles = directory => fs.existsSync(directory)
+    ?
+    fs.readdirSync(directory, {
+        withFileTypes: true,
+    }).filter(entry =>
+        entry.isFile()
+        && entry.name.endsWith('.jsx')
+        && entry.name !== 'exports.jsx'
+        && !entry.name.endsWith('Exports.jsx')
+    ).map(entry => path.join(directory, entry.name))
+    :
+    []
+
+const toPascalCase = value => value
+    ?
+    value.charAt(0).toUpperCase() + value.slice(1)
+    :
+    ''
+
+const getName = (baseDirectory, filePath) => {
+    const relativePath = path.relative(baseDirectory, filePath)
+    const segments = relativePath
+        .replace(/\.jsx$/, '')
+        .split(path.sep)
+
+    return segments[0] + segments.slice(1).map(toPascalCase).join('')
+}
+
+const getUiPart = ({
+    baseDirectory,
+    filePath,
+}) => ({
+    fileName: path.basename(filePath, '.jsx'),
+    name: getName(baseDirectory, filePath),
+})
+
+const uiParts = {}
+const composedPartsBase = path.join(
+    home,
+    repo,
+    processName,
+    'src',
+    'parts'
+)
+
+for (const entry of getDirectories(composedPartsBase)) {
+    const part = entry.name
+    const partsBase = path.join(composedPartsBase, part, 'parts')
+
+    uiParts[part] = getJsxFiles(partsBase).map(filePath =>
+        getUiPart({
+            baseDirectory: partsBase,
+            filePath,
+        })
+    ).sort((first, second) => first.name.localeCompare(second.name))
+}
+
+const pagePartsBase = path.join(
+    home,
+    repo,
+    processName,
+    'src',
+    'pageParts'
+)
+
+uiParts.runnable = getDirectories(pagePartsBase).flatMap(entry =>
+    getJsxFiles(path.join(pagePartsBase, entry.name))
+).map(filePath =>
+    getUiPart({
+        baseDirectory: pagePartsBase,
+        filePath,
+    })
+).sort((first, second) => first.name.localeCompare(second.name))
+
+fs.writeFileSync(
+    outputPath,
+    `${JSON.stringify(uiParts, null, 4)}\n`
+)

@@ -54,8 +54,9 @@ export default async params => {
     else if (isSite) {
         removeAndRecreateDir(`${processBuildDir}/dist`)
         removeAndRecreateDir(`${processBuildDir}/server`)
-        let command = `docker exec -t ${containerName} bash -c 'npm run build'`
-        console.log(command)
+        let command = `docker exec ${containerName} bash -c 'for attempt in {1..300}; do [ -f /tmp/siteReady ] && exit 0; sleep 1; done; exit 1'`
+        await runStreaming(command)
+        command = `docker exec ${containerName} bash -c 'npm run build'`
         await runStreaming(command)
         command = `
             docker exec ${containerName} bash -c '

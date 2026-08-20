@@ -12,6 +12,7 @@ import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
+    createFileIfNotExists,
     getContent,
     isDir,
     isFile,
@@ -190,6 +191,7 @@ export default params => {
     params.processType = 'site'
     createNonExistentFiles(params)
     createDirectories(params)
+    createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`)
     createCiCd(params)
 
     mapDependencies(params)
