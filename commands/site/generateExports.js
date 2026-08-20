@@ -79,7 +79,7 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
         .split(path.sep)
     const componentNameSegments = target === 'parts'
         ?
-        nameSegments.slice(1)
+        nameSegments.slice(nameSegments[1] === 'svg' ? 2 : 1)
         :
         nameSegments
     const name = isComponent
