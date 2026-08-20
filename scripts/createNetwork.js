@@ -10,7 +10,7 @@ export default params => {
     if (!output.includes(networkName)) {
         info(`Creating the network ${networkName}`)
         runOnTerminal(`docker network create --driver bridge ${networkName}`, {
-            show: true,
+            show: false,
             throwOnError: true,
         })
     }
