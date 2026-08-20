@@ -9,6 +9,9 @@ export default params => {
     const output = runOnTerminal('docker network ls --format {{.Name}}').split('\n')
     if (!output.includes(networkName)) {
         info(`Creating the network ${networkName}`)
-        runOnTerminal(`docker network create --driver bridge ${networkName} 1>/dev/null 2>&1`)
+        runOnTerminal(`docker network create --driver bridge ${networkName}`, {
+            show: true,
+            throwOnError: true,
+        })
     }
 }
