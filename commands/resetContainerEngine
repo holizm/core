@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+sudo systemctl stop docker.service docker.socket containerd.service 2>/dev/null; \
+sudo rm -rf /var/lib/docker/network; \
+for connection in $(nmcli -t -f NAME,TYPE connection show | awk -F: '$2 == "bridge" && $1 ~ /^br-/ {print $1}'); do sudo nmcli connection delete "$connection"; done; \
+for bridge in $(ip -o link show type bridge | awk -F': ' '$2 ~ /^br-/ {print $2}'); do sudo ip link delete "$bridge" 2>/dev/null; done; \
+sudo ip link delete docker0 2>/dev/null; \
+sudo systemctl start containerd.service docker.service
