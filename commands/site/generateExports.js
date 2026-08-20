@@ -52,20 +52,36 @@ const findFiles = directory => fs.readdirSync(directory, {
     return [entryPath]
 })
 
-const importExportData = findFiles(sourceDirectory).map(fullPath => {
+const importExportData = findFiles(sourceDirectory).filter(fullPath => {
+    if (target !== 'parts') {
+        return true
+    }
+
+    const segments = path.relative(sourceDirectory, fullPath).split(path.sep)
+
+    return segments[0] !== 'parts' || segments.length <= 3
+}).map(fullPath => {
     const rawName = path.basename(fullPath, '.jsx')
-    const isComponent = target === 'pageParts'
-        || fullPath.split('/parts/').length === 3
-    const name = isComponent
-        ?
-        pascalize(rawName)
-        :
-        camelize(rawName)
     const relativePath = target === 'pageParts'
         ?
         path.relative(baseDirectory, fullPath)
         :
         path.relative(sourceDirectory, fullPath)
+    const isComponent = target === 'pageParts'
+        || fullPath.split('/parts/').length === 3
+    const nameSegments = relativePath
+        .replace(/\.jsx$/, '')
+        .split(path.sep)
+    const componentNameSegments = target === 'parts'
+        ?
+        nameSegments.slice(1)
+        :
+        nameSegments
+    const name = isComponent
+        ?
+        componentNameSegments.map(pascalize).join('')
+        :
+        camelize(rawName)
     const importPath = `./${relativePath.replace(/\.jsx$/, '').split(path.sep).join('/')}`
 
     return {
