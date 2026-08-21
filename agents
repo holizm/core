@@ -26,6 +26,7 @@
 - Use camelCase for semantic class names assigned to components. All platform-owned custom class names must use camelCase.
 - Do not prefix every class name with its parent or part name. Use natural element names; for example, inside `tags`, name the heading `title`, not `tagsTitle`.
 - Store localization strings inside `localization` directories. Support each locale with a `localeKey.json` file. Store strings shared among API, panel, and site in the root `localization` directory; otherwise, store them in the relevant process's `localization` directory.
+- Avoid hardcoding human-readable text, including tooltips, titles, and API response messages. Whenever possible, use a translation key and provide translations for that key in every supported locale.
 - Never add comments to code or configuration files.
 - Preserve all existing comments unless the user explicitly requests their removal.
 - Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
