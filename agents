@@ -1,6 +1,7 @@
 # Development Rules
 
 - Treat the platform as a multi-repository Software Product Line composed of development, API, panel, and site cores; essential parts such as globalization, settings, and attributes; general parts such as blog, courses, products, and orders; and niche parts such as restaurants and salons. No repository is independently runnable. Repositories are composed inside a container to create a runnable project, and the code runs inside that container.
+- Design and evaluate every decision for SMBs and SMEs: small and medium-sized businesses and enterprises with limited budgets and modest scale. Prioritize cost-effective, proportionate solutions and do not assume hyperscale requirements or budgets. For example, apply security controls appropriate to the actual risks and prefer simpler architectures over microservices.
 - Development core is in `~/core`, API core is in `~/api`, panel core is in `~/panel`, and site core is in `~/site`. Any top-level directory inside home that has a top-level file named `part` is a part of our SPL, and is a part repo.
 - All repositories are mapped to the home directory. Any top-level directory containing a `.git` repository is part of our multi-repository SPL.
 - Any top-level repository containing a `common` directory is a runnable repository.
