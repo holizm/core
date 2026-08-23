@@ -49,7 +49,8 @@
 - In JavaScript, return `clientError` or `serverError` whenever applicable instead of introducing another error-response pattern.
 - In `.js` and `.jsx` files, always use arrow functions and never use function declaration statements.
 - In React, prefer one component per file and minimize boilerplate. Prefer exporting static JSX directly; when a function is needed, prefer a concise arrow function without a block body, and use a block-bodied arrow function only when necessary. Use Vite plugins to assign component names and wrap exports in block-bodied arrow functions when required.
-- In `.js` and `.jsx` files, omit parentheses around an arrow function's single identifier parameter.
+- When a Qwik component does not require `component$`, convert it to a light component by removing `component$` and any associated boilerplate.
+- In `.js` and `.jsx` files, omit parentheses around an arrow function's single parameter whenever the syntax permits. Minimize boilerplate wherever possible.
 - Never use double quotes in `.js` or `.jsx` files.
 - Use single quotes for strings in `.js` and `.jsx` files. When a string contains a single quote, use backticks instead of escaping the single quote or using double quotes.
 - When a `.js` or `.jsx` file exports only one default value, export it anonymously unless that value is reused within the same file.
