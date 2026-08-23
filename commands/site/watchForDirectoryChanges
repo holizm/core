@@ -45,7 +45,7 @@ inotifywait -m -r \
     -e delete_self \
     -e moved_from \
     -e moved_to \
-    --exclude '/(exports\.jsx|[^/]+Exports\.(jsx|ts|tsx)|\.[^/]+\.temporary)$' \
+    --exclude '/(\.agents|\.codex|\.git)(/|$)|/(exports\.jsx|[^/]+Exports\.(jsx|ts|tsx)|\.[^/]+\.temporary)$' \
     --format '%w|%e|%f' \
     -q \
     "$partsBase" \
