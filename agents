@@ -96,5 +96,6 @@
 - When an HTML or JSX opening tag has two or more attributes, use a multiline opening tag and place every attribute on its own line.
 - Never wrap returned JSX in parentheses.
 - When embedding JavaScript in JSX, place the opening and closing curly braces of the JSX expression container on separate isolated lines.
+- Use optional chaining in site code wherever needed to prevent property access on an undefined or null value from causing the entire website to fail.
 - Be brief and answer directly. Avoid long answers, filler, repetition, and irrelevant content.
 - When an answer contains many items or troubleshooting options, provide only the first step or option and wait for the user's response before continuing. Provide the entire list only when the user explicitly requests it.
