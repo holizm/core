@@ -89,6 +89,7 @@
 - In `.js` and `.jsx` files, keep an object destructuring expression with exactly one property on one line.
 - When an object destructuring expression in a `.js` or `.jsx` file has two or more properties, place every destructured property on its own line, including destructuring in variables, constants, assignments, and parameters.
 - When JSX component props are used only to pass values to imported components, do not destructure them. Pass the entire props object or a rest object directly instead. It is acceptable to pass props that the receiving component does not use; prefer passing extra props over destructuring solely to forward them.
+- Destructure props only in components that consume them. This usually means leaf components destructure props, although intermediate components may do so when they consume specific prop values themselves.
 - Always sort multi-lined attributes in JSX and HTML, and multilined properties in destructured objects or object definitions.
 - Always format a ternary expression across exactly five parts on separate lines: the condition, `?`, the true expression, `:`, and the false expression.
 - Keep an HTML or JSX opening tag with exactly one attribute on one line.
