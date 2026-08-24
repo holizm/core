@@ -221,6 +221,23 @@ const copyFile = async params => {
     }
 }
 
+const runWithConcurrency = async (items, concurrency, callback) => {
+    let nextIndex = 0
+    const worker = async () => {
+        while (nextIndex < items.length) {
+            const index = nextIndex
+            nextIndex += 1
+            await callback(items[index], index)
+        }
+    }
+    await Promise.all(
+        Array.from(
+            { length: Math.min(concurrency, items.length) },
+            worker
+        )
+    )
+}
+
 const selectCandidate = async (reader, type, candidates) => {
     console.info(`Multiple destinations found for ${type}:`)
     candidates.forEach((candidate, index) => {
@@ -247,7 +264,11 @@ const migrate = async () => {
     }
     const settings = getSettings(repo)
     const aws = settings.migrateToFqnOnCloudStorage?.aws || {}
+    const concurrency = Number.parseInt(args.concurrency || '5', 10)
     const dryRun = args.dryRun === 'true'
+    if (!Number.isInteger(concurrency) || concurrency < 1) {
+        throw new Error('Concurrency must be a positive integer.')
+    }
     if (
         !aws.serviceUrl ||
         !aws.bucket ||
@@ -259,6 +280,7 @@ const migrate = async () => {
     console.info(`Loaded migration secrets for ${repo}`)
     console.info(`Storage endpoint: ${aws.serviceUrl}`)
     console.info(`Storage bucket: ${aws.bucket}`)
+    console.info(`Concurrency: ${concurrency}`)
     console.info(`Dry run: ${dryRun}`)
     const client = new S3Client({
         credentials: {
@@ -341,13 +363,13 @@ const migrate = async () => {
             }
             console.info(`Mapped ${directory} to ${candidate.part}/${candidate.type}`)
             console.info(`Found ${files.length} legacy files in ${directory}`)
-            for (const [index, source] of files.entries()) {
+            await runWithConcurrency(files, concurrency, async (source, index) => {
                 const destinationKey = `${candidate.part.toLowerCase()}/${candidate.type}/${basename(source.Key)}`
                 plannedFiles += 1
                 console.info(`Processing ${index + 1}/${files.length}: ${source.Key}`)
                 if (dryRun) {
                     console.info(`Would copy ${source.Key} to ${destinationKey}`)
-                    continue
+                    return
                 }
                 try {
                     await copyFile({
@@ -364,7 +386,7 @@ const migrate = async () => {
                     console.error(`Failed to copy ${source.Key} to ${destinationKey}`)
                     console.error(exception)
                 }
-            }
+            })
         }
     }
     finally {
