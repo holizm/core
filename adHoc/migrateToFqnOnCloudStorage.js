@@ -23,6 +23,7 @@ const {
     ListObjectsV2Command,
     S3Client,
 } = apiRequire('@aws-sdk/client-s3')
+const { NodeHttpHandler } = apiRequire('@smithy/node-http-handler')
 
 const parseArguments = () => Object.fromEntries(
     process.argv
@@ -38,9 +39,6 @@ const parseArguments = () => Object.fromEntries(
 )
 
 const readJson = filePath => {
-    if (!filePath || !existsSync(filePath)) {
-        return {}
-    }
     const camelize = value => {
         if (Array.isArray(value)) {
             return value.map(camelize)
@@ -67,46 +65,48 @@ const getSettings = repo => {
 }
 
 const getPartFiles = async repo => {
-    const dependenciesPath = join(home, repo, 'common/dependencies')
-    const essentialPartsPath = join(home, 'core/essentialParts')
     const partFiles = new Set()
-    for (const filePath of [
-        dependenciesPath,
-        essentialPartsPath,
-    ]) {
-        if (!existsSync(filePath)) {
+    const dependencyFiles = [
+        join(home, 'core/essentialParts'),
+        join(home, repo, 'common/dependencies'),
+    ]
+    for (const dependencyFile of dependencyFiles) {
+        if (!existsSync(dependencyFile)) {
             continue
         }
-        for (const line of readFileSync(filePath, 'utf8').split('\n')) {
+        for (const line of readFileSync(dependencyFile, 'utf8').split('\n')) {
             const part = line.trim()
-            if (part) {
-                const partFile = join(home, part, 'part')
-                if (existsSync(partFile)) {
-                    partFiles.add(partFile)
-                }
+            const partFile = join(home, part, 'part')
+            if (part && existsSync(partFile)) {
+                partFiles.add(partFile)
             }
         }
     }
     const nichePartFiles = await fg(`${home}/${repo}/**/part`, {
+        ignore: [
+            '**/node_modules/**',
+        ],
         onlyFiles: true,
     })
-    for (const partFile of nichePartFiles) {
-        partFiles.add(partFile)
-    }
+    nichePartFiles.forEach(partFile => partFiles.add(partFile))
     return [...partFiles]
 }
 
-const getPartsByType = async repo => {
+const getPartDefinitions = async repo => {
+    const partsByName = new Map()
     const partsByType = new Map()
     const partFiles = await getPartFiles(repo)
     for (const partFile of partFiles) {
         const part = basename(dirname(partFile))
-        const lines = readFileSync(partFile, 'utf8').split('\n')
-        for (const line of lines) {
-            if (!line || /^\s/.test(line)) {
-                continue
-            }
-            const type = line.trim().split(/\s+/)[0]
+        const types = readFileSync(partFile, 'utf8')
+            .split('\n')
+            .filter(line => line && !/^\s/.test(line))
+            .map(line => line.trim().split(/\s+/)[0])
+        partsByName.set(part.toLowerCase(), {
+            part,
+            types,
+        })
+        for (const type of types) {
             const normalizedType = type.toLowerCase()
             const candidates = partsByType.get(normalizedType) || []
             candidates.push({
@@ -116,55 +116,119 @@ const getPartsByType = async repo => {
             partsByType.set(normalizedType, candidates)
         }
     }
-    return partsByType
+    return {
+        partsByName,
+        partsByType,
+    }
 }
 
-const listDirectories = async (client, bucket) => {
-    const directories = []
+const listDirectory = async (client, bucket, prefix) => {
+    const directories = new Set()
     let continuationToken
+    let directFileCount = 0
     do {
         const response = await client.send(new ListObjectsV2Command({
             Bucket: bucket,
             ContinuationToken: continuationToken,
             Delimiter: '/',
-        }))
-        for (const prefix of response.CommonPrefixes || []) {
-            directories.push(prefix.Prefix.replace(/\/$/, ''))
-        }
-        if (response.IsTruncated) {
-            continuationToken = response.NextContinuationToken
-        }
-        else {
-            continuationToken = undefined
-        }
-    } while (continuationToken)
-    return directories
-}
-
-const listLegacyFiles = async (client, bucket, type) => {
-    const files = []
-    let continuationToken
-    do {
-        const response = await client.send(new ListObjectsV2Command({
-            Bucket: bucket,
-            ContinuationToken: continuationToken,
-            Delimiter: '/',
-            Prefix: `${type}/`,
+            Prefix: prefix,
         }))
         for (const object of response.Contents || []) {
-            if (object.Key !== `${type}/`) {
-                files.push(object)
+            if (object.Key !== prefix) {
+                directFileCount += 1
             }
         }
-        if (response.IsTruncated) {
-            continuationToken = response.NextContinuationToken
+        for (const item of response.CommonPrefixes || []) {
+            directories.add(item.Prefix)
         }
-        else {
-            continuationToken = undefined
-        }
+        continuationToken = response.IsTruncated
+            ?
+            response.NextContinuationToken
+            :
+            undefined
     } while (continuationToken)
-    return files
+    return {
+        directFileCount,
+        directories: [...directories].sort(),
+    }
 }
+
+const getPathName = prefix => prefix.replace(/\/$/, '').split('/').at(-1)
+
+const discoverPaths = async params => {
+    const {
+        bucket,
+        client,
+        partsByName,
+        partsByType,
+    } = params
+    const root = await listDirectory(client, bucket, '')
+    const legacyPaths = []
+    const newPaths = []
+    const unknownPaths = []
+    for (const prefix of root.directories) {
+        const name = getPathName(prefix)
+        const partDefinition = partsByName.get(name.toLowerCase())
+        const typeCandidates = partsByType.get(name.toLowerCase()) || []
+        const directory = await listDirectory(client, bucket, prefix)
+        if (typeCandidates.length > 0 && directory.directFileCount > 0) {
+            legacyPaths.push({
+                fileCount: directory.directFileCount,
+                path: prefix,
+                targets: typeCandidates.map(candidate => `${candidate.part}/${candidate.type}/`),
+            })
+        }
+        if (partDefinition) {
+            const types = new Map(
+                partDefinition.types.map(type => [
+                    type.toLowerCase(),
+                    type,
+                ])
+            )
+            for (const typePrefix of directory.directories) {
+                const typeName = getPathName(typePrefix)
+                const type = types.get(typeName.toLowerCase())
+                if (type) {
+                    newPaths.push({
+                        path: typePrefix,
+                        target: `${partDefinition.part}/${type}/`,
+                    })
+                }
+                else {
+                    unknownPaths.push(typePrefix)
+                }
+            }
+        }
+        else if (typeCandidates.length === 0) {
+            unknownPaths.push(prefix)
+        }
+    }
+    return {
+        legacyPaths,
+        newPaths,
+        rootDirectoryCount: root.directories.length,
+        unknownPaths,
+    }
+}
+
+const printDiscovery = discovery => {
+    console.info(`Found ${discovery.rootDirectoryCount} root directories.`)
+    console.info(`Legacy paths: ${discovery.legacyPaths.length}`)
+    for (const item of discovery.legacyPaths) {
+        console.info(`${item.path} (${item.fileCount} files) -> ${item.targets.join(' or ')}`)
+    }
+    console.info(`New paths: ${discovery.newPaths.length}`)
+    for (const item of discovery.newPaths) {
+        console.info(`${item.path} -> ${item.target}`)
+    }
+    console.info(`Unknown paths: ${discovery.unknownPaths.length}`)
+    for (const path of discovery.unknownPaths) {
+        console.info(path)
+    }
+}
+
+const copySource = (bucket, key) => encodeURIComponent(`${bucket}/${key}`)
+    .replaceAll('%2F', '/')
 
 const getObject = async (client, bucket, key) => {
     try {
@@ -184,79 +248,200 @@ const getObject = async (client, bucket, key) => {
     }
 }
 
-const copySource = (bucket, key) => encodeURIComponent(`${bucket}/${key}`)
-    .replaceAll('%2F', '/')
-
-const copyFile = async params => {
-    const {
-        bucket,
-        client,
-        destinationKey,
-        source,
-    } = params
-    console.info(`Checking destination ${destinationKey}`)
-    const destination = await getObject(client, bucket, destinationKey)
-    if (destination) {
-        if (
-            destination.ContentLength !== source.Size ||
-            destination.ETag !== source.ETag
-        ) {
-            throw new Error(`Destination already exists with different content: ${destinationKey}`)
-        }
-        console.info(`Verified existing destination ${destinationKey}`)
-    }
-    else {
-        console.info(`Copying ${source.Key} to ${destinationKey}`)
-        await client.send(new CopyObjectCommand({
-            ACL: 'public-read',
-            Bucket: bucket,
-            CopySource: copySource(bucket, source.Key),
-            Key: destinationKey,
-        }))
-        const copiedObject = await getObject(client, bucket, destinationKey)
-        if (!copiedObject || copiedObject.ContentLength !== source.Size) {
-            throw new Error(`Copied object verification failed: ${destinationKey}`)
-        }
-        console.info(`Verified copied destination ${destinationKey}`)
-    }
-}
-
 const runWithConcurrency = async (items, concurrency, callback) => {
     let nextIndex = 0
     const worker = async () => {
         while (nextIndex < items.length) {
             const index = nextIndex
             nextIndex += 1
-            await callback(items[index], index)
+            await callback(items[index])
         }
     }
     await Promise.all(
         Array.from(
-            { length: Math.min(concurrency, items.length) },
+            {
+                length: Math.min(concurrency, items.length),
+            },
             worker
         )
     )
 }
 
-const selectCandidate = async (reader, type, candidates) => {
-    console.info(`Multiple destinations found for ${type}:`)
-    candidates.forEach((candidate, index) => {
-        console.info(`${index + 1}. ${candidate.part}/${candidate.type}`)
+const copyLegacyPath = async params => {
+    const {
+        bucket,
+        client,
+        concurrency,
+        destinationPrefix,
+        sourcePrefix,
+        totalFileCount,
+    } = params
+    let continuationToken
+    let copiedFileCount = 0
+    let failedFileCount = 0
+    let processedFileCount = 0
+    let skippedFileCount = 0
+    do {
+        const response = await client.send(new ListObjectsV2Command({
+            Bucket: bucket,
+            ContinuationToken: continuationToken,
+            Delimiter: '/',
+            Prefix: sourcePrefix,
+        }))
+        const objects = (response.Contents || []).filter(object => object.Key !== sourcePrefix)
+        await runWithConcurrency(objects, concurrency, async object => {
+            const fileName = object.Key.slice(sourcePrefix.length)
+            const destinationKey = `${destinationPrefix}${fileName}`
+            let failure
+            let status
+            try {
+                const destination = await getObject(client, bucket, destinationKey)
+                if (destination) {
+                    if (
+                        destination.ContentLength !== object.Size ||
+                        destination.ETag !== object.ETag
+                    ) {
+                        throw new Error(`Destination has different content: ${destinationKey}`)
+                    }
+                    skippedFileCount += 1
+                    status = 'already exists'
+                }
+                else {
+                    await client.send(new CopyObjectCommand({
+                        ACL: 'public-read',
+                        Bucket: bucket,
+                        CopySource: copySource(bucket, object.Key),
+                        Key: destinationKey,
+                    }))
+                    copiedFileCount += 1
+                    status = 'copied'
+                }
+            }
+            catch (exception) {
+                failedFileCount += 1
+                failure = exception
+                status = 'failed'
+            }
+            processedFileCount += 1
+            const percentage = Math.floor(
+                processedFileCount / totalFileCount * 100
+            )
+            const progress = `[${processedFileCount}/${totalFileCount} ${percentage}%]`
+            if (status === 'copied') {
+                console.info(`${progress} ✅ ${object.Key} -> ${destinationKey}`)
+            }
+            else if (status === 'already exists') {
+                console.info(`${progress} ↷ ${destinationKey} already exists`)
+            }
+            else {
+                console.error(`${progress} ❌ ${object.Key} -> ${destinationKey}`)
+                console.error(failure)
+            }
+        })
+        continuationToken = response.IsTruncated
+            ?
+            response.NextContinuationToken
+            :
+            undefined
+    } while (continuationToken)
+    console.info(`Copy completed: ${copiedFileCount} copied, ${skippedFileCount} already existed, ${failedFileCount} failed.`)
+    if (failedFileCount > 0) {
+        process.exitCode = 1
+    }
+}
+
+const selectTarget = async (reader, legacyPath) => {
+    console.info(`Multiple destinations found for ${legacyPath.path}:`)
+    legacyPath.targets.forEach((target, index) => {
+        console.info(`${index + 1}. ${target}`)
     })
     console.info('0. Skip')
     while (true) {
-        const answer = await reader.question(`Select destination for ${type}: `)
+        const answer = await reader.question('Select destination: ')
         const selectedIndex = Number.parseInt(answer, 10)
         if (selectedIndex === 0) {
             return
         }
-        if (selectedIndex > 0 && selectedIndex <= candidates.length) {
-            return candidates[selectedIndex - 1]
+        if (selectedIndex > 0 && selectedIndex <= legacyPath.targets.length) {
+            return legacyPath.targets[selectedIndex - 1]
         }
+        console.info('Enter one of the listed numbers.')
     }
 }
 
-const migrate = async () => {
+const copyLegacyPaths = async params => {
+    const {
+        args,
+        bucket,
+        client,
+        discovery,
+        reader,
+    } = params
+    const selectedTypes = args.type
+        ?
+        args.type
+            .split(',')
+            .map(type => type.trim().toLowerCase())
+            .filter(Boolean)
+        :
+        []
+    if (args.type !== undefined && selectedTypes.length === 0) {
+        throw new Error('Type must contain at least one value.')
+    }
+    const selectedTypeSet = new Set(selectedTypes)
+    const legacyPaths = selectedTypes.length > 0
+        ?
+        discovery.legacyPaths.filter(item =>
+            selectedTypeSet.has(getPathName(item.path).toLowerCase())
+        )
+        :
+        discovery.legacyPaths
+    const foundTypes = new Set(
+        legacyPaths.map(item => getPathName(item.path).toLowerCase())
+    )
+    const missingTypes = selectedTypes.filter(type => !foundTypes.has(type))
+    if (missingTypes.length > 0) {
+        throw new Error(`Legacy paths were not found for types: ${missingTypes.join(', ')}`)
+    }
+    const concurrency = Number.parseInt(args.concurrency || '5', 10)
+    if (!Number.isInteger(concurrency) || concurrency < 1) {
+        throw new Error('Concurrency must be a positive integer.')
+    }
+    for (const legacyPath of legacyPaths) {
+        let targets = legacyPath.targets
+        if (args.part && selectedTypes.length > 0) {
+            targets = targets.filter(target =>
+                target.split('/')[0].toLowerCase() === args.part.trim().toLowerCase()
+            )
+            if (targets.length === 0) {
+                throw new Error(`Part ${args.part} is not a destination for ${getPathName(legacyPath.path)}. Choose one of: ${legacyPath.targets.join(', ')}`)
+            }
+        }
+        const destinationPrefix = targets.length === 1
+            ?
+            targets[0]
+            :
+            await selectTarget(reader, {
+                ...legacyPath,
+                targets,
+            })
+        if (!destinationPrefix) {
+            console.info(`Skipped ${legacyPath.path}`)
+            continue
+        }
+        console.info(`Copying ${legacyPath.path} to ${destinationPrefix} with concurrency ${concurrency}`)
+        await copyLegacyPath({
+            bucket,
+            client,
+            concurrency,
+            destinationPrefix,
+            sourcePrefix: legacyPath.path,
+            totalFileCount: legacyPath.fileCount,
+        })
+    }
+}
+
+const discover = async () => {
     const args = parseArguments()
     const repo = args.repo || process.env.repo || process.env.apiRepo
     if (!repo) {
@@ -264,24 +449,14 @@ const migrate = async () => {
     }
     const settings = getSettings(repo)
     const aws = settings.migrateToFqnOnCloudStorage?.aws || {}
-    const concurrency = Number.parseInt(args.concurrency || '5', 10)
-    const dryRun = args.dryRun === 'true'
-    if (!Number.isInteger(concurrency) || concurrency < 1) {
-        throw new Error('Concurrency must be a positive integer.')
-    }
     if (
-        !aws.serviceUrl ||
-        !aws.bucket ||
         !aws.accessKey ||
-        !aws.secretKey
+        !aws.bucket ||
+        !aws.secretKey ||
+        !aws.serviceUrl
     ) {
         throw new Error('AWS serviceUrl, bucket, accessKey, and secretKey are required.')
     }
-    console.info(`Loaded migration secrets for ${repo}`)
-    console.info(`Storage endpoint: ${aws.serviceUrl}`)
-    console.info(`Storage bucket: ${aws.bucket}`)
-    console.info(`Concurrency: ${concurrency}`)
-    console.info(`Dry run: ${dryRun}`)
     const client = new S3Client({
         credentials: {
             accessKeyId: aws.accessKey,
@@ -289,119 +464,43 @@ const migrate = async () => {
         },
         endpoint: String(aws.serviceUrl).replace(/\/$/, ''),
         forcePathStyle: true,
+        maxAttempts: 3,
         region: aws.region || 'default',
+        requestHandler: new NodeHttpHandler({
+            connectionTimeout: 10000,
+            requestTimeout: 30000,
+            socketTimeout: 30000,
+        }),
     })
-    const partsByType = await getPartsByType(repo)
-    console.info(`Loaded ${partsByType.size} type mappings for ${repo}`)
-    console.info('Connecting to cloud storage and listing containers')
-    let directories
+    const reader = createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    })
     try {
-        directories = await listDirectories(client, aws.bucket)
-    }
-    catch (exception) {
-        console.error(`Cloud storage connection failed for ${aws.serviceUrl}/${aws.bucket}`)
-        throw exception
-    }
-    console.info(`Connected to cloud storage successfully`)
-    console.info(`Found ${directories.length} containers: ${directories.join(', ') || 'none'}`)
-    if (args.containers) {
-        const requestedContainers = new Set(
-            args.containers
-                .split(',')
-                .map(container => container.trim().toLowerCase())
-                .filter(Boolean)
-        )
-        const availableContainers = new Set(
-            directories.map(directory => directory.toLowerCase())
-        )
-        const missingContainers = [...requestedContainers].filter(container =>
-            !availableContainers.has(container)
-        )
-        if (missingContainers.length > 0) {
-            throw new Error(`Storage containers do not exist: ${missingContainers.join(', ')}`)
-        }
-        directories = directories.filter(directory =>
-            requestedContainers.has(directory.toLowerCase())
-        )
-        console.info(`Selected containers: ${directories.join(', ')}`)
-    }
-    let reader
-    let failedFiles = 0
-    let copiedFiles = 0
-    let plannedFiles = 0
-    try {
-        for (const directory of directories) {
-            if (directory.toLowerCase() === 'filemanager') {
-                console.info('Skipping filemanager exception')
-                continue
-            }
-            const candidates = partsByType.get(directory.toLowerCase()) || []
-            if (candidates.length === 0) {
-                console.info(`No part found for storage directory ${directory}. Skipping.`)
-                continue
-            }
-            const files = await listLegacyFiles(
-                client,
-                aws.bucket,
-                directory
-            )
-            if (files.length === 0) {
-                console.info(`No legacy files found directly in ${directory}`)
-                continue
-            }
-            let candidate = candidates[0]
-            if (candidates.length > 1) {
-                reader ||= createInterface({
-                    input: process.stdin,
-                    output: process.stdout,
-                })
-                candidate = await selectCandidate(reader, directory, candidates)
-                if (!candidate) {
-                    console.info(`Skipped ${directory}`)
-                    continue
-                }
-            }
-            console.info(`Mapped ${directory} to ${candidate.part}/${candidate.type}`)
-            console.info(`Found ${files.length} legacy files in ${directory}`)
-            await runWithConcurrency(files, concurrency, async (source, index) => {
-                const destinationKey = `${candidate.part.toLowerCase()}/${candidate.type}/${basename(source.Key)}`
-                plannedFiles += 1
-                console.info(`Processing ${index + 1}/${files.length}: ${source.Key}`)
-                if (dryRun) {
-                    console.info(`Would copy ${source.Key} to ${destinationKey}`)
-                    return
-                }
-                try {
-                    await copyFile({
-                        bucket: aws.bucket,
-                        client,
-                        destinationKey,
-                        source,
-                    })
-                    copiedFiles += 1
-                    console.info(`Copied ${source.Key} to ${destinationKey}`)
-                }
-                catch (exception) {
-                    failedFiles += 1
-                    console.error(`Failed to copy ${source.Key} to ${destinationKey}`)
-                    console.error(exception)
-                }
-            })
-        }
+        const {
+            partsByName,
+            partsByType,
+        } = await getPartDefinitions(repo)
+        console.info(`Connecting to ${aws.serviceUrl}/${aws.bucket}`)
+        const discovery = await discoverPaths({
+            bucket: aws.bucket,
+            client,
+            partsByName,
+            partsByType,
+        })
+        printDiscovery(discovery)
+        await copyLegacyPaths({
+            args,
+            bucket: aws.bucket,
+            client,
+            discovery,
+            reader,
+        })
     }
     finally {
-        reader?.close()
+        reader.close()
         client.destroy()
-    }
-    if (dryRun) {
-        console.info(`Dry run completed. ${plannedFiles} files would be copied.`)
-    }
-    else {
-        console.info(`Migration completed. ${copiedFiles} files copied and ${failedFiles} files failed.`)
-        if (failedFiles > 0) {
-            process.exitCode = 1
-        }
     }
 }
 
-await migrate()
+await discover()
