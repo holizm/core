@@ -39,7 +39,7 @@
 - Never remove an existing comment containing `todo`, regardless of capitalization, unless the user explicitly requests it.
 - Always use four spaces for indentation in every file. Never use tabs or two-space indentation.
 - Remove all trailing whitespace from every line in every file, including single spaces, multiple spaces, and tabs.
-- Never allow files to become too large. Split files when they become big into smaller files.
+- Apply divide and rule: keep every file short, focused, and responsible for one cohesive concern. Break files that contain too many lines or multiple concerns into smaller, clearly named files before they become difficult to maintain. Never inline a cohesive module into a caller or configuration file merely to avoid creating, exporting, mapping, or loading a separate file. When composition or containerization requires an explicit mapping for a new file, add the mapping instead of inlining the code.
 - Use camelCase for every identifier and every platform-owned filename across development and production, including variables, functions, parameters, constants, classes, enums, properties, directories, and generated names.
 - Use a non-camelCase name only when camelCase would prevent the code or system from running, building, deploying, or interoperating correctly.
 - When non-camelCase is technically required, use only the exact alternative format required by the external constraint, such as lowercase Azure Storage container names.

@@ -46,6 +46,7 @@ services:
             - ${home}/panel/localization:${containerHome}/${repo}/${process}/localization
             - ${home}/panel/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
             - ${home}/panel/registererGenerator.js:${containerHome}/${repo}/${process}/registererGenerator.js
+            - ${home}/panel/refreshDeclarativeConsumers.js:${containerHome}/${repo}/${process}/refreshDeclarativeConsumers.js
             - ${home}/panel/silentCheckSso.html:${containerHome}/${repo}/${process}/public/silent-check-sso.html
             - ${home}/panel/src/core:${containerHome}/${repo}/${process}/src/core
             - ${home}/panel/src/components:${containerHome}/${repo}/${process}/src/components
