@@ -2,7 +2,6 @@ import {
     existsSync,
     readFileSync,
 } from 'node:fs'
-import { createRequire } from 'node:module'
 import {
     basename,
     dirname,
@@ -11,19 +10,18 @@ import {
 } from 'node:path'
 import { createInterface } from 'node:readline/promises'
 import { fileURLToPath } from 'node:url'
+import {
+    CopyObjectCommand,
+    HeadObjectCommand,
+    ListObjectsV2Command,
+    S3Client,
+} from '@aws-sdk/client-s3'
+import { NodeHttpHandler } from '@smithy/node-http-handler'
 import fg from 'fast-glob'
 import camelCase from 'lodash.camelcase'
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url))
 const home = resolve(currentDirectory, '../..')
-const apiRequire = createRequire(join(home, 'api/package.json'))
-const {
-    CopyObjectCommand,
-    HeadObjectCommand,
-    ListObjectsV2Command,
-    S3Client,
-} = apiRequire('@aws-sdk/client-s3')
-const { NodeHttpHandler } = apiRequire('@smithy/node-http-handler')
 
 const parseArguments = () => Object.fromEntries(
     process.argv
@@ -273,6 +271,7 @@ const copyLegacyPath = async params => {
         client,
         concurrency,
         destinationPrefix,
+        dryRun,
         sourcePrefix,
         totalFileCount,
     } = params
@@ -292,6 +291,14 @@ const copyLegacyPath = async params => {
         await runWithConcurrency(objects, concurrency, async object => {
             const fileName = object.Key.slice(sourcePrefix.length)
             const destinationKey = `${destinationPrefix}${fileName}`
+            if (dryRun) {
+                processedFileCount += 1
+                const percentage = Math.floor(
+                    processedFileCount / totalFileCount * 100
+                )
+                console.info(`[${processedFileCount}/${totalFileCount} ${percentage}%] ${object.Key} -> ${destinationKey}`)
+                return
+            }
             let failure
             let status
             try {
@@ -344,6 +351,10 @@ const copyLegacyPath = async params => {
             :
             undefined
     } while (continuationToken)
+    if (dryRun) {
+        console.info(`Dry run completed: ${processedFileCount} files mapped.`)
+        return
+    }
     console.info(`Copy completed: ${copiedFileCount} copied, ${skippedFileCount} already existed, ${failedFileCount} failed.`)
     if (failedFileCount > 0) {
         process.exitCode = 1
@@ -407,6 +418,7 @@ const copyLegacyPaths = async params => {
     if (!Number.isInteger(concurrency) || concurrency < 1) {
         throw new Error('Concurrency must be a positive integer.')
     }
+    const dryRun = args.dryRun === 'true'
     for (const legacyPath of legacyPaths) {
         let targets = legacyPath.targets
         if (args.part && selectedTypes.length > 0) {
@@ -435,6 +447,7 @@ const copyLegacyPaths = async params => {
             client,
             concurrency,
             destinationPrefix,
+            dryRun,
             sourcePrefix: legacyPath.path,
             totalFileCount: legacyPath.fileCount,
         })
