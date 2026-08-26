@@ -4,16 +4,20 @@ import {
     extname,
 } from 'path'
 
-export default path => {
+export default targetPath => {
+    const pathIsFile = extname(targetPath) !== ''
+    const directoryPath =
+        pathIsFile
+        ?
+        dirname(targetPath)
+        :
+        targetPath
 
-    const isFile = extname(path) !== ''
-    const dirPath = isFile ? dirname(path) : path
-
-    if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true })
+    if (!fs.existsSync(directoryPath)) {
+        fs.mkdirSync(directoryPath, { recursive: true })
     }
 
-    if (isFile && !fs.existsSync(path)) {
-        fs.closeSync(fs.openSync(path, 'w'))
+    if (pathIsFile && !fs.existsSync(targetPath)) {
+        fs.closeSync(fs.openSync(targetPath, 'w'))
     }
 }
