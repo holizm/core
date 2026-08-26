@@ -1,38 +1,56 @@
 import { isFile } from './os.js'
 
 export default params => {
-    let {
+    const {
         domain,
         process,
         siteFilePath,
     } = params
-    domain = domain.trim()
-    const parts = domain.split('.')
+    const parts = domain.trim().split('.')
     if (parts.length > 1) {
         parts[parts.length - 1] = 'local'
-    } else {
+    }
+    else {
         parts.push('local')
     }
+
     const baseDomain = parts.join('.')
-    let clean = process
-    const affixes = ['Site', 'Panel', 'Api', 'Databases', 'New']
-    for (const affix of affixes) {
-        const regex = new RegExp(`^${affix}|${affix}$`, 'i')
-        clean = clean.replace(regex, '')
+    let processName = process
+    const affixes = [
+        'Api',
+        'Databases',
+        'Panel',
+        'Site',
+    ]
+    let previousProcessName
+    do {
+        previousProcessName = processName
+        for (const affix of affixes) {
+            const regex = new RegExp(`^${affix}|${affix}$`, 'i')
+            processName = processName.replace(regex, '')
+        }
+    } while (processName !== previousProcessName)
+    if (isFile(siteFilePath)) {
+        processName = ''
     }
-    if (isFile(siteFilePath)) clean = ''
-    clean = clean.trim().toLowerCase()
+    processName = processName.trim().toLowerCase()
+
     const subdomains = []
 
-    if (process.endsWith('Api')) subdomains.push('api')
-    if (process.startsWith('New') || process.endsWith('New')) subdomains.push('new')
-    if (clean) subdomains.push(clean)
+    if (process.endsWith('Api')) {
+        subdomains.push('api')
+    }
+    if (processName) {
+        subdomains.push(processName)
+    }
 
     const subdomainPrefix = subdomains.join('.')
-
-    return subdomainPrefix
+    const host =
+        subdomainPrefix
         ?
         `${subdomainPrefix}.${baseDomain}`
         :
         baseDomain
+
+    return host
 }
