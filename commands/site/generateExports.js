@@ -17,7 +17,8 @@ if (!topLevelDirectory || !['pageParts', 'parts'].includes(target)) {
 
 const baseDirectory = `${home}/${repo}/${processName}/src/${target}`
 const sourceDirectory = path.join(baseDirectory, topLevelDirectory)
-const exportsPath = target === 'parts'
+const exportsPath =
+    target === 'parts'
     ?
     path.join(sourceDirectory, 'exports.jsx')
     :
@@ -62,14 +63,16 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
     return segments[0] !== 'parts' || segments.length <= 3
 }).map(fullPath => {
     const rawName = path.basename(fullPath, '.jsx')
-    const relativePath = target === 'pageParts'
+    const relativePath =
+        target === 'pageParts'
         ?
         path.relative(baseDirectory, fullPath)
         :
         path.relative(sourceDirectory, fullPath)
     const isComponent = target === 'pageParts'
         || fullPath.split('/parts/').length === 3
-    const namePath = target === 'pageParts'
+    const namePath =
+        target === 'pageParts'
         ?
         path.relative(sourceDirectory, fullPath)
         :
@@ -77,23 +80,26 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
     const nameSegments = namePath
         .replace(/\.jsx$/, '')
         .split(path.sep)
-    const componentNameSegments = target === 'parts'
+    const componentNameSegments =
+        target === 'parts'
         ?
         nameSegments.slice(nameSegments[1] === 'svg' ? 2 : 1)
         :
         nameSegments
-    const name = isComponent
+    const name =
+        isComponent
         ?
         componentNameSegments.map(pascalize).join('')
         :
         camelize(rawName)
     const importPath = `./${relativePath.replace(/\.jsx$/, '').split(path.sep).join('/')}`
 
-    return {
+    const exportData = {
         exportLine: `export { ${name} }\n`,
         importLine: `import ${name} from '${importPath}'\n`,
         name,
     }
+    return exportData
 })
 
 if (!importExportData.some(item => item.name === 'Layout')) {
@@ -105,7 +111,7 @@ if (!importExportData.some(item => item.name === 'Layout')) {
 }
 
 importExportData.sort((first, second) =>
-    first.name.localeCompare(second.name)
+    first.name.localeCompare(second.name),
 )
 
 const imports = importExportData.map(item => item.importLine).join('')

@@ -13,8 +13,6 @@ const {
     repo,
 } = process.env
 
-const arg = process.argv[2]
-
 const base = `${home}/${repo}/${proc}`
 const corePackagePath = `${base}/corePackage.json`
 const runnablePackagePath = `${base}/runnablePackage.json`
@@ -22,29 +20,43 @@ const packagePath = `${base}/package.json`
 info(packagePath)
 
 const deepMerge = (a, b) => {
-    if (Array.isArray(a) || Array.isArray(b) || typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return b
-    const r = { ...a }
-    for (const k of Object.keys(b)) r[k] = k in a ? deepMerge(a[k], b[k]) : b[k]
-    return r
+    if (Array.isArray(a) || Array.isArray(b) || typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) {
+        return b
+    }
+    const result = { ...a }
+    for (const key of Object.keys(b)) {
+        result[key] =
+            key in a
+            ?
+            deepMerge(a[key], b[key])
+            :
+            b[key]
+    }
+    return result
 }
 
-const sortKeysDeep = x => {
-    if (Array.isArray(x)) return x.map(sortKeysDeep)
-    if (x && typeof x === 'object') {
-        return Object.keys(x)
+const sortKeysDeep = value => {
+    if (Array.isArray(value)) {
+        return value.map(sortKeysDeep)
+    }
+    if (value && typeof value === 'object') {
+        return Object.keys(value)
             .sort((a, b) => a.localeCompare(b))
-            .reduce((acc, k) => {
-                acc[k] = sortKeysDeep(x[k])
-                return acc
+            .reduce((result, key) => {
+                result[key] = sortKeysDeep(value[key])
+                return result
             }, {})
     }
-    return x
+    return value
 }
 
 const core = JSON.parse(getContent(corePackagePath))
-const runnable = isFile(runnablePackagePath)
-    ? JSON.parse(getContent(runnablePackagePath))
-    : {}
+const runnable =
+    isFile(runnablePackagePath)
+    ?
+    JSON.parse(getContent(runnablePackagePath))
+    :
+    {}
 
 const merged = deepMerge(runnable, core)
 const sorted = sortKeysDeep(merged)

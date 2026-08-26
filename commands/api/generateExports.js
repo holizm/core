@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '../../scripts/terminal.js'
-import { writeFile } from '../../scripts/os.js'
 import { warning } from '../../scripts/logger.js'
+import { writeFile } from '../../scripts/os.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
 
 const [, , ...directories] = process.argv
 const {
@@ -22,14 +22,13 @@ const getFiles = async root => {
     return files
 }
 
-for (let i = 0; i < directories.length; i++) {
-    const directory = directories[i];
+for (const directory of directories) {
     const root = `${nodeModules}/${directory}`
     const exportsFilePath = `${root}/exports.js`
     const files = await getFiles(root)
-    if (files.some(i => !i)) {
+    if (files.some(file => !file)) {
         warning(root, files)
     }
-    const exports = files.map(i => `export * from '${i}'`).join('\n')
+    const exports = files.map(file => `export * from '${file}'`).join('\n')
     writeFile(exportsFilePath, exports)
 }

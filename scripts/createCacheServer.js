@@ -11,6 +11,7 @@ const isEnabled = privateSettingsPath => {
     if (!isFile(privateSettingsPath)) {
         return false
     }
+
     const privateSettings = JSON.parse(getContent(privateSettingsPath))
     return privateSettings.enableCacheServer === true
 }
@@ -22,8 +23,8 @@ const createComposeFile = params => {
     } = params
     const composePath = `/tmp/${repo}/cacheServer/compose.yaml`
     const content = getContent(composeTemplatePath)
-    const substituted = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
-    overrideFile(composePath, substituted)
+    const substitutedContent = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
+    overrideFile(composePath, substitutedContent)
     return composePath
 }
 
@@ -43,6 +44,7 @@ export default params => {
     ) {
         return
     }
+
     info('Creating cache server container')
     const composePath = createComposeFile({
         ...params,

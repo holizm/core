@@ -4,11 +4,11 @@ import fs from 'fs'
 
 const home = process.env.home
 const repo = process.env.repo
-const proc = process.env.process
+const processName = process.env.process
 
-const partsBase = `${home}/${repo}/${proc}/src/parts`
-const pagePartsBase = `${home}/${repo}/${proc}/src/pageParts`
-const srcBase = `${home}/${repo}/${proc}/src`
+const partsBase = `${home}/${repo}/${processName}/src/parts`
+const pagePartsBase = `${home}/${repo}/${processName}/src/pageParts`
+const srcBase = `${home}/${repo}/${processName}/src`
 
 const getDirs = base => fs.readdirSync(base, {
     withFileTypes: true,
@@ -21,7 +21,7 @@ const aliases = {
     richTextComponents: './src/richTextComponents',
     itemRendererComponents: './src/itemRendererComponents',
     loaders: './src/loaders',
-    paginationBehaviors: './src/paginationBehaviors'
+    paginationBehaviors: './src/paginationBehaviors',
 }
 
 const srcDirectories = getDirs(srcBase)
@@ -63,20 +63,20 @@ const sortedAliases = Object.fromEntries(
 )
 
 const tsConfig = {
-    extends: './coreTsConfig',
     compilerOptions: {
         paths: Object.fromEntries(
             Object.entries(sortedAliases).map(([key, value]) => [
                 key,
-                [value]
-            ])
-        )
-    }
+                [value],
+            ]),
+        ),
+    },
+    extends: './coreTsConfig',
 }
 
 const tsConfigContent = JSON.stringify(tsConfig, null, 4) + '\n'
 
-const tsConfigFilePath = `${home}/${repo}/${proc}/tsconfig.json`
+const tsConfigFilePath = `${home}/${repo}/${processName}/tsconfig.json`
 
 if (
     !fs.existsSync(tsConfigFilePath)

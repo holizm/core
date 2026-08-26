@@ -1,5 +1,5 @@
-import { runOnTerminal } from './terminal.js'
 import getDependencies from './getDependencies.js'
+import { runOnTerminal } from './terminal.js'
 
 export default params => {
     const {
@@ -29,8 +29,7 @@ export default params => {
     const items = runOnTerminal(findCommand).split('\n')
     for (const item of items) {
         if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {
-            let rightSide = item.replace(`/${repo}`, '')
-            rightSide = item.replace(home, containerHome)
+            const rightSide = item.replace(home, containerHome)
             params.addVolume(item, rightSide)
         }
     }

@@ -1,12 +1,12 @@
 import { isFile } from './os.js'
 
 export default params => {
-    let {
+    const {
         containerHome,
         home,
         process,
-        repo,
         processType,
+        repo,
     } = params
     const packageJson = params[`${processType}PackageJson`]
     const lock = params[`${processType}Lock`]

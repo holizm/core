@@ -4,7 +4,7 @@ import {
 } from './os.js'
 
 export default params => {
-    let {
+    const {
         commonPath,
         connectionStringsPath,
         containerHome,
@@ -27,8 +27,21 @@ export default params => {
     for (const [sourcePath, filename] of items) {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
         const isOverride = filename === 'settingsOverride.json'
-        if (isFile(sourcePath))
-            params.addVolume(`${isOverride ? processPath : commonPath}/${filename}`, `${containerHome}/${repo}/${process}/${isPublicSetting && hasPublicSide ? 'public/' : ''}${filename}`)
+        if (isFile(sourcePath)) {
+            const sourceDirectory =
+                isOverride
+                ?
+                processPath
+                :
+                commonPath
+            const targetDirectory =
+                isPublicSetting && hasPublicSide
+                ?
+                'public/'
+                :
+                ''
+            params.addVolume(`${sourceDirectory}/${filename}`, `${containerHome}/${repo}/${process}/${targetDirectory}${filename}`)
+        }
     }
     const commonFile = `${home}/secrets/common.json`
     const repoFile = `${home}/secrets/${repo}.json`

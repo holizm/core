@@ -1,10 +1,7 @@
-import {
-    isFile,
-    writeFileIfNotExists,
-} from './os.js'
+import { isFile } from './os.js'
 
 export default params => {
-    let {
+    const {
         commonPath,
         containerHome,
         process,

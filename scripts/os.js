@@ -1,14 +1,13 @@
-import fg from 'fast-glob'
 import fs, { rmSync } from 'fs'
 import path from 'path'
+import fg from 'fast-glob'
+import camelize from './camelize.js'
 import {
     error,
     errorAndExit,
-    info,
     warning,
 } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
-import camelize from './camelize.js'
 
 export const deleteByPatterns = async (cwd, patterns) => {
     const matches = await fg(patterns, {
@@ -21,7 +20,7 @@ export const deleteByPatterns = async (cwd, patterns) => {
     for (const p of matches) {
         const fullPath = path.join(cwd, p)
         if (fs.existsSync(fullPath)) {
-            fs.rmSync(fullPath, { recursive: true, force: true })
+            fs.rmSync(fullPath, { force: true, recursive: true })
         }
     }
 }
@@ -31,8 +30,12 @@ export const getOrgRepoFromGit = () => {
         throwOnError: false,
         hideError: true,
     })
-    if (!url) errorAndExit('Not a git repo')
-    if (url.endsWith('.git')) url = url.slice(0, -4)
+    if (!url) {
+        errorAndExit('Not a git repo')
+    }
+    if (url.endsWith('.git')) {
+        url = url.slice(0, -4)
+    }
     let orgRepo
     if (url.startsWith('https')) {
         const parts = url.split('/')
@@ -40,7 +43,8 @@ export const getOrgRepoFromGit = () => {
             org: camelize(parts[3]),
             repo: camelize(parts[4].replace('.git', '')),
         }
-    } else {
+    }
+    else {
         orgRepo = {
             org: camelize(url.split(':')[1].split('/')[0]),
             repo: camelize(url.split('/').reverse()[0].replace('.git', '')),
@@ -85,12 +89,16 @@ export const removeAndRecreateDir = dirPath => {
     createDirIfNotExists(dirPath)
 }
 
-export const createFileIfNotExists = (p) => {
+export const createFileIfNotExists = p => {
     const dir = path.dirname(p)
     fs.mkdirSync(dir, { recursive: true })
     if (fs.existsSync(p)) {
-        if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
-        else return
+        if (fs.statSync(p).isDirectory()) {
+            fs.rmSync(p, { force: true, recursive: true })
+        }
+        else {
+            return
+        }
     }
     fs.closeSync(fs.openSync(p, 'w'))
 }
@@ -99,16 +107,24 @@ export const writeFileIfNotExists = (p, content) => {
     const dir = path.dirname(p)
     fs.mkdirSync(dir, { recursive: true })
     if (fs.existsSync(p)) {
-        if (fs.statSync(p).isDirectory()) fs.rmSync(p, { recursive: true, force: true })
-        else return
+        if (fs.statSync(p).isDirectory()) {
+            fs.rmSync(p, { force: true, recursive: true })
+        }
+        else {
+            return
+        }
     }
     fs.writeFileSync(p, content)
 }
 
 export const copyFileIfNotExists = (source, dest) => {
     if (fs.existsSync(dest)) {
-        if (fs.statSync(dest).isDirectory()) fs.rmSync(dest, { recursive: true, force: true })
-        else return
+        if (fs.statSync(dest).isDirectory()) {
+            fs.rmSync(dest, { force: true, recursive: true })
+        }
+        else {
+            return
+        }
     }
     try {
         fs.copyFileSync(source, dest)
@@ -130,24 +146,30 @@ export const getLines = (p) => fs
     .filter(line => line.length > 0)
 
 export const writeFile = (p, content) => {
-    if (!p) errorAndExit('Path must not be empty')
+    if (!p) {
+        errorAndExit('Path must not be empty')
+    }
     fs.mkdirSync(path.dirname(p), { recursive: true })
     fs.writeFileSync(p, content)
 }
 
 export const overrideFile = (p, content) => {
-    if (isFile(p)) rmSync(p)
+    if (isFile(p)) {
+        rmSync(p)
+    }
     writeFile(p, content)
 }
 
 export const append = (p, content) => {
-    if (!p) errorAndExit('Path must not be empty')
+    if (!p) {
+        errorAndExit('Path must not be empty')
+    }
     fs.mkdirSync(path.dirname(p), { recursive: true })
     fs.appendFileSync(p, content)
 }
 
-export const getDepth = path => {
-    const parts = (path || process.cwd()).split('/').filter(Boolean)
+export const getDepth = targetPath => {
+    const parts = (targetPath || process.cwd()).split('/').filter(Boolean)
     return parts.length
 }
 
@@ -155,17 +177,30 @@ export const isRepo = params => fs.existsSync(path.join(params.processPath, '.gi
 
 export const isProcess = params => {
     const { processPath } = params
-    if (getDepth(processPath) !== 4) return false
+    if (getDepth(processPath) !== 4) {
+        return false
+    }
     const folder = path.basename(processPath)
-    const keywords = ['accounts', 'api', 'panel', 'site', 'etl', 'worker']
+    const keywords = [
+        'accounts',
+        'api',
+        'etl',
+        'panel',
+        'site',
+        'worker',
+    ]
     const folderLower = folder.toLowerCase()
 
-    if (keywords.some(k => folderLower.includes(k))) return true
+    if (keywords.some(keyword => folderLower.includes(keyword))) {
+        return true
+    }
 
     const files = fs.readdirSync(processPath)
     const pascalFiles = new Set(files.filter(f => fs.statSync(path.join(processPath, f)).isFile()))
     for (const keyword of keywords) {
-        if (pascalFiles.has(pascalize(keyword))) return true
+        if (pascalFiles.has(pascalize(keyword))) {
+            return true
+        }
     }
     return false
 }
@@ -175,7 +210,9 @@ export const isApi = params => isProcess(params) && (['process.js'].some(f => fs
 export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes('worker')
 export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes('Panel')
 export const isSite = params => {
-    if (!isProcess(params)) return false
+    if (!isProcess(params)) {
+        return false
+    }
     const folder = path.basename(params.processPath)
     const hasSite = folder.includes('site')
     const hasApi = folder.includes('api')
@@ -195,7 +232,7 @@ export const getDirs = path => {
 export const getFiles = path => {
     return fs.readdirSync(path || '.', { withFileTypes: true })
         .filter(d => d.isFile())
-        .map(d => d.name);
+        .map(d => d.name)
 }
 
 export const getDirsAndFiles = path => {
@@ -204,14 +241,19 @@ export const getDirsAndFiles = path => {
 }
 
 export const deleteFile = filePath => {
-    if (!filePath) errorAndExit('Path must not be empty')
+    if (!filePath) {
+        errorAndExit('Path must not be empty')
+    }
 
-    if (!fs.existsSync(filePath)) return
+    if (!fs.existsSync(filePath)) {
+        return
+    }
 
     try {
         if (fs.statSync(filePath).isDirectory()) {
-            fs.rmSync(filePath, { recursive: true, force: true })
-        } else {
+            fs.rmSync(filePath, { force: true, recursive: true })
+        }
+        else {
             fs.rmSync(filePath, { force: true })
         }
     } catch (e) {

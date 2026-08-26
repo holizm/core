@@ -1,9 +1,7 @@
 import { runOnTerminal } from './terminal.js'
 
 export default params => {
-    const {
-        processType,
-    } = params
+    const { processType } = params
 
     const basePath = `/var/tmp/${processType}/nodeModules`
 

@@ -12,9 +12,9 @@ import {
 export default params => {
     const {
         home,
+        process,
         processType,
         repo,
-        process,
     } = params
 
     divide()
@@ -34,7 +34,7 @@ export default params => {
     replaceVariablesAndAppend(`${home}/core/ciCd/push`, vcsActionPath, params)
     replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, vcsActionPath, params)
 
-    let content = getContent(vcsActionPath)
+    const content = getContent(vcsActionPath)
     writeFile(vcsActionPath, content)
 
     success('Created CI/CD')

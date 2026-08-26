@@ -1,26 +1,28 @@
-import { runOnTerminal } from './terminal.js'
+import {
+    divide,
+    info,
+} from '../scripts/logger.js'
 import getDeterministicPort from './getDeterministicPort.js'
-import { divide, info } from '../scripts/logger.js'
-import processTenantLine from './processTenantLine.js'
 import {
     getContent,
     getLines,
-    isFile,
     overrideFile,
 } from './os.js'
+import processTenantLine from './processTenantLine.js'
 import setupLocalDns from './setupLocalDns.js'
+import { runOnTerminal } from './terminal.js'
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
 
 const createDatabaseComposeFile = params => {
     const {
-        repo,
         composeTemplatePath,
+        repo,
     } = params
     const composePath = `/tmp/${repo}/databases/compose.yaml`
     const content = getContent(composeTemplatePath)
-    const substituted = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
-    overrideFile(composePath, substituted)
+    const substitutedContent = content.replace(/\$\{(\w+)\}/g, (_, name) => params[name] || '')
+    overrideFile(composePath, substitutedContent)
     return composePath
 }
 
@@ -30,11 +32,11 @@ const createMongoDatabaseContainer = params => {
         lowercaseRepo,
     } = params
     info('Creating database container')
-    const path = createDatabaseComposeFile({
+    const composePath = createDatabaseComposeFile({
         ...params,
-        composeTemplatePath: `${home}/core/container/composes/database`
+        composeTemplatePath: `${home}/core/container/composes/database`,
     })
-    runOnTerminal(`docker compose -p ${lowercaseRepo}-databases -f ${path} up -d --remove-orphans`)
+    runOnTerminal(`docker compose -p ${lowercaseRepo}-databases -f ${composePath} up -d --remove-orphans`)
 }
 
 export default params => {
@@ -54,8 +56,8 @@ export default params => {
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
     lines.forEach(line => processTenantLine({
         ...params,
-        line,
         getSpecificDomain: getDatabaseDomain,
+        line,
     }))
 
     divide()

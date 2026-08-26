@@ -23,7 +23,8 @@ const main = async () => {
     divide()
     if (isFile('package.json')) {
         info('Starting...')
-    } else {
+    }
+    else {
         info(`Starting ~/${repo}/${proc} ...`)
     }
     divide()
