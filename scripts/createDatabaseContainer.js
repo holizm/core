@@ -8,8 +8,7 @@ import {
     getLines,
     overrideFile,
 } from './os.js'
-import processTenantLine from './processTenantLine.js'
-import setupLocalDns from './setupLocalDns.js'
+import processTenantLines from './processTenantLines.js'
 import { runOnTerminal } from './terminal.js'
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
@@ -48,17 +47,14 @@ export default params => {
     if (isCiCd) {
         return
     }
-    setupLocalDns({
-        ...params,
-        host: `${repo}.local`,
-    })
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
-    lines.forEach(line => processTenantLine({
+    processTenantLines({
         ...params,
         getSpecificDomain: getDatabaseDomain,
-        line,
-    }))
+        hosts: [`${repo}.local`],
+        lines,
+    })
 
     divide()
     createMongoDatabaseContainer(params)

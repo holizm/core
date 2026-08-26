@@ -8,8 +8,7 @@ import {
     getLines,
     overrideFile,
 } from './os.js'
-import processTenantLine from './processTenantLine.js'
-import setupLocalDns from './setupLocalDns.js'
+import processTenantLines from './processTenantLines.js'
 import { runOnTerminal } from './terminal.js'
 
 const getSearchDatabaseDomain = originalDomain => `db.${originalDomain}`
@@ -48,22 +47,19 @@ export default params => {
     if (isCiCd) {
         return
     }
-    setupLocalDns({
-        ...params,
-        host: `${repo}.local`,
-    })
     params.databaseSearchPort = getDeterministicPort(`${repo}SearchDatabases`)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
 
-    lines.forEach(line => processTenantLine({
+    processTenantLines({
         ...params,
         camelizedProcess: 'search',
         deterministicPort: params.databaseSearchPort,
-        line,
+        hosts: [`${repo}.local`],
+        lines,
         pascalizedProcess: 'Search',
         process: 'search',
         // getSpecificDomain: getSearchDatabaseDomain,
-    }))
+    })
 
     divide()
     createSearchDatabaseContainer(params)

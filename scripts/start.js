@@ -23,7 +23,7 @@ import {
     isSite,
     isWorker,
 } from './os.js'
-import processTenantLine from './processTenantLine.js'
+import processTenantLines from './processTenantLines.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
@@ -68,12 +68,11 @@ export default async overrides => {
     const lines = getLines(tenantsPath)
 
     if (!params.isCiCd) {
-        lines.forEach(line =>
-            processTenantLine({
-                ...params,
-                line,
-            })
-        )
+        processTenantLines({
+            ...params,
+            hosts: [],
+            lines,
+        })
     }
 
     createNetwork(params)

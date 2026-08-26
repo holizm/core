@@ -1,8 +1,5 @@
-import createCertificate from './createCertificate.js'
 import getLocalHost from './getLocalHost.js'
 import { errorAndExit } from './logger.js'
-import setupLocalDns from './setupLocalDns.js'
-import setupWebServer from './setupWebServer.js'
 
 export default ({
     getSpecificDomain,
@@ -52,7 +49,5 @@ export default ({
         host: localDomain,
         tenant,
     }
-    createCertificate(params)
-    setupWebServer(params)
-    setupLocalDns(params)
+    return params
 }
