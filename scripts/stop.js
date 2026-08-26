@@ -1,16 +1,16 @@
-import { runOnTerminalAsync } from './terminal.js'
 import {
+    check,
     divide,
     info,
     success,
-    check,
 } from './logger.js'
+import { runOnTerminalAsync } from './terminal.js'
 
 const listContainers = async () => {
     const out = await runOnTerminalAsync('docker ps -a -q 2>&1')
     return (out || '')
         .split('\n')
-        .map(x => x.trim())
+        .map(id => id.trim())
         .filter(Boolean)
 }
 
@@ -25,7 +25,9 @@ const removeContainer = async id => {
 }
 
 const shouldMatch = (name, pattern) => {
-    if (!pattern) return true
+    if (!pattern) {
+        return true
+    }
     return name.toLowerCase().includes(pattern.toLowerCase())
 }
 
@@ -37,7 +39,9 @@ export default async ({ pattern = '' } = {}) => {
     for (const id of containers) {
         const name = await getContainerName(id)
 
-        if (!shouldMatch(name, pattern)) continue
+        if (!shouldMatch(name, pattern)) {
+            continue
+        }
 
         if (!found) {
             divide()
