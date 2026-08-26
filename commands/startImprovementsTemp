@@ -91,6 +91,22 @@ The largest startup penalty is the lifecycle itself: start destroys the process 
   A better solution is to ensure containers consistently run with the developer’s UID/GID and create files with correct ownership initially. Permission repair
   should be exceptional, not part of every start.
 
+  Your approach is reasonable for your intentionally uniform development environment. Linux permissions care about numeric IDs, so aligning host dev and
+  container dev at 1000:1000 is the important part; renaming node mainly improves clarity and path consistency.
+
+  The real problem is allowing Docker to invent missing bind-mount sources. Recursive ownership repair is a valid temporary safety net, but it is expensive and
+  hides incorrect mount definitions.
+
+  My preferred direction is:
+
+  - Create every bind-mount source explicitly as dev before Compose runs.
+  - Know explicitly whether each source must be a file or directory; filename extensions are not reliable.
+  - Use Compose long bind syntax with create_host_path: false, so an overlooked path produces an informative error instead of a root-owned directory.
+  - Keep changePermissions temporarily until this prevention is proven reliable.
+
+  Then the permission scan can eventually be removed safely rather than merely optimized.
+
+
   ## Error handling improvements
 
   Many important commands currently use runOnTerminal() without throwOnError, so failures may be silently ignored. Examples include certificate generation,
