@@ -2,7 +2,6 @@ import fs from 'fs'
 import { basename } from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
-import getDependencies from './getDependencies.js'
 import {
     divide,
     info,
@@ -53,12 +52,12 @@ const normalizeRoute = route => route
 const mapDependencies = params => {
     const {
         containerHome,
+        dependencies,
         home,
         process,
         processPath,
         repo,
     } = params
-    const dependencies = getDependencies(params)
     const instance = `${home}/${repo}/instance`
 
     for (const dependency of dependencies) {

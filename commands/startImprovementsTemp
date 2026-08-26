@@ -1,0 +1,131 @@
+The largest startup penalty is the lifecycle itself: start destroys the process container before recreating it. Docker Compose can reconcile an existing
+  project without that step. The preferred model is:
+
+  - start: create or update only what changed, then start/resume services.
+  - stop: stop containers but retain them.
+  - A future explicit cleanup command may remove containers and caches.
+
+  ## Highest-priority improvements
+
+  1. Stop destroying containers during start
+
+  core/scripts/start.js:43 unconditionally calls stop. The current core/scripts/stop.js:10:
+
+  - Lists every Docker container.
+  - Inspects them sequentially.
+  - Force-removes matches.
+  - Runs a global docker system prune.
+
+  This is slow, discards reusable container state, affects unrelated Docker projects, and makes the following compose up rebuild work Docker could have reused.
+
+  Recommended:
+
+  - Remove the implicit stop call from start.
+  - Let docker compose up -d --remove-orphans reconcile changes.
+  - Make stop use docker compose stop, retaining the container.
+  - Never prune as part of ordinary start or stop.
+
+  This should produce the largest immediate speed improvement.
+
+  2. Calculate dependencies once
+
+  getDependencies() performs shell commands and filesystem searches. It is called repeatedly through:
+
+  - core/scripts/createDirectories.js:96
+  - core/scripts/startApi.js:71
+  - core/scripts/startPanel.js:51
+  - core/scripts/startSite.js:61
+  - core/scripts/mapLocalizations.js:28
+
+  Calculate dependencies once near the beginning of start, store them in params.dependencies, and let consumers use that value.
+
+  3. Stop scanning every repository for localization
+
+  core/scripts/mapLocalizations.js:20 searches the entire home directory for Git repositories and then recursively searches each repository for localization
+  directories.
+
+  The dependencies and standardized repository paths are already known. Localization paths can be derived directly from them without a global filesystem scan.
+
+  4. Batch tenant infrastructure changes
+
+  Each tenant currently triggers:
+
+  - Certificate inspection or creation
+  - Nginx configuration writes
+  - Nginx validation and reload
+  - /etc/hosts inspection and possible update
+
+  core/scripts/setupWebServer.js:19 reloads Nginx once per tenant. API database and search setup may repeat tenant processing again.
+
+  Recommended:
+
+  - Parse all tenants first.
+  - Generate only missing or changed certificates/configurations.
+  - Apply all DNS changes together.
+  - Run nginx -t once.
+  - Reload Nginx once, and only if configuration changed.
+
+  5. Stop regenerating CI/CD during every local start
+
+  API, panel, and site startup call createCiCd() every time:
+
+  - core/scripts/startApi.js:261
+  - core/scripts/startPanel.js:155
+  - core/scripts/startSite.js:205
+
+  CI/CD generation is not required to run the local project. Move it to initialization or update it only when the generated content differs.
+
+  6. Reduce bind-mount count
+
+  API startup recursively finds every directory and symlink and mounts them individually in core/scripts/startApi.js:133. Site startup similarly discovers and
+  mounts many individual paths.
+
+  Large numbers of overlapping mounts increase Compose generation time, container creation time, and filesystem overhead. Prefer the smallest stable parent-
+  directory mounts that preserve source composition and do not hide container-owned files.
+
+  7. Avoid recurring ownership scans
+
+  Every start runs recursive ownership checks through core/scripts/changePermissions.js, while API setup may delete root-owned dependency directories through
+  core/scripts/removeRootOwnedDirectories.js:8.
+
+  A better solution is to ensure containers consistently run with the developer’s UID/GID and create files with correct ownership initially. Permission repair
+  should be exceptional, not part of every start.
+
+  ## Error handling improvements
+
+  Many important commands currently use runOnTerminal() without throwOnError, so failures may be silently ignored. Examples include certificate generation,
+  Nginx reload, database Compose startup, search startup, and cache startup.
+
+  Recommended behavior:
+
+  - Critical setup commands must fail immediately.
+  - Errors should include the operation, command, relevant paths, process, tenant, and captured stderr.
+  - Successful operations should emit only concise phase-level confirmations.
+  - Commands should not redirect useful error details to /dev/null, as certificate and Nginx setup currently do.
+  - The final success output should show the process, local URL, reused/recreated status, and startup duration.
+
+  ## Correctness issues to fix before optimization
+
+  These are separate from performance but can make startup unreliable:
+
+  - core/scripts/createDirectories.js:96 appends dependency mappings after the loop that processes mappings, so those entries are never created or mounted
+    there.
+
+  - core/scripts/mapNode.js:20 calls writeFileIfNotExists without importing it.
+  - core/scripts/os.js:201 uses pascalize without importing it.
+  - core/scripts/startAccounts.js:34 executes Stop ... as a shell command.
+  - core/scripts/startApi.js:205 checks the database container name when looking for an exited search container.
+  - Headless panel setup creates no Compose file.
+  - hideError in core/scripts/os.js:31 does not match terminal’s hideErrors option.
+  - Local DNS newline handling changes an in-memory string but does not write that newline.
+  - Deterministic ports are stable but are not checked for collisions.
+
+  ## Production-parity improvements
+
+  - Use a shared service definition with a development override, rather than independently evolving local and production definitions.
+  - Pin MongoDB, PostgreSQL, Redis, Meilisearch, and runtime image versions instead of using latest.
+  - Use the same runtime entrypoints and configuration structure locally and in production.
+  - Keep development-only differences limited to source mounts, watch mode, .local domains, local certificates, and exposed host ports.
+
+  The best first implementation is redesigning start/stop to retain containers and eliminating automatic pruning. It offers the greatest speed improvement with
+  a relatively small, well-contained change.

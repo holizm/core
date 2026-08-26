@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
-import getDependencies from './getDependencies.js'
 import {
     divide,
     info,
@@ -43,12 +42,11 @@ const createNonExistentFiles = params => {
 const mapDependencies = params => {
     const {
         containerHome,
+        dependencies,
         home,
         process,
         repo,
     } = params
-
-    const dependencies = getDependencies(params)
 
     for (const dependency of dependencies) {
         let runnablePart = false

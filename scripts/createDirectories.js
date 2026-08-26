@@ -1,4 +1,3 @@
-import getDependencies from './getDependencies.js'
 import {
     createDirIfNotExists,
     removeAndRecreateDir,
@@ -7,6 +6,7 @@ import {
 export default params => {
     const {
         containerHome,
+        dependencies,
         extraDirectories,
         home,
         process,
@@ -93,7 +93,6 @@ export default params => {
         }
     }
 
-    const dependencies = getDependencies(params)
     const sourceDirectory =
         hasSourceDirectory
         ?

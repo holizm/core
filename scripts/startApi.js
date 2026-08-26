@@ -8,7 +8,6 @@ import createCiCd from './createCiCd.js'
 import createDatabaseContainer from './createDatabaseContainer.js'
 import createDirectories from './createDirectories.js'
 import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
-import getDependencies from './getDependencies.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
@@ -60,6 +59,7 @@ const linkVsCodeFiles = params => {
 const mapDependencies = params => {
     const {
         containerHome,
+        dependencies,
         home,
         nodeModules,
         org,
@@ -68,7 +68,6 @@ const mapDependencies = params => {
         repo,
     } = params
 
-    const dependencies = getDependencies(params)
     for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''

@@ -1,9 +1,9 @@
-import getDependencies from './getDependencies.js'
 import { runOnTerminal } from './terminal.js'
 
 export default params => {
     const {
         containerHome,
+        dependencies,
         home,
         repo,
     } = params
@@ -25,7 +25,6 @@ export default params => {
         done |
         sort
     `
-    const dependencies = getDependencies(params)
     const items = runOnTerminal(findCommand).split('\n')
     for (const item of items) {
         if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {

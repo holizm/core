@@ -6,6 +6,7 @@ import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
 import ensureTenants from './ensureTenants.js'
 import extract from './extract.js'
 import getDeterministicPort from './getDeterministicPort.js'
+import getDependencies from './getDependencies.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
 import {
@@ -77,6 +78,7 @@ export default async overrides => {
 
     createNetwork(params)
     ensureDependencies(params)
+    params.dependencies = getDependencies(params)
 
     params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
     params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
