@@ -4,10 +4,10 @@ import {
 } from './logger.js'
 import {
     getContent,
-    replaceVariables,
-    replaceVariablesAndAppend,
+    isFile,
     writeFile,
 } from './os.js'
+import replaceVariables from './replaceVariables.js'
 
 export default params => {
     const {
@@ -20,23 +20,27 @@ export default params => {
     divide()
 
     const vcsActionPath = `${home}/${repo}/.github/workflows/${process}.yaml`
-    replaceVariables(`${home}/core/ciCd/base`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/initialize`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/extractOrgRepo`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/cloneHolism`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/repo`, vcsActionPath, params)
+    let content = replaceVariables(`${home}/core/ciCd/base`, params)
+    content += replaceVariables(`${home}/core/ciCd/initialize`, params)
+    content += replaceVariables(`${home}/core/ciCd/extractOrgRepo`, params)
+    content += replaceVariables(`${home}/core/ciCd/cloneHolism`, params)
+    content += replaceVariables(`${home}/core/ciCd/repo`, params)
     const actionFile = `${home}/core/ciCd/${processType}`
-    replaceVariablesAndAppend(actionFile, vcsActionPath, params)
-    // replaceVariablesAndAppend(`${home}/core/ciCd/printCompose`, vcsActionPath, params)
-    // replaceVariablesAndAppend(`${home}/core/ciCd/printVariables`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/build`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/signIn`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/push`, vcsActionPath, params)
-    replaceVariablesAndAppend(`${home}/core/ciCd/signOut`, vcsActionPath, params)
+    content += replaceVariables(actionFile, params)
+    // content += replaceVariables(`${home}/core/ciCd/printCompose`, params)
+    // content += replaceVariables(`${home}/core/ciCd/printVariables`, params)
+    content += replaceVariables(`${home}/core/ciCd/build`, params)
+    content += replaceVariables(`${home}/core/ciCd/signIn`, params)
+    content += replaceVariables(`${home}/core/ciCd/push`, params)
+    content += replaceVariables(`${home}/core/ciCd/signOut`, params)
 
-    const content = getContent(vcsActionPath)
+    if (isFile(vcsActionPath) && getContent(vcsActionPath) === content) {
+        success('CI/CD is up to date')
+        divide()
+        return
+    }
     writeFile(vcsActionPath, content)
 
-    success('Created CI/CD')
+    success('Updated CI/CD')
     divide()
 }
