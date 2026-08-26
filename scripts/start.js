@@ -1,10 +1,19 @@
+import changePermissions from './changePermissions.js'
+import createCacheServer from './createCacheServer.js'
+import createNetwork from './createNetwork.js'
+import ensureDependencies from './ensureDependencies.js'
+import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
+import ensureTenants from './ensureTenants.js'
+import extract from './extract.js'
+import getPaths from './getPaths.js'
+import getRandomPort from './getRandomPort.js'
+import indentation from './indentation.js'
 import {
     divide,
     info,
     warning,
 } from './logger.js'
 import {
-    append,
     getLines,
     isAccounts,
     isApi,
@@ -13,27 +22,17 @@ import {
     isSite,
     isWorker,
 } from './os.js'
+import processTenantLine from './processTenantLine.js'
+import startAccounts from './startAccounts.js'
+import startApi from './startApi.js'
+import startHeadlessPanel from './startHeadlessPanel.js'
+import startPanel from './startPanel.js'
+import startSite from './startSite.js'
+import stop from './stop.js'
 import {
     runOnTerminal,
     runStreaming,
 } from './terminal.js'
-import getPaths from './getPaths.js'
-import getRandomPort from './getRandomPort.js'
-import createNetwork from './createNetwork.js'
-import ensureDependencies from './ensureDependencies.js'
-import startApi from './startApi.js'
-import startPanel from './startPanel.js'
-import startHeadlessPanel from './startHeadlessPanel.js'
-import startSite from './startSite.js'
-import startAccounts from './startAccounts.js'
-import processTenantLine from './processTenantLine.js'
-import extract from './extract.js'
-import indentation from './indentation.js'
-import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
-import changePermissions from './changePermissions.js'
-import createCacheServer from './createCacheServer.js'
-import ensureTenants from './ensureTenants.js'
-import stop from './stop.js'
 
 export default async overrides => {
     let params = {
@@ -42,11 +41,16 @@ export default async overrides => {
     }
 
     await stop({
-        pattern: params.containerName
+        pattern: params.containerName,
     })
 
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
-    params.userLine = params.isCiCd ? `user: "1001:1001"` : ''
+    params.userLine =
+        params.isCiCd
+        ?
+        `user: "1001:1001"`
+        :
+        ''
     params.buildDir = '/tmp/build'
     params.processBuildDir = `${params.buildDir}/${params.repo}/${params.process}`
 
@@ -130,7 +134,13 @@ export default async overrides => {
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
     const shouldWatch = params.isSite && !params.isCiCd && !params.localBuild
-    let command = `${composeCommand} up --remove-orphans ${shouldWatch ? '--watch' : '-d'}`
+    const composeMode =
+        shouldWatch
+        ?
+        '--watch'
+        :
+        '-d'
+    let command = `${composeCommand} up --remove-orphans ${composeMode}`
 
     if (shouldWatch) {
         await runStreaming(command)
