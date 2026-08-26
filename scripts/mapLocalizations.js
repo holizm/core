@@ -1,4 +1,30 @@
-import { runOnTerminal } from './terminal.js'
+import {
+    isDir,
+    isFile,
+} from './os.js'
+
+const getDependencyRoot = params => {
+    const {
+        dependency,
+        home,
+        repo,
+    } = params
+    const runnableDependencyRoot = `${home}/${repo}/${dependency}`
+    if (dependency !== 'accounts' && isDir(runnableDependencyRoot)) {
+        return runnableDependencyRoot
+    }
+    return `${home}/${dependency}`
+}
+
+const getPartLocalizationPaths = dependencyRoot => {
+    const localizationPaths = [
+        `${dependencyRoot}/api/localization`,
+        `${dependencyRoot}/localization`,
+        `${dependencyRoot}/panel/localization`,
+        `${dependencyRoot}/site/localization`,
+    ].filter(isDir)
+    return localizationPaths
+}
 
 export default params => {
     const {
@@ -7,29 +33,28 @@ export default params => {
         home,
         repo,
     } = params
-    const coreLocalizations = [
-        `${home}/core/localization`,
+    const localizationPaths = new Set([
         `${home}/api/localization`,
+        `${home}/core/localization`,
         `${home}/panel/localization`,
         `${home}/site/localization`,
-    ]
-    for (const item of coreLocalizations) {
-        const rightSide = item.replace(home, containerHome)
-        params.addVolume(item, rightSide)
-    }
-    const findCommand = `
-        find ${home} -type d -name '.git' 2>/dev/null |
-        while read gitdir; do
-            repoDir=$(dirname $gitdir)
-            find $repoDir -type d -name localization
-        done |
-        sort
-    `
-    const items = runOnTerminal(findCommand).split('\n')
-    for (const item of items) {
-        if (dependencies.some(dependency => item.includes(`/${dependency}/`))) {
-            const rightSide = item.replace(home, containerHome)
-            params.addVolume(item, rightSide)
+    ])
+    for (const dependency of dependencies) {
+        const dependencyRoot = getDependencyRoot({
+            dependency,
+            home,
+            repo,
+        })
+        if (!isFile(`${dependencyRoot}/part`)) {
+            continue
         }
+        const dependencyLocalizationPaths = getPartLocalizationPaths(dependencyRoot)
+        for (const localizationPath of dependencyLocalizationPaths) {
+            localizationPaths.add(localizationPath)
+        }
+    }
+    for (const localizationPath of localizationPaths) {
+        const rightSide = localizationPath.replace(home, containerHome)
+        params.addVolume(localizationPath, rightSide)
     }
 }
