@@ -1,12 +1,10 @@
 import {
     divide,
+    info,
 } from '../scripts/logger.js'
 import getDeterministicPort from './getDeterministicPort.js'
-import {
-    replaceVariables,
-} from './os.js'
+import { replaceVariables } from './os.js'
 import { runOnTerminal } from './terminal.js'
-import { info } from '../scripts/logger.js'
 
 const createAccountsContainer = params => {
     const {
@@ -31,17 +29,18 @@ export default params => {
 
     const { containerName } = params
 
-    const result = runOnTerminal(`docker ps -q -f name=${containerName}`)
-    if (result.trim()) {
+    const runningContainer = runOnTerminal(`docker ps -q -f name=${containerName}`)
+    if (runningContainer.trim()) {
         runOnTerminal(`Stop ${containerName}`)
     }
     else {
-        const resultExited = runOnTerminal(
-            `docker ps -aq -f status=exited -f name=${containerName}`
+        const exitedContainer = runOnTerminal(
+            `docker ps -aq -f status=exited -f name=${containerName}`,
         )
 
-        if (resultExited.trim())
+        if (exitedContainer.trim()) {
             runOnTerminal(`docker rm ${containerName}`)
+        }
     }
 
     createAccountsContainer(params)

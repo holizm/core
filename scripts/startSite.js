@@ -1,6 +1,5 @@
 import fs from 'fs'
 import { basename } from 'path'
-import mapNode from '../scripts/mapNode.js'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import getDependencies from './getDependencies.js'
@@ -8,6 +7,8 @@ import {
     divide,
     info,
 } from './logger.js'
+import kebabize from './kebabize.js'
+import mapNode from './mapNode.js'
 import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
@@ -20,7 +21,6 @@ import {
     writeFile,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
-import kebabize from './kebabize.js'
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -51,42 +51,45 @@ const normalizeRoute = route => route
     .join('/')
 
 const mapDependencies = params => {
-    let {
+    const {
         containerHome,
         home,
-        repo,
         process,
         processPath,
+        repo,
     } = params
     const dependencies = getDependencies(params)
     const instance = `${home}/${repo}/instance`
 
     for (const dependency of dependencies) {
-        let runnablePart = false
         const dependencyPath = `${home}/${repo}/${dependency}`
         let dependencyBase = ''
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
-        } else if (isFile(instance) && isDir(`/${getContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
+        }
+        else if (isFile(instance) && isDir(`/${getContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
             dependencyBase = `${home}/${getContent(instance).trim()}/${dependency}/site`
-        } else {
+        }
+        else {
             dependencyBase = `${home}/${dependency}/site`
         }
         const lowercaseDependency = dependency.toLowerCase()
         const pagesPath = `${dependencyBase}/pages`
         if (isDir(pagesPath)) {
             const mappings = []
-            const paths = runOnTerminal(`find ${pagesPath} -name index.jsx`).split('\n')
+            const pagePaths = runOnTerminal(`find ${pagesPath} -name index.jsx`).split('\n')
 
-            paths.forEach(path => {
-                if (!path.trim()) return
+            pagePaths.forEach(pagePath => {
+                if (!pagePath.trim()) {
+                    return
+                }
 
-                const dir = path.replace('/index.jsx', '')
-                const relative = dir.replace(`${pagesPath}/`, '')
+                const directoryPath = pagePath.replace('/index.jsx', '')
+                const relative = directoryPath.replace(`${pagesPath}/`, '')
 
                 const relativePath = normalizeRoute(relative)
 
-                const source = dir
+                const source = directoryPath
                 const targetPath = `${processPath}/pages/${relativePath}`
 
                 if (!isDir(targetPath) || fs.readdirSync(targetPath).length === 0) {
@@ -105,7 +108,14 @@ const mapDependencies = params => {
             params.addVolume(`${dependencyBase}/pages/plugin.ts`, `${containerHome}/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`)
         }
 
-        ['parts', 'contexts', 'loaders', 'getters', 'functions'].forEach(part => {
+        const directories = [
+            'contexts',
+            'functions',
+            'getters',
+            'loaders',
+            'parts',
+        ]
+        directories.forEach(part => {
             const partPath = `${dependencyBase}/${part}`
             if (isDir(partPath) && fs.readdirSync(partPath).length > 0) {
                 params.addVolume(`${dependencyBase}/${part}`, `${containerHome}/${repo}/${process}/src/parts/${dependency}/${part}`)
@@ -115,58 +125,59 @@ const mapDependencies = params => {
 }
 
 const mapPages = params => {
-    let {
+    const {
         containerHome,
-        home,
         process,
         processPath,
         repo,
     } = params
 
-    const files = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).split('\n')
-    files.forEach(path => {
-        const fileName = basename(path)
-        params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
+    const filePaths = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type f`).split('\n')
+    filePaths.forEach(filePath => {
+        const fileName = basename(filePath)
+        params.addVolume(`${filePath}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
     })
 
-    const dirs = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).split('\n')
-    dirs.forEach(path => {
-        if (path.trim()) {
-            const fileName = basename(path)
-            params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
+    const directoryPaths = runOnTerminal(`find ${processPath}/pages -mindepth 1 -maxdepth 1 -type d`).split('\n')
+    directoryPaths.forEach(directoryPath => {
+        if (directoryPath.trim()) {
+            const fileName = basename(directoryPath)
+            params.addVolume(`${directoryPath}`, `${containerHome}/${repo}/${process}/src/routes/${fileName}`)
         }
     })
 }
 
 const mapParts = params => {
-    let {
+    const {
         containerHome,
-        home,
         process,
         processPath,
         repo,
     } = params
 
-    const dirs = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
-    dirs.forEach(path => {
-        const name = basename(path)
-        params.addVolume(`${path}`, `${containerHome}/${repo}/${process}/src/pageParts/${name}`)
+    const directoryPaths = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
+    directoryPaths.forEach(directoryPath => {
+        const name = basename(directoryPath)
+        params.addVolume(`${directoryPath}`, `${containerHome}/${repo}/${process}/src/pageParts/${name}`)
     })
 }
 
 const mapOthers = params => {
-    let {
+    const {
         containerHome,
-        home,
         process,
         processPath,
         repo,
     } = params
 
-    const otherDirs = ['getters', 'functions', 'loaders']
-    otherDirs.forEach(part => {
-        const dirPath = `${processPath}/${part}`
-        if (isDir(dirPath)) {
+    const directoryNames = [
+        'functions',
+        'getters',
+        'loaders',
+    ]
+    directoryNames.forEach(part => {
+        const directoryPath = `${processPath}/${part}`
+        if (isDir(directoryPath)) {
             params.addVolume(`${processPath}/${part}`, `${containerHome}/${repo}/${process}/src/${part}`)
         }
     })
@@ -184,7 +195,6 @@ const ensureLocalSecrets = params => {
 }
 
 export default params => {
-
     info('Setting up site')
     divide()
 

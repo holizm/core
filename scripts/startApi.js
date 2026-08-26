@@ -6,7 +6,13 @@ import {
 } from '../scripts/logger.js'
 import createCiCd from './createCiCd.js'
 import createDatabaseContainer from './createDatabaseContainer.js'
+import createDirectories from './createDirectories.js'
 import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
+import getDependencies from './getDependencies.js'
+import mapLocalizations from './mapLocalizations.js'
+import mapNode from './mapNode.js'
+import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
+import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
@@ -17,14 +23,8 @@ import {
     replaceVariables,
     writeFileIfNotExists,
 } from './os.js'
-import { runOnTerminal } from './terminal.js'
-import getDependencies from './getDependencies.js'
-import mapLocalizations from './mapLocalizations.js'
-import mapNode from './mapNode.js'
-import mapSettings from './mapSettings.js'
-import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
-import createDirectories from './createDirectories.js'
 import removeRootOwnedDirectories from './removeRootOwnedDirectories.js'
+import { runOnTerminal } from './terminal.js'
 
 const createNonExistingFiles = params => {
     const {
@@ -37,7 +37,7 @@ const createNonExistingFiles = params => {
         publicSettingsPath,
     } = params
 
-    writeFileIfNotExists('process.js', 'import { start } from \'core\'\n\nstart()')
+    writeFileIfNotExists('process.js', `import { start } from 'core'\n\nstart()`)
     createDirIfNotExists(commonPath)
     createFileIfNotExists(dependenciesPath)
     writeFileIfNotExists(connectionStringsPath, '{}')
@@ -58,7 +58,7 @@ const linkVsCodeFiles = params => {
 }
 
 const mapDependencies = params => {
-    let {
+    const {
         containerHome,
         home,
         nodeModules,
@@ -80,7 +80,9 @@ const mapDependencies = params => {
         const dependencyRoot = `${home}${dependencyOrgOrRep}/${dependency}`
         const dependencyBase = `${dependencyRoot}/api`
         const partFilePath = `${dependencyRoot}/part`
-        if (!fs.existsSync(partFilePath)) continue
+        if (!fs.existsSync(partFilePath)) {
+            continue
+        }
 
         params.addVolume(`${dependencyBase}`, `${containerHome}/spl/${dependency}`)
         params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
@@ -117,14 +119,11 @@ const mapDependencies = params => {
         if (fs.existsSync(`${dependencyBase}/api/common`)) {
             params.addVolume(`${dependencyBase}/api/common`, `${nodeModules}/${dependency}/api/common`)
         }
-
-        const baseName = path.basename(process)
-
     }
 }
 
 const mapRunnable = params => {
-    let {
+    const {
         commonPath,
         containerHome,
         home,
@@ -133,30 +132,37 @@ const mapRunnable = params => {
     } = params
     const dirs = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type d 2>/dev/null`).split('\n')
     const links = runOnTerminal(`find ${home}/${repo}/${process}/ -mindepth 1 -type l 2>/dev/null`).split('\n')
-    for (const item of [...dirs, ...links]) if (item) params.addVolume(`${item}`, `${item}`)
-    if (fs.existsSync(`${commonPath}/api`))
+    for (const item of [...dirs, ...links]) {
+        if (item) {
+            params.addVolume(`${item}`, `${item}`)
+        }
+    }
+    if (fs.existsSync(`${commonPath}/api`)) {
         params.addVolume(`${commonPath}/api`, `${containerHome}/${repo}/${process}/commonApi`)
+    }
     const etlPath = path.join(`${home}/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
         for (const child of fs.readdirSync(etlPath)) {
             const childPath = path.join(etlPath, child)
-            if (fs.statSync(childPath).isDirectory())
+            if (fs.statSync(childPath).isDirectory()) {
                 params.addVolume(`${childPath}`, `${containerHome}/toMongo/runnableImporters/${child}`)
+            }
         }
     }
 }
 
 const mapRunnableMigrations = params => {
-    let {
+    const {
         commonPath,
         containerHome,
     } = params
-    if (fs.existsSync(`${commonPath}/migration`))
+    if (fs.existsSync(`${commonPath}/migration`)) {
         params.addVolume(`${commonPath}/migration`, `${containerHome}/migration/runnable`)
+    }
 }
 
 const mapCore = params => {
-    let {
+    const {
         containerHome,
         home,
         nodeModules,
@@ -171,8 +177,8 @@ const mapCore = params => {
         'core',
         'data',
         'extensions',
-        'validation',
         'settings',
+        'validation',
     ]
     for (const coreItem of coreItems) {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`)
@@ -182,27 +188,24 @@ const mapCore = params => {
 }
 
 const createDatabases = params => {
-    const {
-        containerHome,
-        home,
-        localBuild,
-        repo,
-    } = params
-    const containerName = `${repo}Databases`
-    let command = `docker ps -q -f name=${containerName}`
-    let result = runOnTerminal(command)
-    if (!result.trim()) {
-        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
-        if (resultExited.trim()) runOnTerminal(`docker rm ${containerName}`)
+    const { repo } = params
+    const databaseContainerName = `${repo}Databases`
+    const runningDatabaseContainer = runOnTerminal(`docker ps -q -f name=${databaseContainerName}`)
+    if (!runningDatabaseContainer.trim()) {
+        const exitedDatabaseContainer = runOnTerminal(`docker ps -aq -f status=exited -f name=${databaseContainerName}`)
+        if (exitedDatabaseContainer.trim()) {
+            runOnTerminal(`docker rm ${databaseContainerName}`)
+        }
         createDatabaseContainer(params)
     }
 
     const searchDatabaseContainerName = `${repo}SearchDatabases`
-    command = `docker ps -q -f name=${searchDatabaseContainerName}`
-    result = runOnTerminal(command)
-    if (!result.trim()) {
-        const resultExited = runOnTerminal(`docker ps -aq -f status=exited -f name=${containerName}`)
-        if (resultExited.trim()) runOnTerminal(`docker rm ${searchDatabaseContainerName}`)
+    const runningSearchDatabaseContainer = runOnTerminal(`docker ps -q -f name=${searchDatabaseContainerName}`)
+    if (!runningSearchDatabaseContainer.trim()) {
+        const exitedSearchDatabaseContainer = runOnTerminal(`docker ps -aq -f status=exited -f name=${databaseContainerName}`)
+        if (exitedSearchDatabaseContainer.trim()) {
+            runOnTerminal(`docker rm ${searchDatabaseContainerName}`)
+        }
         createSearchDatabaseContainer(params)
     }
 }
@@ -220,15 +223,15 @@ const createApiContainer = params => {
 export default params => {
     const {
         containerHome,
-        home,
         localBuild,
-        repo,
     } = params
     if (isEtl(params)) {
         info('Setting up ETL')
         params.isEtl = true
     }
-    else info('Setting up API')
+    else {
+        info('Setting up API')
+    }
     divide()
     params.processType = 'api'
     createNonExistingFiles(params)
@@ -236,11 +239,11 @@ export default params => {
     createDirectories({
         ...params,
         extraDirectories: [
-            [`/tmp/migration`, `${containerHome}/migration`],
             [`/tmp/generation`, `${containerHome}/generation`],
+            [`/tmp/migration`, `${containerHome}/migration`],
             [`/tmp/query`, `${containerHome}/query`],
             [`/tmp/toMongo`, `${containerHome}/toMongo`],
-        ]
+        ],
     })
     removeRootOwnedDirectories(params)
     linkVsCodeFiles(params)
@@ -254,7 +257,9 @@ export default params => {
     mapCore(params)
     params.joinVolumes()
 
-    if (!isEtl(params)) createCiCd(params)
+    if (!isEtl(params)) {
+        createCiCd(params)
+    }
 
     if (!localBuild) {
         createDatabases(params)

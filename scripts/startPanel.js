@@ -1,9 +1,15 @@
 import fs from 'fs'
 import path from 'path'
+import createCiCd from './createCiCd.js'
+import createDirectories from './createDirectories.js'
+import getDependencies from './getDependencies.js'
 import {
     divide,
     info,
 } from './logger.js'
+import mapLocalizations from './mapLocalizations.js'
+import mapNode from './mapNode.js'
+import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
     isDir,
@@ -11,12 +17,6 @@ import {
     replaceVariables,
 } from './os.js'
 import { runOnTerminal } from './terminal.js'
-import createCiCd from './createCiCd.js'
-import getDependencies from './getDependencies.js'
-import mapLocalizations from './mapLocalizations.js'
-import mapNode from './mapNode.js'
-import mapSettings from './mapSettings.js'
-import createDirectories from './createDirectories.js'
 
 const createNonExistentFiles = params => {
     const {
@@ -26,9 +26,9 @@ const createNonExistentFiles = params => {
     } = params
     const basePath = `${home}/core/panel`
     const files = {
+        'appActions.jsx': 'appActionsTemplate',
         'menu.jsx': 'menuTemplate',
         'routes.jsx': 'routesTemplate',
-        'appActions.jsx': 'appActionsTemplate',
         'settingsOverride.json': 'settingsOverrideTemplate',
     }
     for (const [target, template] of Object.entries(files)) {
@@ -41,7 +41,7 @@ const createNonExistentFiles = params => {
 }
 
 const mapDependencies = params => {
-    let {
+    const {
         containerHome,
         home,
         process,
@@ -51,7 +51,6 @@ const mapDependencies = params => {
     const dependencies = getDependencies(params)
 
     for (const dependency of dependencies) {
-
         let runnablePart = false
         const dependencyPath = `${home}/${repo}/${dependency}`
         let dependencyBase = ''
@@ -59,13 +58,15 @@ const mapDependencies = params => {
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/panel`
             runnablePart = true
-        } else {
+        }
+        else {
             dependencyBase = `${home}/${dependency}/panel`
         }
 
         if (runnablePart) {
             params.addVolume(`${home}/${repo}/${dependency}`, `${containerHome}/${repo}/${dependency}`)
-        } else {
+        }
+        else {
             params.addVolume(dependencyBase, dependencyBase)
         }
 
@@ -80,48 +81,65 @@ const mapDependencies = params => {
 }
 
 const mapRunnable = params => {
-    let {
+    const {
         containerHome,
         home,
-        repo,
         process,
+        repo,
     } = params
 
-    const dirs = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort').split('\n')
+    const directoryPaths = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type d -not -name .github -not -name .git | sort').split('\n')
 
-    for (const item of dirs) {
-        const replacedItem = item.replace(/^.\//, '')
-        if (!replacedItem) continue
+    for (const directoryPath of directoryPaths) {
+        const replacedItem = directoryPath.replace(/^.\//, '')
+        if (!replacedItem) {
+            continue
+        }
         params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${containerHome}/${repo}/${process}/src/runnable/${replacedItem}`)
     }
 
-    const links = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
+    const linkPaths = runOnTerminal('find . -mindepth 1 -maxdepth 1 -type l | sort').split('\n')
 
-    for (const item of links) {
-        if (item.trim() === '') continue
-        const linkTarget = fs.readlinkSync(item)
+    for (const linkPath of linkPaths) {
+        if (linkPath.trim() === '') {
+            continue
+        }
+        const linkTarget = fs.readlinkSync(linkPath)
         const parts = linkTarget.replace(/^\/+/, '').split('/')
-        const role = parts.length > 4 ? parts[4] : 'Role'
+        const role =
+            parts.length > 4
+            ?
+            parts[4]
+            :
+            'Role'
 
-        const replacedItem = item.replace(/^.\//, '')
-        if (!replacedItem) continue
+        const replacedItem = linkPath.replace(/^.\//, '')
+        if (!replacedItem) {
+            continue
+        }
 
         params.addVolume(`${home}/${repo}/${process}/${replacedItem}`, `${containerHome}/${repo}/${process}/src/${replacedItem}/${role}`)
     }
 }
 
 const mapSecrets = params => {
-    let {
+    const {
         containerHome,
         home,
         process,
         repo,
     } = params
-    if (!isDir(`${home}/secrets`)) fs.mkdirSync(`${home}/secrets`)
+    if (!isDir(`${home}/secrets`)) {
+        fs.mkdirSync(`${home}/secrets`)
+    }
     const commonFile = `${home}/secrets/common.json`
-    if (!isFile(commonFile)) fs.writeFileSync(commonFile, '{}')
     const secretFile = `${home}/secrets/${repo}.json`
-    if (!isFile(secretFile)) fs.writeFileSync(secretFile, '{}')
+    if (!isFile(commonFile)) {
+        fs.writeFileSync(commonFile, '{}')
+    }
+    if (!isFile(secretFile)) {
+        fs.writeFileSync(secretFile, '{}')
+    }
 
     params.addVolume(`${commonFile}`, `${containerHome}/${repo}/${process}/public/common.json`)
     params.addVolume(`${secretFile}`, `${containerHome}/${repo}/${process}/public/repo.json`)
