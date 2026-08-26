@@ -5,8 +5,8 @@ import ensureDependencies from './ensureDependencies.js'
 import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
 import ensureTenants from './ensureTenants.js'
 import extract from './extract.js'
+import getDeterministicPort from './getDeterministicPort.js'
 import getPaths from './getPaths.js'
-import getRandomPort from './getRandomPort.js'
 import indentation from './indentation.js'
 import {
     divide,
@@ -57,7 +57,7 @@ export default async overrides => {
     params = {
         ...params,
         ...getPaths(params),
-        ...getRandomPort(),
+        deterministicPort: getDeterministicPort(params.containerName),
     }
 
     const { tenantsPath } = params

@@ -58,7 +58,7 @@ export default params => {
         process: 'search',
         camelizedProcess: 'search',
         pascalizedProcess: 'Search',
-        randomPort: params.databaseSearchPort,
+        deterministicPort: params.databaseSearchPort,
         line,
         // getSpecificDomain: getSearchDatabaseDomain,
     }))

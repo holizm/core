@@ -5,7 +5,7 @@ services:
         container_name: ${containerName}
         hostname: api
         ports:
-            - "${randomPort}:5000"
+            - "${deterministicPort}:5000"
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
@@ -67,7 +67,7 @@ services:
         command: |
             bash -lc '
             export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
-            echo -e "\033[0;31mhttps://localhost:${randomPort}"
+            echo -e "\033[0;31mhttps://localhost:${deterministicPort}"
             merge api
             initialize
             if [ "${isCiCd}" != "true" ]; then

@@ -1,7 +1,7 @@
 import {
     divide,
 } from '../scripts/logger.js'
-import getRandomPort from './getRandomPort.js'
+import getDeterministicPort from './getDeterministicPort.js'
 import {
     replaceVariables,
 } from './os.js'
@@ -25,8 +25,8 @@ export default params => {
 
     params = {
         ...params,
-        ...getRandomPort('accountsDatabaseRandomPort'),
-        ...getRandomPort('accountsAdminerRandomPort'),
+        accountsAdminerDeterministicPort: getDeterministicPort(`${params.containerName}Adminer`),
+        accountsDatabaseDeterministicPort: getDeterministicPort(`${params.containerName}Database`),
     }
 
     const { containerName } = params

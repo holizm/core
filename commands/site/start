@@ -13,7 +13,7 @@ import {
 
 const {
     process: proc,
-    randomPort,
+    deterministicPort,
     repo,
 } = process.env
 
@@ -29,7 +29,7 @@ const main = async () => {
     }
     divide()
 
-    await runStreaming(`npm run dev -- --port ${randomPort}`)
+    await runStreaming(`npm run dev -- --port ${deterministicPort}`)
 }
 
 main().catch(e => {

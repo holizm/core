@@ -50,6 +50,7 @@
 - In JavaScript, return `clientError` or `serverError` whenever applicable instead of introducing another error-response pattern.
 - Never return an object while creating it. Assign the object to a variable first, then return the variable so the object can be logged or inspected with a breakpoint before it is returned.
 - In `.js` and `.jsx` files, always use arrow functions and never use function declaration statements.
+- In `try`/`catch` statements, always name the caught error variable `e`.
 - In React, prefer one component per file and minimize boilerplate. Prefer exporting static JSX directly; when a function is needed, prefer a concise arrow function without a block body, and use a block-bodied arrow function only when necessary. Use Vite plugins to assign component names and wrap exports in block-bodied arrow functions when required.
 - When a Qwik component does not require `component$`, convert it to a light component by removing `component$` and any associated boilerplate.
 - In `.js` and `.jsx` files, omit parentheses around an arrow function's single parameter whenever the syntax permits. Minimize boilerplate wherever possible.

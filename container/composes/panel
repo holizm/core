@@ -5,7 +5,7 @@ services:
         container_name: ${containerName}
         hostname: panel
         ports:
-            - "${randomPort}:5173"
+            - "${deterministicPort}:5173"
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
@@ -73,7 +73,7 @@ services:
             bash -lc '
             export PATH=${containerHome}/core/commands/panel:${containerHome}/core/commands:$PATH
             merge panel
-            printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
+            printf "\e[31m%s %s\e[0m\n" "https://localhost:${deterministicPort}"
             cd ${containerHome}/${repo}/${process}
             initialize
             if [ "${isCiCd}" != "true" ]; then

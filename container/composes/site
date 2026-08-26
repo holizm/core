@@ -14,7 +14,7 @@ services:
             - process=${process}
             - processPath=${containerHome}/${repo}/${process}
             - isCiCd=${isCiCd}
-            - randomPort=${randomPort}
+            - deterministicPort=${deterministicPort}
             - authSecret=t69bu9H55yXKQfUfx8fN
             - iamClientSecret=M8k36kf3wtF8JcO1F5vtiwHqI20dLmjU
             - iamIssuer=https://accounts.holism.ir/realms/development
@@ -88,7 +88,7 @@ services:
             export PATH=${containerHome}/core/commands/site:${containerHome}/core/commands:$PATH
             rm -f /tmp/siteReady
             merge site
-            printf "\e[31m%s %s\e[0m\n" "https://localhost:${randomPort}"
+            printf "\e[31m%s %s\e[0m\n" "https://localhost:${deterministicPort}"
             cd ${containerHome}/${repo}/${process}
             initialize
             barrels && touch /tmp/siteReady

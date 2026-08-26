@@ -4,7 +4,7 @@ services:
         container_name: ${containerName}
         hostname: accounts
         ports:
-            - "${randomPort}:8080"
+            - "${deterministicPort}:8080"
         working_dir: /opt/keycloak
         environment:
             - KEYCLOAK_IMPORT=/opt/keycloak/data/import/dev.json
@@ -37,7 +37,7 @@ services:
         image: postgres:latest
         container_name: ${repo}AccountsDatabase
         ports:
-            - ${accountsDatabaseRandomPort}:5432
+            - ${accountsDatabaseDeterministicPort}:5432
         environment:
             - POSTGRES_DB=accounts
             - POSTGRES_USER=FaMHJGecNag5DKryCH9d
