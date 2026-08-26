@@ -23,7 +23,7 @@ if (!domain) {
 clear()
 
 divide()
-info('holism deploy')
+info('holism publish')
 divide()
 
 const params = await build({
