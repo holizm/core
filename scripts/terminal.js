@@ -3,7 +3,7 @@
 import {
     exec,
     execSync,
-    spawn
+    spawn,
 } from 'child_process'
 import { promisify } from 'util'
 import {
@@ -21,10 +21,10 @@ export const runOnTerminal = (command, params) => {
         errorAndExit(`Command is empty`, getStack())
     }
     const {
-        throwOnError = false,
         hideErrors = false,
         show = false,
         splitLines = false,
+        throwOnError = false,
     } = params || {}
     const trimmed = command.trim()
 
@@ -33,28 +33,42 @@ export const runOnTerminal = (command, params) => {
 
     try {
         const buffer = execSync(trimmed, {
+            encoding: 'buffer',
             shell: true,
-            windowsHide: true,
             stdio: ['ignore', 'pipe', 'pipe'],
-            encoding: 'buffer'
+            windowsHide: true,
         })
 
         stdout = buffer.toString()
 
-        if (show) process.stdout.write(stdout)
+        if (show) {
+            process.stdout.write(stdout)
+        }
 
     } catch (e) {
-        if (e.stdout) stdout = e.stdout.toString()
-        if (e.stderr) stderr = e.stderr.toString()
+        if (e.stdout) {
+            stdout = e.stdout.toString()
+        }
+        if (e.stderr) {
+            stderr = e.stderr.toString()
+        }
 
         if (show) {
-            if (stdout) process.stdout.write(stdout)
-            if (stderr && !hideErrors) process.stderr.write(stderr)
+            if (stdout) {
+                process.stdout.write(stdout)
+            }
+            if (stderr && !hideErrors) {
+                process.stderr.write(stderr)
+            }
         }
 
         const msg = (stderr || e.message || String(e)).trim()
-        if (!hideErrors && show) error(msg)
-        if (throwOnError) throw new Error(msg)
+        if (!hideErrors && show) {
+            error(msg)
+        }
+        if (throwOnError) {
+            throw new Error(msg)
+        }
     }
     const result = `${stdout}${stderr}`.trim()
     if (splitLines) {
@@ -66,31 +80,42 @@ export const runOnTerminal = (command, params) => {
 
 export const runOnTerminalAsync = async (command, opts = {}) => {
     const {
-        throwOnError = false,
         cwd = process.cwd(),
         env = process.env,
+        maxBuffer = 1024 * 1024 * 20,
+        throwOnError = false,
         timeoutMs,
-        maxBuffer = 1024 * 1024 * 20
     } = opts
 
     try {
-        const { stdout, stderr } = await execAsync(command.trim(), {
+        const {
+            stderr,
+            stdout,
+        } = await execAsync(command.trim(), {
             cwd,
             env,
-            timeout: timeoutMs,
             maxBuffer,
-            shell: true
+            shell: true,
+            timeout: timeoutMs,
         })
         return `${stdout || ''}${stderr || ''}`.trim()
     } catch (e) {
         const msg = (e.stderr || e.stdout || e.message || String(e)).trim()
         error(msg)
-        if (throwOnError) throw msg
+        if (throwOnError) {
+            throw msg
+        }
         return ''
     }
 }
 
 export const runStreaming = command => new Promise((resolve, reject) => {
     const child = spawn(command.trim(), { shell: true, stdio: 'inherit' })
-    child.on('close', code => code === 0 ? resolve() : reject(new Error(`exit ${code}`)))
+    child.on('close', code =>
+        code === 0
+        ?
+        resolve()
+        :
+        reject(new Error(`exit ${code}`))
+    )
 })

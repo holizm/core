@@ -6,8 +6,6 @@ export const getStack = () => {
     return stack
 }
 
-
-
 const sortObject = value => {
     if (Array.isArray(value)) {
         return value.map(sortObject)
@@ -34,7 +32,7 @@ const stringify = value => {
         return JSON.stringify(
             sortObject(value),
             null,
-            4
+            4,
         )
     } catch {
         return '[Circular]'
@@ -42,7 +40,12 @@ const stringify = value => {
 }
 
 const formatError = error => {
-    const { name = 'Error', message = '', stack = '', ...rest } = error
+    const {
+        message = '',
+        name = 'Error',
+        stack = '',
+        ...rest
+    } = error
     const stackLines = stack.split('\n')
     stackLines[0] = `${name}: ${message}`
     let out = stackLines.join('\n')
@@ -64,9 +67,11 @@ const log = (color, toStderr, ...args) => {
     const message = args.map(arg => {
         if (arg instanceof Error) {
             return formatError(arg)
-        } else if (typeof arg === 'object') {
+        }
+        else if (typeof arg === 'object') {
             return stringify(arg, null, 4)
-        } else {
+        }
+        else {
             return String(arg)
         }
     }).join(' ')
@@ -74,7 +79,8 @@ const log = (color, toStderr, ...args) => {
     const output = `${colorCodeStart}${message}${colorCodeReset}`
     if (toStderr) {
         console.error(output)
-    } else {
+    }
+    else {
         console.log(output)
     }
 }
@@ -105,8 +111,13 @@ export const check = (...args) => {
     log('\x1b[32m', false, ...args, checkMark)
 }
 
-export const divide = (toStderr) => {
-    const func = toStderr ? console.error : console.log
+export const divide = toStderr => {
+    const func =
+        toStderr
+        ?
+        console.error
+        :
+        console.log
     func()
     func('\x1b[35m----------\x1b[0m')
     func()
