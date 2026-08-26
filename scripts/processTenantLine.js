@@ -1,33 +1,53 @@
-import { errorAndExit } from './logger.js'
 import createCertificate from './createCertificate.js'
 import getLocalHost from './getLocalHost.js'
+import { errorAndExit } from './logger.js'
 import setupLocalDns from './setupLocalDns.js'
 import setupWebServer from './setupWebServer.js'
 
 export default ({
-    line,
     getSpecificDomain,
+    line,
     ...rest
 }) => {
     const parts = line.trim().split(/\s+/)
-    let tenant, domain, locales, defaultLocale, roles
+    let defaultLocale
+    let domain
+    let locales
+    let roles
+    let tenant
+
     if (parts.length === 5) {
-        [tenant, domain, locales, defaultLocale, roles] = parts
+        [
+            tenant,
+            domain,
+            locales,
+            defaultLocale,
+            roles,
+        ] = parts
         roles = roles.split(',')
-    } else if (parts.length === 4) {
-        [tenant, domain, locales, defaultLocale] = parts
+    }
+    else if (parts.length === 4) {
+        [
+            tenant,
+            domain,
+            locales,
+            defaultLocale,
+        ] = parts
         roles = []
-    } else {
+    }
+    else {
         errorAndExit(`Incomplete tenant line: ${line}`)
     }
+
     let localDomain = getLocalHost({
-        domain,
         ...rest,
+        domain,
     })
     if (getSpecificDomain instanceof Function) {
         localDomain = getSpecificDomain(localDomain)
     }
-    let params = {
+
+    const params = {
         ...rest,
         host: localDomain,
         tenant,
