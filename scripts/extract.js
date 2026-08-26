@@ -1,8 +1,8 @@
 import path from 'path'
 import process from 'process'
+import camelize from '../scripts/camelize.js'
 import {
     errorAndExit,
-    info,
     success,
 } from '../scripts/logger.js'
 import {
@@ -10,7 +10,6 @@ import {
     getOrgRepoFromGit,
 } from '../scripts/os.js'
 import pascalize from '../scripts/pascalize.js'
-import camelize from '../scripts/camelize.js'
 
 const getOrgRepoFromDir = dir => {
     const parts = dir.split('/')
@@ -22,9 +21,7 @@ const getOrgRepoFromDir = dir => {
 }
 
 export default params => {
-    const {
-        container,
-    } = params || {}
+    const { container } = params || {}
     const cwd = process.cwd()
     if (cwd === '/') {
         errorAndExit('Can not run command from the root directory')
@@ -37,18 +34,20 @@ export default params => {
     const {
         org,
         repo,
-    } = container
-            ?
-            getOrgRepoFromDir(cwd)
-            :
-            getOrgRepoFromGit()
+    } =
+        container
+        ?
+        getOrgRepoFromDir(cwd)
+        :
+        getOrgRepoFromGit()
 
     if (org?.toLowerCase() === 'holizm') {
         errorAndExit('This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.')
     }
 
-    if (org[0] !== org[0].toLowerCase() && camelize(org) !== 'holismProjects')
+    if (org[0] !== org[0].toLowerCase() && camelize(org) !== 'holismProjects') {
         errorAndExit('Invalid Organization. Organization name should start with a lowercase letter.', org)
+    }
 
     const depth = getDepth()
 
@@ -64,8 +63,8 @@ export default params => {
 
     params = {
         ...params,
-        home,
         containerHome: '/home/dev',
+        home,
         org,
         repo,
     }
