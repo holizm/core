@@ -2,23 +2,19 @@
 
 import {
     clear,
-    runOnTerminal,
     runStreaming,
 } from '../scripts/terminal.js'
 import {
     divide,
     error,
-    errorAndExit,
     info,
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
-import runOnServer from '../scripts/runOnServer.js'
 import camelize from '../scripts/camelize.js'
+import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
+import runOnServer from '../scripts/runOnServer.js'
 
-const domain = process.argv[2]
-if (!domain) {
-    errorAndExit('Domain is not provided')
-}
+const providedDomain = process.argv[2]
 
 clear()
 
@@ -38,6 +34,7 @@ const {
     processBuildDir,
     repo,
 } = params
+const domain = providedDomain || resolvePublishDomain(repo)
 
 await runOnServer(domain, `mkdir -p /tmp/${repo}`)
 
