@@ -56,6 +56,7 @@ services:
             - ${home}/panel/src/main.jsx:${containerHome}/${repo}/${process}/src/main.jsx
             - ${home}/panel/src/panel:${containerHome}/${repo}/${process}/src/panel
             - ${home}/panel/src/registries:${containerHome}/${repo}/${process}/src/registries
+            - ${home}/panel/src/styles:${containerHome}/${repo}/${process}/src/styles
             - ${home}/panel/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
             - ${home}/panel/writeIfChanged.js:${containerHome}/${repo}/${process}/writeIfChanged.js
             - ${home}/panel/wrapAndName.js:${containerHome}/${repo}/${process}/wrapAndName.js
