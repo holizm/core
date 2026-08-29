@@ -15,10 +15,10 @@ import {
 import {
     clear,
     runOnTerminal,
+    runOnTerminalAsync,
 } from '../../scripts/terminal.js'
 import {
     getLines,
-    isDir,
     isFile,
 } from '../../scripts/os.js'
 import extract from '../../scripts/extract.js'
@@ -44,7 +44,6 @@ if (!search) {
     const {
         process: proc,
         repo,
-        apiRepository,
     } = process.env
 
     const essentialPartsPath = `${home}/core/essentialParts`
@@ -60,25 +59,24 @@ if (!search) {
     const second = set.filter(x => !orderList.includes(x))
     const finalList = [...first, ...second]
 
-    for (const part of finalList) {
-        let orgOrRepo
-        if (isDir(`${home}/${apiRepository}/${part}`)) {
-            orgOrRepo = apiRepository
-        } else {
-            orgOrRepo = 'holizm'
-        }
-
+    const generatePart = async part => {
         const base = `${home}/${part}`
         const partFile = `${base}/part`
 
         if (!isFile(partFile)) {
             warning(`Did not find part file for ${partFile}`)
-            continue
+            return
         }
 
-        process.chdir(base)
-        runOnTerminal(`generate ${part}`, { show: true })
+        const output = await runOnTerminalAsync(`generate ${part}`, {
+            cwd: base,
+            throwOnError: true,
+        })
+        if (output) {
+            process.stdout.write(`${output}\n`)
+        }
     }
+    await Promise.all(finalList.map(generatePart))
 
     // runOnTerminal('insertData', { show: true })
     stopTimer()
@@ -97,13 +95,19 @@ const command = `
 const result = runOnTerminal(command)
 const dirs = result.split('\n').filter(Boolean)
 if (dirs.length > 1) {
-    for (const dir of dirs) {
+    const generatePart = async dir => {
         const partFile = `${dir}/part`
         if (isFile(partFile)) {
-            process.chdir(dir)
-            runOnTerminal(`generate ${dir}`, { show: true })
+            const output = await runOnTerminalAsync(`generate ${path.basename(dir)}`, {
+                cwd: dir,
+                throwOnError: true,
+            })
+            if (output) {
+                process.stdout.write(`${output}\n`)
+            }
         }
     }
+    await Promise.all(dirs.map(generatePart))
     stopTimer()
     process.exit(0)
 }

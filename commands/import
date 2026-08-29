@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -uo pipefail
+
 . $HOME/core/scripts/logger.sh
 
 echo
@@ -9,7 +11,7 @@ divide
 info "Holism import"
 divide
 
-domain=$1
+domain=${1:-}
 search=${2:-""}
 
 if [[ -z "$domain" ]]; then
@@ -50,68 +52,152 @@ targetContainer="${vcsRepo}Databases"
 
 read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 
-tempDir=/tmp/$domain/databasesBackup
-sudo rm -rf $tempDir
-mkdir -p $tempDir
+tempDir=$(mktemp -d "/tmp/${domain}.databasesBackup.XXXXXX")
+trap 'rm -rf "$tempDir"' EXIT
 
-info "Downloading parts ..."
-divide
+remoteDirectory="/home/$sshUser/$serverDirectory/backupDirectory/databases"
+downloadConcurrency=4
+downloadAttempts=3
+downloadSemaphore="$tempDir/downloadSemaphore"
+mkfifo "$downloadSemaphore"
+exec {downloadSemaphoreDescriptor}<>"$downloadSemaphore"
+rm "$downloadSemaphore"
+
+for ((downloadSlot = 0; downloadSlot < downloadConcurrency; downloadSlot++)); do
+    printf '.' >&$downloadSemaphoreDescriptor
+done
 
 if [[ -z "$search" ]]; then
-    serverCopy $domain:/home/$sshUser/$serverDirectory/backupDirectory/databases $tempDir
-    mv $tempDir/databases/* $tempDir
-    rm -rf $tempDir/databases
+    remotePattern='*.archive'
 else
-    serverCopy "$domain:/home/$sshUser/$serverDirectory/backupDirectory/databases/*$search*.archive" $tempDir
+    remotePattern="*$search*.archive"
 fi
 
-divide
-info "Deleting existing parts ..."
-divide
+mapfile -t archiveNames < <(
+    ssh -p "$sshPort" "$sshUser@$sshIp" \
+        "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort"
+)
 
-docker exec $targetContainer mongosh \
-    --quiet \
-    --username FaMHJGecNag5DKryCH9d \
-    --password IC1joYMLZTT0fQMJ5qcz \
-    --authenticationDatabase admin \
-    --eval "db.adminCommand({ listDatabases: 1 }).databases.map(d => d.name).join('\n')" |
-while read database; do
-    if [[ "$database" == "admin" || "$database" == "local" || "$database" == "config" ]]; then
-        continue
-    fi
-    if [[ -n "$search" && "$database" != *"$search"* ]]; then
-        continue
-    fi
-    docker exec $targetContainer mongosh --quiet \
+if [[ ${#archiveNames[@]} -eq 0 ]]; then
+    error "No database archives found for $domain"
+    divide
+    exit 1
+fi
+
+declare -A archiveDatabases
+for archiveName in "${archiveNames[@]}"; do
+    archiveDatabases["${archiveName%.archive}"]=true
+done
+
+dropDatabase() {
+    local databaseName=$1
+
+    docker exec "$targetContainer" mongosh --quiet \
         --username FaMHJGecNag5DKryCH9d \
         --password IC1joYMLZTT0fQMJ5qcz \
         --authenticationDatabase admin \
-        --eval "void db.getSiblingDB('$database').dropDatabase()"
-    success "$database dropped"
-done
+        --eval "void db.getSiblingDB('$databaseName').dropDatabase()"
+    success "$databaseName dropped"
+}
 
-divide
-info "Importing parts ..."
-divide
+downloadArchive() {
+    local archiveName=$1
+    local archivePath=$2
+    local downloadAttempt
+    local downloadStatus=1
 
-find $tempDir -mindepth 1 -maxdepth 1 -type f -name "*.archive" | sort |
-while read archivePath; do
-    baseName=$(basename "$archivePath")
-    databaseName=$(echo "$baseName" | cut -d'.' -f1)
+    read -r -n 1 <&$downloadSemaphoreDescriptor
 
-    docker cp "$archivePath" "$targetContainer:/tmp/$baseName" 1>/dev/null
+    for ((downloadAttempt = 1; downloadAttempt <= downloadAttempts; downloadAttempt++)); do
+        if serverCopy "$domain:$remoteDirectory/$archiveName" "$archivePath"; then
+            downloadStatus=0
+            break
+        fi
 
-    docker exec $targetContainer mongorestore \
+        rm -f "$archivePath"
+        warning "$archiveName download attempt $downloadAttempt failed"
+        if ((downloadAttempt < downloadAttempts)); then
+            sleep 2
+        fi
+    done
+
+    printf '.' >&$downloadSemaphoreDescriptor
+    return "$downloadStatus"
+}
+
+importDatabase() {
+    local archiveName=$1
+    local archivePath="$tempDir/$archiveName"
+    local databaseName=${archiveName%.archive}
+
+    downloadArchive "$archiveName" "$archivePath" || return 1
+    success "$databaseName downloaded"
+
+    dropDatabase "$databaseName" || return 1
+
+    docker exec -i "$targetContainer" mongorestore \
         --username=FaMHJGecNag5DKryCH9d \
         --password=IC1joYMLZTT0fQMJ5qcz \
         --authenticationDatabase=admin \
-        --archive=/tmp/$baseName \
+        --archive \
         --drop \
         --quiet \
-        --gzip
+        --gzip < "$archivePath" || return 1
 
     success "$databaseName imported"
+}
+
+info "Importing parts ..."
+divide
+
+mapfile -t existingDatabases < <(
+    docker exec "$targetContainer" mongosh \
+        --quiet \
+        --username FaMHJGecNag5DKryCH9d \
+        --password IC1joYMLZTT0fQMJ5qcz \
+        --authenticationDatabase admin \
+        --eval "db.adminCommand({ listDatabases: 1 }).databases.map(d => d.name).join('\n')"
+)
+
+pids=()
+jobNames=()
+
+for archiveName in "${archiveNames[@]}"; do
+    importDatabase "$archiveName" &
+    pids+=("$!")
+    jobNames+=("${archiveName%.archive}")
 done
+
+for databaseName in "${existingDatabases[@]}"; do
+    if [[ "$databaseName" == "admin" || "$databaseName" == "local" || "$databaseName" == "config" ]]; then
+        continue
+    fi
+    if [[ -n "$search" && "$databaseName" != *"$search"* ]]; then
+        continue
+    fi
+    if [[ -n "${archiveDatabases[$databaseName]:-}" ]]; then
+        continue
+    fi
+
+    dropDatabase "$databaseName" &
+    pids+=("$!")
+    jobNames+=("$databaseName")
+done
+
+hasFailures=false
+for jobIndex in "${!pids[@]}"; do
+    if ! wait "${pids[$jobIndex]}"; then
+        error "${jobNames[$jobIndex]} import failed"
+        hasFailures=true
+    fi
+done
+
+if [[ "$hasFailures" == true ]]; then
+    divide
+    error "Import failed for $domain"
+    divide
+    exit 1
+fi
 
 divide
 success "Import finished for $domain"
