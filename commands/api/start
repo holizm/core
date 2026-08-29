@@ -4,33 +4,30 @@ import {
     divide,
     info,
 } from '../../scripts/logger.js'
-import { isFile } from '../../scripts/os.js'
 import {
-    clear,
     runOnTerminal,
     runStreaming,
 } from '../../scripts/terminal.js'
 
 const {
     home,
+    isEtl,
     process: proc,
     repo,
 } = process.env
 
 const main = async () => {
-    clear()
-    runOnTerminal('stop')
-
     divide()
-    if (isFile('package.json')) {
-        info('Starting...')
-    }
-    else {
-        info(`Starting ~/${repo}/${proc} ...`)
-        process.chdir(`${home}/${repo}/${proc}`)
-    }
+    info('Starting...')
+    process.chdir(`${home}/${repo}/${proc}`)
     divide()
-    runOnTerminal('initialize')
+    if (isEtl === 'true') {
+        info('ETL')
+        return
+    }
+    runOnTerminal('nohup monitor >/tmp/apiMonitor.log 2>&1 &', {
+        throwOnError: true,
+    })
     const command = `nodemon --watch ${home} --ignore "**/*.json" process.js`
     console.log(command)
     await runStreaming(command)

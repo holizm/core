@@ -7,7 +7,6 @@ import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
-import loadOwnershipSnapshots from './loadOwnershipSnapshots.js'
 import {
     divide,
     info,
@@ -73,7 +72,6 @@ export default async overrides => {
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
     }))
-    measure('load previous ownership snapshots', () => loadOwnershipSnapshots(params))
 
     const { tenantsPath } = params
 
@@ -190,8 +188,27 @@ export default async overrides => {
 
     writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
 
+    const processUsesApiContainer = params.isApi || params.isWorker
+    const processUsesInteractiveContainer = processUsesApiContainer || params.isPanel
+    const internalStartCommand = processUsesApiContainer
+        ?
+        `${params.containerHome}/core/commands/api/start`
+        :
+        `${params.containerHome}/core/commands/panel/start`
+    if (processUsesApiContainer && params.localBuild) {
+        await measureAsync('start API container process', () => runOnTerminalAsync(
+            `docker exec -d ${params.containerName} bash -c ${internalStartCommand}`,
+            {
+                throwOnError: true,
+            },
+        ))
+    }
+
     if (params.isCiCd || params.localBuild) {
         info(`In CI/CD or local build, we don't show the log of the container.`)
+    }
+    else if (processUsesInteractiveContainer) {
+        await runStreaming(`node ${params.home}/core/commands/enter ${params.containerName} ${internalStartCommand}`)
     }
     else {
         command = `${composeCommand} logs -f`

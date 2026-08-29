@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+import { info } from '../../scripts/logger.js'
+import { runOnTerminal } from '../../scripts/terminal.js'
+
+const {
+    home,
+    isCiCd,
+    process: proc,
+    repo,
+} = process.env
+
+const main = () => {
+    process.chdir(`${home}/${repo}/${proc}`)
+    runOnTerminal('merge panel', {
+        show: true,
+        throwOnError: true,
+    })
+    runOnTerminal('initialize', {
+        show: true,
+        throwOnError: true,
+    })
+    if (isCiCd === 'true') {
+        return
+    }
+    runOnTerminal('install', {
+        show: true,
+        throwOnError: true,
+    })
+}
+
+try {
+    main()
+}
+catch (e) {
+    info(String(e))
+    process.exitCode = 1
+}
