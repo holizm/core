@@ -120,8 +120,18 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
     }
 }
 
-export const runStreaming = command => new Promise((resolve, reject) => {
-    const child = spawn(command.trim(), { shell: true, stdio: 'inherit' })
+export const runStreaming = (command, params = {}) => new Promise((resolve, reject) => {
+    const {
+        cwd = process.cwd(),
+        env = process.env,
+    } = params
+    const child = spawn(command.trim(), {
+        cwd,
+        env,
+        shell: true,
+        stdio: 'inherit',
+    })
+    child.on('error', reject)
     child.on('close', code =>
         code === 0
         ?

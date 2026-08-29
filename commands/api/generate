@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import path from 'path'
+import { availableParallelism } from 'node:os'
+import path from 'node:path'
 import {
     startTimer,
     stopTimer
@@ -15,7 +16,7 @@ import {
 import {
     clear,
     runOnTerminal,
-    runOnTerminalAsync,
+    runStreaming,
 } from '../../scripts/terminal.js'
 import {
     getLines,
@@ -35,6 +36,21 @@ if (isDirectExecution) {
 const args = process.argv.slice(2)
 let search = args[0] || ''
 const { home } = process.env
+
+const generateParts = async (parts, generatePart) => {
+    let nextPartIndex = 0
+    const workerCount = Math.min(availableParallelism(), parts.length)
+
+    const generateNextPart = async () => {
+        while (nextPartIndex < parts.length) {
+            const partIndex = nextPartIndex
+            nextPartIndex += 1
+            await generatePart(parts[partIndex])
+        }
+    }
+
+    await Promise.all(Array.from({ length: workerCount }, generateNextPart))
+}
 
 startTimer()
 
@@ -68,15 +84,13 @@ if (!search) {
             return
         }
 
-        const output = await runOnTerminalAsync(`generate ${part}`, {
+        info(`Generating ${part}`)
+        await runStreaming(`generate ${part}`, {
             cwd: base,
-            throwOnError: true,
         })
-        if (output) {
-            process.stdout.write(`${output}\n`)
-        }
+        info(`Generated ${part}`)
     }
-    await Promise.all(finalList.map(generatePart))
+    await generateParts(finalList, generatePart)
 
     // runOnTerminal('insertData', { show: true })
     stopTimer()
@@ -98,16 +112,15 @@ if (dirs.length > 1) {
     const generatePart = async dir => {
         const partFile = `${dir}/part`
         if (isFile(partFile)) {
-            const output = await runOnTerminalAsync(`generate ${path.basename(dir)}`, {
+            const part = path.basename(dir)
+            info(`Generating ${part}`)
+            await runStreaming(`generate ${part}`, {
                 cwd: dir,
-                throwOnError: true,
             })
-            if (output) {
-                process.stdout.write(`${output}\n`)
-            }
+            info(`Generated ${part}`)
         }
     }
-    await Promise.all(dirs.map(generatePart))
+    await generateParts(dirs, generatePart)
     stopTimer()
     process.exit(0)
 }
