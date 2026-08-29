@@ -10,11 +10,12 @@ export default params => {
         !content.includes(`\t${host}`)
     )
     if (missingHosts.length === 0) {
-        return
+        return false
     }
     let entries = missingHosts.map(host => `127.0.0.1 ${host}`).join('\n')
     if (!content.endsWith('\n')) {
         entries = `\n${entries}`
     }
     fs.appendFileSync('/etc/hosts', `${entries}\n`)
+    return true
 }

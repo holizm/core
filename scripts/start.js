@@ -24,6 +24,7 @@ import {
     isWorker,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
+import reloadWebServer from './reloadWebServer.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
@@ -75,7 +76,7 @@ export default async overrides => {
     const lines = measure('read tenants', () => getLines(tenantsPath))
 
     if (!params.isCiCd) {
-        measure('configure tenant infrastructure', () => processTenantLines({
+        params.webServerChanged = measure('configure tenant infrastructure', () => processTenantLines({
             ...params,
             hosts: [],
             lines,
@@ -138,6 +139,10 @@ export default async overrides => {
             warning('Unknown process')
         }
     })
+
+    if (params.webServerChanged) {
+        measure('reload web server', () => reloadWebServer())
+    }
 
     measure('create cache server', () => createCacheServer(params))
     measure('change permissions', () => changePermissions(params))

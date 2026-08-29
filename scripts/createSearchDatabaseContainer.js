@@ -50,7 +50,7 @@ export default params => {
     params.databaseSearchPort = getDeterministicPort(`${repo}SearchDatabases`)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
 
-    processTenantLines({
+    const webServerChanged = processTenantLines({
         ...params,
         camelizedProcess: 'search',
         deterministicPort: params.databaseSearchPort,
@@ -64,4 +64,5 @@ export default params => {
     divide()
     createSearchDatabaseContainer(params)
     divide()
+    return webServerChanged
 }

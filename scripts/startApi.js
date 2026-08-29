@@ -189,6 +189,7 @@ const mapCore = params => {
 
 const createDatabases = params => {
     const { repo } = params
+    let webServerChanged = false
     const databaseContainerName = `${repo}Databases`
     const runningDatabaseContainer = runOnTerminal(`docker ps -q -f name=${databaseContainerName}`)
     if (!runningDatabaseContainer.trim()) {
@@ -196,7 +197,7 @@ const createDatabases = params => {
         if (exitedDatabaseContainer.trim()) {
             runOnTerminal(`docker rm ${databaseContainerName}`)
         }
-        createDatabaseContainer(params)
+        webServerChanged = createDatabaseContainer(params) || webServerChanged
     }
 
     const searchDatabaseContainerName = `${repo}SearchDatabases`
@@ -206,8 +207,9 @@ const createDatabases = params => {
         if (exitedSearchDatabaseContainer.trim()) {
             runOnTerminal(`docker rm ${searchDatabaseContainerName}`)
         }
-        createSearchDatabaseContainer(params)
+        webServerChanged = createSearchDatabaseContainer(params) || webServerChanged
     }
+    return webServerChanged
 }
 
 const createApiContainer = params => {
@@ -262,7 +264,7 @@ export default params => {
     }
 
     if (!localBuild) {
-        measure('API: create databases', () => createDatabases(params))
+        params.webServerChanged = measure('API: create databases', () => createDatabases(params)) || params.webServerChanged
     }
     measure('API: create Compose file', () => createApiContainer(params))
 }

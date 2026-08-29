@@ -69,6 +69,17 @@ const readReplaceWrite = (inputFile, outputFile, flag, params) => {
 export const replaceVariables = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, 'w', params)
 export const replaceVariablesAndAppend = (inputFile, outputFile, params) => readReplaceWrite(inputFile, outputFile, 'a', params)
 
+export const replaceVariablesIfChanged = (inputFile, outputFile, params) => {
+    const content = fs.readFileSync(inputFile, 'utf8')
+    const replaced = content.replace(/\$\{(\w+)\}/g, (_, v1, v2) => params[v1 || v2] || '')
+    if (isFile(outputFile) && fs.readFileSync(outputFile, 'utf8') === replaced) {
+        return false
+    }
+    fs.mkdirSync(path.dirname(outputFile), { recursive: true })
+    fs.writeFileSync(outputFile, replaced)
+    return true
+}
+
 export const exists = p => p && fs.existsSync(p)
 export const isFile = p => p && fs.existsSync(p) && fs.statSync(p).isFile()
 export const isDir = p => p && fs.existsSync(p) && fs.statSync(p).isDirectory()

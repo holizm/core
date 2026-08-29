@@ -49,7 +49,7 @@ export default params => {
     }
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
-    processTenantLines({
+    const webServerChanged = processTenantLines({
         ...params,
         getSpecificDomain: getDatabaseDomain,
         hosts: [`${repo}.local`],
@@ -59,4 +59,5 @@ export default params => {
     divide()
     createMongoDatabaseContainer(params)
     divide()
+    return webServerChanged
 }

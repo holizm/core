@@ -1,6 +1,5 @@
 import createCertificate from './createCertificate.js'
 import processTenantLine from './processTenantLine.js'
-import reloadWebServer from './reloadWebServer.js'
 import setupLocalDns from './setupLocalDns.js'
 import setupWebServer from './setupWebServer.js'
 import { measure } from './timing.js'
@@ -22,11 +21,11 @@ export default params => {
             ...tenantHosts,
         ],
     }))
+    let webServerChanged = false
     for (const tenant of tenantParams) {
-        measure(`tenant ${tenant.tenant}: create certificate`, () => createCertificate(tenant))
-        measure(`tenant ${tenant.tenant}: configure web server`, () => setupWebServer(tenant))
+        const certificateChanged = measure(`tenant ${tenant.tenant}: create certificate`, () => createCertificate(tenant))
+        const configurationChanged = measure(`tenant ${tenant.tenant}: configure web server`, () => setupWebServer(tenant))
+        webServerChanged = webServerChanged || certificateChanged || configurationChanged
     }
-    if (tenantParams.length > 0) {
-        measure('tenants: reload web server', () => reloadWebServer())
-    }
+    return webServerChanged
 }
