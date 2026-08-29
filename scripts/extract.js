@@ -21,7 +21,10 @@ const getOrgRepoFromDir = dir => {
 }
 
 export default params => {
-    const { container } = params || {}
+    const {
+        container,
+        log,
+    } = params || {}
     const cwd = process.cwd()
     if (cwd === '/') {
         errorAndExit('Can not run command from the root directory')
@@ -79,9 +82,11 @@ export default params => {
     params.lowercaseProcess = params.process.toLowerCase()
     params.containerName = `${params.repo}${params.pascalizedProcess}`
 
-    success(`organization: ${org}`)
-    success(`repository: ${repo}`)
-    success(`process: ${params.process}`)
+    if (log !== false) {
+        success(`organization: ${org}`)
+        success(`repository: ${repo}`)
+        success(`process: ${params.process}`)
+    }
 
     return params
 }

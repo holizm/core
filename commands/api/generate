@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 
-import { availableParallelism } from 'node:os'
 import path from 'node:path'
 import {
     startTimer,
     stopTimer
 } from '../../scripts/timer.js'
 import {
-    divide,
     error,
     errorAndExit,
     info,
+    success,
     warning,
 } from '../../scripts/logger.js'
 import {
@@ -23,33 +22,24 @@ import {
     isFile,
 } from '../../scripts/os.js'
 import extract from '../../scripts/extract.js'
+import generateParts from './generateParts.js'
 import run from './run'
 
 const isDirectExecution =
     process.argv[1] &&
     path.resolve(process.argv[1]) === path.resolve(import.meta.filename)
+const isChainedGeneration = process.env.isChainedGeneration === 'true'
 
-if (isDirectExecution) {
-    // clear()
+if (isDirectExecution && !isChainedGeneration) {
+    clear()
 }
 
 const args = process.argv.slice(2)
 let search = args[0] || ''
 const { home } = process.env
-
-const generateParts = async (parts, generatePart) => {
-    let nextPartIndex = 0
-    const workerCount = Math.min(availableParallelism(), parts.length)
-
-    const generateNextPart = async () => {
-        while (nextPartIndex < parts.length) {
-            const partIndex = nextPartIndex
-            nextPartIndex += 1
-            await generatePart(parts[partIndex])
-        }
-    }
-
-    await Promise.all(Array.from({ length: workerCount }, generateNextPart))
+const chainedGenerationEnv = {
+    ...process.env,
+    isChainedGeneration: 'true',
 }
 
 startTimer()
@@ -87,8 +77,9 @@ if (!search) {
         info(`Generating ${part}`)
         await runStreaming(`generate ${part}`, {
             cwd: base,
+            env: chainedGenerationEnv,
         })
-        info(`Generated ${part}`)
+        success(`Generated ${part}`)
     }
     await generateParts(finalList, generatePart)
 
@@ -106,8 +97,14 @@ const command = `
         -exec test -f '{}/part' \\; \
         -print 2>/dev/null
 `
-const result = runOnTerminal(command)
-const dirs = result.split('\n').filter(Boolean)
+let dirs
+if (isChainedGeneration) {
+    dirs = [process.cwd()]
+}
+else {
+    const result = runOnTerminal(command)
+    dirs = result.split('\n').filter(Boolean)
+}
 if (dirs.length > 1) {
     const generatePart = async dir => {
         const partFile = `${dir}/part`
@@ -116,8 +113,9 @@ if (dirs.length > 1) {
             info(`Generating ${part}`)
             await runStreaming(`generate ${part}`, {
                 cwd: dir,
+                env: chainedGenerationEnv,
             })
-            info(`Generated ${part}`)
+            success(`Generated ${part}`)
         }
     }
     await generateParts(dirs, generatePart)
@@ -130,11 +128,10 @@ if (dirs.length === 0) {
 }
 
 process.chdir(dirs[0])
-divide()
 const params = extract({
     container: true,
+    log: false,
 })
-divide()
 const partFile = `${home}/${params.repo}/part`
 
 if (!isFile(partFile)) {
