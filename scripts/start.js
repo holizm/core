@@ -38,9 +38,14 @@ import {
 } from './timing.js'
 import stop from './stop.js'
 import {
-    runOnTerminal,
+    runOnTerminalAsync,
     runStreaming,
 } from './terminal.js'
+
+const startContainers = params => Promise.all(params.containerStartupTasks.map(containerStartupTask => measureAsync(
+    containerStartupTask.task,
+    containerStartupTask.callback,
+)))
 
 export default async overrides => {
     initializeTimings()
@@ -91,6 +96,14 @@ export default async overrides => {
     params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
 
     params.volumes = []
+    params.containerStartupTasks = []
+
+    params.addContainerStartupTask = (task, callback) => {
+        params.containerStartupTasks.push({
+            callback,
+            task,
+        })
+    }
 
     params.addVolume = (left, right) => {
         measure('ensure bind mount source', () => ensurePathExistsOrCreateIt(left))
@@ -140,11 +153,7 @@ export default async overrides => {
         }
     })
 
-    if (params.webServerChanged) {
-        measure('reload web server', () => reloadWebServer())
-    }
-
-    measure('create cache server', () => createCacheServer(params))
+    measure('register cache server container', () => createCacheServer(params))
     measure('change permissions', () => changePermissions(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
@@ -158,15 +167,23 @@ export default async overrides => {
     let command = `${composeCommand} up --remove-orphans ${composeMode}`
 
     if (shouldWatch) {
+        await startContainers(params)
+        if (params.webServerChanged) {
+            measure('reload web server', () => reloadWebServer())
+        }
         writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
         await runStreaming(command)
         return params
     }
 
-    measure('start process container', () => runOnTerminal(command, {
-        show: true,
+    params.addContainerStartupTask('start process container', () => runOnTerminalAsync(command, {
         throwOnError: true,
     }))
+    await startContainers(params)
+
+    if (params.webServerChanged) {
+        measure('reload web server', () => reloadWebServer())
+    }
 
     writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
 

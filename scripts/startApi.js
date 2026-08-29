@@ -24,7 +24,10 @@ import {
 } from './os.js'
 import removeRootOwnedDirectories from './removeRootOwnedDirectories.js'
 import { measure } from './timing.js'
-import { runOnTerminal } from './terminal.js'
+import {
+    runOnTerminal,
+    runOnTerminalAsync,
+} from './terminal.js'
 
 const createNonExistingFiles = params => {
     const {
@@ -187,29 +190,43 @@ const mapCore = params => {
     params.addVolume(`${home}/${repo}/${process}/process.js`, `${containerHome}/${repo}/${process}/process.js`)
 }
 
-const createDatabases = params => {
+const ensureDatabaseContainer = async params => {
     const { repo } = params
-    let webServerChanged = false
     const databaseContainerName = `${repo}Databases`
-    const runningDatabaseContainer = runOnTerminal(`docker ps -q -f name=${databaseContainerName}`)
-    if (!runningDatabaseContainer.trim()) {
-        const exitedDatabaseContainer = runOnTerminal(`docker ps -aq -f status=exited -f name=${databaseContainerName}`)
-        if (exitedDatabaseContainer.trim()) {
-            runOnTerminal(`docker rm ${databaseContainerName}`)
-        }
-        webServerChanged = createDatabaseContainer(params) || webServerChanged
+    const runningDatabaseContainer = await runOnTerminalAsync(`docker ps -q -f name=${databaseContainerName}`)
+    if (runningDatabaseContainer.trim()) {
+        return
     }
+    const exitedDatabaseContainer = await runOnTerminalAsync(`docker ps -aq -f status=exited -f name=${databaseContainerName}`)
+    if (exitedDatabaseContainer.trim()) {
+        await runOnTerminalAsync(`docker rm ${databaseContainerName}`, {
+            throwOnError: true,
+        })
+    }
+    const webServerChanged = await createDatabaseContainer(params)
+    params.webServerChanged = webServerChanged || params.webServerChanged
+}
 
+const ensureSearchDatabaseContainer = async params => {
+    const { repo } = params
     const searchDatabaseContainerName = `${repo}SearchDatabases`
-    const runningSearchDatabaseContainer = runOnTerminal(`docker ps -q -f name=${searchDatabaseContainerName}`)
-    if (!runningSearchDatabaseContainer.trim()) {
-        const exitedSearchDatabaseContainer = runOnTerminal(`docker ps -aq -f status=exited -f name=${databaseContainerName}`)
-        if (exitedSearchDatabaseContainer.trim()) {
-            runOnTerminal(`docker rm ${searchDatabaseContainerName}`)
-        }
-        webServerChanged = createSearchDatabaseContainer(params) || webServerChanged
+    const runningSearchDatabaseContainer = await runOnTerminalAsync(`docker ps -q -f name=${searchDatabaseContainerName}`)
+    if (runningSearchDatabaseContainer.trim()) {
+        return
     }
-    return webServerChanged
+    const exitedSearchDatabaseContainer = await runOnTerminalAsync(`docker ps -aq -f status=exited -f name=${searchDatabaseContainerName}`)
+    if (exitedSearchDatabaseContainer.trim()) {
+        await runOnTerminalAsync(`docker rm ${searchDatabaseContainerName}`, {
+            throwOnError: true,
+        })
+    }
+    const webServerChanged = await createSearchDatabaseContainer(params)
+    params.webServerChanged = webServerChanged || params.webServerChanged
+}
+
+const registerDatabaseContainerTasks = params => {
+    params.addContainerStartupTask('ensure database container', () => ensureDatabaseContainer(params))
+    params.addContainerStartupTask('ensure search database container', () => ensureSearchDatabaseContainer(params))
 }
 
 const createApiContainer = params => {
@@ -264,7 +281,7 @@ export default params => {
     }
 
     if (!localBuild) {
-        params.webServerChanged = measure('API: create databases', () => createDatabases(params)) || params.webServerChanged
+        measure('API: register database container tasks', () => registerDatabaseContainerTasks(params))
     }
     measure('API: create Compose file', () => createApiContainer(params))
 }

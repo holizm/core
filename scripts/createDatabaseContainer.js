@@ -9,7 +9,7 @@ import {
     overrideFile,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
-import { runOnTerminal } from './terminal.js'
+import { runOnTerminalAsync } from './terminal.js'
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
 
@@ -25,7 +25,7 @@ const createDatabaseComposeFile = params => {
     return composePath
 }
 
-const createMongoDatabaseContainer = params => {
+const createMongoDatabaseContainer = async params => {
     const {
         home,
         lowercaseRepo,
@@ -35,10 +35,12 @@ const createMongoDatabaseContainer = params => {
         ...params,
         composeTemplatePath: `${home}/core/container/composes/database`,
     })
-    runOnTerminal(`docker compose -p ${lowercaseRepo}-databases -f ${composePath} up -d --remove-orphans`)
+    await runOnTerminalAsync(`docker compose -p ${lowercaseRepo}-databases -f ${composePath} up -d --remove-orphans`, {
+        throwOnError: true,
+    })
 }
 
-export default params => {
+export default async params => {
     const {
         isCiCd,
         repo,
@@ -57,7 +59,7 @@ export default params => {
     })
 
     divide()
-    createMongoDatabaseContainer(params)
+    await createMongoDatabaseContainer(params)
     divide()
     return webServerChanged
 }

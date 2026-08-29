@@ -9,7 +9,7 @@ import {
     overrideFile,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
-import { runOnTerminal } from './terminal.js'
+import { runOnTerminalAsync } from './terminal.js'
 
 const getSearchDatabaseDomain = originalDomain => `db.${originalDomain}`
 
@@ -25,7 +25,7 @@ const createSearchDatabaseComposeFile = params => {
     return composePath
 }
 
-const createSearchDatabaseContainer = params => {
+const createSearchDatabaseContainer = async params => {
     const {
         home,
         lowercaseRepo,
@@ -35,10 +35,12 @@ const createSearchDatabaseContainer = params => {
         ...params,
         composeTemplatePath: `${home}/core/container/composes/search`,
     })
-    runOnTerminal(`docker compose -p ${lowercaseRepo}-search -f ${composePath} up -d --remove-orphans`)
+    await runOnTerminalAsync(`docker compose -p ${lowercaseRepo}-search -f ${composePath} up -d --remove-orphans`, {
+        throwOnError: true,
+    })
 }
 
-export default params => {
+export default async params => {
     const {
         isCiCd,
         repo,
@@ -62,7 +64,7 @@ export default params => {
     })
 
     divide()
-    createSearchDatabaseContainer(params)
+    await createSearchDatabaseContainer(params)
     divide()
     return webServerChanged
 }
