@@ -1,8 +1,11 @@
 import { join } from 'path'
-import { isFile } from './os.js'
-import { runOnTerminal } from './terminal.js'
+import {
+    createDirIfNotExists,
+    isFile,
+} from './os.js'
+import { runOnTerminalAsync } from './terminal.js'
 
-export default params => {
+export default async params => {
     const {
         host,
         process,
@@ -17,8 +20,10 @@ export default params => {
         return false
     }
 
-    runOnTerminal(`mkdir -p ${basePath}`)
+    createDirIfNotExists(basePath)
     const command = `mkcert -cert-file ${certPath} -key-file ${keyPath} ${host} 2>/dev/null`
-    runOnTerminal(command)
+    await runOnTerminalAsync(command, {
+        throwOnError: true,
+    })
     return true
 }
