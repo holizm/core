@@ -23,6 +23,7 @@ import {
     writeFileIfNotExists,
 } from './os.js'
 import removeRootOwnedDirectories from './removeRootOwnedDirectories.js'
+import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistingFiles = params => {
@@ -233,9 +234,9 @@ export default params => {
     }
     divide()
     params.processType = 'api'
-    createNonExistingFiles(params)
+    measure('API: create missing files', () => createNonExistingFiles(params))
 
-    createDirectories({
+    measure('API: create directories', () => createDirectories({
         ...params,
         extraDirectories: [
             [`/tmp/generation`, `${containerHome}/generation`],
@@ -243,25 +244,25 @@ export default params => {
             [`/tmp/query`, `${containerHome}/query`],
             [`/tmp/toMongo`, `${containerHome}/toMongo`],
         ],
-    })
-    removeRootOwnedDirectories(params)
-    linkVsCodeFiles(params)
-    mapNode(params)
-    mapSettings(params)
-    mapRunnableSearchableProperties(params)
-    mapDependencies(params)
-    mapLocalizations(params)
-    mapRunnable(params)
-    mapRunnableMigrations(params)
-    mapCore(params)
-    params.joinVolumes()
+    }))
+    measure('API: remove root-owned directories', () => removeRootOwnedDirectories(params))
+    measure('API: link VS Code files', () => linkVsCodeFiles(params))
+    measure('API: map Node files', () => mapNode(params))
+    measure('API: map settings', () => mapSettings(params))
+    measure('API: map searchable properties', () => mapRunnableSearchableProperties(params))
+    measure('API: map dependencies', () => mapDependencies(params))
+    measure('API: map localizations', () => mapLocalizations(params))
+    measure('API: map runnable files', () => mapRunnable(params))
+    measure('API: map migrations', () => mapRunnableMigrations(params))
+    measure('API: map core', () => mapCore(params))
+    measure('API: join volumes', () => params.joinVolumes())
 
     if (!isEtl(params)) {
-        createCiCd(params)
+        measure('API: create CI/CD', () => createCiCd(params))
     }
 
     if (!localBuild) {
-        createDatabases(params)
+        measure('API: create databases', () => createDatabases(params))
     }
-    createApiContainer(params)
+    measure('API: create Compose file', () => createApiContainer(params))
 }

@@ -3,6 +3,7 @@ import processTenantLine from './processTenantLine.js'
 import reloadWebServer from './reloadWebServer.js'
 import setupLocalDns from './setupLocalDns.js'
 import setupWebServer from './setupWebServer.js'
+import { measure } from './timing.js'
 
 export default params => {
     const {
@@ -10,22 +11,22 @@ export default params => {
         lines,
         ...rest
     } = params
-    const tenantParams = lines.map(line => processTenantLine({
+    const tenantParams = measure('tenants: parse tenant lines', () => lines.map(line => processTenantLine({
         ...rest,
         line,
-    }))
+    })))
     const tenantHosts = tenantParams.map(tenant => tenant.host)
-    setupLocalDns({
+    measure('tenants: configure local DNS', () => setupLocalDns({
         hosts: [
             ...hosts,
             ...tenantHosts,
         ],
-    })
+    }))
     for (const tenant of tenantParams) {
-        createCertificate(tenant)
-        setupWebServer(tenant)
+        measure(`tenant ${tenant.tenant}: create certificate`, () => createCertificate(tenant))
+        measure(`tenant ${tenant.tenant}: configure web server`, () => setupWebServer(tenant))
     }
     if (tenantParams.length > 0) {
-        reloadWebServer()
+        measure('tenants: reload web server', () => reloadWebServer())
     }
 }

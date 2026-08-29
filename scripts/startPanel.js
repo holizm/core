@@ -15,6 +15,7 @@ import {
     isFile,
     replaceVariables,
 } from './os.js'
+import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
@@ -148,16 +149,16 @@ export default params => {
     divide()
 
     params.processType = 'panel'
-    createNonExistentFiles(params)
-    createDirectories(params)
-    createCiCd(params)
+    measure('panel: create missing files', () => createNonExistentFiles(params))
+    measure('panel: create directories', () => createDirectories(params))
+    measure('panel: create CI/CD', () => createCiCd(params))
 
-    mapDependencies(params)
-    mapSettings(params)
-    mapLocalizations(params)
-    mapRunnable(params)
-    mapSecrets(params)
-    mapNode(params)
+    measure('panel: map dependencies', () => mapDependencies(params))
+    measure('panel: map settings', () => mapSettings(params))
+    measure('panel: map localizations', () => mapLocalizations(params))
+    measure('panel: map runnable files', () => mapRunnable(params))
+    measure('panel: map secrets', () => mapSecrets(params))
+    measure('panel: map Node files', () => mapNode(params))
 
     const {
         composeFile,
@@ -175,7 +176,7 @@ export default params => {
         params.addVolume(`${menusDirectoryPath}`, `${containerHome}/${repo}/${process}/src/menus`)
     }
 
-    params.joinVolumes()
+    measure('panel: join volumes', () => params.joinVolumes())
     const composeTemplatePath = `${home}/core/container/composes/panel`
-    replaceVariables(composeTemplatePath, composeFile, params)
+    measure('panel: create Compose file', () => replaceVariables(composeTemplatePath, composeFile, params))
 }

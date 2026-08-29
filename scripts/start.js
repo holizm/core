@@ -29,6 +29,12 @@ import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
 import startPanel from './startPanel.js'
 import startSite from './startSite.js'
+import {
+    initializeTimings,
+    measure,
+    measureAsync,
+    writeTimings,
+} from './timing.js'
 import stop from './stop.js'
 import {
     runOnTerminal,
@@ -36,14 +42,15 @@ import {
 } from './terminal.js'
 
 export default async overrides => {
-    let params = {
+    initializeTimings()
+    let params = measure('extract startup parameters', () => ({
         ...extract(),
         ...overrides,
-    }
+    }))
 
-    await stop({
+    await measureAsync('stop existing process containers', () => stop({
         pattern: params.containerName,
-    })
+    }))
 
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     params.userLine =
@@ -55,29 +62,29 @@ export default async overrides => {
     params.buildDir = '/tmp/build'
     params.processBuildDir = `${params.buildDir}/${params.repo}/${params.process}`
 
-    params = {
+    params = measure('resolve paths and port', () => ({
         ...params,
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
-    }
+    }))
 
     const { tenantsPath } = params
 
-    ensureTenants(params)
+    measure('ensure tenants', () => ensureTenants(params))
 
-    const lines = getLines(tenantsPath)
+    const lines = measure('read tenants', () => getLines(tenantsPath))
 
     if (!params.isCiCd) {
-        processTenantLines({
+        measure('configure tenant infrastructure', () => processTenantLines({
             ...params,
             hosts: [],
             lines,
-        })
+        }))
     }
 
-    createNetwork(params)
-    ensureDependencies(params)
-    params.dependencies = getDependencies(params)
+    measure('create Docker network', () => createNetwork(params))
+    measure('ensure dependencies', () => ensureDependencies(params))
+    params.dependencies = measure('calculate dependencies', () => getDependencies(params))
 
     params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
     params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`
@@ -85,11 +92,11 @@ export default async overrides => {
     params.volumes = []
 
     params.addVolume = (left, right) => {
-        ensurePathExistsOrCreateIt(left)
+        measure('ensure bind mount source', () => ensurePathExistsOrCreateIt(left))
         params.volumes.push({ left, right })
     }
 
-    params.joinVolumes = () => {
+    params.joinVolumes = () => measure('compose volume mappings', () => {
         params.volumes.sort((a, b) => a.left.localeCompare(b.left))
 
         params.volumes =
@@ -97,41 +104,43 @@ export default async overrides => {
             params.volumes
                 .map(volume => `${indentation}- ${volume.left}:${volume.right}`)
                 .join('\n')
-    }
+    })
 
-    if (isAccounts(params)) {
-        params.isAccounts = true
-        startAccounts(params)
-    }
-    else if (isApi(params)) {
-        params.isApi = true
-        startApi(params)
-    }
-    else if (isPanel(params)) {
-        params.isPanel = true
+    measure('configure process', () => {
+        if (isAccounts(params)) {
+            params.isAccounts = true
+            startAccounts(params)
+        }
+        else if (isApi(params)) {
+            params.isApi = true
+            startApi(params)
+        }
+        else if (isPanel(params)) {
+            params.isPanel = true
 
-        if (isHeadlessPanel(params)) {
-            params.isHeadlessPanel = true
-            startHeadlessPanel(params)
+            if (isHeadlessPanel(params)) {
+                params.isHeadlessPanel = true
+                startHeadlessPanel(params)
+            }
+            else {
+                startPanel(params)
+            }
+        }
+        else if (isSite(params)) {
+            params.isSite = true
+            startSite(params)
+        }
+        else if (isWorker(params)) {
+            params.isWorker = true
+            startApi(params)
         }
         else {
-            startPanel(params)
+            warning('Unknown process')
         }
-    }
-    else if (isSite(params)) {
-        params.isSite = true
-        startSite(params)
-    }
-    else if (isWorker(params)) {
-        params.isWorker = true
-        startApi(params)
-    }
-    else {
-        warning('Unknown process')
-    }
+    })
 
-    createCacheServer(params)
-    changePermissions(params)
+    measure('create cache server', () => createCacheServer(params))
+    measure('change permissions', () => changePermissions(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
     const shouldWatch = params.isSite && !params.isCiCd && !params.localBuild
@@ -144,14 +153,17 @@ export default async overrides => {
     let command = `${composeCommand} up --remove-orphans ${composeMode}`
 
     if (shouldWatch) {
+        writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
         await runStreaming(command)
         return params
     }
 
-    runOnTerminal(command, {
+    measure('start process container', () => runOnTerminal(command, {
         show: true,
         throwOnError: true,
-    })
+    }))
+
+    writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
 
     if (params.isCiCd || params.localBuild) {
         info(`In CI/CD or local build, we don't show the log of the container.`)

@@ -19,6 +19,7 @@ import {
     replaceVariables,
     writeFile,
 } from './os.js'
+import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
@@ -198,18 +199,18 @@ export default params => {
     divide()
 
     params.processType = 'site'
-    createNonExistentFiles(params)
-    createDirectories(params)
-    createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`)
-    createCiCd(params)
+    measure('site: create missing files', () => createNonExistentFiles(params))
+    measure('site: create directories', () => createDirectories(params))
+    measure('site: create UI parts file', () => createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`))
+    measure('site: create CI/CD', () => createCiCd(params))
 
-    mapDependencies(params)
-    mapSettings(params)
-    mapPages(params)
-    mapParts(params)
-    mapOthers(params)
-    mapNode(params)
-    ensureLocalSecrets(params)
+    measure('site: map dependencies', () => mapDependencies(params))
+    measure('site: map settings', () => mapSettings(params))
+    measure('site: map pages', () => mapPages(params))
+    measure('site: map parts', () => mapParts(params))
+    measure('site: map other files', () => mapOthers(params))
+    measure('site: map Node files', () => mapNode(params))
+    measure('site: ensure local secrets', () => ensureLocalSecrets(params))
     const {
         composeFile,
         containerHome,
@@ -223,7 +224,7 @@ export default params => {
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
-    params.joinVolumes()
+    measure('site: join volumes', () => params.joinVolumes())
     const composeTemplatePath = `${home}/core/container/composes/site`
-    replaceVariables(composeTemplatePath, composeFile, params)
+    measure('site: create Compose file', () => replaceVariables(composeTemplatePath, composeFile, params))
 }

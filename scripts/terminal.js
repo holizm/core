@@ -11,6 +11,7 @@ import {
     errorAndExit,
     getStack,
 } from './logger.js'
+import { recordTiming } from './timing.js'
 
 const execAsync = promisify(exec)
 
@@ -27,6 +28,7 @@ export const runOnTerminal = (command, params) => {
         throwOnError = false,
     } = params || {}
     const trimmed = command.trim()
+    const startedAt = process.hrtime.bigint()
 
     let stdout = ''
     let stderr = ''
@@ -70,6 +72,9 @@ export const runOnTerminal = (command, params) => {
             throw new Error(msg)
         }
     }
+    finally {
+        recordTiming(`terminal: ${trimmed}`, Number(process.hrtime.bigint() - startedAt) / 1e6)
+    }
     const result = `${stdout}${stderr}`.trim()
     if (splitLines) {
         return result.split('\n')
@@ -87,11 +92,14 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
         timeoutMs,
     } = opts
 
+    const trimmed = command.trim()
+    const startedAt = process.hrtime.bigint()
+
     try {
         const {
             stderr,
             stdout,
-        } = await execAsync(command.trim(), {
+        } = await execAsync(trimmed, {
             cwd,
             env,
             maxBuffer,
@@ -106,6 +114,9 @@ export const runOnTerminalAsync = async (command, opts = {}) => {
             throw msg
         }
         return ''
+    }
+    finally {
+        recordTiming(`terminal: ${trimmed}`, Number(process.hrtime.bigint() - startedAt) / 1e6)
     }
 }
 

@@ -27,44 +27,6 @@ The largest startup penalty is the lifecycle itself: start destroys the process 
 
   This should produce the largest immediate speed improvement.
 
-  2. Calculate dependencies once
-
-  getDependencies() performs shell commands and filesystem searches. It is called repeatedly through:
-
-  - core/scripts/createDirectories.js:96
-  - core/scripts/startApi.js:71
-  - core/scripts/startPanel.js:51
-  - core/scripts/startSite.js:61
-  - core/scripts/mapLocalizations.js:28
-
-  Calculate dependencies once near the beginning of start, store them in params.dependencies, and let consumers use that value.
-
-  3. Stop scanning every repository for localization
-
-  core/scripts/mapLocalizations.js:20 searches the entire home directory for Git repositories and then recursively searches each repository for localization
-  directories.
-
-  The dependencies and standardized repository paths are already known. Localization paths can be derived directly from them without a global filesystem scan.
-
-  4. Batch tenant infrastructure changes
-
-  Each tenant currently triggers:
-
-  - Certificate inspection or creation
-  - Nginx configuration writes
-  - Nginx validation and reload
-  - /etc/hosts inspection and possible update
-
-  core/scripts/setupWebServer.js:19 reloads Nginx once per tenant. API database and search setup may repeat tenant processing again.
-
-  Recommended:
-
-  - Parse all tenants first.
-  - Generate only missing or changed certificates/configurations.
-  - Apply all DNS changes together.
-  - Run nginx -t once.
-  - Reload Nginx once, and only if configuration changed.
-
   5. Stop regenerating CI/CD during every local start
 
   API, panel, and site startup call createCiCd() every time:
@@ -145,3 +107,40 @@ The largest startup penalty is the lifecycle itself: start destroys the process 
 
   The best first implementation is redesigning start/stop to retain containers and eliminating automatic pruning. It offers the greatest speed improvement with
   a relatively small, well-contained change.
+
+
+---
+
+• The startup takes roughly 3.1 seconds, excluding nested double-counted entries.
+
+  Main bottlenecks:
+
+  1. Container lifecycle: about 2.1 seconds
+      - Database/search setup: 1,180 ms
+      - Process Compose startup: 919 ms
+      - Destructive stop: 464 ms
+
+     The stop removes the process container and globally prunes Docker. Database and search containers then require Compose startup again. Retaining containers
+     remains the best first optimization.
+
+  2. Nginx reloads: 395 ms
+      - Nginx reloads three times: application, database, and search tenant processing.
+      - These should be consolidated into one conditional reload.
+
+  3. Permission repair: 187 ms
+      - Most of this is the /var/tmp/api ownership scan: 139 ms.
+
+  4. Dependency calculation: 89 ms
+      - Almost entirely the shell pipeline used to discover dependencies.
+
+  Not significant:
+
+  - CI/CD generation: 0.985 ms
+  - 1,088 bind-source checks combined: 4.965 ms
+  - Localization mapping: 7.765 ms
+  - Runnable mapping: 9.464 ms
+  - Compose-volume generation: 13.699 ms
+  - Certificate and Nginx file generation: generally below 2 ms each
+
+  Conclusion: changing CI/CD scheduling would add complexity for a saving of only one millisecond. The first change should be removing destructive stop/prune
+  behavior and retaining containers.
