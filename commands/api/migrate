@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+import {
+    clear,
+    runStreaming,
+} from '../../scripts/terminal.js'
+import findDifferentParts from './findDifferentParts.js'
+import migratePart from './migratePart.js'
+import migrateParts from './migrateParts.js'
+import run from './run'
+
+const { apiRepo } = process.env
+const developmentPath = `/tmp/${apiRepo}/migration/development`
+const productionPath = `/tmp/${apiRepo}/migration/production`
+
+clear()
+await runStreaming('compare')
+await run({
+    app: 'migration',
+    command: 'adHoc',
+    show: true,
+})
+
+const parts = findDifferentParts(developmentPath, productionPath)
+await migrateParts(parts, migratePart)

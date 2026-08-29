@@ -74,13 +74,17 @@ const createScripts = async (part = '') => {
 
 const createScriptForPart = async part => {
     if (!type) {
-        deleteMatching(developmentPath, part)
-        deleteMatching(productionPath, part)
-        createScripts(part)
+        await Promise.all([
+            deleteMatching(developmentPath, part),
+            deleteMatching(productionPath, part),
+        ])
+        await createScripts(part)
     } else {
-        deleteMatching(developmentPath, part, type)
-        deleteMatching(productionPath, part, type)
-        createScripts(part)
+        await Promise.all([
+            deleteMatching(developmentPath, part, type),
+            deleteMatching(productionPath, part, type),
+        ])
+        await createScripts(part)
     }
 }
 
@@ -88,17 +92,15 @@ if (!parts) {
     removeAndRecreateDir(developmentPath)
     removeAndRecreateDir(productionPath)
     makeDirectories()
-    createScripts()
+    await createScripts()
 } else {
     if (parts.includes(',')) {
         const parts = parts
             .split(',')
             .map(p => p.trim().replace(/\//g, ''))
-        for (const item of parts) {
-            createScriptForPart(item)
-        }
+        await Promise.all(parts.map(createScriptForPart))
     } else {
         const part = parts.replace(/\//g, '')
-        createScriptForPart(part)
+        await createScriptForPart(part)
     }
 }
