@@ -200,7 +200,14 @@ export default params => {
 
     params.processType = 'site'
     measure('site: create missing files', () => createNonExistentFiles(params))
-    measure('site: create directories', () => createDirectories(params))
+    measure('site: create directories', () => createDirectories({
+        ...params,
+        extraDirectories: [
+            '/tmp/mre',
+            `/tmp/${params.repo}/${params.process}/analysis`,
+            `/tmp/${params.repo}/${params.process}/webServerCache`,
+        ],
+    }))
     measure('site: create UI parts file', () => createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`))
     measure('site: create CI/CD', () => createCiCd(params))
 

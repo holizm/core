@@ -5,6 +5,7 @@ import {
     isFile,
     overrideFile,
 } from './os.js'
+import prepareComposeFile from './prepareComposeFile.js'
 import { runOnTerminalAsync } from './terminal.js'
 
 const isEnabled = privateSettingsPath => {
@@ -51,6 +52,7 @@ export default params => {
         cacheServerPort: getDeterministicPort(`${repo}CacheServer`),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
+    prepareComposeFile(composePath)
     params.addContainerStartupTask('start cache server container', () => runOnTerminalAsync(
         `docker compose -p ${lowercaseRepo}-cache-server -f ${composePath} up -d --remove-orphans`,
         {

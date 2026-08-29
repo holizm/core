@@ -2,9 +2,12 @@ import createCertificate from './createCertificate.js'
 import processTenantLine from './processTenantLine.js'
 import setupLocalDns from './setupLocalDns.js'
 import setupWebServer from './setupWebServer.js'
-import { measure } from './timing.js'
+import {
+    measure,
+    measureAsync,
+} from './timing.js'
 
-export default params => {
+export default async params => {
     const {
         hosts,
         lines,
@@ -21,11 +24,16 @@ export default params => {
             ...tenantHosts,
         ],
     }))
-    let webServerChanged = false
-    for (const tenant of tenantParams) {
-        const certificateChanged = measure(`tenant ${tenant.tenant}: create certificate`, () => createCertificate(tenant))
-        const configurationChanged = measure(`tenant ${tenant.tenant}: configure web server`, () => setupWebServer(tenant))
-        webServerChanged = webServerChanged || certificateChanged || configurationChanged
-    }
-    return webServerChanged
+    const configurationChanges = tenantParams.map(tenant => measure(
+        `tenant ${tenant.tenant}: configure web server`,
+        () => setupWebServer(tenant),
+    ))
+    const certificateChanges = await Promise.all(tenantParams.map(tenant => measureAsync(
+        `tenant ${tenant.tenant}: create certificate`,
+        () => createCertificate(tenant),
+    )))
+    return [
+        ...certificateChanges,
+        ...configurationChanges,
+    ].some(Boolean)
 }

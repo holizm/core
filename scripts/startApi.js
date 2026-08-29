@@ -262,6 +262,8 @@ export default params => {
             [`/tmp/migration`, `${containerHome}/migration`],
             [`/tmp/query`, `${containerHome}/query`],
             [`/tmp/toMongo`, `${containerHome}/toMongo`],
+            `/tmp/${params.repo}/migration`,
+            `/tmp/${params.repo}/storage`,
         ],
     }))
     measure('API: remove root-owned directories', () => removeRootOwnedDirectories(params))

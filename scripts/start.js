@@ -1,14 +1,13 @@
-import changePermissions from './changePermissions.js'
 import createCacheServer from './createCacheServer.js'
 import createNetwork from './createNetwork.js'
 import ensureDependencies from './ensureDependencies.js'
-import ensurePathExistsOrCreateIt from './ensurePathExistsOrCreateIt.js'
 import ensureTenants from './ensureTenants.js'
 import extract from './extract.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
+import loadOwnershipSnapshots from './loadOwnershipSnapshots.js'
 import {
     divide,
     info,
@@ -24,6 +23,7 @@ import {
     isWorker,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
+import prepareComposeFile from './prepareComposeFile.js'
 import reloadWebServer from './reloadWebServer.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
@@ -73,6 +73,7 @@ export default async overrides => {
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
     }))
+    measure('load previous ownership snapshots', () => loadOwnershipSnapshots(params))
 
     const { tenantsPath } = params
 
@@ -81,7 +82,7 @@ export default async overrides => {
     const lines = measure('read tenants', () => getLines(tenantsPath))
 
     if (!params.isCiCd) {
-        params.webServerChanged = measure('configure tenant infrastructure', () => processTenantLines({
+        params.webServerChanged = await measureAsync('configure tenant infrastructure', () => processTenantLines({
             ...params,
             hosts: [],
             lines,
@@ -106,7 +107,9 @@ export default async overrides => {
     }
 
     params.addVolume = (left, right) => {
-        measure('ensure bind mount source', () => ensurePathExistsOrCreateIt(left))
+        if (!left || !right) {
+            throw new Error('Bind mount source and target are required')
+        }
         params.volumes.push({ left, right })
     }
 
@@ -154,7 +157,6 @@ export default async overrides => {
     })
 
     measure('register cache server container', () => createCacheServer(params))
-    measure('change permissions', () => changePermissions(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
     const shouldWatch = params.isSite && !params.isCiCd && !params.localBuild
@@ -165,13 +167,14 @@ export default async overrides => {
         :
         '-d'
     let command = `${composeCommand} up --remove-orphans ${composeMode}`
+    measure('prepare Compose bind mounts', () => prepareComposeFile(params.composeFile))
 
     if (shouldWatch) {
         await startContainers(params)
         if (params.webServerChanged) {
             measure('reload web server', () => reloadWebServer())
         }
-        writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
+        writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
         await runStreaming(command)
         return params
     }
@@ -185,7 +188,7 @@ export default async overrides => {
         measure('reload web server', () => reloadWebServer())
     }
 
-    writeTimings(`/tmp/${params.repo}/${params.process}/startTimings.md`)
+    writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
 
     if (params.isCiCd || params.localBuild) {
         info(`In CI/CD or local build, we don't show the log of the container.`)

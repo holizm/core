@@ -4,11 +4,13 @@ import {
 } from '../scripts/logger.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import {
+    createDirIfNotExists,
     getContent,
     getLines,
     overrideFile,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
+import prepareComposeFile from './prepareComposeFile.js'
 import { runOnTerminalAsync } from './terminal.js'
 
 const getDatabaseDomain = originalDomain => `db.${originalDomain}`
@@ -35,6 +37,7 @@ const createMongoDatabaseContainer = async params => {
         ...params,
         composeTemplatePath: `${home}/core/container/composes/database`,
     })
+    prepareComposeFile(composePath)
     await runOnTerminalAsync(`docker compose -p ${lowercaseRepo}-databases -f ${composePath} up -d --remove-orphans`, {
         throwOnError: true,
     })
@@ -49,9 +52,11 @@ export default async params => {
     if (isCiCd) {
         return
     }
+    createDirIfNotExists(`/var/tmp/${repo}/databases/data`)
+    createDirIfNotExists(`/var/tmp/${repo}/databases/replicaKey`)
     params.databaseEnginePort = getDeterministicPort(repo)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
-    const webServerChanged = processTenantLines({
+    const webServerChanged = await processTenantLines({
         ...params,
         getSpecificDomain: getDatabaseDomain,
         hosts: [`${repo}.local`],

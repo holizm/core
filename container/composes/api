@@ -68,14 +68,22 @@ services:
             bash -lc '
             export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
             echo -e "\033[0;31mhttps://localhost:${deterministicPort}"
+            node ${containerHome}/core/commands/recordOwnershipSnapshot beforeMerge
             merge api
+            node ${containerHome}/core/commands/recordOwnershipSnapshot afterMerge
             initialize
+            node ${containerHome}/core/commands/recordOwnershipSnapshot afterInitialize
             if [ "${isCiCd}" != "true" ]; then
                 prepare generation
+                node ${containerHome}/core/commands/recordOwnershipSnapshot afterPrepareGeneration
                 prepare migration
+                node ${containerHome}/core/commands/recordOwnershipSnapshot afterPrepareMigration
                 prepare query
+                node ${containerHome}/core/commands/recordOwnershipSnapshot afterPrepareQuery
                 prepare toMongo
+                node ${containerHome}/core/commands/recordOwnershipSnapshot afterPrepareToMongo
                 install
+                node ${containerHome}/core/commands/recordOwnershipSnapshot afterInstall
                 if [ "${isEtl}" == "true" ]; then
                     echo "ETL"
                 else

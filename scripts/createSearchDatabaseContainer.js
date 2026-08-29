@@ -4,11 +4,13 @@ import {
     info,
 } from './logger.js'
 import {
+    createDirIfNotExists,
     getContent,
     getLines,
     overrideFile,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
+import prepareComposeFile from './prepareComposeFile.js'
 import { runOnTerminalAsync } from './terminal.js'
 
 const getSearchDatabaseDomain = originalDomain => `db.${originalDomain}`
@@ -35,6 +37,7 @@ const createSearchDatabaseContainer = async params => {
         ...params,
         composeTemplatePath: `${home}/core/container/composes/search`,
     })
+    prepareComposeFile(composePath)
     await runOnTerminalAsync(`docker compose -p ${lowercaseRepo}-search -f ${composePath} up -d --remove-orphans`, {
         throwOnError: true,
     })
@@ -49,10 +52,11 @@ export default async params => {
     if (isCiCd) {
         return
     }
+    createDirIfNotExists(`/var/tmp/${repo}/search/databases`)
     params.databaseSearchPort = getDeterministicPort(`${repo}SearchDatabases`)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
 
-    const webServerChanged = processTenantLines({
+    const webServerChanged = await processTenantLines({
         ...params,
         camelizedProcess: 'search',
         deterministicPort: params.databaseSearchPort,

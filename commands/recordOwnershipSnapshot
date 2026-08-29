@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+import fs from 'fs'
+import { execFileSync } from 'child_process'
+
+const [phase] = process.argv.slice(2)
+const {
+    home,
+    process: processName,
+    repo,
+} = process.env
+const rootPath = `${home}/${repo}`
+const snapshotPath = `${home}/${repo}/${processName}/ownershipSnapshots.json`
+const output = execFileSync('find', [rootPath, '-user', 'root', '-print'], {
+    encoding: 'utf8',
+})
+const rootOwnedPaths = output
+    .split('\n')
+    .filter(Boolean)
+    .map(item => item.replace(rootPath, `/tmp/${repo}`))
+    .sort()
+let snapshots = []
+if (phase !== 'beforeMerge' && fs.existsSync(snapshotPath)) {
+    snapshots = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'))
+}
+const previousPaths = snapshots.at(-1)?.rootOwnedPaths || []
+const previousPathSet = new Set(previousPaths)
+const snapshot = {
+    newRootOwnedPaths: rootOwnedPaths.filter(item => !previousPathSet.has(item)),
+    phase,
+    rootOwnedPaths,
+}
+snapshots.push(snapshot)
+fs.writeFileSync(snapshotPath, JSON.stringify(snapshots, null, 4))
