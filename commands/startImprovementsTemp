@@ -27,16 +27,6 @@ The largest startup penalty is the lifecycle itself: start destroys the process 
 
   This should produce the largest immediate speed improvement.
 
-  5. Stop regenerating CI/CD during every local start
-
-  API, panel, and site startup call createCiCd() every time:
-
-  - core/scripts/startApi.js:261
-  - core/scripts/startPanel.js:155
-  - core/scripts/startSite.js:205
-
-  CI/CD generation is not required to run the local project. Move it to initialization or update it only when the generated content differs.
-
   6. Reduce bind-mount count
 
   API startup recursively finds every directory and symlink and mounts them individually in core/scripts/startApi.js:133. Site startup similarly discovers and
