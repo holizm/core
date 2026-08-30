@@ -28,7 +28,7 @@ const main = async () => {
     runOnTerminal('nohup monitor >/tmp/apiMonitor.log 2>&1 &', {
         throwOnError: true,
     })
-    const command = `nodemon --watch ${home} --ignore "**/*.json" process.js`
+    const command = `nodemon --watch ${home} --ignore "${home}/.npm/**" --ignore "${home}/packages/**" --ignore "**/*.json" process.js`
     console.log(command)
     await runStreaming(command)
 }
