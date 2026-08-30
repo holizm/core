@@ -95,6 +95,14 @@ const mapDependencies = params => {
             continue
         }
 
+        if (runnablePart) {
+            const runnablePackagePath = `/tmp/${repo}/${process}/packages/${dependency}`
+            fs.mkdirSync(runnablePackagePath, {
+                recursive: true,
+            })
+            params.addVolume(runnablePackagePath, `${nodeModules}/${dependency}`)
+        }
+
         params.addVolume(`${dependencyBase}`, `${containerHome}/spl/${dependency}`)
         params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
