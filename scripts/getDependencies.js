@@ -1,3 +1,8 @@
+import { warning } from './logger.js'
+import {
+    getLines,
+    isFile,
+} from './os.js'
 import { runOnTerminal } from './terminal.js'
 
 export default params => {
@@ -17,13 +22,28 @@ export default params => {
         '^common$',
         '^site\\w*$',
     ]
+    const definedDependencies = getLines(dependenciesPath)
+    const runnableDependencies = runOnTerminal(`find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'`)
+        .split('\n')
+        .filter(Boolean)
+        .filter(dependency =>
+            isFile(`${home}/${repo}/${dependency}/part`) ||
+            isFile(`${home}/${dependency}/part`)
+        )
 
-    const command = `(cat '${essentialPartsPath}'; echo; cat '${dependenciesPath}'; echo; (find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/part" \\; -print | cut -d'/' -f5 | sort)) | sort | uniq`
+    for (const runnableDependency of runnableDependencies.filter(dependency => definedDependencies.includes(dependency))) {
+        warning(`Runnable part ${runnableDependency} does not need to be listed in ${dependenciesPath}`)
+    }
 
-    const commandOutput = runOnTerminal(command)
-    const dependencies = commandOutput.split('\n').filter(dependency =>
-        dependency &&
-        !knownDirectoryPatterns.some(pattern => new RegExp(pattern).test(dependency))
-    )
+    const dependencies = Array.from(new Set([
+        ...getLines(essentialPartsPath),
+        ...definedDependencies,
+        ...runnableDependencies,
+    ]))
+        .filter(dependency =>
+            dependency &&
+            !knownDirectoryPatterns.some(pattern => new RegExp(pattern).test(dependency))
+        )
+        .sort()
     return dependencies
 }

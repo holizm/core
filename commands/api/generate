@@ -22,6 +22,7 @@ import {
     isFile,
 } from '../../scripts/os.js'
 import extract from '../../scripts/extract.js'
+import getDependencies from '../../scripts/getDependencies.js'
 import generateParts from './generateParts.js'
 import run from './run'
 
@@ -47,22 +48,21 @@ startTimer()
 if (!search) {
     runOnTerminal('dropAll', { show: true })
 
-    const {
-        process: proc,
-        repo,
-    } = process.env
+    const { repo } = process.env
 
     const essentialPartsPath = `${home}/core/essentialParts`
-    const partsPath = `${home}/${repo}/common/dependencies`
+    const dependenciesPath = `${home}/${repo}/common/dependencies`
     const orderFile = `${home}/generation/order`
     const orderList = getLines(orderFile)
-    const essentialParts = getLines(essentialPartsPath)
-    const parts = getLines(partsPath)
+    const dependencies = getDependencies({
+        dependenciesPath,
+        essentialPartsPath,
+        home,
+        repo,
+    })
 
-    const set = Array.from(new Set([...essentialParts, ...parts]))
-
-    const first = orderList.filter(x => set.includes(x))
-    const second = set.filter(x => !orderList.includes(x))
+    const first = orderList.filter(x => dependencies.includes(x))
+    const second = dependencies.filter(x => !orderList.includes(x))
     const finalList = [...first, ...second]
 
     const generatePart = async part => {
