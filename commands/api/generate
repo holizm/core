@@ -23,6 +23,7 @@ import {
 } from '../../scripts/os.js'
 import extract from '../../scripts/extract.js'
 import getDependencies from '../../scripts/getDependencies.js'
+import getPaths from '../../scripts/getPaths.js'
 import generateParts from './generateParts.js'
 import run from './run'
 
@@ -48,10 +49,19 @@ startTimer()
 if (!search) {
     runOnTerminal('dropAll', { show: true })
 
-    const { repo } = process.env
+    const {
+        process: proc,
+        repo,
+    } = process.env
 
-    const essentialPartsPath = `${home}/core/essentialParts`
-    const dependenciesPath = `${home}/${repo}/common/dependencies`
+    const {
+        dependenciesPath,
+        essentialPartsPath,
+    } = getPaths({
+        home,
+        process: proc,
+        repo,
+    })
     const orderFile = `${home}/generation/order`
     const orderList = getLines(orderFile)
     const dependencies = getDependencies({
