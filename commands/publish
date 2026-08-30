@@ -35,18 +35,19 @@ const {
     repo,
 } = params
 const domain = providedDomain || resolvePublishDomain(repo)
+const remoteBuildDir = `/tmp/${repo}/${params.process}`
 
-await runOnServer(domain, `mkdir -p /tmp/${repo}`)
+await runOnServer(domain, `mkdir -p ${remoteBuildDir}`)
 
 divide()
 info('Copying to the server...')
 divide()
 
-await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:/tmp/${repo}`)
+await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:${remoteBuildDir}`)
 
 divide()
 
-await runOnServer(domain, `mv /tmp/${repo}/${params.process}.zip $HOME/${repo}/${params.process}`)
+await runOnServer(domain, `mv ${remoteBuildDir}/${params.process}.zip $HOME/${repo}/${params.process}`)
 await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
@@ -62,12 +63,12 @@ if (isApi || isSite) {
     }
 }
 if (isApi) {
-    await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d /tmp/${repo}`)
-    await runOnServer(domain, `find /tmp/${repo} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
-    await runOnServer(domain, `cp -R /tmp/${repo}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`)
+    await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d ${remoteBuildDir}`)
+    await runOnServer(domain, `find ${remoteBuildDir} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
+    await runOnServer(domain, `cp -R ${remoteBuildDir}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`)
 }
 
-await runOnServer(domain, `rm -rf /tmp/${repo}`)
+await runOnServer(domain, `rm -rf ${remoteBuildDir}`)
 
 const fullProcessName = camelize(`${repo} ${params.process}`)
 

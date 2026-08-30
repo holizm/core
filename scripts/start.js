@@ -64,7 +64,7 @@ export default async overrides => {
         `user: "1001:1001"`
         :
         ''
-    params.buildDir = '/tmp/build'
+    params.buildDir = `/tmp/build/${params.repo}/${params.process}`
     params.processBuildDir = `${params.buildDir}/${params.repo}/${params.process}`
 
     params = measure('resolve paths and port', () => ({

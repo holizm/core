@@ -20,8 +20,9 @@ export default params => {
         'site',
     ].includes(processType)
     const processIsApi = processType === 'api'
+    const splPath = `/tmp/${repo}/${process}/spl`
     if (processIsApi) {
-        removeAndRecreateDir('/tmp/spl')
+        removeAndRecreateDir(splPath)
     }
 
     const directoryEntries = [
@@ -51,7 +52,7 @@ export default params => {
         `/var/tmp/${processType}`,
         `/var/tmp/${processType}/nodeModules`,
         [
-            '/tmp/spl',
+            splPath,
             `${containerHome}/spl`,
         ],
         [
