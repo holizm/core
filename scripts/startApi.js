@@ -71,6 +71,14 @@ const mapDependencies = params => {
         processPath,
         repo,
     } = params
+    const basename = path.basename(processPath)
+    let role
+    if (basename.startsWith('admin')) {
+        role = 'admin'
+    }
+    if (basename.includes('site')) {
+        role = 'site'
+    }
 
     for (const dependency of dependencies) {
         let runnablePart = false
@@ -108,12 +116,9 @@ const mapDependencies = params => {
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
         params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
 
-        const basename = path.basename(processPath)
-        if (basename.startsWith('admin')) {
-            params.addVolume(`${dependencyBase}/api/admin`, `${nodeModules}/${dependency}/api/role`)
-        }
-        if (basename.includes('site')) {
-            params.addVolume(`${dependencyBase}/api/site`, `${nodeModules}/${dependency}/api/role`)
+        const rolePath = `${dependencyBase}/api/${role}`
+        if (role && fs.existsSync(rolePath)) {
+            params.addVolume(rolePath, `${nodeModules}/${dependency}/api/role`)
         }
 
         if (runnablePart && fs.existsSync(`/${org}/${process}/api/api/common`)) {
