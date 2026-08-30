@@ -1,7 +1,7 @@
 services:
     cacheServer:
         image: redis:alpine
-        container_name: ${repo}CacheServer
+        container_name: ${repo}Cache
         hostname: cacheServer
         ports:
             - 127.0.0.1:${cacheServerPort}:6379

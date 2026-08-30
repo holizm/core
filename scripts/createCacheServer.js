@@ -41,6 +41,7 @@ export default params => {
     if (
         isCiCd ||
         localBuild ||
+        (!params.isApi && !params.isSite) ||
         !isEnabled(privateSettingsPath)
     ) {
         return
@@ -49,7 +50,7 @@ export default params => {
     info('Creating cache server container')
     const composePath = createComposeFile({
         ...params,
-        cacheServerPort: getDeterministicPort(`${repo}CacheServer`),
+        cacheServerPort: getDeterministicPort(`${repo}Cache`),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
     prepareComposeFile(composePath)
