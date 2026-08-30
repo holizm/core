@@ -10,16 +10,18 @@ import migrateParts from './migrateParts.js'
 import run from './run'
 
 const { apiRepo } = process.env
+const search = process.argv[2] || ''
 const developmentPath = `/tmp/${apiRepo}/migration/development`
 const productionPath = `/tmp/${apiRepo}/migration/production`
 
 clear()
-await runStreaming('compare')
+await runStreaming(['compare', search].filter(Boolean).join(' '))
 await run({
     app: 'migration',
     command: 'adHoc',
+    part: search,
     show: true,
 })
 
-const parts = findDifferentParts(developmentPath, productionPath)
+const parts = findDifferentParts(developmentPath, productionPath, search)
 await migrateParts(parts, migratePart)
