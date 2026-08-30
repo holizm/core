@@ -169,9 +169,7 @@ export default async overrides => {
 
     if (shouldWatch) {
         await startContainers(params)
-        if (params.webServerChanged) {
-            measure('reload web server', () => reloadWebServer())
-        }
+        measure('reload web server', () => reloadWebServer(params))
         writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
         await runStreaming(command)
         return params
@@ -182,8 +180,8 @@ export default async overrides => {
     }))
     await startContainers(params)
 
-    if (params.webServerChanged) {
-        measure('reload web server', () => reloadWebServer())
+    if (!params.isCiCd) {
+        measure('reload web server', () => reloadWebServer(params))
     }
 
     writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
