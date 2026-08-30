@@ -6,8 +6,9 @@ export default ({
     const repoPath = `${home}/${repo}`
     const processPath = `${repoPath}/${process}`
     const commonPath = `${repoPath}/common`
+    const webServerPath = `/tmp/${repo}/${process}/webServer`
     const paths = {
-        certificatesPath: `${home}/webServer/certificates/${repo}/${process}`,
+        certificatesPath: `${webServerPath}/certificates`,
         commonPath,
         connectionStringsPath: `${commonPath}/connectionStrings.json`,
         coreApiLock: `${home}/api/lock.json`,
@@ -39,6 +40,7 @@ export default ({
         siteLock: `${commonPath}/siteLock.json`,
         sitePackageJson: `${commonPath}/site.json`,
         tenantsPath: `${commonPath}/tenants`,
+        webServerPath,
     }
     return paths
 }

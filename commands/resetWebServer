@@ -2,8 +2,10 @@
 
 rm -rf /etc/nginx/conf.d/*
 rm -rf /etc/nginx/includes/*
-rm -rf ~/webServer/conf.d/*
-rm -rf ~/webServer/includes/*
+rm -rf /tmp/*/*/webServer
+rm -rf ~/webServer/certificates
+rm -rf ~/webServer/conf.d
+rm -rf ~/webServer/includes
 
 if ! systemctl is-active --quiet nginx; then
     sudo systemctl start nginx

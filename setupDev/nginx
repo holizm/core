@@ -4,18 +4,25 @@ import os from 'os'
 import {
     getContent,
     writeFile,
-} from "../scripts/os.js"
+} from '../scripts/os.js'
 import {
     info,
     warning,
-} from "../scripts/logger.js"
-import { runOnTerminal } from "../scripts/terminal.js"
+} from '../scripts/logger.js'
+import { runOnTerminal } from '../scripts/terminal.js'
 
 const homeDir = process.env.homeDir
 const nginxConf = '/etc/nginx/nginx.conf'
-const includeLine = `\tinclude ${homeDir}/webServer/conf.d/*.conf;`
+const includeLine = '\tinclude /tmp/*/*/webServer/conf.d/*.conf;'
+const previousIncludeLine = `\tinclude ${homeDir}/webServer/conf.d/*.conf;`
 
 let content = getContent(nginxConf)
+
+if (content.includes(previousIncludeLine.trim())) {
+    content = content.replace(previousIncludeLine, includeLine)
+    writeFile(nginxConf, content)
+    info('Include line updated')
+}
 
 if (!content.includes(includeLine.trim())) {
     const marker = 'include /etc/nginx/sites-enabled/*;'

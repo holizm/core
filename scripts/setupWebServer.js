@@ -4,10 +4,11 @@ export default params => {
     const {
         home,
         host,
+        webServerPath,
     } = params
 
-    const confDir = `${home}/webServer/conf.d`
-    const includesDir = `${home}/webServer/includes`
+    const confDir = `${webServerPath}/conf.d`
+    const includesDir = `${webServerPath}/includes`
     const templatePath = `${home}/core/webServer/reverseProxy`
     const includesTemplatePath = `${home}/core/webServer/proxyIncludes`
     const confFile = `${confDir}/${host}.conf`
