@@ -12,13 +12,8 @@
 - Maximize reuse and keep logic DRY. Define each shared rule, path, convention, or calculation once in the most appropriate core abstraction, and reuse it everywhere instead of duplicating it.
 - Do not create static export files in leaf layers. Only core repositories may define export files statically. Generate exports dynamically for parts and runnable repositories to keep leaf layers simple and free of boilerplate.
 - Apply the same bundling strategy across all technologies. Bundle the core separately from every part, and create a single bundle for each part. When the core exposes multiple aliases or barrels, create one bundle for each alias or barrel; otherwise, bundle the entire core as a single unit.
-- Some parts contain data that can be defined at five scope levels:
-  1. The entire application.
-  2. A part of the application.
-  3. A type of item within a part.
-  4. A group of items.
-  5. A single item.
-  Use the `scope` property to specify the scope. Construct its value using `${part}_${type}_${item}`. For an item-level scope, convert the item's ID to camelCase before including it in the value. In the future, `targetScope` will define interactions between scopes. The application's scope value is `application`.
+- Item IDs use the `${tenant}_${locale}_${part}_${type}_${meaning}_${nanoId?}` structure, where the Nano ID segment is optional.
+- Some parts contain data at application, part, type, group, or item scope. Use the `scope` property and construct it as `${part}_${type?}_${camelCaseItemId?}`, progressively omitting optional segments from right to left. The item segment is the camel-cased `id`. The application-wide scope is exactly `application`. In the future, `targetScope` will define interactions between scopes.
 - Do not define static state machines in part definitions. Use the `stateMachines` part to define state machines, their states, and permitted transitions dynamically.
 - Use `deploymentInstance-process-tenant-locale-part-type-item` as the cache-key structure. Segments may be omitted progressively from left to right. This structure defines the cache hierarchy and scope, allowing data to be cached for an entire process, a specific tenant, or a tenant's locale. It must support invalidating one tenant's cache without affecting other tenants, as well as invalidating a single item, such as one product, without clearing the entire website's cache.
 - Do not embed relations within items that belong to the same part. For example, do not store an `author` relation directly in a `post` item within the `blog` part. Across part boundaries, embed the complete related data in the item. Our deployment architecture may place parts in physically separate databases, where database views cannot resolve cross-part relations. For example, store the complete `categories` data in a `product` item when the categories belong to another part.
