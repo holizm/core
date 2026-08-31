@@ -17,6 +17,16 @@ if (!topLevelDirectory || !['pageParts', 'parts'].includes(target)) {
 
 const baseDirectory = `${home}/${repo}/${processName}/src/${target}`
 const sourceDirectory = path.join(baseDirectory, topLevelDirectory)
+const sourceDirectories = [sourceDirectory]
+const sharedFallbacksDirectory = path.join(baseDirectory, 'sharedFallbacks')
+
+if (
+    target === 'pageParts'
+    && topLevelDirectory === 'shared'
+    && fs.existsSync(sharedFallbacksDirectory)
+) {
+    sourceDirectories.unshift(sharedFallbacksDirectory)
+}
 const exportsPath =
     target === 'parts'
     ?
@@ -53,12 +63,12 @@ const findFiles = directory => fs.readdirSync(directory, {
     return [entryPath]
 })
 
-const importExportData = findFiles(sourceDirectory).filter(fullPath => {
+const generatedImportExportData = sourceDirectories.flatMap(currentSourceDirectory => findFiles(currentSourceDirectory).filter(fullPath => {
     if (target !== 'parts') {
         return true
     }
 
-    const segments = path.relative(sourceDirectory, fullPath).split(path.sep)
+    const segments = path.relative(currentSourceDirectory, fullPath).split(path.sep)
 
     return segments[0] !== 'parts' || segments.length <= 3
 }).map(fullPath => {
@@ -74,7 +84,7 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
     const namePath =
         target === 'pageParts'
         ?
-        path.relative(sourceDirectory, fullPath)
+        path.relative(currentSourceDirectory, fullPath)
         :
         relativePath
     const nameSegments = namePath
@@ -100,7 +110,11 @@ const importExportData = findFiles(sourceDirectory).filter(fullPath => {
         name,
     }
     return exportData
-})
+}))
+
+const importExportData = [...new Map(
+    generatedImportExportData.map(item => [item.name, item])
+).values()]
 
 if (!importExportData.some(item => item.name === 'Layout')) {
     importExportData.push({

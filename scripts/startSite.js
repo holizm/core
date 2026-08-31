@@ -9,6 +9,7 @@ import {
 import kebabize from './kebabize.js'
 import mapNode from './mapNode.js'
 import mapSettings from './mapSettings.js'
+import mapSiteSharedFallbacks from './mapSiteSharedFallbacks.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
@@ -31,9 +32,6 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, 'pages/layout.jsx')
     copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, 'pages/index.jsx')
     copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
-    copyFileIfNotExists(`${home}/core/site/paginationTemplate.jsx`, 'parts/shared/pagination.jsx')
-    copyFileIfNotExists(`${home}/core/site/breadcrumbTemplate.jsx`, 'parts/shared/breadcrumb.jsx')
-    copyFileIfNotExists(`${home}/core/site/richTextTemplate.jsx`, 'parts/shared/richText.jsx')
     copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
 }
 
@@ -154,8 +152,7 @@ const mapParts = params => {
         processPath,
         repo,
     } = params
-
-    const directoryPaths = runOnTerminal(`find ${processPath}/parts -mindepth 1 -type d`).split('\n')
+    const directoryPaths = runOnTerminal(`find ${processPath}/parts -mindepth 1 -maxdepth 1 -type d`).split('\n')
     directoryPaths.forEach(directoryPath => {
         const name = basename(directoryPath)
         params.addVolume(`${directoryPath}`, `${containerHome}/${repo}/${process}/src/pageParts/${name}`)
@@ -215,6 +212,7 @@ export default params => {
     measure('site: map settings', () => mapSettings(params))
     measure('site: map pages', () => mapPages(params))
     measure('site: map parts', () => mapParts(params))
+    measure('site: map shared fallbacks', () => mapSiteSharedFallbacks(params))
     measure('site: map other files', () => mapOthers(params))
     measure('site: map Node files', () => mapNode(params))
     measure('site: ensure local secrets', () => ensureLocalSecrets(params))

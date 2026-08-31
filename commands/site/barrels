@@ -9,6 +9,7 @@ done
 for dir in $base/src/pageParts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
+    [ "$topLevelDir" = "sharedFallbacks" ] && continue
     node $home/core/commands/site/generateExports.js "$topLevelDir" pageParts
 done
 node $home/core/commands/site/initializeSiteBarrels.js
