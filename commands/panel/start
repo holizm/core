@@ -5,6 +5,7 @@ import {
     info,
 } from '../../scripts/logger.js'
 import {
+    clear,
     runOnTerminal,
     runStreaming,
 } from '../../scripts/terminal.js'
@@ -16,6 +17,7 @@ const {
 } = process.env
 
 const main = async () => {
+    clear()
     divide()
     info('Starting...')
     process.chdir(`${home}/${repo}/${proc}`)
