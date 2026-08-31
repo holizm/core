@@ -1,51 +1,79 @@
-let searchText = 'yourTextHere';
-let replacementText = 'yourNewText';
-let regex = new RegExp(searchText, 'gi');
+const searchPattern = 'yourTextHere'
+const searchFlags = 'gi'
+const replacementText = 'yourNewText'
+const searchRegex = new RegExp(searchPattern, searchFlags)
 
-let filter = {
+const filter = {
     contents: [
         'parts',
-    ]
-};
+    ],
+}
 
-db.getMongo().getDBNames().forEach(dbName => {
-    if (['admin', 'config', 'local'].includes(dbName)) return;
-    if (filter && Object.keys(filter).length > 0 && !filter.hasOwnProperty(dbName)) return;
+const addReplacements = (
+    value,
+    path,
+    updates,
+) => {
+    if (typeof value === 'string') {
+        searchRegex.lastIndex = 0
+        const replacement = value.replace(searchRegex, replacementText)
 
-    let dbObj = db.getSiblingDB(dbName);
-    let collections = dbObj.getCollectionNames();
-
-    if (filter && filter[dbName] && filter[dbName].length > 0) {
-        collections = collections.filter(c => filter[dbName].includes(c));
+        if (replacement !== value) {
+            updates[path] = replacement
+        }
+        return
     }
 
-    collections.forEach(collName => {
-        let sampleDoc = dbObj[collName].findOne();
-        if (!sampleDoc) return;
+    if (!value || typeof value !== 'object' || value._bsontype || value instanceof Date) return
 
-        let fields = Object.keys(sampleDoc);
-        if (fields.length === 0) return;
+    Object.entries(value).forEach(([
+        property,
+        propertyValue,
+    ]) => {
+        if (!path && property === '_id') return
 
-        let query = { $or: fields.map(f => ({ [f]: regex })) };
+        addReplacements(
+            propertyValue,
+            path
+                ? `${path}.${property}`
+                : property,
+            updates,
+        )
+    })
+}
 
-        dbObj[collName].find(query).forEach(doc => {
-            let updates = {};
-            for (let field of fields) {
-                let value = doc[field];
-                if (typeof value === 'string' && regex.test(value)) {
-                    regex.lastIndex = 0;
-                    let newValue = value.replace(regex, replacementText);
-                    updates[field] = newValue;
-                }
-            }
-            if (Object.keys(updates).length > 0) {
-                print(`Updating ${dbName}.${collName} id=${doc.id}`);
-                print(updates)
-                dbObj[collName].updateOne(
-                    { _id: doc._id },
-                    { $set: updates }
-                );
-            }
-        });
-    });
-});
+db.getMongo().getDBNames().forEach(databaseName => {
+    if (['admin', 'config', 'local'].includes(databaseName)) return
+    if (
+        filter
+        && Object.keys(filter).length > 0
+        && !Object.prototype.hasOwnProperty.call(filter, databaseName)
+    ) return
+
+    const database = db.getSiblingDB(databaseName)
+    let collectionNames = database.getCollectionNames()
+
+    if (filter?.[databaseName]?.length > 0) {
+        collectionNames = collectionNames.filter(collectionName => filter[databaseName].includes(collectionName))
+    }
+
+    collectionNames.forEach(collectionName => {
+        const cursor = database[collectionName].find()
+
+        while (cursor.hasNext()) {
+            const document = cursor.next()
+            const updates = {}
+
+            addReplacements(document, '', updates)
+
+            if (Object.keys(updates).length === 0) continue
+
+            print(`Updating ${databaseName}.${collectionName} id=${document.id || document._id}`)
+            printjson(updates)
+            database[collectionName].updateOne(
+                { _id: document._id },
+                { $set: updates },
+            )
+        }
+    })
+})
