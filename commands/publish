@@ -11,6 +11,7 @@ import {
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
 import camelize from '../scripts/camelize.js'
+import extract from '../scripts/extract.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
 
@@ -22,6 +23,8 @@ divide()
 info('holism publish')
 divide()
 
+const publishParameters = extract()
+const domain = providedDomain || resolvePublishDomain(publishParameters.repo)
 const params = await build({
     isCiCd: false,
     localBuild: true,
@@ -34,7 +37,6 @@ const {
     processBuildDir,
     repo,
 } = params
-const domain = providedDomain || resolvePublishDomain(repo)
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
 
 await runOnServer(domain, `mkdir -p ${remoteBuildDir}`)
