@@ -1,37 +1,46 @@
-let searchText = 'yourTextHere';
-let regex = new RegExp(searchText, 'i');
+const searchPattern = 'yourTextHere'
+const searchFlags = 'i'
+const searchRegex = new RegExp(searchPattern, searchFlags)
+const matchesLimit = 5
 
-let filter = {
+const filter = {
     contents: [
         'repetitionsCounts',
         'parts',
         'values',
-    ]
-};
+    ],
+}
 
-db.getMongo().getDBNames().forEach(dbName => {
-    if (['admin', 'config', 'local'].includes(dbName)) return;
-    if (filter && Object.keys(filter).length > 0 && !filter.hasOwnProperty(dbName)) return;
+db.getMongo().getDBNames().forEach(databaseName => {
+    if (['admin', 'config', 'local'].includes(databaseName)) return
+    if (
+        filter
+        && Object.keys(filter).length > 0
+        && !Object.prototype.hasOwnProperty.call(filter, databaseName)
+    ) return
 
-    let dbObj = db.getSiblingDB(dbName);
-    let collections = dbObj.getCollectionNames();
+    const database = db.getSiblingDB(databaseName)
+    let collectionNames = database.getCollectionNames()
 
-    if (filter && filter[dbName] && filter[dbName].length > 0) {
-        collections = collections.filter(c => filter[dbName].includes(c));
+    if (filter?.[databaseName]?.length > 0) {
+        collectionNames = collectionNames.filter(collectionName => filter[databaseName].includes(collectionName))
     }
 
-    collections.forEach(collName => {
-        let sampleDoc = dbObj[collName].findOne();
-        if (!sampleDoc) return;
+    collectionNames.forEach(collectionName => {
+        let matchesCount = 0
+        const cursor = database[collectionName].find()
 
-        let fields = Object.keys(sampleDoc);
-        if (fields.length === 0) return;
+        while (cursor.hasNext() && matchesCount < matchesLimit) {
+            const document = cursor.next()
+            searchRegex.lastIndex = 0
+            if (!searchRegex.test(JSON.stringify(document))) continue
 
-        let query = { $or: fields.map(f => ({ [f]: regex })) };
-        let cursor = dbObj[collName].find(query).limit(5);
-        if (cursor.hasNext()) {
-            print(`\nDatabase: ${dbName}, Collection: ${collName}`);
-            cursor.forEach(doc => printjson(doc));
+            if (matchesCount === 0) {
+                print(`\nDatabase: ${databaseName}, Collection: ${collectionName}`)
+            }
+
+            printjson(document)
+            matchesCount++
         }
-    });
-});
+    })
+})
