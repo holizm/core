@@ -4,8 +4,8 @@ const home = process.env.HOME
 
 export default (search = '') => {
     let term = search.toLowerCase()
-    term = term.endsWith('/') ? term.slice(0, -1) : term;
-    const command = `find ${home} -maxdepth 2 -type d -name .git`
+    term = term.endsWith('/') ? term.slice(0, -1) : term
+    const command = `find ${home} -mindepth 2 -maxdepth 2 -type d -name .git`
     const result = runOnTerminal(command).trim()
 
     if (!result) return []
