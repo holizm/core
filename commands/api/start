@@ -32,7 +32,7 @@ const main = async () => {
     })
     const command = `nodemon --watch ${home} --ignore "${home}/.npm/**" --ignore "${home}/packages/**" --ignore "**/*.json" process.js`
     console.log(command)
-    await runStreaming(command)
+    await runStreaming(`${command} &`)
 }
 
 main().catch(e => {

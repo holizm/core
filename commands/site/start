@@ -30,7 +30,7 @@ const main = async () => {
     }
     divide()
 
-    await runStreaming(`npm run dev -- --port ${deterministicPort}`)
+    await runStreaming(`npm run dev -- --port ${deterministicPort} &`)
 }
 
 main().catch(e => {

@@ -25,7 +25,7 @@ const main = async () => {
     runOnTerminal(`nohup ${home}/core/commands/panel/watch >/tmp/panelWatch.log 2>&1 &`, {
         throwOnError: true,
     })
-    await runStreaming(`DEBUG='vite:plugin' npm run dev`)
+    await runStreaming(`DEBUG='vite:plugin' npm run dev &`)
 }
 
 main().catch(e => {
