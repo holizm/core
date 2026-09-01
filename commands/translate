@@ -8,15 +8,28 @@ import {
     writeFile,
     writeFileIfNotExists,
 } from '../scripts/os.js'
-import { error, errorAndExit, info, warning } from '../scripts/logger.js'
+import {
+    error,
+    info,
+    warning,
+} from '../scripts/logger.js'
 
-const getTranslation = (value, filePath) => {
+const getTranslation = async (value, filePath) => {
     if (filePath.includes('en.json')) return value
     const targetLocale = getFileNameWithoutExtension(filePath)
-    const escapedValue = value.replace(/'/g, `'\\''`)
-    const command = `trans :${targetLocale} -brief -no-bidi '${escapedValue}'`
-    const result = runOnTerminal(command)
-    return result
+    const searchParams = new URLSearchParams({
+        client: 'gtx',
+        dt: 't',
+        q: value,
+        sl: 'en',
+        tl: targetLocale,
+    })
+    const response = await fetch(`https://translate.googleapis.com/translate_a/single?${searchParams}`)
+    if (!response.ok) {
+        throw new Error(`Translation failed with status ${response.status}`)
+    }
+    const data = await response.json()
+    return data[0].map(segment => segment[0]).join('')
 }
 
 const where = process.argv[2]
@@ -113,7 +126,7 @@ for (const localizationDirectory of localizationDirectories) {
 
         for (const [key, value] of Object.entries(jsonData)) {
             if (!value && englishJson[key]) {
-                const translation = getTranslation(englishJson[key], localizationFilePath)
+                const translation = await getTranslation(englishJson[key], localizationFilePath)
                 jsonData[key] = translation
                 info(localizationFilePath, key, englishJson[key], translation)
             }
