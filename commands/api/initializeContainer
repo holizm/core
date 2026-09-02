@@ -16,6 +16,10 @@ const main = () => {
         show: true,
         throwOnError: true,
     })
+    runOnTerminal('install', {
+        show: true,
+        throwOnError: true,
+    })
     runOnTerminal('initialize', {
         show: true,
         throwOnError: true,
@@ -36,10 +40,6 @@ const main = () => {
         throwOnError: true,
     })
     runOnTerminal('prepare toMongo', {
-        show: true,
-        throwOnError: true,
-    })
-    runOnTerminal('install', {
         show: true,
         throwOnError: true,
     })

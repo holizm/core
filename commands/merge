@@ -16,7 +16,12 @@ const {
 const base = `${home}/${repo}/${proc}`
 const corePackagePath = `${base}/corePackage.json`
 const runnablePackagePath = `${base}/runnablePackage.json`
-const packagePath = `${base}/package.json`
+const packagePath =
+    process.argv[2] === 'api'
+    ?
+    `${home}/${repo}/package.json`
+    :
+    `${base}/package.json`
 info(packagePath)
 
 const deepMerge = (a, b) => {

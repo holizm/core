@@ -23,6 +23,7 @@ export default params => {
     const splPath = `/tmp/${repo}/${process}/spl`
     if (processIsApi) {
         removeAndRecreateDir(splPath)
+        removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
     }
 
     const directoryEntries = [
