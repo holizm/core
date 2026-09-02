@@ -1,12 +1,25 @@
 #!/usr/bin/env bash
 
+if [[ $apiProcess != admin* ]]; then
+    exit 0
+fi
+
 echo "Linking: $1"
 export targetProject=$1
 export targetPath=$home/$1
 
-ln -s -f $home/$apiRepo/$apiProcess/package.json $targetPath
-ln -s -f $home/$apiRepo/$apiProcess/package-lock.json $targetPath
-ln -s -f $home/$apiRepo/$apiProcess/node_modules $targetPath
+ln -s -f $home/$apiRepo/package.json $targetPath
+ln -s -f $home/$apiRepo/package-lock.json $targetPath
+
+rm -rf $targetPath/node_modules
+mkdir -p $targetPath/node_modules
+
+shopt -s dotglob
+for sourcePath in $home/$apiRepo/$apiProcess/node_modules/*; do
+    if [[ -e $sourcePath ]]; then
+        ln -s -f -n $sourcePath $targetPath/node_modules/$(basename $sourcePath)
+    fi
+done
 
 files=(
     "common.json"

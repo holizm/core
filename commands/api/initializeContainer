@@ -27,6 +27,9 @@ const main = () => {
     if (isCiCd === 'true') {
         return
     }
+    if (!proc.startsWith('admin')) {
+        return
+    }
     runOnTerminal('prepare generation', {
         show: true,
         throwOnError: true,

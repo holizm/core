@@ -8,6 +8,8 @@ import createCiCd from './createCiCd.js'
 import createDatabaseContainer from './createDatabaseContainer.js'
 import createDirectories from './createDirectories.js'
 import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
+import getApiUtilityDirectories from './getApiUtilityDirectories.js'
+import mapApiUtilities from './mapApiUtilities.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
@@ -148,25 +150,6 @@ const mapRunnable = params => {
     if (fs.existsSync(`${commonPath}/api`)) {
         params.addVolume(`${commonPath}/api`, `${containerHome}/${repo}/${process}/commonApi`)
     }
-    const etlPath = path.join(`${home}/${repo}/etl`)
-    if (fs.existsSync(etlPath)) {
-        for (const child of fs.readdirSync(etlPath)) {
-            const childPath = path.join(etlPath, child)
-            if (fs.statSync(childPath).isDirectory()) {
-                params.addVolume(`${childPath}`, `${containerHome}/toMongo/runnableImporters/${child}`)
-            }
-        }
-    }
-}
-
-const mapRunnableMigrations = params => {
-    const {
-        commonPath,
-        containerHome,
-    } = params
-    if (fs.existsSync(`${commonPath}/migration`)) {
-        params.addVolume(`${commonPath}/migration`, `${containerHome}/migration/runnable`)
-    }
 }
 
 const mapCore = params => {
@@ -263,10 +246,7 @@ export default params => {
     measure('API: create directories', () => createDirectories({
         ...params,
         extraDirectories: [
-            [`/tmp/generation`, `${containerHome}/generation`],
-            [`/tmp/migration`, `${containerHome}/migration`],
-            [`/tmp/query`, `${containerHome}/query`],
-            [`/tmp/toMongo`, `${containerHome}/toMongo`],
+            ...getApiUtilityDirectories(params),
             `/tmp/${params.repo}/migration`,
             `/tmp/${params.repo}/storage`,
         ],
@@ -279,7 +259,7 @@ export default params => {
     measure('API: map dependencies', () => mapDependencies(params))
     measure('API: map localizations', () => mapLocalizations(params))
     measure('API: map runnable files', () => mapRunnable(params))
-    measure('API: map migrations', () => mapRunnableMigrations(params))
+    measure('API: map utilities', () => mapApiUtilities(params))
     measure('API: map core', () => mapCore(params))
     measure('API: join volumes', () => params.joinVolumes())
 

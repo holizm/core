@@ -2,7 +2,7 @@
 
 processName=$(basename "$PWD")
 if [[ $processName == *Api ]]; then
-    cd ..
+    cd /$home/$apiRepo
 fi
 
 npm install --legacy-peer-deps

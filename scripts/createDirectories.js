@@ -1,5 +1,6 @@
 import {
     createDirIfNotExists,
+    deleteFile,
     removeAndRecreateDir,
 } from './os.js'
 
@@ -24,6 +25,16 @@ export default params => {
     if (processIsApi) {
         removeAndRecreateDir(splPath)
         removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
+        if (process.startsWith('admin')) {
+            for (const utility of [
+                'generation',
+                'migration',
+                'query',
+                'toMongo',
+            ]) {
+                deleteFile(`/tmp/${repo}/${process}/${utility}`)
+            }
+        }
     }
 
     const directoryEntries = [
