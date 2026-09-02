@@ -1,64 +1,22 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
-// import chokidar from 'chokidar'
-import { exec } from 'child_process'
-import { env } from 'process'
-import path from 'path'
-import { getDirs } from '../../scripts/os.js'
+base=$home/$repo/$process
 
-const {
-    home,
-    process: proc,
-    repo,
-} = process.env
-
-const parts = getDirs(`${home}/${repo}/${proc}/src`)
-const partDirs = parts.map(dir =>
-    path.resolve('/', repo, proc, 'src', dir)
-)
-
-// partDirs.forEach(dir => console.log(`Watching directory: ${dir}`))
-
-let timeout = null
-const debounce = (fn, delay = 100) => {
-    return (...args) => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => fn(...args), delay)
-    }
-}
-
-// const watcher = chokidar.watch(partDirs, {
-//     ignored: /exports\.jsx$/,
-//     ignoreInitial: true,
-//     persistent: true,
-//     awaitWriteFinish: {
-//         stabilityThreshold: 100,
-//         pollInterval: 10,
-//     }
-// })
-const watcher = { on: () => { } }
-
-const handleFileChange = debounce((filePath, event) => {
-    if (!filePath.endsWith('.jsx')) return
-
-    console.log(`Detected ${event}: ${filePath}`)
-
-    const generateExportsCommand = `node /core/commands/panel/generateExports.js '${filePath}' '${event}'`
-    const generateAstCommand = `node /core/commands/panel/astGenerator.js '${filePath}'`
-
-    exec(generateExportsCommand, (err, stdout, stderr) => {
-        if (stdout) process.stdout.write(stdout)
-        if (stderr) process.stderr.write(stderr)
-        if (err) console.error(`Error running generateExports.js: ${err}`)
-    })
-
-    exec(generateAstCommand, (err, stdout, stderr) => {
-        if (stdout) process.stdout.write(stdout)
-        if (stderr) process.stderr.write(stderr)
-        if (err) console.error(`Error running astGenerator.js: ${err}`)
-    })
-}, 100)
-
-watcher.on('all', (event, filePath) => {
-    handleFileChange(filePath, event)
-})
+inotifywait -m -r \
+    -e create \
+    -e delete \
+    -e delete_self \
+    -e moved_from \
+    -e moved_to \
+    --exclude '/(\.agents|\.codex|\.git)(/|$)|/(exports\.jsx|admin\.jsx|common\.jsx)$' \
+    --format '%w|%e|%f' \
+    -q \
+    "$base/src" |
+while IFS='|' read -r directory event file; do
+    case "$file" in
+        *.jsx)
+            echo "$directory$file $event"
+            node "$home/core/commands/panel/generateExports.js"
+            ;;
+    esac
+done

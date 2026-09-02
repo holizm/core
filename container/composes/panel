@@ -39,7 +39,6 @@ services:
             - ${home}/panel/findRoutes.js:${containerHome}/${repo}/${process}/findRoutes.js
             - ${home}/panel/findServerInitializers.js:${containerHome}/${repo}/${process}/findServerInitializers.js
             - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
-            - ${home}/panel/generateExports.js:${containerHome}/${repo}/${process}/generateExports.js
             - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/generatePartRoutes.js:${containerHome}/${repo}/${process}/generatePartRoutes.js
             - ${home}/panel/index.html:${containerHome}/${repo}/${process}/index.html
