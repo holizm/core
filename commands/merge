@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { copyFileSync } from 'node:fs'
 import { info } from '../scripts/logger.js'
 import {
     getContent,
@@ -16,12 +17,7 @@ const {
 const base = `${home}/${repo}/${proc}`
 const corePackagePath = `${base}/corePackage.json`
 const runnablePackagePath = `${base}/runnablePackage.json`
-const packagePath =
-    process.argv[2] === 'api'
-    ?
-    `${home}/${repo}/package.json`
-    :
-    `${base}/package.json`
+const packagePath = `${base}/package.json`
 info(packagePath)
 
 const deepMerge = (a, b) => {
@@ -67,3 +63,6 @@ const merged = deepMerge(runnable, core)
 const sorted = sortKeysDeep(merged)
 
 writeFile(packagePath, JSON.stringify(sorted, null, 4) + '\n')
+if (process.argv[2] === 'api') {
+    copyFileSync(packagePath, `${home}/${repo}/package.json`)
+}
