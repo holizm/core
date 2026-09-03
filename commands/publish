@@ -14,6 +14,7 @@ import build from '../scripts/build.js'
 import camelize from '../scripts/camelize.js'
 import extract from '../scripts/extract.js'
 import getExistingBuild from '../scripts/getExistingBuild.js'
+import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
 import { isFile } from '../scripts/os.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
@@ -50,8 +51,9 @@ if (!isFile(artifactPath)) {
     errorAndExit(`Build artifact does not exist: ${artifactPath}`)
 }
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
+const remoteProcessPath = `$HOME/${repo}/${params.process}`
 
-await runOnServer(domain, `mkdir -p ${remoteBuildDir}`)
+await runOnServer(domain, `mkdir -p ${remoteBuildDir} ${remoteProcessPath}`)
 
 divide()
 info('Copying to the server...')
@@ -61,8 +63,8 @@ await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}`)
 
 divide()
 
-await runOnServer(domain, `mv ${remoteBuildDir}/${params.process}.zip $HOME/${repo}/${params.process}`)
-await runOnServer(domain, `cd $HOME/${repo}/${params.process} && unzip -o ${params.process}.zip`)
+await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath))
+await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
 if (isApi || isSite) {
@@ -77,9 +79,8 @@ if (isApi || isSite) {
     }
 }
 if (isApi) {
-    const remoteProcessPath = `$HOME/${repo}/${params.process}`
     await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 1 -maxdepth 1 -type d -name '.*' ! -name '.bin' -exec rm -rf {} +`)
-    await runOnServer(domain, `unzip -o ${remoteProcessPath}/${params.process}.zip 'node_modules/*' -d ${remoteProcessPath}`)
+    await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip 'node_modules/*' -d ${remoteProcessPath}`)
     await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 2 -maxdepth 2 -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
 }
 
