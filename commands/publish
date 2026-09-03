@@ -65,9 +65,10 @@ if (isApi || isSite) {
     }
 }
 if (isApi) {
-    await runOnServer(domain, `unzip -o $HOME/${repo}/${params.process}/${params.process}.zip -d ${remoteBuildDir}`)
-    await runOnServer(domain, `find ${remoteBuildDir} -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
-    await runOnServer(domain, `cp -R ${remoteBuildDir}/node_modules/* $HOME/${repo}/${params.process}/node_modules/`)
+    const remoteProcessPath = `$HOME/${repo}/${params.process}`
+    await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 1 -maxdepth 1 -type d -name '.*' ! -name '.bin' -exec rm -rf {} +`)
+    await runOnServer(domain, `unzip -o ${remoteProcessPath}/${params.process}.zip 'node_modules/*' -d ${remoteProcessPath}`)
+    await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 2 -maxdepth 2 -type f -name exports.js -exec sed -i 's|/home/dev/|/home/${user}/|g' {} +`)
 }
 
 await runOnServer(domain, `rm -rf ${remoteBuildDir}`)
