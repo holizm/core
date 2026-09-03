@@ -7,11 +7,14 @@ import {
 import {
     divide,
     error,
+    errorAndExit,
     info,
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
 import camelize from '../scripts/camelize.js'
 import extract from '../scripts/extract.js'
+import getExistingBuild from '../scripts/getExistingBuild.js'
+import { isFile } from '../scripts/os.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
 
@@ -25,10 +28,15 @@ divide()
 
 const publishParameters = extract()
 const domain = providedDomain || resolvePublishDomain(publishParameters.repo)
-const params = await build({
-    isCiCd: false,
-    localBuild: true,
-})
+const params =
+    process.env.publishWithoutBuild === 'true'
+    ?
+    getExistingBuild(publishParameters)
+    :
+    await build({
+        isCiCd: false,
+        localBuild: true,
+    })
 
 const {
     isApi,
@@ -37,6 +45,10 @@ const {
     processBuildDir,
     repo,
 } = params
+const artifactPath = `${processBuildDir}/${params.process}.zip`
+if (!isFile(artifactPath)) {
+    errorAndExit(`Build artifact does not exist: ${artifactPath}`)
+}
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
 
 await runOnServer(domain, `mkdir -p ${remoteBuildDir}`)
@@ -45,7 +57,7 @@ divide()
 info('Copying to the server...')
 divide()
 
-await runStreaming(`serverCopy ${processBuildDir}/${params.process}.zip ${domain}:${remoteBuildDir}`)
+await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}`)
 
 divide()
 

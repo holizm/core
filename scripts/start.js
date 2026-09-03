@@ -3,6 +3,7 @@ import createNetwork from './createNetwork.js'
 import ensureDependencies from './ensureDependencies.js'
 import ensureTenants from './ensureTenants.js'
 import extract from './extract.js'
+import getBuildDirectories from './getBuildDirectories.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
 import getPaths from './getPaths.js'
@@ -64,8 +65,7 @@ export default async overrides => {
         `user: "1001:1001"`
         :
         ''
-    params.buildDir = `/tmp/${params.repo}${params.pascalizedProcess}Build`
-    params.processBuildDir = `${params.buildDir}/${params.repo}/${params.process}`
+    Object.assign(params, getBuildDirectories(params))
 
     params = measure('resolve paths and port', () => ({
         ...params,
