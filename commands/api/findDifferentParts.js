@@ -4,6 +4,7 @@ import {
     readdirSync,
 } from 'node:fs'
 import path from 'node:path'
+import { parseParts } from '../../scripts/parseParts.js'
 
 const getFiles = directory =>
     existsSync(directory)
@@ -13,6 +14,7 @@ const getFiles = directory =>
     []
 
 export default (developmentPath, productionPath, search) => {
+    const selectedParts = parseParts(search)
     const files = new Set([
         ...getFiles(developmentPath),
         ...getFiles(productionPath),
@@ -27,7 +29,7 @@ export default (developmentPath, productionPath, search) => {
             return !readFileSync(developmentFile).equals(readFileSync(productionFile))
         })
         .map(file => file.split('.')[0])
-        .filter(part => !search || part.includes(search))
+        .filter(part => selectedParts.length === 0 || selectedParts.includes(part))
 
     return Array.from(new Set(parts)).sort()
 }

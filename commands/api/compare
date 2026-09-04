@@ -12,6 +12,7 @@ import {
     removeAndRecreateDir,
 } from '../../scripts/os.js'
 import run from './run'
+import { parseParts } from '../../scripts/parseParts.js'
 
 const {
     apiRepo,
@@ -94,13 +95,5 @@ if (!parts) {
     makeDirectories()
     await createScripts()
 } else {
-    if (parts.includes(',')) {
-        const parts = parts
-            .split(',')
-            .map(p => p.trim().replace(/\//g, ''))
-        await Promise.all(parts.map(createScriptForPart))
-    } else {
-        const part = parts.replace(/\//g, '')
-        await createScriptForPart(part)
-    }
+    await Promise.all(parseParts(parts).map(createScriptForPart))
 }
