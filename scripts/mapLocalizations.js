@@ -1,7 +1,41 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import {
     isDir,
     isFile,
 } from './os.js'
+
+const createPanelLocalization = params => {
+    const {
+        composeFile,
+        home,
+        panelUiRepo,
+    } = params
+    const localizationPath = path.join(path.dirname(composeFile), 'panelLocalization')
+    const sourcePaths = [
+        `${home}/panel/localization`,
+        `${home}/${panelUiRepo || 'complexPanel'}/localization`,
+    ].filter(isDir)
+    const localeFiles = new Set(sourcePaths.flatMap(sourcePath =>
+        fs.readdirSync(sourcePath).filter(file => file.endsWith('.json'))
+    ))
+
+    fs.mkdirSync(localizationPath, { recursive: true })
+    for (const localeFile of localeFiles) {
+        const localization = {}
+        for (const sourcePath of sourcePaths) {
+            const sourceFile = `${sourcePath}/${localeFile}`
+            if (isFile(sourceFile)) {
+                Object.assign(localization, JSON.parse(fs.readFileSync(sourceFile, 'utf8')))
+            }
+        }
+        fs.writeFileSync(
+            `${localizationPath}/${localeFile}`,
+            `${JSON.stringify(localization, null, 4)}\n`,
+        )
+    }
+    return localizationPath
+}
 
 const getDependencyRoot = params => {
     const {
@@ -33,12 +67,13 @@ export default params => {
         home,
         repo,
     } = params
+    const panelLocalizationPath = createPanelLocalization(params)
     const localizationPaths = new Set([
         `${home}/api/localization`,
         `${home}/core/localization`,
-        `${home}/panel/localization`,
         `${home}/site/localization`,
-    ])
+    ].filter(isDir))
+    params.addVolume(panelLocalizationPath, `${containerHome}/panel/localization`)
     for (const dependency of dependencies) {
         const dependencyRoot = getDependencyRoot({
             dependency,

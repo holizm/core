@@ -41,7 +41,7 @@ const getRepoStatus = repoPath => {
                     : [filePath]
 
                 for (const targetFile of targetFiles) {
-                    runOnTerminal(`node ${home}/policies/run.js ${targetFile}`, { show: true })
+                    // runOnTerminal(`node ${home}/policies/run.js ${targetFile}`, { show: true })
                 }
             }
         }

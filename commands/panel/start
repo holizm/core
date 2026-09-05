@@ -22,6 +22,9 @@ const main = async () => {
     info('Starting...')
     process.chdir(`${home}/${repo}/${proc}`)
     divide()
+    runOnTerminal('node ./validatePanelUi.js', {
+        throwOnError: true,
+    })
     runOnTerminal(`nohup ${home}/core/commands/panel/watch >/tmp/panelWatch.log 2>&1 &`, {
         throwOnError: true,
     })

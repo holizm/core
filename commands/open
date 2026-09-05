@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-find "$HOME" -maxdepth 1 -mindepth 1 -type d -exec test -d "{}/.git" \; -print0 \
-    | sort -z \
-    | xargs -0 code --new-window
+workspacePath=/tmp/holism.code-workspace
+
+find "$HOME" -maxdepth 1 -mindepth 1 -type d -exec test -d "{}/.git" \; -print \
+    | sort \
+    | jq --raw-input --slurp '{ folders: split("\n") | map(select(length > 0) | { path: . }) }' > "$workspacePath"
+
+"$HOME/core/commands/close"
+code --new-window "$workspacePath"

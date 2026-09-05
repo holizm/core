@@ -35,7 +35,9 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "update.mode": "none",
     "update.showReleaseNotes": false,
+    "window.confirmSaveUntitledWorkspace": false,
     "window.dialogStyle": "custom",
+    "window.restoreWindows": "none",
     "workbench.secondarySideBar.defaultVisibility": "hidden",
     "workbench.startupEditor": "none"
 }

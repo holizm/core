@@ -27,13 +27,13 @@ services:
             - ${home}/panel/addTitle.js:${containerHome}/${repo}/${process}/addTitle.js
             - ${home}/panel/eslint.config.js:${containerHome}/${repo}/${process}/eslint.config.js
             - ${home}/panel/findAliases.js:${containerHome}/${repo}/${process}/findAliases.js
+            - ${home}/panel/findAppActions.js:${containerHome}/${repo}/${process}/findAppActions.js
             - ${home}/panel/findBreadcrumbs.js:${containerHome}/${repo}/${process}/findBreadcrumbs.js
             - ${home}/panel/findClientInitializers.js:${containerHome}/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:${containerHome}/${repo}/${process}/findDependencies.js
             - ${home}/panel/findIcons.js:${containerHome}/${repo}/${process}/findIcons.js
             - ${home}/panel/findItemRenderers.js:${containerHome}/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findMenus.js:${containerHome}/${repo}/${process}/findMenus.js
-            - ${home}/panel/findAppActions.js:${containerHome}/${repo}/${process}/findAppActions.js
             - ${home}/panel/findParts.js:${containerHome}/${repo}/${process}/findParts.js
             - ${home}/panel/findRichTextComponents.js:${containerHome}/${repo}/${process}/findRichTextComponents.js
             - ${home}/panel/findRoutes.js:${containerHome}/${repo}/${process}/findRoutes.js
@@ -42,21 +42,18 @@ services:
             - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/generatePartRoutes.js:${containerHome}/${repo}/${process}/generatePartRoutes.js
             - ${home}/panel/index.html:${containerHome}/${repo}/${process}/index.html
-            - ${home}/panel/localization:${containerHome}/${repo}/${process}/localization
+            - ${home}/panel/refreshDeclarativeConsumers.js:${containerHome}/${repo}/${process}/refreshDeclarativeConsumers.js
             - ${home}/panel/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
             - ${home}/panel/registererGenerator.js:${containerHome}/${repo}/${process}/registererGenerator.js
-            - ${home}/panel/refreshDeclarativeConsumers.js:${containerHome}/${repo}/${process}/refreshDeclarativeConsumers.js
             - ${home}/panel/resolveListParts.js:${containerHome}/${repo}/${process}/resolveListParts.js
+            - ${home}/panel/ssi.js:${containerHome}/${repo}/${process}/ssi.js
             - ${home}/panel/silentCheckSso.html:${containerHome}/${repo}/${process}/public/silent-check-sso.html
             - ${home}/panel/src/core:${containerHome}/${repo}/${process}/src/core
-            - ${home}/panel/src/components:${containerHome}/${repo}/${process}/src/components
             - ${home}/panel/src/contexts:${containerHome}/${repo}/${process}/src/contexts
             - ${home}/panel/src/hooks:${containerHome}/${repo}/${process}/src/hooks
-            - ${home}/panel/src/index.css:${containerHome}/${repo}/${process}/src/index.css
             - ${home}/panel/src/main.jsx:${containerHome}/${repo}/${process}/src/main.jsx
-            - ${home}/panel/src/panel:${containerHome}/${repo}/${process}/src/panel
             - ${home}/panel/src/registries:${containerHome}/${repo}/${process}/src/registries
-            - ${home}/panel/src/styles:${containerHome}/${repo}/${process}/src/styles
+            - ${home}/panel/validatePanelUi.js:${containerHome}/${repo}/${process}/validatePanelUi.js
             - ${home}/panel/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
             - ${home}/panel/writeIfChanged.js:${containerHome}/${repo}/${process}/writeIfChanged.js
             - ${home}/panel/wrapAndName.js:${containerHome}/${repo}/${process}/wrapAndName.js

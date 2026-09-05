@@ -11,6 +11,7 @@ import mapNode from './mapNode.js'
 import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
+    getContent,
     isDir,
     isFile,
     replaceVariables,
@@ -144,15 +145,77 @@ const mapSecrets = params => {
     params.addVolume(`${secretFile}`, `${containerHome}/${repo}/${process}/public/repo.json`)
 }
 
+const mapPanelUi = params => {
+    const {
+        containerHome,
+        home,
+        panelUiRepo,
+        process,
+        repo,
+    } = params
+    const panelUiPath = `${home}/${panelUiRepo}`
+    const processPath = `${containerHome}/${repo}/${process}`
+    const rootMappings = {
+        'localization': 'localization',
+    }
+    const sourceMappings = [
+        'components',
+        'head.html',
+        'initial.css',
+        'index.css',
+        'loader.html',
+        'panel',
+        'panelUi.jsx',
+        'styles',
+    ]
+    const overlayDirectories = [
+        'core',
+    ]
+
+    params.addVolume(panelUiPath, `${containerHome}/${panelUiRepo}`)
+    for (const [source, target] of Object.entries(rootMappings)) {
+        const sourcePath = `${panelUiPath}/${source}`
+        if (isDir(sourcePath) || isFile(sourcePath)) {
+            params.addVolume(sourcePath, `${processPath}/${target}`)
+        }
+    }
+    for (const source of sourceMappings) {
+        const sourcePath = `${panelUiPath}/src/${source}`
+        if (isDir(sourcePath) || isFile(sourcePath)) {
+            params.addVolume(sourcePath, `${processPath}/src/${source}`)
+        }
+    }
+    for (const directory of overlayDirectories) {
+        const sourceDirectory = `${panelUiPath}/src/${directory}`
+        if (!isDir(sourceDirectory)) {
+            continue
+        }
+        for (const entry of fs.readdirSync(sourceDirectory)) {
+            params.addVolume(
+                `${sourceDirectory}/${entry}`,
+                `${processPath}/src/${directory}/${entry}`,
+            )
+        }
+    }
+}
+
 export default params => {
     info('Setting up Panel')
     divide()
 
     params.processType = 'panel'
+    const panelUiSelectorPath = `${params.processPath}/panelUi`
+    params.panelUiRepo =
+        isFile(panelUiSelectorPath)
+        ?
+        getContent(panelUiSelectorPath).trim()
+        :
+        params.panelUiRepo || 'complexPanel'
     measure('panel: create missing files', () => createNonExistentFiles(params))
     measure('panel: create directories', () => createDirectories(params))
     measure('panel: create CI/CD', () => createCiCd(params))
 
+    measure('panel: map UI', () => mapPanelUi(params))
     measure('panel: map dependencies', () => mapDependencies(params))
     measure('panel: map settings', () => mapSettings(params))
     measure('panel: map localizations', () => mapLocalizations(params))

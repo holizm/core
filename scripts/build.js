@@ -41,7 +41,7 @@ export default async params => {
     divide()
 
     if (isPanel) {
-        await runStreaming(`docker exec ${containerName} bash -c 'npm run build'`)
+        await runStreaming(`docker exec ${containerName} bash -c 'node ./validatePanelUi.js && npm run build'`)
 
         const command = `
             docker exec ${containerName} bash -c '

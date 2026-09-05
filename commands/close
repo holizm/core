@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+pkill -KILL --exact code 2>/dev/null || true
