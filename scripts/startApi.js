@@ -175,6 +175,7 @@ const mapCore = params => {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`)
     }
     params.addVolume(`${home}/api`, `${containerHome}/api`)
+    params.addVolume(`${home}/core/essentialParts`, `${containerHome}/core/essentialParts`)
     params.addVolume(`${home}/${repo}/${process}/process.js`, `${containerHome}/${repo}/${process}/process.js`)
 }
 

@@ -88,6 +88,7 @@ const mapDependencies = params => {
         process,
         processPath,
         repo,
+        sitePartRoutes,
     } = params
     const headlessRepo = getHeadlessRepo(repo)
 
@@ -118,6 +119,7 @@ const mapDependencies = params => {
                 const relative = directoryPath.replace(`${pagesPath}/`, '')
 
                 const relativePath = normalizeRoute(relative)
+                sitePartRoutes[`/${relativePath}`] = dependency
 
                 const source = directoryPath
                 const targetPath = `${processPath}/pages/${relativePath}`
@@ -228,6 +230,7 @@ export default params => {
     divide()
 
     params.processType = 'site'
+    params.sitePartRoutes = {}
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create directories', () => createDirectories({
@@ -242,6 +245,9 @@ export default params => {
     measure('site: create CI/CD', () => createCiCd(params))
 
     measure('site: map dependencies', () => mapDependencies(params))
+    const sitePartRoutesPath = `/tmp/${params.repo}/${params.process}/sitePartRoutes.js`
+    writeFile(sitePartRoutesPath, `export default ${JSON.stringify(params.sitePartRoutes, null, 4)}\n`)
+    params.addVolume(sitePartRoutesPath, `${params.containerHome}/${params.repo}/${params.process}/src/sitePartRoutes.js`)
     measure('site: map settings', () => mapSettings(params))
     measure('site: map pages', () => mapPages(params))
     measure('site: map parts', () => mapParts(params))
