@@ -1,6 +1,6 @@
 services:
     cacheServer:
-        image: redis:alpine
+        image: redis:latest
         container_name: ${cacheServerName}
         hostname: cacheServer
         ports:
