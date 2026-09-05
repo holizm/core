@@ -1,6 +1,9 @@
 import getDeterministicPort from './getDeterministicPort.js'
 import getHeadlessRepo from './getHeadlessRepo.js'
-import { info } from './logger.js'
+import {
+    divide,
+    info,
+} from './logger.js'
 import {
     getContent,
     isFile,
@@ -30,12 +33,39 @@ const createComposeFile = params => {
     return composePath
 }
 
+const ensureCacheServerContainer = async params => {
+    const {
+        cacheServerName,
+        composePath,
+        lowercaseHeadlessRepo,
+    } = params
+    const runningCacheServerContainer = await runOnTerminalAsync(`docker ps -q -f name=${cacheServerName}`)
+    if (runningCacheServerContainer.trim()) {
+        info('Cache server container is running')
+        return
+    }
+    const exitedCacheServerContainer = await runOnTerminalAsync(`docker ps -aq -f status=exited -f name=${cacheServerName}`)
+    if (exitedCacheServerContainer.trim()) {
+        await runOnTerminalAsync(`docker rm ${cacheServerName}`, {
+            throwOnError: true,
+        })
+    }
+    divide()
+    info('Creating cache server container')
+    await runOnTerminalAsync(
+        `docker compose -p ${lowercaseHeadlessRepo}-cache-server -f ${composePath} up -d --remove-orphans`,
+        {
+            throwOnError: true,
+        },
+    )
+    divide()
+}
+
 export default params => {
     const {
         home,
         isCiCd,
         localBuild,
-        lowercaseRepo,
         privateSettingsPath,
         repo,
     } = params
@@ -48,19 +78,18 @@ export default params => {
         return
     }
 
-    info('Creating cache server container')
     const headlessRepo = getHeadlessRepo(repo)
+    const cacheServerName = `${headlessRepo}Cache`
     const composePath = createComposeFile({
         ...params,
-        cacheServerName: `${headlessRepo}Cache`,
-        cacheServerPort: getDeterministicPort(`${headlessRepo}Cache`),
+        cacheServerName,
+        cacheServerPort: getDeterministicPort(cacheServerName),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
     prepareComposeFile(composePath)
-    params.addContainerStartupTask('start cache server container', () => runOnTerminalAsync(
-        `docker compose -p ${lowercaseRepo}-cache-server -f ${composePath} up -d --remove-orphans`,
-        {
-            throwOnError: true,
-        },
-    ))
+    params.addContainerStartupTask('ensure cache server container', () => ensureCacheServerContainer({
+        cacheServerName,
+        composePath,
+        lowercaseHeadlessRepo: headlessRepo.toLowerCase(),
+    }))
 }
