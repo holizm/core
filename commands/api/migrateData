@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+import { clear } from '../../scripts/terminal.js'
+import run from './run'
+
+clear()
+
+await run({
+    app: 'migration',
+    command: 'data',
+    part: process.argv[2],
+    show: true,
+    type: process.argv[3],
+})
