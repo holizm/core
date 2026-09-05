@@ -88,8 +88,10 @@ export default async overrides => {
     }
 
     measure('create Docker network', () => createNetwork(params))
-    measure('ensure dependencies', () => ensureDependencies(params))
-    params.dependencies = measure('calculate dependencies', () => getDependencies(params))
+    if (!isSite(params)) {
+        measure('ensure dependencies', () => ensureDependencies(params))
+        params.dependencies = measure('calculate dependencies', () => getDependencies(params))
+    }
 
     params.composeFile = `/tmp/${params.repo}/${params.process}/compose.yaml`
     params.imageName = `ghcr.io/${params.lowercaseOrg}/${params.lowercaseRepo}/${params.lowercaseProcess}:latest`

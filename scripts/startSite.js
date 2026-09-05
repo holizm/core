@@ -2,8 +2,10 @@ import fs from 'fs'
 import { basename } from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import getDependencies from './getDependencies.js'
 import {
     divide,
+    errorAndExit,
     info,
 } from './logger.js'
 import kebabize from './kebabize.js'
@@ -14,7 +16,6 @@ import {
     copyFileIfNotExists,
     createDirIfNotExists,
     createFileIfNotExists,
-    getContent,
     isDir,
     isFile,
     replaceVariables,
@@ -22,6 +23,8 @@ import {
 } from './os.js'
 import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
+
+const getHeadlessRepo = repo => repo.replace(/theme\d+$/i, '')
 
 const createNonExistentFiles = params => {
     const { home } = params
@@ -33,6 +36,36 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, 'pages/index.jsx')
     copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
     copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
+}
+
+const resolveDependencies = params => {
+    const {
+        home,
+        repo,
+    } = params
+    const headlessRepo = getHeadlessRepo(repo)
+    const headlessDependenciesPath = `${home}/${headlessRepo}/common/dependencies`
+    const runnableDependenciesPath = `${home}/${repo}/common/dependencies`
+    let dependenciesPath
+    let dependenciesRepo
+
+    if (headlessRepo !== repo && isFile(headlessDependenciesPath)) {
+        dependenciesPath = headlessDependenciesPath
+        dependenciesRepo = headlessRepo
+    }
+    else if (isFile(runnableDependenciesPath)) {
+        dependenciesPath = runnableDependenciesPath
+        dependenciesRepo = repo
+    }
+    else {
+        errorAndExit(`Dependencies do not exist for ${repo}`)
+    }
+
+    params.dependenciesPath = dependenciesPath
+    params.dependencies = getDependencies({
+        ...params,
+        repo: dependenciesRepo,
+    })
 }
 
 const normalizeRoute = route => route
@@ -57,7 +90,7 @@ const mapDependencies = params => {
         processPath,
         repo,
     } = params
-    const instance = `${home}/${repo}/instance`
+    const headlessRepo = getHeadlessRepo(repo)
 
     for (const dependency of dependencies) {
         const dependencyPath = `${home}/${repo}/${dependency}`
@@ -65,8 +98,8 @@ const mapDependencies = params => {
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
         }
-        else if (isFile(instance) && isDir(`/${getContent(instance).trim()}/${dependency}`) && dependency !== 'accounts') {
-            dependencyBase = `${home}/${getContent(instance).trim()}/${dependency}/site`
+        else if (headlessRepo !== repo && isDir(`${home}/${headlessRepo}/${dependency}`) && dependency !== 'accounts') {
+            dependencyBase = `${home}/${headlessRepo}/${dependency}/site`
         }
         else {
             dependencyBase = `${home}/${dependency}/site`
@@ -196,6 +229,7 @@ export default params => {
     divide()
 
     params.processType = 'site'
+    measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create directories', () => createDirectories({
         ...params,
