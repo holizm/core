@@ -224,7 +224,7 @@ export const isSite = params => {
     if (!isProcess(params)) {
         return false
     }
-    const folder = path.basename(params.processPath)
+    const folder = path.basename(params.processPath).toLowerCase()
     const hasSite = folder.includes('site')
     const hasApi = folder.includes('api')
     const hasAppDir = fs.existsSync(path.join(params.processPath, 'pages'))
