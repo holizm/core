@@ -3,6 +3,7 @@ import { basename } from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import getDependencies from './getDependencies.js'
+import getHeadlessRepo from './getHeadlessRepo.js'
 import {
     divide,
     errorAndExit,
@@ -23,8 +24,6 @@ import {
 } from './os.js'
 import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
-
-const getHeadlessRepo = repo => repo.replace(/theme\d+$/i, '')
 
 const createNonExistentFiles = params => {
     const { home } = params

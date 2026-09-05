@@ -1,4 +1,5 @@
 import getDeterministicPort from './getDeterministicPort.js'
+import getHeadlessRepo from './getHeadlessRepo.js'
 import { info } from './logger.js'
 import {
     getContent,
@@ -48,9 +49,11 @@ export default params => {
     }
 
     info('Creating cache server container')
+    const headlessRepo = getHeadlessRepo(repo)
     const composePath = createComposeFile({
         ...params,
-        cacheServerPort: getDeterministicPort(`${repo}Cache`),
+        cacheServerName: `${headlessRepo}Cache`,
+        cacheServerPort: getDeterministicPort(`${headlessRepo}Cache`),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
     prepareComposeFile(composePath)
