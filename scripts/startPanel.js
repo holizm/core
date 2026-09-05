@@ -41,7 +41,7 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
 }
 
-const mapDependencies = params => {
+export const mapDependencies = params => {
     const {
         containerHome,
         dependencies,
@@ -80,7 +80,7 @@ const mapDependencies = params => {
     }
 }
 
-const mapRunnable = params => {
+export const mapRunnable = params => {
     const {
         containerHome,
         home,
@@ -122,7 +122,7 @@ const mapRunnable = params => {
     }
 }
 
-const mapSecrets = params => {
+export const mapSecrets = params => {
     const {
         containerHome,
         home,

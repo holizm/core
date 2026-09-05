@@ -116,7 +116,10 @@ const mapDependencies = params => {
         }
 
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`)
-        params.addVolume(`${dependencyBase}/business`, `${nodeModules}/${dependency}/business`)
+        const businessPath = `${dependencyBase}/business`
+        if (fs.existsSync(businessPath)) {
+            params.addVolume(businessPath, `${nodeModules}/${dependency}/business`)
+        }
 
         const rolePath = `${dependencyBase}/api/${role}`
         if (role && fs.existsSync(rolePath)) {
