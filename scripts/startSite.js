@@ -259,6 +259,8 @@ export default params => {
         composeFile,
         containerHome,
         home,
+        isCiCd,
+        localBuild,
         process,
         processPath,
         repo,
@@ -266,7 +268,9 @@ export default params => {
     } = params
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/showCache`, `${containerHome}/${repo}/${process}/src/routes/show-cache`)
-    params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
+    if (isCiCd || localBuild) {
+        params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
+    }
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
