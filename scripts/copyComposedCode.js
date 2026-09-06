@@ -1,4 +1,5 @@
 import { info } from './logger.js'
+import copyEssentialParts from './copyEssentialParts.js'
 import { createDirIfNotExists, getFileNameWithoutExtension, removeAndRecreateDir } from './os.js'
 import {
     runOnTerminal,
@@ -75,4 +76,5 @@ export default async params => {
     removeAndRecreateDir(params.buildDir)
     await copyTopLevelDirs(params)
     await copyPartModules(params)
+    copyEssentialParts(params)
 }
