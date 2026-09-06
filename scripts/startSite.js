@@ -260,11 +260,13 @@ export default params => {
         containerHome,
         home,
         process,
+        processPath,
         repo,
         tenantsPath,
     } = params
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/showCache`, `${containerHome}/${repo}/${process}/src/routes/show-cache`)
+    params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
