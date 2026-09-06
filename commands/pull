@@ -1,70 +1,113 @@
 #!/usr/bin/env node
 
-import {
-    runOnTerminal,
-    runOnTerminalAsync,
-} from '../scripts/terminal.js'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+
+import { runOnTerminal } from '../scripts/terminal.js'
+import findChangedGithubRepos from '../scripts/findChangedGithubRepos.js'
 import findRepos from '../scripts/findRepos.js'
 import {
     divide,
-    info,
-    warning,
-    success,
     error,
+    info,
+    success,
+    warning,
 } from '../scripts/logger.js'
 // import configVsCode from '../scripts/configVsCode.js'
 // import adHoc from '../scripts/adHoc.js'
 
 const search = process.argv[2]
-const timeoutSeconds = process.env.vcsTimeout && `${process.env.vcsTimeout}`.trim() !== '' ? Number(process.env.vcsTimeout) : 15
+const configuredTimeout = Number(process.env.vcsTimeout)
+const timeoutSeconds = Number.isFinite(configuredTimeout) && configuredTimeout > 0
+    ? configuredTimeout
+    : 15
+const configuredConcurrency = Number(process.env.vcsConcurrency)
+const concurrency = Number.isInteger(configuredConcurrency) && configuredConcurrency > 0
+    ? configuredConcurrency
+    : 5
+const execFileAsync = promisify(execFile)
 
 divide()
 info('Pulling repos ...')
 divide()
 
-const pullOnce = async dir => runOnTerminalAsync(`timeout ${timeoutSeconds} git -C ${dir} pull 2>&1`) || ''
-
-const needsRetry = out => !out || /unexpected disconnect/i.test(out)
-
-const pullWithRetry = async parent => {
-    let out = await pullOnce(parent)
-    let retries = 0
-
-    if (/unrelated histories/i.test(out)) {
-        error(parent)
-        error(out)
-        await Promise.resolve(fix(parent))
-        return
-    }
-
-    while ((needsRetry(out)) && retries < 5) {
-        warning(`Retrying ${parent} (Attempt ${retries + 1}/5)`)
-        out = await pullOnce(parent)
-        retries++
-        if (/unrelated histories/i.test(out)) {
-            error(parent)
-            error(out)
-            await Promise.resolve(fix(parent))
-            return
+const pullOnce = async dir => {
+    try {
+        const {
+            stderr,
+            stdout,
+        } = await execFileAsync('git', ['-C', dir, 'pull'], {
+            maxBuffer: 1024 * 1024 * 20,
+            timeout: timeoutSeconds * 1000,
+        })
+        const result = {
+            ok: true,
+            out: `${stdout}${stderr}`.trim(),
+            retryable: false,
         }
-    }
-
-    if (out && !needsRetry(out)) {
-        await Promise.resolve(parent)
-        success(parent)
-    } else if (retries < 5) {
-        error(`Error for ${parent}`)
-        error(`Message: ${out}`)
-    } else {
-        error(`Exceeded retry limit for ${parent}`)
-        error(`Message: ${out}`)
+        return result
+    } catch (e) {
+        const out = `${e.stdout || ''}${e.stderr || e.message || ''}`.trim()
+        const result = {
+            ok: false,
+            out,
+            retryable: e.killed || /unexpected disconnect/i.test(out),
+        }
+        return result
     }
 }
 
+const pullWithRetry = async parent => {
+    let result = await pullOnce(parent)
+    let retries = 0
+
+    while (!result.ok && result.retryable && retries < 5) {
+        warning(`Retrying ${parent} (Attempt ${retries + 1}/5)`)
+        result = await pullOnce(parent)
+        retries++
+    }
+
+    if (result.ok) {
+        success(parent)
+        return true
+    }
+
+    error(`Pull failed for ${parent}`)
+    error(`Message: ${result.out}`)
+    return false
+}
+
 const repos = findRepos(search)
-await Promise.all(repos.map(repo => {
-    return pullWithRetry(repo)
-}))
+let reposToPull = repos
+
+try {
+    const {
+        changed,
+        unchecked,
+    } = await findChangedGithubRepos(repos, timeoutSeconds * 1000)
+    reposToPull = [...changed, ...unchecked]
+    info(`Skipping ${repos.length - reposToPull.length} unchanged repos`)
+} catch (e) {
+    warning(`Batch check failed: ${e.message}`)
+    warning('Falling back to pulling all matching repos')
+}
+
+let nextRepo = 0
+const results = []
+const worker = async () => {
+    while (nextRepo < reposToPull.length) {
+        const repo = reposToPull[nextRepo]
+        nextRepo++
+        results.push(await pullWithRetry(repo))
+    }
+}
+
+await Promise.all(Array.from(
+    {
+        length: Math.min(concurrency, reposToPull.length),
+    },
+    worker,
+))
 // for (const repo of repos) {
 //     await pullWithRetry(repo)
 // }
@@ -76,7 +119,11 @@ await Promise.all(repos.map(repo => {
 // }
 
 divide()
-success('Got all')
+if (results.every(Boolean)) {
+    success('Got all')
+} else {
+    warning('Completed with pull failures')
+}
 divide()
 
 runOnTerminal('configIde')
