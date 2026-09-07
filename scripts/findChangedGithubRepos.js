@@ -1,11 +1,19 @@
-import { execFileSync } from 'node:child_process'
+import { execFile, execFileSync } from 'node:child_process'
+import { promisify } from 'node:util'
 
-const gitOutput = (repo, args) => {
+import {
+    measure,
+    measureAsync,
+} from './timing.js'
+
+const execFileAsync = promisify(execFile)
+
+const gitOutput = async (repo, args) => {
     try {
-        return execFileSync('git', ['-C', repo, ...args], {
+        const { stdout } = await execFileAsync('git', ['-C', repo, ...args], {
             encoding: 'utf8',
-            stdio: ['ignore', 'pipe', 'ignore'],
-        }).trim()
+        })
+        return stdout.trim()
     } catch (e) {
         return ''
     }
@@ -23,8 +31,8 @@ const parseGithubRemote = remoteUrl => {
     return remote
 }
 
-const getRepoDetails = (repo, index) => {
-    const upstream = gitOutput(repo, [
+const getRepoDetails = async (repo, index) => {
+    const upstream = await gitOutput(repo, [
         'rev-parse',
         '--abbrev-ref',
         '--symbolic-full-name',
@@ -36,9 +44,9 @@ const getRepoDetails = (repo, index) => {
 
     const remoteName = upstream.slice(0, separator)
     const branch = upstream.slice(separator + 1)
-    const remoteUrl = gitOutput(repo, ['remote', 'get-url', remoteName])
+    const remoteUrl = await gitOutput(repo, ['remote', 'get-url', remoteName])
     const remote = parseGithubRemote(remoteUrl)
-    const oid = gitOutput(repo, ['rev-parse', 'HEAD'])
+    const oid = await gitOutput(repo, ['rev-parse', 'HEAD'])
 
     if (!branch || !oid || !remote) return null
 
@@ -105,10 +113,12 @@ const requestHeads = async (details, timeoutMs) => {
 }
 
 export default async (repos, timeoutMs) => {
-    const details = repos
-        .map(getRepoDetails)
+    const details = (await Promise.all(repos.map((repo, index) => measureAsync(
+        `pull: inspect ${repo}`,
+        () => getRepoDetails(repo, index),
+    ))))
         .filter(Boolean)
-    const unchecked = repos.filter(repo => !details.some(item => item.repo === repo))
+    const unchecked = measure('pull: identify unchecked repos', () => repos.filter(repo => !details.some(item => item.repo === repo)))
 
     if (!details.length) {
         const result = {
@@ -118,10 +128,10 @@ export default async (repos, timeoutMs) => {
         return result
     }
 
-    const heads = await requestHeads(details, timeoutMs)
-    const changed = details
+    const heads = await measureAsync('pull: request GitHub heads', () => requestHeads(details, timeoutMs))
+    const changed = measure('pull: identify changed repos', () => details
         .filter(item => heads[item.alias]?.ref?.target?.oid !== item.oid)
-        .map(item => item.repo)
+        .map(item => item.repo))
     const result = {
         changed,
         unchecked,

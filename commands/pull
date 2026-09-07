@@ -7,6 +7,12 @@ import { runOnTerminal } from '../scripts/terminal.js'
 import findChangedGithubRepos from '../scripts/findChangedGithubRepos.js'
 import findRepos from '../scripts/findRepos.js'
 import {
+    initializeTimings,
+    measure,
+    measureAsync,
+    writeTimings,
+} from '../scripts/timing.js'
+import {
     divide,
     error,
     info,
@@ -26,6 +32,7 @@ const concurrency = Number.isInteger(configuredConcurrency) && configuredConcurr
     ? configuredConcurrency
     : 5
 const execFileAsync = promisify(execFile)
+initializeTimings()
 
 divide()
 info('Pulling repos ...')
@@ -77,20 +84,22 @@ const pullWithRetry = async parent => {
     return false
 }
 
-const repos = findRepos(search)
+const repos = measure('pull: find repositories', () => findRepos(search))
 let reposToPull = repos
 
 try {
     const {
         changed,
         unchecked,
-    } = await findChangedGithubRepos(repos, timeoutSeconds * 1000)
+    } = await measureAsync('pull: check repositories', () => findChangedGithubRepos(repos, timeoutSeconds * 1000))
     reposToPull = [...changed, ...unchecked]
     info(`Skipping ${repos.length - reposToPull.length} unchanged repos`)
 } catch (e) {
     warning(`Batch check failed: ${e.message}`)
     warning('Falling back to pulling all matching repos')
 }
+writeTimings('/tmp/pullReport.md')
+info(`Prepared ${reposToPull.length} repos for pulling`)
 
 let nextRepo = 0
 const results = []
