@@ -75,41 +75,82 @@ const getToken = () => {
     }
 }
 
-const createQuery = details => `query {
-${details.map(item => `    ${item.alias}: repository(owner: ${JSON.stringify(item.owner)}, name: ${JSON.stringify(item.name)}) {
-        ref(qualifiedName: ${JSON.stringify(`refs/heads/${item.branch}`)}) {
-            target {
-                oid
+const createQuery = (owner, cursor) => `query {
+    repositoryOwner(login: ${JSON.stringify(owner)}) {
+        repositories(first: 100${cursor ? `, after: ${JSON.stringify(cursor)}` : ''}) {
+            nodes {
+                name
+                owner {
+                    login
+                }
+                ref(qualifiedName: "refs/heads/main") {
+                    target {
+                        oid
+                    }
+                }
+            }
+            pageInfo {
+                hasNextPage
+                endCursor
             }
         }
-    }`).join('\n')}
+    }
 }`
+
+const getRepositoryKey = (owner, name) => `${owner}/${name}`.toLowerCase()
+
+const requestOrganizationHeads = async (owner, token, timeoutMs) => {
+    const nodes = []
+    let cursor = null
+    let hasNextPage = true
+
+    while (hasNextPage) {
+        const response = await fetch('https://api.github.com/graphql', {
+            body: JSON.stringify({
+                query: createQuery(owner, cursor),
+            }),
+            headers: {
+                Accept: 'application/vnd.github+json',
+                Authorization: `Bearer ${token}`,
+                'User-Agent': 'holizm-core-pull',
+            },
+            method: 'POST',
+            signal: AbortSignal.timeout(timeoutMs),
+        })
+
+        if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status}`)
+
+        const result = await response.json()
+
+        if (!result.data) throw new Error(result.errors?.[0]?.message || 'GitHub returned no repository data')
+
+        const repositories = result.data.repositoryOwner?.repositories
+        nodes.push(...(repositories?.nodes || []))
+        hasNextPage = repositories?.pageInfo?.hasNextPage || false
+        cursor = repositories?.pageInfo?.endCursor || null
+    }
+
+    return nodes
+}
 
 const requestHeads = async (details, timeoutMs) => {
     const token = getToken()
 
     if (!token) throw new Error('GitHub authentication is unavailable')
 
-    const response = await fetch('https://api.github.com/graphql', {
-        body: JSON.stringify({
-            query: createQuery(details),
-        }),
-        headers: {
-            Accept: 'application/vnd.github+json',
-            Authorization: `Bearer ${token}`,
-            'User-Agent': 'holizm-core-pull',
-        },
-        method: 'POST',
-        signal: AbortSignal.timeout(timeoutMs),
-    })
+    const owners = [...new Set(details.map(item => item.owner))]
+    const nodes = (await Promise.all(owners.map(owner => requestOrganizationHeads(owner, token, timeoutMs)))).flat()
+    const heads = new Map(nodes
+        .filter(node => node.owner?.login && node.name)
+        .map(node => [getRepositoryKey(node.owner.login, node.name), node.ref?.target?.oid]))
+    const matched = details.filter(item => heads.has(getRepositoryKey(item.owner, item.name)))
 
-    if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status}`)
+    if (!matched.length) throw new Error('GitHub returned no matching repository heads')
 
-    const result = await response.json()
-
-    if (!result.data) throw new Error(result.errors?.[0]?.message || 'GitHub returned no repository data')
-
-    return result.data
+    const result = Object.fromEntries(details.map(item => [item.alias, {
+        oid: heads.get(getRepositoryKey(item.owner, item.name)),
+    }]))
+    return result
 }
 
 export default async (repos, timeoutMs) => {
@@ -130,7 +171,7 @@ export default async (repos, timeoutMs) => {
 
     const heads = await measureAsync('pull: request GitHub heads', () => requestHeads(details, timeoutMs))
     const changed = measure('pull: identify changed repos', () => details
-        .filter(item => heads[item.alias]?.ref?.target?.oid !== item.oid)
+        .filter(item => heads[item.alias]?.oid !== item.oid)
         .map(item => item.repo))
     const result = {
         changed,
