@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+library=$1
+registry=${2:-https://registry.npmjs.org}
+
+if [[ ! $library =~ ^(@[a-z0-9._-]+/)?[a-z0-9._-]+$ ]]; then
+    echo 'Invalid library name'
+    exit 1
+fi
+
+version=$(node -p "require('./package-lock.json').packages['node_modules/' + process.argv[1]]?.version || ''" "$library")
+if [[ -z $version ]]; then
+    echo "Library not found in package-lock.json: $library"
+    exit 1
+fi
+
+specification="${library}@${version}"
+npm cache ls "$specification" |
+while IFS= read -r cacheKey; do
+    if [[ -n $cacheKey ]]; then
+        npm cache clean "$cacheKey" --force
+    fi
+done
+
+npm cache add "$specification" --registry="$registry"
+npm cache verify
+
+packageDirectory="node_modules/$library"
+packageParent=$(dirname "$packageDirectory")
+packageName=$(basename "$library")
+
+rm -rf "$packageDirectory"
+find "$packageParent" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -name ".${packageName}-*" \
+    -exec rm -rf {} +
+
+npm install "$specification" \
+    --legacy-peer-deps \
+    --no-save \
+    --registry="$registry"
