@@ -22,4 +22,5 @@ getLatestNodeLtsVersion() {
         | jq -r '[.[] | select(.lts != false)][0].version'
 }
 
-ensureLatestLts node getInstalledNodeVersion getLatestNodeLtsVersion installNode
+# ensureLatestLts node getInstalledNodeVersion getLatestNodeLtsVersion installNode
+install node installNode

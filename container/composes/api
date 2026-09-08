@@ -25,6 +25,7 @@ services:
             - isEtl=${isEtl}
             - MONGOMS_DOWNLOAD_DIR=${containerHome}/.cache/mongodb-memory-server
             - MONGOMS_PREFER_GLOBAL_PATH=false
+            - MONGOMS_SYSTEM_BINARY=${containerHome}/.cache/mongodb-memory-server/mongod
 
             ${environmentVariablesPlaceholder}
         volumes:

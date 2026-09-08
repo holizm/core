@@ -2,21 +2,33 @@
 set -euo pipefail
 
 cacheDirectory="$homeDir/.cache/mongodb-memory-server"
+archivePath="$cacheDirectory/mongodb.tgz"
+binaryPath="$cacheDirectory/mongod"
+downloadArchive="$homeDir/Downloads/mongodb-linux-x86_64-ubuntu2204-7.0.14.tgz"
 mkdir -p "$cacheDirectory"
 
-if [ ! -d "$homeDir/jzp/node_modules/mongodb-memory-server" ]; then
-    exit 0
+if [ ! -x "$binaryPath" ]; then
+    if [ -f "$downloadArchive" ]; then
+        cp "$downloadArchive" "$archivePath"
+    else
+        if ! curl -fL --retry 5 \
+            -o "$archivePath" \
+            'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2204-7.0.14.tgz'; then
+            echo 'MongoDB test server download failed; continuing setup.'
+            exit 0
+        fi
+    fi
+    temporaryDirectory=$(mktemp -d)
+    if ! tar -xzf "$archivePath" -C "$temporaryDirectory"; then
+        echo 'MongoDB test server extraction failed; continuing setup.'
+        rm -rf "$temporaryDirectory" "$archivePath"
+        exit 0
+    fi
+    cp "$temporaryDirectory"/mongodb-linux-x86_64-ubuntu2204-7.0.14/bin/mongod "$binaryPath" || {
+        echo 'MongoDB test server preparation failed; continuing setup.'
+        rm -rf "$temporaryDirectory" "$archivePath"
+        exit 0
+    }
+    chmod +x "$binaryPath"
+    rm -rf "$temporaryDirectory" "$archivePath"
 fi
-
-MONGOMS_DOWNLOAD_DIR="$cacheDirectory" \
-MONGOMS_PREFER_GLOBAL_PATH=false \
-node --input-type=module -e "
-import { MongoMemoryServer } from '$homeDir/jzp/node_modules/mongodb-memory-server/index.js'
-const mongoServer = await MongoMemoryServer.create({
-    binary: {
-        os: { dist: 'ubuntu', release: '2204' },
-        version: '7.0.14',
-    },
-})
-await mongoServer.stop()
-"
