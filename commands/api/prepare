@@ -37,18 +37,6 @@ for file in "${files[@]}"; do
     fi
 done
 
-find $home/spl \
-    -maxdepth 1 \
-    -mindepth 1 \
-    -type d \
-    | \
-while read part;
-do
-    partName=$(basename $part)
-    # mkdir -p /$targetProject/$partName
-    # cp $part /$targetProject/$partName
-done
-
 cp -r $home/$apiRepo/$apiProcess/.vscode $targetPath
 sed -i "s/$apiRepo//g" $targetPath/.vscode/launch.json
 sed -i "s/$apiProcess/$targetProject/g" $targetPath/.vscode/launch.json

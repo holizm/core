@@ -12,6 +12,7 @@ const persistentItems = [
     'secrets.json',
     'settingsOverride.json',
     'tenants',
+    'webServer',
 ]
 
 export default processPath => {

@@ -97,7 +97,6 @@ const mapDependencies = params => {
             continue
         }
 
-        params.addVolume(`${dependencyBase}`, `${containerHome}/spl/${dependency}`)
         params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
 

@@ -13,6 +13,7 @@ export const deleteByPatterns = async (cwd, patterns) => {
     const matches = await fg(patterns, {
         cwd,
         dot: true,
+        caseSensitiveMatch: false,
         onlyFiles: false,
         unique: true,
     })

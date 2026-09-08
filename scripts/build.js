@@ -91,7 +91,11 @@ export default async params => {
         '**/publicSettings.json',
         '**/repo.json',
         '**/secrets.json',
+        '**/spl',
         '**/settingsOverride.json',
+        '**/startReport.md',
+        '**/*localization*/',
+        '**/webServer',
     ])
 
     if (isCiCd) {

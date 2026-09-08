@@ -58,9 +58,35 @@ const commitRepo = dir => {
     return true
 }
 
-const pushRepoStreaming = async dir => {
+const pushRepoStreaming = async (dir, retryEnabled) => {
     info(`→ pushing ${dir}`)
 
+    const maxAttempts = retryEnabled ? 10 : 2
+    const timeout = retryEnabled ? 'timeout -s KILL 10s ' : ''
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+            await runStreaming(`${timeout}git -C ${dir} push`)
+            success(attempt === 1 ? `✓ pushed ${dir}` : `✓ pushed ${dir} on attempt ${attempt}`)
+            return
+        } catch (e) {
+            if (attempt === maxAttempts) {
+                warning(`✗ failed ${dir} after ${attempt} attempts: ${e.message}`)
+                return
+            }
+
+            warning(`Push failed for ${dir}, pulling and retrying (attempt ${attempt + 1}/${maxAttempts})...`)
+
+            try {
+                await runStreaming(`${timeout}git -C ${dir} pull`)
+            } catch (pullError) {
+                warning(`Pull failed for ${dir}: ${pullError.message}`)
+            }
+        }
+    }
+}
+
+const pushRepo = async dir => {
     try {
         await runStreaming(`git -C ${dir} push`)
         success(`✓ pushed ${dir}`)
@@ -104,12 +130,17 @@ const ahead = results
     .map(r => r.repo)
 
 const unique = [...new Set([...toPush, ...ahead])]
+const retryEnabled = Boolean(search && unique.length === 1)
 
 divide()
 info(`Pushing ${unique.length} repos in parallel`)
 divide()
 
-await Promise.all(unique.map(pushRepoStreaming))
+await Promise.all(unique.map(dir =>
+    retryEnabled
+    ? pushRepoStreaming(dir, true)
+    : pushRepo(dir)
+))
 
 divide()
 success('Pushed all')

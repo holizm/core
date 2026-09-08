@@ -21,9 +21,7 @@ export default params => {
         'site',
     ].includes(processType)
     const processIsApi = processType === 'api'
-    const splPath = `/tmp/${repo}/${process}/spl`
     if (processIsApi) {
-        removeAndRecreateDir(splPath)
         removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
         if (process.startsWith('admin')) {
             for (const utility of [
@@ -63,10 +61,6 @@ export default params => {
         `/var/tmp/${repo}/${processType}/nodeModules`,
         `/var/tmp/${processType}`,
         `/var/tmp/${processType}/nodeModules`,
-        [
-            splPath,
-            `${containerHome}/spl`,
-        ],
         [
             `${home}/packages`,
             `${containerHome}/packages`,
