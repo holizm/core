@@ -32,6 +32,7 @@ $setupDev/speedTest
 
 $setupDev/docker
 $setupDev/node
+$setupDev/mongodbMemoryServer
 sudo homeDir="$homeDir" node "$setupDev/nginx"
 
 $setupDev/micro

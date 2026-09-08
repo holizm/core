@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cacheDirectory="$homeDir/.cache/mongodb-memory-server"
+mkdir -p "$cacheDirectory"
+
+if [ ! -d "$homeDir/jzp/node_modules/mongodb-memory-server" ]; then
+    exit 0
+fi
+
+MONGOMS_DOWNLOAD_DIR="$cacheDirectory" \
+MONGOMS_PREFER_GLOBAL_PATH=false \
+node --input-type=module -e "
+import { MongoMemoryServer } from '$homeDir/jzp/node_modules/mongodb-memory-server/index.js'
+const mongoServer = await MongoMemoryServer.create({
+    binary: {
+        os: { dist: 'ubuntu', release: '2204' },
+        version: '7.0.14',
+    },
+})
+await mongoServer.stop()
+"

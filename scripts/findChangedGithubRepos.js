@@ -44,9 +44,11 @@ const getRepoDetails = async (repo, index) => {
 
     const remoteName = upstream.slice(0, separator)
     const branch = upstream.slice(separator + 1)
-    const remoteUrl = await gitOutput(repo, ['remote', 'get-url', remoteName])
+    const [remoteUrl, oid] = await Promise.all([
+        gitOutput(repo, ['remote', 'get-url', remoteName]),
+        gitOutput(repo, ['rev-parse', 'HEAD']),
+    ])
     const remote = parseGithubRemote(remoteUrl)
-    const oid = await gitOutput(repo, ['rev-parse', 'HEAD'])
 
     if (!branch || !oid || !remote) return null
 
