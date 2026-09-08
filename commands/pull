@@ -98,7 +98,6 @@ try {
     warning(`Batch check failed: ${e.message}`)
     warning('Falling back to pulling all matching repos')
 }
-writeTimings('/tmp/pullReport.md')
 info(`Prepared ${reposToPull.length} repos for pulling`)
 
 let nextRepo = 0
@@ -137,4 +136,5 @@ divide()
 
 runOnTerminal('configIde')
 runOnTerminal('configAi')
+writeTimings('/tmp/pullReport.md')
 // await Promise.resolve(adHoc())

@@ -4,7 +4,7 @@
 
 divide
 
-find "$HOME" -type d -name ".git" | while read gitDir; do
+find "$HOME" -mindepth 2 -maxdepth 2 -type d -name ".git" | while read gitDir; do
   repoDir=$(dirname "$gitDir")
   if [ -f "$repoDir/common/tenants" ]; then
     name=$(basename "$repoDir")
