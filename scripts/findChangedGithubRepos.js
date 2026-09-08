@@ -1,4 +1,5 @@
 import { execFile, execFileSync } from 'node:child_process'
+import { cpus } from 'node:os'
 import { promisify } from 'node:util'
 
 import {
@@ -32,12 +33,15 @@ const parseGithubRemote = remoteUrl => {
 }
 
 const getRepoDetails = async (repo, index) => {
-    const upstream = await gitOutput(repo, [
-        'rev-parse',
-        '--abbrev-ref',
-        '--symbolic-full-name',
-        '@{upstream}',
-    ])
+    const upstream = await measureAsync(
+        `pull: git upstream ${repo}`,
+        () => gitOutput(repo, [
+            'rev-parse',
+            '--abbrev-ref',
+            '--symbolic-full-name',
+            '@{upstream}',
+        ]),
+    )
     const separator = upstream.indexOf('/')
 
     if (separator < 1) return null
@@ -45,8 +49,14 @@ const getRepoDetails = async (repo, index) => {
     const remoteName = upstream.slice(0, separator)
     const branch = upstream.slice(separator + 1)
     const [remoteUrl, oid] = await Promise.all([
-        gitOutput(repo, ['remote', 'get-url', remoteName]),
-        gitOutput(repo, ['rev-parse', 'HEAD']),
+        measureAsync(
+            `pull: git remote ${repo}`,
+            () => gitOutput(repo, ['remote', 'get-url', remoteName]),
+        ),
+        measureAsync(
+            `pull: git head ${repo}`,
+            () => gitOutput(repo, ['rev-parse', 'HEAD']),
+        ),
     ])
     const remote = parseGithubRemote(remoteUrl)
 
@@ -156,14 +166,22 @@ const requestHeads = async (details, timeoutMs) => {
 }
 
 export default async (repos, timeoutMs) => {
-    const details = (await Promise.all(repos.map((repo, index) => measureAsync(
-        `pull: inspect ${repo}`,
-        () => getRepoDetails(repo, index),
-    ))))
-        .filter(Boolean)
-    const unchecked = measure('pull: identify unchecked repos', () => repos.filter(repo => !details.some(item => item.repo === repo)))
+    const details = []
+    const concurrency = Math.max(cpus().length, 1)
 
-    if (!details.length) {
+    for (let index = 0; index < repos.length; index += concurrency) {
+        const batch = repos.slice(index, index + concurrency)
+        const batchDetails = await Promise.all(batch.map((repo, batchIndex) => measureAsync(
+            `pull: inspect ${repo}`,
+            () => getRepoDetails(repo, index + batchIndex),
+        )))
+        details.push(...batchDetails)
+    }
+
+    const validDetails = details.filter(Boolean)
+    const unchecked = measure('pull: identify unchecked repos', () => repos.filter(repo => !validDetails.some(item => item.repo === repo)))
+
+    if (!validDetails.length) {
         const result = {
             changed: [],
             unchecked,
@@ -171,8 +189,8 @@ export default async (repos, timeoutMs) => {
         return result
     }
 
-    const heads = await measureAsync('pull: request GitHub heads', () => requestHeads(details, timeoutMs))
-    const changed = measure('pull: identify changed repos', () => details
+    const heads = await measureAsync('pull: request GitHub heads', () => requestHeads(validDetails, timeoutMs))
+    const changed = measure('pull: identify changed repos', () => validDetails
         .filter(item => heads[item.alias]?.oid !== item.oid)
         .map(item => item.repo))
     const result = {
