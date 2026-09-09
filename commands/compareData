@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+import { clear } from '../scripts/terminal.js'
+import run from './api/run'
+
+clear()
+
+await run({
+    app: 'migration',
+    command: 'compareData',
+    part: process.argv[2],
+    show: true,
+    types: process.argv[3],
+})
