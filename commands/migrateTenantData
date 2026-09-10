@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+import extract from '../scripts/extract.js'
+import { errorAndExit } from '../scripts/logger.js'
+import {
+    clear,
+    runStreaming,
+} from '../scripts/terminal.js'
+
+clear()
+
+const tenant = process.argv[2]
+if (!tenant) {
+    errorAndExit('Tenant is required')
+}
+if (!/^[a-z][a-zA-Z0-9]*$/.test(tenant)) {
+    errorAndExit('Tenant must be a camelCase identifier')
+}
+
+const { containerName } = extract()
+await runStreaming(
+    `docker exec -i ${containerName} node --preserve-symlinks /home/dev/migration/process.js command=tenantData tenant=${tenant}`,
+    {
+        show: true,
+    },
+)

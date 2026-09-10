@@ -32,7 +32,6 @@ services:
             - ${home}/panel/findClientInitializers.js:${containerHome}/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:${containerHome}/${repo}/${process}/findDependencies.js
             - ${home}/panel/findIcons.js:${containerHome}/${repo}/${process}/findIcons.js
-            - ${home}/panel/findItemRenderers.js:${containerHome}/${repo}/${process}/findItemRenderers.js
             - ${home}/panel/findMenus.js:${containerHome}/${repo}/${process}/findMenus.js
             - ${home}/panel/findParts.js:${containerHome}/${repo}/${process}/findParts.js
             - ${home}/panel/findRichTextComponents.js:${containerHome}/${repo}/${process}/findRichTextComponents.js
