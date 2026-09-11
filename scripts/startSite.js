@@ -193,6 +193,21 @@ const mapParts = params => {
     })
 }
 
+const mapThemes = params => {
+    const {
+        containerHome,
+        process,
+        processPath,
+        repo,
+    } = params
+    const themesPath = `${processPath}/themes`
+    params.themesVolume = isDir(themesPath)
+        ?
+        `- ${themesPath}:${containerHome}/${repo}/${process}/src/themes`
+        :
+        ''
+}
+
 const mapOthers = params => {
     const {
         containerHome,
@@ -251,6 +266,7 @@ export default params => {
     measure('site: map settings', () => mapSettings(params))
     measure('site: map pages', () => mapPages(params))
     measure('site: map parts', () => mapParts(params))
+    measure('site: map themes', () => mapThemes(params))
     measure('site: map shared fallbacks', () => mapSiteSharedFallbacks(params))
     measure('site: map other files', () => mapOthers(params))
     measure('site: map Node files', () => mapNode(params))

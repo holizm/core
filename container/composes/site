@@ -73,6 +73,7 @@ services:
             - /tmp/${repo}/${process}/uiParts.json:/tmp/${repo}/${process}/uiParts.json
             - /tmp/${repo}/${process}/webServerCache:${containerHome}/webServerCache
             - ${processPath}/styles:${containerHome}/${repo}/${process}/styles
+            ${themesVolume}
 
             ${volumes}
 
