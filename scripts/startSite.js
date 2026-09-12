@@ -1,5 +1,8 @@
-import fs from 'fs'
-import { basename } from 'path'
+import fs from 'node:fs'
+import {
+    basename,
+    join,
+} from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import getDependencies from './getDependencies.js'
@@ -13,10 +16,12 @@ import kebabize from './kebabize.js'
 import mapNode from './mapNode.js'
 import mapSettings from './mapSettings.js'
 import mapSiteSharedFallbacks from './mapSiteSharedFallbacks.js'
+import processTenantLine from './processTenantLine.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
     createFileIfNotExists,
+    getLines,
     isDir,
     isFile,
     replaceVariables,
@@ -240,6 +245,36 @@ const ensureLocalSecrets = params => {
     }
 }
 
+const configureDevelopmentNetwork = params => {
+    const {
+        isCiCd,
+        localBuild,
+        tenantsPath,
+    } = params
+    if (isCiCd || localBuild) {
+        params.localApiHosts = ''
+        params.mkcertEnvironment = ''
+        params.mkcertVolume = ''
+        return
+    }
+    const apiHosts = getLines(tenantsPath)
+        .filter(Boolean)
+        .map(line => processTenantLine({
+            ...params,
+            line,
+            process: `${params.process}Api`,
+        }).host)
+    params.localApiHosts = [...new Set(apiHosts)]
+        .sort()
+        .map(host => `- "${host}:host-gateway"`)
+        .join('\n            ')
+    const mkcertRootPath = runOnTerminal('mkcert -CAROOT').trim()
+    const mkcertRootCaPath = join(mkcertRootPath, 'rootCA.pem')
+    const containerRootCaPath = '/etc/ssl/certs/mkcertRootCa.pem'
+    params.mkcertEnvironment = `- NODE_EXTRA_CA_CERTS=${containerRootCaPath}`
+    params.mkcertVolume = `- ${mkcertRootCaPath}:${containerRootCaPath}:ro`
+}
+
 export default params => {
     info('Setting up site')
     divide()
@@ -271,6 +306,7 @@ export default params => {
     measure('site: map other files', () => mapOthers(params))
     measure('site: map Node files', () => mapNode(params))
     measure('site: ensure local secrets', () => ensureLocalSecrets(params))
+    measure('site: configure development network', () => configureDevelopmentNetwork(params))
     const {
         composeFile,
         containerHome,

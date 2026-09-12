@@ -4,11 +4,13 @@ services:
         ${userLine}
         container_name: ${containerName}
         hostname: site
+        ports:
+            - "${deterministicPort}:${deterministicPort}"
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
             - containerHome=${containerHome}
-            - NODE_TLS_REJECT_UNAUTHORIZED=0
+            ${mkcertEnvironment}
             - org=${org}
             - repo=${repo}
             - process=${process}
@@ -67,6 +69,7 @@ services:
             - ${home}/site/icons/markerIcon.png:${containerHome}/${repo}/${process}/public/icons/marker-icon.png
             - ${home}/site/icons/markerIcon2x.png:${containerHome}/${repo}/${process}/public/icons/marker-icon-2x.png
             - ${home}/site/icons/markerShadow.png:${containerHome}/${repo}/${process}/public/icons/marker-shadow.png
+            ${mkcertVolume}
             - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
@@ -100,4 +103,12 @@ services:
             fi
             tail -f /dev/null
             '
-        network_mode: "host"
+        networks:
+            - ${repo}Network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+            ${localApiHosts}
+
+networks:
+    ${repo}Network:
+        external: true
