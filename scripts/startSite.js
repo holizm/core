@@ -321,7 +321,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
-    params.addVolume(`${home}/site/src/routes/showCache`, `${containerHome}/${repo}/${process}/src/routes/show-cache`)
+    params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
     if (isCiCd || localBuild) {
         params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     }
