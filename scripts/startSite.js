@@ -201,12 +201,13 @@ const mapParts = params => {
 const mapThemes = params => {
     const {
         containerHome,
+        multitenant,
         process,
         processPath,
         repo,
     } = params
     const themesPath = `${processPath}/themes`
-    params.themesVolume = isDir(themesPath)
+    params.themesVolume = multitenant
         ?
         `- ${themesPath}:${containerHome}/${repo}/${process}/src/themes`
         :
@@ -281,6 +282,7 @@ export default params => {
 
     params.processType = 'site'
     params.sitePartRoutes = {}
+    params.multitenant = isDir(`${params.processPath}/themes`)
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create directories', () => createDirectories({
