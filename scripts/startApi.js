@@ -97,7 +97,9 @@ const mapDependencies = params => {
             continue
         }
 
-        params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
+        if (fs.existsSync(dependencyBase)) {
+            params.addVolume(`${dependencyBase}`, `${containerHome}/${dependency}/api`)
+        }
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
 
         if (runnablePart) {
