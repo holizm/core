@@ -53,13 +53,13 @@ export default async params => {
         return
     }
     createDirIfNotExists(`/var/tmp/${repo}/search/databases`)
-    params.databaseSearchPort = getDeterministicPort(`${repo}SearchDatabases`)
+    params.searchDatabasePort = getDeterministicPort(`${repo}SearchDatabases`)
     const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
 
     const webServerChanged = await processTenantLines({
         ...params,
         camelizedProcess: 'search',
-        deterministicPort: params.databaseSearchPort,
+        deterministicPort: params.searchDatabasePort,
         hosts: [`${repo}.local`],
         lines,
         pascalizedProcess: 'Search',

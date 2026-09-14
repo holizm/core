@@ -4,7 +4,7 @@ services:
         container_name: ${repo}SearchDatabases
         hostname: search
         ports:
-            - 127.0.0.1:${databaseSearchPort}:7700
+            - 127.0.0.1:${searchDatabasePort}:7700
         environment:
             - MEILI_MASTER_KEY=x7W6jDf03aZyoXKylGM6
         volumes:
