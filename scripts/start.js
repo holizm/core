@@ -28,6 +28,7 @@ import reloadWebServer from './reloadWebServer.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
+import startMultiThemedSite from './startMultiThemedSite.js'
 import startPanel from './startPanel.js'
 import startSite from './startSite.js'
 import {
@@ -146,6 +147,9 @@ export default async overrides => {
         else if (isSite(params)) {
             params.isSite = true
             startSite(params)
+            if (params.multitenant) {
+                startMultiThemedSite(params)
+            }
         }
         else if (isWorker(params)) {
             params.isWorker = true
@@ -159,7 +163,7 @@ export default async overrides => {
     measure('register cache server container', () => createCacheServer(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
-    const shouldWatch = params.isSite && !params.isCiCd && !params.localBuild
+    const shouldWatch = params.isSite && !params.multitenant && !params.isCiCd && !params.localBuild
     const composeMode =
         shouldWatch
         ?
