@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+import {
+    readFile,
+    writeFile,
+} from 'node:fs/promises'
+import fg from 'fast-glob'
+import {
+    error,
+    info,
+} from '../scripts/logger.js'
+
+const sortValue = value => {
+    if (Array.isArray(value)) {
+        return value.map(sortValue)
+    }
+    if (value && typeof value === 'object') {
+        const sorted = {}
+        Object.keys(value).sort().forEach(key => {
+            sorted[key] = sortValue(value[key])
+        })
+        return sorted
+    }
+    return value
+}
+
+const paths = await fg('**/*.json', {
+    absolute: true,
+    cwd: process.cwd(),
+    dot: true,
+    followSymbolicLinks: false,
+    onlyFiles: true,
+})
+
+let failed = false
+for (const path of paths.sort()) {
+    try {
+        const content = await readFile(path, 'utf8')
+        const formatted = `${JSON.stringify(sortValue(JSON.parse(content)), null, 4)}\n`
+        if (formatted !== content) {
+            await writeFile(path, formatted)
+            info(`Formatted ${path}`)
+        }
+    }
+    catch (e) {
+        failed = true
+        error(`Could not format ${path}: ${e.message}`)
+    }
+}
+
+info(`Checked ${paths.length} JSON files`)
+if (failed) {
+    process.exitCode = 1
+}
