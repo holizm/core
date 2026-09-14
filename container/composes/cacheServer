@@ -1,13 +1,22 @@
 services:
     cacheServer:
         image: redis:latest
-        container_name: ${cacheServerName}
+        container_name: ${repo}Cache
         hostname: cacheServer
+        command:
+            - redis-server
+            - --requirepass
+            - ${cacheServerPassword}
         ports:
             - 127.0.0.1:${cacheServerPort}:6379
-        restart: always
         networks:
             - ${repo}Network
+        restart: always
+        healthcheck:
+            test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${cacheServerPassword}", "PING"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
 
 networks:
     ${repo}Network:
