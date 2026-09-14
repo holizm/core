@@ -27,10 +27,11 @@ const getCacheSettings = ({
         JSON.parse(getContent(commonSettingsPath))
         :
         {}
-    return {
-        ...privateSettings,
-        ...commonSettings,
+    const cacheSettings = {
+        enabled: commonSettings.cache?.enabled ?? privateSettings.cache?.enabled,
+        serverPassword: commonSettings.cache?.serverPassword ?? privateSettings.cache?.serverPassword,
     }
+    return cacheSettings
 }
 
 const createComposeFile = params => {
@@ -77,18 +78,18 @@ export default params => {
         isCiCd ||
         localBuild ||
         (!params.isApi && !params.isSite) ||
-        cacheSettings.enableCacheServer !== true
+        cacheSettings.enabled !== true
     ) {
         return
     }
-    if (!cacheSettings.cacheServerPassword) {
-        errorAndExit('cacheServerPassword is required when enableCacheServer is true')
+    if (!cacheSettings.serverPassword) {
+        errorAndExit('cache.serverPassword is required when cache.enabled is true')
     }
 
     const cacheServerName = `${repo}Cache`
     const composePath = createComposeFile({
         ...params,
-        cacheServerPassword: cacheSettings.cacheServerPassword,
+        cacheServerPassword: cacheSettings.serverPassword,
         cacheServerPort: getDeterministicPort(cacheServerName),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
