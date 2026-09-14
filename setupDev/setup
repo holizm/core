@@ -71,6 +71,7 @@ $setupDev/disableAutomaticScreenLock
 $setupDev/setCalculatorThousandsSeparator
 $setupDev/setTimeZone
 $setupDev/generateSshKey
+$setupDev/configureGitHub
 $setupDev/configureGit
 $setupDev/enableDnd
 $setupDev/configureDockerForUser

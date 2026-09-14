@@ -10,4 +10,5 @@ fi
 
 read -rp 'Email: ' email
 mkdir -p "$homeDir/.ssh"
-ssh-keygen -t ed25519 -C "$email" -f "$sshKeyPath" -N ''
+chassis=$($setupDev/getChassis)
+ssh-keygen -t ed25519 -C "$chassis $email" -f "$sshKeyPath" -N ''

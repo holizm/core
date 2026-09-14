@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. "$scripts/logger.sh"
+
+completionPath="$homeDir/githubConfigured"
+
+if [[ -f "$completionPath" ]]; then
+    exit 0
+fi
+
+if ! gh auth status --hostname github.com > /dev/null 2>&1; then
+    gh auth login --hostname github.com --web --scopes admin:public_key,admin:ssh_signing_key
+fi
+
+if ! gh api user/keys > /dev/null 2>&1 || ! gh api user/ssh_signing_keys > /dev/null 2>&1; then
+    gh auth refresh --hostname github.com --scopes admin:public_key,admin:ssh_signing_key
+fi
+
+gh config set git_protocol ssh --host github.com
+
+chassis=$($setupDev/getChassis)
+authenticationTitle="$chassis"
+signingTitle="${chassis}Verification"
+sshKeyPath="$homeDir/.ssh/id_ed25519.pub"
+
+gh api 'user/keys?per_page=100' |
+    jq -r --arg title "$authenticationTitle" '.[] | select(.title == $title) | .id' |
+    while read -r keyId; do
+        gh api --method DELETE "user/keys/$keyId"
+    done
+
+gh api 'user/ssh_signing_keys?per_page=100' |
+    jq -r --arg title "$signingTitle" '.[] | select(.title == $title) | .id' |
+    while read -r keyId; do
+        gh api --method DELETE "user/ssh_signing_keys/$keyId"
+    done
+
+gh ssh-key add "$sshKeyPath" --title "$authenticationTitle"
+gh ssh-key add "$sshKeyPath" --title "$signingTitle" --type signing
+
+sshResult=$(ssh -o StrictHostKeyChecking=accept-new -T git@github.com 2>&1 || true)
+
+if [[ "$sshResult" != *'successfully authenticated'* ]]; then
+    errorAndExit "$sshResult"
+fi
+
+success "$sshResult"
+touch "$completionPath"

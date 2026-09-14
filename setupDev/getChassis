@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+chassis=$(hostnamectl chassis 2>/dev/null || true)
+
+if [[ -z "$chassis" ]]; then
+    chassis='computer'
+fi
+
+printf '%s\n' "$chassis"
