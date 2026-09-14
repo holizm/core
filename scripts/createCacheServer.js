@@ -1,7 +1,7 @@
 import getDeterministicPort from './getDeterministicPort.js'
-import getHeadlessRepo from './getHeadlessRepo.js'
 import {
     divide,
+    errorAndExit,
     info,
 } from './logger.js'
 import {
@@ -12,13 +12,25 @@ import {
 import prepareComposeFile from './prepareComposeFile.js'
 import { runOnTerminalAsync } from './terminal.js'
 
-const isEnabled = privateSettingsPath => {
-    if (!isFile(privateSettingsPath)) {
-        return false
+const getCacheSettings = ({
+    home,
+    privateSettingsPath,
+}) => {
+    const privateSettings = isFile(privateSettingsPath)
+        ?
+        JSON.parse(getContent(privateSettingsPath))
+        :
+        {}
+    const commonSettingsPath = `${home}/secrets/common.json`
+    const commonSettings = isFile(commonSettingsPath)
+        ?
+        JSON.parse(getContent(commonSettingsPath))
+        :
+        {}
+    return {
+        ...privateSettings,
+        ...commonSettings,
     }
-
-    const privateSettings = JSON.parse(getContent(privateSettingsPath))
-    return privateSettings.enableCacheServer === true
 }
 
 const createComposeFile = params => {
@@ -35,25 +47,13 @@ const createComposeFile = params => {
 
 const ensureCacheServerContainer = async params => {
     const {
-        cacheServerName,
         composePath,
-        lowercaseHeadlessRepo,
+        lowercaseRepo,
     } = params
-    const runningCacheServerContainer = await runOnTerminalAsync(`docker ps -q -f name=${cacheServerName}`)
-    if (runningCacheServerContainer.trim()) {
-        info('Cache server container is running')
-        return
-    }
-    const exitedCacheServerContainer = await runOnTerminalAsync(`docker ps -aq -f status=exited -f name=${cacheServerName}`)
-    if (exitedCacheServerContainer.trim()) {
-        await runOnTerminalAsync(`docker rm ${cacheServerName}`, {
-            throwOnError: true,
-        })
-    }
     divide()
-    info('Creating cache server container')
+    info('Ensuring cache server container')
     await runOnTerminalAsync(
-        `docker compose -p ${lowercaseHeadlessRepo}-cache-server -f ${composePath} up -d --remove-orphans`,
+        `docker compose -p ${lowercaseRepo}-cache-server -f ${composePath} up -d --remove-orphans`,
         {
             throwOnError: true,
         },
@@ -69,27 +69,32 @@ export default params => {
         privateSettingsPath,
         repo,
     } = params
+    const cacheSettings = getCacheSettings({
+        home,
+        privateSettingsPath,
+    })
     if (
         isCiCd ||
         localBuild ||
         (!params.isApi && !params.isSite) ||
-        !isEnabled(privateSettingsPath)
+        cacheSettings.enableCacheServer !== true
     ) {
         return
     }
+    if (!cacheSettings.cacheServerPassword) {
+        errorAndExit('cacheServerPassword is required when enableCacheServer is true')
+    }
 
-    const headlessRepo = getHeadlessRepo(repo)
-    const cacheServerName = `${headlessRepo}Cache`
+    const cacheServerName = `${repo}Cache`
     const composePath = createComposeFile({
         ...params,
-        cacheServerName,
+        cacheServerPassword: cacheSettings.cacheServerPassword,
         cacheServerPort: getDeterministicPort(cacheServerName),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
     })
     prepareComposeFile(composePath)
     params.addContainerStartupTask('ensure cache server container', () => ensureCacheServerContainer({
-        cacheServerName,
         composePath,
-        lowercaseHeadlessRepo: headlessRepo.toLowerCase(),
+        lowercaseRepo: repo.toLowerCase(),
     }))
 }
