@@ -78,7 +78,7 @@ const pushRepoStreaming = async dir => {
             warning(`Push failed for ${dir}, pulling and retrying (attempt ${attempt + 1}/${maxAttempts})...`)
 
             try {
-                await runStreaming(`${timeout}git -C ${dir} pull`)
+                await runStreaming(`${timeout}git -C ${dir} pull --no-edit`)
             } catch (pullError) {
                 warning(`Pull failed for ${dir}: ${pullError.message}`)
             }
