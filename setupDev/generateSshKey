@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+sshKeyPath="$homeDir/.ssh/id_ed25519"
+
+if [[ -f "$sshKeyPath" ]]; then
+    exit 0
+fi
+
+read -rp 'Email: ' email
+mkdir -p "$homeDir/.ssh"
+ssh-keygen -t ed25519 -C "$email" -f "$sshKeyPath" -N ''

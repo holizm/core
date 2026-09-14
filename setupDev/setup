@@ -70,6 +70,7 @@ $setupDev/preventMultipleWorkspaces
 $setupDev/disableAutomaticScreenLock
 $setupDev/setCalculatorThousandsSeparator
 $setupDev/setTimeZone
+$setupDev/generateSshKey
 $setupDev/configureGit
 $setupDev/enableDnd
 $setupDev/configureDockerForUser
