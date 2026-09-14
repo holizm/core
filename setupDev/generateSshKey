@@ -8,7 +8,6 @@ if [[ -f "$sshKeyPath" ]]; then
     exit 0
 fi
 
-read -rp 'Email: ' email
 mkdir -p "$homeDir/.ssh"
 chassis=$($setupDev/getChassis)
-ssh-keygen -t ed25519 -C "$chassis $email" -f "$sshKeyPath" -N ''
+ssh-keygen -t ed25519 -C "$chassis $gitEmail" -f "$sshKeyPath" -N ''

@@ -15,6 +15,20 @@ export scripts
 
 . "$scripts/logger.sh"
 
+gitEmail=$(git config --global --get user.email || true)
+gitName=$(git config --global --get user.name || true)
+
+if [[ -z "$gitEmail" ]]; then
+    read -rp 'Git email: ' gitEmail
+fi
+
+if [[ -z "$gitName" ]]; then
+    read -rp 'Git name: ' gitName
+fi
+
+export gitEmail
+export gitName
+
 clear
 divide
 info "running setup ..."
