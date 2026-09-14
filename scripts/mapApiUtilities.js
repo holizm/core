@@ -14,7 +14,6 @@ export default params => {
     }
     const mappings = [
         [`${home}/etl`, `${containerHome}/etl`],
-        [`${home}/generation/common`, `${containerHome}/generation/common`],
         [`${home}/generation/database`, `${containerHome}/generation/database`],
         [`${home}/generation/order`, `${containerHome}/generation/order`],
         [`${home}/generation/process.js`, `${containerHome}/generation/process.js`],
@@ -29,7 +28,9 @@ export default params => {
         [`${home}/etl`, `${containerHome}/toMongo/etl`],
     ]
     for (const [source, target] of mappings) {
-        params.addVolume(source, target)
+        if (fs.existsSync(source)) {
+            params.addVolume(source, target)
+        }
     }
     const etlPath = path.join(`${home}/${repo}/etl`)
     if (fs.existsSync(etlPath)) {
