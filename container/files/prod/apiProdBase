@@ -9,5 +9,4 @@ RUN apt update -qq \
     && apt install -qq file -y \
     && apt install -qq imagemagick -y \
     && apt install -qq bsdmainutils -y \
-    && apt install -qq translate-shell -y \
     && apt install -qq ffmpeg -y

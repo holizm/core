@@ -16,7 +16,6 @@ install nginx
 install kooha
 install sshd openssh-server
 install telnet
-install trans translate-shell
 install unzip
 install zip
 install http httpie

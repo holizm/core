@@ -89,11 +89,6 @@ services:
             cd ${containerHome}/${repo}/${process}
             initialize
             barrels && touch /tmp/siteReady
-            if [ "${isCiCd}" != "true" ]; then
-                watchForDirectoryChanges &
-                watchForAst &
-                start &
-            fi
             tail -f /dev/null
             '
         networks:

@@ -30,6 +30,12 @@ const main = async () => {
     }
     divide()
 
+    runOnTerminal('watchForDirectoryChanges >/tmp/siteDirectoryChanges.log 2>&1 &', {
+        throwOnError: true,
+    })
+    runOnTerminal('watchForAst >/tmp/siteAst.log 2>&1 &', {
+        throwOnError: true,
+    })
     await runStreaming(`npm run dev -- --port ${deterministicPort} &`)
 }
 

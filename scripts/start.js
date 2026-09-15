@@ -193,14 +193,18 @@ export default async overrides => {
     writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
 
     const processUsesApiContainer = params.isApi || params.isWorker
-    const processUsesInteractiveContainer = processUsesApiContainer || params.isPanel
+    const processUsesSiteContainer = params.isSite && params.multitenant
+    const processUsesInteractiveContainer = processUsesApiContainer || params.isPanel || processUsesSiteContainer
     const internalStartCommand = processUsesApiContainer
         ?
         `${params.containerHome}/core/commands/api/start`
+        : processUsesSiteContainer
+            ?
+            `${params.containerHome}/core/commands/site/start`
         :
         `${params.containerHome}/core/commands/panel/start`
-    if (processUsesApiContainer && params.localBuild) {
-        await measureAsync('start API container process', () => runOnTerminalAsync(
+    if ((processUsesApiContainer || processUsesSiteContainer) && params.localBuild) {
+        await measureAsync('start process container process', () => runOnTerminalAsync(
             `docker exec -d ${params.containerName} bash -c ${internalStartCommand}`,
             {
                 throwOnError: true,
