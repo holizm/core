@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+systemdDirectory="$homeDir/.config/systemd/user"
+mkdir -p "$systemdDirectory"
+cp "$homeDir/core/setupDev/astCstWatcher.service" "$systemdDirectory/astCstWatcher.service"
+systemctl --user daemon-reload
+systemctl --user enable --now astCstWatcher.service

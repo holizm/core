@@ -1,0 +1,9 @@
+[Unit]
+Description=JavaScript AST and CST watcher
+
+[Service]
+ExecStart=/usr/bin/node /home/dev/core/scripts/watchJavaScriptSyntaxTrees.js
+Restart=always
+
+[Install]
+WantedBy=default.target
