@@ -86,21 +86,29 @@ const pushRepoStreaming = async dir => {
     }
 }
 
-const search = process.argv[2]
+const searches = (process.argv[2] || '')
+    .split(',')
+    .map(search => search.trim())
+    .filter(Boolean)
+const searchTerms = searches.length ? searches : ['']
 
 ensureGitConfig()
 divide()
 info('Getting the current status ...')
 divide()
 
-const results = status(search)
+const results = searchTerms
+    .flatMap(search => status(search))
+    .filter((result, index, allResults) => allResults.findIndex(item => item.repo === result.repo) === index)
 
 divide()
 warning('Still pushing? (y,n)')
 const ok = await promptYesNo('')
 if (!ok) process.exit(0)
 
-const repos = findRepos(search)
+const repos = searchTerms
+    .flatMap(search => findRepos(search))
+    .filter((repo, index, allRepos) => allRepos.indexOf(repo) === index)
 
 const toPush = []
 

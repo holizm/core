@@ -47,6 +47,7 @@ export default ({
     const params = {
         ...rest,
         host: localDomain,
+        locales,
         tenant,
     }
     return params
