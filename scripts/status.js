@@ -40,9 +40,9 @@ const getRepoStatus = repoPath => {
                     ).filter(Boolean)
                     : [filePath]
 
-                for (const targetFile of targetFiles) {
-                    runOnTerminal(`node ${home}/policies/run.js ${targetFile}`, { show: true })
-                }
+                // for (const targetFile of targetFiles) {
+                //     runOnTerminal(`node ${home}/policies/run.js ${targetFile}`, { show: true })
+                // }
             }
         }
 
