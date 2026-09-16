@@ -118,3 +118,4 @@ pnpm-lock.yaml
 .aider.chat.history.md
 .aider.input.history
 .aider.tags.cache.v*/
+AGENTS.md
