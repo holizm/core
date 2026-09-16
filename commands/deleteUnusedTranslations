@@ -1,0 +1,223 @@
+#!/usr/bin/env node
+
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
+import fg from 'fast-glob'
+import { getContent } from '../scripts/os.js'
+import {
+    divide,
+    info,
+    warning,
+} from '../scripts/logger.js'
+import { runOnTerminal } from '../scripts/terminal.js'
+
+const home = process.env.HOME || '/home/dev'
+const scopes = ['common', 'api', 'panel', 'site']
+const sourceGlobs = [
+    '*.{cjs,cs,css,html,htm,js,jsx,less,mjs,scss,svelte,ts,tsx,vue}',
+]
+const quoteShell = value => `'${value.replaceAll("'", "'\\''")}'`
+const escapeRegex = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+const prefixPart = (part, key) => `${part}${key.charAt(0).toUpperCase()}${key.slice(1)}`
+const getSearchKey = (part, key) => part ? prefixPart(part, key) : key
+const isObject = value => value && typeof value === 'object' && !Array.isArray(value)
+
+const sourceDirectories = new Map()
+const partMarkers = fg.sync('**/part', {
+    cwd: home,
+    ignore: ['**/.git/**', '**/node_modules/**'],
+    onlyFiles: true,
+})
+
+for (const marker of partMarkers) {
+    const repo = path.dirname(path.join(home, marker))
+    const directory = path.join(repo, 'localization')
+    if (fs.existsSync(directory)) {
+        sourceDirectories.set(directory, {
+            directory,
+            part: path.basename(repo),
+            type: 'part',
+        })
+    }
+}
+
+for (const core of ['core', 'api', 'panel', 'site']) {
+    const directory = path.join(home, core, 'localization')
+    if (fs.existsSync(directory) && !sourceDirectories.has(directory)) {
+        sourceDirectories.set(directory, {
+            directory,
+            type: 'core',
+        })
+    }
+}
+
+const files = [...sourceDirectories.values()]
+    .sort((a, b) => a.directory.localeCompare(b.directory))
+    .flatMap(source => fg.sync('*.json', {
+        cwd: source.directory,
+        onlyFiles: true,
+    }).sort().map(file => ({
+        filePath: path.join(source.directory, file),
+        nested: source.type === 'part',
+        part: source.part,
+    })))
+
+const entries = []
+
+for (const file of files) {
+    const json = JSON.parse(getContent(file.filePath))
+    const hasNestedScopes = file.nested && scopes.some(scope => isObject(json[scope]))
+
+    if (hasNestedScopes) {
+        for (const scope of scopes) {
+            if (!isObject(json[scope])) {
+                continue
+            }
+            for (const key of Object.keys(json[scope])) {
+                if (!key) {
+                    continue
+                }
+                entries.push({
+                    filePath: file.filePath,
+                    key,
+                    nested: true,
+                    part: file.part,
+                    scope,
+                    searchKey: getSearchKey(file.part, key),
+                })
+            }
+        }
+    }
+    else {
+        for (const key of Object.keys(json)) {
+            if (!key) {
+                continue
+            }
+            entries.push({
+                filePath: file.filePath,
+                key,
+                nested: false,
+                searchKey: file.part ? prefixPart(file.part, key) : key,
+            })
+        }
+    }
+}
+
+const searchKeys = [...new Set(entries.map(entry => entry.searchKey))].sort()
+const usedKeys = new Set()
+const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'delete-unused-translations-'))
+
+try {
+    const chunkSize = 100
+    for (let index = 0; index < searchKeys.length; index += chunkSize) {
+        const chunk = searchKeys.slice(index, index + chunkSize)
+        const patternFile = path.join(temporaryDirectory, `${String(index).padStart(6, '0')}.pattern`)
+        const patterns = chunk
+            .map(key => `(?<![A-Za-z0-9_$])${escapeRegex(key)}(?![A-Za-z0-9_$])`)
+            .join('\n')
+        fs.writeFileSync(patternFile, `${patterns}\n`)
+
+        const searchCommand = [
+            'rg',
+            '--no-filename',
+            '--only-matching',
+            '--pcre2',
+            '-f',
+            quoteShell(patternFile),
+            quoteShell(home),
+            '--glob',
+            quoteShell('!**/localization/**'),
+            '--glob',
+            quoteShell('!**/*localization*/**'),
+            '--glob',
+            quoteShell('!**/node_modules/**'),
+            '--glob',
+            quoteShell('!.git/**'),
+            '--glob',
+            quoteShell(sourceGlobs[0]),
+        ].join(' ')
+        const output = runOnTerminal(`${searchCommand} || [ $? -eq 1 ]`, {
+            hideErrors: true,
+            throwOnError: true,
+        })
+        for (const key of output.split('\n').map(key => key.trim()).filter(Boolean)) {
+            usedKeys.add(key)
+        }
+    }
+}
+finally {
+    fs.rmSync(temporaryDirectory, {
+        force: true,
+        recursive: true,
+    })
+}
+
+const deletedEntries = []
+const deletedFiles = []
+
+for (const file of files) {
+    const original = getContent(file.filePath)
+    const json = JSON.parse(original)
+    const hasNestedScopes = file.nested && scopes.some(scope => isObject(json[scope]))
+
+    if (hasNestedScopes) {
+        for (const scope of scopes) {
+            if (!isObject(json[scope])) {
+                continue
+            }
+            for (const key of Object.keys(json[scope])) {
+                const searchKey = getSearchKey(file.part, key)
+                if (!key || !usedKeys.has(searchKey)) {
+                    delete json[scope][key]
+                    deletedEntries.push({
+                        filePath: file.filePath,
+                        searchKey,
+                    })
+                }
+            }
+            if (!Object.keys(json[scope]).length) {
+                delete json[scope]
+            }
+        }
+    }
+    else {
+        for (const key of Object.keys(json)) {
+            const searchKey = getSearchKey(file.part, key)
+            if (!key || !usedKeys.has(searchKey)) {
+                delete json[key]
+                deletedEntries.push({
+                    filePath: file.filePath,
+                    searchKey,
+                })
+            }
+        }
+    }
+
+    const content = Object.keys(json).length ? `${JSON.stringify(json, null, 4)}\n` : ''
+    if (content !== original) {
+        if (content) {
+            fs.writeFileSync(file.filePath, content)
+        }
+        else {
+            fs.rmSync(file.filePath, { force: true })
+            deletedFiles.push(file.filePath)
+        }
+    }
+}
+
+divide()
+info(`\nsearched ${entries.length} translations in ${files.length} locale files\n`)
+divide()
+
+for (const entry of deletedEntries) {
+    warning(`deleted: ${entry.searchKey}`)
+    info(`  - ${entry.filePath}`)
+}
+
+divide()
+info(`\ncompleted: ${entries.length}`)
+info(`deleted entries: ${deletedEntries.length}`)
+info(`deleted files: ${deletedFiles.length}`)
+info(`used: ${entries.length - deletedEntries.length}`)
+divide()
