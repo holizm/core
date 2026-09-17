@@ -31,13 +31,13 @@ const publishParameters = extract()
 const domain = providedDomain || resolvePublishDomain(publishParameters.repo)
 const params =
     process.env.publishWithoutBuild === 'true'
-    ?
-    getExistingBuild(publishParameters)
-    :
-    await build({
-        isCiCd: false,
-        localBuild: true,
-    })
+        ?
+        getExistingBuild(publishParameters)
+        :
+        await build({
+            isCiCd: false,
+            localBuild: true,
+        })
 
 const {
     isApi,
@@ -69,7 +69,8 @@ const user = (await runOnServer(domain, 'whoami', true)).trim()
 
 if (isApi || isSite) {
     try {
-        await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --registry='https://mirror-npm.runflare.com' --legacy-peer-deps`)
+        // --registry='https://mirror-npm.runflare.com'
+        await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
     }
     catch (e) {
         divide()
