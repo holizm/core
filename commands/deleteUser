@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+. "$HOME/core/scripts/logger.sh"
+
+if [[ $# -ne 2 ]]; then
+    errorAndExit 'Usage: deleteUser domain username'
+fi
+
+domain="$1"
+username="$2"
+
+"$HOME/core/commands/runOnServer" "$domain" deleteUser "$username"
