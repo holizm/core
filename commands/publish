@@ -18,6 +18,7 @@ import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
 import { isFile } from '../scripts/os.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
+import getInstance from '../scripts/getInstance.js'
 
 const providedDomain = process.argv[2]
 
@@ -39,6 +40,7 @@ const params =
             localBuild: true,
         })
 
+const instance = await getInstance(domain)
 const {
     isApi,
     isPanel,
@@ -51,7 +53,7 @@ if (!isFile(artifactPath)) {
     errorAndExit(`Build artifact does not exist: ${artifactPath}`)
 }
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
-const remoteProcessPath = `$HOME/${repo}/${params.process}`
+const remoteProcessPath = `$HOME/${instance?.serverDirectory}/${params.process}`
 
 await runOnServer(domain, `mkdir -p ${remoteBuildDir} ${remoteProcessPath}`)
 
@@ -70,7 +72,7 @@ const user = (await runOnServer(domain, 'whoami', true)).trim()
 if (isApi || isSite) {
     try {
         // --registry='https://mirror-npm.runflare.com'
-        await runOnServer(domain, `cd $HOME/${repo}/${params.process} && npm install --legacy-peer-deps`)
+        await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && npm install --legacy-peer-deps`)
     }
     catch (e) {
         divide()
@@ -87,31 +89,31 @@ if (isApi) {
 
 await runOnServer(domain, `rm -rf ${remoteBuildDir}`)
 
-const fullProcessName = camelize(`${repo} ${params.process}`)
+const fullProcessName = camelize(`${instance?.serverDirectory} ${params.process}`)
 
 const port = (await runOnServer(
     domain,
-    `grep -oP '127\\.0\\.0\\.1:\\K[0-9]+' $HOME/${repo}/${params.process}/compose.yaml | head -n1`,
+    `grep -oP '127\\.0\\.0\\.1:\\K[0-9]+' $HOME/${instance?.serverDirectory}/${params.process}/compose.yaml | head -n1`,
     true
 )).trim()
 
 if (isApi) {
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/common/connectionStrings.json $HOME/${repo}/${params.process}/connectionStrings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/publicSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`)
-    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/connectionStrings.json $HOME/${instance?.serverDirectory}/${params.process}/connectionStrings.json`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/publicSettings.json`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/privateSettings.json $HOME/${instance?.serverDirectory}/${params.process}/privateSettings.json`)
+    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`)
 }
 else if (isPanel) {
-    await runOnServer(domain, `cp -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/publicSettings.json`)
-    await runOnServer(domain, `cp -f $HOME/${repo}/tenants $HOME/${repo}/${params.process}/tenants`)
-    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start /usr/local/node/bin/serve --name ${fullProcessName} -- -s . -l ${port}`)
+    await runOnServer(domain, `cp -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/publicSettings.json`)
+    await runOnServer(domain, `cp -f $HOME/${instance?.serverDirectory}/tenants $HOME/${instance?.serverDirectory}/${params.process}/tenants`)
+    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start /usr/local/node/bin/serve --name ${fullProcessName} -- -s . -l ${port}`)
 }
 else if (isSite) {
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/tenants $HOME/${repo}/${params.process}/tenants`)
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/common/privateSettings.json $HOME/${repo}/${params.process}/privateSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/common/publicSettings.json $HOME/${repo}/${params.process}/dist/publicSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${repo}/${params.process}/settingsOverride.json $HOME/${repo}/${params.process}/dist/settingsOverride.json`)
-    await runOnServer(domain, `cd $HOME/${repo}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && PORT=${port} /usr/local/node/bin/pm2 start server/entry.express.js --name ${fullProcessName}`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/tenants $HOME/${instance?.serverDirectory}/${params.process}/tenants`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/privateSettings.json $HOME/${instance?.serverDirectory}/${params.process}/privateSettings.json`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/dist/publicSettings.json`)
+    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/${params.process}/settingsOverride.json $HOME/${instance?.serverDirectory}/${params.process}/dist/settingsOverride.json`)
+    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && PORT=${port} /usr/local/node/bin/pm2 start server/entry.express.js --name ${fullProcessName}`)
 }
 
 info('Done')
