@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+. "$HOME/core/scripts/logger.sh"
+
+if [[ $# -ne 1 ]]; then
+    errorAndExit 'Usage: users domain'
+fi
+
+domain="$1"
+serverPath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+"$HOME/core/commands/runOnServer" "$domain" /usr/bin/env "PATH=$serverPath" /holism/server/commands/users
