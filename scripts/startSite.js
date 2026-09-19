@@ -75,7 +75,7 @@ const resolveDependencies = params => {
 const normalizeRoute = route => route
     .split('/')
     .map(segment => {
-        if (segment === 'id' || segment === 'slug') {
+        if (['id', 'part', 'slug', 'type'].includes(segment)) {
             return `[${segment}]`
         }
         if (segment === 'path') {
