@@ -12,3 +12,4 @@ divide
 
 sudo apt update
 sudo apt full-upgrade -y
+scripts="$homeDir/core/scripts" "$homeDir/core/setupDev/compass" update

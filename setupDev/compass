@@ -2,26 +2,53 @@
 
 . "$scripts/installer.sh"
 
-installMongoCompass() {
-    latestUrl=$(curl -sL https://www.mongodb.com/try/download/compass | grep -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1)
-
-    if [ -z "$latestUrl" ]; then
-        echo "Could not find the latest MongoDB Compass .deb URL."
-        return
-    fi
-
-    echo "Downloading MongoDB Compass from $latestUrl..."
-    wget "$latestUrl" -O mongodb-compass.deb
-    if [ $? -eq 0 ]; then
-        echo " "
-    else
-        error "Failed to download MongoDB Compass. Please check your internet connection."
-        return
-    fi
-
-    sudo dpkg -i mongodb-compass.deb
-    sudo apt-get install -f -y
-    rm mongodb-compass.deb
+getLatestMongoCompassUrl() {
+    curl -fsSL https://www.mongodb.com/try/download/compass | grep -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1
 }
 
-install mongodb-compass installMongoCompass
+installMongoCompass() {
+    local latestUrl="${1:-}"
+    local packagePath='/tmp/mongodbCompass.deb'
+
+    if [[ -z "$latestUrl" ]]; then
+        latestUrl=$(getLatestMongoCompassUrl)
+    fi
+
+    if [[ -z "$latestUrl" ]]; then
+        errorAndExit 'failed to resolve the latest MongoDB Compass version'
+    fi
+
+    info "downloading MongoDB Compass from $latestUrl ..."
+    curl -fL "$latestUrl" -o "$packagePath" || errorAndExit 'failed to download MongoDB Compass'
+    sudo apt-get install -y "$packagePath" || errorAndExit 'failed to install MongoDB Compass'
+    rm -f "$packagePath"
+}
+
+updateMongoCompass() {
+    local installedVersion
+    local latestUrl
+    local latestVersion
+
+    latestUrl=$(getLatestMongoCompassUrl)
+
+    if [[ -z "$latestUrl" ]]; then
+        errorAndExit 'failed to resolve the latest MongoDB Compass version'
+    fi
+
+    installedVersion=$(dpkg-query -W -f='${Version}' mongodb-compass 2>/dev/null || true)
+    latestVersion=$(basename "$latestUrl" | sed -E 's/^mongodb-compass_(.+)_amd64\.deb$/\1/')
+
+    if [[ "$installedVersion" == "$latestVersion" ]]; then
+        success "MongoDB Compass $installedVersion is up to date $checkMark"
+        return
+    fi
+
+    installMongoCompass "$latestUrl"
+    success "updated MongoDB Compass to $latestVersion"
+}
+
+if [[ "${1:-}" == 'update' ]]; then
+    updateMongoCompass
+else
+    install mongodb-compass installMongoCompass
+fi
