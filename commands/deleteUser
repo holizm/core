@@ -9,5 +9,6 @@ fi
 
 domain="$1"
 username="$2"
+serverPath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
-"$HOME/core/commands/runOnServer" "$domain" deleteUser "$username"
+"$HOME/core/commands/runOnServer" "$domain" /usr/bin/env "PATH=$serverPath" /holism/server/commands/deleteUser "$username"

@@ -9,12 +9,13 @@ fi
 
 domain="$1"
 username="$2"
+serverPath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 if [[ ${#username} -gt 20 ]] || [[ ! "$username" =~ ^[a-z]{3}[a-z0-9]*$ ]] || [[ "$username" == 'root' ]]; then
     errorAndExit 'Username must begin with three lowercase letters, contain only lowercase letters and digits, and be at most 20 characters.'
 fi
 
-createdUser=$("$HOME/core/commands/runOnServer" "$domain" createUser "$username")
+createdUser=$("$HOME/core/commands/runOnServer" "$domain" /usr/bin/env "PATH=$serverPath" /holism/server/commands/createUser "$username")
 
 if [[ ${#createdUser} -ne 20 ]] || [[ ! "$createdUser" =~ ^[a-z]{3}[a-z0-9]{17}$ ]]; then
     errorAndExit 'The server returned an invalid username.'
@@ -31,6 +32,6 @@ if [[ -z "$publicKeyFile" || ! -f "$publicKeyFile" ]]; then
     errorAndExit 'No local SSH public key was found.'
 fi
 
-"$HOME/core/commands/runOnServer" "$domain" addPublicKey "$createdUser" < "$publicKeyFile"
+"$HOME/core/commands/runOnServer" "$domain" /usr/bin/env "PATH=$serverPath" /holism/server/commands/addPublicKey "$createdUser" < "$publicKeyFile"
 
 success "Created user $createdUser and added the local public key."
