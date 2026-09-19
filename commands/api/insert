@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { isFile } from "../../scripts/os.js"
+import { isFile } from '../../scripts/os.js'
 import {
     clear,
     runOnTerminal,

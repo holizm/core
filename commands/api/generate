@@ -93,7 +93,7 @@ if (!search) {
     }
     await generateParts(finalList, generatePart)
 
-    // runOnTerminal('insertData', { show: true })
+    // runOnTerminal('insert', { show: true })
     stopTimer()
     process.exit(0)
 }
