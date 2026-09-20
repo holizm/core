@@ -322,7 +322,9 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-    // params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
+    if (params.multitenant || params.isCiCd || params.localBuild) {
+        params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
+    }
     if (tenantsPath && isFile(tenantsPath)) {
         params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
