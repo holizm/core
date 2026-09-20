@@ -2,9 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { errorAndExit } from './logger.js'
 
-export default domain => {
+export default (domain, repo) => {
     if (!domain) {
         errorAndExit('Domain is required')
+    }
+    if (!repo) {
+        errorAndExit('Repository is required')
     }
 
     const secretsPath = path.join(process.env.HOME, 'secrets')
@@ -26,6 +29,9 @@ export default domain => {
         try {
             const content = fs.readFileSync(path.join(secretsPath, file), 'utf8')
             const secrets = JSON.parse(content)
+            if (secrets.deployment?.vcsRepo !== repo) {
+                continue
+            }
             const instances = secrets.deployment?.instances
 
             if (!Array.isArray(instances)) {
@@ -44,10 +50,10 @@ export default domain => {
     }
 
     if (matches.length === 0) {
-        errorAndExit(`No deployment instance is configured for domain ${domain}`)
+        errorAndExit(`No deployment instance is configured for repository ${repo} and domain ${domain}`)
     }
     if (matches.length > 1) {
-        errorAndExit(`Multiple deployment instances are configured for domain ${domain}`)
+        errorAndExit(`Multiple deployment instances are configured for repository ${repo} and domain ${domain}`)
     }
 
     return matches[0]

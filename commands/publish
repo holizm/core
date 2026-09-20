@@ -40,7 +40,7 @@ const params =
             localBuild: true,
         })
 
-const instance = await getInstance(domain)
+const instance = await getInstance(domain, publishParameters.repo)
 const {
     isApi,
     isPanel,
