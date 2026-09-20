@@ -6,9 +6,19 @@ getLatestMongoCompassUrl() {
     curl -fsSL https://www.mongodb.com/try/download/compass | grep -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1
 }
 
+getDownloadedMongoCompassPath() {
+    local latestVersion="$1"
+    local downloadedFiles=()
+
+    mapfile -d '' downloadedFiles < <(find "$homeDir/Downloads" -maxdepth 1 -type f -name "mongodb-compass_${latestVersion}_amd64*.deb" -print0 2>/dev/null)
+    printf '%s' "${downloadedFiles[0]:-}"
+}
+
 installMongoCompass() {
+    local downloadedAutomatically=false
     local latestUrl="${1:-}"
-    local packagePath='/tmp/mongodbCompass.deb'
+    local latestVersion
+    local packagePath
 
     if [[ -z "$latestUrl" ]]; then
         latestUrl=$(getLatestMongoCompassUrl)
@@ -18,10 +28,34 @@ installMongoCompass() {
         errorAndExit 'failed to resolve the latest MongoDB Compass version'
     fi
 
+    latestVersion=$(basename "$latestUrl" | sed -E 's/^mongodb-compass_(.+)_amd64\.deb$/\1/')
+    packagePath='/tmp/mongodbCompass.deb'
+
     info "downloading MongoDB Compass from $latestUrl ..."
-    curl -fL "$latestUrl" -o "$packagePath" || errorAndExit 'failed to download MongoDB Compass'
+
+    if curl -fL "$latestUrl" -o "$packagePath"; then
+        downloadedAutomatically=true
+    else
+        rm -f "$packagePath"
+        warning 'automatic MongoDB Compass download failed'
+        info "download the latest MongoDB Compass from $latestUrl"
+
+        if [[ -t 0 ]]; then
+            read -rp 'Press Enter after saving the file in Downloads... '
+        fi
+
+        packagePath=$(getDownloadedMongoCompassPath "$latestVersion")
+
+        if [[ -z "$packagePath" ]]; then
+            errorAndExit "MongoDB Compass $latestVersion was not found in $homeDir/Downloads"
+        fi
+    fi
+
     sudo apt-get install -y "$packagePath" || errorAndExit 'failed to install MongoDB Compass'
-    rm -f "$packagePath"
+
+    if [[ "$downloadedAutomatically" == true ]]; then
+        rm -f "$packagePath"
+    fi
 }
 
 updateMongoCompass() {
