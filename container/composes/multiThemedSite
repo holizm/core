@@ -92,11 +92,11 @@ services:
             tail -f /dev/null
             '
         networks:
-            - ${repo}Network
+            - ${networkRepo}Network
         extra_hosts:
             - "host.docker.internal:host-gateway"
             ${localApiHosts}
 
 networks:
-    ${repo}Network:
+    ${networkRepo}Network:
         external: true

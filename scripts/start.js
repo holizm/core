@@ -6,6 +6,7 @@ import extract from './extract.js'
 import getBuildDirectories from './getBuildDirectories.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
+import getHeadlessRepo from './getHeadlessRepo.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
 import {
@@ -73,6 +74,12 @@ export default async overrides => {
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
     }))
+    params.networkRepo =
+        isSite(params)
+        ?
+        getHeadlessRepo(params.repo)
+        :
+        params.repo
 
     const { tenantsPath } = params
 

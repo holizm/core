@@ -2,8 +2,8 @@ import { info } from '../scripts/logger.js'
 import { runOnTerminal } from './terminal.js'
 
 export default params => {
-    const { repo } = params
-    const networkName = `${repo}Network`
+    const { networkRepo } = params
+    const networkName = `${networkRepo}Network`
     const networkNames = runOnTerminal('docker network ls --format {{.Name}}').split('\n')
     if (!networkNames.includes(networkName)) {
         info(`Creating the network ${networkName}`)

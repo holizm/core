@@ -73,8 +73,8 @@ export default params => {
         home,
         isCiCd,
         localBuild,
+        networkRepo,
         privateSettingsPath,
-        repo,
     } = params
     const cacheSettings = getCacheSettings({
         home,
@@ -92,16 +92,17 @@ export default params => {
         errorAndExit('cache.serverPassword is required when cache.enabled is true')
     }
 
-    const cacheServerName = `${repo}Cache`
+    const cacheServerName = `${networkRepo}Cache`
     const composePath = createComposeFile({
         ...params,
         cacheServerPassword: cacheSettings.serverPassword,
         cacheServerPort: getDeterministicPort(cacheServerName),
         composeTemplatePath: `${home}/core/container/composes/cacheServer`,
+        repo: networkRepo,
     })
     prepareComposeFile(composePath)
     params.addContainerStartupTask('ensure cache server container', () => ensureCacheServerContainer({
         composePath,
-        lowercaseRepo: repo.toLowerCase(),
+        lowercaseRepo: networkRepo.toLowerCase(),
     }))
 }
