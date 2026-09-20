@@ -30,6 +30,9 @@ const main = async () => {
     }
     divide()
 
+    runOnTerminal('barrels', {
+        throwOnError: true,
+    })
     runOnTerminal('watchForDirectoryChanges >/tmp/siteDirectoryChanges.log 2>&1 &', {
         throwOnError: true,
     })

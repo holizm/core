@@ -28,8 +28,14 @@ const getCacheSettings = ({
         :
         {}
     const cacheSettings = {
-        enabled: commonSettings.cache?.enabled ?? privateSettings.cache?.enabled,
-        serverPassword: commonSettings.cache?.serverPassword ?? privateSettings.cache?.serverPassword,
+        enabled: commonSettings.cache?.enabled
+            ?? commonSettings.enableCacheServer
+            ?? privateSettings.cache?.enabled
+            ?? privateSettings.enableCacheServer,
+        serverPassword: commonSettings.cache?.serverPassword
+            ?? commonSettings.cacheServerPassword
+            ?? privateSettings.cache?.serverPassword
+            ?? privateSettings.cacheServerPassword,
     }
     return cacheSettings
 }
