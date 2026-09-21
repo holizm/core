@@ -46,4 +46,8 @@ const commandArguments = command
 const child = spawn('docker', commandArguments, {
     stdio: 'inherit',
 })
-child.on('exit', code => process.exit(code ?? 0))
+child.on('exit', code => process.exit(code === 130
+    ?
+    0
+    :
+    code ?? 0))
