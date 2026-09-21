@@ -11,6 +11,8 @@
     "coreMaximumScore": "Maksimaalne tulemus",
     "corePaymentMethod": "Makseviis",
     "corePhone": "Telefoninumber",
+    "coreQuestion": "Küsimus",
+    "coreQuestions": "Küsimused",
     "coreRelationship": "Seos",
     "coreScore": "Tulemus",
     "coreSubmittedDate": "Esitamise kuupäev",
