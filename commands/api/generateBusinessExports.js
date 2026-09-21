@@ -8,6 +8,10 @@ import {
 } from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
+import {
+    init,
+    parse,
+} from 'es-module-lexer'
 
 const [, , ...parts] = process.argv
 const {
@@ -17,13 +21,31 @@ const {
 } = process.env
 
 const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
-const hasDefaultExport = file => /\bexport\s+default\b/.test(readFileSync(file, 'utf8'))
 const capitalize = value => `${value[0].toUpperCase()}${value.slice(1)}`
 const getQualifiedName = relativePath => relativePath
     .replace(/\.js$/, '')
     .split('/')
     .map((segment, index) => index ? capitalize(segment) : segment)
     .join('')
+const getExportedName = ({
+    exportName,
+    file,
+    names,
+    root,
+}) => {
+    if (names.get(exportName) === 1) return exportName
+
+    const relativePath = path.relative(root, file)
+    const qualifiedName = getQualifiedName(relativePath)
+    const fileName = path.basename(file, '.js')
+    return exportName === fileName
+        ?
+        qualifiedName
+        :
+        `${qualifiedName}${capitalize(exportName)}`
+}
+
+await init
 
 for (const part of parts) {
     const businessRoot = `${nodeModules}/${part}/business`
@@ -37,24 +59,40 @@ for (const part of parts) {
             '**/runTests.js',
         ],
     })
-    const names = files.reduce((result, file) => {
-        const name = path.basename(file, '.js')
-        result.set(name, (result.get(name) || 0) + 1)
+    const modules = files.sort().map(file => {
+        const source = readFileSync(file, 'utf8')
+        const [, exports] = parse(source)
+        const moduleData = {
+            exportNames: exports
+                .map(item => item.name ?? item.n)
+                .filter(Boolean),
+            file,
+        }
+        return moduleData
+    })
+    const names = modules.reduce((result, moduleData) => {
+        for (const exportName of moduleData.exportNames) {
+            const name = exportName === 'default'
+                ?
+                path.basename(moduleData.file, '.js')
+                :
+                exportName
+            result.set(name, (result.get(name) || 0) + 1)
+        }
         return result
     }, new Map())
-    const lines = files.sort().flatMap(file => {
-        const relativePath = path.relative(businessRoot, file)
-        const name = path.basename(file, '.js')
-        const exportedName = names.get(name) === 1
-            ?
-            name
-            :
-            getQualifiedName(relativePath)
-        const exports = [`export * from '${file}'`]
-        if (hasDefaultExport(file)) {
-            exports.push(`export { default as ${exportedName} } from '${file}'`)
-        }
-        return exports
+    const lines = modules.flatMap(moduleData => {
+        const fileName = path.basename(moduleData.file, '.js')
+        return moduleData.exportNames.map(name => {
+            const exportName = name === 'default' ? fileName : name
+            const exportedName = getExportedName({
+                exportName,
+                file: moduleData.file,
+                names,
+                root: businessRoot,
+            })
+            return `export { ${name} as ${exportedName} } from '${moduleData.file}'`
+        })
     })
     const packageDirectory = `${nodeModules}/${part}Business`
     const packageData = {
