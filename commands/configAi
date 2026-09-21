@@ -18,11 +18,11 @@ info('Configuring AI')
 divide()
 
 const { default: policies } = await import(`${home}/policies/loadPolicies.js`)
-const explanations = policies.map(({ policy }) => `- ${policy.explanation}`).join('\n')
+const { default: renderAgentPolicies } = await import(`${home}/policies/renderAgentPolicies.js`)
 
 const content = [
     getContent(sourcePath).trimEnd(),
-    `# Generated policies\n\n${explanations}`,
+    renderAgentPolicies(policies).trimEnd(),
 ].join('\n\n')
 
 writeFile(destinationPath, `${content}\n`)
