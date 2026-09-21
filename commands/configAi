@@ -11,19 +11,19 @@ import {
 
 const home = process.env.HOME
 const sourcePath = `${home}/core/agents`
-const policyInstructionsPath = `${home}/policies/generated/agentInstructions.md`
 const destinationPath = `${home}/.codex/AGENTS.md`
 
 divide()
 info('Configuring AI')
 divide()
 
-await import(`${home}/policies/generate.js`)
+const { default: policies } = await import(`${home}/policies/loadPolicies.js`)
+const explanations = policies.map(({ policy }) => `- ${policy.explanation}`).join('\n')
 
 const content = [
     getContent(sourcePath).trimEnd(),
-    getContent(policyInstructionsPath).trim(),
-].join('\n')
+    `# Generated policies\n\n${explanations}`,
+].join('\n\n')
 
 writeFile(destinationPath, `${content}\n`)
 
