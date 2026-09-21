@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+import { randomInt } from 'crypto'
+import {
+    existsSync,
+    readFileSync,
+    readdirSync,
+} from 'fs'
+import os from 'os'
+import path from 'path'
+import fg from 'fast-glob'
+
+const home = os.homedir()
+const repositories = readdirSync(home, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() && existsSync(path.join(home, entry.name, '.git')))
+    .map(entry => entry.name)
+
+const files = await fg(repositories.map(repository => `${repository}/**/*`), {
+    absolute: true,
+    cwd: home,
+    dot: true,
+    followSymbolicLinks: false,
+    ignore: [
+        '**/.cache/**',
+        '**/.git/**',
+        '**/build/**',
+        '**/coverage/**',
+        '**/dist/**',
+        '**/node_modules/**',
+    ],
+    onlyFiles: true,
+})
+
+while (files.length > 0) {
+    const index = randomInt(files.length)
+    const [file] = files.splice(index, 1)
+    const content = readFileSync(file)
+    if (content.includes(0)) {
+        continue
+    }
+    console.log(file.replace(home, '~'))
+    console.log('')
+    process.stdout.write(content)
+    if (content.length > 0 && content.at(-1) !== 10) {
+        console.log('')
+    }
+    process.exit()
+}
+
+console.error('No text files found in the codebase.')
+process.exit(1)
