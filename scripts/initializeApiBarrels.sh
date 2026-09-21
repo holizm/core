@@ -2,3 +2,4 @@ export directories=$(find "$containerHome/$repo/$process/node_modules" -mindepth
 directories=$(printf '%s\n' core "$directories" | sort -u)
 node $home/core/commands/api/generateExports.js $directories
 node $home/core/commands/api/generatePackageJsonFiles.js $directories
+node $home/core/commands/api/generateBusinessExports.js $directories
