@@ -116,6 +116,6 @@ else if (isSite) {
     await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && PORT=${port} /usr/local/node/bin/pm2 start server/entry.express.js --name ${fullProcessName}`)
 }
 
-await runOnServer(domain, `$HOME/server/commands/clearCache ${instance?.serverDirectory} ${params.process}`)
+await runOnServer(domain, `/holism/server/commands/clearCache ${instance?.serverDirectory} ${params.process}`)
 
 info('Done')
