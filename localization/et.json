@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Hindamise kuupäev",
+    "coreAttendanceDate": "Osalemise kuupäev",
+    "coreAuthors": "Autorid",
+    "coreBio": "Elulugu",
+    "coreBirthDate": "Sünnikuupäev",
+    "coreCapacity": "Mahutavus",
+    "coreClaimant": "Taotleja",
+    "coreEnrollmentDate": "Registreerimise kuupäev",
+    "coreExpenseDate": "Kulu kuupäev",
+    "coreMaximumScore": "Maksimaalne tulemus",
+    "corePaymentMethod": "Makseviis",
+    "corePhone": "Telefoninumber",
+    "coreRelationship": "Seos",
+    "coreScore": "Tulemus",
+    "coreSubmittedDate": "Esitamise kuupäev",
+    "coreTotal": "Kokku",
+    "coreWeight": "Kaal"
+}

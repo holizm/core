@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "កាលបរិច្ឆេទវាយតម្លៃ",
+    "coreAttendanceDate": "កាលបរិច្ឆេទវត្តមាន",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "ថ្ងៃខែឆ្នាំកំណើត",
+    "coreCapacity": "សមត្ថភាព",
+    "coreClaimant": "អ្នកទាមទារ",
+    "coreEnrollmentDate": "កាលបរិច្ឆេទចុះឈ្មោះ",
+    "coreExpenseDate": "កាលបរិច្ឆេទចំណាយ",
+    "coreMaximumScore": "ពិន្ទុអតិបរមា",
+    "corePaymentMethod": "វិធីសាស្ត្រទូទាត់",
+    "corePhone": "លេខទូរស័ព្ទ",
+    "coreRelationship": "ទំនាក់ទំនង",
+    "coreScore": "ពិន្ទុ",
+    "coreSubmittedDate": "កាលបរិច្ឆេទដាក់ស្នើ",
+    "coreTotal": "សរុប",
+    "coreWeight": "ទម្ងន់"
+}

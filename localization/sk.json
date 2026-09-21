@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Dátum hodnotenia",
+    "coreAttendanceDate": "Dátum dochádzky",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "Dátum narodenia",
+    "coreCapacity": "Kapacita",
+    "coreClaimant": "Žiadateľ",
+    "coreEnrollmentDate": "Dátum zápisu",
+    "coreExpenseDate": "Dátum výdavku",
+    "coreMaximumScore": "Maximálne skóre",
+    "corePaymentMethod": "Spôsob platby",
+    "corePhone": "Telefónne číslo",
+    "coreRelationship": "Vzťah",
+    "coreScore": "Skóre",
+    "coreSubmittedDate": "Dátum odoslania",
+    "coreTotal": "Celkom",
+    "coreWeight": "Hmotnosť"
+}

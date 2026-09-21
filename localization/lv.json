@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Novērtējuma datums",
+    "coreAttendanceDate": "Apmeklējuma datums",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "Dzimšanas datums",
+    "coreCapacity": "Ietilpība",
+    "coreClaimant": "Pieprasītājs",
+    "coreEnrollmentDate": "Reģistrācijas datums",
+    "coreExpenseDate": "Izdevumu datums",
+    "coreMaximumScore": "Maksimālais vērtējums",
+    "corePaymentMethod": "Maksājuma veids",
+    "corePhone": "Tālruņa numurs",
+    "coreRelationship": "Saistība",
+    "coreScore": "Vērtējums",
+    "coreSubmittedDate": "Iesniegšanas datums",
+    "coreTotal": "Kopā",
+    "coreWeight": "Svars"
+}

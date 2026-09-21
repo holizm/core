@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Datum ocenjevanja",
+    "coreAttendanceDate": "Datum prisotnosti",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "Datum rojstva",
+    "coreCapacity": "Kapaciteta",
+    "coreClaimant": "Vlagatelj zahtevka",
+    "coreEnrollmentDate": "Datum vpisa",
+    "coreExpenseDate": "Datum stroška",
+    "coreMaximumScore": "Najvišje število točk",
+    "corePaymentMethod": "Način plačila",
+    "corePhone": "Telefonska številka",
+    "coreRelationship": "Razmerje",
+    "coreScore": "Število točk",
+    "coreSubmittedDate": "Datum oddaje",
+    "coreTotal": "Skupaj",
+    "coreWeight": "Teža"
+}

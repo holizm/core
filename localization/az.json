@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Qiymətləndirmə tarixi",
+    "coreAttendanceDate": "Davamiyyət tarixi",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "Doğum tarixi",
+    "coreCapacity": "Tutum",
+    "coreClaimant": "İddiaçı",
+    "coreEnrollmentDate": "Qeydiyyat tarixi",
+    "coreExpenseDate": "Xərc tarixi",
+    "coreMaximumScore": "Maksimum bal",
+    "corePaymentMethod": "Ödəniş üsulu",
+    "corePhone": "Telefon nömrəsi",
+    "coreRelationship": "Qohumluq əlaqəsi",
+    "coreScore": "Bal",
+    "coreSubmittedDate": "Təqdim edilmə tarixi",
+    "coreTotal": "Cəmi",
+    "coreWeight": "Çəki"
+}

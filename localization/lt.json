@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Vertinimo data",
+    "coreAttendanceDate": "Lankomumo data",
+    "coreAuthors": "Authors",
+    "coreBio": "Bio",
+    "coreBirthDate": "Gimimo data",
+    "coreCapacity": "Talpa",
+    "coreClaimant": "Pareiškėjas",
+    "coreEnrollmentDate": "Registracijos data",
+    "coreExpenseDate": "Išlaidų data",
+    "coreMaximumScore": "Didžiausias balas",
+    "corePaymentMethod": "Mokėjimo būdas",
+    "corePhone": "Telefono numeris",
+    "coreRelationship": "Ryšys",
+    "coreScore": "Balas",
+    "coreSubmittedDate": "Pateikimo data",
+    "coreTotal": "Iš viso",
+    "coreWeight": "Svoris"
+}

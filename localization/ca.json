@@ -1,0 +1,19 @@
+{
+    "coreAssessmentDate": "Data de l’avaluació",
+    "coreAttendanceDate": "Data d’assistència",
+    "coreAuthors": "Autors",
+    "coreBio": "Biografia",
+    "coreBirthDate": "Data de naixement",
+    "coreCapacity": "Capacitat",
+    "coreClaimant": "Sol·licitant",
+    "coreEnrollmentDate": "Data d’inscripció",
+    "coreExpenseDate": "Data de la despesa",
+    "coreMaximumScore": "Puntuació màxima",
+    "corePaymentMethod": "Mètode de pagament",
+    "corePhone": "Número de telèfon",
+    "coreRelationship": "Relació",
+    "coreScore": "Puntuació",
+    "coreSubmittedDate": "Data de presentació",
+    "coreTotal": "Total",
+    "coreWeight": "Pes"
+}
