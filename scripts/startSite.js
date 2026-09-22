@@ -329,6 +329,11 @@ export default params => {
     params.sitePartRoutes = {}
     params.themeDirectories = findThemeDirectories(join(params.processPath, '..'))
     params.multiThemed = params.themeDirectories.length > 0
+    params.globalCssFile = params.multiThemed
+        ?
+        'multiThemedGlobal.css'
+        :
+        'global.css'
     setStylesVolume(params)
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))

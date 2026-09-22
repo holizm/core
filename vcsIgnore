@@ -119,3 +119,4 @@ pnpm-lock.yaml
 .aider.input.history
 .aider.tags.cache.v*/
 AGENTS.md
+.planning
