@@ -1,6 +1,10 @@
 import { info } from './logger.js'
 import copyEssentialParts from './copyEssentialParts.js'
-import { createDirIfNotExists, getFileNameWithoutExtension, removeAndRecreateDir } from './os.js'
+import {
+    createDirIfNotExists,
+    getFileNameWithoutExtension,
+    removeAndRecreateDir,
+} from './os.js'
 import {
     runOnTerminal,
     runOnTerminalAsync,
@@ -49,7 +53,7 @@ const copyPartModules = async params => {
         for dir in ${nodeModulesPath}/*; do
             if [ -d "$dir" ]; then
                 base=$(basename "$dir")
-                if [ -f "$dir/part" ] || [ "$base" = "core" ]; then
+                if [ -f "$dir/part" ] || [ "$base" = "core" ] || [[ "$base" = *Business ]]; then
                     echo "$dir"
                 fi
             fi

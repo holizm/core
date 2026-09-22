@@ -81,6 +81,7 @@ for (const part of parts) {
         }
         return result
     }, new Map())
+    const packageDirectory = `${nodeModules}/${part}Business`
     const lines = modules.flatMap(moduleData => {
         const fileName = path.basename(moduleData.file, '.js')
         return moduleData.exportNames.map(name => {
@@ -91,10 +92,10 @@ for (const part of parts) {
                 names,
                 root: businessRoot,
             })
-            return `export { ${name} as ${exportedName} } from '${moduleData.file}'`
+            const modulePath = path.relative(packageDirectory, moduleData.file)
+            return `export { ${name} as ${exportedName} } from '${modulePath}'`
         })
     })
-    const packageDirectory = `${nodeModules}/${part}Business`
     const packageData = {
         main: 'exports.js',
         type: 'module',
