@@ -7,6 +7,11 @@ import {
 
 const entryConfigurations = [
     {
+        directory: 'themeHeads',
+        suffix: 'Head',
+        type: 'head',
+    },
+    {
         directory: 'themeIndexes',
         suffix: 'Index',
         type: 'index',

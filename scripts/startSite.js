@@ -371,6 +371,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
     params.addVolume(`/tmp/${repo}/${process}/siteConfiguration.js`, `${containerHome}/${repo}/${process}/src/siteConfiguration.js`)
     if (params.multiThemed) {
+        params.addVolume(`/tmp/${repo}/${process}/themeHeads`, `${containerHome}/${repo}/${process}/src/themeHeads`)
         params.addVolume(`/tmp/${repo}/${process}/themeIndexes`, `${containerHome}/${repo}/${process}/src/themeIndexes`)
         params.addVolume(`/tmp/${repo}/${process}/themeLayouts`, `${containerHome}/${repo}/${process}/src/themeLayouts`)
         params.addVolume(`/tmp/${repo}/${process}/themeStyles`, `${containerHome}/${repo}/${process}/src/themeStyles`)
