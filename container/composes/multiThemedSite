@@ -45,7 +45,6 @@ services:
             - ${home}/site/src/entryExpress.tsx:${containerHome}/${repo}/${process}/src/entry.express.tsx
             - ${home}/site/src/entryPreview.tsx:${containerHome}/${repo}/${process}/src/entry.preview.tsx
             - ${home}/site/src/entrySsr.tsx:${containerHome}/${repo}/${process}/src/entry.ssr.tsx
-            - ${home}/site/src/globalBase.css:${containerHome}/${repo}/${process}/src/globalBase.css
             - ${home}/site/src/${globalCssFile}:${containerHome}/${repo}/${process}/src/global.css
             - ${home}/site/src/pluginCore.ts:${containerHome}/${repo}/${process}/src/routes/plugin@_core.ts
             - ${home}/site/src/root.jsx:${containerHome}/${repo}/${process}/src/root.tsx
