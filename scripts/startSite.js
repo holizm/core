@@ -5,6 +5,7 @@ import {
 } from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import createSiteConfiguration from './createSiteConfiguration.js'
 import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
@@ -341,6 +342,7 @@ export default params => {
             `/tmp/${params.repo}/${params.process}/webServerCache`,
         ],
     }))
+    measure('site: create configuration', () => createSiteConfiguration(params))
     measure('site: create UI parts file', () => createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`))
     measure('site: create CI/CD', () => createCiCd(params))
 
@@ -370,6 +372,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+    params.addVolume(`/tmp/${repo}/${process}/siteConfiguration.js`, `${containerHome}/${repo}/${process}/src/siteConfiguration.js`)
     if (params.multiThemed) {
         params.addVolume(`/tmp/${repo}/${process}/themeIndexes`, `${containerHome}/${repo}/${process}/src/themeIndexes`)
         params.addVolume(`/tmp/${repo}/${process}/themeLayouts`, `${containerHome}/${repo}/${process}/src/themeLayouts`)
