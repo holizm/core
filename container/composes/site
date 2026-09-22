@@ -64,6 +64,7 @@ services:
             - ${home}/site/emptyDashboardProvider.js:${containerHome}/${repo}/${process}/emptyDashboardProvider.js
             - ${home}/site/loaderProvider.js:${containerHome}/${repo}/${process}/loaderProvider.js
             - ${home}/site/telemetry.js:${containerHome}/${repo}/${process}/telemetry.js
+            - ${home}/site/themeStylesPlugin.js:${containerHome}/${repo}/${process}/themeStylesPlugin.js
             - ${home}/site/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
             - ${home}/site/scripts/scroll.js:${containerHome}/${repo}/${process}/public/scripts/scroll.js
             - ${home}/site/icons/markerIcon.png:${containerHome}/${repo}/${process}/public/icons/marker-icon.png

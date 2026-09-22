@@ -5,6 +5,7 @@ import {
 } from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
 import getDependencies from './getDependencies.js'
 import getHeadlessRepo from './getHeadlessRepo.js'
@@ -338,6 +339,7 @@ export default params => {
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create missing theme files', () => createNonExistentThemeFiles(params))
+    measure('site: create theme style entries', () => createThemeStyleEntries(params))
     measure('site: create directories', () => createDirectories({
         ...params,
         extraDirectories: [
@@ -375,6 +377,9 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+    if (params.multiThemed) {
+        params.addVolume(`/tmp/${repo}/${process}/themeStyles`, `${containerHome}/${repo}/${process}/src/themeStyles`)
+    }
     if (!params.multiThemed && (params.isCiCd || params.localBuild)) {
         params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     }
