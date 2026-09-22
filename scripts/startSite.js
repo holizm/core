@@ -32,7 +32,10 @@ import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
-    const { home } = params
+    const {
+        home,
+        multiThemed,
+    } = params
     createDirIfNotExists('pages')
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
@@ -40,7 +43,9 @@ const createNonExistentFiles = params => {
     copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, 'pages/layout.jsx')
     copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, 'pages/index.jsx')
     copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
-    copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
+    if (!multiThemed) {
+        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
+    }
 }
 
 const resolveDependencies = params => {
@@ -344,7 +349,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-    if (params.multiThemed || params.isCiCd || params.localBuild) {
+    if (!params.multiThemed && (params.isCiCd || params.localBuild)) {
         params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     }
     if (tenantsPath && isFile(tenantsPath)) {
