@@ -5,10 +5,10 @@ import {
 } from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
 import getDependencies from './getDependencies.js'
-import getHeadlessRepo from './getHeadlessRepo.js'
 import {
     divide,
     errorAndExit,
@@ -41,8 +41,18 @@ const createNonExistentFiles = params => {
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
     copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, 'pages/head.jsx')
-    copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, 'pages/layout.jsx')
-    copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, 'pages/index.jsx')
+    const layoutTemplate = multiThemed
+        ?
+        'multiThemedLayoutTemplate.jsx'
+        :
+        'layoutTemplate.jsx'
+    copyFileIfNotExists(`${home}/core/site/${layoutTemplate}`, 'pages/layout.jsx')
+    const indexTemplate = multiThemed
+        ?
+        'multiThemedIndexTemplate.jsx'
+        :
+        'indexTemplate.jsx'
+    copyFileIfNotExists(`${home}/core/site/${indexTemplate}`, 'pages/index.jsx')
     copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
     if (!multiThemed) {
         copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
@@ -74,28 +84,14 @@ const resolveDependencies = params => {
         home,
         repo,
     } = params
-    const headlessRepo = getHeadlessRepo(repo)
-    const headlessDependenciesPath = `${home}/${headlessRepo}/common/dependencies`
     const runnableDependenciesPath = `${home}/${repo}/common/dependencies`
-    let dependenciesPath
-    let dependenciesRepo
-
-    if (headlessRepo !== repo && isFile(headlessDependenciesPath)) {
-        dependenciesPath = headlessDependenciesPath
-        dependenciesRepo = headlessRepo
-    }
-    else if (isFile(runnableDependenciesPath)) {
-        dependenciesPath = runnableDependenciesPath
-        dependenciesRepo = repo
-    }
-    else {
+    if (!isFile(runnableDependenciesPath)) {
         errorAndExit(`Dependencies do not exist for ${repo}`)
     }
-
-    params.dependenciesPath = dependenciesPath
+    params.dependenciesPath = runnableDependenciesPath
     params.dependencies = getDependencies({
         ...params,
-        repo: dependenciesRepo,
+        repo,
     })
 }
 
@@ -122,16 +118,11 @@ const mapDependencies = params => {
         repo,
         sitePartRoutes,
     } = params
-    const headlessRepo = getHeadlessRepo(repo)
-
     for (const dependency of dependencies) {
         const dependencyPath = `${home}/${repo}/${dependency}`
         let dependencyBase = ''
         if (isDir(dependencyPath) && dependency !== 'accounts') {
             dependencyBase = `${dependencyPath}/site`
-        }
-        else if (headlessRepo !== repo && isDir(`${home}/${headlessRepo}/${dependency}`) && dependency !== 'accounts') {
-            dependencyBase = `${home}/${headlessRepo}/${dependency}/site`
         }
         else {
             dependencyBase = `${home}/${dependency}/site`
@@ -240,7 +231,7 @@ const mapThemes = params => {
         const themeNumber = themeDirectory.slice('theme'.length)
         params.addVolume(
             `${repoPath}/${themeDirectory}`,
-            `${containerHome}/${repo}/${process}/themes/${themeNumber}`,
+            `${containerHome}/${repo}/${process}/src/themes/${themeNumber}`,
         )
     })
 }
@@ -255,7 +246,8 @@ const setStylesVolume = params => {
     } = params
     params.stylesVolume = multiThemed
         ?
-        ''
+        `- ${processPath}/style.css:${containerHome}/${repo}/${process}/style.css
+            - ${processPath}/styles:${containerHome}/${repo}/${process}/styles`
         :
         `- ${processPath}/styles:${containerHome}/${repo}/${process}/styles`
 }
@@ -339,6 +331,7 @@ export default params => {
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create missing theme files', () => createNonExistentThemeFiles(params))
+    measure('site: create theme entries', () => createThemeEntries(params))
     measure('site: create theme style entries', () => createThemeStyleEntries(params))
     measure('site: create directories', () => createDirectories({
         ...params,
@@ -378,6 +371,8 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
     if (params.multiThemed) {
+        params.addVolume(`/tmp/${repo}/${process}/themeIndexes`, `${containerHome}/${repo}/${process}/src/themeIndexes`)
+        params.addVolume(`/tmp/${repo}/${process}/themeLayouts`, `${containerHome}/${repo}/${process}/src/themeLayouts`)
         params.addVolume(`/tmp/${repo}/${process}/themeStyles`, `${containerHome}/${repo}/${process}/src/themeStyles`)
     }
     if (!params.multiThemed && (params.isCiCd || params.localBuild)) {

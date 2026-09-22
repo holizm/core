@@ -15,7 +15,7 @@ export default params => {
     removeAndRecreateDir(directory)
     themeDirectories.forEach(themeDirectory => {
         const themeNumber = themeDirectory.slice('theme'.length)
-        const content = `@import 'tailwindcss' source(none);\n@source '..';\n@source '../../themes/${themeNumber}';\n@import '../../themes/${themeNumber}/style.css';\n`
+        const content = `@import 'tailwindcss' source(none);\n@source '..';\n@source '../themes/${themeNumber}';\n@import '../../style.css';\n@import '../themes/${themeNumber}/style.css';\n`
         writeFile(`${directory}/theme${themeNumber}.css`, content)
     })
 }

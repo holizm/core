@@ -6,7 +6,7 @@ import extract from './extract.js'
 import getBuildDirectories from './getBuildDirectories.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
-import getHeadlessRepo from './getHeadlessRepo.js'
+import getApiRepo from './getApiRepo.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
 import {
@@ -77,7 +77,7 @@ export default async overrides => {
     params.networkRepo =
         isSite(params)
         ?
-        getHeadlessRepo(params.repo)
+        getApiRepo(params.repo)
         :
         params.repo
 
