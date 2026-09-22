@@ -48,6 +48,26 @@ const createNonExistentFiles = params => {
     }
 }
 
+const createNonExistentThemeFiles = params => {
+    const {
+        home,
+        multiThemed,
+        processPath,
+        themeDirectories,
+    } = params
+    if (!multiThemed) return
+    themeDirectories.forEach(themeDirectory => {
+        const themePath = join(processPath, '..', themeDirectory)
+        createDirIfNotExists(`${themePath}/pages`)
+        createDirIfNotExists(`${themePath}/parts`)
+        createDirIfNotExists(`${themePath}/styles`)
+        copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, `${themePath}/pages/head.jsx`)
+        copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, `${themePath}/pages/index.jsx`)
+        copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, `${themePath}/pages/layout.jsx`)
+        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, `${themePath}/style.css`)
+    })
+}
+
 const resolveDependencies = params => {
     const {
         home,
@@ -312,6 +332,7 @@ export default params => {
     setStylesVolume(params)
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
+    measure('site: create missing theme files', () => createNonExistentThemeFiles(params))
     measure('site: create directories', () => createDirectories({
         ...params,
         extraDirectories: [
