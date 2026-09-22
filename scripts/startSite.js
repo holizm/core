@@ -73,9 +73,6 @@ const createNonExistentThemeFiles = params => {
         createDirIfNotExists(`${themePath}/pages`)
         createDirIfNotExists(`${themePath}/parts`)
         createDirIfNotExists(`${themePath}/styles`)
-        copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, `${themePath}/pages/head.jsx`)
-        copyFileIfNotExists(`${home}/core/site/indexTemplate.jsx`, `${themePath}/pages/index.jsx`)
-        copyFileIfNotExists(`${home}/core/site/layoutTemplate.jsx`, `${themePath}/pages/layout.jsx`)
         copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, `${themePath}/style.css`)
     })
 }

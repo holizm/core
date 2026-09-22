@@ -33,10 +33,10 @@ export default params => {
         const imports = []
         const properties = []
         themeDirectories.forEach(themeDirectory => {
-            if (!isFile(join(processPath, '..', themeDirectory, `${configuration.type}.jsx`))) return
+            if (!isFile(join(processPath, '..', themeDirectory, 'pages', `${configuration.type}.jsx`))) return
             const theme = themeDirectory.slice('theme'.length)
             const component = `Theme${theme}${configuration.suffix}`
-            imports.push(`import ${component} from '../themes/${theme}/${configuration.type}'`)
+            imports.push(`import ${component} from '../themes/${theme}/pages/${configuration.type}'`)
             properties.push(`    '${theme}': ${component},`)
         })
         const content = `${imports.join('\n')}\n\nexport default {\n${properties.join('\n')}\n}\n`
