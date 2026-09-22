@@ -5,6 +5,7 @@ import {
 } from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import findThemeDirectories from './findThemeDirectories.js'
 import getDependencies from './getDependencies.js'
 import getHeadlessRepo from './getHeadlessRepo.js'
 import {
@@ -201,17 +202,36 @@ const mapParts = params => {
 const mapThemes = params => {
     const {
         containerHome,
-        multitenant,
+        multiThemed,
+        process,
+        processPath,
+        repo,
+        themeDirectories,
+    } = params
+    if (!multiThemed) return
+    const repoPath = join(processPath, '..')
+    themeDirectories.forEach(themeDirectory => {
+        const themeNumber = themeDirectory.slice('theme'.length)
+        params.addVolume(
+            `${repoPath}/${themeDirectory}`,
+            `${containerHome}/${repo}/${process}/themes/${themeNumber}`,
+        )
+    })
+}
+
+const setStylesVolume = params => {
+    const {
+        containerHome,
+        multiThemed,
         process,
         processPath,
         repo,
     } = params
-    const themesPath = `${processPath}/themes`
-    params.themesVolume = multitenant
+    params.stylesVolume = multiThemed
         ?
-        `- ${themesPath}:${containerHome}/${repo}/${process}/src/themes`
-        :
         ''
+        :
+        `- ${processPath}/styles:${containerHome}/${repo}/${process}/styles`
 }
 
 const mapOthers = params => {
@@ -282,7 +302,9 @@ export default params => {
 
     params.processType = 'site'
     params.sitePartRoutes = {}
-    params.multitenant = isDir(`${params.processPath}/themes`)
+    params.themeDirectories = findThemeDirectories(join(params.processPath, '..'))
+    params.multiThemed = params.themeDirectories.length > 0
+    setStylesVolume(params)
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create directories', () => createDirectories({
@@ -322,7 +344,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-    if (params.multitenant || params.isCiCd || params.localBuild) {
+    if (params.multiThemed || params.isCiCd || params.localBuild) {
         params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     }
     if (tenantsPath && isFile(tenantsPath)) {

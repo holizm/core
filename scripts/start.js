@@ -154,7 +154,7 @@ export default async overrides => {
         else if (isSite(params)) {
             params.isSite = true
             startSite(params)
-            if (params.multitenant) {
+            if (params.multiThemed) {
                 startMultiThemedSite(params)
             }
         }
@@ -170,7 +170,7 @@ export default async overrides => {
     measure('register cache server container', () => createCacheServer(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
-    const shouldWatch = params.isSite && !params.multitenant && !params.isCiCd && !params.localBuild
+    const shouldWatch = params.isSite && !params.multiThemed && !params.isCiCd && !params.localBuild
     const composeMode =
         shouldWatch
         ?
@@ -200,7 +200,7 @@ export default async overrides => {
     writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
 
     const processUsesApiContainer = params.isApi || params.isWorker
-    const processUsesSiteContainer = params.isSite && params.multitenant
+    const processUsesSiteContainer = params.isSite && params.multiThemed
     const processUsesInteractiveContainer = processUsesApiContainer || params.isPanel || processUsesSiteContainer
     const internalStartCommand = processUsesApiContainer
         ?
