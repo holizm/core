@@ -144,7 +144,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhans",
+        "id": "shared_zhHans",
         "localName": "简体中文",
         "englishName": "Chinese (Simplified)",
         "englishLongName": "Chinese (Simplified)",
@@ -160,7 +160,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhanscn",
+        "id": "shared_zhHansCN",
         "localName": "Chinese (Simplified) (China)",
         "englishName": "Chinese (Simplified) (China)",
         "englishLongName": "Chinese (Simplified) (China)",
@@ -176,7 +176,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhanssg",
+        "id": "shared_zhHansSG",
         "localName": "Chinese (Simplified) (Singapore)",
         "englishName": "Chinese (Simplified) (Singapore)",
         "englishLongName": "Chinese (Simplified) (Singapore)",
@@ -192,7 +192,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhant",
+        "id": "shared_zhHant",
         "localName": "繁體中文",
         "englishName": "Chinese (Traditional)",
         "englishLongName": "Chinese (Traditional)",
@@ -208,7 +208,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhanthk",
+        "id": "shared_zhHantHK",
         "localName": "Chinese (Traditional) (Hong Kong)",
         "englishName": "Chinese (Traditional) (Hong Kong)",
         "englishLongName": "Chinese (Traditional) (Hong Kong)",
@@ -224,7 +224,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhantmo",
+        "id": "shared_zhHantMO",
         "localName": "Chinese (Traditional) (Macao)",
         "englishName": "Chinese (Traditional) (Macao)",
         "englishLongName": "Chinese (Traditional) (Macao)",
@@ -240,7 +240,7 @@
         "default": null
     },
     {
-        "id": "shared_zhhanttw",
+        "id": "shared_zhHantTW",
         "localName": "Chinese (Traditional) (Taiwan)",
         "englishName": "Chinese (Traditional) (Taiwan)",
         "englishLongName": "Chinese (Traditional) (Taiwan)",
