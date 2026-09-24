@@ -1,0 +1,59 @@
+Generate the default panel part component from part metadata. At least 106 parts have the same `panel/admin/part.jsx` body; keep a leaf file only when it supplies custom configuration.
+--
+Generate the standard panel breadcrumb from part and type metadata. The common `PartBreadcrumb` wrapper appears in over 100 parts; preserve custom breadcrumbs such as courses and blog where relationships need extra steps.
+--
+Derive panel menu roots and ordinary type list links from the part declaration and translation metadata. Keep explicit menu files only for nonstandard actions, ordering, permissions, or cross-part links.
+--
+Generate plain list and form compositions from a compact declaration of fields, filters, sorts, actions, and presentation. Many `list.jsx`, `form.jsx`, `filters.jsx`, and `sorts.jsx` files repeat the same core component with one or two varying props.
+--
+Let the panel core infer a list's form from its type registration when the list uses the standard form; many leaf lists import `./form` solely to pass it through.
+--
+Generate ordinary API type actions from the part schema and shared read/write capabilities. Hundreds of route files only spread `read` and `write`; reserve route files for custom actions.
+--
+For generated API actions, define the allowed operations once per type instead of repeating `read` and `write` exports in admin, user, and site route modules.
+--
+Have the part declaration supply the part and type to core API factories. Files such as `blog/api/api/site/post.js` repeat `part`, `type`, `basePath`, and response names that can be derived, leaving only true overrides in the leaf.
+--
+Move common site list route parsing for page number, category, tag, author, and search into the site core. Services and questions loaders independently parse paths, build query strings, and reject invalid routes.
+--
+Create a site loader composition helper for API data, layout values, globalization, status handling, and optional additional sources. Current brand, product, service, and question loaders repeat this orchestration.
+--
+Provide one URL builder for site API requests so loaders do not concatenate search strings or apply different encoding rules to slugs and filters.
+--
+Move the final merge of API data, layout values, and globalization to a common loader boundary where the response contract is uniform; keep part-specific additions explicit.
+--
+Return content layouts and related display data in final render-ready shape from the API where possible. Product and brand loaders currently fetch content values and reshape or select fields after the API call.
+--
+Replace hardcoded content item IDs in product and brand site loaders with centralized ID utilities or API lookups. The loader should not construct or carry item IDs itself.
+--
+Define reusable API response envelopes for item pages and lists, including `hasX` visibility flags, pagination, SEO, and related content, so leaf site components only map supplied data to UI.
+--
+Extract common site item title, description, image, and card components into configurable semantic UI parts. Identical or near-identical components recur in products, projects, orders, places, questions, and dashboards.
+--
+Make the site core's responsive image component cover the image use cases currently handled by direct `<img>` elements, where source dimensions and optimization are available.
+--
+Centralize panel browser interactions behind focused hooks or adapters. Direct `window` access appears in tenant, inventory, contents, and sales panel components and prevents clean reuse.
+--
+Move fixed visual colors from sales and state machine panel components into semantic theme variables so the same components can follow future panel themes.
+--
+Deduplicate ordinary aggregate operations through a parameterized business helper. Count and state aggregate modules across several parts have identical bodies and differ mainly by part or type.
+--
+Provide a common relation loader for same-part references used by breadcrumbs and forms. Blog and courses breadcrumbs duplicate item loading, query inspection, and hierarchical link assembly.
+--
+Use the part schema as the single source for relation names and uniqueness constraints, then generate matching form validation and API checks from it where practical.
+--
+Generate translation coverage checks from the base locale and report missing or stale keys per part. Most parts carry dozens of locale files, making manual parity maintenance expensive.
+--
+Keep domain-neutral localization keys in core localization and use part keys only for domain-specific meaning. Audit existing part keys for ordinary terms such as confirmation, details, and titles before adding more translations.
+--
+Normalize generated part exports and aliases from actual public modules, and detect stale generated output automatically so parts do not need handwritten export barrels.
+--
+Remove exact duplicated repository instruction files from each part in favor of inherited shared instructions plus short part-specific overrides. The same root, API, panel, and site `AGENTS.md` content is copied across most parts.
+--
+Remove or consolidate empty marker and placeholder files that are not required by composition; where a marker is required, make its purpose explicit in the core's repository discovery convention.
+--
+Split oversized part files by cohesive concern, especially the large geo and globalization data files and large account data fixtures, while keeping their generated or imported public interface stable.
+--
+Fix duplicated and conflicting declarations at the source: `attributes/part` declares `filterable` twice, and `products/panel/admin/menu.jsx` repeats root menu properties.
+--
+Add a read-only repository audit that checks part files against the shared conventions for formatting, direct object returns, unused imports, client-derived data, hardcoded IDs, and route placement; report precise files so cleanup stays incremental.
