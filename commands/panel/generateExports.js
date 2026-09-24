@@ -77,10 +77,23 @@ const generateExports = () => {
     })
 
     parents.forEach(parent => {
-        const lines = fs.readdirSync(parent)
+        const modules = fs.readdirSync(parent)
             .filter(file => file.endsWith('.jsx') && file !== 'exports.jsx')
             .map(file => file.replace('.jsx', ''))
-            .map(file => `export * from './${file}'`)
+        const names = new Map()
+        const conflicts = new Map()
+        modules.forEach(module => {
+            const source = fs.readFileSync(path.join(parent, `${module}.jsx`), 'utf8')
+            for (const match of source.matchAll(/^export \{ default as (\w+) \} from /gm)) {
+                const name = match[1]
+                if (names.has(name)) conflicts.set(name, names.get(name))
+                else names.set(name, module)
+            }
+        })
+        const lines = modules.map(module => `export * from './${module}'`)
+        conflicts.forEach((module, name) => {
+            lines.push(`export { ${name} } from './${module}'`)
+        })
         writeIfChanged(path.join(parent, 'exports.jsx'), `${lines.join('\n')}\n`)
     })
 }
