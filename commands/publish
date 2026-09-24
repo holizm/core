@@ -11,14 +11,14 @@ import {
     info,
 } from '../scripts/logger.js'
 import build from '../scripts/build.js'
-import camelize from '../scripts/camelize.js'
 import extract from '../scripts/extract.js'
 import getExistingBuild from '../scripts/getExistingBuild.js'
+import getInstance from '../scripts/getInstance.js'
 import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
 import { isFile } from '../scripts/os.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
-import getInstance from '../scripts/getInstance.js'
+import startPublishedProcess from '../scripts/startPublishedProcess.js'
 
 const providedDomain = process.argv[2]
 
@@ -89,32 +89,11 @@ if (isApi) {
 
 await runOnServer(domain, `rm -rf ${remoteBuildDir}`)
 
-const fullProcessName = camelize(`${instance?.serverDirectory} ${params.process}`)
-
-const port = (await runOnServer(
+await startPublishedProcess({
     domain,
-    `grep -oP '127\\.0\\.0\\.1:\\K[0-9]+' $HOME/${instance?.serverDirectory}/${params.process}/compose.yaml | head -n1`,
-    true
-)).trim()
-
-if (isApi) {
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/connectionStrings.json $HOME/${instance?.serverDirectory}/${params.process}/connectionStrings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/publicSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/privateSettings.json $HOME/${instance?.serverDirectory}/${params.process}/privateSettings.json`)
-    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start process.js --name ${fullProcessName} --update-env -- ${port}`)
-}
-else if (isPanel) {
-    await runOnServer(domain, `cp -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/publicSettings.json`)
-    await runOnServer(domain, `cp -f $HOME/${instance?.serverDirectory}/tenants $HOME/${instance?.serverDirectory}/${params.process}/tenants`)
-    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && /usr/local/node/bin/pm2 start /usr/local/node/bin/serve --name ${fullProcessName} -- -s . -l ${port}`)
-}
-else if (isSite) {
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/tenants $HOME/${instance?.serverDirectory}/${params.process}/tenants`)
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/privateSettings.json $HOME/${instance?.serverDirectory}/${params.process}/privateSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/publicSettings.json $HOME/${instance?.serverDirectory}/${params.process}/dist/publicSettings.json`)
-    await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/${params.process}/settingsOverride.json $HOME/${instance?.serverDirectory}/${params.process}/dist/settingsOverride.json`)
-    await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && /usr/local/node/bin/pm2 delete ${fullProcessName} || true && PORT=${port} /usr/local/node/bin/pm2 start server/entry.express.js --name ${fullProcessName}`)
-}
+    instance,
+    params,
+})
 
 await runOnServer(domain, `/holism/server/commands/clearCache ${instance?.serverDirectory} ${params.process}`)
 
