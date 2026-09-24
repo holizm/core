@@ -69,18 +69,18 @@ await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
-if (isApi || isSite) {
-    try {
-        // --registry='https://mirror-npm.runflare.com'
-        await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && npm install --legacy-peer-deps`)
-    }
-    catch (e) {
-        divide()
-        info('Warning: npm install failed. Continuing deployment...')
-        error(e)
-        divide()
-    }
-}
+// if (isApi || isSite) {
+//     try {
+//         // --registry='https://mirror-npm.runflare.com'
+//         await runOnServer(domain, `cd $HOME/${instance?.serverDirectory}/${params.process} && npm install --legacy-peer-deps`)
+//     }
+//     catch (e) {
+//         divide()
+//         info('Warning: npm install failed. Continuing deployment...')
+//         error(e)
+//         divide()
+//     }
+// }
 if (isApi) {
     await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 1 -maxdepth 1 -type d -name '.*' ! -name '.bin' -exec rm -rf {} +`)
     await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip 'node_modules/*' -d ${remoteProcessPath}`)
