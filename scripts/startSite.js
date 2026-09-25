@@ -137,16 +137,26 @@ const mapDependencies = params => {
                 }
 
                 const directoryPath = pagePath.replace('/index.jsx', '')
-                const relative = directoryPath.replace(`${pagesPath}/`, '')
-
-                const relativePath = normalizeRoute(relative)
+                const relative = directoryPath === pagesPath
+                    ?
+                    ''
+                    :
+                    directoryPath.replace(`${pagesPath}/`, '')
+                const relativePath = [
+                    normalizeRoute(dependency),
+                    relative && normalizeRoute(relative),
+                ].filter(Boolean).join('/')
                 sitePartRoutes[`/${relativePath}`] = dependency
 
-                const source = directoryPath
+                const source = directoryPath === pagesPath
+                    ?
+                    pagePath
+                    :
+                    directoryPath
                 const targetPath = `${processPath}/pages/${relativePath}`
 
                 if (!isDir(targetPath) || fs.readdirSync(targetPath).length === 0) {
-                    const target = `${home}/${repo}/${process}/src/routes/${relativePath}`
+                    const target = `${home}/${repo}/${process}/src/routes/${relativePath}${source === pagePath ? '/index.jsx' : ''}`
                     mappings.push([source, target])
                 }
             })
