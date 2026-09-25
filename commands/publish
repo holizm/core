@@ -67,6 +67,7 @@ divide()
 
 await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
+await runOnServer(domain, `cd ${remoteProcessPath} && /holism/server/commands/installPackages`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 
 // if (isApi || isSite) {
