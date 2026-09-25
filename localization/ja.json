@@ -103,6 +103,8 @@
     "coreContentType": "コンテンツタイプ",
     "coreConvertingToActive": "アクティブに変換中",
     "coreConvertingToInactive": "非アクティブに変換中",
+    "coreCopied": "コピーされました",
+    "coreCopy": "コピー",
     "coreCount": "カウント",
     "coreCreate": "作成する",
     "coreCreatedSuccessfully": "正常に作成されました",

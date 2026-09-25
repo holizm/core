@@ -104,6 +104,8 @@
     "coreContentType": "Тип контента",
     "coreConvertingToActive": "Преобразование в активный",
     "coreConvertingToInactive": "Преобразование в неактивный",
+    "coreCopied": "Скопировано",
+    "coreCopy": "Копировать",
     "coreCount": "Считать",
     "coreCreate": "Создавать",
     "coreCreatedSuccessfully": "Создано успешно",

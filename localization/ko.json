@@ -103,6 +103,8 @@
     "coreContentType": "콘텐츠 유형",
     "coreConvertingToActive": "활성으로 전환 중",
     "coreConvertingToInactive": "비활성으로 전환 중",
+    "coreCopied": "복사됨",
+    "coreCopy": "복사",
     "coreCount": "세다",
     "coreCreate": "만들다",
     "coreCreatedSuccessfully": "성공적으로 생성되었습니다",

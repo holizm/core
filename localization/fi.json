@@ -104,6 +104,8 @@
     "coreContentType": "Sisältötyyppi",
     "coreConvertingToActive": "Muunnetaan aktiiviseksi",
     "coreConvertingToInactive": "Muunnetaan passiiviseksi",
+    "coreCopied": "Kopioitu",
+    "coreCopy": "Kopioi",
     "coreCount": "Määrä",
     "coreCreate": "Luo",
     "coreCreatedSuccessfully": "Luotu onnistuneesti",

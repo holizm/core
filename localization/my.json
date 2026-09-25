@@ -104,6 +104,8 @@
     "coreContentType": "အကြောင်းအရာ အမျိုးအစား",
     "coreConvertingToActive": "အသက်ဝင်အဖြစ် ပြောင်းနေသည်",
     "coreConvertingToInactive": "အသက်မဝင်အဖြစ် ပြောင်းနေသည်",
+    "coreCopied": "ကူးယူပြီး",
+    "coreCopy": "ကူးယူရန်",
     "coreCount": "အရေအတွက်",
     "coreCreate": "ဖန်တီးရန်",
     "coreCreatedSuccessfully": "အောင်မြင်စွာ ဖန်တီးပြီး",

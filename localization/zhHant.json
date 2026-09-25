@@ -104,6 +104,8 @@
     "coreContentType": "內容類型",
     "coreConvertingToActive": "正在轉為啟用",
     "coreConvertingToInactive": "正在轉為停用",
+    "coreCopied": "已複製",
+    "coreCopy": "複製",
     "coreCount": "數量",
     "coreCreate": "建立",
     "coreCreatedSuccessfully": "建立成功",

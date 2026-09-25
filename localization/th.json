@@ -104,6 +104,8 @@
     "coreContentType": "ประเภทเนื้อหา",
     "coreConvertingToActive": "กำลังเปลี่ยนเป็นใช้งาน",
     "coreConvertingToInactive": "กำลังเปลี่ยนเป็นไม่ใช้งาน",
+    "coreCopied": "คัดลอกแล้ว",
+    "coreCopy": "คัดลอก",
     "coreCount": "จำนวน",
     "coreCreate": "สร้าง",
     "coreCreatedSuccessfully": "สร้างสำเร็จแล้ว",

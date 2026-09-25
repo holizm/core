@@ -104,6 +104,8 @@
     "coreContentType": "نوع المحتوى",
     "coreConvertingToActive": "تحويل إلى نشط",
     "coreConvertingToInactive": "تحويل إلى غير نشط",
+    "coreCopied": "تم النسخ",
+    "coreCopy": "نسخ",
     "coreCount": "عدد",
     "coreCreate": "يخلق",
     "coreCreatedSuccessfully": "تم الإنشاء بنجاح",

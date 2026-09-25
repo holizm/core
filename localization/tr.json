@@ -104,6 +104,8 @@
     "coreContentType": "İçerik türü",
     "coreConvertingToActive": "Aktif hale dönüştürülüyor",
     "coreConvertingToInactive": "Etkin olmayan duruma dönüştürülüyor",
+    "coreCopied": "Kopyalandı",
+    "coreCopy": "Kopyala",
     "coreCount": "Saymak",
     "coreCreate": "Yaratmak",
     "coreCreatedSuccessfully": "Başarıyla oluşturuldu",

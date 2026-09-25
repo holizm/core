@@ -104,6 +104,8 @@
     "coreContentType": "Tartalomtípus",
     "coreConvertingToActive": "Átalakítás aktívvá",
     "coreConvertingToInactive": "Átalakítás inaktívvá",
+    "coreCopied": "Másolva",
+    "coreCopy": "Másolás",
     "coreCount": "Darabszám",
     "coreCreate": "Létrehozás",
     "coreCreatedSuccessfully": "Sikeresen létrehozva",

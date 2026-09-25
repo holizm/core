@@ -104,6 +104,8 @@
     "coreContentType": "Content type",
     "coreConvertingToActive": "Converting to active",
     "coreConvertingToInactive": "Converting to inactive",
+    "coreCopied": "Copied",
+    "coreCopy": "Copy",
     "coreCount": "Count",
     "coreCreate": "Create",
     "coreCreatedSuccessfully": "Created successfully",
