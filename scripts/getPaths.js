@@ -1,3 +1,5 @@
+import getApiRepo from './getApiRepo.js'
+
 export default ({
     home,
     process,
@@ -17,7 +19,7 @@ export default ({
         corePanelPackageJson: `${home}/panel/package.json`,
         coreSiteLock: `${home}/site/lock.json`,
         coreSitePackageJson: `${home}/site/package.json`,
-        dependenciesPath: `${commonPath}/dependencies`,
+        dependenciesPath: `${home}/${getApiRepo(repo)}/common/dependencies`,
         essentialPartsPath: `${home}/core/essentialParts`,
         initialPath: `${commonPath}/initial.js`,
         menusDirectoryPath: `${processPath}/menus`,

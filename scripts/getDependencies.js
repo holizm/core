@@ -1,3 +1,4 @@
+import getApiRepo from './getApiRepo.js'
 import { warning } from './logger.js'
 import {
     getLines,
@@ -23,13 +24,13 @@ export default params => {
         '^site\\w*$',
     ]
     const definedDependencies = getLines(dependenciesPath)
-    const runnableDependencies = runOnTerminal(`find ${home}/${repo} -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'`)
-        .split('\n')
-        .filter(Boolean)
-        .filter(dependency =>
-            isFile(`${home}/${repo}/${dependency}/part`) ||
-            isFile(`${home}/${dependency}/part`)
-        )
+    const runnableRepos = [...new Set([repo, getApiRepo(repo)])]
+    const runnableDependencies = runnableRepos.flatMap(runnableRepo =>
+        runOnTerminal(`find ${home}/${runnableRepo} -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'`)
+            .split('\n')
+            .filter(Boolean)
+            .filter(dependency => isFile(`${home}/${runnableRepo}/${dependency}/part`))
+    )
 
     for (const runnableDependency of runnableDependencies.filter(dependency => definedDependencies.includes(dependency))) {
         warning(`Runnable part ${runnableDependency} does not need to be listed in ${dependenciesPath}`)

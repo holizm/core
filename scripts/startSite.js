@@ -9,6 +9,7 @@ import createSiteConfiguration from './createSiteConfiguration.js'
 import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
+import getApiRepo from './getApiRepo.js'
 import getDependencies from './getDependencies.js'
 import {
     divide,
@@ -79,18 +80,13 @@ const createNonExistentThemeFiles = params => {
 
 const resolveDependencies = params => {
     const {
-        home,
+        dependenciesPath,
         repo,
     } = params
-    const runnableDependenciesPath = `${home}/${repo}/common/dependencies`
-    if (!isFile(runnableDependenciesPath)) {
+    if (!isFile(dependenciesPath)) {
         errorAndExit(`Dependencies do not exist for ${repo}`)
     }
-    params.dependenciesPath = runnableDependenciesPath
-    params.dependencies = getDependencies({
-        ...params,
-        repo,
-    })
+    params.dependencies = getDependencies(params)
 }
 
 const normalizeRoute = route => route
@@ -117,13 +113,13 @@ const mapDependencies = params => {
         sitePartRoutes,
     } = params
     for (const dependency of dependencies) {
-        const dependencyPath = `${home}/${repo}/${dependency}`
-        let dependencyBase = ''
-        if (isDir(dependencyPath) && dependency !== 'accounts') {
-            dependencyBase = `${dependencyPath}/site`
-        }
-        else {
-            dependencyBase = `${home}/${dependency}/site`
+        let dependencyBase = `${home}/${dependency}/site`
+        for (const dependencyRepo of new Set([repo, getApiRepo(repo)])) {
+            const dependencyPath = `${home}/${dependencyRepo}/${dependency}`
+            if (isDir(dependencyPath) && dependency !== 'accounts') {
+                dependencyBase = `${dependencyPath}/site`
+                break
+            }
         }
         const lowercaseDependency = dependency.toLowerCase()
         const pagesPath = `${dependencyBase}/pages`
