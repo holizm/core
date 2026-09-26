@@ -6,14 +6,10 @@ import getDeterministicPort from './getDeterministicPort.js'
 import {
     createDirIfNotExists,
     getContent,
-    getLines,
     overrideFile,
 } from './os.js'
-import processTenantLines from './processTenantLines.js'
 import prepareComposeFile from './prepareComposeFile.js'
 import { runOnTerminalAsync } from './terminal.js'
-
-const getDatabaseDomain = originalDomain => `db.${originalDomain}`
 
 const createDatabaseComposeFile = params => {
     const {
@@ -47,7 +43,6 @@ export default async params => {
     const {
         isCiCd,
         repo,
-        tenantsPath,
     } = params
     if (isCiCd) {
         return
@@ -55,16 +50,8 @@ export default async params => {
     createDirIfNotExists(`/var/tmp/${repo}/databases/data`)
     createDirIfNotExists(`/var/tmp/${repo}/databases/replicaKey`)
     params.databaseEnginePort = getDeterministicPort(repo)
-    const lines = getLines(tenantsPath, 'utf8').filter(Boolean)
-    const webServerChanged = await processTenantLines({
-        ...params,
-        getSpecificDomain: getDatabaseDomain,
-        hosts: [`${repo}.local`],
-        lines,
-    })
 
     divide()
     await createMongoDatabaseContainer(params)
     divide()
-    return webServerChanged
 }
