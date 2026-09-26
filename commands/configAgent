@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+import {
+    getContent,
+    isFile,
+    writeFile,
+} from '../scripts/os.js'
+
+const homeDir = process.env.HOME
+const sourcePath = `${homeDir}/core/agentConfig`
+const destinationPath = `${homeDir}/.codex/config.toml`
+const source = getContent(sourcePath)
+const sections = new Map()
+let section = ''
+
+for (const sourceLine of source.split(/\r?\n/)) {
+    const line = sourceLine.trim()
+    if (!line) continue
+
+    const header = line.match(/^\[([a-zA-Z][\w.]*)\]$/)
+    if (header) {
+        section = header[1]
+        if (!sections.has(section)) sections.set(section, new Map())
+        continue
+    }
+
+    const assignment = line.match(/^([a-zA-Z]\w*)\s*=/)
+    if (!assignment) throw new Error(`Unsupported agent config line: ${line}`)
+    if (!sections.has(section)) sections.set(section, new Map())
+    sections.get(section).set(assignment[1], line)
+}
+
+let lines = []
+if (isFile(destinationPath)) {
+    lines = getContent(destinationPath).trimEnd().split(/\r?\n/)
+}
+
+for (const [name, settings] of sections) {
+    let start = -1
+    if (name) start = lines.findIndex(line => line.trim() === `[${name}]`)
+
+    if (name && start === -1) {
+        if (lines.length && lines[lines.length - 1]) lines.push('')
+        start = lines.length
+        lines.push(`[${name}]`)
+    }
+
+    let end = lines.findIndex((line, index) => index > start && /^\s*\[/.test(line))
+    if (end === -1) end = lines.length
+
+    for (const [key, assignment] of settings) {
+        const existing = lines.findIndex((line, index) =>
+            index > start && index < end && new RegExp(`^\\s*${key}\\s*=`).test(line)
+        )
+
+        if (existing !== -1) {
+            lines[existing] = assignment
+        } else {
+            lines.splice(end, 0, assignment)
+            end++
+        }
+    }
+}
+
+writeFile(destinationPath, `${lines.join('\n')}\n`)
