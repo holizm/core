@@ -42,7 +42,7 @@ services:
             - ${home}/complexPanel/localization:${containerHome}/panel/localization
             - ${home}/site/localization:${containerHome}/site/localization
 
-            - ${home}/${repo}/common/tenants:${containerHome}/${repo}/common/tenants
+            - ${tenantsPath}:${containerHome}/${repo}/common/tenants
             - ${home}/${repo}/common/initial.js:${containerHome}/${repo}/common/initial.js
             - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
 
@@ -61,10 +61,10 @@ services:
         stdin_open: true
         tty: true
         networks:
-            - ${repo}Network
+            - ${networkRepo}Network
         extra_hosts:
             - "host.docker.internal:host-gateway"
 
 networks:
-    ${repo}Network:
+    ${networkRepo}Network:
         external: true

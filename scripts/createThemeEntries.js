@@ -1,6 +1,6 @@
 import { join } from 'path'
+import isFile from './isFile.js'
 import {
-    isFile,
     removeAndRecreateDir,
     writeFile,
 } from './os.js'

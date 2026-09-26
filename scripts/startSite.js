@@ -11,6 +11,8 @@ import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
 import getApiRepo from './getApiRepo.js'
 import getDependencies from './getDependencies.js'
+import isDir from './isDir.js'
+import isFile from './isFile.js'
 import {
     divide,
     errorAndExit,
@@ -26,8 +28,6 @@ import {
     createDirIfNotExists,
     createFileIfNotExists,
     getLines,
-    isDir,
-    isFile,
     replaceVariables,
     writeFile,
 } from './os.js'

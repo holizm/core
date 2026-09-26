@@ -2,6 +2,7 @@ import fs, { rmSync } from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
 import camelize from './camelize.js'
+import isFile from './isFile.js'
 import {
     error,
     errorAndExit,
@@ -82,9 +83,6 @@ export const replaceVariablesIfChanged = (inputFile, outputFile, params) => {
 }
 
 export const exists = p => p && fs.existsSync(p)
-export const isFile = p => p && fs.existsSync(p) && fs.statSync(p).isFile()
-export const isDir = p => p && fs.existsSync(p) && fs.statSync(p).isDirectory()
-
 export const createDirIfNotExists = dirPath => {
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true })
@@ -184,55 +182,6 @@ export const getDepth = targetPath => {
     const parts = (targetPath || process.cwd()).split('/').filter(Boolean)
     return parts.length
 }
-
-export const isRepo = params => fs.existsSync(path.join(params.processPath, '.git'))
-
-export const isProcess = params => {
-    const { processPath } = params
-    if (getDepth(processPath) !== 4) {
-        return false
-    }
-    const folder = path.basename(processPath)
-    const keywords = [
-        'accounts',
-        'api',
-        'etl',
-        'panel',
-        'site',
-        'worker',
-    ]
-    const folderLower = folder.toLowerCase()
-
-    if (keywords.some(keyword => folderLower.includes(keyword))) {
-        return true
-    }
-
-    const files = fs.readdirSync(processPath)
-    const pascalFiles = new Set(files.filter(f => fs.statSync(path.join(processPath, f)).isFile()))
-    for (const keyword of keywords) {
-        if (pascalFiles.has(pascalize(keyword))) {
-            return true
-        }
-    }
-    return false
-}
-
-export const isAccounts = params => isProcess(params) && path.basename(params.processPath) === 'accounts'
-export const isApi = params => isProcess(params) && (['process.js'].some(f => fs.existsSync(path.join(params.processPath, f))) || path.basename(params.processPath).endsWith('Api') || path.basename(params.processPath) === 'etl')
-export const isWorker = params => isProcess(params) && path.basename(params.processPath).includes('worker')
-export const isPanel = params => isProcess(params) && path.basename(params.processPath).includes('Panel')
-export const isSite = params => {
-    if (!isProcess(params)) {
-        return false
-    }
-    const folder = path.basename(params.processPath).toLowerCase()
-    const hasSite = folder.includes('site')
-    const hasApi = folder.includes('api')
-    const hasAppDir = fs.existsSync(path.join(params.processPath, 'pages'))
-    return (hasSite && !hasApi) || hasAppDir
-}
-export const isHeadlessPanel = params => isPanel(params) && fs.existsSync(path.join(params.processPath, 'headless'))
-export const isEtl = params => isApi(params) && params.processPath.endsWith('etl')
 
 export const getDirs = path => {
     return fs.readdirSync(path || '.', { withFileTypes: true })

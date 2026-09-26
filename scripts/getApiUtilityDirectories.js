@@ -1,8 +1,10 @@
+import getProcessRole from './getProcessRole.js'
+
 export default ({
     containerHome,
     process,
 }) => {
-    if (!process.startsWith('admin')) {
+    if (getProcessRole(process) !== 'admin') {
         return []
     }
     const directories = [

@@ -1,10 +1,8 @@
 import { X509Certificate } from 'crypto'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import {
-    createDirIfNotExists,
-    isFile,
-} from './os.js'
+import isFile from './isFile.js'
+import { createDirIfNotExists } from './os.js'
 import { runOnTerminalAsync } from './terminal.js'
 
 export default async params => {

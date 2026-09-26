@@ -1,5 +1,7 @@
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import isDir from './isDir.js'
+import isFile from './isFile.js'
 import {
     divide,
     info,
@@ -15,8 +17,6 @@ import mapSettings from './mapSettings.js'
 import {
     createDirIfNotExists,
     createFileIfNotExists,
-    isDir,
-    isFile,
     replaceVariables,
     writeFile,
 } from './os.js'

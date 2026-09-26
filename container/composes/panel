@@ -58,8 +58,6 @@ services:
             - ${home}/panel/wrapAndName.js:${containerHome}/${repo}/${process}/wrapAndName.js
 
             - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
-            - ${home}/${repo}/common/publicSettings.json:${containerHome}/${repo}/${process}/public/publicSettings.json
-            - ${home}/${repo}/common/privateSettings.json:${containerHome}/${repo}/${process}/privateSettings.json
 
             - ${processPath}/appActions.jsx:${containerHome}/${repo}/${process}/src/appActions.jsx
             - ${processPath}/menu.jsx:${containerHome}/${repo}/${process}/src/menu.jsx

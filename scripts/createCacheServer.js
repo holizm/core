@@ -1,4 +1,5 @@
 import getDeterministicPort from './getDeterministicPort.js'
+import isFile from './isFile.js'
 import {
     divide,
     errorAndExit,
@@ -6,7 +7,6 @@ import {
 } from './logger.js'
 import {
     getContent,
-    isFile,
     overrideFile,
 } from './os.js'
 import prepareComposeFile from './prepareComposeFile.js'
@@ -75,6 +75,7 @@ export default params => {
         localBuild,
         networkRepo,
         privateSettingsPath,
+        usesBackingInfrastructure,
     } = params
     const cacheSettings = getCacheSettings({
         home,
@@ -83,6 +84,7 @@ export default params => {
     if (
         isCiCd ||
         localBuild ||
+        usesBackingInfrastructure ||
         (!params.isApi && !params.isSite) ||
         cacheSettings.enabled !== true
     ) {

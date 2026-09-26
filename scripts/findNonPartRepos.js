@@ -1,7 +1,5 @@
-import {
-    getContent,
-    isFile,
-} from './os.js'
+import isFile from './isFile.js'
+import { getContent } from './os.js'
 import { runOnTerminal } from './terminal.js'
 
 const home = process.env.HOME

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
+import isFile from '../scripts/isFile.js'
 import {
     getContent,
-    isFile,
     writeFile,
 } from '../scripts/os.js'
 

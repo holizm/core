@@ -2,9 +2,9 @@
 
 import { copyFileSync } from 'node:fs'
 import { info } from '../scripts/logger.js'
+import isFile from '../scripts/isFile.js'
 import {
     getContent,
-    isFile,
     writeFile,
 } from '../scripts/os.js'
 

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import getProcessRole from './getProcessRole.js'
 
 export default params => {
     const {
@@ -9,7 +10,7 @@ export default params => {
         process,
         repo,
     } = params
-    if (!process.startsWith('admin')) {
+    if (getProcessRole(process) !== 'admin') {
         return
     }
     const mappings = [

@@ -9,6 +9,12 @@ import getDependencies from './getDependencies.js'
 import getApiRepo from './getApiRepo.js'
 import getPaths from './getPaths.js'
 import indentation from './indentation.js'
+import isAccounts from './isAccounts.js'
+import isApi from './isApi.js'
+import isHeadlessPanel from './isHeadlessPanel.js'
+import isPanel from './isPanel.js'
+import isSite from './isSite.js'
+import isWorker from './isWorker.js'
 import {
     divide,
     info,
@@ -16,12 +22,7 @@ import {
 } from './logger.js'
 import {
     getLines,
-    isAccounts,
-    isApi,
-    isHeadlessPanel,
-    isPanel,
-    isSite,
-    isWorker,
+    removeAndRecreateDir,
 } from './os.js'
 import processTenantLines from './processTenantLines.js'
 import prepareComposeFile from './prepareComposeFile.js'
@@ -57,7 +58,7 @@ export default async overrides => {
     }))
 
     await measureAsync('stop existing process containers', () => stop({
-        pattern: params.containerName,
+        containerName: params.containerName,
     }))
 
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
@@ -74,12 +75,14 @@ export default async overrides => {
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
     }))
-    params.networkRepo =
-        isSite(params)
-        ?
-        getApiRepo(params.repo)
-        :
-        params.repo
+    params.usesBackingInfrastructure = params.isControlProcess && params.process === 'controlApi'
+    params.networkRepo = params.repo
+    if (isSite(params)) params.networkRepo = getApiRepo(params.repo)
+    if (params.usesBackingInfrastructure) {
+        params.networkRepo = params.repo.replace(/Control$/, '')
+        removeAndRecreateDir(`${params.webServerPath}/conf.d`)
+        removeAndRecreateDir(`${params.webServerPath}/includes`)
+    }
 
     const { tenantsPath } = params
 
@@ -183,7 +186,7 @@ export default async overrides => {
     if (shouldWatch) {
         await startContainers(params)
         measure('reload web server', () => reloadWebServer(params))
-        writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
+        writeTimings(`/tmp/${params.repo}/${params.process}/hostStartReport.md`)
         await runStreaming(command)
         return params
     }
@@ -197,7 +200,7 @@ export default async overrides => {
         measure('reload web server', () => reloadWebServer(params))
     }
 
-    writeTimings(`/tmp/${params.repo}/${params.process}/startReport.md`)
+    writeTimings(`/tmp/${params.repo}/${params.process}/hostStartReport.md`)
 
     const processUsesApiContainer = params.isApi || params.isWorker
     const processUsesSiteContainer = params.isSite && params.multiThemed

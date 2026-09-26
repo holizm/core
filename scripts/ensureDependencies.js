@@ -1,7 +1,5 @@
-import {
-    isFile,
-    writeFile,
-} from './os.js'
+import isFile from './isFile.js'
+import { writeFile } from './os.js'
 
 export default params => {
     const { dependenciesPath } = params

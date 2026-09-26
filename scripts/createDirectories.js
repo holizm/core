@@ -3,6 +3,7 @@ import {
     deleteFile,
     removeAndRecreateDir,
 } from './os.js'
+import getProcessRole from './getProcessRole.js'
 
 export default params => {
     const {
@@ -23,7 +24,7 @@ export default params => {
     const processIsApi = processType === 'api'
     if (processIsApi) {
         removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
-        if (process.startsWith('admin')) {
+        if (getProcessRole(process) === 'admin') {
             for (const utility of [
                 'generation',
                 'migration',

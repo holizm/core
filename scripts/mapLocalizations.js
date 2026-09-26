@@ -1,9 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import {
-    isDir,
-    isFile,
-} from './os.js'
+import isDir from './isDir.js'
+import isFile from './isFile.js'
 
 const createPanelLocalization = params => {
     const {

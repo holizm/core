@@ -1,4 +1,4 @@
-import { isFile } from './os.js'
+import isFile from './isFile.js'
 
 export default params => {
     const {

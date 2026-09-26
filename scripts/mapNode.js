@@ -1,7 +1,5 @@
-import {
-    isFile,
-    writeFileIfNotExists,
-} from './os.js'
+import isFile from './isFile.js'
+import { writeFileIfNotExists } from './os.js'
 
 export default params => {
     const {

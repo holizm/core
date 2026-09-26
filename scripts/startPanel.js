@@ -2,6 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import getProcessRole from './getProcessRole.js'
+import isControlRunnable from './isControlRunnable.js'
+import isDir from './isDir.js'
+import isFile from './isFile.js'
 import {
     divide,
     info,
@@ -12,8 +16,6 @@ import mapSettings from './mapSettings.js'
 import {
     copyFileIfNotExists,
     getContent,
-    isDir,
-    isFile,
     replaceVariables,
 } from './os.js'
 import { measure } from './timing.js'
@@ -30,7 +32,6 @@ const createNonExistentFiles = params => {
         'appActions.jsx': 'appActionsTemplate',
         'menu.jsx': 'menuTemplate',
         'routes.jsx': 'routesTemplate',
-        'settingsOverride.json': 'settingsOverrideTemplate',
     }
     for (const [target, template] of Object.entries(files)) {
         if (!isFile(target)) {
@@ -38,7 +39,10 @@ const createNonExistentFiles = params => {
         }
     }
     copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
-    copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
+    if (!isControlRunnable(params)) {
+        copyFileIfNotExists(`${basePath}/settingsOverrideTemplate`, 'settingsOverride.json')
+        copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
+    }
 }
 
 export const mapDependencies = params => {
@@ -70,7 +74,7 @@ export const mapDependencies = params => {
             params.addVolume(dependencyBase, dependencyBase)
         }
 
-        if (process.includes('admin')) {
+        if (getProcessRole(process) === 'admin') {
             params.addVolume(`${dependencyBase}/admin`, `${containerHome}/${repo}/${process}/src/${dependency}/admin`)
         }
 

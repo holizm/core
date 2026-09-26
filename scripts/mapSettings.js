@@ -1,23 +1,24 @@
+import isControlRunnable from './isControlRunnable.js'
+import isFile from './isFile.js'
 import {
-    isFile,
+    writeFile,
     writeFileIfNotExists,
 } from './os.js'
 
 export default params => {
     const {
-        commonPath,
         connectionStringsPath,
         containerHome,
         home,
         privateSettingsPath,
         process,
-        processPath,
         processType,
         publicSettingsPath,
         repo,
         settingsOverridePath,
     } = params
     const hasPublicSide = ['panel', 'site'].includes(processType)
+    const isControl = isControlRunnable(params)
     const items = [
         [connectionStringsPath, 'connectionStrings.json'],
         [privateSettingsPath, 'privateSettings.json'],
@@ -26,21 +27,24 @@ export default params => {
     ]
     for (const [sourcePath, filename] of items) {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
-        const isOverride = filename === 'settingsOverride.json'
-        if (isFile(sourcePath)) {
-            const sourceDirectory =
-                isOverride
+        const resolvedPath = isFile(sourcePath)
+            ?
+            sourcePath
+            :
+            isControl
                 ?
-                processPath
+                `/tmp/${repo}/${process}/settings/${filename}`
                 :
-                commonPath
+                null
+        if (resolvedPath) {
+            if (!isFile(sourcePath)) writeFile(resolvedPath, '{}\n')
             const targetDirectory =
                 isPublicSetting && hasPublicSide
                 ?
                 'public/'
                 :
                 ''
-            params.addVolume(`${sourceDirectory}/${filename}`, `${containerHome}/${repo}/${process}/${targetDirectory}${filename}`)
+            params.addVolume(resolvedPath, `${containerHome}/${repo}/${process}/${targetDirectory}${filename}`)
         }
     }
     const commonFile = `${home}/secrets/common.json`

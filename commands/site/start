@@ -4,7 +4,7 @@ import {
     divide,
     info,
 } from '../../scripts/logger.js'
-import { isFile } from '../../scripts/os.js'
+import isFile from '../../scripts/isFile.js'
 import {
     clear,
     runOnTerminal,

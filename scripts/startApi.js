@@ -9,6 +9,10 @@ import createDatabaseContainer from './createDatabaseContainer.js'
 import createDirectories from './createDirectories.js'
 import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
 import getApiUtilityDirectories from './getApiUtilityDirectories.js'
+import getProcessRole from './getProcessRole.js'
+import isControlRunnable from './isControlRunnable.js'
+import isEtl from './isEtl.js'
+import isFile from './isFile.js'
 import mapApiUtilities from './mapApiUtilities.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
@@ -18,8 +22,6 @@ import {
     copyFileIfNotExists,
     createDirIfNotExists,
     createFileIfNotExists,
-    isEtl,
-    isFile,
     removeAndRecreateDir,
     replaceVariables,
     writeFileIfNotExists,
@@ -45,10 +47,12 @@ const createNonExistingFiles = params => {
     writeFileIfNotExists('process.js', `import { start } from 'core'\n\nstart()`)
     createDirIfNotExists(commonPath)
     createFileIfNotExists(dependenciesPath)
-    writeFileIfNotExists(connectionStringsPath, '{}')
     copyFileIfNotExists(`${home}/core/api/initialTemplate`, initialPath)
     copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
-    copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
+    if (!isControlRunnable(params)) {
+        writeFileIfNotExists(connectionStringsPath, '{}')
+        copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
+    }
 }
 
 const linkVsCodeFiles = params => {
@@ -73,14 +77,7 @@ const mapDependencies = params => {
         processPath,
         repo,
     } = params
-    const basename = path.basename(processPath)
-    let role
-    if (basename.startsWith('admin')) {
-        role = 'admin'
-    }
-    if (basename.includes('site')) {
-        role = 'site'
-    }
+    const role = getProcessRole(path.basename(processPath))
 
     for (const dependency of dependencies) {
         let runnablePart = false
@@ -184,7 +181,16 @@ const mapCore = params => {
 }
 
 const ensureDatabaseContainer = async params => {
-    const { repo } = params
+    const databaseParams = params.usesBackingInfrastructure
+        ?
+        {
+            ...params,
+            lowercaseRepo: params.networkRepo.toLowerCase(),
+            repo: params.networkRepo,
+        }
+        :
+        params
+    const { repo } = databaseParams
     const databaseContainerName = `${repo}Databases`
     const runningDatabaseContainer = await runOnTerminalAsync(`docker ps -q -f name=${databaseContainerName}`)
     if (runningDatabaseContainer.trim()) {
@@ -196,8 +202,7 @@ const ensureDatabaseContainer = async params => {
             throwOnError: true,
         })
     }
-    const webServerChanged = await createDatabaseContainer(params)
-    params.webServerChanged = webServerChanged || params.webServerChanged
+    await createDatabaseContainer(databaseParams)
 }
 
 const ensureSearchDatabaseContainer = async params => {
@@ -219,7 +224,9 @@ const ensureSearchDatabaseContainer = async params => {
 
 const registerDatabaseContainerTasks = params => {
     params.addContainerStartupTask('ensure database container', () => ensureDatabaseContainer(params))
-    params.addContainerStartupTask('ensure search database container', () => ensureSearchDatabaseContainer(params))
+    if (!params.usesBackingInfrastructure) {
+        params.addContainerStartupTask('ensure search database container', () => ensureSearchDatabaseContainer(params))
+    }
 }
 
 const createApiContainer = params => {

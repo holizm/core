@@ -4,11 +4,11 @@ import {
     error,
     info,
 } from '../../scripts/logger.js'
+import isDir from '../../scripts/isDir.js'
 import {
     createDirIfNotExists,
     deleteFile,
     getDirsAndFiles,
-    isDir,
     removeAndRecreateDir,
 } from '../../scripts/os.js'
 import run from './run'

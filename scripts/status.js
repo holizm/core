@@ -1,11 +1,11 @@
-import { runOnTerminal } from './terminal.js'
 import findRepos from './findRepos.js'
-import { isDir } from './os.js'
+import isDir from './isDir.js'
 import {
     divide,
     info,
     warning,
 } from './logger.js'
+import { runOnTerminal } from './terminal.js'
 
 const getRepoStatus = repoPath => {
     const s = runOnTerminal(`git -C ${repoPath} status`)

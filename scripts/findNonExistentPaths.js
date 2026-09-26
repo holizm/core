@@ -1,9 +1,7 @@
+import isDir from './isDir.js'
+import isFile from './isFile.js'
 import { warning } from './logger.js'
-import {
-    getContent,
-    isDir,
-    isFile,
-} from './os.js'
+import { getContent } from './os.js'
 
 export default params => {
     const {

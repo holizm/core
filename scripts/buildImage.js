@@ -1,15 +1,13 @@
+import isApi from './isApi.js'
+import isHeadlessPanel from './isHeadlessPanel.js'
+import isPanel from './isPanel.js'
+import isSite from './isSite.js'
+import isWorker from './isWorker.js'
 import {
     divide,
     warning,
 } from './logger.js'
-import {
-    isApi,
-    isHeadlessPanel,
-    isPanel,
-    isSite,
-    isWorker,
-    replaceVariables,
-} from './os.js'
+import { replaceVariables } from './os.js'
 import {
     runStreaming,
 } from './terminal.js'

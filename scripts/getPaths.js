@@ -1,4 +1,5 @@
 import getApiRepo from './getApiRepo.js'
+import isControlRunnable from './isControlRunnable.js'
 
 export default ({
     home,
@@ -8,6 +9,9 @@ export default ({
     const repoPath = `${home}/${repo}`
     const processPath = `${repoPath}/${process}`
     const commonPath = `${repoPath}/common`
+    const privateSettingsPath = `${commonPath}/privateSettings.json`
+    const isControl = isControlRunnable({ privateSettingsPath })
+    const isControlProcess = isControl && ['controlApi', 'controlPanel'].includes(process)
     const webServerPath = `/tmp/${repo}/${process}/webServer`
     const paths = {
         certificatesPath: `${webServerPath}/certificates`,
@@ -22,11 +26,13 @@ export default ({
         dependenciesPath: `${home}/${getApiRepo(repo)}/common/dependencies`,
         essentialPartsPath: `${home}/core/essentialParts`,
         initialPath: `${commonPath}/initial.js`,
+        isControl,
+        isControlProcess,
         menusDirectoryPath: `${processPath}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
         panelLock: `${commonPath}/panelLock.json`,
         panelPackageJson: `${commonPath}/panel.json`,
-        privateSettingsPath: `${commonPath}/privateSettings.json`,
+        privateSettingsPath,
         processPath,
         publicSettingsPath: `${commonPath}/publicSettings.json`,
         runnableSearchablePropertiesPath: `${commonPath}/runnableSearchableProperties.json`,
@@ -41,7 +47,11 @@ export default ({
         siteFilePath: `${processPath}/site`,
         siteLock: `${commonPath}/siteLock.json`,
         sitePackageJson: `${commonPath}/site.json`,
-        tenantsPath: `${commonPath}/tenants`,
+        tenantsPath: isControlProcess
+            ?
+            `/tmp/${repo}/common/tenants`
+            :
+            `${commonPath}/tenants`,
         webServerPath,
     }
     return paths

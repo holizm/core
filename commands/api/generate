@@ -17,10 +17,8 @@ import {
     runOnTerminal,
     runStreaming,
 } from '../../scripts/terminal.js'
-import {
-    getLines,
-    isFile,
-} from '../../scripts/os.js'
+import isFile from '../../scripts/isFile.js'
+import { getLines } from '../../scripts/os.js'
 import extract from '../../scripts/extract.js'
 import getDependencies from '../../scripts/getDependencies.js'
 import getPaths from '../../scripts/getPaths.js'

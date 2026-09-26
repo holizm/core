@@ -1,9 +1,7 @@
 import getApiRepo from './getApiRepo.js'
+import isFile from './isFile.js'
 import { warning } from './logger.js'
-import {
-    getLines,
-    isFile,
-} from './os.js'
+import { getLines } from './os.js'
 import { runOnTerminal } from './terminal.js'
 
 export default params => {

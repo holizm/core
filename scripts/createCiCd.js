@@ -1,10 +1,10 @@
+import isFile from './isFile.js'
 import {
     divide,
     success,
 } from './logger.js'
 import {
     getContent,
-    isFile,
     writeFile,
 } from './os.js'
 import replaceVariables from './replaceVariables.js'

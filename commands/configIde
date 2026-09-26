@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { runOnTerminal } from '../scripts/terminal.js'
+import isFile from '../scripts/isFile.js'
 import {
     getContent,
-    isFile,
     writeFile,
 } from '../scripts/os.js'
 
