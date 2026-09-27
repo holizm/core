@@ -10,6 +10,7 @@ export default params => {
         home,
         isControl,
         isControlProcess,
+        privateSettingsPath,
         repo,
         tenantsPath,
     } = params
@@ -18,8 +19,10 @@ export default params => {
         errorAndExit('Control runnables support tenants only in controlApi and controlPanel')
     }
     if (isControlProcess) {
-        const tenant = repo.replace(/Control$/, '')
-        const backingTenantsPath = `${home}/${tenant}/common/tenants`
+        const backingRepo = repo.replace(/Control$/, '')
+        const controlSettings = JSON.parse(getContent(privateSettingsPath))
+        const tenant = controlSettings.controlTenant || backingRepo
+        const backingTenantsPath = `${home}/${backingRepo}/common/tenants`
         const backingTenant = isFile(backingTenantsPath)
             ?
             getContent(backingTenantsPath)
