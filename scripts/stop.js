@@ -4,6 +4,7 @@ import {
     info,
     success,
 } from './logger.js'
+import matchesContainer from './matchesContainer.js'
 import { runOnTerminalAsync } from './terminal.js'
 
 const listContainers = async () => {
@@ -24,28 +25,22 @@ const removeContainer = async id => {
     await runOnTerminalAsync(`docker rm ${id} --force 2>&1`)
 }
 
-const shouldMatch = (name, pattern) => {
-    if (!pattern) {
-        return true
-    }
-    return name.toLowerCase().includes(pattern.toLowerCase())
-}
-
-export default async ({ pattern = '' } = {}) => {
+export default async (params = {}) => {
     const containers = await listContainers()
+    const selector = params.containerName || params.pattern || 'all'
 
     let found = false
 
     for (const id of containers) {
         const name = await getContainerName(id)
 
-        if (!shouldMatch(name, pattern)) {
+        if (!matchesContainer(name, params)) {
             continue
         }
 
         if (!found) {
             divide()
-            info('Stopping all ...')
+            info(`Stopping ${selector} ...`)
             divide()
             found = true
         }
@@ -58,9 +53,11 @@ export default async ({ pattern = '' } = {}) => {
         return
     }
 
-    await runOnTerminalAsync('docker system prune --force 2>&1')
+    if (!params.containerName) {
+        await runOnTerminalAsync('docker system prune --force 2>&1')
+    }
 
     divide()
-    success('Stopped all')
+    success(`Stopped ${selector}`)
     divide()
 }
