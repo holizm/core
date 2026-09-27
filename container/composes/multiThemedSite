@@ -66,7 +66,8 @@ services:
             - ${home}/site/telemetry.js:${containerHome}/${repo}/${process}/telemetry.js
             - ${home}/site/themeStylesPlugin.js:${containerHome}/${repo}/${process}/themeStylesPlugin.js
             - ${home}/site/themeAssets.js:${containerHome}/${repo}/${process}/themeAssets.js
-            - ${home}/site/viteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
+            - ${home}/site/viteConfig.js:${containerHome}/${repo}/${process}/viteConfig.js
+            - ${home}/site/multiThemedViteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
             - ${home}/site/scripts/scroll.js:${containerHome}/${repo}/${process}/public/scripts/scroll.js
             - ${home}/site/icons/markerIcon.png:${containerHome}/${repo}/${process}/public/icons/marker-icon.png
             - ${home}/site/icons/markerIcon2x.png:${containerHome}/${repo}/${process}/public/icons/marker-icon-2x.png
