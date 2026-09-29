@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+codex logout
+pkill -u "$USER" -x codex 2>/dev/null
+rm -f ~/.codex/auth.json
+codex login
+codex login status
+codex
