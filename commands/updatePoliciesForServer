@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+import {
+    execFileSync,
+    spawnSync,
+} from 'child_process'
+import { readFileSync } from 'fs'
+import path from 'path'
+
+const domain = process.argv[2]
+if (!domain || !/^[a-zA-Z0-9.-]+$/.test(domain)) {
+    throw new Error('Provide a server domain: updatePoliciesForServer domain.tld')
+}
+const home = path.resolve(import.meta.dirname, '../..')
+const payload = execFileSync(process.execPath, [
+    path.join(home, 'policies', 'serverPolicyPayload.js'),
+], { encoding: 'utf8' })
+const encodedPayload = Buffer.from(payload).toString('base64')
+const result = spawnSync(path.join(home, 'core', 'commands', 'connect'), [
+    domain,
+    `python3 - '${encodedPayload}'`,
+], {
+    input: readFileSync(path.join(home, 'core', 'scripts', 'writeServerPolicies.py')),
+    stdio: [
+        'pipe',
+        'inherit',
+        'inherit',
+    ],
+})
+if (result.error) throw result.error
+process.exitCode = result.status ?? 1
