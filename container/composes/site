@@ -37,6 +37,7 @@ services:
             - ${home}/site/core:${containerHome}/${repo}/${process}/src/core
             - ${home}/site/pageParts:${containerHome}/${repo}/${process}/src/coreParts
             - ${home}/site/getters:${containerHome}/${repo}/${process}/src/coreGetters
+            - ${home}/site/loaders:${containerHome}/${repo}/${process}/src/coreLoaders
             - ${home}/site/functions:${containerHome}/${repo}/${process}/src/coreFunctions
             - ${home}/site/hooks:${containerHome}/${repo}/${process}/src/coreHooks
             - ${home}/site/contexts:${containerHome}/${repo}/${process}/src/coreContexts

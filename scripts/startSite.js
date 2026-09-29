@@ -11,6 +11,7 @@ import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
 import getApiRepo from './getApiRepo.js'
 import getDependencies from './getDependencies.js'
+import getSiteRoutePath from './getSiteRoutePath.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
 import {
@@ -138,11 +139,22 @@ const mapDependencies = params => {
                     ''
                     :
                     directoryPath.replace(`${pagesPath}/`, '')
-                const relativePath = [
-                    normalizeRoute(dependency),
-                    relative && normalizeRoute(relative),
-                ].filter(Boolean).join('/')
-                sitePartRoutes[`/${relativePath}`] = dependency
+                const {
+                    isSharedRoute,
+                    routePath,
+                } = getSiteRoutePath({
+                    dependency,
+                    relative,
+                })
+                const relativePath = normalizeRoute(routePath)
+                const route = `/${relativePath}`
+                if (isSharedRoute && relativePath === 'dashboard') {
+                    errorAndExit(`Dashboard root is reserved for core: ${dependency}`)
+                }
+                if (isSharedRoute && sitePartRoutes[route]) {
+                    errorAndExit(`Shared site route already belongs to ${sitePartRoutes[route]}: ${route}`)
+                }
+                sitePartRoutes[route] = dependency
 
                 const source = directoryPath === pagesPath
                     ?
@@ -375,6 +387,7 @@ export default params => {
     params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
     params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
     params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+    params.addVolume(`${home}/site/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
     params.addVolume(`/tmp/${repo}/${process}/siteConfiguration.js`, `${containerHome}/${repo}/${process}/src/siteConfiguration.js`)
     if (params.multiThemed) {
         params.addVolume(`/tmp/${repo}/${process}/themeHeads`, `${containerHome}/${repo}/${process}/src/themeHeads`)
