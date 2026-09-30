@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+import fs from 'fs'
+import path from 'path'
+import { getRealmConfiguration } from '../scripts/realmConfiguration.js'
+import { createRealmKeycloak } from '../scripts/realmKeycloak.js'
+import provisionRealm from '../scripts/provisionRealm.js'
+import saveRealmSecrets from '../scripts/saveRealmSecrets.js'
+
+const domain = process.argv[2]
+if (!domain || !/^[a-z0-9.-]+$/.test(domain)) {
+    throw new Error('Usage: configureRealm domain.tld')
+}
+const configuration = getRealmConfiguration(domain)
+const commonPath = path.join(process.env.HOME, 'secrets', 'common.json')
+const common = JSON.parse(fs.readFileSync(commonPath, 'utf8'))
+if (!common.iamAdminUser || !common.iamAdminPassword) {
+    throw new Error('Master Keycloak credentials are missing from secrets/common.json')
+}
+const origin = process.env.keycloakOrigin || `https://accounts.${domain}`
+const request = await createRealmKeycloak(origin, common.iamAdminUser, common.iamAdminPassword)
+const credentials = await provisionRealm(request, configuration)
+saveRealmSecrets(configuration.secretPath, domain, credentials)
+console.log(`Configured Keycloak realm ${configuration.realm} and saved the local adminApi and site secrets`)
+console.log('Server private settings still need these credentials for this domain')
