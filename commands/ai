@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-codex --dangerously-bypass-approvals-and-sandbox
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+    export CODEX_HOME="$HOME/.codex-account$1"
+    mkdir -p "$CODEX_HOME"
+    shift
+fi
+
+codex --dangerously-bypass-approvals-and-sandbox "$@"

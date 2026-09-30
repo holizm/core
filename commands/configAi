@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { readdirSync } from 'fs'
 import {
     getContent,
     writeFile,
@@ -11,7 +12,13 @@ import {
 
 const home = process.env.HOME
 const sourcePath = `${home}/core/agents`
-const destinationPath = `${home}/.codex/AGENTS.md`
+const accountDirectories = [
+    '.codex',
+    ...readdirSync(home, { withFileTypes: true })
+        .filter(entry => entry.isDirectory() && /^\.codex-account[0-9]+$/.test(entry.name))
+        .map(entry => entry.name)
+        .sort(),
+]
 
 divide()
 info('Configuring AI')
@@ -25,6 +32,8 @@ const content = [
     renderAgentPolicies(policies).trimEnd(),
 ].join('\n\n')
 
-writeFile(destinationPath, `${content}\n`)
-
-info(`Applied ${destinationPath}`)
+for (const directory of accountDirectories) {
+    const destinationPath = `${home}/${directory}/AGENTS.md`
+    writeFile(destinationPath, `${content}\n`)
+    info(`Applied ${destinationPath}`)
+}
