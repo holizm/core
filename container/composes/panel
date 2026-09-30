@@ -23,6 +23,7 @@ services:
 
             - ${home}/panel:${containerHome}/panel
             - ${home}/panel/addPartAndType.js:${containerHome}/${repo}/${process}/addPartAndType.js
+            - ${home}/panel/addPartAndTypeAttributes.js:${containerHome}/${repo}/${process}/addPartAndTypeAttributes.js
             - ${home}/panel/addProperty.js:${containerHome}/${repo}/${process}/addProperty.js
             - ${home}/panel/addTitle.js:${containerHome}/${repo}/${process}/addTitle.js
             - ${home}/panel/eslint.config.js:${containerHome}/${repo}/${process}/eslint.config.js
