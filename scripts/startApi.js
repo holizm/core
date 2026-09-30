@@ -118,6 +118,10 @@ const mapDependencies = params => {
         if (fs.existsSync(businessPath)) {
             params.addVolume(businessPath, `${nodeModules}/${dependency}/business`)
         }
+        const dataPath = `${dependencyBase}/data`
+        if (fs.existsSync(dataPath)) {
+            params.addVolume(dataPath, `${nodeModules}/${dependency}/data`)
+        }
 
         const rolePath = `${dependencyBase}/api/${role}`
         if (role && fs.existsSync(rolePath)) {
