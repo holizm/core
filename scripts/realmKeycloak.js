@@ -1,12 +1,21 @@
-export const createRealmKeycloak = async (origin, username, password) => {
+export const createRealmKeycloak = async (origin, credentials) => {
     const baseUrl = origin.replace(/\/$/, '')
-    const tokenResponse = await fetch(`${baseUrl}/realms/master/protocol/openid-connect/token`, {
-        body: new URLSearchParams({
+    const form = credentials.clientSecret
+        ?
+        {
+            client_id: 'adminApi',
+            client_secret: credentials.clientSecret,
+            grant_type: 'client_credentials',
+        }
+        :
+        {
             client_id: 'admin-cli',
             grant_type: 'password',
-            password,
-            username,
-        }),
+            password: credentials.password,
+            username: credentials.username,
+        }
+    const tokenResponse = await fetch(`${baseUrl}/realms/master/protocol/openid-connect/token`, {
+        body: new URLSearchParams(form),
         method: 'POST',
     })
     if (!tokenResponse.ok) throw new Error(`Keycloak master authentication failed: ${tokenResponse.status}`)

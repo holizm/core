@@ -12,14 +12,28 @@ if (!domain || !/^[a-z0-9.-]+$/.test(domain)) {
     throw new Error('Usage: configureRealm domain.tld')
 }
 const configuration = getRealmConfiguration(domain)
-const commonPath = path.join(process.env.HOME, 'secrets', 'common.json')
-const common = JSON.parse(fs.readFileSync(commonPath, 'utf8'))
-if (!common.iamAdminUser || !common.iamAdminPassword) {
-    throw new Error('Master Keycloak credentials are missing from secrets/common.json')
+const localSecrets = JSON.parse(fs.readFileSync(configuration.secretPath, 'utf8'))
+let credentials
+if (localSecrets.production?.iam !== undefined) {
+    if (typeof localSecrets.production.iam !== 'string' || !localSecrets.production.iam) {
+        throw new Error('production.iam must contain a client secret')
+    }
+    credentials = { clientSecret: localSecrets.production.iam }
+}
+else {
+    const commonPath = path.join(process.env.HOME, 'secrets', 'common.json')
+    const common = JSON.parse(fs.readFileSync(commonPath, 'utf8'))
+    if (!common.iamAdminUser || !common.iamAdminPassword) {
+        throw new Error('Master Keycloak credentials are missing from secrets/common.json')
+    }
+    credentials = {
+        password: common.iamAdminPassword,
+        username: common.iamAdminUser,
+    }
 }
 const origin = process.env.keycloakOrigin || `https://accounts.${domain}`
-const request = await createRealmKeycloak(origin, common.iamAdminUser, common.iamAdminPassword)
-const credentials = await provisionRealm(request, configuration)
-saveRealmSecrets(configuration.secretPath, domain, credentials)
+const request = await createRealmKeycloak(origin, credentials)
+const clientSecrets = await provisionRealm(request, configuration)
+saveRealmSecrets(configuration.secretPath, domain, clientSecrets)
 console.log(`Configured Keycloak realm ${configuration.realm} and saved the local adminApi and site secrets`)
 console.log('Server private settings still need these credentials for this domain')
