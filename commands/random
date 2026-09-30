@@ -30,6 +30,8 @@ const files = await fg(repositories.map(repository => `${repository}/**/*`), {
         '**/coverage/**',
         '**/dist/**',
         '**/node_modules/**',
+        'AGENTS.md',
+        '*.mdx',
     ],
     onlyFiles: true,
 })
