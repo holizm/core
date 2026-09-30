@@ -22,6 +22,9 @@ fi
 
 secretFile=""
 for file in $HOME/secrets/*.json; do
+    case "${file##*/}" in
+        *Control.json|*Themes.json) continue ;;
+    esac
     if jq -e --arg domain "$domain" '.deployment.instances and (.deployment.instances[] | select(.domain == $domain))' "$file" >/dev/null; then
         secretFile="$file"
         break
