@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Nem találhatók elemek",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Nyomtatás nélküli mód",
-    "coreNonValidSlug": "A slug érvénytelen. Csak kötőjel, kis angol betűk és számok használhatók.",
+    "coreNonValidSlug": "A slug érvénytelen",
     "coreNotFound": "Nem található",
     "coreNote": "Megjegyzés",
     "coreNotes": "Jegyzetek",

@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Δεν βρέθηκαν στοιχεία",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Λειτουργία χωρίς εκτύπωση",
-    "coreNonValidSlug": "Το slug δεν είναι έγκυρο. Επιτρέπονται μόνο παύλα, πεζοί αγγλικοί χαρακτήρες και αριθμοί.",
+    "coreNonValidSlug": "Το slug δεν είναι έγκυρο",
     "coreNotFound": "Δεν βρέθηκε",
     "coreNote": "Σημείωση",
     "coreNotes": "Σημειώσεις",

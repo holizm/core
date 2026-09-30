@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Aucun élément trouvé",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Mode sans impression",
-    "coreNonValidSlug": "Slug n’est pas valide. Seuls les tirets, les minuscules et les chiffres anglais sont acceptés.",
+    "coreNonValidSlug": "Slug n’est pas valide",
     "coreNotFound": "Pas trouvé",
     "coreNote": "Note",
     "coreNotes": "Remarques",

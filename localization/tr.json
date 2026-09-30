@@ -353,7 +353,7 @@
     "coreNoItemsFound": "hiç bir öğe bulunamadı",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Yazdırma dışı mod",
-    "coreNonValidSlug": "Slug geçerli değil. Yalnızca kısa çizgi ve küçük harf İngilizce karakterler ve sayılar kabul edilir.",
+    "coreNonValidSlug": "Slug geçerli değil",
     "coreNotFound": "Bulunamadı",
     "coreNote": "Not",
     "coreNotes": "Notlar",

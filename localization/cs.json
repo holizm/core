@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Nebyly nalezeny žádné položky",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Režim bez tisku",
-    "coreNonValidSlug": "Slug není platný. Povolena jsou pouze pomlčka, malá anglická písmena a číslice.",
+    "coreNonValidSlug": "Slug není platný",
     "coreNotFound": "Nenalezeno",
     "coreNote": "Poznámka",
     "coreNotes": "Poznámky",

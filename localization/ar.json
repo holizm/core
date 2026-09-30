@@ -353,7 +353,7 @@
     "coreNoItemsFound": "لم يتم العثور على العناصر",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "وضع عدم الطباعة",
-    "coreNonValidSlug": "المعرّف النصي غير صالح. يُسمح فقط بالشرطات والأحرف الإنجليزية الصغيرة والأرقام.",
+    "coreNonValidSlug": "المعرّف النصي غير صالح",
     "coreNotFound": "غير معثور عليه",
     "coreNote": "ملحوظة",
     "coreNotes": "ملحوظات",

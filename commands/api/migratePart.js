@@ -18,4 +18,5 @@ export default async part => {
     await compare(part)
     await migrate('indexes', part)
     await compare(part)
+    await migrate('slugValidators', part)
 }

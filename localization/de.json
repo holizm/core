@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Keine Elemente gefunden",
     "coreNofollow": "Nofollow",
     "coreNonPrintingModel": "Nicht-Druckmodus",
-    "coreNonValidSlug": "Slug ist ungültig. Es werden nur englische Bindestriche und Kleinbuchstaben sowie Zahlen akzeptiert.",
+    "coreNonValidSlug": "Slug ist ungültig",
     "coreNotFound": "Nicht gefunden",
     "coreNote": "Notiz",
     "coreNotes": "Anmerkungen",

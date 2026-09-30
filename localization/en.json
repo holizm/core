@@ -353,7 +353,7 @@
     "coreNoItemsFound": "No items found",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Non-printing mode",
-    "coreNonValidSlug": "Slug is not valid. Only dash and lowercase English characters, and numbers are accepted.",
+    "coreNonValidSlug": "Slug may contain lowercase English letters, letters from its locale, and hyphens between words. Numbers are not allowed.",
     "coreNotFound": "Not found",
     "coreNote": "Note",
     "coreNotes": "Notes",

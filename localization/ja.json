@@ -351,7 +351,7 @@
     "coreNoItemsFound": "項目は見つかりませんでした",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "非印刷モード",
-    "coreNonValidSlug": "スラグは無効です。ダッシュ、小文字の英字、および数字のみが受け入れられます。",
+    "coreNonValidSlug": "スラグは無効です",
     "coreNotFound": "見つかりません",
     "coreNote": "注記",
     "coreNotes": "ノート",

@@ -353,7 +353,7 @@
     "coreNoItemsFound": "ไม่พบรายการ",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "โหมดไม่พิมพ์",
-    "coreNonValidSlug": "Slug ไม่ถูกต้อง อนุญาตเฉพาะขีดกลาง ตัวอักษรภาษาอังกฤษตัวพิมพ์เล็ก และตัวเลขเท่านั้น",
+    "coreNonValidSlug": "Slug ไม่ถูกต้อง",
     "coreNotFound": "ไม่พบ",
     "coreNote": "หมายเหตุ",
     "coreNotes": "บันทึกย่อ",

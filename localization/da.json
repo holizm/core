@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Ingen elementer fundet",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Tilstand uden udskrivning",
-    "coreNonValidSlug": "Sluggen er ugyldig. Kun bindestreg, små engelske bogstaver og tal accepteres.",
+    "coreNonValidSlug": "Sluggen er ugyldig",
     "coreNotFound": "Ikke fundet",
     "coreNote": "Bemærkning",
     "coreNotes": "Noter",

@@ -352,7 +352,7 @@
     "coreNoItemsFound": "কোন আইটেম পাওয়া যায়নি",
     "coreNofollow": "নফোলো",
     "coreNonPrintingModel": "অ-মুদ্রণ মোড",
-    "coreNonValidSlug": "স্লাগ বৈধ নয়। শুধুমাত্র ড্যাশ এবং ছোট হাতের ইংরেজি অক্ষর এবং সংখ্যা গ্রহণ করা হয়।",
+    "coreNonValidSlug": "স্লাগ বৈধ নয়",
     "coreNotFound": "পাওয়া যায়নি",
     "coreNote": "বিঃদ্রঃ",
     "coreNotes": "মন্তব্য",

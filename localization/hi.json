@@ -352,7 +352,7 @@
     "coreNoItemsFound": "कोई आइटम नहीं मिला",
     "coreNofollow": "नोक",
     "coreNonPrintingModel": "गैर मुद्रण मोड",
-    "coreNonValidSlug": "स्लग मान्य नहीं है. केवल डैश और लोअरकेस अंग्रेजी अक्षर और संख्याएँ स्वीकार की जाती हैं।",
+    "coreNonValidSlug": "स्लग मान्य नहीं है",
     "coreNotFound": "नहीं मिला",
     "coreNote": "टिप्पणी",
     "coreNotes": "टिप्पणियाँ",

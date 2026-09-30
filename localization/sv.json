@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Inga objekt hittades",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Läge utan utskrift",
-    "coreNonValidSlug": "Sluggen är ogiltig. Endast bindestreck, små engelska bokstäver och siffror tillåts.",
+    "coreNonValidSlug": "Sluggen är ogiltig",
     "coreNotFound": "Hittades inte",
     "coreNote": "Anteckning",
     "coreNotes": "Anteckningar",

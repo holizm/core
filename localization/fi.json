@@ -353,7 +353,7 @@
     "coreNoItemsFound": "Kohteita ei löytynyt",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "Tulostamaton tila",
-    "coreNonValidSlug": "URL-tunniste ei kelpaa. Vain yhdysmerkki, englannin pienet kirjaimet ja numerot hyväksytään.",
+    "coreNonValidSlug": "URL-tunniste ei kelpaa",
     "coreNotFound": "Ei löytynyt",
     "coreNote": "Huomautus",
     "coreNotes": "Muistiinpanot",

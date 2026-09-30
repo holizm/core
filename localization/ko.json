@@ -351,7 +351,7 @@
     "coreNoItemsFound": "제품을 찾지 못했습니다",
     "coreNofollow": "nofollow",
     "coreNonPrintingModel": "비인쇄 모드",
-    "coreNonValidSlug": "슬러그가 유효하지 않습니다. 대시, 영문 소문자, 숫자만 허용됩니다.",
+    "coreNonValidSlug": "슬러그가 유효하지 않습니다",
     "coreNotFound": "찾을 수 없음",
     "coreNote": "메모",
     "coreNotes": "노트",
