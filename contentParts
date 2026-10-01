@@ -1,19 +1,43 @@
-announcements
-banners
-blog
-contents
-courses
-events
-faqs
-flashcards
-forums
-galleries
-glossary
-landings
-media
-news
-podcast
-questions
-reviews
-testimonials
-vlog
+{
+    "primary": [
+        "blog",
+        "courses",
+        "faqs",
+        "flashcards",
+        "forums",
+        "glossary",
+        "news",
+        "podcast",
+        "questions",
+        "vlog"
+    ],
+    "secondary": [
+        "announcements",
+        "banners",
+        "contents",
+        "events",
+        "galleries",
+        "landings",
+        "media",
+        "reviews",
+        "testimonials"
+    ],
+    "possible": [
+        "docs",
+        "guides",
+        "polls",
+        "quizzes",
+        "surveys",
+        "webinars",
+        "newsletters",
+        "tutorials",
+        "resources",
+        "downloads",
+        "changelogs",
+        "caseStudies",
+        "whitepapers",
+        "ebooks",
+        "interviews",
+        "directories"
+    ]
+}
