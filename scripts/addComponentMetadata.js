@@ -1,10 +1,27 @@
 import resolveComponentMetadata from './resolveComponentMetadata.js'
+import resolveSiteRouteClass from './resolveSiteRouteClass.js'
 
 const nativeTypeElements = new Set(['a', 'area', 'button', 'embed', 'input', 'link', 'object', 'ol', 'script', 'source', 'style'])
 
 export default ({ types: t }, options) => {
     const metadata = resolveComponentMetadata(options.id)
+    const routeClass = resolveSiteRouteClass(options.id)
     const platformComponents = new Set()
+    const addRouteClass = (opening, isRoot) => {
+        if (!routeClass || !isRoot || !/^[a-z]/.test(opening.name.name)) return
+        const attribute = opening.attributes.find(item => item.name?.name === 'class')
+        if (!attribute) {
+            opening.attributes.push(t.jsxAttribute(t.jsxIdentifier('class'), t.stringLiteral(routeClass)))
+            return
+        }
+        const value = attribute.value
+        if (t.isStringLiteral(value)) {
+            if (!value.value.split(/\s+/).includes(routeClass)) value.value += ` ${routeClass}`
+            return
+        }
+        const expression = value?.expression
+        if (t.isTemplateLiteral(expression)) expression.quasis.at(-1).value.raw += ` ${routeClass}`
+    }
     const addAttributes = (node, allowComponent = true) => {
         if (t.isJSXFragment(node)) {
             node.children.forEach(child => {
@@ -26,7 +43,8 @@ export default ({ types: t }, options) => {
         const opening = node.openingElement
         if (!t.isJSXIdentifier(opening.name)) return
         if (!/^[a-z]/.test(opening.name.name) && (!allowComponent || !platformComponents.has(opening.name.name))) return
-        for (const [name, value] of Object.entries(metadata)) {
+        addRouteClass(opening, allowComponent)
+        for (const [name, value] of Object.entries(metadata || {})) {
             const attributeName = name === 'type' && nativeTypeElements.has(opening.name.name)
                 ?
                 'data-type'
@@ -70,7 +88,7 @@ export default ({ types: t }, options) => {
             path.node.specifiers.forEach(specifier => platformComponents.add(specifier.local.name))
         },
         ExportDefaultDeclaration(path) {
-            if (metadata) visitComponent(path.get('declaration'))
+            if (metadata || routeClass) visitComponent(path.get('declaration'))
         },
     }
     const plugin = { visitor }

@@ -58,3 +58,17 @@ test('forwards a composed component name through the core container', () => {
     assert.match(carousel, /<Container[^>]*component="cardsCarousel"[^>]*part="core"/)
     assert.match(container, /<div\s+component="container"\s+part="core"\s+\{\.\.\.rest\}/)
 })
+
+test('adds page and layout classes to native site route roots', () => {
+    const page = transform("export default () => <main class='about' />", '/home/dev/jzpThemes/site/src/routes/about/index.jsx').code
+    const layout = transform("export default () => <div class='themeRoot' />", '/home/dev/jzpThemes/site/src/themes/01/pages/layout.jsx').code
+    assert.match(page, /<main class="about page"/)
+    assert.match(layout, /<div class="themeRoot layout"/)
+})
+
+test('keeps route fragments and component roots unchanged', () => {
+    const fragment = transform('export default () => <><div /><Content /></>', '/home/dev/jzpThemes/site/src/routes/index.jsx').code
+    const component = transform('export default () => <Page />', '/home/dev/jzpThemes/site/src/routes/about/index.jsx').code
+    assert.doesNotMatch(fragment, /class="page"/)
+    assert.doesNotMatch(component, /class="page"/)
+})
