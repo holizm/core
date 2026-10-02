@@ -5,7 +5,7 @@ import path from 'path'
 import reportPolicyTimings from './reportPolicyTimings.js'
 
 const target = path.resolve(process.argv[2] || process.cwd())
-const policyRunner = path.resolve(import.meta.dirname, '../../policies/run.js')
+const workerPath = path.resolve(import.meta.dirname, 'checkPolicyWorker.js')
 
 const findFiles = () => new Promise((resolve, reject) => {
     const finder = spawn('find', ['-H', target, '-mindepth', '1', '-type', 'f', '-not', '-name', '.git', '-not', '-path', '*/.git/*', '-print0'])
@@ -20,28 +20,25 @@ const findFiles = () => new Promise((resolve, reject) => {
     })
 })
 
-const runFile = file => new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [policyRunner, file], {
-        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
-    })
-    const output = []
-    const errors = []
+const runFile = (child, file) => new Promise((resolve, reject) => {
     let timings = []
-    child.stdout.on('data', chunk => output.push(chunk))
-    child.stderr.on('data', chunk => errors.push(chunk))
-    child.on('message', message => {
+    const onMessage = message => {
         if (message?.type === 'policyTimings') timings = message.timings
-    })
-    child.on('error', reject)
-    child.on('close', code => {
+        if (message?.type !== 'done') return
+        child.off('message', onMessage)
+        child.off('exit', onExit)
         const result = {
-            code,
-            error: Buffer.concat(errors).toString(),
-            output: Buffer.concat(output).toString(),
+            code: message.code,
+            error: message.error,
+            output: message.output,
             timings,
         }
         resolve(result)
-    })
+    }
+    const onExit = code => reject(new Error(`Policy worker exited with ${code} while checking ${file}`))
+    child.on('message', onMessage)
+    child.once('exit', onExit)
+    child.send({ file })
 })
 
 const files = statSync(target).isFile() ? [target] : await findFiles()
@@ -51,9 +48,12 @@ let failures = 0
 const fileTimings = []
 
 await Promise.all(Array.from({ length: parallelism }, async () => {
+    const child = spawn(process.execPath, [workerPath], {
+        stdio: ['ignore', 'ignore', 'inherit', 'ipc'],
+    })
     while (next < files.length) {
         const index = next++
-        const result = await runFile(files[index])
+        const result = await runFile(child, files[index])
         fileTimings.push(result.timings)
         if (result.output) {
             process.stdout.write(result.output)
@@ -61,6 +61,7 @@ await Promise.all(Array.from({ length: parallelism }, async () => {
         if (result.error) process.stderr.write(result.error)
         if (result.code !== 0) failures++
     }
+    child.send({ type: 'stop' })
 }))
 
 reportPolicyTimings(fileTimings)
