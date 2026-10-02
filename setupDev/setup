@@ -31,6 +31,7 @@ $setupDev/speedTest
 
 $setupDev/docker
 $setupDev/node
+npm ci --prefix "$homeDir/core"
 $setupDev/mongodbMemoryServer
 $setupDev/astCstWatcher
 sudo homeDir="$homeDir" node "$setupDev/nginx"
