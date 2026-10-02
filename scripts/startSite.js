@@ -185,6 +185,7 @@ const mapDependencies = params => {
             'getters',
             'loaders',
             'parts',
+            'styles',
         ]
         directories.forEach(part => {
             const partPath = `${dependencyBase}/${part}`
