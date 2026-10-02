@@ -26,21 +26,7 @@ else
     target=$PWD/$target
 fi
 
-if [ -f "$target" ]; then
-    node $home/policies/run.js "$target"
-else
-    find -H $target \
-    -mindepth 1 \
-    -type f \
-    -not -name .git \
-    -not -path "*/.git/*" \
-    2>/dev/null |
-    sort |
-    while read file;
-    do
-        node $home/policies/run.js "$file"
-    done
-fi
+node "$home/core/scripts/checkFiles.js" "$target"
 
 # findRepos $target |
 # while read repo;
