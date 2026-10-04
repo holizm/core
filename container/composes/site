@@ -15,6 +15,7 @@ services:
             - repo=${repo}
             - process=${process}
             - processPath=${containerHome}/${repo}/${process}
+            ${siteContentEnvironment}
             - isCiCd=${isCiCd}
             - deterministicPort=${deterministicPort}
             - authSecret=t69bu9H55yXKQfUfx8fN

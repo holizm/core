@@ -1,3 +1,4 @@
+import { existsSync } from 'fs'
 import path from 'path'
 import process from 'process'
 import camelize from '../scripts/camelize.js'
@@ -44,7 +45,7 @@ export default params => {
         :
         getOrgRepoFromGit()
 
-    if (org?.toLowerCase() === 'holizm') {
+    if (org?.toLowerCase() === 'holizm' && !existsSync(`${home}/${repo}/common/dependencies`)) {
         errorAndExit('This command is not available for holizm repos. They are not executable/runnable. Run command command from a runnable project.')
     }
 

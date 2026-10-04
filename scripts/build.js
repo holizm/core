@@ -1,4 +1,5 @@
 import buildImage from './buildImage.js'
+import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
 import start from './start.js'
 import {
@@ -99,6 +100,10 @@ export default async params => {
         '**/*localization*/',
         '**/webServer',
     ])
+
+    if (isSite) {
+        copySiteContent(params)
+    }
 
     if (isCiCd) {
         await buildImage(params)

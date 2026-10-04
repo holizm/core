@@ -25,6 +25,9 @@ export default params => {
     content += replaceVariables(`${home}/core/ciCd/extractOrgRepo`, params)
     content += replaceVariables(`${home}/core/ciCd/cloneHolism`, params)
     content += replaceVariables(`${home}/core/ciCd/repo`, params)
+    if (params.siteContentSource && params.siteContentSource.repository !== repo) {
+        content += `\n            - name: Clone site content\n              if: startsWith(runner.name, 'GitHub')\n              run: |\n                    clone holizm ${params.siteContentSource.repository}\n`
+    }
     const actionFile = `${home}/core/ciCd/${processType}`
     content += replaceVariables(actionFile, params)
     // content += replaceVariables(`${home}/core/ciCd/printCompose`, params)

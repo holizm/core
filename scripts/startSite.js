@@ -12,6 +12,7 @@ import findThemeDirectories from './findThemeDirectories.js'
 import getApiRepo from './getApiRepo.js'
 import getDependencies from './getDependencies.js'
 import getSiteRoutePath from './getSiteRoutePath.js'
+import getSiteContentSource from './getSiteContentSource.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
 import {
@@ -84,6 +85,14 @@ const resolveDependencies = params => {
         dependenciesPath,
         repo,
     } = params
+    if (params.standaloneSite) {
+        params.dependencies = isFile(dependenciesPath)
+            ?
+            getLines(dependenciesPath).filter(Boolean)
+            :
+            []
+        return
+    }
     if (!isFile(dependenciesPath)) {
         errorAndExit(`Dependencies do not exist for ${repo}`)
     }
@@ -124,7 +133,7 @@ const mapDependencies = params => {
         }
         const lowercaseDependency = dependency.toLowerCase()
         const pagesPath = `${dependencyBase}/pages`
-        if (isDir(pagesPath)) {
+        if (!params.standaloneSite && isDir(pagesPath)) {
             const mappings = []
             const pagePaths = runOnTerminal(`find ${pagesPath} -name index.jsx`).split('\n')
 
@@ -175,7 +184,7 @@ const mapDependencies = params => {
         }
 
         const pluginFile = `${dependencyBase}/pages/plugin.ts`
-        if (isFile(pluginFile)) {
+        if (!params.standaloneSite && isFile(pluginFile)) {
             params.addVolume(`${dependencyBase}/pages/plugin.ts`, `${containerHome}/${repo}/${process}/src/routes/plugin@${lowercaseDependency}.ts`)
         }
 
@@ -336,6 +345,16 @@ export default params => {
     divide()
 
     params.processType = 'site'
+    params.siteContentSource = getSiteContentSource(params)
+    params.standaloneSite = isFile(`${params.processPath}/standalone`)
+    params.siteContentEnvironment = params.siteContentSource
+        ?
+        `- siteContentPath=${params.siteContentSource.target}`
+        :
+        ''
+    if (params.siteContentSource) {
+        params.addVolume(params.siteContentSource.source, params.siteContentSource.target)
+    }
     params.sitePartRoutes = {}
     params.themeDirectories = findThemeDirectories(join(params.processPath, '..'))
     params.multiThemed = params.themeDirectories.length > 0
@@ -384,11 +403,25 @@ export default params => {
         repo,
         tenantsPath,
     } = params
-    params.addVolume(`${home}/site/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
-    params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
-    params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
-    params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-    params.addVolume(`${home}/site/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
+    if (!params.standaloneSite) {
+        params.addVolume(`${home}/site/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
+        params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
+        params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
+        params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+        params.addVolume(`${home}/site/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
+    }
+    if (isFile(`${processPath}/root.jsx`)) {
+        params.addVolume(`${processPath}/root.jsx`, `${containerHome}/${repo}/${process}/src/root.tsx`)
+    }
+    if (isFile(`${processPath}/plugin.ts`)) {
+        params.addVolume(`${processPath}/plugin.ts`, `${containerHome}/${repo}/${process}/src/routes/plugin@_core.ts`)
+    }
+    if (isFile(`${processPath}/types.d.ts`)) {
+        params.addVolume(`${processPath}/types.d.ts`, `${containerHome}/${repo}/${process}/src/types.d.ts`)
+    }
+    if (isDir(`${processPath}/localization`)) {
+        params.addVolume(`${processPath}/localization`, `${containerHome}/${repo}/${process}/src/localization`)
+    }
     params.addVolume(`/tmp/${repo}/${process}/siteConfiguration.js`, `${containerHome}/${repo}/${process}/src/siteConfiguration.js`)
     if (params.multiThemed) {
         params.addVolume(`/tmp/${repo}/${process}/themeHeads`, `${containerHome}/${repo}/${process}/src/themeHeads`)
@@ -396,7 +429,7 @@ export default params => {
         params.addVolume(`/tmp/${repo}/${process}/themeLayouts`, `${containerHome}/${repo}/${process}/src/themeLayouts`)
         params.addVolume(`/tmp/${repo}/${process}/themeStyles`, `${containerHome}/${repo}/${process}/src/themeStyles`)
     }
-    if (!params.multiThemed && (params.isCiCd || params.localBuild)) {
+    if (!params.multiThemed && (params.isCiCd || params.localBuild || params.siteContentSource?.repository === repo)) {
         params.addVolume(`${processPath}/style.css`, `${containerHome}/${repo}/${process}/style.css`)
     }
     if (tenantsPath && isFile(tenantsPath)) {

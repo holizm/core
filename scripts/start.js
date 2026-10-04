@@ -173,7 +173,7 @@ export default async overrides => {
     measure('register cache server container', () => createCacheServer(params))
 
     const composeCommand = `docker compose -p ${params.lowercaseRepo}-${params.lowercaseProcess} -f ${params.composeFile}`
-    const shouldWatch = params.isSite && !params.multiThemed && !params.isCiCd && !params.localBuild
+    const shouldWatch = params.isSite && !params.multiThemed && !params.isCiCd && !params.localBuild && params.siteContentSource?.repository !== params.repo
     const composeMode =
         shouldWatch
         ?

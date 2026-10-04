@@ -1,0 +1,13 @@
+FROM node:lts-trixie-slim
+
+WORKDIR ${containerHome}/${repo}/${process}
+
+COPY ${repo}/${process}/package.json ./package.json
+RUN npm install --ignore-scripts --omit=optional --legacy-peer-deps
+COPY ${repo}/${process}/dist ./dist
+COPY ${repo}/${process}/server ./server
+COPY ${repo}/${process}/content ./content
+
+ENV NODE_ENV=production
+EXPOSE 3000
+CMD ["node", "server/entry.express.js"]
