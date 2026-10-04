@@ -590,5 +590,6 @@
     "role": "Jukumu",
     "allow": "Ruhusu",
     "deny": "Kataa",
-    "inherit": "Rithi"
+    "inherit": "Rithi",
+    "roles": "Majukumu"
 }

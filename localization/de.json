@@ -590,5 +590,6 @@
     "role": "Rolle",
     "allow": "Erlauben",
     "deny": "Verweigern",
-    "inherit": "Erben"
+    "inherit": "Erben",
+    "roles": "Rollen"
 }

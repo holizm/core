@@ -152,5 +152,6 @@
     "role": "Vaidmuo",
     "allow": "Leisti",
     "deny": "Drausti",
-    "inherit": "Paveldėti"
+    "inherit": "Paveldėti",
+    "roles": "Vaidmenys"
 }

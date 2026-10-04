@@ -590,5 +590,6 @@
     "role": "Matsayi",
     "allow": "Ba da izini",
     "deny": "Hana",
-    "inherit": "Gada"
+    "inherit": "Gada",
+    "roles": "Matsayi"
 }

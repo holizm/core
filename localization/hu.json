@@ -590,5 +590,6 @@
     "role": "Szerepkör",
     "allow": "Engedélyezés",
     "deny": "Tiltás",
-    "inherit": "Öröklés"
+    "inherit": "Öröklés",
+    "roles": "Szerepkörök"
 }

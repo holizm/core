@@ -152,5 +152,6 @@
     "role": "Rol",
     "allow": "Permet",
     "deny": "Denega",
-    "inherit": "Hereta"
+    "inherit": "Hereta",
+    "roles": "Rols"
 }

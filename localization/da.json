@@ -590,5 +590,6 @@
     "role": "Rolle",
     "allow": "Tillad",
     "deny": "Afvis",
-    "inherit": "Arv"
+    "inherit": "Arv",
+    "roles": "Roller"
 }

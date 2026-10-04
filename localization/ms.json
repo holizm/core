@@ -590,5 +590,6 @@
     "role": "Peranan",
     "allow": "Benarkan",
     "deny": "Tolak",
-    "inherit": "Warisi"
+    "inherit": "Warisi",
+    "roles": "Peranan"
 }

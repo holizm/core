@@ -590,5 +590,6 @@
     "role": "Rola",
     "allow": "Zezwól",
     "deny": "Odmów",
-    "inherit": "Dziedzicz"
+    "inherit": "Dziedzicz",
+    "roles": "Role"
 }

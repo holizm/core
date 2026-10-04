@@ -590,5 +590,6 @@
     "role": "Roll",
     "allow": "Tillåt",
     "deny": "Neka",
-    "inherit": "Ärv"
+    "inherit": "Ärv",
+    "roles": "Roller"
 }

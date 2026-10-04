@@ -590,5 +590,6 @@
     "role": "Rol",
     "allow": "Permitir",
     "deny": "Denegar",
-    "inherit": "Heredar"
+    "inherit": "Heredar",
+    "roles": "Roles"
 }

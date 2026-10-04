@@ -590,5 +590,6 @@
     "role": "Rol",
     "allow": "Toestaan",
     "deny": "Weigeren",
-    "inherit": "Overerven"
+    "inherit": "Overerven",
+    "roles": "Rollen"
 }

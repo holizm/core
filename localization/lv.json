@@ -152,5 +152,6 @@
     "role": "Loma",
     "allow": "Atļaut",
     "deny": "Aizliegt",
-    "inherit": "Mantot"
+    "inherit": "Mantot",
+    "roles": "Lomas"
 }

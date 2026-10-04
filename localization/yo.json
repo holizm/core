@@ -590,5 +590,6 @@
     "role": "Ipa",
     "allow": "Fàyè gba",
     "deny": "Kọ̀",
-    "inherit": "Jogún"
+    "inherit": "Jogún",
+    "roles": "Àwọn ipa"
 }

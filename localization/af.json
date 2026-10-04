@@ -590,5 +590,6 @@
     "role": "Rol",
     "allow": "Laat toe",
     "deny": "Weier",
-    "inherit": "Erf"
+    "inherit": "Erf",
+    "roles": "Rolle"
 }

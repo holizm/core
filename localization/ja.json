@@ -588,5 +588,6 @@
     "role": "ロール",
     "allow": "許可",
     "deny": "拒否",
-    "inherit": "継承"
+    "inherit": "継承",
+    "roles": "ロール"
 }

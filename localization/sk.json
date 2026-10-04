@@ -152,5 +152,6 @@
     "role": "Rola",
     "allow": "Povoliť",
     "deny": "Zakázať",
-    "inherit": "Zdediť"
+    "inherit": "Zdediť",
+    "roles": "Roly"
 }

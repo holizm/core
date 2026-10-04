@@ -590,5 +590,6 @@
     "role": "Função",
     "allow": "Permitir",
     "deny": "Negar",
-    "inherit": "Herdar"
+    "inherit": "Herdar",
+    "roles": "Papéis"
 }

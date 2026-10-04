@@ -590,5 +590,6 @@
     "role": "Tungkulin",
     "allow": "Payagan",
     "deny": "Tanggihan",
-    "inherit": "Manahin"
+    "inherit": "Manahin",
+    "roles": "Mga tungkulin"
 }

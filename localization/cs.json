@@ -590,5 +590,6 @@
     "role": "Role",
     "allow": "Povolit",
     "deny": "Zakázat",
-    "inherit": "Zdědit"
+    "inherit": "Zdědit",
+    "roles": "Role"
 }

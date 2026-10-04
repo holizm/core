@@ -590,5 +590,6 @@
     "role": "角色",
     "allow": "允许",
     "deny": "拒绝",
-    "inherit": "继承"
+    "inherit": "继承",
+    "roles": "角色"
 }

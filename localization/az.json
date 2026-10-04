@@ -152,5 +152,6 @@
     "role": "Rol",
     "allow": "İcazə ver",
     "deny": "Qadağan et",
-    "inherit": "İrs al"
+    "inherit": "İrs al",
+    "roles": "Rollar"
 }

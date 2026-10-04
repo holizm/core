@@ -152,5 +152,6 @@
     "role": "Rol",
     "allow": "Ruxsat ber",
     "deny": "Rad et",
-    "inherit": "Meros ol"
+    "inherit": "Meros ol",
+    "roles": "Rollar"
 }

@@ -152,5 +152,6 @@
     "role": "Roll",
     "allow": "Luba",
     "deny": "Keela",
-    "inherit": "Päri"
+    "inherit": "Päri",
+    "roles": "Rollid"
 }

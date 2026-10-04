@@ -152,5 +152,6 @@
     "role": "Vloga",
     "allow": "Dovoli",
     "deny": "Zavrni",
-    "inherit": "Podeduj"
+    "inherit": "Podeduj",
+    "roles": "Vloge"
 }

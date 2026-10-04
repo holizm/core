@@ -590,5 +590,6 @@
     "role": "Uloga",
     "allow": "Dopusti",
     "deny": "Zabrani",
-    "inherit": "Naslijedi"
+    "inherit": "Naslijedi",
+    "roles": "Uloge"
 }

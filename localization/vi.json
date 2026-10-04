@@ -588,5 +588,6 @@
     "role": "Vai trò",
     "allow": "Cho phép",
     "deny": "Từ chối",
-    "inherit": "Kế thừa"
+    "inherit": "Kế thừa",
+    "roles": "Vai trò"
 }

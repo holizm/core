@@ -590,5 +590,6 @@
     "role": "Ruolo",
     "allow": "Consenti",
     "deny": "Nega",
-    "inherit": "Eredita"
+    "inherit": "Eredita",
+    "roles": "Ruoli"
 }
