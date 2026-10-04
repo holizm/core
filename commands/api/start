@@ -27,6 +27,7 @@ const main = async () => {
         info('ETL')
         return
     }
+    runOnTerminal('initialize', { throwOnError: true })
     runOnTerminal('nohup monitor >/tmp/apiMonitor.log 2>&1 &', {
         throwOnError: true,
     })

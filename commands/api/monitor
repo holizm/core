@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. $home/core/scripts/initializeApiBarrels.sh
+. "$home/core/scripts/apiBarrelDirectories.sh"
+cd "$nodeModules" || exit $?
 
 inotifywait -m -r \
 -e modify \
