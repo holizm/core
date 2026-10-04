@@ -19,6 +19,7 @@ import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js'
 import mapSettings from './mapSettings.js'
+import mapSystemTenants from './mapSystemTenants.js'
 import {
     copyFileIfNotExists,
     createDirIfNotExists,
@@ -273,6 +274,7 @@ export default params => {
     measure('API: map Node files', () => mapNode(params))
     measure('API: map settings', () => mapSettings(params))
     measure('API: map API processes', () => mapApiProcesses(params))
+    measure('API: map system tenants', () => mapSystemTenants(params))
     measure('API: map searchable properties', () => mapRunnableSearchableProperties(params))
     measure('API: map dependencies', () => mapDependencies(params))
     measure('API: map localizations', () => mapLocalizations(params))
