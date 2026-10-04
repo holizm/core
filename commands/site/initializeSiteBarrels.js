@@ -50,7 +50,8 @@ const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
 for (const file of pagePartsFiles) {
     const key = file.replace(/Exports\.[^/.]+$/, '')
 
-    if (!fs.existsSync(`${pagePartsBase}/${key}`)) {
+    // The dashboard provider creates a Menu fallback without a source directory.
+    if (key !== 'dashboard' && !fs.existsSync(`${pagePartsBase}/${key}`)) {
         fs.unlinkSync(`${pagePartsBase}/${file}`)
         continue
     }
