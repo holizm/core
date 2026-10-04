@@ -27,6 +27,7 @@ import {
 import processTenantLines from './processTenantLines.js'
 import prepareComposeFile from './prepareComposeFile.js'
 import reloadWebServer from './reloadWebServer.js'
+import setupRunnableDns from './setupRunnableDns.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
@@ -57,11 +58,13 @@ export default async overrides => {
         ...overrides,
     }))
 
+    params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
+    await measureAsync('configure runnable local DNS', () => setupRunnableDns(params))
+
     await measureAsync('stop existing process containers', () => stop({
         containerName: params.containerName,
     }))
 
-    params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     params.userLine =
         params.isCiCd
         ?
