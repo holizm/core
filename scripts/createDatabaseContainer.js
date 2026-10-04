@@ -2,6 +2,7 @@ import {
     divide,
     info,
 } from '../scripts/logger.js'
+import createRunnableCompass from './createRunnableCompass.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import {
     createDirIfNotExists,
@@ -53,5 +54,6 @@ export default async params => {
 
     divide()
     await createMongoDatabaseContainer(params)
+    await createRunnableCompass(params)
     divide()
 }
