@@ -5,10 +5,8 @@ import {
     divide,
     info,
 } from '../scripts/logger.js'
-import resolveSiteProcessDirectory from '../scripts/resolveSiteProcessDirectory.js'
 import start from '../scripts/start.js'
 
-process.chdir(resolveSiteProcessDirectory(process.cwd()))
 clear()
 
 divide()

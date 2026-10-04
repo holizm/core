@@ -1,9 +1,12 @@
+import fs from 'fs'
+import path from 'path'
 import isFile from './isFile.js'
 
 export default params => {
     const {
         domain,
         process,
+        processPath,
         siteFilePath,
     } = params
     const parts = domain.trim().split('.')
@@ -32,6 +35,10 @@ export default params => {
     } while (processName !== previousProcessName)
     if (isFile(siteFilePath)) {
         processName = ''
+    }
+    const subdomainFile = processPath && path.join(processPath, 'subdomain')
+    if (isFile(subdomainFile)) {
+        processName = fs.readFileSync(subdomainFile, 'utf8').trim()
     }
     processName = processName.trim().toLowerCase()
 
