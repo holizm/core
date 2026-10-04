@@ -586,5 +586,9 @@
     "word": "Woord",
     "words": "Woorde",
     "writeYourContentHere": "Skryf jou inhoud hier...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "role": "Rol",
+    "allow": "Laat toe",
+    "deny": "Weier",
+    "inherit": "Erf"
 }

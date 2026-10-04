@@ -13,6 +13,7 @@ import getProcessRole from './getProcessRole.js'
 import isControlRunnable from './isControlRunnable.js'
 import isEtl from './isEtl.js'
 import isFile from './isFile.js'
+import mapApiProcesses from './mapApiProcesses.js'
 import mapApiUtilities from './mapApiUtilities.js'
 import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
@@ -271,6 +272,7 @@ export default params => {
     measure('API: link VS Code files', () => linkVsCodeFiles(params))
     measure('API: map Node files', () => mapNode(params))
     measure('API: map settings', () => mapSettings(params))
+    measure('API: map API processes', () => mapApiProcesses(params))
     measure('API: map searchable properties', () => mapRunnableSearchableProperties(params))
     measure('API: map dependencies', () => mapDependencies(params))
     measure('API: map localizations', () => mapLocalizations(params))

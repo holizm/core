@@ -584,5 +584,9 @@
     "word": "単語",
     "words": "単語",
     "writeYourContentHere": "ここにコンテンツを書き込んでください...",
-    "yes": "はい"
+    "yes": "はい",
+    "role": "ロール",
+    "allow": "許可",
+    "deny": "拒否",
+    "inherit": "継承"
 }

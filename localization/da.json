@@ -586,5 +586,9 @@
     "word": "Ord",
     "words": "Ord",
     "writeYourContentHere": "Skriv dit indhold her...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "role": "Rolle",
+    "allow": "Tillad",
+    "deny": "Afvis",
+    "inherit": "Arv"
 }

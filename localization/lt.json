@@ -148,5 +148,9 @@
     "videos": "Vaizdo įrašai",
     "weight": "Svoris",
     "word": "Žodis",
-    "words": "Žodžiai"
+    "words": "Žodžiai",
+    "role": "Vaidmuo",
+    "allow": "Leisti",
+    "deny": "Drausti",
+    "inherit": "Paveldėti"
 }

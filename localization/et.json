@@ -148,5 +148,9 @@
     "videos": "Videod",
     "weight": "Kaal",
     "word": "Sõna",
-    "words": "Sõnad"
+    "words": "Sõnad",
+    "role": "Roll",
+    "allow": "Luba",
+    "deny": "Keela",
+    "inherit": "Päri"
 }

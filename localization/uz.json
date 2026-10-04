@@ -148,5 +148,9 @@
     "videos": "Videolar",
     "weight": "Vazn",
     "word": "So‘z",
-    "words": "So‘zlar"
+    "words": "So‘zlar",
+    "role": "Rol",
+    "allow": "Ruxsat ber",
+    "deny": "Rad et",
+    "inherit": "Meros ol"
 }

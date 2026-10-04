@@ -586,5 +586,9 @@
     "word": "Palavra",
     "words": "Palavras",
     "writeYourContentHere": "Escreva seu conteúdo aqui...",
-    "yes": "Sim"
+    "yes": "Sim",
+    "role": "Função",
+    "allow": "Permitir",
+    "deny": "Negar",
+    "inherit": "Herdar"
 }

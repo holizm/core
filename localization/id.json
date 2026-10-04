@@ -586,5 +586,9 @@
     "word": "Kata",
     "words": "Kata",
     "writeYourContentHere": "Tulis konten Anda di sini...",
-    "yes": "Ya"
+    "yes": "Ya",
+    "role": "Peran",
+    "allow": "Izinkan",
+    "deny": "Tolak",
+    "inherit": "Warisi"
 }

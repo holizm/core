@@ -586,5 +586,9 @@
     "word": "Perkataan",
     "words": "Perkataan",
     "writeYourContentHere": "Tulis kandungan anda di sini...",
-    "yes": "Ya"
+    "yes": "Ya",
+    "role": "Peranan",
+    "allow": "Benarkan",
+    "deny": "Tolak",
+    "inherit": "Warisi"
 }

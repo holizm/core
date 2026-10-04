@@ -561,5 +561,9 @@
     "word": "词语",
     "words": "词语",
     "writeYourContentHere": "在这里写下您的内容...",
-    "yes": "是的"
+    "yes": "是的",
+    "role": "角色",
+    "allow": "允许",
+    "deny": "拒绝",
+    "inherit": "继承"
 }

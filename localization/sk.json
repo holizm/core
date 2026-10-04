@@ -148,5 +148,9 @@
     "videos": "Videá",
     "weight": "Hmotnosť",
     "word": "Slovo",
-    "words": "Slová"
+    "words": "Slová",
+    "role": "Rola",
+    "allow": "Povoliť",
+    "deny": "Zakázať",
+    "inherit": "Zdediť"
 }

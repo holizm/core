@@ -586,5 +586,9 @@
     "word": "Szó",
     "words": "Szavak",
     "writeYourContentHere": "Írja ide a tartalmat...",
-    "yes": "Igen"
+    "yes": "Igen",
+    "role": "Szerepkör",
+    "allow": "Engedélyezés",
+    "deny": "Tiltás",
+    "inherit": "Öröklés"
 }

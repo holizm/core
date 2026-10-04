@@ -586,5 +586,9 @@
     "word": "Parola",
     "words": "Parole",
     "writeYourContentHere": "Scrivi qui i tuoi contenuti...",
-    "yes": "SÌ"
+    "yes": "SÌ",
+    "role": "Ruolo",
+    "allow": "Consenti",
+    "deny": "Nega",
+    "inherit": "Eredita"
 }

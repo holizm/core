@@ -148,5 +148,9 @@
     "videos": "Vídeos",
     "weight": "Pes",
     "word": "Paraula",
-    "words": "Paraules"
+    "words": "Paraules",
+    "role": "Rol",
+    "allow": "Permet",
+    "deny": "Denega",
+    "inherit": "Hereta"
 }

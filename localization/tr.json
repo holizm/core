@@ -586,5 +586,9 @@
     "word": "Kelime",
     "words": "Kelimeler",
     "writeYourContentHere": "İçeriğinizi buraya yazın...",
-    "yes": "Evet"
+    "yes": "Evet",
+    "role": "Rol",
+    "allow": "İzin ver",
+    "deny": "Reddet",
+    "inherit": "Devral"
 }

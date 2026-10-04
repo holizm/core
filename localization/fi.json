@@ -586,5 +586,9 @@
     "word": "Sana",
     "words": "Sanat",
     "writeYourContentHere": "Kirjoita sisältö tähän...",
-    "yes": "Kyllä"
+    "yes": "Kyllä",
+    "role": "Rooli",
+    "allow": "Salli",
+    "deny": "Estä",
+    "inherit": "Peri"
 }

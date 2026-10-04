@@ -586,5 +586,9 @@
     "word": "Реч",
     "words": "Речи",
     "writeYourContentHere": "Unesite sadržaj ovde...",
-    "yes": "Da"
+    "yes": "Da",
+    "role": "Улога",
+    "allow": "Дозволи",
+    "deny": "Забрани",
+    "inherit": "Наследи"
 }

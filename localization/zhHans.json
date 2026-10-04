@@ -586,5 +586,9 @@
     "word": "单词",
     "words": "单词",
     "writeYourContentHere": "在此输入内容...",
-    "yes": "是"
+    "yes": "是",
+    "role": "角色",
+    "allow": "允许",
+    "deny": "拒绝",
+    "inherit": "继承"
 }

@@ -586,5 +586,9 @@
     "word": "Salita",
     "words": "Mga salita",
     "writeYourContentHere": "Isulat ang iyong nilalaman dito...",
-    "yes": "Oo"
+    "yes": "Oo",
+    "role": "Tungkulin",
+    "allow": "Payagan",
+    "deny": "Tanggihan",
+    "inherit": "Manahin"
 }

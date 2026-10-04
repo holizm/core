@@ -586,5 +586,9 @@
     "word": "Słowo",
     "words": "Słowa",
     "writeYourContentHere": "Wpisz treść tutaj...",
-    "yes": "Tak"
+    "yes": "Tak",
+    "role": "Rola",
+    "allow": "Zezwól",
+    "deny": "Odmów",
+    "inherit": "Dziedzicz"
 }

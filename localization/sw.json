@@ -586,5 +586,9 @@
     "word": "Neno",
     "words": "Maneno",
     "writeYourContentHere": "Andika maudhui yako hapa...",
-    "yes": "Ndiyo"
+    "yes": "Ndiyo",
+    "role": "Jukumu",
+    "allow": "Ruhusu",
+    "deny": "Kataa",
+    "inherit": "Rithi"
 }

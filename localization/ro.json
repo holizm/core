@@ -586,5 +586,9 @@
     "word": "Cuvânt",
     "words": "Cuvinte",
     "writeYourContentHere": "Scrieți conținutul aici...",
-    "yes": "Da"
+    "yes": "Da",
+    "role": "Rol",
+    "allow": "Permite",
+    "deny": "Refuză",
+    "inherit": "Moștenește"
 }

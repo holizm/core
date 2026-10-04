@@ -586,5 +586,9 @@
     "word": "מילה",
     "words": "מילים",
     "writeYourContentHere": "כתוב את התוכן שלך כאן...",
-    "yes": "כן"
+    "yes": "כן",
+    "role": "תפקיד",
+    "allow": "אפשר",
+    "deny": "דחה",
+    "inherit": "ירש"
 }

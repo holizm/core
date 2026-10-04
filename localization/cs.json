@@ -586,5 +586,9 @@
     "word": "Slovo",
     "words": "Slova",
     "writeYourContentHere": "Napište obsah sem...",
-    "yes": "Ano"
+    "yes": "Ano",
+    "role": "Role",
+    "allow": "Povolit",
+    "deny": "Zakázat",
+    "inherit": "Zdědit"
 }

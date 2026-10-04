@@ -586,5 +586,9 @@
     "word": "Palabra",
     "words": "Palabras",
     "writeYourContentHere": "Escribe tu contenido aquí...",
-    "yes": "Sí"
+    "yes": "Sí",
+    "role": "Rol",
+    "allow": "Permitir",
+    "deny": "Denegar",
+    "inherit": "Heredar"
 }

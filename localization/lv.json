@@ -148,5 +148,9 @@
     "videos": "Video",
     "weight": "Svars",
     "word": "Vārds",
-    "words": "Vārdi"
+    "words": "Vārdi",
+    "role": "Loma",
+    "allow": "Atļaut",
+    "deny": "Aizliegt",
+    "inherit": "Mantot"
 }

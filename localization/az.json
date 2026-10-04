@@ -148,5 +148,9 @@
     "videos": "Videolar",
     "weight": "Çəki",
     "word": "Söz",
-    "words": "Sözlər"
+    "words": "Sözlər",
+    "role": "Rol",
+    "allow": "İcazə ver",
+    "deny": "Qadağan et",
+    "inherit": "İrs al"
 }

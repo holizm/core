@@ -586,5 +586,9 @@
     "word": "ቃል",
     "words": "ቃላት",
     "writeYourContentHere": "ይዘትዎን እዚህ ይጻፉ...",
-    "yes": "አዎ"
+    "yes": "አዎ",
+    "role": "ሚና",
+    "allow": "ፍቀድ",
+    "deny": "ከልክል",
+    "inherit": "ውረስ"
 }

@@ -586,5 +586,9 @@
     "word": "Mot",
     "words": "Mots",
     "writeYourContentHere": "Écrivez votre contenu ici...",
-    "yes": "Oui"
+    "yes": "Oui",
+    "role": "Rôle",
+    "allow": "Autoriser",
+    "deny": "Refuser",
+    "inherit": "Hériter"
 }

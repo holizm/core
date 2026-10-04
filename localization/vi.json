@@ -584,5 +584,9 @@
     "word": "Từ",
     "words": "Các từ",
     "writeYourContentHere": "Viết nội dung của bạn ở đây...",
-    "yes": "Đúng"
+    "yes": "Đúng",
+    "role": "Vai trò",
+    "allow": "Cho phép",
+    "deny": "Từ chối",
+    "inherit": "Kế thừa"
 }

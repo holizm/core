@@ -586,5 +586,9 @@
     "word": "Kalma",
     "words": "Kalmomi",
     "writeYourContentHere": "Rubuta abun cikinka a nan...",
-    "yes": "Eh"
+    "yes": "Eh",
+    "role": "Matsayi",
+    "allow": "Ba da izini",
+    "deny": "Hana",
+    "inherit": "Gada"
 }
