@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+clear
+
 processName=$(basename "$PWD")
 if [[ $processName == *Api ]]; then
     cd /$home/$apiRepo
