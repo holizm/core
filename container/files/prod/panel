@@ -14,7 +14,8 @@ FROM node:lts-trixie-slim AS runner
 WORKDIR ${processPath}
 ENV NODE_ENV=production
 RUN npm install --location=global serve
-COPY --from=builder ${processPath}/dist .
+COPY --chown=node:node --from=builder ${processPath}/dist .
 
 EXPOSE 3000
+USER node
 CMD [ "serve", "-s", ".", "-l", "3000" ]
