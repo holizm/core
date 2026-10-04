@@ -1,39 +1,18 @@
 #!/usr/bin/env node
 
+import { availableParallelism } from 'os'
 import readline from 'readline'
 import {
-    runOnTerminal,
-    runStreaming
-} from '../scripts/terminal.js'
-import {
     divide,
-    errorAndExit,
     info,
     success,
     warning,
-} from "../scripts/logger.js"
-import findRepos from "../scripts/findRepos.js"
-import status from "../scripts/status.js"
-
-const gitGet = key =>
-    runOnTerminal(`git config --global ${key}`, { show: false })
-
-const ensureGitConfig = () => {
-    const gitName = gitGet('user.name')
-    const gitEmail = gitGet('user.email')
-    const gpgFormat = gitGet('gpg.format')
-    const signingKey = gitGet('user.signingkey')
-    const commitSign = gitGet('commit.gpgsign')
-
-    if (!gitName) errorAndExit('Git user.name is not set')
-    if (!gitEmail) errorAndExit('Git user.email is not set')
-    if (gpgFormat !== 'ssh') errorAndExit("Git gpg.format is not 'ssh'")
-    if (!signingKey) errorAndExit('Git user.signingkey is not set')
-    if (commitSign !== 'true') errorAndExit('Git commit.gpgsign is not enabled')
-
-    info()
-    info(`Git configuration OK: ${gitName} <${gitEmail}>, signing enabled with ${signingKey}`)
-}
+} from '../scripts/logger.js'
+import commitRepo from '../scripts/commitRepo.js'
+import ensureGitConfig from '../scripts/ensureGitConfig.js'
+import findRepos from '../scripts/findRepos.js'
+import pushRepo from '../scripts/pushRepo.js'
+import status from '../scripts/status.js'
 
 const promptYesNo = async question => {
     const rl = readline.createInterface({
@@ -45,45 +24,6 @@ const promptYesNo = async question => {
     )
     rl.close()
     return answer.toLowerCase() === 'y'
-}
-
-const commitRepo = dir => {
-    const porcelain = runOnTerminal(`git -C ${dir} status --porcelain`)
-    if (!porcelain) return false
-
-    info(`Committing ${dir}`)
-    runOnTerminal(`git -C ${dir} add .`)
-    runOnTerminal(`git -C ${dir} commit -S -m "committed by script"`)
-
-    return true
-}
-
-const pushRepoStreaming = async dir => {
-    info(`→ pushing ${dir}`)
-
-    const maxAttempts = 10
-    const timeout = 'timeout -s KILL 10s '
-
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        try {
-            await runStreaming(`${timeout}git -C ${dir} push`)
-            success(attempt === 1 ? `✓ pushed ${dir}` : `✓ pushed ${dir} on attempt ${attempt}`)
-            return
-        } catch (e) {
-            if (attempt === maxAttempts) {
-                warning(`✗ failed ${dir} after ${attempt} attempts: ${e.message}`)
-                return
-            }
-
-            warning(`Push failed for ${dir}, pulling and retrying (attempt ${attempt + 1}/${maxAttempts})...`)
-
-            try {
-                await runStreaming(`${timeout}git -C ${dir} pull --no-edit`)
-            } catch (pullError) {
-                warning(`Pull failed for ${dir}: ${pullError.message}`)
-            }
-        }
-    }
 }
 
 const searches = (process.argv[2] || '')
@@ -111,23 +51,39 @@ const repos = searchTerms
     .filter((repo, index, allRepos) => allRepos.indexOf(repo) === index)
 
 const toPush = []
+const failed = new Set()
 
 for (const dir of repos) {
-    if (commitRepo(dir)) toPush.push(dir)
+    try {
+        if (commitRepo(dir)) toPush.push(dir)
+    } catch (e) {
+        failed.add(dir)
+        warning(e.message)
+    }
 }
 
 const ahead = results
-    .filter(r => r.type === 'ahead')
+    .filter(r => ['ahead', 'diverged'].includes(r.type))
     .map(r => r.repo)
 
-const unique = [...new Set([...toPush, ...ahead])]
+const unique = [...new Set([...toPush, ...ahead])].filter(repo => !failed.has(repo))
 
 divide()
 info(`Pushing ${unique.length} repos in parallel`)
 divide()
 
-await Promise.all(unique.map(pushRepoStreaming))
+let nextRepo = 0
+const worker = async () => {
+    while (nextRepo < unique.length) {
+        const repo = unique[nextRepo++]
+        if (!await pushRepo(repo)) failed.add(repo)
+    }
+}
+await Promise.all(Array.from({ length: Math.min(availableParallelism(), unique.length) }, worker))
 
 divide()
-success('Pushed all')
+if (failed.size) {
+    warning(`Push failed for ${failed.size} repositories`)
+    process.exitCode = 1
+} else success('Pushed all')
 divide()

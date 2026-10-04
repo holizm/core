@@ -1,5 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import fs from 'fs'
+import path from 'path'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
 
@@ -67,6 +67,7 @@ export default params => {
     } = params
     const panelLocalizationPath = createPanelLocalization(params)
     const localizationPaths = new Set([
+        `${home}/app/localization`,
         `${home}/api/localization`,
         `${home}/core/localization`,
         `${home}/site/localization`,
