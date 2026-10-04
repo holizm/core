@@ -3,6 +3,7 @@ import path from 'path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import getProcessRole from './getProcessRole.js'
+import getPartUses from './getPartUses.js'
 import isControlRunnable from './isControlRunnable.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
@@ -53,6 +54,7 @@ export const mapDependencies = params => {
         process,
         repo,
     } = params
+    const translationScopes = {}
 
     for (const dependency of dependencies) {
         let runnablePart = false
@@ -73,6 +75,12 @@ export const mapDependencies = params => {
         else {
             params.addVolume(dependencyBase, dependencyBase)
         }
+        const partPath = runnablePart
+            ? `${dependencyPath}/part`
+            : `${home}/${dependency}/part`
+        if (isFile(partPath)) {
+            translationScopes[dependency] = getPartUses(fs.readFileSync(partPath, 'utf8'))
+        }
 
         if (getProcessRole(process) === 'admin') {
             params.addVolume(`${dependencyBase}/admin`, `${containerHome}/${repo}/${process}/src/${dependency}/admin`)
@@ -82,6 +90,10 @@ export const mapDependencies = params => {
             params.addVolume(`${dependencyBase}/common`, `${containerHome}/${repo}/${process}/src/${dependency}/common`)
         }
     }
+
+    const scopesPath = `/tmp/${repo}/${process}/translationScopes.json`
+    fs.writeFileSync(scopesPath, JSON.stringify(translationScopes))
+    params.addVolume(scopesPath, `${containerHome}/${repo}/${process}/translationScopes.json`)
 }
 
 export const mapRunnable = params => {

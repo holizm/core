@@ -38,6 +38,7 @@ services:
             - ${home}/panel/findRichTextComponents.js:${containerHome}/${repo}/${process}/findRichTextComponents.js
             - ${home}/panel/findRoutes.js:${containerHome}/${repo}/${process}/findRoutes.js
             - ${home}/panel/findServerInitializers.js:${containerHome}/${repo}/${process}/findServerInitializers.js
+            - ${home}/panel/findTranslationScopes.js:${containerHome}/${repo}/${process}/findTranslationScopes.js
             - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
             - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/generatePartRoutes.js:${containerHome}/${repo}/${process}/generatePartRoutes.js
