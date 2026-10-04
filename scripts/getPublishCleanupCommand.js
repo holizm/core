@@ -11,6 +11,8 @@ const persistentItems = [
     'repo.json',
     'secrets.json',
     'settingsOverride.json',
+    'site',
+    'subdomain',
     'tenants',
     'webServer',
 ]
