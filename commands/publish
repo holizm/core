@@ -15,6 +15,7 @@ import extract from '../scripts/extract.js'
 import getExistingBuild from '../scripts/getExistingBuild.js'
 import getInstance from '../scripts/getInstance.js'
 import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
+import initializePublishedSettingsOverride from '../scripts/initializePublishedSettingsOverride.js'
 import isFile from '../scripts/isFile.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
@@ -62,6 +63,12 @@ info('Copying to the server...')
 divide()
 
 await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}`)
+await initializePublishedSettingsOverride({
+    domain,
+    remoteBuildDir,
+    remoteProcessPath,
+    settingsOverridePath: params.settingsOverridePath,
+})
 
 divide()
 
