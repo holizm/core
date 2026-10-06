@@ -2,6 +2,17 @@ import fs from 'fs'
 import path from 'path'
 import camelize from './camelize.js'
 
+const hasControlDeployment = ({
+    domain,
+    repo,
+    secretsDirectory,
+}) => {
+    const controlSecretPath = path.join(secretsDirectory, `${repo}Control.json`)
+    if (!fs.existsSync(controlSecretPath)) return false
+    const controlSecrets = JSON.parse(fs.readFileSync(controlSecretPath, 'utf8'))
+    return controlSecrets.deployment?.instances?.some(instance => instance.domain === domain)
+}
+
 export const getRealmConfiguration = domain => {
     const secretsDirectory = path.join(process.env.HOME, 'secrets')
     const matches = fs.readdirSync(secretsDirectory)
@@ -29,6 +40,11 @@ export const getRealmConfiguration = domain => {
     const roles = options.flatMap(option => option.split(','))
         .filter(role => role && !role.includes('theme'))
         .map(camelize)
+    if (hasControlDeployment({
+        domain,
+        repo: deployment.repo,
+        secretsDirectory,
+    })) roles.push('control')
     const configuration = {
         ...deployment,
         domain,
