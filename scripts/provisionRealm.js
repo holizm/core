@@ -30,6 +30,10 @@ export default async (request, configuration) => {
         else if (Object.entries(desired).some(([key, value]) => JSON.stringify(client[key]) !== JSON.stringify(value))) {
             await request('PUT', `${realmPath}/clients/${client.id}`, {
                 ...desired,
+                attributes: {
+                    ...client.attributes,
+                    ...desired.attributes,
+                },
                 id: client.id,
             })
         }

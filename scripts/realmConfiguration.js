@@ -79,6 +79,7 @@ export const getRealmClients = configuration => {
             webOrigins: [origin],
         }
         if (!isPanel) client.clientAuthenticatorType = 'client-secret'
+        if (isPanel) client.attributes = { 'pkce.code.challenge.method': 'S256' }
         return client
     })
     return clients
