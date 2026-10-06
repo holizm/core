@@ -18,17 +18,16 @@ if [ ! -x "$binaryPath" ]; then
             exit 0
         fi
     fi
-    temporaryDirectory=$(mktemp -d)
-    if ! tar -xzf "$archivePath" -C "$temporaryDirectory"; then
+    temporaryDirectory=$(mktemp -d "$cacheDirectory/extract.XXXXXXXXXX")
+    trap 'rm -rf "$temporaryDirectory"; rm -f "$archivePath"' EXIT
+    if ! tar -xzf "$archivePath" -C "$temporaryDirectory" \
+        --strip-components=2 mongodb-linux-x86_64-ubuntu2204-7.0.14/bin/mongod; then
         echo 'MongoDB test server extraction failed; continuing setup.'
-        rm -rf "$temporaryDirectory" "$archivePath"
         exit 0
     fi
-    cp "$temporaryDirectory"/mongodb-linux-x86_64-ubuntu2204-7.0.14/bin/mongod "$binaryPath" || {
+    chmod +x "$temporaryDirectory/mongod"
+    mv "$temporaryDirectory/mongod" "$binaryPath" || {
         echo 'MongoDB test server preparation failed; continuing setup.'
-        rm -rf "$temporaryDirectory" "$archivePath"
         exit 0
     }
-    chmod +x "$binaryPath"
-    rm -rf "$temporaryDirectory" "$archivePath"
 fi
