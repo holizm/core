@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import createControlPanelFiles from '../../scripts/createControlPanelFiles.js'
+import isControlPanel from '../../scripts/isControlPanel.js'
 import { info } from '../../scripts/logger.js'
 import { runOnTerminal } from '../../scripts/terminal.js'
 
@@ -7,11 +9,15 @@ const {
     home,
     isCiCd,
     process: proc,
+    processPath,
     repo,
 } = process.env
 
 const main = () => {
     process.chdir(`${home}/${repo}/${proc}`)
+    if (isControlPanel(proc)) {
+        createControlPanelFiles(processPath)
+    }
     runOnTerminal('merge panel', {
         show: true,
         throwOnError: true,

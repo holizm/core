@@ -1,5 +1,6 @@
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import isControlPanel from './isControlPanel.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
 import {
@@ -10,6 +11,7 @@ import mapLocalizations from './mapLocalizations.js'
 import mapNode from './mapNode.js'
 import {
     mapDependencies,
+    mapPanelDeclarations,
     mapRunnable,
     mapSecrets,
 } from './startPanel.js'
@@ -22,8 +24,13 @@ import {
 } from './os.js'
 import { measure } from './timing.js'
 
-export const headlessPanelStructure = {
+export const headlessPanelDeclarations = {
     'appActions.jsx': 'export default <></>\n',
+    'menu.jsx': 'export default []\n',
+    'routes.jsx': 'export default []\n',
+}
+
+export const headlessPanelStructure = {
     form: {
         'form.jsx': '',
     },
@@ -31,7 +38,6 @@ export const headlessPanelStructure = {
     list: {
         'list.jsx': '',
     },
-    'menu.jsx': 'export default []\n',
     panel: {
         'darkLight.jsx': '',
         'error.jsx': '',
@@ -43,7 +49,6 @@ export const headlessPanelStructure = {
         'routes.jsx': 'export default []\n',
         'unauthorized.jsx': '',
     },
-    'routes.jsx': 'export default []\n',
     'settingsOverride.json': '{\n    "accounts": {\n        "client": "panel"\n    }\n}\n',
     svg: {
         'dark.jsx': '',
@@ -99,9 +104,16 @@ export default params => {
         params.processPath,
         headlessPanelStructure,
     ))
+    if (!isControlPanel(params.process)) {
+        measure('headless panel: ensure declarations', () => ensureHeadlessPanelStructure(
+            params.processPath,
+            headlessPanelDeclarations,
+        ))
+    }
     measure('headless panel: create directories', () => createDirectories(params))
     measure('headless panel: create CI/CD', () => createCiCd(params))
     measure('headless panel: map panel', () => mapPanel(params))
+    measure('headless panel: map declarations', () => mapPanelDeclarations(params))
     measure('headless panel: map dependencies', () => mapDependencies(params))
     measure('headless panel: map settings', () => mapSettings(params))
     measure('headless panel: map localizations', () => mapLocalizations(params))

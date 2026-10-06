@@ -4,6 +4,7 @@ import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import getProcessRole from './getProcessRole.js'
 import getPartUses from './getPartUses.js'
+import isControlPanel from './isControlPanel.js'
 import isControlRunnable from './isControlRunnable.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
@@ -26,6 +27,7 @@ const createNonExistentFiles = params => {
     const {
         home,
         privateSettingsPath,
+        process,
         publicSettingsPath,
     } = params
     const basePath = `${home}/core/panel`
@@ -34,9 +36,11 @@ const createNonExistentFiles = params => {
         'menu.jsx': 'menuTemplate',
         'routes.jsx': 'routesTemplate',
     }
-    for (const [target, template] of Object.entries(files)) {
-        if (!isFile(target)) {
-            copyFileIfNotExists(`${basePath}/${template}`, target)
+    if (!isControlPanel(process)) {
+        for (const [target, template] of Object.entries(files)) {
+            if (!isFile(target)) {
+                copyFileIfNotExists(`${basePath}/${template}`, target)
+            }
         }
     }
     copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
@@ -44,6 +48,21 @@ const createNonExistentFiles = params => {
         copyFileIfNotExists(`${basePath}/settingsOverrideTemplate`, 'settingsOverride.json')
         copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
     }
+}
+
+export const mapPanelDeclarations = params => {
+    const {
+        containerHome,
+        process,
+        processPath,
+        repo,
+    } = params
+    if (isControlPanel(process)) {
+        return
+    }
+    params.addVolume(`${processPath}/appActions.jsx`, `${containerHome}/${repo}/${process}/src/appActions.jsx`)
+    params.addVolume(`${processPath}/menu.jsx`, `${containerHome}/${repo}/${process}/src/menu.jsx`)
+    params.addVolume(`${processPath}/routes.jsx`, `${containerHome}/${repo}/${process}/src/runnable/routes.jsx`)
 }
 
 export const mapDependencies = params => {
@@ -232,6 +251,7 @@ export default params => {
     measure('panel: create CI/CD', () => createCiCd(params))
 
     measure('panel: map UI', () => mapPanelUi(params))
+    measure('panel: map declarations', () => mapPanelDeclarations(params))
     measure('panel: map dependencies', () => mapDependencies(params))
     measure('panel: map settings', () => mapSettings(params))
     measure('panel: map localizations', () => mapLocalizations(params))

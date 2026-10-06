@@ -61,10 +61,6 @@ services:
 
             - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
 
-            - ${processPath}/appActions.jsx:${containerHome}/${repo}/${process}/src/appActions.jsx
-            - ${processPath}/menu.jsx:${containerHome}/${repo}/${process}/src/menu.jsx
-            - ${processPath}/routes.jsx:${containerHome}/${repo}/${process}/src/runnable/routes.jsx
-
             ${volumes}
         command: |
             bash -lc '
