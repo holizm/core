@@ -56,13 +56,13 @@ if (!isFile(artifactPath)) {
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
 const remoteProcessPath = `$HOME/${instance?.serverDirectory}/${params.process}`
 
-await runOnServer(domain, `mkdir -p ${remoteBuildDir} ${remoteProcessPath}`)
+await runOnServer(domain, `rm -rf ${remoteBuildDir} && mkdir -p ${remoteBuildDir} ${remoteProcessPath}`)
 
 divide()
 info('Copying to the server...')
 divide()
 
-await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}`)
+await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}/${params.process}.zip`)
 await initializePublishedSettingsOverride({
     domain,
     remoteBuildDir,
