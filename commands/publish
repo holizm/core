@@ -77,6 +77,7 @@ await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
 await initializePublishedIamSettings({
     domain,
+    instance,
     params,
     remoteBuildDir,
     remoteProcessPath,

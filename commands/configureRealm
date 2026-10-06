@@ -2,6 +2,7 @@
 
 import fs from 'fs'
 import path from 'path'
+import { lookup } from 'dns/promises'
 import { getRealmConfiguration } from '../scripts/realmConfiguration.js'
 import { createRealmKeycloak } from '../scripts/realmKeycloak.js'
 import provisionRealm from '../scripts/provisionRealm.js'
@@ -12,26 +13,12 @@ if (!domain || !/^[a-z0-9.-]+$/.test(domain)) {
     throw new Error('Usage: configureRealm domain.tld')
 }
 const configuration = getRealmConfiguration(domain)
-const localSecrets = JSON.parse(fs.readFileSync(configuration.secretPath, 'utf8'))
-let credentials
-if (localSecrets.production?.iam !== undefined) {
-    if (typeof localSecrets.production.iam !== 'string' || !localSecrets.production.iam) {
-        throw new Error('production.iam must contain a client secret')
-    }
-    credentials = { clientSecret: localSecrets.production.iam }
-}
-else {
-    const commonPath = path.join(process.env.HOME, 'secrets', 'common.json')
-    const common = JSON.parse(fs.readFileSync(commonPath, 'utf8'))
-    if (!common.iamAdminUser || !common.iamAdminPassword) {
-        throw new Error('Master Keycloak credentials are missing from secrets/common.json')
-    }
-    credentials = {
-        password: common.iamAdminPassword,
-        username: common.iamAdminUser,
-    }
-}
 const origin = process.env.keycloakOrigin || `https://accounts.${domain}`
+const common = JSON.parse(fs.readFileSync(path.join(process.env.HOME, 'secrets', 'common.json'), 'utf8'))
+const addresses = await lookup(new URL(origin).hostname, { all: true })
+const clientSecret = addresses.map(address => common.iam?.[address.address]).find(Boolean)
+if (!clientSecret) throw new Error('Automation credential for the accounts server is missing')
+const credentials = { clientSecret }
 const request = await createRealmKeycloak(origin, credentials)
 const clientSecrets = await provisionRealm(request, configuration)
 saveRealmSecrets(configuration.secretPath, domain, clientSecrets)

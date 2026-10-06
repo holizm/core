@@ -19,6 +19,10 @@ test('Control APIs receive only admin IAM credentials, with explicit realm overr
         secret: 'targetCredential',
     }
     try {
+        fs.writeFileSync(path.join(secretsDirectory, 'common.json'), JSON.stringify({
+            iam: { '192.0.2.1': 'automationCredential' },
+            unrelatedCredential: 'excludedCredential',
+        }))
         fs.writeFileSync(path.join(secretsDirectory, 'example.json'), JSON.stringify({
             production: {
                 adminApi: { iamClientSecrets: [shared] },
@@ -33,6 +37,7 @@ test('Control APIs receive only admin IAM credentials, with explicit realm overr
             repo: 'exampleControl',
         })
         assert.deepEqual(settings, {
+            iam: { '192.0.2.1': 'automationCredential' },
             production: { adminApi: { iamClientSecrets: [shared, override] } },
         })
         assert.deepEqual(getApiIamSettings({

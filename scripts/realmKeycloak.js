@@ -3,7 +3,7 @@ export const createRealmKeycloak = async (origin, credentials) => {
     const form = credentials.clientSecret
         ?
         {
-            client_id: 'adminApi',
+            client_id: 'automation',
             client_secret: credentials.clientSecret,
             grant_type: 'client_credentials',
         }
