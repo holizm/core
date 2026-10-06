@@ -566,5 +566,7 @@
     "allow": "允许",
     "deny": "拒绝",
     "inherit": "继承",
-    "roles": "角色"
+    "roles": "角色",
+    "invite": "邀请",
+    "invitation": "邀请"
 }

@@ -153,5 +153,7 @@
     "allow": "Leisti",
     "deny": "Drausti",
     "inherit": "Paveldėti",
-    "roles": "Vaidmenys"
+    "roles": "Vaidmenys",
+    "invite": "Kviesti",
+    "invitation": "Kvietimas"
 }

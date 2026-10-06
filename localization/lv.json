@@ -153,5 +153,7 @@
     "allow": "Atļaut",
     "deny": "Aizliegt",
     "inherit": "Mantot",
-    "roles": "Lomas"
+    "roles": "Lomas",
+    "invite": "Uzaicināt",
+    "invitation": "Uzaicinājums"
 }

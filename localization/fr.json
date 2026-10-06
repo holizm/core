@@ -591,5 +591,7 @@
     "allow": "Autoriser",
     "deny": "Refuser",
     "inherit": "Hériter",
-    "roles": "Rôles"
+    "roles": "Rôles",
+    "invite": "Inviter",
+    "invitation": "Invitation"
 }

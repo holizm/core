@@ -589,5 +589,7 @@
     "allow": "許可",
     "deny": "拒否",
     "inherit": "継承",
-    "roles": "ロール"
+    "roles": "ロール",
+    "invite": "招待する",
+    "invitation": "招待"
 }

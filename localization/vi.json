@@ -589,5 +589,7 @@
     "allow": "Cho phép",
     "deny": "Từ chối",
     "inherit": "Kế thừa",
-    "roles": "Vai trò"
+    "roles": "Vai trò",
+    "invite": "Mời",
+    "invitation": "Lời mời"
 }

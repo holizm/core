@@ -591,5 +591,7 @@
     "allow": "Engedélyezés",
     "deny": "Tiltás",
     "inherit": "Öröklés",
-    "roles": "Szerepkörök"
+    "roles": "Szerepkörök",
+    "invite": "Meghívás",
+    "invitation": "Meghívó"
 }

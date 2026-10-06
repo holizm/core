@@ -153,5 +153,7 @@
     "allow": "Dovoli",
     "deny": "Zavrni",
     "inherit": "Podeduj",
-    "roles": "Vloge"
+    "roles": "Vloge",
+    "invite": "Povabi",
+    "invitation": "Povabilo"
 }

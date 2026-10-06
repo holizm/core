@@ -153,5 +153,7 @@
     "allow": "Ruxsat ber",
     "deny": "Rad et",
     "inherit": "Meros ol",
-    "roles": "Rollar"
+    "roles": "Rollar",
+    "invite": "Taklif qilish",
+    "invitation": "Taklif"
 }

@@ -593,5 +593,7 @@
     "allow": "Allow",
     "deny": "Deny",
     "inherit": "Inherit",
-    "roles": "Roles"
+    "roles": "Roles",
+    "invite": "Invite",
+    "invitation": "Invitation"
 }

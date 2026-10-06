@@ -591,5 +591,7 @@
     "allow": "İzin ver",
     "deny": "Reddet",
     "inherit": "Devral",
-    "roles": "Roller"
+    "roles": "Roller",
+    "invite": "Davet et",
+    "invitation": "Davet"
 }

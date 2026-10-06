@@ -591,5 +591,7 @@
     "allow": "Payagan",
     "deny": "Tanggihan",
     "inherit": "Manahin",
-    "roles": "Mga tungkulin"
+    "roles": "Mga tungkulin",
+    "invite": "Imbitahan",
+    "invitation": "Imbitasyon"
 }

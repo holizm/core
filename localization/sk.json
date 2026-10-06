@@ -153,5 +153,7 @@
     "allow": "Povoliť",
     "deny": "Zakázať",
     "inherit": "Zdediť",
-    "roles": "Roly"
+    "roles": "Roly",
+    "invite": "Pozvať",
+    "invitation": "Pozvánka"
 }

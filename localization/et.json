@@ -153,5 +153,7 @@
     "allow": "Luba",
     "deny": "Keela",
     "inherit": "Päri",
-    "roles": "Rollid"
+    "roles": "Rollid",
+    "invite": "Kutsu",
+    "invitation": "Kutse"
 }

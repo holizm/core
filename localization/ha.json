@@ -591,5 +591,7 @@
     "allow": "Ba da izini",
     "deny": "Hana",
     "inherit": "Gada",
-    "roles": "Matsayi"
+    "roles": "Matsayi",
+    "invite": "Gayyata",
+    "invitation": "Gayyata"
 }

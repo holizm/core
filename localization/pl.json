@@ -591,5 +591,7 @@
     "allow": "Zezwól",
     "deny": "Odmów",
     "inherit": "Dziedzicz",
-    "roles": "Role"
+    "roles": "Role",
+    "invite": "Zaproś",
+    "invitation": "Zaproszenie"
 }

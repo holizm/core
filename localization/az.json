@@ -153,5 +153,7 @@
     "allow": "İcazə ver",
     "deny": "Qadağan et",
     "inherit": "İrs al",
-    "roles": "Rollar"
+    "roles": "Rollar",
+    "invite": "Dəvət et",
+    "invitation": "Dəvət"
 }

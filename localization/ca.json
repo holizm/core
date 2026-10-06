@@ -153,5 +153,7 @@
     "allow": "Permet",
     "deny": "Denega",
     "inherit": "Hereta",
-    "roles": "Rols"
+    "roles": "Rols",
+    "invite": "Convida",
+    "invitation": "Invitació"
 }
