@@ -15,6 +15,7 @@ import extract from '../scripts/extract.js'
 import getExistingBuild from '../scripts/getExistingBuild.js'
 import getInstance from '../scripts/getInstance.js'
 import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
+import initializePublishedIamSettings from '../scripts/initializePublishedIamSettings.js'
 import initializePublishedSettingsOverride from '../scripts/initializePublishedSettingsOverride.js'
 import isFile from '../scripts/isFile.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
@@ -74,6 +75,12 @@ divide()
 
 await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
+await initializePublishedIamSettings({
+    domain,
+    params,
+    remoteBuildDir,
+    remoteProcessPath,
+})
 await runOnServer(domain, `cd ${remoteProcessPath} && /holism/server/commands/installPackages`)
 const user = (await runOnServer(domain, 'whoami', true)).trim()
 

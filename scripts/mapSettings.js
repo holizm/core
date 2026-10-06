@@ -1,3 +1,5 @@
+import { chmodSync } from 'fs'
+import getApiIamSettings from './getApiIamSettings.js'
 import isControlRunnable from './isControlRunnable.js'
 import isFile from './isFile.js'
 import {
@@ -53,4 +55,10 @@ export default params => {
     writeFileIfNotExists(repoFile, '{}')
     params.addVolume(commonFile, `${containerHome}/${repo}/${process}/common.json`)
     params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json`)
+    if (processType === 'api') {
+        const iamSettingsPath = `/tmp/${repo}/${process}/settings/iamSettings.json`
+        writeFile(iamSettingsPath, `${JSON.stringify(getApiIamSettings(params), null, 4)}\n`)
+        chmodSync(iamSettingsPath, 0o600)
+        params.addVolume(iamSettingsPath, `${containerHome}/${repo}/${process}/iamSettings.json`)
+    }
 }

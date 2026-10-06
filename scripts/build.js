@@ -1,3 +1,4 @@
+import buildExclusions from './buildExclusions.js'
 import buildImage from './buildImage.js'
 import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
@@ -80,26 +81,7 @@ export default async params => {
         await copyComposedCode(params)
     }
 
-    await deleteByPatterns(params.buildDir, [
-        '**/.vscode',
-        '**/*.yaml',
-        '**/ast',
-        '**/certificates',
-        '**/common.json',
-        '**/connectionStrings.json',
-        '**/containerStartReport.md',
-        '**/corePackage.json',
-        '**/privateSettings.json',
-        '**/publicSettings.json',
-        '**/repo.json',
-        '**/secrets.json',
-        '**/spl',
-        '**/settingsOverride.json',
-        '**/hostStartReport.md',
-        '**/startReport.md',
-        '**/*localization*/',
-        '**/webServer',
-    ])
+    await deleteByPatterns(params.buildDir, buildExclusions)
 
     if (isSite) {
         copySiteContent(params)

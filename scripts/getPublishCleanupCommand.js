@@ -5,6 +5,7 @@ const persistentItems = [
     'compose.yaml',
     'connectionStrings.json',
     'instance.json',
+    'iamSettings.json',
     'node_modules',
     'privateSettings.json',
     'publicSettings.json',
