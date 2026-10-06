@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import {
     divide,
     info,
@@ -9,7 +8,7 @@ import createDatabaseContainer from './createDatabaseContainer.js'
 import createDirectories from './createDirectories.js'
 import createSearchDatabaseContainer from './createSearchDatabaseContainer.js'
 import getApiUtilityDirectories from './getApiUtilityDirectories.js'
-import getProcessRole from './getProcessRole.js'
+import getPartApiRolePath from './getPartApiRolePath.js'
 import isControlRunnable from './isControlRunnable.js'
 import isEtl from './isEtl.js'
 import isFile from './isFile.js'
@@ -79,7 +78,6 @@ const mapDependencies = params => {
         processPath,
         repo,
     } = params
-    const role = getProcessRole(path.basename(processPath))
 
     for (const dependency of dependencies) {
         let runnablePart = false
@@ -125,8 +123,12 @@ const mapDependencies = params => {
             params.addVolume(dataPath, `${nodeModules}/${dependency}/data`)
         }
 
-        const rolePath = `${dependencyBase}/api/${role}`
-        if (role && fs.existsSync(rolePath)) {
+        const rolePath = getPartApiRolePath({
+            dependency,
+            dependencyBase,
+            processPath,
+        })
+        if (rolePath) {
             params.addVolume(rolePath, `${nodeModules}/${dependency}/api/role`)
         }
 
