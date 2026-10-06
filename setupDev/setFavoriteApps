@@ -2,10 +2,29 @@
 
 set -euo pipefail
 
-gsettings set org.gnome.shell favorite-apps "[
-  'org.gnome.Nautilus.desktop',
-  'google-chrome.desktop',
-  'code.desktop',
-  'org.gnome.Ptyxis.desktop',
-  'org.gnome.gedit.desktop'
-]"
+dataDirectories="${XDG_DATA_HOME:-$HOME/.local/share}:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+IFS=: read -ra directories <<< "$dataDirectories"
+favorites=()
+
+selectLauncher() {
+    local launcher
+    local directory
+
+    for launcher in "$@"; do
+        for directory in "${directories[@]}"; do
+            if [[ -f "$directory/applications/$launcher" ]]; then
+                favorites+=("'$launcher'")
+                return 0
+            fi
+        done
+    done
+}
+
+selectLauncher org.gnome.Nautilus.desktop
+selectLauncher google-chrome.desktop
+selectLauncher com.microsoft.VSCode.desktop code.desktop
+selectLauncher org.gnome.Ptyxis.desktop org.gnome.Terminal.desktop
+selectLauncher org.gnome.TextEditor.desktop org.gnome.gedit.desktop
+
+favoriteApps=$(IFS=,; echo "${favorites[*]}")
+gsettings set org.gnome.shell favorite-apps "[$favoriteApps]"
