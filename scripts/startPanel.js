@@ -139,14 +139,7 @@ export const mapRunnable = params => {
         if (linkPath.trim() === '') {
             continue
         }
-        const linkTarget = fs.readlinkSync(linkPath)
-        const parts = linkTarget.replace(/^\/+/, '').split('/')
-        const role =
-            parts.length > 4
-            ?
-            parts[4]
-            :
-            'Role'
+        const role = path.basename(fs.realpathSync(linkPath))
 
         const replacedItem = linkPath.replace(/^.\//, '')
         if (!replacedItem) {
