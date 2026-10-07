@@ -11,6 +11,7 @@ export default params => {
         dependencies,
         extraDirectories,
         home,
+        isControl,
         process,
         processType,
         repo,
@@ -24,7 +25,7 @@ export default params => {
     const processIsApi = processType === 'api'
     if (processIsApi) {
         removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
-        if (getProcessRole(process) === 'admin') {
+        if (getProcessRole(process, isControl) === 'admin') {
             for (const utility of [
                 'generation',
                 'migration',

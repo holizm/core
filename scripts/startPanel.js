@@ -27,7 +27,6 @@ const createNonExistentFiles = params => {
     const {
         home,
         privateSettingsPath,
-        process,
         publicSettingsPath,
     } = params
     const basePath = `${home}/core/panel`
@@ -36,7 +35,7 @@ const createNonExistentFiles = params => {
         'menu.jsx': 'menuTemplate',
         'routes.jsx': 'routesTemplate',
     }
-    if (!isControlPanel(process)) {
+    if (!isControlPanel(params)) {
         for (const [target, template] of Object.entries(files)) {
             if (!isFile(target)) {
                 copyFileIfNotExists(`${basePath}/${template}`, target)
@@ -57,7 +56,7 @@ export const mapPanelDeclarations = params => {
         processPath,
         repo,
     } = params
-    if (isControlPanel(process)) {
+    if (isControlPanel(params)) {
         return
     }
     params.addVolume(`${processPath}/appActions.jsx`, `${containerHome}/${repo}/${process}/src/appActions.jsx`)
@@ -70,6 +69,7 @@ export const mapDependencies = params => {
         containerHome,
         dependencies,
         home,
+        isControl,
         process,
         repo,
     } = params
@@ -101,7 +101,7 @@ export const mapDependencies = params => {
             translationScopes[dependency] = getPartUses(fs.readFileSync(partPath, 'utf8'))
         }
 
-        if (getProcessRole(process) === 'admin') {
+        if (getProcessRole(process, isControl) === 'admin') {
             params.addVolume(`${dependencyBase}/admin`, `${containerHome}/${repo}/${process}/src/${dependency}/admin`)
         }
 

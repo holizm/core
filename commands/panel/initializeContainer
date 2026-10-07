@@ -15,7 +15,10 @@ const {
 
 const main = () => {
     process.chdir(`${home}/${repo}/${proc}`)
-    if (isControlPanel(proc)) {
+    if (isControlPanel({
+        process: proc,
+        repo,
+    })) {
         createControlPanelFiles(processPath)
     }
     runOnTerminal('merge panel', {

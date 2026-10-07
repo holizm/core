@@ -3,7 +3,7 @@
 clear
 
 processName=$(basename "$PWD")
-if [[ $processName == *Api ]]; then
+if [[ $processName == *Api || $processName == api ]]; then
     cd /$home/$apiRepo
 fi
 

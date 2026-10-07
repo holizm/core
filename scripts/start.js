@@ -78,7 +78,12 @@ export default async overrides => {
         ...getPaths(params),
         deterministicPort: getDeterministicPort(params.containerName),
     }))
-    params.usesBackingInfrastructure = params.isControlProcess && params.process === 'controlApi'
+    if (params.isControlProcess) {
+        await measureAsync('stop legacy control process container', () => stop({
+            containerName: `${params.repo}Control${params.pascalizedProcess}`,
+        }))
+    }
+    params.usesBackingInfrastructure = params.isControlProcess && params.process === 'api'
     params.networkRepo = params.repo
     if (isSite(params)) params.networkRepo = getApiRepo(params.repo)
     if (params.usesBackingInfrastructure) {

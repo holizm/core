@@ -104,7 +104,7 @@ export default params => {
         params.processPath,
         headlessPanelStructure,
     ))
-    if (!isControlPanel(params.process)) {
+    if (!isControlPanel(params)) {
         measure('headless panel: ensure declarations', () => ensureHeadlessPanelStructure(
             params.processPath,
             headlessPanelDeclarations,

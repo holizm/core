@@ -9,6 +9,7 @@ import getProcessRole from './getProcessRole.js'
 export default ({
     dependency,
     dependencyBase,
+    isControl,
     processPath,
 }) => {
     const declaration = path.join(processPath, dependency)
@@ -20,7 +21,7 @@ export default ({
         }
         return selected
     }
-    const role = getProcessRole(path.basename(processPath))
+    const role = getProcessRole(path.basename(processPath), isControl)
     const selected = path.join(roleDirectory, role)
     return role && existsSync(selected)
         ?

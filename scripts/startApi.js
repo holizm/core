@@ -72,6 +72,7 @@ const mapDependencies = params => {
         containerHome,
         dependencies,
         home,
+        isControl,
         nodeModules,
         org,
         process,
@@ -126,6 +127,7 @@ const mapDependencies = params => {
         const rolePath = getPartApiRolePath({
             dependency,
             dependencyBase,
+            isControl,
             processPath,
         })
         if (rolePath) {

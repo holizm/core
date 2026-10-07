@@ -14,6 +14,7 @@ test('part API role selection overrides the process role and validates its bound
     const directory = mkdtempSync(path.join(tmpdir(), 'partRole'))
     const dependencyBase = path.join(directory, 'accounts/api')
     const processPath = path.join(directory, 'hotelOs/managerApi')
+    const controlProcessPath = path.join(directory, 'hotelOsControl/api')
     const admin = path.join(dependencyBase, 'api/admin')
     const manager = path.join(dependencyBase, 'api/manager')
     const declaration = path.join(processPath, 'accounts')
@@ -24,8 +25,14 @@ test('part API role selection overrides the process role and validates its bound
     }
     try {
         mkdirSync(admin, { recursive: true })
+        mkdirSync(controlProcessPath, { recursive: true })
         mkdirSync(processPath, { recursive: true })
         assert.equal(getPartApiRolePath(params), null)
+        assert.equal(getPartApiRolePath({
+            ...params,
+            isControl: true,
+            processPath: controlProcessPath,
+        }), admin)
         mkdirSync(manager)
         assert.equal(getPartApiRolePath(params), manager)
         symlinkSync(admin, declaration)

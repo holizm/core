@@ -2,6 +2,7 @@ import {
     readdirSync,
     writeFileSync,
 } from 'fs'
+import isControlProcess from './isControlProcess.js'
 
 export default params => {
     const {
@@ -12,16 +13,30 @@ export default params => {
     } = params
     const repositories = [...new Set([repo, repo.replace(/Control$/, '')])]
     const processes = repositories.flatMap(repository => readdirSync(`${home}/${repository}`, { withFileTypes: true })
-        .filter(entry => entry.isDirectory() && entry.name.endsWith('Api'))
-        .map(entry => ({
+        .filter(entry => entry.isDirectory() && (entry.name.endsWith('Api') || isControlProcess({
             process: entry.name,
             repo: repository,
-            role: entry.name === 'siteApi'
+        }) && entry.name === 'api'))
+        .map(entry => {
+            const controlProcess = isControlProcess({
+                process: entry.name,
+                repo: repository,
+            })
+            const apiProcess = {
+                process: entry.name,
+                repo: repository,
+                role: controlProcess
                 ?
-                ''
+                'control'
                 :
-                entry.name.slice(0, -3),
-        })))
+                entry.name === 'siteApi'
+                    ?
+                    ''
+                    :
+                    entry.name.slice(0, -3),
+            }
+            return apiProcess
+        }))
         .sort((first, second) => first.process.localeCompare(second.process))
     const file = `/tmp/${repo}/${process}/apiProcesses.json`
     writeFileSync(file, `${JSON.stringify(processes, null, 4)}\n`)

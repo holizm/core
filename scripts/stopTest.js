@@ -15,8 +15,8 @@ import stop from './stop.js'
 const containers = [
     'holismAdminApi',
     'holismAdminPanel',
-    'holismControlControlApi',
-    'holismControlControlPanel',
+    'holismControlApi',
+    'holismControlPanel',
     'holismThemesSite',
     'holismThemesSiteApi',
     'holismDatabases',

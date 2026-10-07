@@ -7,10 +7,11 @@ export default params => {
         commonPath,
         containerHome,
         home,
+        isControl,
         process,
         repo,
     } = params
-    if (getProcessRole(process) !== 'admin') {
+    if (getProcessRole(process, isControl) !== 'admin') {
         return
     }
     const mappings = [

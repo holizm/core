@@ -1,4 +1,5 @@
 import getApiRepo from './getApiRepo.js'
+import isControlProcess from './isControlProcess.js'
 import isControlRunnable from './isControlRunnable.js'
 
 export default ({
@@ -11,7 +12,10 @@ export default ({
     const commonPath = `${repoPath}/common`
     const privateSettingsPath = `${commonPath}/privateSettings.json`
     const isControl = isControlRunnable({ privateSettingsPath })
-    const isControlProcess = isControl && ['controlApi', 'controlPanel'].includes(process)
+    const controlProcess = isControlProcess({
+        isControl,
+        process,
+    })
     const webServerPath = `/tmp/${repo}/${process}/webServer`
     const paths = {
         certificatesPath: `${webServerPath}/certificates`,
@@ -27,7 +31,7 @@ export default ({
         essentialPartsPath: `${home}/core/essentialParts`,
         initialPath: `${commonPath}/initial.js`,
         isControl,
-        isControlProcess,
+        isControlProcess: controlProcess,
         menusDirectoryPath: `${processPath}/menus`,
         migrationPath: `${home}/tmp/${repo}/migration`,
         panelLock: `${commonPath}/panelLock.json`,
@@ -47,7 +51,7 @@ export default ({
         siteFilePath: `${processPath}/site`,
         siteLock: `${commonPath}/siteLock.json`,
         sitePackageJson: `${commonPath}/site.json`,
-        tenantsPath: isControlProcess
+        tenantsPath: controlProcess
             ?
             `/tmp/${repo}/common/tenants`
             :

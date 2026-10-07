@@ -27,6 +27,10 @@ export default async ({
     } = params
     const processPath = `$HOME/${instance?.serverDirectory}/${process}`
     const fullProcessName = camelize(`${instance?.serverDirectory} ${process}`)
+    const obsoleteProcessNames = [fullProcessName]
+    if (params.isControlProcess) {
+        obsoleteProcessNames.push(camelize(`${instance?.serverDirectory} control ${process}`))
+    }
     const pm2 = await getRemoteExecutable(domain, 'PM2', pm2Paths)
     const port = (await runOnServer(
         domain,
@@ -35,7 +39,7 @@ export default async ({
     )).trim()
     const restart = command => runOnServer(
         domain,
-        `cd ${processPath} && (${pm2} delete ${fullProcessName} || true) && ${command}`,
+        `cd ${processPath} && ${obsoleteProcessNames.map(name => `(${pm2} delete ${name} || true)`).join(' && ')} && ${command}`,
     )
 
     if (isApi) {

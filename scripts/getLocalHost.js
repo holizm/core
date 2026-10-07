@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import isControlProcess from './isControlProcess.js'
 import isFile from './isFile.js'
 
 export default params => {
@@ -9,6 +10,7 @@ export default params => {
         processPath,
         siteFilePath,
     } = params
+    const controlProcess = isControlProcess(params)
     const parts = domain.trim().split('.')
     if (parts.length > 1) {
         parts[parts.length - 1] = 'local'
@@ -18,7 +20,7 @@ export default params => {
     }
 
     const baseDomain = parts.join('.')
-    let processName = process
+    let processName = controlProcess ? 'control' : process
     const affixes = [
         'Api',
         'Databases',
@@ -44,7 +46,7 @@ export default params => {
 
     const subdomains = []
 
-    if (process.endsWith('Api')) {
+    if (process.endsWith('Api') || (controlProcess && process === 'api')) {
         subdomains.push('api')
     }
     if (processName) {
