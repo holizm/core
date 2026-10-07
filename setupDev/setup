@@ -3,6 +3,8 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
+$setupDev/protectSecrets
+
 install curl
 install jq
 install nmap
