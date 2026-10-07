@@ -35,7 +35,6 @@ $setupDev/docker
 $setupDev/node
 $setupDev/coreDependencies
 $setupDev/mongodbMemoryServer
-$setupDev/astCstWatcher
 sudo homeDir="$homeDir" node "$setupDev/nginx"
 
 $setupDev/micro
