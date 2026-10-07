@@ -15,7 +15,7 @@ clear()
 
 const home = os.homedir()
 const repositories = readdirSync(home, { withFileTypes: true })
-    .filter(entry => entry.isDirectory() && existsSync(path.join(home, entry.name, '.git')))
+    .filter(entry => entry.name !== 'policies' && entry.isDirectory() && existsSync(path.join(home, entry.name, '.git')))
     .map(entry => entry.name)
 
 const files = await fg(repositories.map(repository => `${repository}/**/*`), {
