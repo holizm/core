@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-systemdDirectory="$homeDir/.config/systemd/user"
-mkdir -p "$systemdDirectory"
-cp "$homeDir/core/setupDev/astCstWatcher.service" "$systemdDirectory/astCstWatcher.service"
-systemctl --user daemon-reload
-systemctl --user enable --now astCstWatcher.service
+set -euo pipefail
+
+loadState=$(systemctl --user show astCstWatcher.service --property=LoadState --value)
+
+if [[ "$loadState" != 'not-found' ]]; then
+    systemctl --user disable --now astCstWatcher.service
+fi

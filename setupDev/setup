@@ -3,6 +3,8 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
+$setupDev/astCstWatcher
+
 $setupDev/protectSecrets
 
 install curl
