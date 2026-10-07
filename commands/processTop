@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ ${1:-} != '--once' ]]; then
+    exec watch --interval 2 --no-title --no-wrap --exec "$(readlink -f "$0")" --once
+fi
+
+ps -ww -eo comm:24=NAME,pid:10=PID,pcpu:7=CPU%,pmem:7=MEM%,args=COMMAND --sort=-pcpu
