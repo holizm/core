@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+echo Watching for AST
+base=$home/$repo/$process
+
+cp $home/core/commands/newSite/astGenerator.js $base
+
+shopt -s globstar
+
+inotifywait -m \
+$base/src/core*/*.jsx \
+$base/src/coreParts/**/*.jsx \
+$base/src/routes/**/*.jsx \
+$base/src/routes/*.jsx \
+-r \
+-e modify \
+-e move \
+-e create \
+-e delete \
+-q \
+--exclude "exports.jsx" |
+while IFS=' ' read file event
+do
+    export file
+    export event
+    Info $file $event
+    node $base/astGenerator.js $file
+done

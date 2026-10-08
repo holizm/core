@@ -2,7 +2,6 @@ import createCacheServer from './createCacheServer.js'
 import createNetwork from './createNetwork.js'
 import ensureDependencies from './ensureDependencies.js'
 import ensureTenants from './ensureTenants.js'
-import extract from './extract.js'
 import getBuildDirectories from './getBuildDirectories.js'
 import getDeterministicPort from './getDeterministicPort.js'
 import getDependencies from './getDependencies.js'
@@ -12,7 +11,6 @@ import indentation from './indentation.js'
 import isAccounts from './isAccounts.js'
 import isApi from './isApi.js'
 import isHeadlessPanel from './isHeadlessPanel.js'
-import isFile from './isFile.js'
 import isPanel from './isPanel.js'
 import isSite from './isSite.js'
 import isWorker from './isWorker.js'
@@ -32,11 +30,10 @@ import setupRunnableDns from './setupRunnableDns.js'
 import startAccounts from './startAccounts.js'
 import startApi from './startApi.js'
 import startHeadlessPanel from './startHeadlessPanel.js'
-import startMultiThemedSite from './startMultiThemedSite.js'
+import startNewMultiThemedSite from './startNewMultiThemedSite.js'
+import startNewSite from './startNewSite.js'
 import startPanel from './startPanel.js'
-import startSite from './startSite.js'
 import {
-    initializeTimings,
     measure,
     measureAsync,
     writeTimings,
@@ -52,21 +49,7 @@ const startContainers = params => Promise.all(params.containerStartupTasks.map(c
     containerStartupTask.callback,
 )))
 
-export default async overrides => {
-    initializeTimings()
-    let params = measure('extract startup parameters', () => ({
-        ...extract(),
-        ...overrides,
-    }))
-    const processPath = `${params.home}/${params.repo}/${params.process}`
-    if (isSite({
-        ...params,
-        processPath,
-    }) && isFile(`${processPath}/new`)) {
-        const { default: startNewSitePipeline } = await import('./startNewSitePipeline.js')
-        return startNewSitePipeline(params)
-    }
-
+export default async params => {
     params.isCiCd = params.isCiCd || process.env.isCiCd === 'true'
     await measureAsync('configure runnable local DNS', () => setupRunnableDns(params))
 
@@ -173,9 +156,9 @@ export default async overrides => {
         }
         else if (isSite(params)) {
             params.isSite = true
-            startSite(params)
+            startNewSite(params)
             if (params.multiThemed) {
-                startMultiThemedSite(params)
+                startNewMultiThemedSite(params)
             }
         }
         else if (isWorker(params)) {
@@ -227,7 +210,7 @@ export default async overrides => {
         `${params.containerHome}/core/commands/api/start`
         : processUsesSiteContainer
             ?
-            `${params.containerHome}/core/commands/site/start`
+            `${params.containerHome}/core/commands/newSite/start`
         :
         `${params.containerHome}/core/commands/panel/start`
     if ((processUsesApiContainer || processUsesSiteContainer) && params.localBuild) {

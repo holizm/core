@@ -2,7 +2,6 @@ import buildExclusions from './buildExclusions.js'
 import buildImage from './buildImage.js'
 import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
-import start from './start.js'
 import stop from './stop.js'
 import {
     runOnTerminal,
@@ -19,12 +18,6 @@ import {
 } from './logger.js'
 
 export default async params => {
-    params = await start(params)
-    if (params.siteCore === 'newSite') {
-        const { default: buildNewSite } = await import('./buildNewSite.js')
-        return buildNewSite(params)
-    }
-
     try {
         const {
             buildDir,
@@ -81,7 +74,7 @@ export default async params => {
             `
             await runOnTerminalAsync(command)
             command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
-            runOnTerminal(command)
+            await runOnTerminalAsync(command, { throwOnError: true })
         }
         else if (isApi) {
             await copyComposedCode(params)

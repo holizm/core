@@ -3,8 +3,8 @@ import {
     basename,
     join,
 } from 'node:path'
-import createCiCd from './createCiCd.js'
-import createDirectories from './createDirectories.js'
+import createNewSiteCiCd from './createNewSiteCiCd.js'
+import createNewSiteDirectories from './createNewSiteDirectories.js'
 import createSiteConfiguration from './createSiteConfiguration.js'
 import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
@@ -21,9 +21,9 @@ import {
     info,
 } from './logger.js'
 import kebabize from './kebabize.js'
-import mapNode from './mapNode.js'
+import mapNewSiteNode from './mapNewSiteNode.js'
 import mapSettings from './mapSettings.js'
-import mapSiteSharedFallbacks from './mapSiteSharedFallbacks.js'
+import mapNewSiteSharedFallbacks from './mapNewSiteSharedFallbacks.js'
 import processTenantLine from './processTenantLine.js'
 import {
     copyFileIfNotExists,
@@ -37,35 +37,31 @@ import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
-    const {
-        home,
-        multiThemed,
-    } = params
+    const { multiThemed } = params
     createDirIfNotExists('pages')
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
-    copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, 'pages/head.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/headTemplate.jsx`, 'pages/head.jsx')
     const layoutTemplate = multiThemed
         ?
         'multiThemedLayoutTemplate.jsx'
         :
         'layoutTemplate.jsx'
-    copyFileIfNotExists(`${home}/core/site/${layoutTemplate}`, 'pages/layout.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/${layoutTemplate}`, 'pages/layout.jsx')
     const indexTemplate = multiThemed
         ?
         'multiThemedIndexTemplate.jsx'
         :
         'indexTemplate.jsx'
-    copyFileIfNotExists(`${home}/core/site/${indexTemplate}`, 'pages/index.jsx')
-    copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/${indexTemplate}`, 'pages/index.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/footerTemplate.jsx`, 'parts/layout/footer.jsx')
     if (!multiThemed) {
-        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
+        copyFileIfNotExists(`${params.siteTemplatePath}/styleTemplate.css`, 'style.css')
     }
 }
 
 const createNonExistentThemeFiles = params => {
     const {
-        home,
         multiThemed,
         processPath,
         themeDirectories,
@@ -76,7 +72,7 @@ const createNonExistentThemeFiles = params => {
         createDirIfNotExists(`${themePath}/pages`)
         createDirIfNotExists(`${themePath}/parts`)
         createDirIfNotExists(`${themePath}/styles`)
-        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, `${themePath}/style.css`)
+        copyFileIfNotExists(`${params.siteTemplatePath}/styleTemplate.css`, `${themePath}/style.css`)
     })
 }
 
@@ -345,6 +341,8 @@ export default params => {
     divide()
 
     params.processType = 'site'
+    params.siteCore = 'newSite'
+    params.siteTemplatePath = `${params.home}/newSite/templates`
     params.siteContentSource = getSiteContentSource(params)
     params.standaloneSite = isFile(`${params.processPath}/standalone`)
     params.siteContentEnvironment = params.siteContentSource
@@ -369,7 +367,7 @@ export default params => {
     measure('site: create missing theme files', () => createNonExistentThemeFiles(params))
     measure('site: create theme entries', () => createThemeEntries(params))
     measure('site: create theme style entries', () => createThemeStyleEntries(params))
-    measure('site: create directories', () => createDirectories({
+    measure('site: create directories', () => createNewSiteDirectories({
         ...params,
         extraDirectories: [
             '/tmp/mre',
@@ -379,7 +377,7 @@ export default params => {
     }))
     measure('site: create configuration', () => createSiteConfiguration(params))
     measure('site: create UI parts file', () => createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`))
-    measure('site: create CI/CD', () => createCiCd(params))
+    measure('site: create CI/CD', () => createNewSiteCiCd(params))
 
     measure('site: map dependencies', () => mapDependencies(params))
     const sitePartRoutesPath = `/tmp/${params.repo}/${params.process}/sitePartRoutes.js`
@@ -389,9 +387,9 @@ export default params => {
     measure('site: map pages', () => mapPages(params))
     measure('site: map parts', () => mapParts(params))
     measure('site: map themes', () => mapThemes(params))
-    measure('site: map shared fallbacks', () => mapSiteSharedFallbacks(params))
+    measure('site: map shared fallbacks', () => mapNewSiteSharedFallbacks(params))
     measure('site: map other files', () => mapOthers(params))
-    measure('site: map Node files', () => mapNode(params))
+    measure('site: map Node files', () => mapNewSiteNode(params))
     measure('site: ensure local secrets', () => ensureLocalSecrets(params))
     measure('site: configure development network', () => configureDevelopmentNetwork(params))
     const {
@@ -404,11 +402,11 @@ export default params => {
         tenantsPath,
     } = params
     if (!params.standaloneSite) {
-        params.addVolume(`${home}/site/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
-        params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
-        params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
-        params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-        params.addVolume(`${home}/site/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
     }
     if (isFile(`${processPath}/root.jsx`)) {
         params.addVolume(`${processPath}/root.jsx`, `${containerHome}/${repo}/${process}/src/root.tsx`)
@@ -436,6 +434,6 @@ export default params => {
         params.addVolume(`${tenantsPath}`, `${containerHome}/${repo}/${process}/tenants`)
     }
     measure('site: join volumes', () => params.joinVolumes())
-    const composeTemplatePath = `${home}/core/container/composes/site`
+    const composeTemplatePath = `${home}/core/container/composes/newSite`
     measure('site: create Compose file', () => replaceVariables(composeTemplatePath, composeFile, params))
 }

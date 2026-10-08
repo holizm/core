@@ -6,6 +6,6 @@ export default params => {
         composeFile,
         home,
     } = params
-    const composeTemplatePath = `${home}/core/container/composes/multiThemedSite`
+    const composeTemplatePath = `${home}/core/container/composes/newMultiThemedSite`
     measure('multi-themed site: create Compose file', () => replaceVariables(composeTemplatePath, composeFile, params))
 }
