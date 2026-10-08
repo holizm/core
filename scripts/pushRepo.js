@@ -12,7 +12,7 @@ const runGit = async (repo, args) => {
         maxBuffer: 1024 * 1024 * 20,
     })
     if (result.stdout) process.stdout.write(result.stdout)
-    if (result.stderr) process.stderr.write(result.stderr)
+    if (result.stderr && args[0] !== 'push') process.stderr.write(result.stderr)
     return result.stdout.trim()
 }
 

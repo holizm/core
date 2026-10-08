@@ -60,7 +60,18 @@ await test('ort merges changes in different parts of the same file and pushes', 
         await change(repos.local, 0, 'localChange')
         await change(repos.incoming, 29, 'incomingChange')
         git(repos.incoming, ['push'])
-        assert.equal(await pushRepo(repos.local), true)
+        const originalWrite = process.stderr.write
+        let output = ''
+        process.stderr.write = chunk => {
+            output += chunk
+            return true
+        }
+        try {
+            assert.equal(await pushRepo(repos.local), true)
+        } finally {
+            process.stderr.write = originalWrite
+        }
+        assert.ok(!output.includes('To '))
         const contents = git(repos.remote, ['show', 'main:sample.txt'])
         assert.ok(contents.includes('localChange') && contents.includes('incomingChange'))
         assert.equal(git(repos.local, ['log', '-1', '--format=%p']).split(' ').length, 2)
