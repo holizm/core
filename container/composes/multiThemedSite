@@ -50,6 +50,10 @@ services:
             - ${home}/site/src/pluginCore.ts:${containerHome}/${repo}/${process}/src/routes/plugin@_core.ts
             - ${home}/site/src/root.jsx:${containerHome}/${repo}/${process}/src/root.tsx
             - ${home}/site/src/routerHead.jsx:${containerHome}/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/documentIcons.jsx:${containerHome}/${repo}/${process}/src/documentIcons.jsx
+            - ${home}/site/src/documentMetadata.jsx:${containerHome}/${repo}/${process}/src/documentMetadata.jsx
+            - ${home}/site/src/documentSchemaScripts.jsx:${containerHome}/${repo}/${process}/src/documentSchemaScripts.jsx
+            - ${home}/site/src/documentTrackingScripts.jsx:${containerHome}/${repo}/${process}/src/documentTrackingScripts.jsx
             - ${home}/site/src/routes/serviceWorker.ts:${containerHome}/${repo}/${process}/src/routes/service-worker.ts
             # - ${home}/site/src/routes/404.tsx:${containerHome}/${repo}/${process}/src/routes/404.tsx
             - ${home}/site/src/routes/error:${containerHome}/${repo}/${process}/src/routes/error
