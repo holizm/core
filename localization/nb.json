@@ -94,6 +94,7 @@
     "componentType": "Kostnadskomponenttype",
     "composable": "Komponerbar",
     "compose": "Sett sammen",
+    "composedOf": "Består av",
     "condition": "Betingelse",
     "conditions": "Vilkår",
     "configuration": "Konfigurasjon",

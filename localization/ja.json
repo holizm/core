@@ -93,6 +93,7 @@
     "componentType": "原価構成要素の種類",
     "composable": "構成可能",
     "compose": "構成します",
+    "composedOf": "構成元",
     "condition": "条件",
     "conditions": "Conditions",
     "configuration": "構成",

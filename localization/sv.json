@@ -94,6 +94,7 @@
     "componentType": "Typ av kostnadskomponent",
     "composable": "Komponerbar",
     "compose": "Skapa",
+    "composedOf": "Består av",
     "condition": "Villkor",
     "conditions": "Villkor",
     "configuration": "Konfiguration",

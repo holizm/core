@@ -94,6 +94,7 @@
     "componentType": "Omkostningskomponenttype",
     "composable": "Kan sammensættes",
     "compose": "Sammensæt",
+    "composedOf": "Består af",
     "condition": "Betingelse",
     "conditions": "Betingelser",
     "configuration": "Konfiguration",

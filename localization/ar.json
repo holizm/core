@@ -94,6 +94,7 @@
     "componentType": "نوع مكوّن التكلفة",
     "composable": "قابلية للتأليف",
     "compose": "تأليف",
+    "composedOf": "يتكون من",
     "condition": "شرط",
     "conditions": "Conditions",
     "configuration": "الإعدادات",

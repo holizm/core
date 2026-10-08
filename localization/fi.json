@@ -94,6 +94,7 @@
     "componentType": "Kustannuserän tyyppi",
     "composable": "Koostettava",
     "compose": "Koosta",
+    "composedOf": "Koostuu",
     "condition": "Ehto",
     "conditions": "Ehdot",
     "configuration": "Määritys",

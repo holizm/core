@@ -94,6 +94,7 @@
     "componentType": "Тип складової витрат",
     "composable": "Компонований",
     "compose": "Створити",
+    "composedOf": "Складається з",
     "condition": "Умова",
     "conditions": "Умови",
     "configuration": "Конфігурація",

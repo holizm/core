@@ -94,6 +94,7 @@
     "componentType": "Typ składnika kosztu",
     "composable": "Komponowalny",
     "compose": "Utwórz",
+    "composedOf": "Składa się z",
     "condition": "Warunek",
     "conditions": "Warunki",
     "configuration": "Konfiguracja",

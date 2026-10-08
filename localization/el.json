@@ -94,6 +94,7 @@
     "componentType": "Τύπος στοιχείου κόστους",
     "composable": "Συνθέσιμο",
     "compose": "Σύνθεση",
+    "composedOf": "Αποτελείται από",
     "condition": "Συνθήκη",
     "conditions": "Συνθήκες",
     "configuration": "Ρύθμιση παραμέτρων",

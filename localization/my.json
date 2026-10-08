@@ -94,6 +94,7 @@
     "componentType": "ကုန်ကျစရိတ် အစိတ်အပိုင်း အမျိုးအစား",
     "composable": "ပေါင်းစပ်နိုင်သော",
     "compose": "ရေးဖွဲ့ရန်",
+    "composedOf": "ဖြင့် ဖွဲ့စည်းထားသည်",
     "condition": "အခြေအနေ",
     "conditions": "အခြေအနေများ",
     "configuration": "ဖွဲ့စည်းပုံ",

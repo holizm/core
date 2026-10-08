@@ -94,6 +94,7 @@
     "componentType": "ವೆಚ್ಚದ ಘಟಕದ ಪ್ರಕಾರ",
     "composable": "ಸಂಯೋಜಿಸಬಹುದಾದ",
     "compose": "ರಚಿಸಿ",
+    "composedOf": "ಇದರಿಂದ ರಚಿಸಲಾಗಿದೆ",
     "condition": "ಷರತ್ತು",
     "conditions": "ಷರತ್ತುಗಳು",
     "configuration": "ಸಂರಚನೆ",

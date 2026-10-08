@@ -94,6 +94,7 @@
     "componentType": "Type kostencomponent",
     "composable": "Samenstelbaar",
     "compose": "Opstellen",
+    "composedOf": "Bestaat uit",
     "condition": "Voorwaarde",
     "conditions": "Voorwaarden",
     "configuration": "Configuratie",

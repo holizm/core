@@ -94,6 +94,7 @@
     "componentType": "Uri ng bahagi ng gastos",
     "composable": "Nabubuo",
     "compose": "Bumuo",
+    "composedOf": "Binubuo ng",
     "condition": "Kondisyon",
     "conditions": "Mga kundisyon",
     "configuration": "Configuration",

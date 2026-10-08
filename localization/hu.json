@@ -94,6 +94,7 @@
     "componentType": "Költségösszetevő típusa",
     "composable": "Összeállítható",
     "compose": "Összeállítás",
+    "composedOf": "Ezekből áll",
     "condition": "Feltétel",
     "conditions": "Feltételek",
     "configuration": "Konfiguráció",

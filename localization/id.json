@@ -94,6 +94,7 @@
     "componentType": "Jenis komponen biaya",
     "composable": "Dapat disusun",
     "compose": "Susun",
+    "composedOf": "Terdiri dari",
     "condition": "Kondisi",
     "conditions": "Kondisi",
     "configuration": "Konfigurasi",

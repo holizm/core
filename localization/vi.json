@@ -93,6 +93,7 @@
     "componentType": "Loại thành phần chi phí",
     "composable": "Có thể kết hợp",
     "compose": "Sáng tác",
+    "composedOf": "Được cấu thành từ",
     "condition": "Điều kiện",
     "conditions": "Conditions",
     "configuration": "Cấu hình",

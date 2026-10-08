@@ -94,6 +94,7 @@
     "componentType": "Тип разходен компонент",
     "composable": "Комбинируем",
     "compose": "Съставяне",
+    "composedOf": "Състои се от",
     "condition": "Условие",
     "conditions": "Условия",
     "configuration": "Конфигурация",

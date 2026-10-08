@@ -94,6 +94,7 @@
     "componentType": "نوع مؤلفه",
     "composable": "قابل ترکیب",
     "compose": "ترکیب",
+    "composedOf": "تشکیل‌شده از",
     "condition": "شرط",
     "conditions": "شرط‌ها",
     "configuration": "پیکربندی",

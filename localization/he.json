@@ -94,6 +94,7 @@
     "componentType": "סוג רכיב עלות",
     "composable": "ניתן להרכבה",
     "compose": "יצירה",
+    "composedOf": "מורכב מ־",
     "condition": "תנאי",
     "conditions": "תנאים",
     "configuration": "תצורה",

@@ -94,6 +94,7 @@
     "componentType": "Tipo de componente de coste",
     "composable": "Componible",
     "compose": "Componer",
+    "composedOf": "Compuesto de",
     "condition": "Condición",
     "conditions": "Conditions",
     "configuration": "Configuración",

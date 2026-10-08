@@ -94,6 +94,7 @@
     "componentType": "Тип компонента затрат",
     "composable": "Составной",
     "compose": "Сочинять",
+    "composedOf": "Состоит из",
     "condition": "Условие",
     "conditions": "Conditions",
     "configuration": "Конфигурация",

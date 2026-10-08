@@ -94,6 +94,7 @@
     "componentType": "Maliyet bileşeni türü",
     "composable": "Birleştirilebilir",
     "compose": "Bestelemek",
+    "composedOf": "Şunlardan oluşur",
     "condition": "Koşul",
     "conditions": "Conditions",
     "configuration": "Yapılandırma",

@@ -94,6 +94,7 @@
     "componentType": "Jenis komponen kos",
     "composable": "Boleh digubah",
     "compose": "Karang",
+    "composedOf": "Terdiri daripada",
     "condition": "Syarat",
     "conditions": "Syarat",
     "configuration": "Konfigurasi",

@@ -94,6 +94,7 @@
     "componentType": "Vrsta troškovne komponente",
     "composable": "Може се састављати",
     "compose": "Sastavi",
+    "composedOf": "Sastoji se od",
     "condition": "Услов",
     "conditions": "Услови",
     "configuration": "Konfiguracija",

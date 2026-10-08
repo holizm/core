@@ -94,6 +94,7 @@
     "componentType": "Component type",
     "composable": "Composable",
     "compose": "Compose",
+    "composedOf": "Composed Of",
     "condition": "Condition",
     "conditions": "Conditions",
     "configuration": "Configuration",

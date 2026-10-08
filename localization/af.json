@@ -94,6 +94,7 @@
     "componentType": "Komponenttipe",
     "composable": "Saamstelbaar",
     "compose": "Stel saam",
+    "composedOf": "Saamgestel uit",
     "condition": "Voorwaarde",
     "conditions": "Voorwaardes",
     "configuration": "Opstelling",

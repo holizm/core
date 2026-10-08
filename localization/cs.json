@@ -94,6 +94,7 @@
     "componentType": "Typ nákladové složky",
     "composable": "Složitelný",
     "compose": "Vytvořit",
+    "composedOf": "Skládá se z",
     "condition": "Podmínka",
     "conditions": "Podmínky",
     "configuration": "Konfigurace",

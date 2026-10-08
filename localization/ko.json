@@ -93,6 +93,7 @@
     "componentType": "원가 구성 요소 유형",
     "composable": "구성 가능",
     "compose": "구성하다",
+    "composedOf": "다음으로 구성됨",
     "condition": "조건",
     "conditions": "Conditions",
     "configuration": "구성",
