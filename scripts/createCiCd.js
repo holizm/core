@@ -1,3 +1,4 @@
+import getApiRepo from './getApiRepo.js'
 import isFile from './isFile.js'
 import {
     divide,
@@ -25,6 +26,13 @@ export default params => {
     content += replaceVariables(`${home}/core/ciCd/extractOrgRepo`, params)
     content += replaceVariables(`${home}/core/ciCd/cloneHolism`, params)
     content += replaceVariables(`${home}/core/ciCd/repo`, params)
+    if (params.siteCore === 'newSite') {
+        content += `\n            - name: Clone new site core\n              if: startsWith(runner.name, 'GitHub')\n              run: |\n                    clone holizm newSite\n`
+        const backingRepository = getApiRepo(repo)
+        if (backingRepository !== repo) {
+            content += `\n            - name: Clone backing runnable\n              if: startsWith(runner.name, 'GitHub')\n              run: |\n                    clone ${params.org} ${backingRepository}\n`
+        }
+    }
     if (params.siteContentSource && params.siteContentSource.repository !== repo) {
         content += `\n            - name: Clone site content\n              if: startsWith(runner.name, 'GitHub')\n              run: |\n                    clone holizm ${params.siteContentSource.repository}\n`
     }
@@ -36,6 +44,7 @@ export default params => {
     content += replaceVariables(`${home}/core/ciCd/signIn`, params)
     content += replaceVariables(`${home}/core/ciCd/push`, params)
     content += replaceVariables(`${home}/core/ciCd/signOut`, params)
+    if (params.siteCore === 'newSite') content = content.replace(/[ \t]+$/gm, '')
 
     if (isFile(vcsActionPath) && getContent(vcsActionPath) === content) {
         success('CI/CD is up to date')

@@ -13,7 +13,6 @@ const fallbacks = {
 export default params => {
     const {
         containerHome,
-        home,
         process,
         repo,
     } = params
@@ -23,7 +22,7 @@ export default params => {
     removeAndRecreateDir(fallbackPath)
 
     for (const [name, template] of Object.entries(fallbacks)) {
-        const source = `${home}/core/site/${template}`
+        const source = `${params.siteTemplatePath}/${template}`
         const target = `${fallbackPath}/${name}.jsx`
 
         writeFile(target, getContent(source))

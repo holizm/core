@@ -77,7 +77,12 @@ export default async params => {
             `
             await runOnTerminalAsync(command)
             command = `docker cp ${containerName}:${processPath}/package.json ${processBuildDir}/package.json`
-            runOnTerminal(command)
+            if (params.siteCore === 'newSite') {
+                await runOnTerminalAsync(command, { throwOnError: true })
+            }
+            else {
+                runOnTerminal(command)
+            }
         }
         else if (isApi) {
             await copyComposedCode(params)

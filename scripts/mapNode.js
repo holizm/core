@@ -20,7 +20,8 @@ export default params => {
         `${containerHome}/${repo}/${process}/node_modules`
     let installedNodeModulesSource
 
-    params.addVolume(`${home}/${processType}/package.json`, `${containerHome}/${repo}/${process}/corePackage.json`)
+    const coreRepository = processType === 'site' ? params.siteCore : processType
+    params.addVolume(`${home}/${coreRepository}/package.json`, `${containerHome}/${repo}/${process}/corePackage.json`)
     if (hasCustomPackages) {
         params.addVolume(`${packageJson}`, `${containerHome}/${repo}/${process}/${processType}.json`)
         installedNodeModulesSource = `/var/tmp/${repo}/${processType}/nodeModules`
@@ -29,8 +30,8 @@ export default params => {
         params.nodeModules = `${containerHome}/${repo}/${process}/node_modules`
     }
     else {
-        installedNodeModulesSource = `/var/tmp/${processType}/nodeModules`
-        params.addVolume(`${home}/${processType}/lock.json`, `${containerHome}/${repo}/${process}/package-lock.json`)
+        installedNodeModulesSource = `/var/tmp/${coreRepository}/nodeModules`
+        params.addVolume(`${home}/${coreRepository}/lock.json`, `${containerHome}/${repo}/${process}/package-lock.json`)
         params.nodeModules = `${containerHome}/${repo}/${process}/node_modules`
     }
     params.addVolume(installedNodeModulesSource, installedNodeModules)

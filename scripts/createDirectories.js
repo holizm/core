@@ -23,6 +23,7 @@ export default params => {
         'site',
     ].includes(processType)
     const processIsApi = processType === 'api'
+    const coreRepository = processType === 'site' ? params.siteCore : processType
     if (processIsApi) {
         removeAndRecreateDir(`/tmp/${repo}/${process}/node_modules`)
         if (getProcessRole(process, isControl) === 'admin') {
@@ -61,15 +62,15 @@ export default params => {
         `/var/tmp/${repo}`,
         `/var/tmp/${repo}/${processType}`,
         `/var/tmp/${repo}/${processType}/nodeModules`,
-        `/var/tmp/${processType}`,
-        `/var/tmp/${processType}/nodeModules`,
+        `/var/tmp/${coreRepository}`,
+        `/var/tmp/${coreRepository}/nodeModules`,
         [
             `${home}/packages`,
             `${containerHome}/packages`,
         ],
         [
-            `${home}/packages/${processType}`,
-            `${containerHome}/packages/${processType}`,
+            `${home}/packages/${coreRepository}`,
+            `${containerHome}/packages/${coreRepository}`,
         ],
     ]
     if (extraDirectories) {

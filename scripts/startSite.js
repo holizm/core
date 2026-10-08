@@ -5,6 +5,7 @@ import {
 } from 'node:path'
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
+import createNewSiteCompose from './createNewSiteCompose.js'
 import createSiteConfiguration from './createSiteConfiguration.js'
 import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
@@ -37,35 +38,31 @@ import { measure } from './timing.js'
 import { runOnTerminal } from './terminal.js'
 
 const createNonExistentFiles = params => {
-    const {
-        home,
-        multiThemed,
-    } = params
+    const { multiThemed } = params
     createDirIfNotExists('pages')
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
-    copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, 'pages/head.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/headTemplate.jsx`, 'pages/head.jsx')
     const layoutTemplate = multiThemed
         ?
         'multiThemedLayoutTemplate.jsx'
         :
         'layoutTemplate.jsx'
-    copyFileIfNotExists(`${home}/core/site/${layoutTemplate}`, 'pages/layout.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/${layoutTemplate}`, 'pages/layout.jsx')
     const indexTemplate = multiThemed
         ?
         'multiThemedIndexTemplate.jsx'
         :
         'indexTemplate.jsx'
-    copyFileIfNotExists(`${home}/core/site/${indexTemplate}`, 'pages/index.jsx')
-    copyFileIfNotExists(`${home}/core/site/footerTemplate.jsx`, 'parts/layout/footer.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/${indexTemplate}`, 'pages/index.jsx')
+    copyFileIfNotExists(`${params.siteTemplatePath}/footerTemplate.jsx`, 'parts/layout/footer.jsx')
     if (!multiThemed) {
-        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, 'style.css')
+        copyFileIfNotExists(`${params.siteTemplatePath}/styleTemplate.css`, 'style.css')
     }
 }
 
 const createNonExistentThemeFiles = params => {
     const {
-        home,
         multiThemed,
         processPath,
         themeDirectories,
@@ -76,7 +73,7 @@ const createNonExistentThemeFiles = params => {
         createDirIfNotExists(`${themePath}/pages`)
         createDirIfNotExists(`${themePath}/parts`)
         createDirIfNotExists(`${themePath}/styles`)
-        copyFileIfNotExists(`${home}/core/site/styleTemplate.css`, `${themePath}/style.css`)
+        copyFileIfNotExists(`${params.siteTemplatePath}/styleTemplate.css`, `${themePath}/style.css`)
     })
 }
 
@@ -345,6 +342,12 @@ export default params => {
     divide()
 
     params.processType = 'site'
+    params.siteCore = isFile(`${params.processPath}/new`) ? 'newSite' : 'site'
+    params.siteTemplatePath = params.siteCore === 'newSite'
+        ?
+        `${params.home}/newSite/templates`
+        :
+        `${params.home}/core/site`
     params.siteContentSource = getSiteContentSource(params)
     params.standaloneSite = isFile(`${params.processPath}/standalone`)
     params.siteContentEnvironment = params.siteContentSource
@@ -404,11 +407,11 @@ export default params => {
         tenantsPath,
     } = params
     if (!params.standaloneSite) {
-        params.addVolume(`${home}/site/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
-        params.addVolume(`${home}/site/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
-        params.addVolume(`${home}/site/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
-        params.addVolume(`${home}/site/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
-        params.addVolume(`${home}/site/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/cacheChildren`, `${containerHome}/${repo}/${process}/src/routes/cache-children`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/clearCache`, `${containerHome}/${repo}/${process}/src/routes/clear-cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/deleteCache`, `${containerHome}/${repo}/${process}/src/routes/delete-cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/cache`, `${containerHome}/${repo}/${process}/src/routes/cache`)
+        params.addVolume(`${home}/${params.siteCore}/src/routes/dashboard`, `${containerHome}/${repo}/${process}/src/routes/dashboard`)
     }
     if (isFile(`${processPath}/root.jsx`)) {
         params.addVolume(`${processPath}/root.jsx`, `${containerHome}/${repo}/${process}/src/root.tsx`)
@@ -437,5 +440,9 @@ export default params => {
     }
     measure('site: join volumes', () => params.joinVolumes())
     const composeTemplatePath = `${home}/core/container/composes/site`
-    measure('site: create Compose file', () => replaceVariables(composeTemplatePath, composeFile, params))
+    measure('site: create Compose file', () => params.siteCore === 'newSite'
+        ?
+        createNewSiteCompose(`${home}/core/container/composes/site`, composeFile, params)
+        :
+        replaceVariables(composeTemplatePath, composeFile, params))
 }
