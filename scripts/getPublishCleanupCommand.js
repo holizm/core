@@ -1,7 +1,8 @@
 const persistentItems = [
     '.env',
     'certificates',
-    'common.json',
+    'privateCommon.json',
+    'publicCommon.json',
     'compose.yaml',
     'connectionStrings.json',
     'instance.json',

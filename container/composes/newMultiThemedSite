@@ -73,7 +73,6 @@ services:
             - ${home}/newSite/multiThemedViteConfig.js:${containerHome}/${repo}/${process}/vite.config.js
             - ${home}/newSite/scripts/scroll.js:${containerHome}/${repo}/${process}/public/scripts/scroll.js
             ${mkcertVolume}
-            - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/uiParts.json:/tmp/${repo}/${process}/uiParts.json

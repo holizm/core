@@ -77,7 +77,6 @@ services:
             - ${home}/site/icons/markerIcon2x.png:${containerHome}/${repo}/${process}/public/icons/marker-icon-2x.png
             - ${home}/site/icons/markerShadow.png:${containerHome}/${repo}/${process}/public/icons/marker-shadow.png
             ${mkcertVolume}
-            - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/public/secrets.json
             - /tmp/${repo}/${process}/ast:/tmp/${repo}/${process}/ast
             - /tmp/${repo}/${process}/analysis:/tmp/${repo}/${process}/analysis
             - /tmp/${repo}/${process}/uiParts.json:/tmp/${repo}/${process}/uiParts.json

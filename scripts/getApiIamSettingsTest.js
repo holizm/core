@@ -19,7 +19,7 @@ test('Control APIs receive only admin IAM credentials, with explicit realm overr
         secret: 'targetCredential',
     }
     try {
-        fs.writeFileSync(path.join(secretsDirectory, 'common.json'), JSON.stringify({
+        fs.writeFileSync(path.join(secretsDirectory, 'privateCommon.json'), JSON.stringify({
             iam: { '192.0.2.1': 'automationCredential' },
             unrelatedCredential: 'excludedCredential',
         }))

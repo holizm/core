@@ -46,8 +46,6 @@ services:
             - ${home}/${repo}/common/initial.js:${containerHome}/${repo}/common/initial.js
             - ${home}/${repo}/common/dependencies:${containerHome}/${repo}/common/dependencies
 
-            - ${home}/secrets/common.json:${containerHome}/${repo}/${process}/common.json
-            - ${home}/secrets/${repo}.json:${containerHome}/${repo}/${process}/secrets.json
             ${volumes}
             - /tmp/${repo}/${process}/.vscode:${containerHome}/${repo}/${process}/.vscode
         command: |

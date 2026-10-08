@@ -16,8 +16,8 @@ export default ({
         }
     }
     const settings = {
-        iam: fs.existsSync(path.join(home, 'secrets', 'common.json'))
-            ? JSON.parse(fs.readFileSync(path.join(home, 'secrets', 'common.json'), 'utf8')).iam || {}
+        iam: fs.existsSync(path.join(home, 'secrets', 'privateCommon.json'))
+            ? JSON.parse(fs.readFileSync(path.join(home, 'secrets', 'privateCommon.json'), 'utf8')).iam || {}
             : {},
         production: {
             adminApi: { iamClientSecrets: [...credentials.values()] },

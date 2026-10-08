@@ -21,7 +21,7 @@ const getCacheSettings = ({
         JSON.parse(getContent(privateSettingsPath))
         :
         {}
-    const commonSettingsPath = `${home}/secrets/common.json`
+    const commonSettingsPath = `${home}/secrets/privateCommon.json`
     const commonSettings = isFile(commonSettingsPath)
         ?
         JSON.parse(getContent(commonSettingsPath))

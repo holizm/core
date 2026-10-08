@@ -22,7 +22,8 @@ for sourcePath in $home/$apiRepo/$apiProcess/node_modules/*; do
 done
 
 files=(
-    "common.json"
+    "privateCommon.json"
+    "publicCommon.json"
     "connectionStrings.json"
     "instance.json"
     "privateSettings.json"

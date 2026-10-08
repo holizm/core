@@ -14,7 +14,7 @@ if (!domain || !/^[a-z0-9.-]+$/.test(domain)) {
 }
 const configuration = getRealmConfiguration(domain)
 const origin = process.env.keycloakOrigin || `https://accounts.${domain}`
-const common = JSON.parse(fs.readFileSync(path.join(process.env.HOME, 'secrets', 'common.json'), 'utf8'))
+const common = JSON.parse(fs.readFileSync(path.join(process.env.HOME, 'secrets', 'privateCommon.json'), 'utf8'))
 const addresses = await lookup(new URL(origin).hostname, { all: true })
 const clientSecret = addresses.map(address => common.iam?.[address.address]).find(Boolean)
 if (!clientSecret) throw new Error('Automation credential for the accounts server is missing')

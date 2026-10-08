@@ -21,12 +21,17 @@ export default params => {
     } = params
     const hasPublicSide = ['panel', 'site'].includes(processType)
     const isControl = isControlRunnable(params)
-    const items = [
-        [connectionStringsPath, 'connectionStrings.json'],
-        [privateSettingsPath, 'privateSettings.json'],
-        [publicSettingsPath, 'publicSettings.json'],
-        [settingsOverridePath, 'settingsOverride.json'],
-    ]
+    const items = processType === 'panel'
+        ? [
+            [publicSettingsPath, 'publicSettings.json'],
+            [settingsOverridePath, 'settingsOverride.json'],
+        ]
+        : [
+            [connectionStringsPath, 'connectionStrings.json'],
+            [privateSettingsPath, 'privateSettings.json'],
+            [publicSettingsPath, 'publicSettings.json'],
+            [settingsOverridePath, 'settingsOverride.json'],
+        ]
     for (const [sourcePath, filename] of items) {
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
         const resolvedPath = isFile(sourcePath)
@@ -49,12 +54,20 @@ export default params => {
             params.addVolume(resolvedPath, `${containerHome}/${repo}/${process}/${targetDirectory}${filename}`)
         }
     }
-    const commonFile = `${home}/secrets/common.json`
-    const repoFile = `${home}/secrets/${repo}.json`
-    writeFileIfNotExists(commonFile, '{}')
-    writeFileIfNotExists(repoFile, '{}')
-    params.addVolume(commonFile, `${containerHome}/${repo}/${process}/common.json`)
-    params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json`)
+    if (processType !== 'panel') {
+        const privateCommonFile = `${home}/secrets/privateCommon.json`
+        const publicCommonFile = `${home}/secrets/publicCommon.json`
+        const repoFile = `${home}/secrets/${repo}.json`
+        writeFileIfNotExists(privateCommonFile, '{}')
+        writeFileIfNotExists(publicCommonFile, '{}')
+        writeFileIfNotExists(repoFile, '{}')
+        chmodSync(privateCommonFile, 0o600)
+        chmodSync(publicCommonFile, 0o600)
+        chmodSync(repoFile, 0o600)
+        params.addVolume(privateCommonFile, `${containerHome}/${repo}/${process}/privateCommon.json:ro`)
+        params.addVolume(publicCommonFile, `${containerHome}/${repo}/${process}/publicCommon.json:ro`)
+        params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json:ro`)
+    }
     if (processType === 'api') {
         const iamSettingsPath = `/tmp/${repo}/${process}/settings/iamSettings.json`
         writeFile(iamSettingsPath, `${JSON.stringify(getApiIamSettings(params), null, 4)}\n`)

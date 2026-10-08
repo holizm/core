@@ -157,20 +157,12 @@ export const mapSecrets = params => {
         process,
         repo,
     } = params
-    if (!isDir(`${home}/secrets`)) {
-        fs.mkdirSync(`${home}/secrets`)
-    }
-    const commonFile = `${home}/secrets/common.json`
-    const secretFile = `${home}/secrets/${repo}.json`
-    if (!isFile(commonFile)) {
-        fs.writeFileSync(commonFile, '{}')
-    }
-    if (!isFile(secretFile)) {
-        fs.writeFileSync(secretFile, '{}')
-    }
-
-    params.addVolume(`${commonFile}`, `${containerHome}/${repo}/${process}/public/common.json`)
-    params.addVolume(`${secretFile}`, `${containerHome}/${repo}/${process}/public/repo.json`)
+    const publicCommonFile = `${home}/secrets/publicCommon.json`
+    fs.mkdirSync(`${home}/secrets`, { recursive: true, mode: 0o700 })
+    fs.chmodSync(`${home}/secrets`, 0o700)
+    if (!isFile(publicCommonFile)) fs.writeFileSync(publicCommonFile, '{}', { mode: 0o600 })
+    fs.chmodSync(publicCommonFile, 0o600)
+    params.addVolume(publicCommonFile, `${containerHome}/${repo}/${process}/public/publicCommon.json:ro`)
 }
 
 const mapPanelUi = params => {
