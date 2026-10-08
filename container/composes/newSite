@@ -43,7 +43,6 @@ services:
             - ${home}/newSite/hooks:${containerHome}/${repo}/${process}/src/coreHooks
             - ${home}/newSite/contexts:${containerHome}/${repo}/${process}/src/coreContexts
             - ${home}/newSite/postcssConfig.js:${containerHome}/${repo}/${process}/postcss.config.js
-            - ${home}/newSite/src/entryDev.tsx:${containerHome}/${repo}/${process}/src/entry.dev.tsx
             - ${home}/newSite/src/entryExpress.tsx:${containerHome}/${repo}/${process}/src/entry.express.tsx
             - ${home}/newSite/src/entryPreview.tsx:${containerHome}/${repo}/${process}/src/entry.preview.tsx
             - ${home}/newSite/src/entrySsr.tsx:${containerHome}/${repo}/${process}/src/entry.ssr.tsx
