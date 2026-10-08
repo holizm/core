@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
-if [[ ! -d $home/$repo/$process/node_modules ]] || [[ ! -f $home/$repo/$process/package-lock.json ]]; then
-    cd $home/$repo/$process
-    installPackages
+processPath="$home/$repo/$process"
+lockPath="$processPath/package-lock.json"
+installedLockHashPath="$processPath/node_modules/.installedLockHash"
+
+if [[ ! -d "$processPath/node_modules" ]] || [[ ! -f "$lockPath" ]] || [[ "$(sha256sum "$lockPath" | cut -d' ' -f1)" != "$(cat "$installedLockHashPath" 2>/dev/null)" ]]; then
+    cd "$processPath" || exit 1
+    if [[ -f "$lockPath" ]]; then
+        npm ci --legacy-peer-deps --no-audit --no-fund || exit 1
+    else
+        installPackages || exit 1
+    fi
+    sha256sum "$lockPath" | cut -d' ' -f1 > "$installedLockHashPath"
 fi

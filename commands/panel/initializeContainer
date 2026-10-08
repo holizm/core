@@ -29,10 +29,13 @@ const main = () => {
         show: true,
         throwOnError: true,
     })
-    if (isCiCd === 'true') {
-        return
+    if (isCiCd !== 'true') {
+        runOnTerminal('install', {
+            show: true,
+            throwOnError: true,
+        })
     }
-    runOnTerminal('install', {
+    runOnTerminal('touch /tmp/panelReady', {
         show: true,
         throwOnError: true,
     })

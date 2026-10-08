@@ -1,5 +1,6 @@
 import buildExclusions from './buildExclusions.js'
 import buildImage from './buildImage.js'
+import { buildPanel } from './buildPanel.js'
 import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
 import start from './start.js'
@@ -49,15 +50,7 @@ export default async params => {
         divide()
 
         if (isPanel) {
-            await runStreaming(`docker exec ${containerName} bash -c 'node ./validatePanelUi.js && npm run build'`)
-
-            const command = `
-                docker exec ${containerName} bash -c '
-                    cd '${processPath}/dist' &&
-                    tar -cf - .
-                ' | tar -xf - -C ${processBuildDir}
-            `
-            await runOnTerminalAsync(command)
+            await buildPanel(params)
         }
         else if (isSite) {
             removeAndRecreateDir(`${processBuildDir}/dist`)
