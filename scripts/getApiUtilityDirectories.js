@@ -4,15 +4,17 @@ export default ({
     containerHome,
     isControl,
     process,
+    repo,
 }) => {
     if (getProcessRole(process, isControl) !== 'admin') {
         return []
     }
+    const utilityRoot = `/tmp/${repo}/${process}Utilities`
     const directories = [
-        ['/tmp/generation', `${containerHome}/generation`],
-        ['/tmp/migration', `${containerHome}/migration`],
-        ['/tmp/query', `${containerHome}/query`],
-        ['/tmp/toMongo', `${containerHome}/toMongo`],
+        [`${utilityRoot}/generation`, `${containerHome}/generation`],
+        [`${utilityRoot}/migration`, `${containerHome}/migration`],
+        [`${utilityRoot}/query`, `${containerHome}/query`],
+        [`${utilityRoot}/toMongo`, `${containerHome}/toMongo`],
     ]
     return directories
 }
