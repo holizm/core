@@ -56,7 +56,13 @@ test('API and site receive common settings outside public', () => {
             const names = volumes.map(volume => volume.right)
             assert.ok(names.includes(`/container/example/${processType}/privateCommon.json:ro`))
             assert.ok(names.includes(`/container/example/${processType}/publicCommon.json:ro`))
-            assert.ok(names.includes(`/container/example/${processType}/repo.json:ro`))
+            if (processType === 'api') {
+                assert.ok(names.includes('/container/example/api/repo.json:ro'))
+            }
+            else {
+                assert.ok(names.includes('/container/example/site/siteIamSettings.json:ro'))
+                assert.ok(names.every(name => !name.includes('/repo.json')))
+            }
             assert.ok(names.every(name => !name.includes('/public/privateCommon.json')))
             assert.ok(names.every(name => !name.includes('/public/repo.json')))
         }

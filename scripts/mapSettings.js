@@ -1,5 +1,6 @@
 import { chmodSync } from 'fs'
 import getApiIamSettings from './getApiIamSettings.js'
+import getSiteIamSettings from './getSiteIamSettings.js'
 import isControlRunnable from './isControlRunnable.js'
 import isFile from './isFile.js'
 import {
@@ -66,12 +67,20 @@ export default params => {
         chmodSync(repoFile, 0o600)
         params.addVolume(privateCommonFile, `${containerHome}/${repo}/${process}/privateCommon.json:ro`)
         params.addVolume(publicCommonFile, `${containerHome}/${repo}/${process}/publicCommon.json:ro`)
-        params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json:ro`)
+        if (processType === 'api') {
+            params.addVolume(repoFile, `${containerHome}/${repo}/${process}/repo.json:ro`)
+        }
     }
     if (processType === 'api') {
         const iamSettingsPath = `/tmp/${repo}/${process}/settings/iamSettings.json`
         writeFile(iamSettingsPath, `${JSON.stringify(getApiIamSettings(params), null, 4)}\n`)
         chmodSync(iamSettingsPath, 0o600)
         params.addVolume(iamSettingsPath, `${containerHome}/${repo}/${process}/iamSettings.json`)
+    }
+    if (processType === 'site') {
+        const iamSettingsPath = `/tmp/${repo}/${process}/settings/siteIamSettings.json`
+        writeFile(iamSettingsPath, `${JSON.stringify(getSiteIamSettings(params), null, 4)}\n`)
+        chmodSync(iamSettingsPath, 0o600)
+        params.addVolume(iamSettingsPath, `${containerHome}/${repo}/${process}/siteIamSettings.json:ro`)
     }
 }
