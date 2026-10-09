@@ -507,6 +507,7 @@
     "serialNumber": "หมายเลขประจำเครื่อง",
     "setNewValue": "ตั้งค่าใหม่",
     "setViewStyleToCards": "มุมมองการ์ด",
+    "setViewStyleToKanban": "Kanban",
     "setViewStyleToTabular": "มุมมองตาราง",
     "setting": "การตั้งค่า",
     "settingAsTheDefault": "กำลังตั้งเป็นค่าเริ่มต้น",

@@ -507,6 +507,7 @@
     "serialNumber": "シリアル番号",
     "setNewValue": "新しい値を設定する",
     "setViewStyleToCards": "カードビュー",
+    "setViewStyleToKanban": "カンバン",
     "setViewStyleToTabular": "表形式のビュー",
     "setting": "設定",
     "settingAsTheDefault": "デフォルトとして設定する",

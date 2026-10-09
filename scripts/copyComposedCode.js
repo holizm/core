@@ -33,7 +33,7 @@ const copyTopLevelDirs = async params => {
         await runOnTerminalAsync(`
             docker exec ${containerName} bash -c '
                 cd "${containerHome}" &&
-                tar --exclude="node_modules" -cf - "${name}"
+                tar --dereference --exclude="node_modules" -cf - "${name}"
             ' | tar -xf - -C ${buildDir}
         `)
     }))

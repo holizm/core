@@ -507,6 +507,7 @@
     "serialNumber": "일련번호",
     "setNewValue": "새 값 설정",
     "setViewStyleToCards": "카드 보기",
+    "setViewStyleToKanban": "칸반",
     "setViewStyleToTabular": "\"표 형식 보기\"",
     "setting": "환경",
     "settingAsTheDefault": "기본값으로 설정",
