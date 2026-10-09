@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'fs'
+import getSiteComponentAliases from './getSiteComponentAliases.js'
 
 const home = process.env.home
 const repo = process.env.repo
@@ -23,6 +24,8 @@ const aliases = {
     loaders: './src/loaders',
     paginationBehaviors: './src/paginationBehaviors',
 }
+
+Object.assign(aliases, getSiteComponentAliases(srcBase))
 
 const srcDirectories = getDirs(srcBase)
 
