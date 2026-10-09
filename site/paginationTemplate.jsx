@@ -1,3 +1,3 @@
-import { Pagination as BasePagination } from 'core'
+import BasePagination from 'pagination'
 
 export default props => <BasePagination {...props} />

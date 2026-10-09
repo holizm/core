@@ -18,7 +18,6 @@ const getDirs = base => fs.readdirSync(base, {
 ).map(entry => entry.name)
 
 const aliases = {
-    core: './src/core/exports',
     richTextComponents: './src/richTextComponents',
     itemRendererComponents: './src/itemRendererComponents',
     loaders: './src/loaders',

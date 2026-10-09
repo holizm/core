@@ -1,64 +1,70 @@
 import fs from 'fs'
 import path from 'path'
+import fg from 'fast-glob'
 
 const getSiteComponentAliases = (srcBase, absolute = false) => {
-    const source = fs.readFileSync(path.join(srcBase, 'core', 'exports.jsx'), 'utf8')
+    const directories = [
+        'core',
+        'coreContexts',
+        'coreFunctions',
+        'coreGetters',
+        'coreHooks',
+        'coreLoaders',
+        'coreParts',
+    ]
+    const files = fg.sync(directories.map(directory => `${directory}/**/*.{js,jsx,ts,tsx}`), {
+        cwd: srcBase,
+        dot: false,
+        onlyFiles: true,
+    }).sort()
     const aliases = {}
-    const modules = new Map()
-    const imports = source.matchAll(/import\s+(\w+|\{[^}]+\})\s+from\s+'([^']+)'/g)
-    const exports = source.matchAll(/export\s+\{([^}]+)\}\s+from\s+'([^']+)'/g)
+    const namedAliases = []
 
-    for (const match of [...imports, ...exports]) {
-        if (!match[2].startsWith('.')) continue
-        const modulePath = path.normalize(path.join('core', match[2])).replace(/\.(jsx|js)$/, '')
-        const extension = ['.jsx', '.js', '.tsx', '.ts'].find(value =>
-            fs.existsSync(path.join(srcBase, `${modulePath}${value}`))
-        )
-        if (!extension) continue
-        const barrelPath = path.join('coreBarrels', `${modulePath}${extension}`)
-        const module = modules.get(modulePath) || {
-            extension,
-            hasDefault: false,
-            names: new Set(),
+    for (const file of files) {
+        const extension = path.extname(file)
+        const modulePath = file.slice(0, -extension.length)
+        const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
+        const hasDefault = /\bexport\s+default\b/.test(source)
+        const names = new Set([path.basename(modulePath)])
+        for (const match of source.matchAll(/\bexport\s+(?:const|let|var|class|(?:async\s+)?function)\s+([\w$]+)/g)) {
+            namedAliases.push([match[1], modulePath])
         }
-        module.hasDefault ||= (match[0].startsWith('import') && !match[1].startsWith('{'))
-            || /\bdefault\s+as\s+/.test(match[1])
-        if (match[1].startsWith('{') || match[0].startsWith('export')) {
-            for (const name of match[1].replace(/[{}]/g, '').split(',')) {
-                if (name.trim()) module.names.add(name.trim())
+        for (const match of source.matchAll(/\bexport\s*\{([^}]+)\}/g)) {
+            for (const specifier of match[1].split(',')) {
+                const name = specifier.trim().split(/\s+as\s+/).pop()
+                if (name) namedAliases.push([name, modulePath])
             }
         }
-        modules.set(modulePath, module)
-        const names = match[1].startsWith('{') || match[0].startsWith('export')
-            ?
-            match[1].replace(/[{}]/g, '').split(',').map(name => name.trim().split(/\s+as\s+/).pop())
-            :
-            [match[1]]
+        const defaultName = source.match(/\bexport\s+default\s+([\w$]+)\b/)?.[1]
+        if (defaultName && source.includes(`const ${defaultName}`)) names.add(defaultName)
 
-        for (const name of names.filter(Boolean)) {
+        const barrelFile = path.join(srcBase, 'coreBarrels', file)
+        const relativeSource = path.relative(path.dirname(barrelFile), path.join(srcBase, file)).replaceAll(path.sep, '/')
+        const specifier = relativeSource.startsWith('.') ? relativeSource : `./${relativeSource}`
+        const content = `${hasDefault ? `export { default } from '${specifier}'\n` : ''}export * from '${specifier}'\n`
+        fs.mkdirSync(path.dirname(barrelFile), { recursive: true })
+        fs.writeFileSync(barrelFile, content)
+
+        const aliasPath = path.join('coreBarrels', modulePath)
+        const target = absolute ? path.join(srcBase, aliasPath) : `./src/${aliasPath}`
+        for (const name of names) {
             const alias = name[0].toLowerCase() + name.slice(1)
-            const sourcePath = absolute ? path.join(srcBase, barrelPath).replace(/\.[^.]+$/, '') : `./src/${barrelPath.replace(/\.[^.]+$/, '')}`
-            aliases[`core${name[0].toUpperCase()}${name.slice(1)}`] = sourcePath
+            const prefixed = `core${name[0].toUpperCase()}${name.slice(1)}`
+            aliases[prefixed] ||= target
             if (fs.existsSync(path.join(srcBase, 'parts', alias))) continue
             if (fs.existsSync(path.join(srcBase, 'pageParts', `${alias}Exports.jsx`))) continue
-            aliases[alias] = sourcePath
+            aliases[alias] ||= target
         }
     }
 
-    for (const [modulePath, module] of modules) {
-        const { extension } = module
-        const barrelFile = path.join(srcBase, 'coreBarrels', `${modulePath}${extension}`)
-        const relativeSource = path.relative(path.dirname(barrelFile), path.join(srcBase, `${modulePath}${extension}`)).replaceAll(path.sep, '/')
-        const sourceSpecifier = relativeSource.startsWith('.') ? relativeSource : `./${relativeSource}`
-        const names = [...module.names]
-        const namedExports = names.length === 1
-            ? `export { ${names[0]} } from '${sourceSpecifier}'\n`
-            : names.length > 1
-                ? `export {\n    ${names.join(',\n    ')},\n} from '${sourceSpecifier}'\n`
-                : ''
-        const content = `${module.hasDefault ? `export { default } from '${sourceSpecifier}'\n` : ''}${namedExports}`
-        fs.mkdirSync(path.dirname(barrelFile), { recursive: true })
-        fs.writeFileSync(barrelFile, content)
+    for (const [name, modulePath] of namedAliases) {
+        const alias = name[0].toLowerCase() + name.slice(1)
+        const targetPath = path.join('coreBarrels', modulePath)
+        const target = absolute ? path.join(srcBase, targetPath) : `./src/${targetPath}`
+        aliases[`core${name[0].toUpperCase()}${name.slice(1)}`] = target
+        if (fs.existsSync(path.join(srcBase, 'parts', alias))) continue
+        if (fs.existsSync(path.join(srcBase, 'pageParts', `${alias}Exports.jsx`))) continue
+        aliases[alias] = target
     }
 
     return aliases

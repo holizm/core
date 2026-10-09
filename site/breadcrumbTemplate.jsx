@@ -1,3 +1,3 @@
-import { DefaultBreadcrumb } from 'core'
+import DefaultBreadcrumb from 'breadcrumb'
 
 export default props => <DefaultBreadcrumb {...props} />

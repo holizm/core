@@ -1,3 +1,3 @@
-import { RichText as BaseRichText } from 'core'
+import BaseRichText from 'richText'
 
 export default props => <BaseRichText {...props} />
