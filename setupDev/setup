@@ -34,7 +34,9 @@ $setupDev/speedTest
 # $setupDev/remoteContainers
 
 $setupDev/docker
-$setupDev/node
+if ! "$setupDev/node"; then
+    warning 'Node.js or npm installation failed; continuing setup.'
+fi
 $setupDev/coreDependencies
 $setupDev/mongodbMemoryServer
 sudo homeDir="$homeDir" node "$setupDev/nginx"
