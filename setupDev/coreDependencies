@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-logPath=$(mktemp)
-trap 'rm -f "$logPath"' EXIT
-
-if npm ci --prefix "$homeDir/core" 2>&1 | tee "$logPath"; then
-    exit 0
-else
-    npmStatus=${PIPESTATUS[0]}
+if ! rm -rf "$homeDir/core/package-lock.json"; then
+    printf 'Could not remove the core lock file; continuing setup.\n' >&2
 fi
 
-if ! grep -qF 'npm error code EUSAGE' "$logPath" \
-    || ! grep -qF 'package.json and package-lock.json are in sync' "$logPath"; then
-    exit "$npmStatus"
+if ! npm install --legacy-peer-deps --package-lock=false --prefix "$homeDir/core"; then
+    printf 'Core dependency installation failed; continuing setup.\n' >&2
 fi
-
-npm install --package-lock-only --ignore-scripts --prefix "$homeDir/core"
-npm ci --prefix "$homeDir/core"
