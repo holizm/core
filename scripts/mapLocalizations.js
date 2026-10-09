@@ -70,6 +70,7 @@ export default params => {
         `${home}/app/localization`,
         `${home}/api/localization`,
         `${home}/core/localization`,
+        `${home}/${repo}/common/localization`,
         `${home}/site/localization`,
     ].filter(isDir))
     params.addVolume(panelLocalizationPath, `${containerHome}/panel/localization`)
