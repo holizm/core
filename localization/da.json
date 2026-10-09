@@ -472,6 +472,7 @@
     "removingState": "Fjerner tilstand",
     "repeatable": "Kan gentages",
     "request": "Anmodning",
+    "requestFailed": "Forespørgsel mislykkedes.",
     "required": "Påkrævet",
     "requiredErrorMessage": "Fejlmeddelelse for obligatorisk felt",
     "requiredSlug": "Slug er ikke angivet",

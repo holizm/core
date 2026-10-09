@@ -472,6 +472,7 @@
     "removingState": "स्थिती काढत आहे",
     "repeatable": "पुनरावृत्ती करण्यायोग्य",
     "request": "विनंती",
+    "requestFailed": "<ph dataRef=\"source4\" id=\"source4\"/>“विनंती अयशस्वी:",
     "required": "आवश्यक",
     "requiredErrorMessage": "आवश्यक फील्डचा त्रुटी संदेश",
     "requiredSlug": "स्लग दिलेला नाही",

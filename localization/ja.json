@@ -472,6 +472,7 @@
     "removingState": "状態を削除しています",
     "repeatable": "繰り返し可能",
     "request": "リクエスト",
+    "requestFailed": "リクエスト失敗",
     "required": "必須",
     "requiredErrorMessage": "必要なエラーメッセージ",
     "requiredSlug": "スラッグが指定されていません",

@@ -472,6 +472,7 @@
     "removingState": "స్థితిని తొలగిస్తోంది",
     "repeatable": "పునరావృతం చేయదగినది",
     "request": "అభ్యర్థన",
+    "requestFailed": "<ph dataRef=\"source4\" id=\"source4\"/>\"అభ్యర్ధన విఫలమైనది:",
     "required": "తప్పనిసరి",
     "requiredErrorMessage": "తప్పనిసరి ఫీల్డ్ లోప సందేశం",
     "requiredSlug": "స్లగ్ అందించబడలేదు",

@@ -472,6 +472,7 @@
     "removingState": "Удаление состояния",
     "repeatable": "Повторяемый",
     "request": "Запрос",
+    "requestFailed": "Не удалось выполнить запрос",
     "required": "Необходимый",
     "requiredErrorMessage": "Требуемое сообщение об ошибке",
     "requiredSlug": "Слаг не указан",

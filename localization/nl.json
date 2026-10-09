@@ -472,6 +472,7 @@
     "removingState": "Status wordt verwijderd",
     "repeatable": "Herhaalbaar",
     "request": "Verzoek",
+    "requestFailed": "Het verzoek is mislukt",
     "required": "Verplicht",
     "requiredErrorMessage": "Foutmelding voor verplicht veld",
     "requiredSlug": "Slug is niet opgegeven",

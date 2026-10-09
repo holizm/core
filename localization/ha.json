@@ -472,6 +472,7 @@
     "removingState": "Ana cire hali",
     "repeatable": "Mai maimaituwa",
     "request": "Buƙata",
+    "requestFailed": "An kasa nema.",
     "required": "Ana buƙata",
     "requiredErrorMessage": "Saƙon kuskuren filin dole",
     "requiredSlug": "Ba a bayar da slug ba",

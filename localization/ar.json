@@ -472,6 +472,7 @@
     "removingState": "إزالة الدولة",
     "repeatable": "قابل للتكرار",
     "request": "طلب",
+    "requestFailed": "فشل الطلب",
     "required": "مطلوب",
     "requiredErrorMessage": "رسالة خطأ مطلوبة",
     "requiredSlug": "لم يتم توفير المعرّف النصي",

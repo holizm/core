@@ -472,6 +472,7 @@
     "removingState": "রাষ্ট্র অপসারণ",
     "repeatable": "পুনরাবৃত্তিযোগ্য",
     "request": "অনুরোধ",
+    "requestFailed": "অনুরোধ ব্যর্থ",
     "required": "প্রয়োজনীয়",
     "requiredErrorMessage": "প্রয়োজনীয় ত্রুটি বার্তা",
     "requiredSlug": "স্লাগ প্রদান করা হয় না",

@@ -472,6 +472,7 @@
     "removingState": "Κατάργηση κατάστασης",
     "repeatable": "Επαναλαμβανόμενο",
     "request": "Αίτημα",
+    "requestFailed": "Η αίτηση απέτυχε",
     "required": "Υποχρεωτικό",
     "requiredErrorMessage": "Μήνυμα σφάλματος υποχρεωτικού πεδίου",
     "requiredSlug": "Δεν παρέχεται slug",

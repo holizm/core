@@ -472,6 +472,7 @@
     "removingState": "Видалення стану",
     "repeatable": "Повторюваний",
     "request": "Запит",
+    "requestFailed": "Запит не виконано",
     "required": "Обов’язковий",
     "requiredErrorMessage": "Повідомлення про помилку обов'язкового поля",
     "requiredSlug": "Slug не вказано",

@@ -472,6 +472,7 @@
     "removingState": "Toestand word verwyder",
     "repeatable": "Herhaalbaar",
     "request": "Versoek",
+    "requestFailed": "Gids soeklys",
     "required": "Vereis",
     "requiredErrorMessage": "Vereisteveld-foutboodskap",
     "requiredSlug": "Kortnaam is nie verskaf nie",

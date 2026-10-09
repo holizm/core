@@ -472,6 +472,7 @@
     "removingState": "Zustand wird entfernt",
     "repeatable": "Wiederholbar",
     "request": "Anfrage",
+    "requestFailed": "Anfrage fehlgeschlagen",
     "required": "Erforderlich",
     "requiredErrorMessage": "Erforderliche Fehlermeldung",
     "requiredSlug": "Slug wurde nicht angegeben",

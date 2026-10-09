@@ -472,6 +472,7 @@
     "removingState": "מסיר מצב",
     "repeatable": "ניתן לחזרה",
     "request": "בקשה",
+    "requestFailed": "הבקשה נכשלה!",
     "required": "נדרש",
     "requiredErrorMessage": "הודעת שגיאה לשדה חובה",
     "requiredSlug": "לא סופק slug",

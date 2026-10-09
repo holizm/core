@@ -472,6 +472,7 @@
     "removingState": "正在移除狀態",
     "repeatable": "可重複",
     "request": "要求",
+    "requestFailed": "失敗",
     "required": "必填",
     "requiredErrorMessage": "必填錯誤訊息",
     "requiredSlug": "未提供 Slug",

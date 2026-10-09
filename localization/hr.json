@@ -472,6 +472,7 @@
     "removingState": "Uklanjanje stanja",
     "repeatable": "Ponovljivo",
     "request": "Zahtjev",
+    "requestFailed": "Otvori datoteku",
     "required": "Obavezno",
     "requiredErrorMessage": "Poruka pogreške za obavezno polje",
     "requiredSlug": "Slug nije naveden",

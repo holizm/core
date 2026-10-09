@@ -472,6 +472,7 @@
     "removingState": "Xóa trạng thái",
     "repeatable": "Có thể lặp lại",
     "request": "Lời yêu cầu",
+    "requestFailed": "Yêu cầu không thành công",
     "required": "Yêu cầu",
     "requiredErrorMessage": "Thông báo lỗi bắt buộc",
     "requiredSlug": "Slug không được cung cấp",

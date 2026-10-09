@@ -472,6 +472,7 @@
     "removingState": "સ્થિતિ દૂર થઈ રહી છે",
     "repeatable": "પુનરાવર્તિત",
     "request": "વિનંતી",
+    "requestFailed": "માંગણી નિષ્ફળ",
     "required": "આવશ્યક",
     "requiredErrorMessage": "ફરજિયાત ફીલ્ડનો ભૂલ સંદેશ",
     "requiredSlug": "સ્લગ આપેલ નથી",

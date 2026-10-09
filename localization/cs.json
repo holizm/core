@@ -472,6 +472,7 @@
     "removingState": "Odebírání stavu",
     "repeatable": "Opakovatelný",
     "request": "Požadavek",
+    "requestFailed": "Požadavek se nezdařil.",
     "required": "Povinné",
     "requiredErrorMessage": "Chybová zpráva povinného pole",
     "requiredSlug": "Slug nebyl zadán",

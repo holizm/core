@@ -472,6 +472,7 @@
     "removingState": "Állapot eltávolítása",
     "repeatable": "Ismételhető",
     "request": "Kérés",
+    "requestFailed": "Kérés sikertelen",
     "required": "Kötelező",
     "requiredErrorMessage": "Kötelező mező hibaüzenete",
     "requiredSlug": "Nincs megadva slug",

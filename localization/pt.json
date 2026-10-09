@@ -472,6 +472,7 @@
     "removingState": "Removendo estado",
     "repeatable": "Repetível",
     "request": "Solicitar",
+    "requestFailed": "Falha no Pedido",
     "required": "Obrigatório",
     "requiredErrorMessage": "Mensagem de erro necessária",
     "requiredSlug": "Slug não é fornecido",

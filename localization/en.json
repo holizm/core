@@ -472,6 +472,7 @@
     "removingState": "Removing state",
     "repeatable": "Repeatable",
     "request": "Request",
+    "requestFailed": "Request failed",
     "required": "Required",
     "requiredErrorMessage": "Required error message",
     "requiredSlug": "Slug is not provided",

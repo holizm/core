@@ -472,6 +472,7 @@
     "removingState": "Hali inaondolewa",
     "repeatable": "Inaweza kurudiwa",
     "request": "Ombi",
+    "requestFailed": "Ombi halijafaulu",
     "required": "Inahitajika",
     "requiredErrorMessage": "Ujumbe wa hitilafu ya sehemu inayohitajika",
     "requiredSlug": "Slug haijatolewa",

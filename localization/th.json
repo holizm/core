@@ -472,6 +472,7 @@
     "removingState": "กำลังลบสถานะ",
     "repeatable": "ทำซ้ำได้",
     "request": "คำขอ",
+    "requestFailed": "คำขอล้มเหลว.",
     "required": "จำเป็น",
     "requiredErrorMessage": "ข้อความข้อผิดพลาดสำหรับช่องที่จำเป็น",
     "requiredSlug": "ไม่ได้ระบุ Slug",

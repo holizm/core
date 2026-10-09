@@ -472,6 +472,7 @@
     "removingState": "Durum kaldırılıyor",
     "repeatable": "Tekrarlanabilir",
     "request": "Rica etmek",
+    "requestFailed": "İstek yerine getirilemedi",
     "required": "Gerekli",
     "requiredErrorMessage": "Gerekli hata mesajı",
     "requiredSlug": "Slug belirtilmedi",

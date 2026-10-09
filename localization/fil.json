@@ -472,6 +472,7 @@
     "removingState": "Inaalis ang state",
     "repeatable": "Nauulit",
     "request": "Request",
+    "requestFailed": "Nabigo ang kahilingan",
     "required": "Kinakailangan",
     "requiredErrorMessage": "Mensahe ng error para sa kinakailangang field",
     "requiredSlug": "Hindi ibinigay ang slug",

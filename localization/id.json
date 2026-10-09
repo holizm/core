@@ -472,6 +472,7 @@
     "removingState": "Menghapus status",
     "repeatable": "Dapat diulang",
     "request": "Permintaan",
+    "requestFailed": "Permintaan Anda gagal.",
     "required": "Wajib",
     "requiredErrorMessage": "Pesan kesalahan wajib diisi",
     "requiredSlug": "Slug tidak diberikan",

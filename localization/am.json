@@ -472,6 +472,7 @@
     "removingState": "ሁኔታን በማስወገድ ላይ",
     "repeatable": "ሊደገም የሚችል",
     "request": "ጥያቄ",
+    "requestFailed": "ጥያቄ አልተሳካም",
     "required": "አስፈላጊ",
     "requiredErrorMessage": "የግዴታ መስክ ስህተት መልዕክት",
     "requiredSlug": "አጭር ስም አልተሰጠም",

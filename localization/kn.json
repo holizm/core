@@ -472,6 +472,7 @@
     "removingState": "ಸ್ಥಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತಿದೆ",
     "repeatable": "ಪುನರಾವರ್ತಿಸಬಹುದಾದ",
     "request": "ವಿನಂತಿ",
+    "requestFailed": "<ph dataRef=\"source4\" id=\"source4\"/>\"ವಿನಂತಿ ವಿಫಲವಾಗಿದೆ:",
     "required": "ಅಗತ್ಯ",
     "requiredErrorMessage": "ಕಡ್ಡಾಯ ಕ್ಷೇತ್ರದ ದೋಷ ಸಂದೇಶ",
     "requiredSlug": "ಸ್ಲಗ್ ಒದಗಿಸಲಾಗಿಲ್ಲ",

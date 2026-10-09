@@ -472,6 +472,7 @@
     "removingState": "Usuwanie stanu",
     "repeatable": "Powtarzalny",
     "request": "Żądanie",
+    "requestFailed": "Żądanie nie powiodło się",
     "required": "Wymagane",
     "requiredErrorMessage": "Komunikat błędu wymaganego pola",
     "requiredSlug": "Nie podano slugu",

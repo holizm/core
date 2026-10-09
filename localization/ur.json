@@ -472,6 +472,7 @@
     "removingState": "حالت کو ہٹانا",
     "repeatable": "قابل تکرار",
     "request": "درخواست",
+    "requestFailed": "<ph dataRef=\"source4\" id=\"source4\"/>\"درخواست ناکام ہوگئی:",
     "required": "ضروری ہے",
     "requiredErrorMessage": "مطلوبہ غلطی کا پیغام",
     "requiredSlug": "سلگ فراہم نہیں کیا جاتا ہے۔",

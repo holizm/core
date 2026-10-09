@@ -472,6 +472,7 @@
     "removingState": "Rimozione dello stato",
     "repeatable": "Ripetibile",
     "request": "Richiesta",
+    "requestFailed": "Richiesta fallita",
     "required": "Necessario",
     "requiredErrorMessage": "Messaggio di errore richiesto",
     "requiredSlug": "Lo slug non è stato fornito",

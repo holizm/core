@@ -472,6 +472,7 @@
     "removingState": "Mengalih keluar keadaan",
     "repeatable": "Boleh diulang",
     "request": "Permintaan",
+    "requestFailed": "Permintaan gagal",
     "required": "Diperlukan",
     "requiredErrorMessage": "Mesej ralat medan wajib",
     "requiredSlug": "Slug tidak diberikan",

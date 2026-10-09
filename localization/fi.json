@@ -472,6 +472,7 @@
     "removingState": "Poistetaan tilaa",
     "repeatable": "Toistettava",
     "request": "Pyyntö",
+    "requestFailed": "GDPR-pyyntö epäonnistui",
     "required": "Pakollinen",
     "requiredErrorMessage": "Pakollisen kentän virheilmoitus",
     "requiredSlug": "URL-tunnistetta ei ole annettu",

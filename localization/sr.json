@@ -472,6 +472,7 @@
     "removingState": "Uklanjanje stanja",
     "repeatable": "Поновљиво",
     "request": "Zahtev",
+    "requestFailed": "Zahtev nije uspeo",
     "required": "Obavezno",
     "requiredErrorMessage": "Порука грешке за обавезно поље",
     "requiredSlug": "Slug nije naveden",

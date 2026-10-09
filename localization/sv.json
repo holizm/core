@@ -472,6 +472,7 @@
     "removingState": "Tar bort tillstånd",
     "repeatable": "Repeterbar",
     "request": "Begäran",
+    "requestFailed": "Begäran misslyckades",
     "required": "Obligatorisk",
     "requiredErrorMessage": "Felmeddelande för obligatoriskt fält",
     "requiredSlug": "Sluggen har inte angetts",

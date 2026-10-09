@@ -472,6 +472,7 @@
     "removingState": "حذف حالت",
     "repeatable": "قابل تکرار",
     "request": "درخواست",
+    "requestFailed": "درخواست انجام نشد",
     "required": "اجباری",
     "requiredErrorMessage": "پیام خطای اجباری",
     "requiredSlug": "پیوند یکتا ارائه نشده است",

@@ -472,6 +472,7 @@
     "removingState": "നില നീക്കംചെയ്യുന്നു",
     "repeatable": "ആവർത്തിക്കാവുന്നത്",
     "request": "അഭ്യർത്ഥന",
+    "requestFailed": "അഭ്യർത്ഥന പരാജയപ്പെട്ടു",
     "required": "ആവശ്യമാണ്",
     "requiredErrorMessage": "നിർബന്ധിത ഫീൽഡ് പിശക് സന്ദേശം",
     "requiredSlug": "സ്ലഗ് നൽകിയിട്ടില്ല",

@@ -472,6 +472,7 @@
     "removingState": "အခြေအနေ ဖယ်ရှားနေသည်",
     "repeatable": "ထပ်လုပ်နိုင်သော",
     "request": "တောင်းဆိုချက်",
+    "requestFailed": "တောင်းဆိုမှု မအောင်မြင်ပါ",
     "required": "လိုအပ်သော",
     "requiredErrorMessage": "မဖြစ်မနေဖြည့်ရန် အမှားစာသား",
     "requiredSlug": "Slug မပေးထားပါ",

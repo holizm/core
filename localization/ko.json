@@ -472,6 +472,7 @@
     "removingState": "상태 제거",
     "repeatable": "반복 가능",
     "request": "요구",
+    "requestFailed": "요청 실패",
     "required": "필수의",
     "requiredErrorMessage": "필요한 오류 메시지",
     "requiredSlug": "슬러그는 제공되지 않습니다",

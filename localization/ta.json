@@ -472,6 +472,7 @@
     "removingState": "நிலையை நீக்குகிறது",
     "repeatable": "மீண்டும் மீண்டும் செய்யக்கூடியது",
     "request": "கோரிக்கை",
+    "requestFailed": "கோப்பு மீட்டெடு",
     "required": "தேவை",
     "requiredErrorMessage": "தேவையான பிழை செய்தி",
     "requiredSlug": "ஸ்லக் வழங்கப்படவில்லை",

@@ -472,6 +472,7 @@
     "removingState": "Se elimină starea",
     "repeatable": "Repetabil",
     "request": "Cerere",
+    "requestFailed": "Cererea a eșuat",
     "required": "Obligatoriu",
     "requiredErrorMessage": "Mesaj de eroare pentru câmp obligatoriu",
     "requiredSlug": "Slugul nu este furnizat",

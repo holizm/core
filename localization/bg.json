@@ -472,6 +472,7 @@
     "removingState": "Премахване на състоянието",
     "repeatable": "Повторяем",
     "request": "Заявка",
+    "requestFailed": "Неуспешна заявка",
     "required": "Задължително",
     "requiredErrorMessage": "Съобщение за грешка при задължително поле",
     "requiredSlug": "Краткото име не е предоставено",

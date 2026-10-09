@@ -472,6 +472,7 @@
     "removingState": "अवस्था हटा रहा है",
     "repeatable": "दोहराने योग्य",
     "request": "अनुरोध",
+    "requestFailed": "अनुरोध विफल रहा",
     "required": "आवश्यक",
     "requiredErrorMessage": "आवश्यक त्रुटि संदेश",
     "requiredSlug": "स्लग उपलब्ध नहीं कराया गया है",
