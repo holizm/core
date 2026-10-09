@@ -21,6 +21,7 @@ import isFile from '../scripts/isFile.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
 import runOnServer from '../scripts/runOnServer.js'
 import startPublishedProcess from '../scripts/startPublishedProcess.js'
+import validatePublishArtifact from '../scripts/validatePublishArtifact.js'
 
 const providedDomain = process.argv[2]
 
@@ -42,7 +43,6 @@ const params =
             localBuild: true,
         })
 
-const instance = await getInstance(domain, publishParameters.repo)
 const {
     isApi,
     isPanel,
@@ -54,6 +54,8 @@ const artifactPath = `${processBuildDir}/${params.process}.zip`
 if (!isFile(artifactPath)) {
     errorAndExit(`Build artifact does not exist: ${artifactPath}`)
 }
+validatePublishArtifact(artifactPath)
+const instance = await getInstance(domain, publishParameters.repo)
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
 const remoteProcessPath = `$HOME/${instance?.serverDirectory}/${params.process}`
 
