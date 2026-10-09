@@ -16,9 +16,19 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         )
         if (!extension) continue
         const barrelPath = path.join('coreBarrels', `${modulePath}${extension}`)
-        const isDefault = (match[0].startsWith('import') && !match[1].startsWith('{'))
+        const module = modules.get(modulePath) || {
+            extension,
+            hasDefault: false,
+            names: new Set(),
+        }
+        module.hasDefault ||= (match[0].startsWith('import') && !match[1].startsWith('{'))
             || /\bdefault\s+as\s+/.test(match[1])
-        modules.set(modulePath, (modules.get(modulePath) || false) || isDefault)
+        if (match[1].startsWith('{') || match[0].startsWith('export')) {
+            for (const name of match[1].replace(/[{}]/g, '').split(',')) {
+                if (name.trim()) module.names.add(name.trim())
+            }
+        }
+        modules.set(modulePath, module)
         const names = match[1].startsWith('{') || match[0].startsWith('export')
             ?
             match[1].replace(/[{}]/g, '').split(',').map(name => name.trim().split(/\s+as\s+/).pop())
@@ -35,14 +45,18 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         }
     }
 
-    for (const [modulePath, hasDefault] of modules) {
-        const extension = ['.jsx', '.js', '.tsx', '.ts'].find(value =>
-            fs.existsSync(path.join(srcBase, `${modulePath}${value}`))
-        )
+    for (const [modulePath, module] of modules) {
+        const { extension } = module
         const barrelFile = path.join(srcBase, 'coreBarrels', `${modulePath}${extension}`)
         const relativeSource = path.relative(path.dirname(barrelFile), path.join(srcBase, `${modulePath}${extension}`)).replaceAll(path.sep, '/')
         const sourceSpecifier = relativeSource.startsWith('.') ? relativeSource : `./${relativeSource}`
-        const content = `${hasDefault ? `export { default } from '${sourceSpecifier}'\n` : ''}export * from '${sourceSpecifier}'\n`
+        const names = [...module.names]
+        const namedExports = names.length === 1
+            ? `export { ${names[0]} } from '${sourceSpecifier}'\n`
+            : names.length > 1
+                ? `export {\n    ${names.join(',\n    ')},\n} from '${sourceSpecifier}'\n`
+                : ''
+        const content = `${module.hasDefault ? `export { default } from '${sourceSpecifier}'\n` : ''}${namedExports}`
         fs.mkdirSync(path.dirname(barrelFile), { recursive: true })
         fs.writeFileSync(barrelFile, content)
     }
