@@ -5,5 +5,7 @@ import { runStreaming } from '../scripts/terminal.js'
 
 const gits = findRepos()
 
+if (!gits.length) process.exit(0)
+
 const dirs = gits.join(' ')
-runStreaming(`cloc ${dirs}`, { show: true })
+await runStreaming(`cloc --fullpath --exclude-dir=node_modules --not-match-d='(^|/)\\.[^/]+' --not-match-f='(^|/)AGENTS\\.md$' ${dirs}`)
