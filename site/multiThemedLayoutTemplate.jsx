@@ -1,6 +1,8 @@
 import {
     component$,
+    Resource,
     Slot,
+    useResource$,
 } from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city'
 import { getFromCacheOrApi } from 'cache'
@@ -8,11 +10,11 @@ import getThemeNumber from 'getThemeNumber'
 import SiteFooter from 'siteFooter'
 import SiteHeader from 'siteHeader'
 import useAsync from 'useAsync'
-import { getValues } from 'contents'
-import { getGlobalization } from 'globalization'
-import { getMenu } from 'navigation'
-import { useLayoutSeo } from 'seo'
-import { getApplicationSettings } from 'settings'
+import contentsGetValues from 'contentsGetValues'
+import globalizationGetGlobalization from 'globalizationGetGlobalization'
+import navigationGetMenu from 'navigationGetMenu'
+import seoUseLayoutSeo from 'seoUseLayoutSeo'
+import settingsGetApplicationSettings from 'settingsGetApplicationSettings'
 import themeLayouts from '../themeLayouts'
 
 const getData = routeLoader$(async props => {
@@ -23,10 +25,10 @@ const getData = routeLoader$(async props => {
         menu,
         tenant,
     ] = await useAsync([
-        getApplicationSettings(props),
-        getGlobalization(props),
-        getValues('shared_shared_contents_layout_main', props),
-        getMenu(props),
+        settingsGetApplicationSettings(props),
+        globalizationGetGlobalization(props),
+        contentsGetValues('shared_shared_contents_layout_main', props),
+        navigationGetMenu(props),
         getFromCacheOrApi('/tenant', props),
     ])
     const data = {
@@ -40,19 +42,22 @@ const getData = routeLoader$(async props => {
 })
 
 const Layout = component$(() => {
-    const data = getData().value
+    const dataSignal = getData()
+    const data = dataSignal.value
     const theme = getThemeNumber(data?.theme)
-    const ThemeLayout = themeLayouts[theme]
-    if (ThemeLayout) return <ThemeLayout {...data}>
-        <Slot />
-    </ThemeLayout>
+    const themeModule = useResource$(async ({ track }) => {
+        const selectedTheme = getThemeNumber(track(() => dataSignal.value?.theme))
+        const load = themeLayouts[selectedTheme]
+        const module = load ? await load() : null
+        return module
+    })
     if (!theme) return null
     const direction = data?.isRtl
         ?
         'rtl'
         :
         'ltr'
-    return <div
+    const fallback = <div
         class={`themeRoot theme${theme.padStart(3, '0')} flex min-h-screen flex-col justify-between`}
         dir={direction}
     >
@@ -62,8 +67,16 @@ const Layout = component$(() => {
         </main>
         <SiteFooter {...data} />
     </div>
+    return <Resource
+        value={themeModule}
+        onResolved={module => {
+            const ThemeLayout = module?.default
+            return ThemeLayout ? <ThemeLayout {...data}><Slot /></ThemeLayout> : fallback
+        }}
+        onRejected={() => fallback}
+    />
 })
 
 export default Layout
 
-export const head = ({ resolveValue }) => useLayoutSeo(getData, resolveValue)
+export const head = ({ resolveValue }) => seoUseLayoutSeo(getData, resolveValue)

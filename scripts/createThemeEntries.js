@@ -41,10 +41,16 @@ export default params => {
             if (!isFile(join(processPath, '..', themeDirectory, 'pages', `${configuration.type}.jsx`))) return
             const theme = themeDirectory.slice('theme'.length)
             const component = `Theme${theme}${configuration.suffix}`
-            imports.push(`import ${component} from '../themes/${theme}/pages/${configuration.type}'`)
-            properties.push(`    '${theme}': ${component},`)
+            if (configuration.type === 'layout') {
+                properties.push(`    '${theme}': () => import('../themes/${theme}/pages/layout'),`)
+            }
+            else {
+                imports.push(`import ${component} from '../themes/${theme}/pages/${configuration.type}'`)
+                properties.push(`    '${theme}': ${component},`)
+            }
         })
-        const content = `${imports.join('\n')}\n\nexport default {\n${properties.join('\n')}\n}\n`
+        const importBlock = imports.length ? `${imports.join('\n')}\n\n` : ''
+        const content = `${importBlock}export default {\n${properties.join('\n')}\n}\n`
         writeFile(`${directory}/index.jsx`, content)
     })
 }

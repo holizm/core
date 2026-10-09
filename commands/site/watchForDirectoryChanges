@@ -35,6 +35,9 @@ regenerateExports() {
     esac
 
     node "$home/core/commands/site/generateExports.js" "$topLevelDirectory" "$target"
+    if [ "$target" = parts ]; then
+        node "$home/core/commands/site/createPartItemBarrels.js" "$topLevelDirectory"
+    fi
     node "$home/core/commands/site/initializeSiteBarrels.js"
 }
 

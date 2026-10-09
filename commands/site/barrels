@@ -5,6 +5,7 @@ for dir in $base/src/parts/*; do
     [ -d "$dir" ] || continue
     topLevelDir=$(basename "$dir")
     node $home/core/commands/site/generateExports.js "$topLevelDir" parts
+    node $home/core/commands/site/createPartItemBarrels.js "$topLevelDir"
 done
 for dir in $base/src/pageParts/*; do
     [ -d "$dir" ] || continue

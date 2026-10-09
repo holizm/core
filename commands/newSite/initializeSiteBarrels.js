@@ -2,12 +2,12 @@
 
 import fs from 'fs'
 import getSiteComponentAliases from '../site/getSiteComponentAliases.js'
+import getSitePartAliases from '../site/getSitePartAliases.js'
 
 const home = process.env.home
 const repo = process.env.repo
 const processName = process.env.process
 
-const partsBase = `${home}/${repo}/${processName}/src/parts`
 const pagePartsBase = `${home}/${repo}/${processName}/src/pageParts`
 const srcBase = `${home}/${repo}/${processName}/src`
 
@@ -26,6 +26,7 @@ const aliases = {
 }
 
 Object.assign(aliases, getSiteComponentAliases(srcBase))
+Object.assign(aliases, getSitePartAliases(srcBase))
 
 const srcDirectories = getDirs(srcBase)
 
@@ -36,12 +37,6 @@ for (const dir of srcDirectories) {
     if (dir === 'functions') {
         aliases.functions = './src/functions/exports'
     }
-}
-
-const parts = getDirs(partsBase)
-
-for (const part of parts) {
-    aliases[part] = `./src/parts/${part}/exports`
 }
 
 const pagePartsFiles = fs.readdirSync(pagePartsBase).filter(f =>
