@@ -6,8 +6,8 @@ import {
     writeFile,
 } from '../scripts/os.js'
 import {
+    error,
     info,
-    warning,
 } from '../scripts/logger.js'
 import { runOnTerminal } from '../scripts/terminal.js'
 
@@ -34,12 +34,13 @@ if (!content.includes(includeLine.trim())) {
         writeFile(nginxConf, content)
         info('Include line added')
     } else {
-        warning('Marker line not found. Include not added.')
+        error('Marker line not found. Include not added.')
+        process.exitCode = 1
     }
 } else {
     info('Include line already present')
 }
 
-runOnTerminal(`chmod o+rx ${homeDir}`)
-runOnTerminal(`chmod o+rx ${homeDir}/core`)
-runOnTerminal(`chmod o+rx ${homeDir}/core/webServer`)
+runOnTerminal(`chmod o+rx ${homeDir}`, { throwOnError: true })
+runOnTerminal(`chmod o+rx ${homeDir}/core`, { throwOnError: true })
+runOnTerminal(`chmod o+rx ${homeDir}/core/webServer`, { throwOnError: true })

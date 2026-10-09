@@ -17,15 +17,37 @@ install() {
 
     if [[ -n "$packageOrFunction" ]]; then
         if declare -f "$packageOrFunction" &>/dev/null; then
-            "$packageOrFunction" || error "failed to install $commandName"
+            "$packageOrFunction"
         else
-            sudo apt-get install -y "$packageOrFunction" || error "failed to install $commandName"
+            if ! sudo apt-get install -y "$packageOrFunction"; then
+                error "failed to install $commandName"
+                return 1
+            fi
         fi
     else
-        sudo apt-get install -y "$commandName" || error "failed to install $commandName"
+        if ! sudo apt-get install -y "$commandName"; then
+            error "failed to install $commandName"
+            return 1
+        fi
     fi
 
     success "installed $commandName"
+}
+
+setupFailures=0
+
+runSetupStep() {
+    local label="$1"
+    shift
+    local status
+    if "$@"; then
+        return 0
+    else
+        status=$?
+    fi
+    error "$label failed (exit $status); continuing setup."
+    setupFailures=$((setupFailures + 1))
+    return 0
 }
 
 ensureLatestLts() {

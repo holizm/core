@@ -13,34 +13,45 @@ export homeDir
 export setupDev
 export scripts
 
-. "$scripts/logger.sh"
+. "$scripts/installer.sh"
 
 gitEmail=$(git config --global --get user.email || true)
 gitName=$(git config --global --get user.name || true)
 
 if [[ -z "$gitEmail" ]]; then
-    read -rp 'Git email: ' gitEmail
+    if ! read -rp 'Git email: ' gitEmail; then
+        error 'Could not read Git email; continuing setup.'
+        setupFailures=$((setupFailures + 1))
+    fi
 fi
 
 if [[ -z "$gitName" ]]; then
-    read -rp 'Git name: ' gitName
+    if ! read -rp 'Git name: ' gitName; then
+        error 'Could not read Git name; continuing setup.'
+        setupFailures=$((setupFailures + 1))
+    fi
 fi
 
 export gitEmail
 export gitName
 
-clear
+runSetupStep clear clear
 divide
 info "running setup ..."
 divide
 
-$setupDev/setup
+runSetupStep developmentSetup "$setupDev/setup"
 
-node "$homeDir/core/hooks/installHooks.js"
-node "$homeDir/core/commands/installCommands.js"
-node "$homeDir/core/scripts/setVcsIgnores.js"
-node "$homeDir/core/commands/configGit"
+runSetupStep installHooks node "$homeDir/core/hooks/installHooks.js"
+runSetupStep installCommands node "$homeDir/core/commands/installCommands.js"
+runSetupStep setVcsIgnores node "$homeDir/core/scripts/setVcsIgnores.js"
+runSetupStep configGit node "$homeDir/core/commands/configGit"
 
-. "$scripts/configureHosts.sh"
+runSetupStep configureHosts bash "$scripts/configureHosts.sh"
 
-success "setup complete"
+if (( setupFailures > 0 )); then
+    error 'Setup finished with errors.'
+    exit 1
+fi
+
+success 'setup complete'

@@ -1,3 +1,5 @@
+set -euo pipefail
+
 sudo chattr -i /etc/hosts
 sudo chown root:dev /etc/hosts
 sudo chmod 664 /etc/hosts

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+. "$scripts/logger.sh"
+
 cacheDirectory="$homeDir/.cache/mongodb-memory-server"
 archivePath="$cacheDirectory/mongodb.tgz"
 binaryPath="$cacheDirectory/mongod"
@@ -14,20 +16,20 @@ if [ ! -x "$binaryPath" ]; then
         if ! curl -fL --retry 5 \
             -o "$archivePath" \
             'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2204-7.0.14.tgz'; then
-            echo 'MongoDB test server download failed; continuing setup.'
-            exit 0
+            error 'MongoDB test server download failed.'
+            exit 1
         fi
     fi
     temporaryDirectory=$(mktemp -d "$cacheDirectory/extract.XXXXXXXXXX")
     trap 'rm -rf "$temporaryDirectory"; rm -f "$archivePath"' EXIT
     if ! tar -xzf "$archivePath" -C "$temporaryDirectory" \
         --strip-components=2 mongodb-linux-x86_64-ubuntu2204-7.0.14/bin/mongod; then
-        echo 'MongoDB test server extraction failed; continuing setup.'
-        exit 0
+        error 'MongoDB test server extraction failed.'
+        exit 1
     fi
     chmod +x "$temporaryDirectory/mongod"
     mv "$temporaryDirectory/mongod" "$binaryPath" || {
-        echo 'MongoDB test server preparation failed; continuing setup.'
-        exit 0
+        error 'MongoDB test server preparation failed.'
+        exit 1
     }
 fi

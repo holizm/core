@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+. "$scripts/logger.sh"
+
+failed=0
+
 if ! rm -rf "$homeDir/core/package-lock.json"; then
-    printf 'Could not remove the core lock file; continuing setup.\n' >&2
+    error 'Could not remove the core lock file.'
+    failed=1
 fi
 
 if ! npm install --legacy-peer-deps --package-lock=false --prefix "$homeDir/core"; then
-    printf 'Core dependency installation failed; continuing setup.\n' >&2
+    error 'Core dependency installation failed.'
+    failed=1
 fi
+
+exit "$failed"

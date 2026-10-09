@@ -3,54 +3,52 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
-$setupDev/astCstWatcher
+runSetupStep astCstWatcher "$setupDev/astCstWatcher"
 
-$setupDev/protectSecrets
+runSetupStep protectSecrets "$setupDev/protectSecrets"
 
-install curl
-install jq
-install nmap
-install cloc
-install parallel
-install progress
-install rename
-install baobab
-install dconf-editor
-install nginx
-install kooha
-install sshd openssh-server
-install telnet
-install unzip
-install zip
-install http httpie
-install pip python3-pip
+runSetupStep curl install curl
+runSetupStep jq install jq
+runSetupStep nmap install nmap
+runSetupStep cloc install cloc
+runSetupStep parallel install parallel
+runSetupStep progress install progress
+runSetupStep rename install rename
+runSetupStep baobab install baobab
+runSetupStep dconfEditor install dconf-editor
+runSetupStep nginx install nginx
+runSetupStep kooha install kooha
+runSetupStep sshd install sshd openssh-server
+runSetupStep telnet install telnet
+runSetupStep unzip install unzip
+runSetupStep zip install zip
+runSetupStep http install http httpie
+runSetupStep pip install pip python3-pip
 
-$setupDev/git
-$setupDev/gh
-$setupDev/chrome
-$setupDev/vsCode
+runSetupStep git "$setupDev/git"
+runSetupStep gh "$setupDev/gh"
+runSetupStep chrome "$setupDev/chrome"
+runSetupStep vsCode "$setupDev/vsCode"
 # $setupDev/spellChecker
-$setupDev/speedTest
+runSetupStep speedTest "$setupDev/speedTest"
 # $setupDev/remoteContainers
 
-$setupDev/docker
-if ! "$setupDev/node"; then
-    warning 'Node.js or npm installation failed; continuing setup.'
-fi
-$setupDev/coreDependencies
-$setupDev/mongodbMemoryServer
-sudo homeDir="$homeDir" node "$setupDev/nginx"
+runSetupStep docker "$setupDev/docker"
+runSetupStep node "$setupDev/node"
+runSetupStep coreDependencies "$setupDev/coreDependencies"
+runSetupStep mongodbMemoryServer "$setupDev/mongodbMemoryServer"
+runSetupStep nginxConfiguration sudo homeDir="$homeDir" node "$setupDev/nginx"
 
-$setupDev/micro
-$setupDev/mkcert
-$setupDev/rclone
-$setupDev/azureCli
+runSetupStep micro "$setupDev/micro"
+runSetupStep mkcert "$setupDev/mkcert"
+runSetupStep rclone "$setupDev/rclone"
+runSetupStep azureCli "$setupDev/azureCli"
 
-$setupDev/anyDesk
-$setupDev/rustDesk
-$setupDev/compass
-$setupDev/beyondCompare
-$setupDev/safeEyes
+runSetupStep anyDesk "$setupDev/anyDesk"
+runSetupStep rustDesk "$setupDev/rustDesk"
+runSetupStep compass "$setupDev/compass"
+runSetupStep beyondCompare "$setupDev/beyondCompare"
+runSetupStep safeEyes "$setupDev/safeEyes"
 
 # $setupDev/dnsmasq
 # $setupDev/stretchly
@@ -60,27 +58,31 @@ $setupDev/safeEyes
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"
 
-$setupDev/configureApt
-$setupDev/giveAccessToRoot
-$setupDev/addPersianInputSource
-$setupDev/setLocaleToEnglishUs
-$setupDev/configureKeyboard
-$setupDev/setFavoriteApps
-$setupDev/setChromeAsDefaultBrowser
-$setupDev/disableWayland
-$setupDev/setAppsToOpenMaximized
-$setupDev/preventDockAutoHide
-$setupDev/increaseLimits
-$setupDev/preventDimmingAndSleeping
-$setupDev/preventMultipleWorkspaces
-$setupDev/disableAutomaticScreenLock
-$setupDev/setCalculatorThousandsSeparator
-$setupDev/setTimeZone
-$setupDev/generateSshKey
-$setupDev/configureGitHub
-$setupDev/configureGit
-$setupDev/enableDnd
-$setupDev/configureDockerForUser
-$setupDev/setInstallationDate
-$setupDev/removeProblematicSources
-$setupDev/disableInertialScrolling
+runSetupStep configureApt "$setupDev/configureApt"
+runSetupStep giveAccessToRoot "$setupDev/giveAccessToRoot"
+runSetupStep addPersianInputSource "$setupDev/addPersianInputSource"
+runSetupStep setLocaleToEnglishUs "$setupDev/setLocaleToEnglishUs"
+runSetupStep configureKeyboard "$setupDev/configureKeyboard"
+runSetupStep setFavoriteApps "$setupDev/setFavoriteApps"
+runSetupStep setChromeAsDefaultBrowser "$setupDev/setChromeAsDefaultBrowser"
+runSetupStep disableWayland "$setupDev/disableWayland"
+runSetupStep setAppsToOpenMaximized "$setupDev/setAppsToOpenMaximized"
+runSetupStep preventDockAutoHide "$setupDev/preventDockAutoHide"
+runSetupStep increaseLimits "$setupDev/increaseLimits"
+runSetupStep preventDimmingAndSleeping "$setupDev/preventDimmingAndSleeping"
+runSetupStep preventMultipleWorkspaces "$setupDev/preventMultipleWorkspaces"
+runSetupStep disableAutomaticScreenLock "$setupDev/disableAutomaticScreenLock"
+runSetupStep setCalculatorThousandsSeparator "$setupDev/setCalculatorThousandsSeparator"
+runSetupStep setTimeZone "$setupDev/setTimeZone"
+runSetupStep generateSshKey "$setupDev/generateSshKey"
+runSetupStep configureGitHub "$setupDev/configureGitHub"
+runSetupStep configureGit "$setupDev/configureGit"
+runSetupStep enableDnd "$setupDev/enableDnd"
+runSetupStep configureDockerForUser "$setupDev/configureDockerForUser"
+runSetupStep setInstallationDate "$setupDev/setInstallationDate"
+runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
+runSetupStep disableInertialScrolling "$setupDev/disableInertialScrolling"
+
+if (( setupFailures > 0 )); then
+    exit 1
+fi

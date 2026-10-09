@@ -26,5 +26,6 @@ getLatestNodeLtsVersion() {
 install node installNode
 install npm installNode
 if ! command -v npm >/dev/null; then
-    warning 'npm is unavailable after installing Node.js; continuing setup.'
+    error 'npm is unavailable after installing Node.js.'
+    exit 1
 fi
