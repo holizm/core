@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 base=$home/$repo/$process
 for dir in $base/src/parts/*; do
     [ -d "$dir" ] || continue
@@ -13,4 +15,6 @@ for dir in $base/src/pageParts/*; do
     [ "$topLevelDir" = "sharedFallbacks" ] && continue
     node $home/core/commands/site/generateExports.js "$topLevelDir" pageParts
 done
+node $home/site/loaderProvider.js
+node --input-type=module -e "import('$home/site/emptyDashboardProvider.js').then(({ default: provide }) => provide([]))"
 node $home/core/commands/site/initializeSiteBarrels.js

@@ -1,11 +1,11 @@
 import { component$ } from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city'
-import { getFromCacheOrApi } from 'cache'
+import getFromCacheOrApi from 'getFromCacheOrApi'
 import getThemeNumber from 'getThemeNumber'
 import useAsync from 'useAsync'
 import contentsGetValues from 'contentsGetValues'
 import globalizationGetGlobalization from 'globalizationGetGlobalization'
-import themeIndexes from '../themeIndexes'
+import themeIndexes from 'themeIndexes'
 
 const getData = routeLoader$(async props => {
     const [

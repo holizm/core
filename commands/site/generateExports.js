@@ -38,6 +38,10 @@ if (!fs.existsSync(sourceDirectory)) {
     if (target === 'pageParts' && fs.existsSync(exportsPath)) {
         fs.unlinkSync(exportsPath)
     }
+    const layoutPath = path.join(baseDirectory, `${topLevelDirectory}Layout.jsx`)
+    if (target === 'pageParts' && fs.existsSync(layoutPath)) {
+        fs.unlinkSync(layoutPath)
+    }
 
     process.exit(0)
 }
@@ -131,6 +135,18 @@ importExportData.sort((first, second) =>
 const imports = importExportData.map(item => item.importLine).join('')
 const exports = importExportData.map(item => item.exportLine).join('')
 const content = `${imports}\n${exports}`
+
+if (target === 'pageParts') {
+    const layout = importExportData.find(item => item.name === 'Layout')
+    const sourcePath = layout.importLine.match(/from '([^']+)'/)?.[1]
+    const layoutContent = sourcePath
+        ? `export { default } from '${sourcePath}'\n`
+        : 'export default null\n'
+    const layoutPath = path.join(baseDirectory, `${topLevelDirectory}Layout.jsx`)
+    if (!fs.existsSync(layoutPath) || fs.readFileSync(layoutPath, 'utf8') !== layoutContent) {
+        fs.writeFileSync(layoutPath, layoutContent)
+    }
+}
 
 if (
     fs.existsSync(exportsPath)

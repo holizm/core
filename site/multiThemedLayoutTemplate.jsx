@@ -5,7 +5,7 @@ import {
     useResource$,
 } from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city'
-import { getFromCacheOrApi } from 'cache'
+import getFromCacheOrApi from 'getFromCacheOrApi'
 import getThemeNumber from 'getThemeNumber'
 import SiteFooter from 'siteFooter'
 import SiteHeader from 'siteHeader'
@@ -15,7 +15,7 @@ import globalizationGetGlobalization from 'globalizationGetGlobalization'
 import navigationGetMenu from 'navigationGetMenu'
 import seoUseLayoutSeo from 'seoUseLayoutSeo'
 import settingsGetApplicationSettings from 'settingsGetApplicationSettings'
-import themeLayouts from '../themeLayouts'
+import themeLayouts from 'themeLayouts'
 
 const getData = routeLoader$(async props => {
     const [
