@@ -21,10 +21,6 @@ if (source.includes('const Layout = null')) {
 }
 
 fs.mkdirSync(barrelDirectory, { recursive: true })
-const active = new Set(entries.map(([fileName]) => fileName))
-for (const fileName of fs.readdirSync(barrelDirectory)) {
-    if (!active.has(fileName)) fs.unlinkSync(path.join(barrelDirectory, fileName))
-}
 for (const [fileName, content] of entries) {
     const target = path.join(barrelDirectory, fileName)
     if (fs.existsSync(target) && fs.readFileSync(target, 'utf8') === content) continue
