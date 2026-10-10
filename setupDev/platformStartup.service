@@ -1,0 +1,13 @@
+[Unit]
+Description=Holism platform startup
+Wants=NetworkManager.service docker.service
+After=NetworkManager.service docker.service
+
+[Service]
+Type=oneshot
+User=dev
+ExecStart=/home/dev/core/commands/resetContainerEngine
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=multi-user.target

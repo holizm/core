@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+serviceSource="$(dirname "$(realpath "$0")")/platformStartup.service"
+sudo install -m 0644 "$serviceSource" /etc/systemd/system/platformStartup.service
+sudo systemctl daemon-reload
+sudo systemctl enable platformStartup.service

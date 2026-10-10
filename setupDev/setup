@@ -34,6 +34,7 @@ runSetupStep speedTest "$setupDev/speedTest"
 # $setupDev/remoteContainers
 
 runSetupStep docker "$setupDev/docker"
+runSetupStep platformStartup "$setupDev/platformStartup"
 runSetupStep node "$setupDev/node"
 runSetupStep coreDependencies "$setupDev/coreDependencies"
 runSetupStep mongodbMemoryServer "$setupDev/mongodbMemoryServer"
