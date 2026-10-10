@@ -6,6 +6,7 @@ RUN apt update -qq \
     && apt install -qq -y apt-utils libgdiplus libc6-dev \
     && apt install -qq -y procps \
     && apt install -qq webp -y \
+    && apt install -qq libavif-bin -y \
     && apt install -qq file -y \
     && apt install -qq imagemagick -y \
     && apt install -qq bsdmainutils -y \
