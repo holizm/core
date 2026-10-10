@@ -40,6 +40,7 @@ services:
             - ${home}/panel/findServerInitializers.js:${containerHome}/${repo}/${process}/findServerInitializers.js
             - ${home}/panel/findTranslationScopes.js:${containerHome}/${repo}/${process}/findTranslationScopes.js
             - ${home}/panel/generateItemPageRoutes.js:${containerHome}/${repo}/${process}/generateItemPageRoutes.js
+            - ${home}/panel/generateItemPageTabs.js:${containerHome}/${repo}/${process}/generateItemPageTabs.js
             - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
             - ${home}/panel/generatePageFormRoutes.js:${containerHome}/${repo}/${process}/generatePageFormRoutes.js
             - ${home}/panel/generatePartRoutes.js:${containerHome}/${repo}/${process}/generatePartRoutes.js
