@@ -11,6 +11,7 @@ export default ({
     const processPath = `${repoPath}/${process}`
     const commonPath = `${repoPath}/common`
     const privateSettingsPath = `${commonPath}/privateSettings.json`
+    const backingRepo = getApiRepo(repo)
     const isControl = isControlRunnable({ privateSettingsPath })
     const controlProcess = isControlProcess({
         isControl,
@@ -27,7 +28,7 @@ export default ({
         corePanelPackageJson: `${home}/panel/package.json`,
         coreSiteLock: `${home}/site/lock.json`,
         coreSitePackageJson: `${home}/site/package.json`,
-        dependenciesPath: `${home}/${getApiRepo(repo)}/common/dependencies`,
+        dependenciesPath: `${home}/${backingRepo}/common/dependencies`,
         essentialPartsPath: `${home}/core/essentialParts`,
         initialPath: `${commonPath}/initial.js`,
         isControl,
@@ -55,7 +56,11 @@ export default ({
             ?
             `/tmp/${repo}/common/tenants`
             :
-            `${commonPath}/tenants`,
+            repo.endsWith('Themes')
+                ?
+                `${home}/${backingRepo}/common/tenants`
+                :
+                `${commonPath}/tenants`,
         webServerPath,
     }
     return paths
