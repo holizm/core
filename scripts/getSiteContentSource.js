@@ -9,7 +9,7 @@ export default params => {
         throw new Error(`Invalid site content source: ${repository}`)
     }
     const source = path.join(params.home, repository)
-    if (!fs.statSync(source).isDirectory()) {
+    if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) {
         throw new Error(`Site content source does not exist: ${source}`)
     }
     const contentSource = {
