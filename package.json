@@ -17,6 +17,6 @@
         "tree-sitter-javascript": "0.25.0"
     },
     "scripts": {
-        "test": "node --test scripts/*Tests.js commands/site/*Tests.js"
+        "test": "node --test scripts/*Tests.js commands/*/*Tests.js"
     }
 }
