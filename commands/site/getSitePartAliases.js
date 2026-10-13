@@ -45,5 +45,22 @@ export default srcBase => {
         }
     }
 
+    const routeFiles = fg.sync('routes/**/*.{js,jsx,ts,tsx}', {
+        cwd: srcBase,
+        onlyFiles: true,
+    })
+    for (const file of routeFiles) {
+        const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
+        for (const [, alias] of source.matchAll(/\bfrom\s+['"]([a-zA-Z]\w*PartsLayout)['"]/g)) {
+            const pagePart = alias.slice(0, -'Layout'.length)
+            if (aliases[alias] || fs.existsSync(path.join(srcBase, 'pageParts', pagePart, 'layout.jsx'))) continue
+            aliases[alias] = './src/partBarrels/optionalLayout'
+        }
+    }
+    if (Object.values(aliases).includes('./src/partBarrels/optionalLayout')) {
+        const fallback = path.join(directory, 'optionalLayout.jsx')
+        if (!fs.existsSync(fallback)) fs.writeFileSync(fallback, 'export default null\n')
+    }
+
     return aliases
 }
