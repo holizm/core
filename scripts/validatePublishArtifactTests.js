@@ -18,3 +18,14 @@ test('validatePublishArtifact accepts public output and rejects excluded files',
     assert.doesNotThrow(() => validatePublishArtifact(publicArchive))
     assert.throws(() => validatePublishArtifact(privateArchive), /secrets\.json/)
 })
+
+test('validatePublishArtifact allows generated docs localization pages only for docs content', t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'docsArtifact'))
+    t.after(() => fs.rmSync(root, { force: true, recursive: true }))
+    fs.mkdirSync(path.join(root, 'content', 'localization'), { recursive: true })
+    fs.writeFileSync(path.join(root, 'content', 'localization', 'placement.md'), '# Placement')
+    const artifactPath = path.join(root, 'docs.zip')
+    execFileSync('zip', ['-qr', artifactPath, 'content'], { cwd: root })
+    assert.doesNotThrow(() => validatePublishArtifact(artifactPath, 'docs'))
+    assert.throws(() => validatePublishArtifact(artifactPath, 'other'), /localization/)
+})

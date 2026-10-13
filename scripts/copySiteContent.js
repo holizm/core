@@ -9,6 +9,7 @@ export default params => {
     if (!contentSource) return
     fs.cpSync(contentSource.source, target, {
         filter: source => {
+            if (source === params.processPath || source.startsWith(`${params.processPath}${path.sep}`)) return false
             if (source === contentSource.source || /\.mdx?$/.test(source)) return true
             if (!fs.statSync(source).isDirectory()) return false
             return !path.basename(source).startsWith('.') && path.basename(source) !== 'node_modules'
