@@ -15,4 +15,4 @@ divide()
 info(`Stopping ~/${repo}/${proc} ...`)
 divide()
 
-runOnTerminal(`ps -ef | grep 'vite' | grep -v grep | awk '{print $2}' | xargs -r kill -9`)
+runOnTerminal(`ps -ef | rg 'vite' | rg -v rg | awk '{print $2}' | xargs -r kill -9`)

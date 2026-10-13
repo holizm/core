@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-currentLang=$(locale | grep '^LANG=' || true)
+currentLang=$(locale | rg '^LANG=' || true)
 currentRegion=$(gsettings get org.gnome.system.locale region || true)
 
 if [[ "$currentLang" == "LANG=en_US.UTF-8" ]] &&

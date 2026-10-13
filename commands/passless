@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if sudo grep -q "^$(whoami)" /etc/sudoers; then
+if sudo rg -q "^$(whoami)" /etc/sudoers; then
     echo "User $(whoami) is already in the sudoers file."
 else
     echo "$(whoami) ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null

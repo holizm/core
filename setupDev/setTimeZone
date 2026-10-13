@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if timedatectl | grep -q "Asia/Tehran"; then
+if timedatectl | rg -q "Asia/Tehran"; then
     exit 0
 fi
 

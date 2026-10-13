@@ -5,7 +5,7 @@ import {
 } from '../logger.js'
 
 export default () => {
-    const biosDate = runOnTerminal(`sudo dmidecode -t bios | grep 'Release Date' | awk '{print $3}'`) || 'Unknown'
+    const biosDate = runOnTerminal(`sudo dmidecode -t bios | rg 'Release Date' | awk '{print $3}'`) || 'Unknown'
     if (biosDate !== 'Unknown')
         check(`BIOS Date: ${biosDate}`)
     else

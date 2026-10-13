@@ -16,10 +16,10 @@ const getDnsResolver = () =>
 const getCurrentNameServers = () =>
     getDnsResolver() === 'dnsmasq'
         ? runOnTerminal(
-            `grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}'`
+            `rg '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}'`
         )
         : runOnTerminal(
-            `grep '^nameserver' /run/systemd/resolve/resolv.conf | awk '{print $2}'`
+            `rg '^nameserver' /run/systemd/resolve/resolv.conf | awk '{print $2}'`
         )
 
 const flushDnsCache = () => {
@@ -92,7 +92,7 @@ const setAutoDns = () => {
         info('Resetting DNS to DHCP (NetworkManager)')
 
         const connections = runOnTerminal(
-            `nmcli --terse --fields NAME connection show --active | grep -vE '^\\s*$'`
+            `nmcli --terse --fields NAME connection show --active | rg -v '^\\s*$'`
         )
             .split('\n')
             .filter(Boolean)
@@ -129,7 +129,7 @@ const applyDns = key => {
 
     if (dnsResolver === 'dnsmasq') {
         const currentConfig = runOnTerminal(
-            `grep '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\\n' ' '`
+            `rg '^server=' /etc/dnsmasq.conf | awk -F '=' '{print $2}' | tr '\\n' ' '`
         )
 
         if (currentConfig !== ips) {
@@ -143,7 +143,7 @@ const applyDns = key => {
         }
     } else {
         const connections = runOnTerminal(
-            `nmcli --terse --fields NAME connection show --active | grep -vE '^\\s*$'`
+            `nmcli --terse --fields NAME connection show --active | rg -v '^\\s*$'`
         )
             .split('\n')
             .filter(Boolean)

@@ -34,7 +34,7 @@ export default async ({
     const pm2 = await getRemoteExecutable(domain, 'PM2', pm2Paths)
     const port = (await runOnServer(
         domain,
-        `grep -oP '127\\.0\\.0\\.1:\\K[0-9]+' ${processPath}/compose.yaml | head -n1`,
+        `rg -oP '127\\.0\\.0\\.1:\\K[0-9]+' ${processPath}/compose.yaml | head -n1`,
         true,
     )).trim()
     const restart = command => runOnServer(

@@ -4,7 +4,7 @@ set -euo pipefail
 tmpdir=$(mktemp -d)
 cd "$tmpdir"
 curl -sL https://www.adspower.com/download -o download.html
-deburl=$(grep -Eo 'href="[^"]+AdsPower[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
+deburl=$(rg -o 'href="[^"]+AdsPower[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
 if [[ -z "$deburl" ]]; then
   echo "Could not find .deb link on AdsPower download page. Open https://www.adspower.com/download manually."
   exit 1

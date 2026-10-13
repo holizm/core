@@ -15,5 +15,5 @@ divide()
 info(`Stopping ~/${repo}/${proc} ...`)
 divide()
 
-runOnTerminal(`ps -ef | grep 'nodemon' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
-runOnTerminal(`ps -ef | grep 'node process.js' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | rg 'nodemon' | rg -v rg | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | rg 'node process.js' | rg -v rg | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)

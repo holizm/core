@@ -21,7 +21,7 @@ divide
 info "Changing file contents (sed)"
 divide
 find "$PWD" -mindepth 1 -type f -not -path "*/.git/*" -not -name ".git" 2>/dev/null | while read -r filePath; do
-    if grep -ql "$from" "$filePath" 2>/dev/null; then
+    if rg -ql "$from" "$filePath" 2>/dev/null; then
         info "Changed content in: $filePath"
         sed -i "s/$from/$to/g" "$filePath"
     fi

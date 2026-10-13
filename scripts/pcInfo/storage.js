@@ -5,7 +5,7 @@ import {
 import { runOnTerminal } from '../terminal.js'
 
 export default () => {
-    const lsblkOutput = runOnTerminal(`lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | grep 'disk'`) || ''
+    const lsblkOutput = runOnTerminal(`lsblk -o NAME,TYPE,SIZE,ROTA,MODEL | rg 'disk'`) || ''
     if (!lsblkOutput) {
         error('Could not detect any storage devices')
         return

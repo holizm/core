@@ -15,6 +15,6 @@ divide()
 info(`Stopping ~/${repo}/${proc} ...`)
 divide()
 
-runOnTerminal(`ps -ef | grep 'npm\|vite' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
-runOnTerminal(`ps -ef | grep 'npm\|serve' | grep -v grep | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | rg 'npm\|vite' | rg -v rg | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
+runOnTerminal(`ps -ef | rg 'npm\|serve' | rg -v rg | awk '{print $2}' | xargs -r kill -9 >/dev/null 2>&1`)
 runOnTerminal("pkill -9 -f 'vite'")

@@ -8,7 +8,7 @@ installRemoteContainers() {
     local latest
 
     installed=$(code --list-extensions --show-versions 2>/dev/null \
-        | grep "$ext" \
+        | rg "$ext" \
         | awk -F'[@]' '{print $2}')
 
     latest=$(curl -s -X POST \
@@ -23,7 +23,7 @@ installRemoteContainers() {
             "flags":914
         }' \
         "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery?api-version=7.1-preview.1" \
-        | grep -oP '"version":"\K[^"]+' \
+        | rg -oP '"version":"\K[^"]+' \
         | head -n 1)
 
     if [ -n "$installed" ] && [ "$installed" = "$latest" ]; then

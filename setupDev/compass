@@ -3,7 +3,7 @@
 . "$scripts/installer.sh"
 
 getLatestMongoCompassUrl() {
-    curl -fsSL https://www.mongodb.com/try/download/compass | grep -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1
+    curl -fsSL https://www.mongodb.com/try/download/compass | rg -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1
 }
 
 getDownloadedMongoCompassPath() {

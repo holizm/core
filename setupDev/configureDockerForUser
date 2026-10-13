@@ -9,6 +9,6 @@ if ! getent group docker >/dev/null; then
     sudo groupadd docker
 fi
 
-if ! id -nG "$USER" | grep -qw docker; then
+if ! id -nG "$USER" | rg -qw docker; then
     sudo usermod -aG docker "$USER"
 fi

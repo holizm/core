@@ -15,7 +15,7 @@ cd "$TMPDIR"
 curl -sL "$ASTRILL_DEB_URL" -o download.html
 
 # Parse the .deb link from the HTML
-deb_link=$(grep -Eo 'href="[^"]+astrill-setup-linux[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
+deb_link=$(rg -o 'href="[^"]+astrill-setup-linux[^"]+\.deb"' download.html | sed -E 's/href="([^"]+)"/\1/' | head -n1)
 
 if [[ -z "$deb_link" ]]; then
     echo "ERROR: Could not find Astrill .deb link from download page."

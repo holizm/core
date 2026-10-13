@@ -9,6 +9,7 @@ runSetupStep protectSecrets "$setupDev/protectSecrets"
 
 runSetupStep curl install curl
 runSetupStep jq install jq
+runSetupStep rg install rg ripgrep
 runSetupStep nmap install nmap
 runSetupStep cloc install cloc
 runSetupStep parallel install parallel
