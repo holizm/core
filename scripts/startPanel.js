@@ -150,21 +150,6 @@ export const mapRunnable = params => {
     }
 }
 
-export const mapSecrets = params => {
-    const {
-        containerHome,
-        home,
-        process,
-        repo,
-    } = params
-    const publicCommonFile = `${home}/secrets/publicCommon.json`
-    fs.mkdirSync(`${home}/secrets`, { recursive: true, mode: 0o700 })
-    fs.chmodSync(`${home}/secrets`, 0o700)
-    if (!isFile(publicCommonFile)) fs.writeFileSync(publicCommonFile, '{}', { mode: 0o600 })
-    fs.chmodSync(publicCommonFile, 0o600)
-    params.addVolume(publicCommonFile, `${containerHome}/${repo}/${process}/public/publicCommon.json:ro`)
-}
-
 const mapPanelUi = params => {
     const {
         containerHome,
@@ -241,7 +226,6 @@ export default params => {
     measure('panel: map settings', () => mapSettings(params))
     measure('panel: map localizations', () => mapLocalizations(params))
     measure('panel: map runnable files', () => mapRunnable(params))
-    measure('panel: map secrets', () => mapSecrets(params))
     measure('panel: map Node files', () => mapNode(params))
 
     const {

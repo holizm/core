@@ -19,8 +19,13 @@ const persistentItems = [
     'webServer',
 ]
 
-export default processPath => {
-    const exclusions = persistentItems
+export default (processPath, isPanel) => {
+    const items = isPanel
+        ?
+        persistentItems.filter(item => item !== 'publicCommon.json')
+        :
+        persistentItems
+    const exclusions = items
         .map(item => `! -name '${item}'`)
         .join(' ')
 

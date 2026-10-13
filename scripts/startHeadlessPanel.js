@@ -13,7 +13,6 @@ import {
     mapDependencies,
     mapPanelDeclarations,
     mapRunnable,
-    mapSecrets,
 } from './startPanel.js'
 import mapSettings from './mapSettings.js'
 import {
@@ -118,7 +117,6 @@ export default params => {
     measure('headless panel: map settings', () => mapSettings(params))
     measure('headless panel: map localizations', () => mapLocalizations(params))
     measure('headless panel: map runnable files', () => mapRunnable(params))
-    measure('headless panel: map secrets', () => mapSecrets(params))
     measure('headless panel: map Node files', () => mapNode(params))
 
     const {

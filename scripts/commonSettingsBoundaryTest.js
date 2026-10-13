@@ -4,13 +4,10 @@ import os from 'os'
 import path from 'path'
 import test from 'node:test'
 import mapSettings from './mapSettings.js'
-import { mapSecrets } from './startPanel.js'
 
 test('Panel maps only browser-safe settings', () => {
     const home = fs.mkdtempSync(path.join(os.tmpdir(), 'panelSettingsBoundary'))
     const secretsDirectory = path.join(home, 'secrets')
-    fs.mkdirSync(secretsDirectory)
-    fs.writeFileSync(path.join(secretsDirectory, 'publicCommon.json'), '{}')
     const volumes = []
     const params = {
         addVolume: (left, right) => volumes.push({ left, right }),
@@ -26,13 +23,8 @@ test('Panel maps only browser-safe settings', () => {
     }
     try {
         mapSettings(params)
-        mapSecrets(params)
-        assert.deepEqual(volumes, [{
-            left: path.join(secretsDirectory, 'publicCommon.json'),
-            right: '/container/example/adminPanel/public/publicCommon.json:ro',
-        }])
-        assert.equal(fs.statSync(secretsDirectory).mode & 0o777, 0o700)
-        assert.equal(fs.statSync(volumes[0].left).mode & 0o777, 0o600)
+        assert.deepEqual(volumes, [])
+        assert.equal(fs.existsSync(secretsDirectory), false)
     }
     finally {
         fs.rmSync(home, { force: true, recursive: true })

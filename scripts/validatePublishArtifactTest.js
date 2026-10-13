@@ -20,6 +20,12 @@ test('Publish artifacts exclude runtime settings and private files', () => {
         assert.throws(() => validatePublishArtifact(artifactPath), /publicCommon\.json/)
 
         fs.unlinkSync(artifactPath)
+        fs.mkdirSync(path.join(directory, 'public'))
+        fs.writeFileSync(path.join(directory, 'public', 'publicCommon.json'), '{}')
+        execFileSync('zip', ['-q', artifactPath, 'public/publicCommon.json'], { cwd: directory })
+        assert.throws(() => validatePublishArtifact(artifactPath), /publicCommon\.json/)
+
+        fs.unlinkSync(artifactPath)
         fs.mkdirSync(path.join(directory, 'nested'))
         fs.writeFileSync(path.join(directory, 'nested', 'settingsOverride.json'), '{}')
         execFileSync('zip', ['-q', artifactPath, 'nested/settingsOverride.json'], { cwd: directory })
