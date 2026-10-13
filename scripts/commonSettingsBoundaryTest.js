@@ -5,7 +5,7 @@ import path from 'path'
 import test from 'node:test'
 import mapSettings from './mapSettings.js'
 
-test('Panel maps only browser-safe settings', () => {
+test('Panel maps shared public settings into browser assets', () => {
     const home = fs.mkdtempSync(path.join(os.tmpdir(), 'panelSettingsBoundary'))
     const secretsDirectory = path.join(home, 'secrets')
     const volumes = []
@@ -23,8 +23,17 @@ test('Panel maps only browser-safe settings', () => {
     }
     try {
         mapSettings(params)
-        assert.deepEqual(volumes, [])
-        assert.equal(fs.existsSync(secretsDirectory), false)
+        assert.deepEqual(volumes, [
+            {
+                left: '/tmp/example/adminPanel/settings/publicSettings.json',
+                right: '/container/example/adminPanel/public/publicSettings.json',
+            },
+            {
+                left: path.join(secretsDirectory, 'publicCommon.json'),
+                right: '/container/example/adminPanel/publicCommon.json:ro',
+            },
+        ])
+        assert.equal(fs.existsSync(path.join(secretsDirectory, 'publicCommon.json')), true)
     }
     finally {
         fs.rmSync(home, { force: true, recursive: true })

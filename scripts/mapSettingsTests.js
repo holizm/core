@@ -12,6 +12,9 @@ test('mapSettings mounts panel public settings in its public directory', t => {
     const settingsOverridePath = path.join(home, 'settingsOverride.json')
     fs.writeFileSync(publicSettingsPath, '{}')
     fs.writeFileSync(settingsOverridePath, '{}')
+    fs.mkdirSync(path.join(home, 'secrets'))
+    const publicCommonPath = path.join(home, 'secrets', 'publicCommon.json')
+    fs.writeFileSync(publicCommonPath, '{"accounts":{"realm":"dev"}}')
     const volumes = []
     mapSettings({
         addVolume: (...args) => volumes.push(args),
@@ -24,7 +27,11 @@ test('mapSettings mounts panel public settings in its public directory', t => {
         settingsOverridePath,
     })
     assert.deepEqual(volumes, [
-        [publicSettingsPath, '/home/dev/shop/adminPanel/public/publicSettings.json'],
+        ['/tmp/shop/adminPanel/settings/publicSettings.json', '/home/dev/shop/adminPanel/public/publicSettings.json'],
         [settingsOverridePath, '/home/dev/shop/adminPanel/public/settingsOverride.json'],
+        [publicCommonPath, '/home/dev/shop/adminPanel/publicCommon.json:ro'],
     ])
+    assert.deepEqual(JSON.parse(fs.readFileSync('/tmp/shop/adminPanel/settings/publicSettings.json', 'utf8')), {
+        accounts: { realm: 'dev' },
+    })
 })

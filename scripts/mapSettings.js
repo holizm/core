@@ -1,5 +1,6 @@
 import { chmodSync } from 'fs'
 import getApiIamSettings from './getApiIamSettings.js'
+import getPanelPublicSettings from './getPanelPublicSettings.js'
 import getSiteIamSettings from './getSiteIamSettings.js'
 import isControlRunnable from './isControlRunnable.js'
 import isFile from './isFile.js'
@@ -22,9 +23,19 @@ export default params => {
     } = params
     const hasPublicSide = ['panel', 'site'].includes(processType)
     const isControl = isControlRunnable(params)
+    const publicCommonFile = `${home}/secrets/publicCommon.json`
+    if (processType === 'panel') {
+        writeFileIfNotExists(publicCommonFile, '{}')
+        chmodSync(publicCommonFile, 0o600)
+    }
+    const panelPublicSettingsFile = `/tmp/${repo}/${process}/settings/publicSettings.json`
+    if (processType === 'panel') {
+        const settings = getPanelPublicSettings(publicCommonFile, publicSettingsPath)
+        writeFile(panelPublicSettingsFile, `${JSON.stringify(settings, null, 4)}\n`)
+    }
     const items = processType === 'panel'
         ? [
-            [publicSettingsPath, 'publicSettings.json'],
+            [panelPublicSettingsFile, 'publicSettings.json'],
             [settingsOverridePath, 'settingsOverride.json'],
         ]
         : [
@@ -55,9 +66,11 @@ export default params => {
             params.addVolume(resolvedPath, `${containerHome}/${repo}/${process}/${targetDirectory}${filename}`)
         }
     }
+    if (processType === 'panel') {
+        params.addVolume(publicCommonFile, `${containerHome}/${repo}/${process}/publicCommon.json:ro`)
+    }
     if (processType !== 'panel') {
         const privateCommonFile = `${home}/secrets/privateCommon.json`
-        const publicCommonFile = `${home}/secrets/publicCommon.json`
         const repoFile = `${home}/secrets/${repo}.json`
         writeFileIfNotExists(privateCommonFile, '{}')
         writeFileIfNotExists(publicCommonFile, '{}')
