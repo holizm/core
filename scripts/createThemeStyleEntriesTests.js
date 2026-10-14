@@ -8,10 +8,37 @@ test('createThemeStyleEntries writes one scoped style entry per theme', t => {
     const repo = 'themeStyleEntriesTest'
     const output = path.join('/tmp', repo)
     t.after(() => fs.rmSync(output, { recursive: true, force: true }))
-    createThemeStyleEntries({ multiThemed: false, process: 'site', repo, themeDirectories: ['theme01'] })
-    assert.equal(fs.existsSync(output), false)
-    createThemeStyleEntries({ multiThemed: true, process: 'site', repo, themeDirectories: ['theme01', 'theme12'] })
+    createThemeStyleEntries({
+        multiThemed: true,
+        process: 'site',
+        repo,
+        themeDirectories: ['theme01', 'theme12'],
+    })
     const styles = path.join(output, 'site', 'themeStyles')
     assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css'])
     assert.match(fs.readFileSync(path.join(styles, 'theme12.css'), 'utf8'), /themes\/12\/style\.css/)
+})
+
+test('single sites receive their complete CSS entry before container startup and watch sync', t => {
+    const source = fs.mkdtempSync(path.join('/tmp', 'singleSiteStyleSource'))
+    const repo = path.basename(source)
+    const output = path.join('/tmp', repo, 'site', 'style.css')
+    t.after(() => fs.rmSync(source, {
+        force: true,
+        recursive: true,
+    }))
+    const params = {
+        multiThemed: false,
+        process: 'site',
+        processPath: source,
+        repo,
+    }
+    fs.writeFileSync(path.join(source, 'style.css'), `@import './styles/theme.css';\n@import './styles/menu.css';\n`)
+    fs.mkdirSync(path.dirname(output), { recursive: true })
+    fs.writeFileSync(output, '')
+    createThemeStyleEntries(params)
+    assert.equal(fs.readFileSync(output, 'utf8'), fs.readFileSync(path.join(source, 'style.css'), 'utf8'))
+    fs.writeFileSync(path.join(source, 'style.css'), `@import './styles/updated.css';\n`)
+    createThemeStyleEntries(params)
+    assert.equal(fs.readFileSync(output, 'utf8'), fs.readFileSync(path.join(source, 'style.css'), 'utf8'))
 })
