@@ -2,6 +2,7 @@ import buildExclusions from './buildExclusions.js'
 import buildImage from './buildImage.js'
 import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
+import runBuildTests from './runBuildTests.js'
 import stop from './stop.js'
 import {
     runOnTerminal,
@@ -33,6 +34,8 @@ export default async params => {
         } = params
 
         Object.assign(params, process.env)
+
+        await runBuildTests(params)
 
         removeAndRecreateDir(buildDir)
         removeAndRecreateDir(processBuildDir)

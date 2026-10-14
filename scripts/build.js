@@ -3,6 +3,7 @@ import buildImage from './buildImage.js'
 import { buildPanel } from './buildPanel.js'
 import copySiteContent from './copySiteContent.js'
 import copyComposedCode from './copyComposedCode.js'
+import runBuildTests from './runBuildTests.js'
 import start from './start.js'
 import stop from './stop.js'
 import {
@@ -41,6 +42,8 @@ export default async params => {
         } = params
 
         Object.assign(params, process.env)
+
+        await runBuildTests(params)
 
         removeAndRecreateDir(buildDir)
         removeAndRecreateDir(processBuildDir)
