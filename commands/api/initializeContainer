@@ -24,6 +24,9 @@ const main = () => {
         show: true,
         throwOnError: true,
     })
+    runOnTerminal('touch /tmp/apiReady', {
+        throwOnError: true,
+    })
     if (isCiCd === 'true') {
         return
     }

@@ -29,3 +29,12 @@ test('validatePublishArtifact allows generated docs localization pages only for 
     assert.doesNotThrow(() => validatePublishArtifact(artifactPath, 'docs'))
     assert.throws(() => validatePublishArtifact(artifactPath, 'other'), /localization/)
 })
+
+test('validatePublishArtifact rejects source tests', t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'testArtifact'))
+    t.after(() => fs.rmSync(root, { force: true, recursive: true }))
+    fs.writeFileSync(path.join(root, 'forestRowTests.js'), '')
+    const artifactPath = path.join(root, 'tests.zip')
+    execFileSync('zip', ['-q', artifactPath, 'forestRowTests.js'], { cwd: root })
+    assert.throws(() => validatePublishArtifact(artifactPath), /forestRowTests\.js/)
+})

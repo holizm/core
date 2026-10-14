@@ -50,6 +50,7 @@ const generateExports = () => {
             .trim()
             .split('\n')
             .filter(Boolean)
+            .filter(file => !/(?:Test|Tests)\.jsx$/.test(file))
         const appActionFiles = files.filter(file => fs.readFileSync(file, 'utf8').includes('AppAction'))
         const lines = files
             .filter(file => !appActionFiles.includes(file))
