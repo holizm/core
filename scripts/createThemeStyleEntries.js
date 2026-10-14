@@ -1,4 +1,5 @@
 import {
+    getContent,
     removeAndRecreateDir,
     writeFile,
 } from './os.js'
@@ -7,10 +8,14 @@ export default params => {
     const {
         multiThemed,
         process,
+        processPath,
         repo,
         themeDirectories,
     } = params
-    if (!multiThemed) return
+    if (!multiThemed) {
+        writeFile(`/tmp/${repo}/${process}/style.css`, getContent(`${processPath}/style.css`))
+        return
+    }
     const directory = `/tmp/${repo}/${process}/themeStyles`
     removeAndRecreateDir(directory)
     themeDirectories.forEach(themeDirectory => {
