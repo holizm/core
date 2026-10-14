@@ -1,6 +1,6 @@
 services:
     database:
-        image: mongo:latest
+        image: mongo:9.0.2
         container_name: ${repo}Databases
         hostname: database
         volumes:
@@ -14,7 +14,10 @@ services:
         ports:
             - ${databaseEnginePort}:27017
         logging:
-            driver: none
+            driver: local
+            options:
+                max-size: 10m
+                max-file: '3'
         networks:
             - ${repo}Network
         # command: ["/bin/bash", "-c", "chown root:root /etc/mongo-keyfile && exec mongod --replSet rs0 --keyFile /etc/mongo-keyfile --bind_ip_all"]
