@@ -44,6 +44,7 @@ const createNonExistentFiles = params => {
     createDirIfNotExists('pages')
     createDirIfNotExists('parts/layout')
     createDirIfNotExists('parts/shared')
+    createDirIfNotExists('styles')
     copyFileIfNotExists(`${home}/core/site/headTemplate.jsx`, 'pages/head.jsx')
     const layoutTemplate = multiThemed
         ?
