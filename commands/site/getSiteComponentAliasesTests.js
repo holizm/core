@@ -19,3 +19,15 @@ test('getSiteComponentAliases maps core and page components to generated barrels
     assert.equal(aliases.homeTitle, path.join(directory, 'coreBarrels', 'pageParts', 'home', 'title'))
     assert.match(fs.readFileSync(path.join(directory, 'coreBarrels', 'coreFunctions', 'sample.js'), 'utf8'), /export \{ default \}/)
 })
+
+test('theme JSON fixtures receive direct per-file aliases without JavaScript in JSON barrels', t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteDataAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    const folder = path.join(directory, 'themes', '03', 'data')
+    fs.mkdirSync(folder, { recursive: true })
+    const file = path.join(folder, 'home.json')
+    fs.writeFileSync(file, '{"header":{}}')
+    const aliases = getSiteComponentAliases(directory, true)
+    assert.equal(aliases.theme03DataHome, file)
+    assert.equal(fs.existsSync(path.join(directory, 'coreBarrels', 'themes', '03', 'data', 'home.json')), false)
+})

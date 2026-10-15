@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
+import writeSiteComponentBarrel from './writeSiteComponentBarrel.js'
 
 const getSiteComponentAliases = (srcBase, absolute = false) => {
     const directories = [
@@ -19,6 +20,7 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
     ]
     const files = fg.sync([
         ...directories.map(directory => `${directory}/**/*.{js,jsx,ts,tsx}`),
+        'themes/**/*.json',
         'document*.jsx',
         'siteConfiguration.js',
     ], {
@@ -33,7 +35,8 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         const extension = path.extname(file)
         const modulePath = file.slice(0, -extension.length)
         const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
-        const hasDefault = /\bexport\s+default\b/.test(source)
+        const isData = extension === '.json'
+        const hasDefault = isData || /\bexport\s+default\b/.test(source)
         const segments = modulePath.split(path.sep)
         const owned = ['pageParts', 'themes'].includes(segments[0])
         const ownedSegments = segments[1] === 'sharedFallbacks'
@@ -59,21 +62,22 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         const defaultName = source.match(/\bexport\s+default\s+([\w$]+)\b/)?.[1]
         if (!owned && defaultName && source.includes(`const ${defaultName}`)) names.add(defaultName)
 
-        const barrelFile = path.join(srcBase, 'coreBarrels', file)
-        const relativeSource = path.relative(path.dirname(barrelFile), path.join(srcBase, file)).replaceAll(path.sep, '/')
-        const specifier = relativeSource.startsWith('.') ? relativeSource : `./${relativeSource}`
-        const content = `${hasDefault ? `export { default } from '${specifier}'\n` : ''}export * from '${specifier}'\n`
-        fs.mkdirSync(path.dirname(barrelFile), { recursive: true })
-        fs.writeFileSync(barrelFile, content)
-
-        const aliasPath = path.join('coreBarrels', modulePath)
+        if (!isData) writeSiteComponentBarrel({
+            barrelFile: path.join(srcBase, 'coreBarrels', file),
+            hasDefault,
+            sourceFile: path.join(srcBase, file),
+        })
+        const aliasPath = isData
+            ?
+            file
+            :
+            path.join('coreBarrels', modulePath)
         const target = absolute ? path.join(srcBase, aliasPath) : `./src/${aliasPath}`
         for (const name of names) {
             if (owned && !hasDefault) continue
             const alias = name[0].toLowerCase() + name.slice(1)
-            const prefixed = `core${name[0].toUpperCase()}${name.slice(1)}`
             if (!owned && segments.length > 1) aliases[`${segments[0]}${name[0].toUpperCase()}${name.slice(1)}`] ||= target
-            aliases[prefixed] ||= target
+            aliases[`core${name[0].toUpperCase()}${name.slice(1)}`] ||= target
             if (fs.existsSync(path.join(srcBase, 'parts', alias))) continue
             if (fs.existsSync(path.join(srcBase, 'pageParts', `${alias}Exports.jsx`))) continue
             aliases[alias] ||= target
