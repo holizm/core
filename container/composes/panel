@@ -32,6 +32,7 @@ services:
             - ${home}/panel/findBreadcrumbs.js:${containerHome}/${repo}/${process}/findBreadcrumbs.js
             - ${home}/panel/findClientInitializers.js:${containerHome}/${repo}/${process}/findClientInitializers.js
             - ${home}/panel/findDependencies.js:${containerHome}/${repo}/${process}/findDependencies.js
+            - ${home}/panel/findIconNames.js:${containerHome}/${repo}/${process}/findIconNames.js
             - ${home}/panel/findIcons.js:${containerHome}/${repo}/${process}/findIcons.js
             - ${home}/panel/findMenus.js:${containerHome}/${repo}/${process}/findMenus.js
             - ${home}/panel/findParts.js:${containerHome}/${repo}/${process}/findParts.js
@@ -39,6 +40,7 @@ services:
             - ${home}/panel/findRoutes.js:${containerHome}/${repo}/${process}/findRoutes.js
             - ${home}/panel/findServerInitializers.js:${containerHome}/${repo}/${process}/findServerInitializers.js
             - ${home}/panel/findTranslationScopes.js:${containerHome}/${repo}/${process}/findTranslationScopes.js
+            - ${home}/panel/generateIconSvg.js:${containerHome}/${repo}/${process}/generateIconSvg.js
             - ${home}/panel/generateItemPageRoutes.js:${containerHome}/${repo}/${process}/generateItemPageRoutes.js
             - ${home}/panel/generateItemPageTabs.js:${containerHome}/${repo}/${process}/generateItemPageTabs.js
             - ${home}/panel/generateListRoutes.js:${containerHome}/${repo}/${process}/generateListRoutes.js
