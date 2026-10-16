@@ -1,13 +1,13 @@
 {
     "type": "module",
     "dependencies": {
-        "@aws-sdk/client-s3": "3.1148.0",
+        "@aws-sdk/client-s3": "3.1152.0",
         "@babel/core": "8.0.7",
         "@babel/generator": "8.0.6",
         "chokidar": "5.0.0",
         "@babel/parser": "8.0.7",
         "@babel/traverse": "8.0.7",
-        "es-module-lexer": "3.0.3",
+        "es-module-lexer": "3.0.4",
         "fast-glob": "3.3.3",
         "inflection": "3.0.2",
         "lodash.camelcase": "4.3.0",
