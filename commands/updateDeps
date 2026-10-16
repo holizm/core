@@ -12,6 +12,15 @@ cd "$tempDir"
 for repoName in "${repos[@]}"; do
     echo "---- Processing $repoName ----"
 
+    if ! test -d "$basePath/$repoName"; then
+        clone holizm "$repoName"
+    fi
+
+    if ! test -f "$basePath/$repoName/package.json"; then
+        echo "Missing package.json in $basePath/$repoName" >&2
+        exit 1
+    fi
+
     rm -f package.json
 
     cp "$basePath/$repoName/package.json" .

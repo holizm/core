@@ -6,7 +6,7 @@ import path from 'path'
 import test from 'node:test'
 import { fileURLToPath } from 'url'
 
-test('dependency updates process newSite through the existing update and commit flow', () => {
+for (const missingRepository of [false, true]) test(`dependency updates include newSite when missing=${missingRepository}`, () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'updateDepsTests'))
     const environmentPath = path.join(directory, 'environment')
     fs.writeFileSync(environmentPath, `mkdir() { :; }
@@ -18,6 +18,14 @@ git() {
     printf 'git:%s\\n' "$*"
     if [[ "$1" == 'diff' ]]; then return 1; fi
 }
+test() {
+    if [[ "$1" == '-d' && "$2" == "$HOME/newSite" && "$dependencyTestMissingRepository" == 'true' && "$repositoryCloned" != 'true' ]]; then return 1; fi
+    return 0
+}
+clone() {
+    printf 'clone:%s\\n' "$*"
+    repositoryCloned=true
+}
 `)
     try {
         const result = spawnSync('bash', [fileURLToPath(new URL('./updateDeps', import.meta.url))], {
@@ -25,6 +33,7 @@ git() {
             env: {
                 ...process.env,
                 BASH_ENV: environmentPath,
+                dependencyTestMissingRepository: String(missingRepository),
             },
         })
         assert.equal(result.status, 0, result.stderr)
@@ -34,6 +43,10 @@ git() {
             const repository = sections[index]
             const output = sections[index + 1]
             repositories.push(repository)
+            if (repository === 'newSite') {
+                assert.equal(output.includes('clone:holizm newSite'), missingRepository)
+                if (missingRepository) assert.ok(output.indexOf('clone:holizm newSite') < output.indexOf('copy:'))
+            }
             assert.ok(output.includes(`copy:${process.env.HOME}/${repository}/package.json:.`))
             assert.ok(output.includes('update:npm-check-updates -u'))
             assert.ok(output.includes(`copy:package.json:${process.env.HOME}/${repository}/package.json`))
