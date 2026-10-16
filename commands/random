@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { spawnSync } from 'child_process'
 import { randomInt } from 'crypto'
 import {
     existsSync,
@@ -49,7 +50,9 @@ while (files.length > 0) {
     if (content.length > 0 && content.at(-1) !== 10) {
         console.log('')
     }
-    process.exit()
+    const result = spawnSync(path.join(home, 'core', 'commands', 'check'), [file], { stdio: 'inherit' })
+    if (result.error) throw result.error
+    process.exit(result.status ?? 1)
 }
 
 console.error('No text files found in the codebase.')
