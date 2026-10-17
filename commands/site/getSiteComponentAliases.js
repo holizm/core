@@ -39,7 +39,15 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         const modulePath = file.slice(0, -extension.length)
         const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
         const isData = extension === '.json'
-        const moduleExports = isData ? null : getSiteModuleExports(source)
+        let moduleExports = null
+        if (!isData) {
+            try {
+                moduleExports = getSiteModuleExports(source)
+            } catch (error) {
+                console.error('[getSiteComponentAliases] Failed file:', path.join(srcBase, file))
+                throw error
+            }
+        }
         const hasDefault = isData || moduleExports.hasDefault
         const segments = modulePath.split(path.sep)
         const owned = ['pageParts', 'themes'].includes(segments[0])
