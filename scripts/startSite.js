@@ -13,6 +13,7 @@ import getApiRepo from './getApiRepo.js'
 import getDependencies from './getDependencies.js'
 import getSiteRoutePath from './getSiteRoutePath.js'
 import getSiteContentSource from './getSiteContentSource.js'
+import getSiteStylesVolume from './getSiteStylesVolume.js'
 import isDir from './isDir.js'
 import isFile from './isFile.js'
 import {
@@ -263,22 +264,6 @@ const mapThemes = params => {
     })
 }
 
-const setStylesVolume = params => {
-    const {
-        containerHome,
-        multiThemed,
-        process,
-        processPath,
-        repo,
-    } = params
-    params.stylesVolume = multiThemed
-        ?
-        `- ${processPath}/style.css:${containerHome}/${repo}/${process}/style.css
-            - ${processPath}/styles:${containerHome}/${repo}/${process}/styles`
-        :
-        `- ${processPath}/styles:${containerHome}/${repo}/${process}/styles`
-}
-
 const mapOthers = params => {
     const {
         containerHome,
@@ -364,7 +349,7 @@ export default params => {
         'multiThemedGlobal.css'
         :
         'global.css'
-    setStylesVolume(params)
+    params.stylesVolume = getSiteStylesVolume(params)
     measure('site: resolve dependencies', () => resolveDependencies(params))
     measure('site: create missing files', () => createNonExistentFiles(params))
     measure('site: create missing theme files', () => createNonExistentThemeFiles(params))
