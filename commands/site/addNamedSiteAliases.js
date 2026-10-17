@@ -8,6 +8,10 @@ export default ({
     namedAliases,
     srcBase,
 }) => {
+    fs.rmSync(path.join(srcBase, 'coreNamedBarrels'), {
+        force: true,
+        recursive: true,
+    })
     for (const [name, file] of namedAliases) {
         const alias = name[0].toLowerCase() + name.slice(1)
         const coreAlias = `core${name[0].toUpperCase()}${name.slice(1)}`

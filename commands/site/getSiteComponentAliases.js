@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
 import addNamedSiteAliases from './addNamedSiteAliases.js'
+import getSiteModuleExports from './getSiteModuleExports.js'
 import writeSiteComponentBarrel from './writeSiteComponentBarrel.js'
 
 const getSiteComponentAliases = (srcBase, absolute = false) => {
@@ -27,6 +28,7 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
     ], {
         cwd: srcBase,
         dot: false,
+        ignore: ['**/*{Test,Tests}.{js,jsx,ts,tsx}'],
         onlyFiles: true,
     }).sort()
     const aliases = {}
@@ -37,7 +39,8 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         const modulePath = file.slice(0, -extension.length)
         const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
         const isData = extension === '.json'
-        const hasDefault = isData || /\bexport\s+default\b/.test(source)
+        const moduleExports = isData ? null : getSiteModuleExports(source)
+        const hasDefault = isData || moduleExports.hasDefault
         const segments = modulePath.split(path.sep)
         const owned = ['pageParts', 'themes'].includes(segments[0])
         const ownedSegments = segments[1] === 'sharedFallbacks'
@@ -49,18 +52,8 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
                 : segment[0].toUpperCase() + segment.slice(1)).join('')
             : path.basename(modulePath)
         const names = new Set([name])
-        if (!owned) {
-            for (const match of source.matchAll(/\bexport\s+(?:const|let|var|class|(?:async\s+)?function)\s+([\w$]+)/g)) {
-                namedAliases.push([match[1], file])
-            }
-            for (const match of source.matchAll(/\bexport\s*\{([^}]+)\}/g)) {
-                for (const specifier of match[1].split(',')) {
-                    const named = specifier.trim().split(/\s+as\s+/).pop()
-                    if (named) namedAliases.push([named, file])
-                }
-            }
-        }
-        const defaultName = source.match(/\bexport\s+default\s+([\w$]+)\b/)?.[1]
+        if (!owned) for (const name of moduleExports.names) namedAliases.push([name, file])
+        const defaultName = moduleExports?.defaultName
         if (!owned && defaultName && source.includes(`const ${defaultName}`)) names.add(defaultName)
 
         if (!isData) writeSiteComponentBarrel({
