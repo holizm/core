@@ -41,3 +41,23 @@ test('named core functions have default-compatible per-function aliases', async 
     const module = await import(`${aliases.getValue}.js`)
     assert.equal(module.default(), 'Loaded')
 })
+
+test('a named export matching its filename also supports default imports', async t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'namedFileAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    fs.mkdirSync(path.join(directory, 'core'))
+    fs.writeFileSync(path.join(directory, 'core', 'namedValue.js'), 'export const namedValue = 7\n')
+    const aliases = getSiteComponentAliases(directory, true)
+    const module = await import(`${aliases.namedValue}.js`)
+    assert.equal(module.default, 7)
+})
+
+test('scoped filename aliases also retain named-export default compatibility', async t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scopedNamedAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    fs.mkdirSync(path.join(directory, 'coreFunctions'))
+    fs.writeFileSync(path.join(directory, 'coreFunctions', 'namedValue.js'), 'export const namedValue = 7\n')
+    const aliases = getSiteComponentAliases(directory, true)
+    const module = await import(`${aliases.coreFunctionsNamedValue}.js`)
+    assert.equal(module.default, 7)
+})

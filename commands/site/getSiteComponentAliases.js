@@ -52,7 +52,7 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
                 : segment[0].toUpperCase() + segment.slice(1)).join('')
             : path.basename(modulePath)
         const names = new Set([name])
-        if (!owned) for (const name of moduleExports.names) namedAliases.push([name, file])
+        if (!owned) for (const name of moduleExports.names) namedAliases.push([name, file, hasDefault])
         const defaultName = moduleExports?.defaultName
         if (!owned && defaultName && source.includes(`const ${defaultName}`)) names.add(defaultName)
 
