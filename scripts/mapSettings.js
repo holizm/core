@@ -45,6 +45,7 @@ export default params => {
             [settingsOverridePath, 'settingsOverride.json'],
         ]
     for (const [sourcePath, filename] of items) {
+        if (processType === 'panel' && filename === 'settingsOverride.json' && !isFile(sourcePath)) continue
         const isPublicSetting = ['publicSettings.json', 'settingsOverride.json'].includes(filename)
         const resolvedPath = isFile(sourcePath)
             ?

@@ -44,7 +44,6 @@ const createNonExistentFiles = params => {
     }
     copyFileIfNotExists(`${home}/core/api/privateSettingsTemplate`, privateSettingsPath)
     if (!isControlRunnable(params)) {
-        copyFileIfNotExists(`${basePath}/settingsOverrideTemplate`, 'settingsOverride.json')
         copyFileIfNotExists(`${home}/core/api/publicSettingsTemplate`, publicSettingsPath)
     }
 }

@@ -5,6 +5,30 @@ import path from 'path'
 import test from 'node:test'
 import mapSettings from './mapSettings.js'
 
+test('missing panel overrides are neither created nor mounted, including control panels', t => {
+    const home = fs.mkdtempSync(path.join(os.tmpdir(), 'missingPanelOverride'))
+    t.after(() => fs.rmSync(home, { force: true, recursive: true }))
+    const settingsOverridePath = path.join(home, 'settingsOverride.json')
+    const privateSettingsPath = path.join(home, 'privateSettings.json')
+    for (const isControl of [false, true]) {
+        fs.writeFileSync(privateSettingsPath, JSON.stringify({ isControl }))
+        const volumes = []
+        mapSettings({
+            addVolume: (...rest) => volumes.push(rest),
+            containerHome: '/home/dev',
+            home,
+            privateSettingsPath,
+            process: 'userPanel',
+            processType: 'panel',
+            publicSettingsPath: path.join(home, 'publicSettings.json'),
+            repo: 'phoneAi',
+            settingsOverridePath,
+        })
+        assert.equal(fs.existsSync(settingsOverridePath), false)
+        assert.equal(volumes.some(volume => volume.some(value => value.includes('settingsOverride.json'))), false)
+    }
+})
+
 test('mapSettings mounts panel public settings in its public directory', t => {
     const home = fs.mkdtempSync(path.join(os.tmpdir(), 'mapSettings'))
     t.after(() => fs.rmSync(home, { force: true, recursive: true }))

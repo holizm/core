@@ -48,7 +48,6 @@ export const headlessPanelStructure = {
         'routes.jsx': 'export default []\n',
         'unauthorized.jsx': '',
     },
-    'settingsOverride.json': '{\n    "accounts": {\n        "client": "panel"\n    }\n}\n',
     svg: {
         'dark.jsx': '',
         'light.jsx': '',
