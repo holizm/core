@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$home/core/scripts/logger.sh"
+
 echo Watching for AST
 base=$home/$repo/$process
 
@@ -23,6 +25,6 @@ while IFS=' ' read file event
 do
     export file
     export event
-    Info $file $event
+    info "$file" "$event"
     node $base/astGenerator.js $file
 done
