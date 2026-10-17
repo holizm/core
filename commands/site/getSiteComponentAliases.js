@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
+import addNamedSiteAliases from './addNamedSiteAliases.js'
 import writeSiteComponentBarrel from './writeSiteComponentBarrel.js'
 
 const getSiteComponentAliases = (srcBase, absolute = false) => {
@@ -50,12 +51,12 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         const names = new Set([name])
         if (!owned) {
             for (const match of source.matchAll(/\bexport\s+(?:const|let|var|class|(?:async\s+)?function)\s+([\w$]+)/g)) {
-                namedAliases.push([match[1], modulePath])
+                namedAliases.push([match[1], file])
             }
             for (const match of source.matchAll(/\bexport\s*\{([^}]+)\}/g)) {
                 for (const specifier of match[1].split(',')) {
                     const named = specifier.trim().split(/\s+as\s+/).pop()
-                    if (named) namedAliases.push([named, modulePath])
+                    if (named) namedAliases.push([named, file])
                 }
             }
         }
@@ -84,15 +85,12 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         }
     }
 
-    for (const [name, modulePath] of namedAliases) {
-        const alias = name[0].toLowerCase() + name.slice(1)
-        const targetPath = path.join('coreBarrels', modulePath)
-        const target = absolute ? path.join(srcBase, targetPath) : `./src/${targetPath}`
-        aliases[`core${name[0].toUpperCase()}${name.slice(1)}`] ||= target
-        if (fs.existsSync(path.join(srcBase, 'parts', alias))) continue
-        if (fs.existsSync(path.join(srcBase, 'pageParts', `${alias}Exports.jsx`))) continue
-        aliases[alias] ||= target
-    }
+    addNamedSiteAliases({
+        absolute,
+        aliases,
+        namedAliases,
+        srcBase,
+    })
 
     for (const name of ['themeHeads', 'themeIndexes', 'themeLayouts', 'themeStyles']) {
         if (!fs.existsSync(path.join(srcBase, name, 'index.jsx'))) continue

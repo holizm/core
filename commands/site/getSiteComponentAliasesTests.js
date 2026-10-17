@@ -31,3 +31,13 @@ test('theme JSON fixtures receive direct per-file aliases without JavaScript in 
     assert.equal(aliases.theme03DataHome, file)
     assert.equal(fs.existsSync(path.join(directory, 'coreBarrels', 'themes', '03', 'data', 'home.json')), false)
 })
+
+test('named core functions have default-compatible per-function aliases', async t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteNamedAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    fs.mkdirSync(path.join(directory, 'core'))
+    fs.writeFileSync(path.join(directory, 'core', 'cache.js'), `export const getValue = () => 'Loaded'\n`)
+    const aliases = getSiteComponentAliases(directory, true)
+    const module = await import(`${aliases.getValue}.js`)
+    assert.equal(module.default(), 'Loaded')
+})

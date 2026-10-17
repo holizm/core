@@ -4,6 +4,7 @@ import path from 'path'
 export default ({
     barrelFile,
     hasDefault,
+    namedExport,
     sourceFile,
 }) => {
     const relativeSource = path.relative(path.dirname(barrelFile), sourceFile).replaceAll(path.sep, '/')
@@ -12,9 +13,10 @@ export default ({
         relativeSource
         :
         `./${relativeSource}`
-    const defaultExport = hasDefault
+    const exportedName = namedExport ? `${namedExport} as default` : 'default'
+    const defaultExport = hasDefault || namedExport
         ?
-        `export { default } from '${specifier}'\n`
+        `export { ${exportedName} } from '${specifier}'\n`
         :
         ''
     const content = `${defaultExport}export * from '${specifier}'\n`
