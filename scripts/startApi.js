@@ -101,7 +101,6 @@ const mapDependencies = params => {
         params.addVolume(`${partFilePath}`, `${containerHome}/${dependency}/part`)
 
         if (runnablePart) {
-            params.addVolume(partFilePath, `${containerHome}/${repo}/${dependency}/part`)
             const localizationDirectories = [
                 'localization',
                 'panel/localization',
