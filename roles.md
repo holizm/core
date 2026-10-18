@@ -25,7 +25,6 @@
 | collaboration | user, collaborator |
 | collections | collectionAgent, debtor |
 | commissions | salesperson, commissionManager |
-| commits | contributor, reviewer |
 | completion | user, reviewer |
 | compliance | complianceOfficer, auditor |
 | contacts | user, contactManager |
