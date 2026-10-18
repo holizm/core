@@ -1,0 +1,7 @@
+import { t } from 'app'
+
+export default () => <div role='alert'>
+    {
+        t('coreNoAccessExplanation')
+    }
+</div>

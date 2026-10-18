@@ -1,0 +1,13 @@
+import Routing from './core/routing.jsx'
+import Error from './panel/error.jsx'
+import ErrorBoundary from './panel/errorBoundary.jsx'
+import Loader from './panel/loader.jsx'
+import NoAccess from './panel/unauthorized.jsx'
+
+export default {
+    Error,
+    ErrorBoundary,
+    Loader,
+    NoAccess,
+    Root: Routing,
+}
