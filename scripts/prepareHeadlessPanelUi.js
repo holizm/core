@@ -14,6 +14,8 @@ export default params => {
         ['panel/loader.jsx', 'loaderTemplate', 'panel/loader.jsx'],
         ['panel/unauthorized.jsx', 'unauthorizedTemplate', 'panel/unauthorized.jsx'],
         ['panel/head.html', 'headTemplate', 'head.html'],
+        ['panel/initial.css', 'initialStyleTemplate', 'initial.css'],
+        ['panel/loader.html', 'loaderMarkupTemplate', 'loader.html'],
     ]
     for (const [source, template, target] of files) {
         const sourcePath = path.join(params.processPath, source)
@@ -21,8 +23,5 @@ export default params => {
             writeFile(sourcePath, getContent(path.join(params.home, 'core/panel/headless', template)))
         }
         params.addVolume(sourcePath, `${targetBase}/${target}`)
-    }
-    for (const file of ['initial.css', 'loader.html']) {
-        params.addVolume(`${params.processPath}/panel/${file}`, `${targetBase}/${file}`)
     }
 }

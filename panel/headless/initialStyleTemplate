@@ -1,0 +1,22 @@
+.loader {
+    display: grid;
+    inset: 0;
+    place-items: center;
+    position: fixed;
+}
+
+.loader::after {
+    animation: loaderSpin 0.8s linear infinite;
+    border: 0.2rem solid currentColor;
+    border-radius: 50%;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 50%, 50% 100%, 0 100%);
+    content: '';
+    height: 2rem;
+    width: 2rem;
+}
+
+@keyframes loaderSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
