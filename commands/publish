@@ -6,7 +6,6 @@ import {
 } from '../scripts/terminal.js'
 import {
     divide,
-    error,
     errorAndExit,
     info,
 } from '../scripts/logger.js'
@@ -16,6 +15,7 @@ import getExistingBuild from '../scripts/getExistingBuild.js'
 import getInstance from '../scripts/getInstance.js'
 import getSiteContentSource from '../scripts/getSiteContentSource.js'
 import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
+import getPublishedPackageInstallCommand from '../scripts/getPublishedPackageInstallCommand.js'
 import initializePublishedIamSettings from '../scripts/initializePublishedIamSettings.js'
 import initializePublishedSettingsOverride from '../scripts/initializePublishedSettingsOverride.js'
 import isFile from '../scripts/isFile.js'
@@ -45,7 +45,6 @@ const params =
         })
 
 const {
-    isApi,
     isPanel,
     isSite,
     processBuildDir,
@@ -86,8 +85,7 @@ await initializePublishedIamSettings({
     remoteBuildDir,
     remoteProcessPath,
 })
-await runOnServer(domain, `cd ${remoteProcessPath} && /holism/server/commands/installPackages`)
-const user = (await runOnServer(domain, 'whoami', true)).trim()
+await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
 
 // if (isApi || isSite) {
 //     try {
@@ -101,12 +99,6 @@ const user = (await runOnServer(domain, 'whoami', true)).trim()
 //         divide()
 //     }
 // }
-if (isApi) {
-    await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 1 -maxdepth 1 -type d -name '.*' ! -name '.bin' -exec rm -rf {} +`)
-    await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip 'node_modules/*' -d ${remoteProcessPath}`)
-    await runOnServer(domain, `find ${remoteProcessPath}/node_modules -mindepth 2 -maxdepth 2 -type f -name exports.js -exec sed -i 's|/home/dev/${repo}/|/home/${user}/${instance?.serverDirectory}/|g' {} +`)
-}
-
 await runOnServer(domain, `rm -rf ${remoteBuildDir}`)
 
 await startPublishedProcess({
