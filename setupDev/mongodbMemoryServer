@@ -13,11 +13,21 @@ if [ ! -x "$binaryPath" ]; then
     if [ -f "$downloadArchive" ]; then
         cp "$downloadArchive" "$archivePath"
     else
-        if ! curl -fL --retry 5 \
+        if ! curl -fsSL --connect-timeout 10 --max-time 120 --retry 1 \
             -o "$archivePath" \
             'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2204-7.0.14.tgz'; then
-            error 'MongoDB test server download failed.'
-            exit 1
+            if ! command -v docker >/dev/null; then
+                error 'MongoDB test server download failed and the container engine is unavailable.'
+                exit 1
+            fi
+            image='mongo:7.0.14'
+            docker image inspect "$image" >/dev/null 2>&1 || timeout 180 docker pull "$image"
+            containerId=$(docker create "$image")
+            trap 'docker rm "$containerId" >/dev/null; rm -f "$archivePath"' EXIT
+            docker cp "$containerId:/usr/bin/mongod" "$binaryPath"
+            chmod +x "$binaryPath"
+            "$binaryPath" --version >/dev/null
+            exit 0
         fi
     fi
     temporaryDirectory=$(mktemp -d "$cacheDirectory/extract.XXXXXXXXXX")
@@ -33,3 +43,5 @@ if [ ! -x "$binaryPath" ]; then
         exit 1
     }
 fi
+
+"$binaryPath" --version >/dev/null

@@ -29,3 +29,11 @@ if ! command -v npm >/dev/null; then
     error 'npm is unavailable after installing Node.js.'
     exit 1
 fi
+
+# Node.js bundles npm, but npm publishes stable releases independently.
+info 'installing the latest stable npm ...'
+if ! sudo npm install --global npm@latest; then
+    warning 'Could not upgrade npm to the latest stable release; continuing with the installed version.'
+fi
+hash -r
+success "npm $(npm --version) installed"

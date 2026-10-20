@@ -1,10 +1,35 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+backupDirectory="/var/backups/setupApt/$(date +%Y%m%dT%H%M%S)"
+probeDirectory=$(mktemp -d)
+trap 'rm -rf "$probeDirectory"' EXIT
+chmod 755 "$probeDirectory"
 
-sudo rm -f /etc/apt/sources.list.d/docker.list
-sudo rm -f /etc/apt/sources.list.d/github-cli.list
-sudo rm -f /etc/apt/sources.list.d/packagecloud*.list
-sudo rm -f /etc/apt/sources.list.d/ookla*.list
-sudo rm -f /etc/apt/sources.list.d/anydesk*.list
-sudo rm -f /etc/apt/sources.list.d/scootersoftware*.list
+for source in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+    [[ -f "$source" ]] || continue
+    if rg -q 'ubuntu-archive-keyring.gpg' "$source"; then
+        continue
+    fi
+    probePath="$probeDirectory/$(basename "$source")"
+    cp "$source" "$probePath"
+    chmod 644 "$probePath"
+    status=0
+    sudo timeout 45 apt-get \
+        -o "Dir::Etc::sourcelist=$probePath" \
+        -o Dir::Etc::sourceparts=- \
+        -o APT::Get::List-Cleanup=0 \
+        -o APT::Update::Error-Mode=any update >"$probeDirectory/output" 2>&1 || status=$?
+    if (( status == 0 )); then
+        printf '%s ✔\n' "$(basename "$source")"
+        continue
+    fi
+    if rg -q 'Could not get lock|Unable to acquire|Permission denied|Malformed|Conflicting values' "$probeDirectory/output"; then
+        cat "$probeDirectory/output" >&2
+        exit "$status"
+    fi
+    sudo mkdir -p "$backupDirectory"
+    sudo mv "$source" "$backupDirectory/"
+    printf 'Disabled %s; backup: %s\n' "$source" "$backupDirectory/$(basename "$source")"
+    cat "$probeDirectory/output"
+done

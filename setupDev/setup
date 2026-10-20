@@ -3,6 +3,9 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
+runSetupStep configureApt "$setupDev/configureApt"
+runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
+
 runSetupStep astCstWatcher "$setupDev/astCstWatcher"
 
 runSetupStep protectSecrets "$setupDev/protectSecrets"
@@ -60,7 +63,6 @@ runSetupStep safeEyes "$setupDev/safeEyes"
 # bash "$(dirname "$0")/adsPower"
 # bash "$(dirname "$0")/astrill"
 
-runSetupStep configureApt "$setupDev/configureApt"
 runSetupStep giveAccessToRoot "$setupDev/giveAccessToRoot"
 runSetupStep addPersianInputSource "$setupDev/addPersianInputSource"
 runSetupStep setLocaleToEnglishUs "$setupDev/setLocaleToEnglishUs"
@@ -82,7 +84,8 @@ runSetupStep configureGit "$setupDev/configureGit"
 runSetupStep enableDnd "$setupDev/enableDnd"
 runSetupStep configureDockerForUser "$setupDev/configureDockerForUser"
 runSetupStep setInstallationDate "$setupDev/setInstallationDate"
-runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
+runSetupStep recheckAptSources "$setupDev/removeProblematicSources"
+runSetupStep aptUpdate sudo apt-get -o APT::Update::Error-Mode=any update
 runSetupStep disableInertialScrolling "$setupDev/disableInertialScrolling"
 
 if (( setupFailures > 0 )); then

@@ -35,10 +35,7 @@ fi
 export gitEmail
 export gitName
 
-runSetupStep clear clear
-divide
 info "running setup ..."
-divide
 
 runSetupStep developmentSetup "$setupDev/setup"
 
@@ -48,6 +45,13 @@ runSetupStep setVcsIgnores node "$homeDir/core/scripts/setVcsIgnores.js"
 runSetupStep configGit node "$homeDir/core/commands/configGit"
 
 runSetupStep configureHosts bash "$scripts/configureHosts.sh"
+
+runSetupStep policyDependencies "$setupDev/policyDependencies"
+
+runSetupStep configIde node "$homeDir/core/commands/configIde"
+runSetupStep configAi node "$homeDir/core/commands/configAi"
+runSetupStep configAgent node "$homeDir/core/commands/configAgent"
+runSetupStep enforce node "$homeDir/core/commands/enforce"
 
 if (( setupFailures > 0 )); then
     error 'Setup finished with errors.'

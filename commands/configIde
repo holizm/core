@@ -79,7 +79,8 @@ const ideShortcutsPath = `${ideDir}/keybindings.json`
 const coreShortcutsPath = `${coreDir}/shortcuts.json`
 
 const getKeybindingsArray = (path) => {
-    const raw = getContent(path, true)
+    if (!isFile(path)) return []
+    const raw = getContent(path)
     if (!raw) return []
 
     try {

@@ -17,7 +17,7 @@ install() {
 
     if [[ -n "$packageOrFunction" ]]; then
         if declare -f "$packageOrFunction" &>/dev/null; then
-            "$packageOrFunction"
+            "$packageOrFunction" || return $?
         else
             if ! sudo apt-get install -y "$packageOrFunction"; then
                 error "failed to install $commandName"
@@ -31,6 +31,11 @@ install() {
         fi
     fi
 
+    if ! command -v "$commandName" &>/dev/null; then
+        error "$commandName is unavailable after installation"
+        return 1
+    fi
+
     success "installed $commandName"
 }
 
@@ -40,11 +45,22 @@ runSetupStep() {
     local label="$1"
     shift
     local status
-    if "$@"; then
+    if [[ "$label" == developmentSetup ]]; then
+        "$@" || setupFailures=$((setupFailures + 1))
+        return 0
+    fi
+    local output
+    output=$(mktemp)
+    if ( set -e; "$@" ) >"$output" 2>&1; then
+        rg '^Disabled ' "$output" || true
+        rm -f "$output"
+        success "$label $checkMark"
         return 0
     else
         status=$?
     fi
+    cat "$output" >&2
+    rm -f "$output"
     error "$label failed (exit $status); continuing setup."
     setupFailures=$((setupFailures + 1))
     return 0
