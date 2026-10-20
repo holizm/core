@@ -38,3 +38,23 @@ test('validatePublishArtifact rejects source tests', t => {
     execFileSync('zip', ['-q', artifactPath, 'forestRowTests.js'], { cwd: root })
     assert.throws(() => validatePublishArtifact(artifactPath), /forestRowTests\.js/)
 })
+
+test('publication rejects local runtime settings at root and nested paths', t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'runtimeSettingsArtifact'))
+    t.after(() => fs.rmSync(root, {
+        force: true,
+        recursive: true,
+    }))
+    fs.mkdirSync(path.join(root, 'nested'))
+    const names = ['.env', '.env.production', 'iamSettings.json', 'privateSettings.json', 'privateCommon.json', 'connectionStrings.json', 'settingsOverride.json']
+    for (const name of names) {
+        for (const prefix of ['', 'nested/']) {
+            const entry = `${prefix}${name}`
+            fs.writeFileSync(path.join(root, entry), 'localSettings')
+            const archive = path.join(root, 'runtime.zip')
+            execFileSync('zip', ['-q', archive, entry], { cwd: root })
+            assert.throws(() => validatePublishArtifact(archive), e => e.message.includes(name))
+            fs.unlinkSync(archive)
+        }
+    }
+})

@@ -1,4 +1,6 @@
 export default [
+    '**/.env',
+    '**/.env.*',
     '**/.vscode',
     '**/*.yaml',
     '**/ast',

@@ -16,7 +16,6 @@ import getInstance from '../scripts/getInstance.js'
 import getSiteContentSource from '../scripts/getSiteContentSource.js'
 import getPublishCleanupCommand from '../scripts/getPublishCleanupCommand.js'
 import getPublishedPackageInstallCommand from '../scripts/getPublishedPackageInstallCommand.js'
-import initializePublishedIamSettings from '../scripts/initializePublishedIamSettings.js'
 import initializePublishedSettingsOverride from '../scripts/initializePublishedSettingsOverride.js'
 import isFile from '../scripts/isFile.js'
 import resolvePublishDomain from '../scripts/resolvePublishDomain.js'
@@ -67,24 +66,19 @@ info('Copying to the server...')
 divide()
 
 await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}/${params.process}.zip`)
-await initializePublishedSettingsOverride({
-    domain,
-    remoteBuildDir,
-    remoteProcessPath,
-    settingsOverridePath: params.settingsOverridePath,
-})
+if (!params.isApi) {
+    await initializePublishedSettingsOverride({
+        domain,
+        remoteBuildDir,
+        remoteProcessPath,
+        settingsOverridePath: params.settingsOverridePath,
+    })
+}
 
 divide()
 
 await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath, isPanel))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
-await initializePublishedIamSettings({
-    domain,
-    instance,
-    params,
-    remoteBuildDir,
-    remoteProcessPath,
-})
 await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
 
 // if (isApi || isSite) {
