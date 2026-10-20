@@ -1,6 +1,6 @@
 services:
     database:
-        image: mongo:9.0.2
+        image: mongo:latest
         container_name: ${repo}Databases
         hostname: database
         volumes:
