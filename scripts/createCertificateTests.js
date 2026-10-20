@@ -1,4 +1,5 @@
 import assert from 'assert/strict'
+import { execFileSync } from 'child_process'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
@@ -35,3 +36,33 @@ test('createCertificate requests a certificate for the tenant host', async t => 
         delete globalThis.mockRunOnTerminalAsync
     }
 })
+
+for (const trusted of [true, false]) {
+    test(`createCertificate checks existing certificate authority trust: ${trusted}`, async t => {
+        const certificatesPath = fs.mkdtempSync(path.join(os.tmpdir(), 'existingCertificate'))
+        t.after(() => fs.rmSync(certificatesPath, { force: true, recursive: true }))
+        const base = path.join(certificatesPath, 'shop')
+        fs.mkdirSync(base)
+        execFileSync('openssl', ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-days', '1',
+            '-subj', '/CN=shop.local', '-addext', 'subjectAltName=DNS:shop.local,DNS:other.local',
+            '-keyout', path.join(base, 'key.pem'), '-out', path.join(base, 'certificate.pem')], { stdio: 'ignore' })
+        const calls = []
+        globalThis.mockRunOnTerminalAsync = command => {
+            calls.push(command)
+            if (!trusted && command.startsWith('openssl verify')) throw new Error('Untrusted issuer')
+        }
+        try {
+            assert.equal(await createCertificate({ certificatesPath, host: 'shop.local', tenant: 'shop' }), !trusted)
+            assert.match(calls[0], /openssl verify.*mkcert -CAROOT/)
+            if (!trusted) {
+                assert.match(calls[1], /mkcert -cert-file/)
+                assert.match(calls[1], /other\.local/)
+            } else {
+                assert.equal(calls.length, 1)
+            }
+        }
+        finally {
+            delete globalThis.mockRunOnTerminalAsync
+        }
+    })
+}

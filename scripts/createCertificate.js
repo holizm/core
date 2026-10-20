@@ -19,10 +19,15 @@ export default async params => {
     if (isFile(certPath) && isFile(keyPath)) {
         try {
             const certificate = new X509Certificate(readFileSync(certPath))
-            if (certificate.checkHost(host)) return false
             const existingHosts = [...(certificate.subjectAltName || '').matchAll(/DNS:([^,\s]+)/g)]
                 .map(match => match[1])
             hosts = [...new Set([...existingHosts, host])]
+            if (certificate.checkHost(host) && Date.parse(certificate.validTo) > Date.now()) {
+                await runOnTerminalAsync(`openssl verify -CAfile "$(mkcert -CAROOT)/rootCA.pem" "${certPath}"`, {
+                    throwOnError: true,
+                })
+                return false
+            }
         }
         catch (e) {
             void e
@@ -30,7 +35,7 @@ export default async params => {
     }
 
     createDirIfNotExists(basePath)
-    const command = `mkcert -cert-file ${certPath} -key-file ${keyPath} ${hosts.join(' ')} 2>/dev/null`
+    const command = `mkcert -cert-file ${certPath} -key-file ${keyPath} ${hosts.join(' ')}`
     await runOnTerminalAsync(command, {
         throwOnError: true,
     })

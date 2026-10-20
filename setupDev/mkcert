@@ -2,12 +2,37 @@
 
 . "$scripts/installer.sh"
 
+if [[ $(id -un) != dev ]]; then
+    errorAndExit 'Run development certificate setup as dev, without sudo.'
+fi
+
+install certutil libnss3-tools
+
 installMkcert() {
-    sudo apt-get install -y libnss3-tools
     wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -O /tmp/mkcert
     sudo cp /tmp/mkcert /usr/local/bin/mkcert
     sudo chmod +x --preserve-root /usr/local/bin/mkcert
-    mkcert -install
 }
 
 install mkcert installMkcert
+mkcert -install
+
+caRoot=$(mkcert -CAROOT)
+openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt "$caRoot/rootCA.pem"
+
+trustDirectories=("$HOME/.local/share/pki/nssdb")
+if [[ -d "$HOME/.pki/nssdb" ]]; then
+    trustDirectories+=("$HOME/.pki/nssdb")
+fi
+
+for directory in "${trustDirectories[@]}"; do
+    mkdir -p "$directory"
+    chmod 700 "$directory"
+    if [[ ! -f "$directory/cert9.db" && ! -f "$directory/cert8.db" ]]; then
+        certutil -N -d "sql:$directory" --empty-password
+    fi
+    certutil -A -d "sql:$directory" -t 'C,,' -n 'mkcert development CA' -i "$caRoot/rootCA.pem"
+    certutil -V -d "sql:$directory" -u L -n 'mkcert development CA'
+done
+
+success 'Local certificate authority trusted by the operating system and Chrome; fully restart Chrome to reload trust.'
