@@ -1,12 +1,29 @@
 #!/usr/bin/env bash
-
-clear
+set -euo pipefail
 
 processName=$(basename "$PWD")
-if [[ $processName == *Api || $processName == api ]]; then
-    cd /$home/$apiRepo
+if [[ ( "$processName" == *Api || "$processName" == api ) && -n "${apiRepo:-}" ]]; then
+    cd "$home/$apiRepo"
 fi
 
-npm install --legacy-peer-deps
+lockName=$(printf '%s' "$PWD" | sha256sum | cut -d' ' -f1)
+exec 9>"${TMPDIR:-/tmp}/packageInstall${lockName}"
+flock 9
+
+if ! npm install --legacy-peer-deps --no-audit --no-fund "$@"; then
+    printf 'Package installation failed. Fix the reported error and retry installPackages; the development shell stays available.\n' >&2
+    exit 1
+fi
+
+if [[ -d node_modules && -f package-lock.json ]]; then
+    sha256sum package-lock.json | cut -d' ' -f1 > node_modules/.installedLockHash
+    sha256sum package.json | cut -d' ' -f1 > node_modules/.installedPackageHash
+fi
+
+if [[ ( "$processName" == *Panel || "$processName" == panel ) && -f /tmp/panelInitializationFailed ]]; then
+    rm -f /tmp/panelInitializationFailed
+    touch /tmp/panelReady
+    printf 'Packages installed. Run start inside this container to launch the panel.\n'
+fi
 
 # https://runflare.com/mirrors/npm-mirror/

@@ -17,6 +17,7 @@ const {
 } = process.env
 
 const main = async () => {
+    await runStreaming(`bash -c 'for attempt in {1..300}; do [ -f /tmp/panelReady ] && exit 0; if [ -f /tmp/panelInitializationFailed ]; then echo "Run installPackages to repair dependencies, then start again."; exit 1; fi; sleep 1; done; exit 1'`)
     clear()
     divide()
     info('Starting...')

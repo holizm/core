@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+import {
+    rmSync,
+    writeFileSync,
+} from 'fs'
 import createControlPanelFiles from '../../scripts/createControlPanelFiles.js'
 import isControlPanel from '../../scripts/isControlPanel.js'
 import { info } from '../../scripts/logger.js'
@@ -14,6 +18,8 @@ const {
 } = process.env
 
 const main = () => {
+    rmSync('/tmp/panelReady', { force: true })
+    rmSync('/tmp/panelInitializationFailed', { force: true })
     process.chdir(`${home}/${repo}/${proc}`)
     if (isControlPanel({
         process: proc,
@@ -30,10 +36,17 @@ const main = () => {
         throwOnError: true,
     })
     if (isCiCd !== 'true') {
-        runOnTerminal('install', {
-            show: true,
-            throwOnError: true,
-        })
+        try {
+            runOnTerminal('install', {
+                show: true,
+                throwOnError: true,
+            })
+        }
+        catch (e) {
+            writeFileSync('/tmp/panelInitializationFailed', '')
+            info('Package installation failed. The container remains available; retry installPackages inside it.')
+            return
+        }
     }
     runOnTerminal('touch /tmp/panelReady', {
         show: true,

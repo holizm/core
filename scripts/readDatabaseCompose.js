@@ -32,7 +32,9 @@ export default async ({
         }
     }
     catch (e) {
-        throw new Error(`Unable to read database Compose configuration for ${instance || composePath}`)
+        const target = domain ? `${instance} on ${domain}` : composePath
+        const detail = e.killed ? 'command timed out' : (e.stderr?.trim() || e.message)
+        throw new Error(`Unable to read database Compose configuration for ${target}: ${detail}`)
     }
     const compose = JSON.parse(result.stdout)
     return compose

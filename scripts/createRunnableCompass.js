@@ -5,6 +5,7 @@ import {
 } from 'fs'
 import createCompassConnection from './createCompassConnection.js'
 import readDatabaseCompose from './readDatabaseCompose.js'
+import { warning } from './logger.js'
 
 export default async ({
     home,
@@ -21,11 +22,16 @@ export default async ({
         if (!instance.domain || !instance.serverDirectory) {
             throw new Error(`Invalid deployment instance for ${repo}`)
         }
-        connections.push(createCompassConnection(`${instance.serverDirectory}.prod`, await readDatabaseCompose({
-            domain: instance.domain,
-            home,
-            instance: instance.serverDirectory,
-        })))
+        try {
+            connections.push(createCompassConnection(`${instance.serverDirectory}.prod`, await readDatabaseCompose({
+                domain: instance.domain,
+                home,
+                instance: instance.serverDirectory,
+            })))
+        }
+        catch (e) {
+            warning(`Skipped production Compass connection: ${e.message}`)
+        }
     }
     const content = {
         connections,
