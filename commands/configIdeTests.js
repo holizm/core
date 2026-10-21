@@ -17,7 +17,7 @@ test('creates missing keybindings and preserves user settings on repeated setup'
         for (const directory of ['core/ide', '.config/Code/User', 'bin']) {
             mkdirSync(join(home, directory), { recursive: true })
         }
-        writeFileSync(join(home, 'core/ide/settings.json'), '{"editor.tabSize":4}')
+        writeFileSync(join(home, 'core/ide/settings.json'), readFileSync(new URL('../ide/settings.json', import.meta.url)))
         writeFileSync(join(home, 'core/ide/shortcuts.json'), '[{"key":"ctrl+k","command":"example"}]')
         writeFileSync(join(home, '.config/Code/User/settings.json'), '{"custom":true}')
         writeFileSync(join(home, 'bin/runnables'), '#!/bin/sh\nprintf ""\n', { mode: 0o755 })
@@ -30,6 +30,10 @@ test('creates missing keybindings and preserves user settings on repeated setup'
         const bindings = JSON.parse(readFileSync(join(home, '.config/Code/User/keybindings.json')))
         assert.equal(bindings.length, 1)
         assert.equal(JSON.parse(readFileSync(join(home, '.config/Code/User/settings.json'))).custom, true)
+        const settings = JSON.parse(readFileSync(join(home, '.config/Code/User/settings.json')))
+        assert.equal(settings['workbench.secondarySideBar.defaultVisibility'], 'hidden')
+        assert.equal(settings['workbench.startupEditor'], 'none')
+        assert.equal(settings['security.workspace.trust.enabled'], false)
     } finally {
         rmSync(home, { force: true, recursive: true })
     }

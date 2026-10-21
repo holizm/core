@@ -33,6 +33,7 @@
     "javascript.format.semicolons": "remove",
     "javascript.preferences.quoteStyle": "single",
     "javascript.updateImportsOnFileMove.enabled": "always",
+    "security.workspace.trust.enabled": false,
     "update.mode": "none",
     "update.showReleaseNotes": false,
     "window.confirmSaveUntitledWorkspace": false,

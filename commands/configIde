@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { runOnTerminal } from '../scripts/terminal.js'
+import configureIdeLayout from '../scripts/configureIdeLayout.js'
 import isFile from '../scripts/isFile.js'
 import {
     getContent,
@@ -117,3 +118,4 @@ const userKeybindings = getKeybindingsArray(ideShortcutsPath)
 const finalKeybindings = mergeKeybindings(coreKeybindings, userKeybindings)
 
 writeFile(ideShortcutsPath, JSON.stringify(finalKeybindings, null, 4))
+await configureIdeLayout(ideDir)
