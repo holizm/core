@@ -39,7 +39,7 @@ export default async ({
     )).trim()
     const restart = command => runOnServer(
         domain,
-        `cd ${processPath} && ${obsoleteProcessNames.map(name => `(${pm2} delete ${name} || true)`).join(' && ')} && ${command}`,
+        `cd ${processPath} && ${obsoleteProcessNames.map(name => `(${pm2} delete ${name} || true)`).join(' && ')} && ${command} && ${pm2} save`,
     )
 
     if (isApi) {
