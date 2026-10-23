@@ -1,10 +1,10 @@
 {
     "type": "module",
     "dependencies": {
-        "@aws-sdk/client-s3": "3.1152.0",
+        "@aws-sdk/client-s3": "3.1156.0",
         "@babel/core": "8.0.7",
         "@babel/generator": "8.0.6",
-        "chokidar": "5.0.0",
+        "chokidar": "6.0.0",
         "@babel/parser": "8.0.7",
         "@babel/traverse": "8.0.7",
         "es-module-lexer": "3.0.4",
