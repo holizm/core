@@ -7,7 +7,10 @@ import createSiteConfiguration from './createSiteConfiguration.js'
 
 test('createSiteConfiguration records the selected theme numbers', t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteConfiguration'))
-    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    t.after(() => fs.rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
     const repo = path.basename(directory)
     const volumes = []
     createSiteConfiguration({
@@ -17,13 +20,13 @@ test('createSiteConfiguration records the selected theme numbers', t => {
         multiThemed: true,
         process: 'site',
         repo,
-        themeDirectories: ['theme01', 'theme12'],
+        themeDirectories: ['theme01', 'theme12', 'coreTheme01'],
     })
     const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
     const configuration = JSON.parse(source.replace(/^export default /, ''))
     assert.deepEqual(configuration, {
         multiThemed: true,
-        themeNumbers: ['01', '12'],
+        themeNumbers: ['01', '12', 'core01'],
     })
     assert.deepEqual(volumes, [[
         '/source/site/buildRichTextRegistry.js',
@@ -33,7 +36,10 @@ test('createSiteConfiguration records the selected theme numbers', t => {
 
 test('single-themed composition maps the registry builder beside its collector', t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteConfiguration'))
-    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    t.after(() => fs.rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
     const repo = path.basename(directory)
     const volumes = []
     createSiteConfiguration({

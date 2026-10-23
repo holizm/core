@@ -7,16 +7,20 @@ import createThemeStyleEntries from './createThemeStyleEntries.js'
 test('createThemeStyleEntries writes one scoped style entry per theme', t => {
     const repo = 'themeStyleEntriesTest'
     const output = path.join('/tmp', repo)
-    t.after(() => fs.rmSync(output, { recursive: true, force: true }))
+    t.after(() => fs.rmSync(output, {
+        force: true,
+        recursive: true,
+    }))
     createThemeStyleEntries({
         multiThemed: true,
         process: 'site',
         repo,
-        themeDirectories: ['theme01', 'theme12'],
+        themeDirectories: ['theme01', 'theme12', 'coreTheme01'],
     })
     const styles = path.join(output, 'site', 'themeStyles')
-    assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css'])
+    assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css', 'themecore01.css'])
     assert.match(fs.readFileSync(path.join(styles, 'theme12.css'), 'utf8'), /themes\/12\/style\.css/)
+    assert.match(fs.readFileSync(path.join(styles, 'themecore01.css'), 'utf8'), /themes\/core01\/style\.css/)
 })
 
 test('single sites receive their complete CSS entry before container startup and watch sync', t => {

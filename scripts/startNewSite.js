@@ -1,8 +1,8 @@
-import fs from 'node:fs'
+import fs from 'fs'
 import {
     basename,
     join,
-} from 'node:path'
+} from 'path'
 import createNewSiteCiCd from './createNewSiteCiCd.js'
 import createNewSiteDirectories from './createNewSiteDirectories.js'
 import createSiteConfiguration from './createSiteConfiguration.js'
@@ -22,8 +22,9 @@ import {
 } from './logger.js'
 import kebabize from './kebabize.js'
 import mapNewSiteNode from './mapNewSiteNode.js'
-import mapSettings from './mapSettings.js'
 import mapNewSiteSharedFallbacks from './mapNewSiteSharedFallbacks.js'
+import mapSettings from './mapSettings.js'
+import mapSiteThemes from './mapSiteThemes.js'
 import processTenantLine from './processTenantLine.js'
 import {
     copyFileIfNotExists,
@@ -67,7 +68,7 @@ const createNonExistentThemeFiles = params => {
         themeDirectories,
     } = params
     if (!multiThemed) return
-    themeDirectories.forEach(themeDirectory => {
+    themeDirectories.filter(directory => /^theme\d+$/.test(directory)).forEach(themeDirectory => {
         const themePath = join(processPath, '..', themeDirectory)
         createDirIfNotExists(`${themePath}/pages`)
         createDirIfNotExists(`${themePath}/parts`)
@@ -238,26 +239,6 @@ const mapParts = params => {
     })
 }
 
-const mapThemes = params => {
-    const {
-        containerHome,
-        multiThemed,
-        process,
-        processPath,
-        repo,
-        themeDirectories,
-    } = params
-    if (!multiThemed) return
-    const repoPath = join(processPath, '..')
-    themeDirectories.forEach(themeDirectory => {
-        const themeNumber = themeDirectory.slice('theme'.length)
-        params.addVolume(
-            `${repoPath}/${themeDirectory}`,
-            `${containerHome}/${repo}/${process}/src/themes/${themeNumber}`,
-        )
-    })
-}
-
 const setStylesVolume = params => {
     const {
         containerHome,
@@ -386,7 +367,7 @@ export default params => {
     measure('site: map settings', () => mapSettings(params))
     measure('site: map pages', () => mapPages(params))
     measure('site: map parts', () => mapParts(params))
-    measure('site: map themes', () => mapThemes(params))
+    measure('site: map themes', () => mapSiteThemes(params))
     measure('site: map shared fallbacks', () => mapNewSiteSharedFallbacks(params))
     measure('site: map other files', () => mapOthers(params))
     measure('site: map Node files', () => mapNewSiteNode(params))

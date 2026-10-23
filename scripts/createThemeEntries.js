@@ -1,4 +1,5 @@
 import { join } from 'path'
+import getThemeKey from './getThemeKey.js'
 import isFile from './isFile.js'
 import {
     removeAndRecreateDir,
@@ -39,7 +40,7 @@ export default params => {
         const properties = []
         themeDirectories.forEach(themeDirectory => {
             if (!isFile(join(processPath, '..', themeDirectory, 'pages', `${configuration.type}.jsx`))) return
-            const theme = themeDirectory.slice('theme'.length)
+            const theme = getThemeKey(themeDirectory)
             const component = `Theme${theme}${configuration.suffix}`
             if (configuration.type === 'layout') {
                 properties.push(`    '${theme}': () => import('../themes/${theme}/pages/layout'),`)

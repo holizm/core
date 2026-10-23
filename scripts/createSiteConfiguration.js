@@ -1,3 +1,4 @@
+import getThemeKey from './getThemeKey.js'
 import { writeFile } from './os.js'
 
 export default ({
@@ -18,7 +19,7 @@ export default ({
     }
     const configuration = {
         multiThemed,
-        themeNumbers: themeDirectories.map(directory => directory.slice('theme'.length)),
+        themeNumbers: themeDirectories.map(getThemeKey),
     }
     writeFile(
         `/tmp/${repo}/${process}/siteConfiguration.js`,
