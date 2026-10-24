@@ -1,6 +1,7 @@
 const persistentItems = [
     '.env',
     '.env.*',
+    'blobs',
     'certificates',
     'privateCommon.json',
     'publicCommon.json',

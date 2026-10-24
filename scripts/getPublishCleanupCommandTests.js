@@ -44,6 +44,30 @@ test('publish cleanup removes panel common settings and preserves API common set
         }
     }
     finally {
-        fs.rmSync(directory, { force: true, recursive: true })
+        fs.rmSync(directory, {
+            force: true,
+            recursive: true,
+        })
+    }
+})
+
+test('site publication retains tenant SEO blobs while removing old build output', () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'sitePublishCleanup'))
+    const tenant = path.join(directory, 'blobs', 'example')
+    try {
+        fs.mkdirSync(tenant, { recursive: true })
+        fs.mkdirSync(path.join(directory, 'dist'))
+        fs.writeFileSync(path.join(tenant, 'robots.txt'), 'User-agent: *')
+        fs.writeFileSync(path.join(tenant, 'sitemap.xml'), '<urlset/>')
+        execFileSync('bash', ['-lc', getPublishCleanupCommand(directory, false)])
+        assert.equal(fs.readFileSync(path.join(tenant, 'robots.txt'), 'utf8'), 'User-agent: *')
+        assert.equal(fs.readFileSync(path.join(tenant, 'sitemap.xml'), 'utf8'), '<urlset/>')
+        assert.equal(fs.existsSync(path.join(directory, 'dist')), false)
+    }
+    finally {
+        fs.rmSync(directory, {
+            force: true,
+            recursive: true,
+        })
     }
 })
