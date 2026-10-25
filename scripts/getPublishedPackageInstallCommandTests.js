@@ -57,7 +57,33 @@ test('interrupted installation restores handlers without requiring another SSH r
     assert.equal(runInstallation('rm -rf node_modules/tenants; kill -HUP $$'), 129)
 })
 
-test('non-API package installation remains unchanged', () => {
-    const command = getPublishedPackageInstallCommand({ isApi: false }, '/tmp/build', '$HOME/example/panel')
+test('panel package installation remains unchanged', () => {
+    const command = getPublishedPackageInstallCommand({ isPanel: true }, '/tmp/build', '$HOME/example/panel')
     assert.equal(command, 'cd "$HOME/example/panel" && /holism/server/commands/installPackages')
+})
+
+test('built sites install runtime dependencies without resolving development packages', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publishedSitePackages'))
+    const packagePath = path.join(root, 'package.json')
+    const metadata = {
+        dependencies: { express: '1.0.0' },
+        devDependencies: { typescript: '999.0.0' },
+        private: true,
+    }
+    try {
+        fs.writeFileSync(packagePath, JSON.stringify(metadata))
+        const command = getPublishedPackageInstallCommand({ isSite: true }, '/tmp/build', root)
+            .replace('/holism/server/commands/installPackages', 'true')
+        execFileSync('bash', ['-c', command])
+        const result = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+        assert.deepEqual(result.dependencies, metadata.dependencies)
+        assert.equal(result.private, true)
+        assert.equal(Object.hasOwn(result, 'devDependencies'), false)
+    }
+    finally {
+        fs.rmSync(root, {
+            force: true,
+            recursive: true,
+        })
+    }
 })
