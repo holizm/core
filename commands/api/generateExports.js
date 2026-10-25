@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import path from 'path'
 import { warning } from '../../scripts/logger.js'
 import { writeFile } from '../../scripts/os.js'
 import { runOnTerminal } from '../../scripts/terminal.js'
@@ -29,6 +30,6 @@ for (const directory of directories) {
     if (files.some(file => !file)) {
         warning(root, files)
     }
-    const exports = files.map(file => `export * from '${file}'`).join('\n')
+    const exports = files.map(file => `export * from './${path.relative(root, file).split(path.sep).join('/')}'`).join('\n')
     writeFile(exportsFilePath, exports)
 }
