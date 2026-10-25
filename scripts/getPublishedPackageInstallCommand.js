@@ -1,5 +1,6 @@
 export default (params, remoteBuildDir, remoteProcessPath) => {
     const install = `cd "${remoteProcessPath}" && /holism/server/commands/installPackages`
+    if (params.isSite) return `cd "${remoteProcessPath}" && npm pkg delete devDependencies && /holism/server/commands/installPackages`
     if (!params.isApi) return install
     const command = [
         'set -e',
