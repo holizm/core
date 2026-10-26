@@ -16,7 +16,7 @@ export default (params, remoteBuildDir, remoteProcessPath) => {
         `trap 'exit 129' HUP`,
         `trap 'exit 130' INT`,
         `trap 'exit 143' TERM`,
-        // install,
+        install,
     ].join('\n')
     return command
 }
