@@ -59,7 +59,7 @@ const findFiles = directory => fs.readdirSync(directory, {
         !entry.isFile()
         || !entry.name.endsWith('.jsx')
         || entry.name === 'exports.jsx'
-        || entry.name.endsWith('Exports.jsx')
+        || /(?:Exports|Tests?)\.jsx$/.test(entry.name)
     ) {
         return []
     }
