@@ -83,7 +83,7 @@ const mapDependencies = params => {
     for (const dependency of dependencies) {
         let runnablePart = false
         let dependencyOrgOrRep = ''
-        if (fs.existsSync(`${home}/${repo}/${dependency}`) && dependency !== 'accounts') {
+        if (isFile(`${home}/${repo}/${dependency}/part`) && dependency !== 'accounts') {
             dependencyOrgOrRep = `/${repo}`
             runnablePart = true
         }
