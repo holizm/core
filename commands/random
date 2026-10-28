@@ -50,7 +50,7 @@ while (files.length > 0) {
     if (content.length > 0 && content.at(-1) !== 10) {
         console.log('')
     }
-    const result = spawnSync(path.join(home, 'core', 'commands', 'check'), [file], { stdio: 'inherit' })
+    const result = spawnSync(path.join(home, 'core', 'commands', 'check'), [file, '--noClear'], { stdio: 'inherit' })
     if (result.error) throw result.error
     process.exit(result.status ?? 1)
 }

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-clear
+if [[ $2 != --noClear ]]; then
+    clear
+fi
 . $HOME/core/scripts/logger.sh
 
 target=$1
