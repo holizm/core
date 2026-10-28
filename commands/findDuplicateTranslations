@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
 import { getContent } from '../scripts/os.js'
 import {
     divide,
     info,
     warning,
 } from '../scripts/logger.js'
+
+clear()
 
 const findCmd = `find . -type f -name en.json -path '*/localization/*' ! -path '*/node_modules/*'`
 const files = runOnTerminal(findCmd).split('\n')

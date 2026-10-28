@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
 import {
     getContent,
     writeFile,
@@ -11,6 +14,8 @@ import {
     info,
     warning,
 } from '../scripts/logger.js'
+
+clear()
 
 const homeDir = process.env.HOME
 

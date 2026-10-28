@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 import extract from '../scripts/extract.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const {
     org,

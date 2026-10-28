@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 import { info } from '../../scripts/logger.js'
-import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../../scripts/terminal.js'
+
+clear()
 
 const {
     home,

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 if sudo rg -q "^$(whoami)" /etc/sudoers; then
     echo "User $(whoami) is already in the sudoers file."
 else

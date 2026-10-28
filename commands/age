@@ -4,6 +4,9 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { info, divide, success, warning, error } from '../scripts/logger.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const INSTALLATION_FILE = path.join(os.homedir(), 'installationDate')
 

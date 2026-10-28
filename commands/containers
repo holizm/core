@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+clear
 docker container ls -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.RunningFor}}"

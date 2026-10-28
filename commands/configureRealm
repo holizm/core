@@ -7,6 +7,9 @@ import { getRealmConfiguration } from '../scripts/realmConfiguration.js'
 import { createRealmKeycloak } from '../scripts/realmKeycloak.js'
 import provisionRealm from '../scripts/provisionRealm.js'
 import saveRealmSecrets from '../scripts/saveRealmSecrets.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const domain = process.argv[2]
 if (!domain || !/^[a-z0-9.-]+$/.test(domain)) {

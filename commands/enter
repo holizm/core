@@ -8,7 +8,12 @@ import {
     info,
 } from '../scripts/logger.js'
 import extract from '../scripts/extract.js'
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
+
+clear()
 
 let containerName = process.argv[2] || ''
 const command = process.argv[3]

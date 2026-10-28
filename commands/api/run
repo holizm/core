@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import {
+    clear,
     runStreaming,
 } from '../../scripts/terminal.js'
+
+clear()
 
 export default async params => {
     const home = process.env.home

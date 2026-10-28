@@ -2,6 +2,9 @@
 
 import fs from 'fs'
 import path from 'path'
+import { clear } from '../../scripts/terminal.js'
+
+clear()
 
 const home = process.env.home
 const processName = process.env.process

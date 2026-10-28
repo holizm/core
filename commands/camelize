@@ -2,8 +2,13 @@
 
 import fs from 'fs'
 import path from 'path'
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
 import camelize from '../scripts/camelize.js'
+
+clear()
 
 const list = runOnTerminal('find . -name .git -prune -o -print')
     .split('\n')

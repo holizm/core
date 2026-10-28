@@ -24,7 +24,7 @@ test('buildPanel waits for readiness, validates UI, and copies the build', async
         })
         assert.equal(calls.length, 3)
         assert.match(calls[0][1], /panelReady/)
-        assert.match(calls[1][1], /validatePanelUi\.js && npm run build/)
+        assert.match(calls[1][1], /generateExports\.js && node \.\/validatePanelUi\.js && npm run build/)
         assert.match(calls[2][1], /\/app\/shop\/adminPanel\/dist/)
         assert.match(calls[2][1], /\/tmp\/publishedPanel/)
     }

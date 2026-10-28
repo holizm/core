@@ -9,6 +9,9 @@ import {
 import {
     checkArvanConnection,
 } from '../scripts/arvanDns.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const [domain, ...sanDomains] = process.argv.slice(2)
 

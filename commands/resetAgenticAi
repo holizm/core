@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 codex logout
 pkill -u "$USER" -x codex 2>/dev/null
 rm -f ~/.codex/auth.json

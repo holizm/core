@@ -5,6 +5,9 @@ import {
     getContent,
     writeFile,
 } from '../scripts/os.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const homeDir = process.env.HOME
 const sourcePath = `${homeDir}/core/agentConfig`

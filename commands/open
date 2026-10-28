@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 workspacePath=/tmp/holism.code-workspace
 
 find "$HOME" -maxdepth 1 -mindepth 1 -type d -exec test -d "{}/.git" \; -print \

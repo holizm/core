@@ -2,7 +2,10 @@
 
 import path from 'path'
 import fs from 'fs/promises'
-import { runOnTerminalAsync } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminalAsync,
+} from '../scripts/terminal.js'
 import {
     divide,
     dividedError,
@@ -11,6 +14,8 @@ import {
     success,
     error,
 } from '../scripts/logger.js'
+
+clear()
 import setVcsIgnore from "../scripts/setVcsIgnore.js"
 
 const defaultOrg = 'holizm'

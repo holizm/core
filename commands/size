@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+clear
 du . --apparent-size -ah | sort -h

@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
 import dnsProviders from '../scripts/dnsProviders.js'
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
 import {
     error,
     info,
     success,
 } from '../scripts/logger.js'
+
+clear()
 
 const getDnsResolver = () =>
     runOnTerminal(

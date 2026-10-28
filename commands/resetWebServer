@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 rm -rf /etc/nginx/conf.d/*
 rm -rf /etc/nginx/includes/*
 rm -rf /tmp/*/*/webServer

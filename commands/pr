@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 import { execSync } from "node:child_process"
 // import open from "open"

@@ -9,6 +9,9 @@ import {
     error,
     info,
 } from '../scripts/logger.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const sortValue = value => {
     if (Array.isArray(value)) {

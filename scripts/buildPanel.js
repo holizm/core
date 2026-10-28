@@ -10,7 +10,7 @@ export const buildPanel = async params => {
         processPath,
     } = params
     await runStreaming(`docker exec ${containerName} bash -c 'for attempt in {1..300}; do [ -f /tmp/panelReady ] && exit 0; sleep 1; done; exit 1'`)
-    await runStreaming(`docker exec ${containerName} bash -c 'node ./validatePanelUi.js && npm run build'`)
+    await runStreaming(`docker exec ${containerName} bash -c 'node $home/core/commands/panel/generateExports.js && node ./validatePanelUi.js && npm run build'`)
     const command = `
         docker exec ${containerName} bash -c '
             cd '${processPath}/dist' &&

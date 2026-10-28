@@ -3,7 +3,10 @@
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
 import findChangedGithubRepos from '../scripts/findChangedGithubRepos.js'
 import findRepos from '../scripts/findRepos.js'
 import {
@@ -19,6 +22,8 @@ import {
     success,
     warning,
 } from '../scripts/logger.js'
+
+clear()
 // import configVsCode from '../scripts/configVsCode.js'
 // import adHoc from '../scripts/adHoc.js'
 

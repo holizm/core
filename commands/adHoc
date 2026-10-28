@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 import { execSync } from "child_process"
 import fs from "fs"

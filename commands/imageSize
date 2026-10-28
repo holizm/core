@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
+clear
 docker manifest inspect ghcr.io/holismprojects/jzp/adminapi:latest \
 | jq -r '"Size: " + (([.layers[].size] | add / 1024 / 1024 | round)|tostring) + " MB"'

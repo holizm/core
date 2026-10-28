@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 # if [[ ! -d $home/$repo/$process/node_modules ]] || [[ ! -f $home/$repo/$process/package-lock.json ]]; then
 #     cd $home/$repo/$process
 #     npm install --legacy-peer-deps

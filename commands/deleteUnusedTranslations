@@ -10,7 +10,12 @@ import {
     info,
     warning,
 } from '../scripts/logger.js'
-import { runOnTerminal } from '../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../scripts/terminal.js'
+
+clear()
 
 const home = process.env.HOME || '/home/dev'
 const scopes = ['common', 'api', 'panel', 'site']
