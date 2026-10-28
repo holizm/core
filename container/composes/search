@@ -7,6 +7,7 @@ services:
             - 127.0.0.1:${searchDatabasePort}:7700
         environment:
             - MEILI_MASTER_KEY=x7W6jDf03aZyoXKylGM6
+            - MEILI_UPGRADE_DB=true
         volumes:
             - /var/tmp/${repo}/search/databases:/meili_data
         restart: always
