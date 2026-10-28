@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 if [[ ${1:-} != '--once' ]]; then
     exec watch --interval 2 --no-title --no-wrap --exec "$(readlink -f "$0")" --once
 fi

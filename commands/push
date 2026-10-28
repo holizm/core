@@ -13,6 +13,9 @@ import ensureGitConfig from '../scripts/ensureGitConfig.js'
 import findRepos from '../scripts/findRepos.js'
 import pushRepo from '../scripts/pushRepo.js'
 import status from '../scripts/status.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const promptYesNo = async question => {
     const rl = readline.createInterface({

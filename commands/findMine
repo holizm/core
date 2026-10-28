@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 find "$@" -type f \
 -not -path '*/node_modules/*' \
 -not -path '*/.git/*' \

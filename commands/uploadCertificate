@@ -7,7 +7,12 @@ import {
     success,
 } from '../scripts/logger.js'
 import runOnServer from '../scripts/runOnServer.js'
-import { runStreaming } from '../scripts/terminal.js'
+import {
+    clear,
+    runStreaming,
+} from '../scripts/terminal.js'
+
+clear()
 
 const domain = process.argv[2]
 

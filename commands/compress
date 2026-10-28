@@ -1,3 +1,5 @@
+clear
+
 (
     cd "${1:-$PWD}" &&
     zip -yr "$(basename "$PWD").zip" ./*

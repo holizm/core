@@ -2,7 +2,12 @@
 
 import extract from '../scripts/extract.js'
 import { info } from '../scripts/logger.js'
-import { runStreaming } from '../scripts/terminal.js'
+import {
+    clear,
+    runStreaming,
+} from '../scripts/terminal.js'
+
+clear()
 
 const isNumeric = value => /^\d+$/.test(String(value))
 

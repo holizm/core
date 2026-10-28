@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 processType=$1
 
 . "$HOME/core/scripts/logger.sh"

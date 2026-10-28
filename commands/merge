@@ -7,6 +7,9 @@ import {
     getContent,
     writeFile,
 } from '../scripts/os.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const {
     home,

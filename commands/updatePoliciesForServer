@@ -6,6 +6,9 @@ import {
 } from 'child_process'
 import { readFileSync } from 'fs'
 import path from 'path'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const domain = process.argv[2]
 if (!domain || !/^[a-zA-Z0-9.-]+$/.test(domain)) {

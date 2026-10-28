@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 if [[ $apiProcess != admin* ]]; then
     exit 0
 fi

@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 import findRepos from '../scripts/findRepos.js'
-import { runStreaming } from '../scripts/terminal.js'
+import {
+    clear,
+    runStreaming,
+} from '../scripts/terminal.js'
+
+clear()
 
 const gits = findRepos()
 

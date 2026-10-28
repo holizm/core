@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
 import configureGitMerge from '../scripts/configureGitMerge.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 configureGitMerge()

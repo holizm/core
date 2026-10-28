@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+if [[ -t 1 ]]; then
+    clear
+fi
 . $HOME/core/scripts/logger.sh
 
 domain=$1

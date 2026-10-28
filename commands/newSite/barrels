@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 base=$home/$repo/$process
 for dir in $base/src/parts/*; do
     [ -d "$dir" ] || continue

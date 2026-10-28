@@ -2,6 +2,9 @@
 
 import { errorAndExit } from '../../scripts/logger.js'
 import run from './run'
+import { clear } from '../../scripts/terminal.js'
+
+clear()
 
 const part = process.argv[2]
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 library=$1
 registry=${2:-https://registry.npmjs.org}
 

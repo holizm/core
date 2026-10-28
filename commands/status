@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+import { clear } from '../scripts/terminal.js'
+
+clear()
 import status from "../scripts/status.js"
 
 const search = process.argv[2]

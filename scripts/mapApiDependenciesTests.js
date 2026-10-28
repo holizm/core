@@ -15,11 +15,14 @@ test('a runnable reference file cannot hide a standalone dependency part', t => 
     fs.writeFileSync(path.join(home, 'hotelOs/tasks'), 'Existing reference');
     fs.writeFileSync(path.join(home, 'tasks/part'), 'task\n    title\n');
     fs.writeFileSync(path.join(home, 'hotelOs/rooms/part'), 'room\n    number\n');
+    fs.mkdirSync(path.join(home, 'hotelOs/notes'), { recursive: true });
+    fs.mkdirSync(path.join(home, 'notes/api/api/admin'), { recursive: true });
+    fs.writeFileSync(path.join(home, 'notes/part'), 'note\n    title\n');
     const volumes = [];
     mapApiDependencies({
         addVolume: (source, target) => volumes.push([source, target]),
         containerHome: home,
-        dependencies: ['rooms', 'tasks'],
+        dependencies: ['rooms', 'tasks', 'notes'],
         home,
         isControl: false,
         nodeModules: path.join(processPath, 'node_modules'),
@@ -32,4 +35,6 @@ test('a runnable reference file cannot hide a standalone dependency part', t => 
     assert.ok(volumes.some(([source]) => source === path.join(home, 'tasks/api/api/admin')));
     assert.ok(volumes.some(([source]) => source === path.join(home, 'hotelOs/rooms/part')));
     assert.equal(volumes.some(([source]) => source.startsWith(path.join(home, 'hotelOs/tasks/'))), false);
+    assert.ok(volumes.some(([source]) => source === path.join(home, 'notes/part')));
+    assert.equal(volumes.some(([source]) => source.startsWith(path.join(home, 'hotelOs/notes/'))), false);
 });

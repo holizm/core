@@ -12,6 +12,9 @@ import {
     warning,
 } from "../scripts/logger.js"
 import findRepos from '../scripts/findRepos.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const execPromise = promisify(exec)
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })

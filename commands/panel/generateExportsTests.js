@@ -18,9 +18,13 @@ test('panel exports include components and exclude sibling JSX tests', t => {
     mkdirSync(source, { recursive: true })
     writeFileSync(path.join(source, 'row.jsx'), 'export default <div />\n')
     writeFileSync(path.join(source, 'rowTests.jsx'), 'export default <div />\n')
+    const removed = path.join(source, 'brandFields.jsx')
+    writeFileSync(removed, 'export default <div />\n')
     const previousDirectory = process.cwd()
     try {
         process.chdir(directory)
+        generateExports()
+        rmSync(removed)
         generateExports()
     }
     finally {
@@ -29,4 +33,5 @@ test('panel exports include components and exclude sibling JSX tests', t => {
     const exports = readFileSync(path.join(directory, 'src', 'catalog', 'panel.jsx'), 'utf8')
     assert.match(exports, /row'/)
     assert.doesNotMatch(exports, /rowTests/)
+    assert.doesNotMatch(exports, /brandFields/)
 })

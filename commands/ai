@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 latestVersion=$(npm view @openai/codex version) || exit "$?"
 [[ -n "$latestVersion" ]] || exit 1
 installedVersion=$(codex --version 2>/dev/null) || installedVersion=''

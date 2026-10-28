@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 runnable=$1
 
 . $HOME/core/scripts/logger.sh

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+clear
 echo Watching for AST
 base=$home/$repo/$process
 

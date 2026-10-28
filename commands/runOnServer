@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+if [[ -t 1 ]]; then
+    clear
+fi
 . $HOME/core/scripts/logger.sh
 
 domain=$1
 shift
 
 if [[ $# -eq 0 ]]; then
-    error "No command provided"
+    error 'No command provided'
     exit 1
 fi
 

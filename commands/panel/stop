@@ -4,7 +4,12 @@ import {
     divide,
     info,
 } from '../../scripts/logger.js'
-import { runOnTerminal } from '../../scripts/terminal.js'
+import {
+    clear,
+    runOnTerminal,
+} from '../../scripts/terminal.js'
+
+clear()
 
 const {
     process: proc,

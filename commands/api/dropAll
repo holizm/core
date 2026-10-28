@@ -10,6 +10,9 @@ import {
     stopTimer,
 } from '../../scripts/timer.js'
 import run from './run'
+import { clear } from '../../scripts/terminal.js'
+
+clear()
 
 startTimer('dropAll')
 

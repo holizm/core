@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 import stop from '../scripts/stop.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const pattern = process.argv[2] || ''
 

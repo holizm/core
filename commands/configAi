@@ -9,6 +9,9 @@ import {
     divide,
     info,
 } from '../scripts/logger.js'
+import { clear } from '../scripts/terminal.js'
+
+clear()
 
 const home = process.env.HOME
 const sourcePath = `${home}/core/agents`
