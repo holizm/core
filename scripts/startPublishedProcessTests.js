@@ -19,6 +19,7 @@ for (const kind of ['Api', 'Panel', 'Site']) {
         globalThis.mockRunOnServer = async (domain, command) => {
             calls.push(command)
             if (command.startsWith('test -x')) return '/usr/bin/pm2'
+            if (command.startsWith('node ')) return calls.some(value => value.startsWith('cd ')) ? '3000' : ''
             if (command.startsWith('sed ')) return '3000'
         }
         try {
@@ -44,6 +45,7 @@ test('propagates a failed process start without issuing a separate save', async 
     globalThis.mockRunOnServer = async (domain, command) => {
         calls.push(command)
         if (command.startsWith('test -x')) return '/usr/bin/pm2'
+        if (command.startsWith('node ')) return ''
         if (command.startsWith('sed ')) return '3000'
         if (command.startsWith('cd ')) throw new Error('start failed')
     }

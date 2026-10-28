@@ -1,5 +1,6 @@
 import camelize from './camelize.js'
 import getRemoteExecutable from './getRemoteExecutable.js'
+import getPublishedProcessPort from './getPublishedProcessPort.js'
 import runOnServer from './runOnServer.js'
 
 const pm2Paths = [
@@ -32,11 +33,12 @@ export default async ({
         obsoleteProcessNames.push(camelize(`${instance?.serverDirectory} control ${process}`))
     }
     const pm2 = await getRemoteExecutable(domain, 'PM2', pm2Paths)
-    const port = (await runOnServer(
+    const port = await getPublishedProcessPort({
         domain,
-        `sed -nE 's/.*127\\.0\\.0\\.1:([0-9]+).*/\\1/p' ${processPath}/compose.yaml | head -n1`,
-        true,
-    )).trim()
+        fullProcessName,
+        pm2,
+        processPath,
+    })
     const restart = command => runOnServer(
         domain,
         `cd ${processPath} && ${obsoleteProcessNames.map(name => `(${pm2} delete ${name} || true)`).join(' && ')} && ${command} && ${pm2} save`,
@@ -60,5 +62,15 @@ export default async ({
         await runOnServer(domain, `ln -s -f $HOME/${instance?.serverDirectory}/common/publicSettings.json ${processPath}/dist/publicSettings.json`)
         await runOnServer(domain, `ln -s -f ${processPath}/settingsOverride.json ${processPath}/dist/settingsOverride.json`)
         await restart(`PORT=${port} ${pm2} start server/entry.express.js --name ${fullProcessName}`)
+    }
+    if (isApi || isPanel || isSite) {
+        const listeningPort = await getPublishedProcessPort({
+            domain,
+            fullProcessName,
+            pm2,
+            processPath,
+            requireListening: true,
+        })
+        if (listeningPort !== port) throw new Error(`${fullProcessName} is listening on an unexpected port`)
     }
 }
