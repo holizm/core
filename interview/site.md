@@ -1,0 +1,13 @@
+- Thin client
+- Headless UI
+- Pages and loaders
+- Serialization boundaries
+- Lightweight JSX
+- Document metadata
+- Tenant configuration and caching
+- Responsive images
+- Dynamic fonts
+- Dynamic content, media, and SVG
+- Tailwind and CSS
+- Dark/light
+- RTL

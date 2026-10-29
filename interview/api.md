@@ -1,0 +1,20 @@
+- Transport independence
+- Layered architecture
+- Route conventions
+- API composition
+- Role composition
+- Authorization
+- Tenant isolation
+- Data ownership
+- Cross-part relations
+- Item IDs
+- Input validation
+- Error handling
+- Localized responses
+- Cache scopes
+- Cache invalidation
+- Render-ready data
+- Semantic content models
+- Admin-editable content
+- Taxonomy, SEO, and state machines
+- Seed data ownership

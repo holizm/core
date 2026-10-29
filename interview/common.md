@@ -1,0 +1,25 @@
+- Boilerplate reduction
+- Code reuse
+- Declarative programming
+- Composition
+- Clean code
+- Agentic AI
+- Separation of concerns
+- Multi-repository architecture
+- Public interfaces
+- Barrels
+- Shared infrastructure
+- Centralized validation
+- Semantic naming
+- Focused files
+- Commenting
+- i18n and l10n
+- Debugging and testing
+- Environment parity
+- CPU-based parallelism
+- Simplicity (KISS)
+- Asynchronous programming
+- Secret management
+- Safe logging
+- Authentication and authorization (RBAC, ABAC, PBAC)
+- Your aha moment
