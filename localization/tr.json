@@ -172,5 +172,6 @@
     "view": "Görüş", "viewRecord": "Kaydı görüntüle", "visibilityCondition": "Görünürlük durumu", "visible": "Görünür",
     "visibleTo": "Görebilenler", "warning": "Uyarı", "watch": "Kol saati", "website": "İnternet sitesi",
     "weight": "Ağırlık", "word": "Kelime", "words": "Kelimeler", "writeYourContentHere": "İçeriğinizi buraya yazın...",
-    "yes": "Evet"
+    "yes": "Evet",
+    "low": "Düşük", "normal": "Normal", "high": "Yüksek"
 }

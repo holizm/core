@@ -172,5 +172,6 @@
     "view": "കാണുക", "viewRecord": "റെക്കോർഡ് കാണുക", "visibilityCondition": "ദൃശ്യതാ വ്യവസ്ഥ", "visible": "ദൃശ്യം",
     "visibleTo": "ഇവർക്ക് ദൃശ്യം", "warning": "മുന്നറിയിപ്പ്", "watch": "വാച്ച്", "website": "വെബ്‌സൈറ്റ്",
     "weight": "ഭാരാങ്കം", "word": "വാക്ക്", "words": "വാക്കുകൾ", "writeYourContentHere": "നിങ്ങളുടെ ഉള്ളടക്കം ഇവിടെ എഴുതുക...",
-    "yes": "അതെ"
+    "yes": "അതെ",
+    "low": "കുറവ്", "normal": "സാധാരണ", "high": "ഉയർന്നത്"
 }

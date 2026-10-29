@@ -172,5 +172,6 @@
     "view": "Tingnan", "viewRecord": "Tingnan ang record", "visibilityCondition": "Kondisyon ng pagiging nakikita", "visible": "Nakikita",
     "visibleTo": "Nakikita ng", "warning": "Babala", "watch": "Relo", "website": "Website",
     "weight": "Bigat", "word": "Salita", "words": "Mga salita", "writeYourContentHere": "Isulat ang iyong nilalaman dito...",
-    "yes": "Oo"
+    "yes": "Oo",
+    "low": "Mababa", "normal": "Karaniwan", "high": "Mataas"
 }

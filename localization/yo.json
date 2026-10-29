@@ -172,5 +172,6 @@
     "view": "Wò", "viewRecord": "Wò àkọsílẹ̀", "visibilityCondition": "Ipò ìfarahàn", "visible": "Ó hàn",
     "visibleTo": "Ó hàn sí", "warning": "Ìkìlọ̀", "watch": "Aago", "website": "Ojúlé",
     "weight": "Ìwọ̀n", "word": "Ọ̀rọ̀", "words": "Àwọn ọ̀rọ̀", "writeYourContentHere": "Kọ àkóónú rẹ níbí...",
-    "yes": "Bẹ́ẹ̀ni"
+    "yes": "Bẹ́ẹ̀ni",
+    "low": "Kékeré", "normal": "Déédéé", "high": "Gíga"
 }

@@ -172,5 +172,6 @@
     "view": "Prikaži", "viewRecord": "Prikaži zapis", "visibilityCondition": "Uvjet vidljivosti", "visible": "Vidljivo",
     "visibleTo": "Vidljivo za", "warning": "Upozorenje", "watch": "Sat", "website": "Web-stranica",
     "weight": "Ponder", "word": "Riječ", "words": "Riječi", "writeYourContentHere": "Napišite svoj sadržaj ovdje...",
-    "yes": "Da"
+    "yes": "Da",
+    "low": "Nizak", "normal": "Normalan", "high": "Visok"
 }

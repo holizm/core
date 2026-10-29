@@ -172,5 +172,6 @@
     "view": "Näytä", "viewRecord": "Näytä tietue", "visibilityCondition": "Näkyvyysehto", "visible": "Näkyvä",
     "visibleTo": "Näkyy käyttäjille", "warning": "Varoitus", "watch": "Kello", "website": "Verkkosivusto",
     "weight": "Painotus", "word": "Sana", "words": "Sanat", "writeYourContentHere": "Kirjoita sisältö tähän...",
-    "yes": "Kyllä"
+    "yes": "Kyllä",
+    "low": "Matala", "normal": "Normaali", "high": "Korkea"
 }

@@ -172,5 +172,6 @@
     "view": "Vis", "viewRecord": "Vis post", "visibilityCondition": "Synlighetsbetingelse", "visible": "Synlig",
     "visibleTo": "Synlig for", "warning": "Advarsel", "watch": "Klokke", "website": "Nettsted",
     "weight": "Vekting", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv innholdet ditt her...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "low": "Lav", "normal": "Normal", "high": "Høy"
 }

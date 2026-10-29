@@ -172,5 +172,6 @@
     "view": "보다", "viewRecord": "기록 보기", "visibilityCondition": "가시성 조건", "visible": "보이는",
     "visibleTo": "공개 대상", "warning": "경고", "watch": "보다", "website": "웹사이트",
     "weight": "가중치", "word": "단어", "words": "단어", "writeYourContentHere": "여기에 내용을 작성하세요...",
-    "yes": "예"
+    "yes": "예",
+    "low": "낮음", "normal": "보통", "high": "높음"
 }

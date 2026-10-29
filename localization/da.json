@@ -172,5 +172,6 @@
     "view": "Vis", "viewRecord": "Vis post", "visibilityCondition": "Synlighedsbetingelse", "visible": "Synlig",
     "visibleTo": "Synlig for", "warning": "Advarsel", "watch": "Ur", "website": "Websted",
     "weight": "Vægt", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv dit indhold her...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "low": "Lav", "normal": "Normal", "high": "Høj"
 }

@@ -172,5 +172,6 @@
     "view": "ይመልከቱ", "viewRecord": "መዝገብ ይመልከቱ", "visibilityCondition": "የታይነት ሁኔታ", "visible": "የሚታይ",
     "visibleTo": "የሚታየው ለ", "warning": "ማስጠንቀቂያ", "watch": "ሰዓት", "website": "ድረ ገጽ",
     "weight": "ክብደት", "word": "ቃል", "words": "ቃላት", "writeYourContentHere": "ይዘትዎን እዚህ ይጻፉ...",
-    "yes": "አዎ"
+    "yes": "አዎ",
+    "low": "ዝቅተኛ", "normal": "መደበኛ", "high": "ከፍተኛ"
 }

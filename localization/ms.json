@@ -172,5 +172,6 @@
     "view": "Lihat", "viewRecord": "Lihat rekod", "visibilityCondition": "Syarat keterlihatan", "visible": "Kelihatan",
     "visibleTo": "Boleh dilihat oleh", "warning": "Amaran", "watch": "Jam tangan", "website": "Laman web",
     "weight": "Pemberat", "word": "Perkataan", "words": "Perkataan", "writeYourContentHere": "Tulis kandungan anda di sini...",
-    "yes": "Ya"
+    "yes": "Ya",
+    "low": "Rendah", "normal": "Biasa", "high": "Tinggi"
 }

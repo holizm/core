@@ -172,5 +172,6 @@
     "view": "Вид", "viewRecord": "Посмотреть запись", "visibilityCondition": "Условие видимости", "visible": "Видимый",
     "visibleTo": "Видно для", "warning": "Предупреждение", "watch": "Смотреть", "website": "Веб-сайт",
     "weight": "Вес", "word": "Слово", "words": "Слова", "writeYourContentHere": "Напишите здесь свой контент...",
-    "yes": "Да"
+    "yes": "Да",
+    "low": "Низкий", "normal": "Обычный", "high": "Высокий"
 }

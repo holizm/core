@@ -172,5 +172,6 @@
     "view": "دیکھیں", "viewRecord": "ریکارڈ دیکھیں", "visibilityCondition": "نمائش کی حالت", "visible": "نظر آنے والا",
     "visibleTo": "ان کے لیے قابلِ مشاہدہ", "warning": "وارننگ", "watch": "دیکھو", "website": "ویب سائٹ",
     "weight": "وزن", "word": "لفظ", "words": "الفاظ", "writeYourContentHere": "اپنا مواد یہاں لکھیں...",
-    "yes": "جی ہاں"
+    "yes": "جی ہاں",
+    "low": "کم", "normal": "معمول", "high": "زیادہ"
 }

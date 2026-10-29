@@ -172,5 +172,6 @@
     "view": "Visualizar", "viewRecord": "Ver registro", "visibilityCondition": "Condição de visibilidade", "visible": "Visível",
     "visibleTo": "Visível para", "warning": "Aviso", "watch": "Assistir", "website": "Local na rede Internet",
     "weight": "Peso", "word": "Palavra", "words": "Palavras", "writeYourContentHere": "Escreva seu conteúdo aqui...",
-    "yes": "Sim"
+    "yes": "Sim",
+    "low": "Baixa", "normal": "Normal", "high": "Alta"
 }

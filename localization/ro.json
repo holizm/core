@@ -172,5 +172,6 @@
     "view": "Vizualizează", "viewRecord": "Vizualizează înregistrarea", "visibilityCondition": "Condiție de vizibilitate", "visible": "Vizibil",
     "visibleTo": "Vizibil pentru", "warning": "Avertisment", "watch": "Ceas", "website": "Site web",
     "weight": "Pondere", "word": "Cuvânt", "words": "Cuvinte", "writeYourContentHere": "Scrieți conținutul aici...",
-    "yes": "Da"
+    "yes": "Da",
+    "low": "Scăzută", "normal": "Normală", "high": "Ridicată"
 }

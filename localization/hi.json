@@ -172,5 +172,6 @@
     "view": "देखना", "viewRecord": "रिकॉर्ड देखें", "visibilityCondition": "दृश्यता की स्थिति", "visible": "दृश्यमान",
     "visibleTo": "इनके लिए दृश्यमान", "warning": "चेतावनी", "watch": "घड़ी", "website": "वेबसाइट",
     "weight": "भारांक", "word": "शब्द", "words": "शब्द", "writeYourContentHere": "अपनी सामग्री यहां लिखें...",
-    "yes": "हाँ"
+    "yes": "हाँ",
+    "low": "निम्न", "normal": "सामान्य", "high": "उच्च"
 }

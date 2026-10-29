@@ -172,5 +172,6 @@
     "view": "檢視", "viewRecord": "檢視記錄", "visibilityCondition": "顯示條件", "visible": "可見",
     "visibleTo": "可見對象", "warning": "警告", "watch": "手錶", "website": "網站",
     "weight": "權重", "word": "單字", "words": "單字", "writeYourContentHere": "在此輸入內容...",
-    "yes": "是"
+    "yes": "是",
+    "low": "低", "normal": "一般", "high": "高"
 }

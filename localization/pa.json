@@ -172,5 +172,6 @@
     "view": "ਵੇਖੋ", "viewRecord": "ਰਿਕਾਰਡ ਵੇਖੋ", "visibilityCondition": "ਦਿੱਖ ਦੀ ਸ਼ਰਤ", "visible": "ਦਿਖਾਈ ਦੇਣ ਯੋਗ",
     "visibleTo": "ਇਨ੍ਹਾਂ ਨੂੰ ਦਿਖਾਈ ਦੇਵੇ", "warning": "ਚੇਤਾਵਨੀ", "watch": "ਘੜੀ", "website": "ਵੈੱਬਸਾਈਟ",
     "weight": "ਭਾਰ", "word": "ਸ਼ਬਦ", "words": "ਸ਼ਬਦ", "writeYourContentHere": "ਆਪਣੀ ਸਮੱਗਰੀ ਇੱਥੇ ਲਿਖੋ...",
-    "yes": "ਹਾਂ"
+    "yes": "ਹਾਂ",
+    "low": "ਘੱਟ", "normal": "ਆਮ", "high": "ਵੱਧ"
 }

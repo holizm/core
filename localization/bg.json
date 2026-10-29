@@ -172,5 +172,6 @@
     "view": "Преглед", "viewRecord": "Преглед на записа", "visibilityCondition": "Условие за видимост", "visible": "Видим",
     "visibleTo": "Видимо за", "warning": "Предупреждение", "watch": "Часовник", "website": "Уебсайт",
     "weight": "Тежест", "word": "Дума", "words": "Думи", "writeYourContentHere": "Напишете съдържанието си тук...",
-    "yes": "Да"
+    "yes": "Да",
+    "low": "Нисък", "normal": "Нормален", "high": "Висок"
 }

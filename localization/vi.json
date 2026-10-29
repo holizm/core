@@ -172,5 +172,6 @@
     "view": "Xem", "viewRecord": "Xem bản ghi", "visibilityCondition": "Điều kiện hiển thị", "visible": "Dễ thấy",
     "visibleTo": "Hiển thị cho", "warning": "Cảnh báo", "watch": "Đồng hồ", "website": "Trang mạng",
     "weight": "Trọng số", "word": "Từ", "words": "Các từ", "writeYourContentHere": "Viết nội dung của bạn ở đây...",
-    "yes": "Đúng"
+    "yes": "Đúng",
+    "low": "Thấp", "normal": "Bình thường", "high": "Cao"
 }

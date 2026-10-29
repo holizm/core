@@ -172,5 +172,6 @@
     "view": "View", "viewRecord": "View record", "visibilityCondition": "Visibility condition", "visible": "Visible",
     "visibleTo": "Visible to", "warning": "Warning", "watch": "Watch", "website": "Website",
     "weight": "Weight", "word": "Word", "words": "Words", "writeYourContentHere": "Write your content here...",
-    "yes": "Yes"
+    "yes": "Yes",
+    "low": "Low", "normal": "Normal", "high": "High"
 }

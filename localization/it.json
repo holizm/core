@@ -172,5 +172,6 @@
     "view": "Visualizzazione", "viewRecord": "Visualizza registrazione", "visibilityCondition": "Condizione di visibilità", "visible": "Visibile",
     "visibleTo": "Visibile a", "warning": "Avvertimento", "watch": "Orologio", "website": "Sito web",
     "weight": "Peso", "word": "Parola", "words": "Parole", "writeYourContentHere": "Scrivi qui i tuoi contenuti...",
-    "yes": "SÌ"
+    "yes": "SÌ",
+    "low": "Bassa", "normal": "Normale", "high": "Alta"
 }

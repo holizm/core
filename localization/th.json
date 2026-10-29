@@ -172,5 +172,6 @@
     "view": "ดู", "viewRecord": "ดูระเบียน", "visibilityCondition": "เงื่อนไขการมองเห็น", "visible": "มองเห็นได้",
     "visibleTo": "มองเห็นได้โดย", "warning": "คำเตือน", "watch": "นาฬิกา", "website": "เว็บไซต์",
     "weight": "น้ำหนักคะแนน", "word": "คำ", "words": "คำ", "writeYourContentHere": "เขียนเนื้อหาของคุณที่นี่...",
-    "yes": "ใช่"
+    "yes": "ใช่",
+    "low": "ต่ำ", "normal": "ปกติ", "high": "สูง"
 }

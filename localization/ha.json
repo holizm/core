@@ -172,5 +172,6 @@
     "view": "Duba", "viewRecord": "Duba rikodi", "visibilityCondition": "Sharadin bayyana", "visible": "Mai ganuwa",
     "visibleTo": "Mai bayyana ga", "warning": "Gargaɗi", "watch": "Kallo", "website": "Gidan yanar gizo",
     "weight": "Nauyi", "word": "Kalma", "words": "Kalmomi", "writeYourContentHere": "Rubuta abun cikinka a nan...",
-    "yes": "Eh"
+    "yes": "Eh",
+    "low": "Ƙasa", "normal": "Na al’ada", "high": "Babba"
 }

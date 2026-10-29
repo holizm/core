@@ -172,5 +172,6 @@
     "view": "Bekyk", "viewRecord": "Bekyk rekord", "visibilityCondition": "Sigbaarheidsvoorwaarde", "visible": "Sigbaar",
     "visibleTo": "Sigbaar vir", "warning": "Waarskuwing", "watch": "Horlosie", "website": "Webwerf",
     "weight": "Gewig", "word": "Woord", "words": "Woorde", "writeYourContentHere": "Skryf jou inhoud hier...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "low": "Laag", "normal": "Normaal", "high": "Hoog"
 }

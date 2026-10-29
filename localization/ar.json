@@ -172,5 +172,6 @@
     "view": "منظر", "viewRecord": "عرض السجل", "visibilityCondition": "حالة الرؤية", "visible": "مرئي",
     "visibleTo": "مرئي لـ", "warning": "تحذير", "watch": "يشاهد", "website": "موقع إلكتروني",
     "weight": "الوزن", "word": "كلمة", "words": "كلمات", "writeYourContentHere": "أكتب المحتوى الخاص بك هنا...",
-    "yes": "نعم"
+    "yes": "نعم",
+    "low": "منخفضة", "normal": "عادية", "high": "مرتفعة"
 }

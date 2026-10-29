@@ -172,5 +172,6 @@
     "view": "જુઓ", "viewRecord": "રેકોર્ડ જુઓ", "visibilityCondition": "દૃશ્યતા શરત", "visible": "દૃશ્યમાન",
     "visibleTo": "આને દેખાય છે", "warning": "ચેતવણી", "watch": "ઘડિયાળ", "website": "વેબસાઇટ",
     "weight": "ભારાંક", "word": "શબ્દ", "words": "શબ્દો", "writeYourContentHere": "તમારી સામગ્રી અહીં લખો...",
-    "yes": "હા"
+    "yes": "હા",
+    "low": "નીચું", "normal": "સામાન્ય", "high": "ઊંચું"
 }

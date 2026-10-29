@@ -172,5 +172,6 @@
     "view": "نمایش", "viewRecord": "مشاهده رکورد", "visibilityCondition": "شرط نمایش", "visible": "قابل مشاهده",
     "visibleTo": "قابل مشاهده برای", "warning": "هشدار", "watch": "ساعت", "website": "سایت اینترنتی",
     "weight": "ضریب", "word": "واژه", "words": "واژه‌ها", "writeYourContentHere": "مطلب خود را اینجا بنویسید...",
-    "yes": "بله"
+    "yes": "بله",
+    "low": "کم", "normal": "عادی", "high": "زیاد"
 }

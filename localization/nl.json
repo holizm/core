@@ -172,5 +172,6 @@
     "view": "Weergeven", "viewRecord": "Record weergeven", "visibilityCondition": "Zichtbaarheidsvoorwaarde", "visible": "Zichtbaar",
     "visibleTo": "Zichtbaar voor", "warning": "Waarschuwing", "watch": "Horloge", "website": "Website",
     "weight": "Weging", "word": "Woord", "words": "Woorden", "writeYourContentHere": "Schrijf hier uw inhoud...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "low": "Laag", "normal": "Normaal", "high": "Hoog"
 }

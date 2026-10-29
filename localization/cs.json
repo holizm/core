@@ -172,5 +172,6 @@
     "view": "Zobrazit", "viewRecord": "Zobrazit záznam", "visibilityCondition": "Podmínka viditelnosti", "visible": "Viditelné",
     "visibleTo": "Viditelné pro", "warning": "Upozornění", "watch": "Hodinky", "website": "Webové stránky",
     "weight": "Váha", "word": "Slovo", "words": "Slova", "writeYourContentHere": "Napište obsah sem...",
-    "yes": "Ano"
+    "yes": "Ano",
+    "low": "Nízká", "normal": "Normální", "high": "Vysoká"
 }

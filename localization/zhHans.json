@@ -172,5 +172,6 @@
     "view": "查看", "viewRecord": "查看记录", "visibilityCondition": "可见性条件", "visible": "可见",
     "visibleTo": "可见对象", "warning": "警告", "watch": "手表", "website": "网站",
     "weight": "权重", "word": "单词", "words": "单词", "writeYourContentHere": "在此输入内容...",
-    "yes": "是"
+    "yes": "是",
+    "low": "低", "normal": "普通", "high": "高"
 }

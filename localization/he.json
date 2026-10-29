@@ -172,5 +172,6 @@
     "view": "תצוגה", "viewRecord": "הצגת רשומה", "visibilityCondition": "תנאי תצוגה", "visible": "גלוי",
     "visibleTo": "גלוי עבור", "warning": "אזהרה", "watch": "שעון", "website": "אתר אינטרנט",
     "weight": "משקל", "word": "מילה", "words": "מילים", "writeYourContentHere": "כתוב את התוכן שלך כאן...",
-    "yes": "כן"
+    "yes": "כן",
+    "low": "נמוכה", "normal": "רגילה", "high": "גבוהה"
 }

@@ -172,5 +172,6 @@
     "view": "Voir", "viewRecord": "Afficher l'enregistrement", "visibilityCondition": "Condition de visibilité", "visible": "Visible",
     "visibleTo": "Visible par", "warning": "Avertissement", "watch": "Montre", "website": "Site web",
     "weight": "Coefficient", "word": "Mot", "words": "Mots", "writeYourContentHere": "Écrivez votre contenu ici...",
-    "yes": "Oui"
+    "yes": "Oui",
+    "low": "Faible", "normal": "Normale", "high": "Élevée"
 }

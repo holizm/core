@@ -172,5 +172,6 @@
     "view": "Visa", "viewRecord": "Visa post", "visibilityCondition": "Synlighetsvillkor", "visible": "Synlig",
     "visibleTo": "Synlig för", "warning": "Varning", "watch": "Klocka", "website": "Webbplats",
     "weight": "Viktning", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv ditt innehåll här...",
-    "yes": "Ja"
+    "yes": "Ja",
+    "low": "Låg", "normal": "Normal", "high": "Hög"
 }

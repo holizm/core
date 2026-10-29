@@ -172,5 +172,6 @@
     "view": "Megtekintés", "viewRecord": "Rekord megtekintése", "visibilityCondition": "Láthatósági feltétel", "visible": "Látható",
     "visibleTo": "Látható számukra", "warning": "Figyelmeztetés", "watch": "Óra", "website": "Webhely",
     "weight": "Súlyozás", "word": "Szó", "words": "Szavak", "writeYourContentHere": "Írja ide a tartalmat...",
-    "yes": "Igen"
+    "yes": "Igen",
+    "low": "Alacsony", "normal": "Normál", "high": "Magas"
 }

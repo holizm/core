@@ -172,5 +172,6 @@
     "view": "ವೀಕ್ಷಿಸಿ", "viewRecord": "ದಾಖಲೆಯನ್ನು ವೀಕ್ಷಿಸಿ", "visibilityCondition": "ಗೋಚರತೆ ಷರತ್ತು", "visible": "ಗೋಚರ",
     "visibleTo": "ಇವರಿಗೆ ಗೋಚರಿಸುತ್ತದೆ", "warning": "ಎಚ್ಚರಿಕೆ", "watch": "ಗಡಿಯಾರ", "website": "ವೆಬ್‌ಸೈಟ್",
     "weight": "ತೂಕ", "word": "ಪದ", "words": "ಪದಗಳು", "writeYourContentHere": "ನಿಮ್ಮ ವಿಷಯವನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ...",
-    "yes": "ಹೌದು"
+    "yes": "ಹೌದು",
+    "low": "ಕಡಿಮೆ", "normal": "ಸಾಮಾನ್ಯ", "high": "ಹೆಚ್ಚು"
 }

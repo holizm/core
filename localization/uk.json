@@ -172,5 +172,6 @@
     "view": "Переглянути", "viewRecord": "Переглянути запис", "visibilityCondition": "Умова видимості", "visible": "Видимий",
     "visibleTo": "Видимо для", "warning": "Попередження", "watch": "Годинник", "website": "Вебсайт",
     "weight": "Вага", "word": "Слово", "words": "Слова", "writeYourContentHere": "Введіть вміст тут...",
-    "yes": "Так"
+    "yes": "Так",
+    "low": "Низький", "normal": "Звичайний", "high": "Високий"
 }

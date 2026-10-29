@@ -172,5 +172,6 @@
     "view": "Προβολή", "viewRecord": "Προβολή εγγραφής", "visibilityCondition": "Συνθήκη ορατότητας", "visible": "Ορατό",
     "visibleTo": "Ορατό σε", "warning": "Προειδοποίηση", "watch": "Ρολόι", "website": "Ιστότοπος",
     "weight": "Συντελεστής βαρύτητας", "word": "Λέξη", "words": "Λέξεις", "writeYourContentHere": "Γράψτε το περιεχόμενό σας εδώ...",
-    "yes": "Ναι"
+    "yes": "Ναι",
+    "low": "Χαμηλή", "normal": "Κανονική", "high": "Υψηλή"
 }
