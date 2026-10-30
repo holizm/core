@@ -1,5 +1,5 @@
 - Boilerplate reduction
-- Code reuse
+- Code reuse (DRY)
 - Declarative programming
 - Composition
 - Clean code
