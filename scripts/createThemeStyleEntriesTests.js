@@ -4,18 +4,28 @@ import path from 'path'
 import test from 'node:test'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
 
-test('createThemeStyleEntries writes one scoped style entry per theme', t => {
+test('createThemeStyleEntries writes scoped styles and skips themes without a stylesheet', t => {
+    const source = fs.mkdtempSync(path.join('/tmp', 'themeStyleEntriesSource'))
     const repo = 'themeStyleEntriesTest'
     const output = path.join('/tmp', repo)
-    t.after(() => fs.rmSync(output, {
-        force: true,
-        recursive: true,
-    }))
+    const processPath = path.join(source, 'runnable', 'site')
+    t.after(() => {
+        for (const directory of [source, output]) fs.rmSync(directory, {
+            force: true,
+            recursive: true,
+        })
+    })
+    for (const directory of ['runnable/theme01', 'runnable/theme12', 'siteThemes/theme01']) {
+        fs.mkdirSync(path.join(source, directory), { recursive: true })
+        fs.writeFileSync(path.join(source, directory, 'style.css'), '')
+    }
+    fs.mkdirSync(path.join(source, 'siteThemes', 'theme268'), { recursive: true })
     createThemeStyleEntries({
         multiThemed: true,
         process: 'site',
+        processPath,
         repo,
-        themeDirectories: ['theme01', 'theme12', '../siteThemes/theme01'],
+        themeDirectories: ['theme01', 'theme12', '../siteThemes/theme01', '../siteThemes/theme268'],
     })
     const styles = path.join(output, 'site', 'themeStyles')
     assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css', 'themecore01.css'])

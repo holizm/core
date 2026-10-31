@@ -1,4 +1,6 @@
+import { join } from 'path'
 import getThemeKey from './getThemeKey.js'
+import isFile from './isFile.js'
 import {
     getContent,
     removeAndRecreateDir,
@@ -20,6 +22,7 @@ export default params => {
     const directory = `/tmp/${repo}/${process}/themeStyles`
     removeAndRecreateDir(directory)
     themeDirectories.forEach(themeDirectory => {
+        if (!isFile(join(processPath, '..', themeDirectory, 'style.css'))) return
         const themeNumber = getThemeKey(themeDirectory)
         const content = `@import '../../coreStyles/layerOrder.css';\n@import 'tailwindcss' source(none);\n@reference '../../core.css';\n@source '..';\n@source '../themes/${themeNumber}';\n@import '../themes/${themeNumber}/style.css';\n`
         writeFile(`${directory}/theme${themeNumber}.css`, content)

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -eu
+
+commandDirectory="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+testDirectory="$(mktemp -d /tmp/speedTests.XXXXXX)"
+trap 'rm -rf -- "$testDirectory"' EXIT
+
+cat > "$testDirectory/speedtest" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\n' "$@"
+exit 7
+EOF
+chmod +x "$testDirectory/speedtest"
+
+status=0
+output="$(PATH="$testDirectory:$PATH" "$commandDirectory/speed" --server-id 'server value')" || status=$?
+[[ "$status" == 7 ]]
+[[ "$output" == $'--server-id\nserver value' ]]
+printf 'speed forwards arguments and exit status correctly\n'

@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+import { runStreaming } from '../scripts/terminal.js'
+
+await runStreaming([
+    'docker pull nefcanto/api',
+    'docker pull nefcanto/panel',
+    'docker pull nefcanto/site',
+    'docker pull mongo',
+    'docker pull redis',
+    'docker pull getmeili/meilisearch:latest',
+].join(' && '))
