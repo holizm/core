@@ -18,7 +18,7 @@ const sourcePath = `${home}/core/agents`
 const accountDirectories = [
     '.codex',
     ...readdirSync(home, { withFileTypes: true })
-        .filter(entry => entry.isDirectory() && /^\.codex-account[0-9]+$/.test(entry.name))
+        .filter(entry => entry.isDirectory() && entry.name.startsWith('.codex') && entry.name !== '.codex')
         .map(entry => entry.name)
         .sort(),
 ]
