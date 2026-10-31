@@ -1,4 +1,7 @@
 {
+    "totalTime": "Kabuuang oras",
+    "longest": "Pinakamatagal",
+    "shortest": "Pinakamaikli",
     "acceptedQuantity": "Tinanggap na dami", "accountNumber": "Numero ng account", "action": "Aksyon", "actionActor": "Gumaganap",
     "actionDate": "Petsa ng aksyon", "actionType": "Uri ng aksyon", "active": "Aktibo", "actualAmount": "Aktuwal na halaga",
     "add": "Magdagdag", "addComponent": "Magdagdag ng component", "addImage": "Magdagdag ng larawan", "addLink": "Magdagdag ng link",

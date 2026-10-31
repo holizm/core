@@ -1,4 +1,7 @@
 {
+    "totalTime": "ആകെ സമയം",
+    "longest": "ഏറ്റവും ദൈർഘ്യമേറിയത്",
+    "shortest": "ഏറ്റവും കുറഞ്ഞത്",
     "acceptedQuantity": "സ്വീകരിച്ച അളവ്", "accountNumber": "അക്കൗണ്ട് നമ്പർ", "action": "നടപടി", "actionActor": "നടപടിയെടുത്തയാൾ",
     "actionDate": "നടപടി തീയതി", "actionType": "നടപടി തരം", "active": "സജീവം", "actualAmount": "യഥാർത്ഥ തുക",
     "add": "ചേർക്കുക", "addComponent": "ഘടകം ചേർക്കുക", "addImage": "ചിത്രം ചേർക്കുക", "addLink": "ലിങ്ക് ചേർക്കുക",

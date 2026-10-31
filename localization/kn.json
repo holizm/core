@@ -1,4 +1,7 @@
 {
+    "totalTime": "ಒಟ್ಟು ಸಮಯ",
+    "longest": "ಅತಿ ದೀರ್ಘ",
+    "shortest": "ಅತಿ ಕಡಿಮೆ",
     "acceptedQuantity": "ಸ್ವೀಕರಿಸಿದ ಪ್ರಮಾಣ", "accountNumber": "ಖಾತೆ ಸಂಖ್ಯೆ", "action": "ಕ್ರಿಯೆ", "actionActor": "ಕ್ರಮ ಕೈಗೊಂಡವರು",
     "actionDate": "ಕ್ರಮದ ದಿನಾಂಕ", "actionType": "ಕ್ರಮದ ಪ್ರಕಾರ", "active": "ಸಕ್ರಿಯ", "actualAmount": "ವಾಸ್ತವ ಮೊತ್ತ",
     "add": "ಸೇರಿಸಿ", "addComponent": "ಘಟಕವನ್ನು ಸೇರಿಸಿ", "addImage": "ಚಿತ್ರವನ್ನು ಸೇರಿಸಿ", "addLink": "ಲಿಂಕ್ ಸೇರಿಸಿ",

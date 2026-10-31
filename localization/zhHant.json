@@ -1,4 +1,7 @@
 {
+    "totalTime": "總用時",
+    "longest": "最長",
+    "shortest": "最短",
     "acceptedQuantity": "接受數量", "accountNumber": "帳號", "action": "操作", "actionActor": "操作人",
     "actionDate": "操作日期", "actionType": "操作類型", "active": "啟用", "actualAmount": "實際金額",
     "add": "新增", "addComponent": "新增元件", "addImage": "新增圖片", "addLink": "新增連結",

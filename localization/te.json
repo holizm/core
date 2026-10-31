@@ -1,4 +1,7 @@
 {
+    "totalTime": "మొత్తం సమయం",
+    "longest": "అత్యంత ఎక్కువ",
+    "shortest": "అత్యంత తక్కువ",
     "acceptedQuantity": "ఆమోదించిన పరిమాణం", "accountNumber": "ఖాతా సంఖ్య", "action": "చర్య", "actionActor": "చర్య తీసుకున్నవారు",
     "actionDate": "చర్య తేదీ", "actionType": "చర్య రకం", "active": "క్రియాశీలం", "actualAmount": "వాస్తవ మొత్తం",
     "add": "జోడించండి", "addComponent": "కాంపోనెంట్‌ను జోడించండి", "addImage": "చిత్రాన్ని జోడించండి", "addLink": "లింక్‌ను జోడించండి",

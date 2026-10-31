@@ -1,4 +1,7 @@
 {
+    "totalTime": "Toplam süre",
+    "longest": "En uzun",
+    "shortest": "En kısa",
     "acceptedQuantity": "Kabul edilen miktar", "accountNumber": "Hesap numarası", "action": "Eylem", "actionActor": "İşlemi yapan",
     "actionDate": "İşlem tarihi", "actionType": "İşlem türü", "active": "Aktif", "actualAmount": "Gerçekleşen tutar",
     "add": "Eklemek", "addComponent": "Bileşen ekle", "addImage": "Resim eklemek", "addLink": "Link ekle",

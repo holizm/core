@@ -1,4 +1,7 @@
 {
+    "totalTime": "Общо време",
+    "longest": "Най-дълго",
+    "shortest": "Най-кратко",
     "acceptedQuantity": "Прието количество", "accountNumber": "Номер на сметка", "action": "Действие", "actionActor": "Изпълнител",
     "actionDate": "Дата на действието", "actionType": "Тип действие", "active": "Активен", "actualAmount": "Действителна сума",
     "add": "Добавяне", "addComponent": "Добавяне на компонент", "addImage": "Добавяне на изображение", "addLink": "Добавяне на връзка",

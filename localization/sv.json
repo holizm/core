@@ -1,4 +1,7 @@
 {
+    "totalTime": "Total tid",
+    "longest": "Längst",
+    "shortest": "Kortast",
     "acceptedQuantity": "Godkänd kvantitet", "accountNumber": "Kontonummer", "action": "Åtgärd", "actionActor": "Utförare",
     "actionDate": "Åtgärdsdatum", "actionType": "Åtgärdstyp", "active": "Aktiv", "actualAmount": "Faktiskt belopp",
     "add": "Lägg till", "addComponent": "Lägg till komponent", "addImage": "Lägg till bild", "addLink": "Lägg till länk",

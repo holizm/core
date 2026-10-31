@@ -1,4 +1,7 @@
 {
+    "totalTime": "Общее время",
+    "longest": "Самое долгое",
+    "shortest": "Самое короткое",
     "acceptedQuantity": "Принятое количество", "accountNumber": "Номер счета", "action": "Действие", "actionActor": "Исполнитель",
     "actionDate": "Дата действия", "actionType": "Тип действия", "active": "Активный", "actualAmount": "Фактическая сумма",
     "add": "Добавлять", "addComponent": "Добавить компонент", "addImage": "Добавить изображение", "addLink": "Добавить ссылку",

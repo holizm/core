@@ -1,4 +1,7 @@
 {
+    "totalTime": "الوقت الإجمالي",
+    "longest": "الأطول",
+    "shortest": "الأقصر",
     "acceptedQuantity": "الكمية المقبولة", "accountNumber": "رقم حساب", "action": "إجراء", "actionActor": "منفذ الإجراء",
     "actionDate": "تاريخ الإجراء", "actionType": "نوع الإجراء", "active": "نشيط", "actualAmount": "المبلغ الفعلي",
     "add": "يضيف", "addComponent": "إضافة مكون", "addImage": "إضافة صورة", "addLink": "إضافة رابط",

@@ -1,4 +1,7 @@
 {
+    "totalTime": "کل وقت",
+    "longest": "سب سے طویل",
+    "shortest": "سب سے مختصر",
     "acceptedQuantity": "منظور شدہ مقدار", "accountNumber": "اکاؤنٹ نمبر", "action": "کارروائی", "actionActor": "کارروائی کرنے والا",
     "actionDate": "کارروائی کی تاریخ", "actionType": "کارروائی کی قسم", "active": "فعال", "actualAmount": "اصل رقم",
     "add": "شامل کریں۔", "addComponent": "جزو شامل کریں۔", "addImage": "تصویر شامل کریں۔", "addLink": "لنک شامل کریں۔",

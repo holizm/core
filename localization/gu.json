@@ -1,4 +1,7 @@
 {
+    "totalTime": "કુલ સમય",
+    "longest": "સૌથી લાંબો",
+    "shortest": "સૌથી ટૂંકો",
     "acceptedQuantity": "સ્વીકૃત જથ્થો", "accountNumber": "ખાતા નંબર", "action": "ક્રિયા", "actionActor": "કાર્યવાહી કરનાર",
     "actionDate": "કાર્યવાહીની તારીખ", "actionType": "કાર્યવાહીનો પ્રકાર", "active": "સક્રિય", "actualAmount": "વાસ્તવિક રકમ",
     "add": "ઉમેરો", "addComponent": "ઘટક ઉમેરો", "addImage": "છબી ઉમેરો", "addLink": "લિંક ઉમેરો",

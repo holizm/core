@@ -1,4 +1,7 @@
 {
+    "totalTime": "Timp total",
+    "longest": "Cel mai lung",
+    "shortest": "Cel mai scurt",
     "acceptedQuantity": "Cantitate acceptată", "accountNumber": "Număr de cont", "action": "Acțiune", "actionActor": "Executant",
     "actionDate": "Data acțiunii", "actionType": "Tip de acțiune", "active": "Activ", "actualAmount": "Sumă efectivă",
     "add": "Adaugă", "addComponent": "Adaugă componentă", "addImage": "Adaugă imagine", "addLink": "Adaugă link",

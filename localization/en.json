@@ -1,4 +1,7 @@
 {
+    "totalTime": "Total time",
+    "longest": "Longest",
+    "shortest": "Shortest",
     "acceptedQuantity": "Accepted quantity", "accountNumber": "Account number", "action": "Action", "actionActor": "Actor",
     "actionDate": "Action date", "actionType": "Action type", "active": "Active", "actualAmount": "Actual amount",
     "add": "Add", "addComponent": "Add component", "addImage": "Add image", "addLink": "Add link",

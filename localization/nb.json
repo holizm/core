@@ -1,4 +1,7 @@
 {
+    "totalTime": "Total tid",
+    "longest": "Lengst",
+    "shortest": "Kortest",
     "acceptedQuantity": "Godkjent antall", "accountNumber": "Kontonummer", "action": "Handling", "actionActor": "Utfører",
     "actionDate": "Handlingsdato", "actionType": "Handlingstype", "active": "Aktiv", "actualAmount": "Faktisk beløp",
     "add": "Legg til", "addComponent": "Legg til komponent", "addImage": "Legg til bilde", "addLink": "Legg til lenke",

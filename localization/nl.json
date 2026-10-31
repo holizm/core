@@ -1,4 +1,7 @@
 {
+    "totalTime": "Totale tijd",
+    "longest": "Langste",
+    "shortest": "Kortste",
     "acceptedQuantity": "Geaccepteerd aantal", "accountNumber": "Rekeningnummer", "action": "Actie", "actionActor": "Uitvoerder",
     "actionDate": "Actiedatum", "actionType": "Actietype", "active": "Actief", "actualAmount": "Werkelijk bedrag",
     "add": "Toevoegen", "addComponent": "Component toevoegen", "addImage": "Afbeelding toevoegen", "addLink": "Link toevoegen",

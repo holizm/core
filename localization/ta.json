@@ -1,4 +1,7 @@
 {
+    "totalTime": "மொத்த நேரம்",
+    "longest": "மிக நீண்டது",
+    "shortest": "மிகக் குறுகியது",
     "acceptedQuantity": "ஏற்கப்பட்ட அளவு", "accountNumber": "கணக்கு எண்", "action": "செயல்", "actionActor": "செயல்படுத்துபவர்",
     "actionDate": "செயல் தேதி", "actionType": "செயல் வகை", "active": "செயலில்", "actualAmount": "உண்மைத் தொகை",
     "add": "கூட்டு", "addComponent": "கூறு சேர்க்கவும்", "addImage": "படத்தைச் சேர்க்கவும்", "addLink": "இணைப்பைச் சேர்க்கவும்",

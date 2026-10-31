@@ -1,4 +1,7 @@
 {
+    "totalTime": "זמן כולל",
+    "longest": "הארוך ביותר",
+    "shortest": "הקצר ביותר",
     "acceptedQuantity": "כמות שאושרה", "accountNumber": "מספר חשבון", "action": "פעולה", "actionActor": "מבצע הפעולה",
     "actionDate": "תאריך פעולה", "actionType": "סוג פעולה", "active": "פעיל", "actualAmount": "סכום בפועל",
     "add": "הוספה", "addComponent": "הוספת רכיב", "addImage": "הוספת תמונה", "addLink": "הוספת קישור",

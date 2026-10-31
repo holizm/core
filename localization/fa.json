@@ -1,4 +1,7 @@
 {
+    "totalTime": "زمان کل",
+    "longest": "طولانی‌ترین",
+    "shortest": "کوتاه‌ترین",
     "acceptedQuantity": "تعداد پذیرفته‌شده", "accountNumber": "شماره حساب", "action": "عملیات", "actionActor": "اقدام‌کننده",
     "actionDate": "تاریخ اقدام", "actionType": "نوع اقدام", "active": "فعال", "actualAmount": "مبلغ واقعی",
     "add": "اضافه کردن", "addComponent": "کامپوننت اضافه کنید", "addImage": "تصویر اضافه کنید", "addLink": "لینک اضافه کنید",

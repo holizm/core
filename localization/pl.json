@@ -1,4 +1,7 @@
 {
+    "totalTime": "Łączny czas",
+    "longest": "Najdłuższy",
+    "shortest": "Najkrótszy",
     "acceptedQuantity": "Zaakceptowana ilość", "accountNumber": "Numer rachunku", "action": "Działanie", "actionActor": "Wykonawca",
     "actionDate": "Data działania", "actionType": "Typ działania", "active": "Aktywne", "actualAmount": "Kwota rzeczywista",
     "add": "Dodaj", "addComponent": "Dodaj komponent", "addImage": "Dodaj obraz", "addLink": "Dodaj link",

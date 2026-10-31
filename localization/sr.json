@@ -1,4 +1,7 @@
 {
+    "totalTime": "Укупно време",
+    "longest": "Најдуже",
+    "shortest": "Најкраће",
     "acceptedQuantity": "Прихваћена количина", "accountNumber": "Број рачуна", "action": "Radnja", "actionActor": "Извршилац",
     "actionDate": "Датум радње", "actionType": "Врста радње", "active": "Aktivno", "actualAmount": "Стварни износ",
     "add": "Dodaj", "addComponent": "Dodaj komponentu", "addImage": "Dodaj sliku", "addLink": "Dodaj vezu",

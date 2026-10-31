@@ -1,4 +1,7 @@
 {
+    "totalTime": "ਕੁੱਲ ਸਮਾਂ",
+    "longest": "ਸਭ ਤੋਂ ਲੰਬਾ",
+    "shortest": "ਸਭ ਤੋਂ ਛੋਟਾ",
     "acceptedQuantity": "ਮਨਜ਼ੂਰ ਮਾਤਰਾ", "accountNumber": "ਖਾਤਾ ਨੰਬਰ", "action": "ਕਾਰਵਾਈ", "actionActor": "ਕਾਰਵਾਈ ਕਰਨ ਵਾਲਾ",
     "actionDate": "ਕਾਰਵਾਈ ਦੀ ਮਿਤੀ", "actionType": "ਕਾਰਵਾਈ ਦੀ ਕਿਸਮ", "active": "ਸਰਗਰਮ", "actualAmount": "ਅਸਲ ਰਕਮ",
     "add": "ਸ਼ਾਮਲ ਕਰੋ", "addComponent": "ਕੰਪੋਨੈਂਟ ਸ਼ਾਮਲ ਕਰੋ", "addImage": "ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰੋ", "addLink": "ਲਿੰਕ ਸ਼ਾਮਲ ਕਰੋ",

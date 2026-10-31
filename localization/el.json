@@ -1,4 +1,7 @@
 {
+    "totalTime": "Συνολικός χρόνος",
+    "longest": "Μεγαλύτερη διάρκεια",
+    "shortest": "Μικρότερη διάρκεια",
     "acceptedQuantity": "Αποδεκτή ποσότητα", "accountNumber": "Αριθμός λογαριασμού", "action": "Ενέργεια", "actionActor": "Εκτελών",
     "actionDate": "Ημερομηνία ενέργειας", "actionType": "Τύπος ενέργειας", "active": "Ενεργό", "actualAmount": "Πραγματικό ποσό",
     "add": "Προσθήκη", "addComponent": "Προσθήκη στοιχείου", "addImage": "Προσθήκη εικόνας", "addLink": "Προσθήκη συνδέσμου",

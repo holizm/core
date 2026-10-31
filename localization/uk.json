@@ -1,4 +1,7 @@
 {
+    "totalTime": "Загальний час",
+    "longest": "Найдовший",
+    "shortest": "Найкоротший",
     "acceptedQuantity": "Прийнята кількість", "accountNumber": "Номер рахунку", "action": "Дія", "actionActor": "Виконавець",
     "actionDate": "Дата дії", "actionType": "Тип дії", "active": "Активний", "actualAmount": "Фактична сума",
     "add": "Додати", "addComponent": "Додати компонент", "addImage": "Додати зображення", "addLink": "Додати посилання",

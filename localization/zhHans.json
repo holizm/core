@@ -1,4 +1,7 @@
 {
+    "totalTime": "总用时",
+    "longest": "最长",
+    "shortest": "最短",
     "acceptedQuantity": "接受数量", "accountNumber": "账号", "action": "操作", "actionActor": "操作人",
     "actionDate": "操作日期", "actionType": "操作类型", "active": "启用", "actualAmount": "实际金额",
     "add": "添加", "addComponent": "添加组件", "addImage": "添加图片", "addLink": "添加链接",

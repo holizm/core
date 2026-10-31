@@ -1,4 +1,7 @@
 {
+    "totalTime": "Celkový čas",
+    "longest": "Nejdelší",
+    "shortest": "Nejkratší",
     "acceptedQuantity": "Přijaté množství", "accountNumber": "Číslo účtu", "action": "Akce", "actionActor": "Provádějící",
     "actionDate": "Datum akce", "actionType": "Typ akce", "active": "Aktivní", "actualAmount": "Skutečná částka",
     "add": "Přidat", "addComponent": "Přidat komponentu", "addImage": "Přidat obrázek", "addLink": "Přidat odkaz",

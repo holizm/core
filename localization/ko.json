@@ -1,4 +1,7 @@
 {
+    "totalTime": "총 시간",
+    "longest": "가장 긴 시간",
+    "shortest": "가장 짧은 시간",
     "acceptedQuantity": "승인 수량", "accountNumber": "계좌 번호", "action": "작업", "actionActor": "처리자",
     "actionDate": "처리일", "actionType": "처리 유형", "active": "활동적인", "actualAmount": "실제 금액",
     "add": "추가하다", "addComponent": "구성 요소 추가", "addImage": "이미지 추가", "addLink": "링크 추가",

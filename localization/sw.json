@@ -1,4 +1,7 @@
 {
+    "totalTime": "Jumla ya muda",
+    "longest": "Mrefu zaidi",
+    "shortest": "Mfupi zaidi",
     "acceptedQuantity": "Kiasi kilichokubaliwa", "accountNumber": "Nambari ya akaunti", "action": "Kitendo", "actionActor": "Mtekelezaji",
     "actionDate": "Tarehe ya hatua", "actionType": "Aina ya hatua", "active": "Inatumika", "actualAmount": "Kiasi halisi",
     "add": "Ongeza", "addComponent": "Ongeza kijenzi", "addImage": "Ongeza picha", "addLink": "Ongeza kiungo",

@@ -1,4 +1,7 @@
 {
+    "totalTime": "စုစုပေါင်းအချိန်",
+    "longest": "အကြာဆုံး",
+    "shortest": "အတိုဆုံး",
     "acceptedQuantity": "လက်ခံသည့်အရေအတွက်", "accountNumber": "အကောင့်နံပါတ်", "action": "လုပ်ဆောင်ချက်", "actionActor": "လုပ်ဆောင်သူ",
     "actionDate": "လုပ်ဆောင်သည့်ရက်", "actionType": "လုပ်ဆောင်ချက် အမျိုးအစား", "active": "အသက်ဝင်", "actualAmount": "အမှန်တကယ် ပမာဏ",
     "add": "ထည့်ရန်", "addComponent": "အစိတ်အပိုင်း ထည့်ရန်", "addImage": "ပုံ ထည့်ရန်", "addLink": "လင့်ခ် ထည့်ရန်",

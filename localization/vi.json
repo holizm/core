@@ -1,4 +1,7 @@
 {
+    "totalTime": "Tổng thời gian",
+    "longest": "Dài nhất",
+    "shortest": "Ngắn nhất",
     "acceptedQuantity": "Số lượng được chấp nhận", "accountNumber": "Số tài khoản", "action": "Hành động", "actionActor": "Người thực hiện",
     "actionDate": "Ngày xử lý", "actionType": "Loại thao tác", "active": "Tích cực", "actualAmount": "Số tiền thực tế",
     "add": "Thêm vào", "addComponent": "Thêm thành phần", "addImage": "Thêm hình ảnh", "addLink": "Thêm liên kết",

@@ -1,4 +1,7 @@
 {
+    "totalTime": "เวลารวม",
+    "longest": "นานที่สุด",
+    "shortest": "สั้นที่สุด",
     "acceptedQuantity": "จำนวนที่รับรอง", "accountNumber": "หมายเลขบัญชี", "action": "การดำเนินการ", "actionActor": "ผู้ดำเนินการ",
     "actionDate": "วันที่ดำเนินการ", "actionType": "ประเภทการดำเนินการ", "active": "ใช้งานอยู่", "actualAmount": "จำนวนเงินจริง",
     "add": "เพิ่ม", "addComponent": "เพิ่มคอมโพเนนต์", "addImage": "เพิ่มรูปภาพ", "addLink": "เพิ่มลิงก์",

@@ -1,4 +1,7 @@
 {
+    "totalTime": "कुल समय",
+    "longest": "सबसे लंबा",
+    "shortest": "सबसे छोटा",
     "acceptedQuantity": "स्वीकृत मात्रा", "accountNumber": "खाता संख्या", "action": "कार्रवाई", "actionActor": "कार्रवाईकर्ता",
     "actionDate": "कार्रवाई की तारीख", "actionType": "कार्रवाई का प्रकार", "active": "सक्रिय", "actualAmount": "वास्तविक राशि",
     "add": "जोड़ना", "addComponent": "घटक जोड़ें", "addImage": "छवि जोड़ें", "addLink": "लिंक जोड़ें",

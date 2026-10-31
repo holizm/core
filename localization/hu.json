@@ -1,4 +1,7 @@
 {
+    "totalTime": "Teljes idő",
+    "longest": "Leghosszabb",
+    "shortest": "Legrövidebb",
     "acceptedQuantity": "Elfogadott mennyiség", "accountNumber": "Számlaszám", "action": "Művelet", "actionActor": "Végrehajtó",
     "actionDate": "Művelet dátuma", "actionType": "Művelettípus", "active": "Aktív", "actualAmount": "Tényleges összeg",
     "add": "Hozzáadás", "addComponent": "Összetevő hozzáadása", "addImage": "Kép hozzáadása", "addLink": "Hivatkozás hozzáadása",

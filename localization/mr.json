@@ -1,4 +1,7 @@
 {
+    "totalTime": "एकूण वेळ",
+    "longest": "सर्वात जास्त",
+    "shortest": "सर्वात कमी",
     "acceptedQuantity": "स्वीकृत प्रमाण", "accountNumber": "खाते क्रमांक", "action": "क्रिया", "actionActor": "कारवाई करणारा",
     "actionDate": "कारवाईची तारीख", "actionType": "कारवाईचा प्रकार", "active": "सक्रिय", "actualAmount": "प्रत्यक्ष रक्कम",
     "add": "जोडा", "addComponent": "घटक जोडा", "addImage": "प्रतिमा जोडा", "addLink": "दुवा जोडा",

@@ -1,4 +1,7 @@
 {
+    "totalTime": "Total waktu",
+    "longest": "Terpanjang",
+    "shortest": "Terpendek",
     "acceptedQuantity": "Jumlah diterima", "accountNumber": "Nomor rekening", "action": "Tindakan", "actionActor": "Pelaksana",
     "actionDate": "Tanggal tindakan", "actionType": "Jenis tindakan", "active": "Aktif", "actualAmount": "Jumlah aktual",
     "add": "Tambah", "addComponent": "Tambah komponen", "addImage": "Tambah gambar", "addLink": "Tambah tautan",

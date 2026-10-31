@@ -31,6 +31,11 @@ test('createThemeStyleEntries writes scoped styles and skips themes without a st
     assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css', 'themecore01.css'])
     assert.match(fs.readFileSync(path.join(styles, 'theme12.css'), 'utf8'), /themes\/12\/style\.css/)
     assert.match(fs.readFileSync(path.join(styles, 'themecore01.css'), 'utf8'), /themes\/core01\/style\.css/)
+    const scoped = fs.readFileSync(path.join(styles, 'themecore01.css'), 'utf8')
+    assert.doesNotMatch(scoped, /@source '\.\.';/)
+    assert.doesNotMatch(scoped, /@source .*coreBarrels/)
+    assert.match(scoped, /@source '\.\.\/themes\/core01';/)
+    assert.match(scoped, /coreParts,.*pageParts,.*parts,routes/)
 })
 
 test('single sites receive their complete CSS entry before container startup and watch sync', t => {

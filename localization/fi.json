@@ -1,4 +1,7 @@
 {
+    "totalTime": "Kokonaisaika",
+    "longest": "Pisin",
+    "shortest": "Lyhin",
     "acceptedQuantity": "Hyväksytty määrä", "accountNumber": "Tilinumero", "action": "Toiminto", "actionActor": "Toimija",
     "actionDate": "Toimenpiteen päivämäärä", "actionType": "Toimenpidetyyppi", "active": "Aktiivinen", "actualAmount": "Toteutunut määrä",
     "add": "Lisää", "addComponent": "Lisää komponentti", "addImage": "Lisää kuva", "addLink": "Lisää linkki",

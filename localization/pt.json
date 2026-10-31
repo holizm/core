@@ -1,4 +1,7 @@
 {
+    "totalTime": "Tempo total",
+    "longest": "Mais longo",
+    "shortest": "Mais curto",
     "acceptedQuantity": "Quantidade aceita", "accountNumber": "Número de conta", "action": "Ação", "actionActor": "Interveniente",
     "actionDate": "Data da ação", "actionType": "Tipo de ação", "active": "Ativo", "actualAmount": "Valor real",
     "add": "Adicionar", "addComponent": "Adicionar componente", "addImage": "Adicionar imagem", "addLink": "Adicionar link",

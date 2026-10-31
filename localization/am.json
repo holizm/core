@@ -1,4 +1,7 @@
 {
+    "totalTime": "ጠቅላላ ጊዜ",
+    "longest": "ረጅሙ",
+    "shortest": "አጭሩ",
     "acceptedQuantity": "ተቀባይነት ያገኘ መጠን", "accountNumber": "የመለያ ቁጥር", "action": "ድርጊት", "actionActor": "ፈጻሚ",
     "actionDate": "የእርምጃ ቀን", "actionType": "የእርምጃ ዓይነት", "active": "ንቁ", "actualAmount": "ትክክለኛ መጠን",
     "add": "አክል", "addComponent": "አካል አክል", "addImage": "ምስል አክል", "addLink": "አገናኝ አክል",

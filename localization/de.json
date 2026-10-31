@@ -1,4 +1,7 @@
 {
+    "totalTime": "Gesamtzeit",
+    "longest": "Längste",
+    "shortest": "Kürzeste",
     "acceptedQuantity": "Akzeptierte Menge", "accountNumber": "Accountnummer", "action": "Aktion", "actionActor": "Ausführender",
     "actionDate": "Aktionsdatum", "actionType": "Aktionstyp", "active": "Aktiv", "actualAmount": "Istbetrag",
     "add": "Hinzufügen", "addComponent": "Komponente hinzufügen", "addImage": "Bild hinzufügen", "addLink": "Link hinzufügen",

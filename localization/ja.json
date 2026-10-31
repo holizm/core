@@ -1,4 +1,7 @@
 {
+    "totalTime": "合計時間",
+    "longest": "最長",
+    "shortest": "最短",
     "acceptedQuantity": "受入数量", "accountNumber": "口座番号", "action": "アクション", "actionActor": "処理担当者",
     "actionDate": "処理日", "actionType": "処理タイプ", "active": "アクティブ", "actualAmount": "実績額",
     "add": "追加", "addComponent": "コンポーネントの追加", "addImage": "画像を追加", "addLink": "リンクを追加",
