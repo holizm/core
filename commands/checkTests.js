@@ -1,11 +1,23 @@
 import assert from 'assert/strict'
 import { spawnSync } from 'child_process'
+import {
+    mkdtempSync,
+    rmSync,
+    writeFileSync,
+} from 'fs'
+import os from 'os'
 import path from 'path'
 import test from 'node:test'
 
-test('check clears by default and preserves output when explicitly requested', () => {
+test('check clears by default and preserves output when explicitly requested', t => {
     const command = path.join(import.meta.dirname, 'check')
-    const target = '/tmp/example file.js'
+    const directory = mkdtempSync(path.join(os.tmpdir(), 'checkCommand'))
+    t.after(() => rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
+    const target = path.join(directory, 'example file.js')
+    writeFileSync(target, '')
     const script = `clear() { printf 'terminalCleared\\n'; }
 node() { printf 'checked:%s\\n' "$2"; }
 export -f clear node
@@ -34,7 +46,7 @@ bash "$@"`
         script,
         'checkTests',
         path.join(import.meta.dirname, 'check'),
-        '/tmp/example.js',
+        import.meta.filename,
         '--noClear',
     ], { encoding: 'utf8' })
     assert.equal(result.status, 7, result.stderr)
@@ -47,4 +59,20 @@ test('refusing to check the filesystem root returns failure', () => {
         '--noClear',
     ], { encoding: 'utf8' })
     assert.equal(result.status, 1)
+})
+
+test('a missing file prints one concise error and returns failure', t => {
+    const directory = mkdtempSync(path.join(os.tmpdir(), 'checkMissing'))
+    t.after(() => rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
+    const result = spawnSync('bash', [
+        path.join(import.meta.dirname, 'check'),
+        path.join(directory, 'missing.js'),
+        '--noClear',
+    ], { encoding: 'utf8' })
+    assert.equal(result.status, 1)
+    assert.equal(result.stderr, 'File does not exist\n')
+    assert.equal(result.stdout, '')
 })
