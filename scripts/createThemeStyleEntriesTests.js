@@ -15,7 +15,7 @@ test('createThemeStyleEntries writes one scoped style entry per theme', t => {
         multiThemed: true,
         process: 'site',
         repo,
-        themeDirectories: ['theme01', 'theme12', 'coreTheme01'],
+        themeDirectories: ['theme01', 'theme12', '../siteThemes/theme01'],
     })
     const styles = path.join(output, 'site', 'themeStyles')
     assert.deepEqual(fs.readdirSync(styles).sort(), ['theme01.css', 'theme12.css', 'themecore01.css'])

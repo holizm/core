@@ -20,7 +20,7 @@ test('createSiteConfiguration records the selected theme numbers', t => {
         multiThemed: true,
         process: 'site',
         repo,
-        themeDirectories: ['theme01', 'theme12', 'coreTheme01'],
+        themeDirectories: ['theme01', 'theme12', '../siteThemes/theme01'],
     })
     const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
     const configuration = JSON.parse(source.replace(/^export default /, ''))

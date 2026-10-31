@@ -18,15 +18,38 @@ test('findThemeDirectories finds and numerically orders theme directories', t =>
     assert.deepEqual(findThemeDirectories(root), ['theme01', 'theme2', 'theme10'])
 })
 
-test('core themes are selected explicitly through symbolic links', t => {
+test('core themes are all discovered directly without symbolic links', t => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coreThemes'))
     t.after(() => fs.rmSync(root, {
         force: true,
         recursive: true,
     }))
-    fs.mkdirSync(path.join(root, 'theme001'))
-    fs.symlinkSync('theme001', path.join(root, 'coreTheme001'))
-    fs.mkdirSync(path.join(root, 'coreTheme002'))
-    fs.symlinkSync('theme001', path.join(root, 'unselected'))
-    assert.deepEqual(findThemeDirectories(root), ['coreTheme001', 'theme001'])
+    const runnable = path.join(root, 'sampleThemes')
+    const catalog = path.join(root, 'siteThemes')
+    fs.mkdirSync(path.join(runnable, 'theme001'), { recursive: true })
+    fs.mkdirSync(path.join(catalog, 'theme001'), { recursive: true })
+    fs.mkdirSync(path.join(catalog, 'theme032'))
+    fs.mkdirSync(path.join(catalog, 'theme100'))
+    fs.mkdirSync(path.join(catalog, 'other'))
+    assert.deepEqual(findThemeDirectories(runnable, catalog), [
+        '../siteThemes/theme001',
+        '../siteThemes/theme032',
+        '../siteThemes/theme100',
+        'theme001',
+    ])
+    assert.deepEqual(findThemeDirectories(runnable), ['theme001'])
+})
+
+test('a themed runnable without custom themes still includes the entire core catalog', t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coreOnlyThemes'))
+    t.after(() => fs.rmSync(root, {
+        force: true,
+        recursive: true,
+    }))
+    const runnable = path.join(root, 'sampleThemes')
+    const catalog = path.join(root, 'siteThemes')
+    fs.mkdirSync(runnable)
+    fs.mkdirSync(path.join(catalog, 'theme032'), { recursive: true })
+    fs.symlinkSync('../siteThemes/theme032', path.join(runnable, 'coreTheme032'))
+    assert.deepEqual(findThemeDirectories(runnable, catalog), ['../siteThemes/theme032'])
 })

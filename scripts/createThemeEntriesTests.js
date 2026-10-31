@@ -19,18 +19,20 @@ test('createThemeEntries includes only existing theme page components', t => {
             recursive: true,
         })
     })
-    const processPath = path.join(home, 'site')
-    const pages = path.join(home, 'theme01', 'pages')
-    fs.mkdirSync(processPath)
+    const processPath = path.join(home, 'sampleThemes', 'site')
+    const pages = path.join(home, 'sampleThemes', 'theme01', 'pages')
+    fs.mkdirSync(processPath, { recursive: true })
     fs.mkdirSync(pages, { recursive: true })
     fs.writeFileSync(path.join(pages, 'head.jsx'), 'export default null')
-    fs.symlinkSync('theme01', path.join(home, 'coreTheme01'))
+    const corePages = path.join(home, 'siteThemes', 'theme01', 'pages')
+    fs.mkdirSync(corePages, { recursive: true })
+    fs.writeFileSync(path.join(corePages, 'head.jsx'), 'export default null')
     createThemeEntries({
         multiThemed: true,
         process: 'site',
         processPath,
         repo,
-        themeDirectories: ['theme01', 'theme02', 'coreTheme01'],
+        themeDirectories: ['theme01', 'theme02', '../siteThemes/theme01'],
     })
     const heads = fs.readFileSync(path.join(output, 'site', 'themeHeads', 'index.jsx'), 'utf8')
     const indexes = fs.readFileSync(path.join(output, 'site', 'themeIndexes', 'index.jsx'), 'utf8')

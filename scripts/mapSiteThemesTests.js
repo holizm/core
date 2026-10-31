@@ -16,7 +16,6 @@ test('composition resolves core sources and retains a local theme with the same 
     fs.mkdirSync(path.join(runnable, 'site'), { recursive: true })
     fs.mkdirSync(path.join(runnable, 'theme001'))
     fs.mkdirSync(core, { recursive: true })
-    fs.symlinkSync(core, path.join(runnable, 'coreTheme001'))
     const volumes = []
     mapSiteThemes({
         addVolume: (...rest) => volumes.push(rest),
@@ -25,7 +24,7 @@ test('composition resolves core sources and retains a local theme with the same 
         process: 'site',
         processPath: path.join(runnable, 'site'),
         repo: 'sampleThemes',
-        themeDirectories: ['theme001', 'coreTheme001'],
+        themeDirectories: ['theme001', '../siteThemes/theme001'],
     })
     assert.deepEqual(volumes, [
         [path.join(runnable, 'theme001'), '/container/sampleThemes/site/src/themes/001'],
