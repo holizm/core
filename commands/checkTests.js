@@ -24,3 +24,27 @@ bash "$@"`
         assert.ok(result.stdout.includes(`checked:${target}\n`))
     }
 })
+
+test('check returns the checker failure status after printing its footer', () => {
+    const script = `node() { return 7; }
+export -f node
+bash "$@"`
+    const result = spawnSync('bash', [
+        '-c',
+        script,
+        'checkTests',
+        path.join(import.meta.dirname, 'check'),
+        '/tmp/example.js',
+        '--noClear',
+    ], { encoding: 'utf8' })
+    assert.equal(result.status, 7, result.stderr)
+})
+
+test('refusing to check the filesystem root returns failure', () => {
+    const result = spawnSync('bash', [
+        path.join(import.meta.dirname, 'check'),
+        '/',
+        '--noClear',
+    ], { encoding: 'utf8' })
+    assert.equal(result.status, 1)
+})

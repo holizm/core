@@ -18,11 +18,13 @@ process.stderr.write = chunk => {
 
 process.on('message', async message => {
     if (message.type === 'stop') {
+        process.exitCode = 0
         process.disconnect()
         return
     }
     output = ''
     error = ''
+    process.exitCode = 0
     process.argv[2] = message.file
     if (!existsSync(message.file) || path.basename(message.file) === 'AGENTS.md' || path.basename(message.file) === 'report' || message.file.includes('/policies/')) {
         process.send({
@@ -36,7 +38,7 @@ process.on('message', async message => {
     try {
         await import(`${policyRunner}?run=${runNumber++}`)
         process.send({
-            code: 0,
+            code: process.exitCode || 0,
             error,
             output,
             type: 'done',

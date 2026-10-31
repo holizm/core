@@ -14,7 +14,7 @@ fi
 
 if [[ $target == / ]]; then
     error 'Checking the root is not possible'
-    exit
+    exit 1
 fi
 
 divide
@@ -30,6 +30,7 @@ else
 fi
 
 node "$home/core/scripts/checkFiles.js" "$target"
+checkStatus=$?
 
 # findRepos $target |
 # while read repo;
@@ -38,3 +39,4 @@ node "$home/core/scripts/checkFiles.js" "$target"
 # done
 
 divide
+exit "$checkStatus"
