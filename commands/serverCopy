@@ -121,7 +121,7 @@ else
 
     else
 
-        if [[ "$3" == changes ]]; then
+        if [[ "$3" == changes ]] && command -v rsync >/dev/null 2>&1 && ssh -p "$sshPort" "$sshUser@$sshIp" 'command -v rsync' >/dev/null 2>&1; then
             rsync --checksum --protect-args --stats -e "ssh -p $sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
         else
             scp -P "$sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1

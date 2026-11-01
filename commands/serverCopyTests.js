@@ -29,7 +29,16 @@ printf '22 dev localhost\n'
         rsync: `#!/bin/sh
 exec /usr/bin/rsync --stats "$@"
 `,
+        scp: `#!/bin/sh
+exec /bin/cp -- "$3" "\${4#*:}"
+`,
         ssh: `#!/bin/sh
+for argument; do
+    if [ "$argument" = 'command -v rsync' ]; then
+        printf '/usr/bin/rsync\n'
+        exit 0
+    fi
+done
 while [ "$#" -gt 0 ] && [ "$1" != rsync ]; do
     shift
 done
@@ -66,10 +75,14 @@ exec /usr/bin/rsync "$@"
     assert.ok(transferred < bytes.length / 8)
     assert.deepEqual(readFileSync(destinationPath), bytes)
     assert.match(await copyFile(), /Literal data: 0 bytes/)
-    writeFileSync(join(toolsDirectory, 'ssh'), '#!/bin/sh\nexit 7\n', { mode: 0o755 })
+    writeFileSync(join(toolsDirectory, 'rsync'), '#!/bin/sh\nexit 7\n', { mode: 0o755 })
     bytes[0] ^= 1
     writeFileSync(sourcePath, bytes)
     const previous = readFileSync(destinationPath)
     await assert.rejects(copyFile)
     assert.deepEqual(readFileSync(destinationPath), previous)
+    writeFileSync(join(toolsDirectory, 'rsync'), fixtures.rsync, { mode: 0o755 })
+    writeFileSync(join(toolsDirectory, 'ssh'), '#!/bin/sh\nexit 127\n', { mode: 0o755 })
+    await copyFile()
+    assert.deepEqual(readFileSync(destinationPath), bytes)
 })
