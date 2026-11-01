@@ -60,7 +60,12 @@ printf 'codex-cli 1.0.0\\n' > "$testState"
             assert.equal(calls.includes('upgrade:-i npm install -g @openai/codex@latest'), !['current', 'registryFailure'].includes(scenario))
             const succeeds = ['current', 'outdated', 'missing'].includes(scenario)
             assert.equal(result.status === 0, succeeds)
-            assert.equal(calls.includes(`launch:${directory}/.codex-account2:--dangerously-bypass-approvals-and-sandbox hello world`), succeeds)
+            assert.equal(calls.includes(`launch:${directory}/.codex-account2:--dangerously-bypass-approvals-and-sandbox`), succeeds)
+            if (succeeds) {
+                assert.ok(calls.includes('-c mcp_servers.browser.command="npx"'))
+                assert.ok(calls.includes('-c mcp_servers.browser.args=["-y", "chrome-devtools-mcp@latest"]'))
+                assert.ok(calls.includes('-c mcp_servers.browser.startup_timeout_sec=60 hello world'))
+            }
         }
     }
     finally {
