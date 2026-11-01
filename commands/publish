@@ -57,13 +57,17 @@ const contentRepository = isSite ? getSiteContentSource(params)?.repository : nu
 validatePublishArtifact(artifactPath, contentRepository)
 const instance = await getInstance(domain, publishParameters.repo)
 const remoteBuildDir = `/tmp/${repo}/${params.process}`
+const remoteArchivePath = `/tmp/${repo}/${params.process}Archive.zip`
+const remoteProcessPath = `$HOME/${instance?.serverDirectory}/${params.process}`
+
 await runOnServer(domain, `rm -rf ${remoteBuildDir} && mkdir -p ${remoteBuildDir} ${remoteProcessPath}`)
 
 divide()
 info('Copying to the server...')
 divide()
 
-await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteBuildDir}/${params.process}.zip`)
+await runStreaming(`serverCopy ${artifactPath} ${domain}:${remoteArchivePath} changes`)
+await runOnServer(domain, `ln ${remoteArchivePath} ${remoteBuildDir}/${params.process}.zip`)
 if (!params.isApi) {
     await initializePublishedSettingsOverride({
         domain,
@@ -78,6 +82,7 @@ divide()
 await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath, isPanel))
 await runOnServer(domain, `unzip -o ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
 // await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
+await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
 
 // if (isApi || isSite) {
 //     try {

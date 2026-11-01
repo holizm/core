@@ -7,7 +7,7 @@ sourcePath=$1
 destinationPath=$2
 
 if [[ -z "$sourcePath" || -z "$destinationPath" ]]; then
-    error "Usage: serverCopy source destination"
+    error 'Usage: serverCopy source destination [changes]'
     exit 1
 fi
 
@@ -32,9 +32,7 @@ if [[ -z "$remotePath" || "$remotePath" == "$remote" ]]; then
     exit 1
 fi
 
-read -r sshPort sshUser sshIp < <(
-    node ~/core/scripts/extractSshParameters.js "$domain"
-)
+read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     error "Failed to extract SSH parameters for $domain"
@@ -48,10 +46,7 @@ if [[ "$remoteIsSource" == true ]]; then
         remoteDirectory="${remotePath%/*}"
         remotePattern="${remotePath##*/}"
 
-        mapfile -t remoteFiles < <(
-            ssh -p "$sshPort" "$sshUser@$sshIp" \
-                "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort"
-        )
+        mapfile -t remoteFiles < <(ssh -p "$sshPort" "$sshUser@$sshIp" "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort")
 
         if [[ ${#remoteFiles[@]} -eq 0 ]]; then
             error "No files found matching $remotePath"
@@ -59,9 +54,7 @@ if [[ "$remoteIsSource" == true ]]; then
         fi
 
         for remoteFile in "${remoteFiles[@]}"; do
-            scp -P "$sshPort" \
-                "$sshUser@$sshIp:$remoteDirectory/$remoteFile" \
-                "$localPath" || exit 1
+            scp -P "$sshPort" "$sshUser@$sshIp:$remoteDirectory/$remoteFile" "$localPath" || exit 1
         done
 
     elif ssh -p "$sshPort" "$sshUser@$sshIp" \
@@ -72,10 +65,7 @@ if [[ "$remoteIsSource" == true ]]; then
 
         mkdir -p "$localDirectory"
 
-        mapfile -t remoteFiles < <(
-            ssh -p "$sshPort" "$sshUser@$sshIp" \
-                "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort"
-        )
+        mapfile -t remoteFiles < <(ssh -p "$sshPort" "$sshUser@$sshIp" "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort")
 
         if [[ ${#remoteFiles[@]} -eq 0 ]]; then
             error "No files found in $remotePath"
@@ -83,16 +73,12 @@ if [[ "$remoteIsSource" == true ]]; then
         fi
 
         for remoteFile in "${remoteFiles[@]}"; do
-            scp -P "$sshPort" \
-                "$sshUser@$sshIp:$remotePath/$remoteFile" \
-                "$localDirectory" || exit 1
+            scp -P "$sshPort" "$sshUser@$sshIp:$remotePath/$remoteFile" "$localDirectory" || exit 1
         done
 
     else
 
-        scp -P "$sshPort" \
-            "$sshUser@$sshIp:$remotePath" \
-            "$localPath" || exit 1
+        scp -P "$sshPort" "$sshUser@$sshIp:$remotePath" "$localPath" || exit 1
 
     fi
 
@@ -103,9 +89,7 @@ else
         localDirectory="${localPath%/*}"
         localPattern="${localPath##*/}"
 
-        mapfile -t localFiles < <(
-            find "$localDirectory" -maxdepth 1 -type f -name "$localPattern" -printf '%f\n' | LC_ALL=C sort
-        )
+        mapfile -t localFiles < <(find "$localDirectory" -maxdepth 1 -type f -name "$localPattern" -printf '%f\n' | LC_ALL=C sort)
 
         if [[ ${#localFiles[@]} -eq 0 ]]; then
             error "No files found matching $localPath"
@@ -113,9 +97,7 @@ else
         fi
 
         for localFile in "${localFiles[@]}"; do
-            scp -P "$sshPort" \
-                "$localDirectory/$localFile" \
-                "$sshUser@$sshIp:$remotePath" || exit 1
+            scp -P "$sshPort" "$localDirectory/$localFile" "$sshUser@$sshIp:$remotePath" || exit 1
         done
 
     elif [[ -d "$localPath" ]]; then
@@ -126,9 +108,7 @@ else
         ssh -p "$sshPort" "$sshUser@$sshIp" \
             "mkdir -p '$remoteDirectory'" || exit 1
 
-        mapfile -t localFiles < <(
-            find "$localPath" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort
-        )
+        mapfile -t localFiles < <(find "$localPath" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
 
         if [[ ${#localFiles[@]} -eq 0 ]]; then
             error "No files found in $localPath"
@@ -136,16 +116,16 @@ else
         fi
 
         for localFile in "${localFiles[@]}"; do
-            scp -P "$sshPort" \
-                "$localPath/$localFile" \
-                "$sshUser@$sshIp:$remoteDirectory" || exit 1
+            scp -P "$sshPort" "$localPath/$localFile" "$sshUser@$sshIp:$remoteDirectory" || exit 1
         done
 
     else
 
-        scp -P "$sshPort" \
-            "$localPath" \
-            "$sshUser@$sshIp:$remotePath" || exit 1
+        if [[ "$3" == changes ]]; then
+            rsync --checksum --protect-args -e "ssh -p $sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
+        else
+            scp -P "$sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
+        fi
 
     fi
 

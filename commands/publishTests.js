@@ -66,7 +66,9 @@ test('API publish restores modules in the installation request before restarting
 })
 
 test('API publication transfers only the build archive and never updates server settings from local data', () => {
-    assert.deepEqual(transfers, ['serverCopy /tmp/exampleBuild/example/api/api.zip example.com:/tmp/example/api/api.zip'])
+    assert.deepEqual(transfers, ['serverCopy /tmp/exampleBuild/example/api/api.zip example.com:/tmp/example/apiArchive.zip changes'])
+    assert.ok(calls.includes('ln /tmp/example/apiArchive.zip /tmp/example/api/api.zip'))
+    assert.equal(calls.includes('rm -rf /tmp/example/apiArchive.zip'), false)
     assert.equal(calls.includes('localSettingsCopied'), false)
     assert.equal(calls.some(command => command.includes('updateIamSettings')), false)
     assert.equal(calls.some(command => /iamSettings\.json|settingsOverride\.json/.test(command)
@@ -81,7 +83,7 @@ test('a fresh API build also publishes code without transferring runtime setting
     assert.equal(builds.length, 1)
     assert.equal(builds[0].localBuild, true)
     assert.equal(transfers.length, 1)
-    assert.ok(transfers[0].endsWith('/api.zip'))
+    assert.ok(transfers[0].endsWith('/apiArchive.zip changes'))
     assert.equal(calls.includes('localSettingsCopied'), false)
     assert.equal(calls.some(command => command.includes('updateIamSettings')), false)
 })
