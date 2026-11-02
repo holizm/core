@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-clear
+# clear
 . $HOME/core/scripts/logger.sh
 
 sourcePath=$1
