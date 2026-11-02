@@ -81,7 +81,6 @@ divide()
 
 await runOnServer(domain, getPublishCleanupCommand(remoteProcessPath, isPanel))
 await runOnServer(domain, `unzip -oq ${remoteBuildDir}/${params.process}.zip -d ${remoteProcessPath}`)
-// await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
 await runOnServer(domain, getPublishedPackageInstallCommand(params, remoteBuildDir, remoteProcessPath))
 
 // if (isApi || isSite) {
