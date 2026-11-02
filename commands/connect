@@ -16,6 +16,7 @@ fi
 
 read -r sshPort extractedSshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 sshUser=${sshUserOverride:-$extractedSshUser}
+serverAliveCountMax=${serverAliveCountMax:-12}
 
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     error "Failed to extract SSH parameters for $domain"
@@ -23,7 +24,7 @@ if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
 fi
 
 if [[ $# -gt 0 ]]; then
-    ssh -A -o ServerAliveInterval=15 -p "$sshPort" "$sshUser@$sshIp" "$@"
+    ssh -A -o ServerAliveInterval=15 -o "ServerAliveCountMax=$serverAliveCountMax" -p "$sshPort" "$sshUser@$sshIp" "$@"
 else
-    ssh -A -t -o ServerAliveInterval=15 -p "$sshPort" "$sshUser@$sshIp"
+    ssh -A -t -o ServerAliveInterval=15 -o "ServerAliveCountMax=$serverAliveCountMax" -p "$sshPort" "$sshUser@$sshIp"
 fi

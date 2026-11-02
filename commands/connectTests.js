@@ -28,8 +28,11 @@ test('command and transfer connections share configured keep-alive settings', as
         env: fixture.env,
         throwOnError: true,
     })
-    const connection = ['-A', '-o', 'ServerAliveInterval=15', '-p', '22', 'dev@localhost']
+    const connection = ['-A', '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=12', '-p', '22', 'dev@localhost']
     assert.deepEqual((await invoke("'printf value'")).split('\n'), [...connection, 'printf value'])
     assert.deepEqual((await invoke('--transport fixture rsync --server')).split('\n'), [...connection, 'rsync', '--server'])
+    fixture.env.serverAliveCountMax = '20'
+    assert.ok((await invoke("'printf value'")).split('\n').includes('ServerAliveCountMax=20'))
+    assert.ok((await invoke('--transport fixture rsync --server')).split('\n').includes('ServerAliveCountMax=20'))
     await assert.rejects(() => invoke('--transport'))
 })
