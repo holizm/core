@@ -4,6 +4,22 @@ import { fileURLToPath } from 'url'
 import { runOnTerminalAsync } from '../scripts/terminal.js'
 import createFixture from './serverConnectionFixtureTests.js'
 
+test('machine-readable connection output excludes terminal clearing', async context => {
+    const fixture = createFixture(context)
+    fixture.writeTool('clear', `#!/usr/bin/env bash
+printf 'terminalCleared\n'
+`)
+    fixture.writeTool('ssh', `#!/usr/bin/env bash
+printf '{"ok":true}\n'
+`)
+    const command = fileURLToPath(new URL('./connect', import.meta.url))
+    const output = await runOnTerminalAsync(`bash '${command}' fixture 'read configuration'`, {
+        env: fixture.env,
+        throwOnError: true,
+    })
+    assert.deepEqual(JSON.parse(output), { ok: true })
+})
+
 test('command and transfer connections share configured keep-alive settings', async context => {
     const fixture = createFixture(context)
     fixture.writeTool('ssh', '#!/usr/bin/env bash\nprintf "%s\\n" "$@"\n')
