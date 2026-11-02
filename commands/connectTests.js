@@ -1,20 +1,19 @@
 import assert from 'assert/strict'
-import { spawnSync } from 'child_process'
-import path from 'path'
 import test from 'node:test'
+import { fileURLToPath } from 'url'
+import { runOnTerminalAsync } from '../scripts/terminal.js'
+import createFixture from './serverConnectionFixtureTests.js'
 
-test('machine-readable connection output excludes terminal clearing', () => {
-    const script = `clear() { printf 'terminalCleared\\n'; }
-node() { printf '22 user example.invalid\\n'; }
-ssh() { printf '{"ok":true}\\n'; }
-export -f clear node ssh
-bash "$1" example.invalid 'read configuration'`
-    const result = spawnSync('bash', [
-        '-c',
-        script,
-        'connectTests',
-        path.join(import.meta.dirname, 'connect'),
-    ], { encoding: 'utf8' })
-    assert.equal(result.status, 0, result.stderr)
-    assert.deepEqual(JSON.parse(result.stdout), { ok: true })
+test('command and transfer connections share configured keep-alive settings', async context => {
+    const fixture = createFixture(context)
+    fixture.writeTool('ssh', '#!/usr/bin/env bash\nprintf "%s\\n" "$@"\n')
+    const command = fileURLToPath(new URL('./connect', import.meta.url))
+    const invoke = args => runOnTerminalAsync(`bash '${command}' fixture ${args}`, {
+        env: fixture.env,
+        throwOnError: true,
+    })
+    const connection = ['-A', '-o', 'ServerAliveInterval=15', '-p', '22', 'dev@localhost']
+    assert.deepEqual((await invoke("'printf value'")).split('\n'), [...connection, 'printf value'])
+    assert.deepEqual((await invoke('--transport fixture rsync --server')).split('\n'), [...connection, 'rsync', '--server'])
+    await assert.rejects(() => invoke('--transport'))
 })

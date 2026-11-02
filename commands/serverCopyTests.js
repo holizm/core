@@ -1,67 +1,22 @@
 import assert from 'assert/strict'
-import { randomBytes } from 'crypto'
 import {
-    mkdirSync,
-    mkdtempSync,
     readFileSync,
-    rmSync,
     utimesSync,
     writeFileSync,
 } from 'fs'
 import test from 'node:test'
-import { tmpdir } from 'os'
-import { join } from 'path'
-import { fileURLToPath } from 'url'
-import { runOnTerminalAsync } from '../scripts/terminal.js'
+import createFixture from './serverConnectionFixtureTests.js'
 
 test('changed archives reuse matching data and preserve exact contents', async context => {
-    const directory = mkdtempSync(join(tmpdir(), 'serverCopy'))
-    context.after(() => rmSync(directory, {
-        force: true,
-        recursive: true,
-    }))
-    const toolsDirectory = join(directory, 'tools')
-    mkdirSync(toolsDirectory)
-    const fixtures = {
-        node: `#!/usr/bin/env bash
-printf '22 dev localhost\n'
-`,
-        rsync: `#!/usr/bin/env bash
-exec /usr/bin/rsync --stats "$@"
-`,
-        scp: `#!/usr/bin/env bash
-exec /bin/cp -- "$3" "\${4#*:}"
-`,
-        ssh: `#!/usr/bin/env bash
-for argument; do
-    if [ "$argument" = 'command -v rsync' ]; then
-        printf '/usr/bin/rsync\n'
-        exit 0
-    fi
-done
-while [ "$#" -gt 0 ] && [ "$1" != rsync ]; do
-    shift
-done
-shift
-exec /usr/bin/rsync "$@"
-`,
-    }
-    for (const [name, source] of Object.entries(fixtures)) {
-        writeFileSync(join(toolsDirectory, name), source, { mode: 0o755 })
-    }
-    const sourcePath = join(directory, 'sourceArchive.zip')
-    const destinationPath = join(directory, 'targetArchive.zip')
-    const bytes = randomBytes(1024 * 1024)
-    writeFileSync(sourcePath, bytes)
-    const command = fileURLToPath(new URL('./serverCopy', import.meta.url))
-    const copyFile = () => runOnTerminalAsync(`bash '${command}' '${sourcePath}' 'fixture:${destinationPath}' changes`, {
-        env: {
-            ...process.env,
-            PATH: `${toolsDirectory}:${process.env.PATH}`,
-            TERM: 'xterm',
-        },
-        throwOnError: true,
-    })
+    const fixture = createFixture(context)
+    const {
+        bytes,
+        copyFile,
+        destinationPath,
+        sourcePath,
+        tools,
+        writeTool,
+    } = fixture
     await copyFile()
     assert.deepEqual(readFileSync(destinationPath), bytes)
     bytes.fill(7, 65536, 65664)
@@ -75,14 +30,14 @@ exec /usr/bin/rsync "$@"
     assert.ok(transferred < bytes.length / 8)
     assert.deepEqual(readFileSync(destinationPath), bytes)
     assert.match(await copyFile(), /Literal data: 0 bytes/)
-    writeFileSync(join(toolsDirectory, 'rsync'), '#!/usr/bin/env bash\nexit 7\n', { mode: 0o755 })
+    writeTool('rsync', '#!/usr/bin/env bash\nexit 7\n')
     bytes[0] ^= 1
     writeFileSync(sourcePath, bytes)
     const previous = readFileSync(destinationPath)
     await assert.rejects(copyFile)
     assert.deepEqual(readFileSync(destinationPath), previous)
-    writeFileSync(join(toolsDirectory, 'rsync'), fixtures.rsync, { mode: 0o755 })
-    writeFileSync(join(toolsDirectory, 'ssh'), '#!/usr/bin/env bash\nexit 127\n', { mode: 0o755 })
+    writeTool('rsync', tools.rsync)
+    writeTool('ssh', '#!/usr/bin/env bash\nexit 127\n')
     await copyFile()
     assert.deepEqual(readFileSync(destinationPath), bytes)
 })

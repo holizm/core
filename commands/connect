@@ -8,6 +8,12 @@ fi
 domain=$1
 shift
 
+if [[ "${1:-}" == --transport ]]; then
+    shift
+    [[ $# -gt 0 ]] || exit 1
+    shift
+fi
+
 read -r sshPort extractedSshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
 sshUser=${sshUserOverride:-$extractedSshUser}
 

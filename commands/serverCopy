@@ -121,8 +121,8 @@ else
 
     else
 
-        if [[ "$3" == changes ]] && command -v rsync >/dev/null 2>&1 && ssh -p "$sshPort" "$sshUser@$sshIp" 'command -v rsync' >/dev/null 2>&1; then
-            rsync --checksum --protect-args --stats -e "ssh -p $sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
+        if [[ "$3" == changes ]] && command -v rsync >/dev/null 2>&1 && "$HOME/core/commands/connect" "$domain" 'command -v rsync' >/dev/null 2>&1; then
+            rsync --checksum --protect-args --stats --partial-dir=transferCache -e "$HOME/core/commands/connect $domain --transport" "$localPath" "$domain:$remotePath" || exit 1
         else
             scp -P "$sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
         fi
