@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+commandPath=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/update
+testDirectory=$(mktemp -d /tmp/updateTests.XXXXXXXX)
+trap 'rm -rf "$testDirectory"' EXIT
+export testDirectory
+mkdir -p "$testDirectory/core/scripts" "$testDirectory/core/setupDev"
+touch "$testDirectory/core/scripts/logger.sh"
+printf '%s\n' '#!/usr/bin/env bash' 'echo compass >> "$testDirectory/calls"' > "$testDirectory/core/setupDev/compass"
+chmod +x "$testDirectory/core/setupDev/compass"
+
+getent() {
+    printf 'dev:x:1000:1000::%s:/bin/bash\n' "$testDirectory"
+}
+
+clear() {
+    :
+}
+
+sudo() {
+    printf '%s\n' "$*" >> "$testDirectory/calls"
+    if [[ "$*" == 'apt update -o APT::Update::Error-Mode=any' ]]; then
+        return "$refreshStatus"
+    fi
+    return 0
+}
+
+export -f getent clear sudo
+export refreshStatus=0
+bash "$commandPath"
+expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y' 'compass')
+[[ "$(cat "$testDirectory/calls")" == "$expected" ]]
+
+export refreshStatus=100
+rm "$testDirectory/calls"
+if bash "$commandPath"; then
+    exit 1
+fi
+[[ "$(cat "$testDirectory/calls")" == 'apt update -o APT::Update::Error-Mode=any' ]]
+printf '%s\n' 'Update sequencing tests passed'

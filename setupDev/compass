@@ -3,7 +3,11 @@
 . "$scripts/installer.sh"
 
 getLatestMongoCompassUrl() {
-    curl -fsSL https://www.mongodb.com/try/download/compass | rg -oP 'https://downloads.mongodb.com/compass/mongodb-compass_[^"]+_amd64.deb' | head -n 1
+    local release
+    local packageName
+    release=$(curl -fsSL --connect-timeout 15 --max-time 60 https://api.github.com/repos/mongodb-js/compass/releases/latest) || return $?
+    packageName=$(printf '%s' "$release" | jq -er '[.assets[].name | select(test("^mongodb-compass_[0-9]+\\.[0-9]+\\.[0-9]+_amd64\\.deb$"))] | if length == 1 then .[0] else error("Expected one Compass package") end') || return $?
+    printf 'https://downloads.mongodb.com/compass/%s\n' "$packageName"
 }
 
 getDownloadedMongoCompassPath() {

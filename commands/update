@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 echo
 homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
@@ -6,10 +7,6 @@ homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 
 clear
 
-divide
-warning "Test with/without VPN"
-divide
-
-sudo apt update
+sudo apt update -o APT::Update::Error-Mode=any
 sudo apt full-upgrade -y
 scripts="$homeDir/core/scripts" "$homeDir/core/setupDev/compass" update

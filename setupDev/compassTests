@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/compass
+. <(sed -n '/^getLatestMongoCompassUrl() {/,/^}/p' "$sourcePath")
+
+curl() {
+    printf '%s' "$releaseResponse"
+    return "$requestStatus"
+}
+
+requestStatus=0
+releaseResponse='{"assets":[{"name":"mongodb-compass_1.53.2_arm64.deb"},{"name":"mongodb-compass_1.53.2_amd64.deb"},{"name":"mongodb-compass-readonly_1.53.2_amd64.deb"}]}'
+[[ "$(getLatestMongoCompassUrl)" == 'https://downloads.mongodb.com/compass/mongodb-compass_1.53.2_amd64.deb' ]]
+
+releaseResponse='{"assets":[]}'
+if getLatestMongoCompassUrl >/dev/null 2>&1; then
+    exit 1
+fi
+
+releaseResponse='Invalid response'
+if getLatestMongoCompassUrl >/dev/null 2>&1; then
+    exit 1
+fi
+
+requestStatus=22
+releaseResponse='{"assets":[{"name":"mongodb-compass_1.53.2_amd64.deb"}]}'
+if getLatestMongoCompassUrl >/dev/null 2>&1; then
+    exit 1
+fi
+
+printf '%s\n' 'Compass release lookup tests passed'
