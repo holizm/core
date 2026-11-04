@@ -1,5 +1,5 @@
 {
-    "openedAt": "Åbnet den", "vehicles": "Køretøjer", "arrivalDate": "Ankomstdato", "departureDate": "Afrejsedato", "driver": "Chauffør", "vehicle": "Køretøj", "room": "Rum", "downtimeInMinutes": "Nedetid (minutter)", "cash": "Kontant", "card": "Kort", "bankTransfer": "Bankoverførsel", "other": "Andet", "wallet": "Tegnebog", "underMaintenance": "Under vedligeholdelse", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Samlet tid",
+    "incomplete": "Ufuldstændig", "defective": "Defekt", "damaged": "Beskadiget", "resalable": "Kan videresælges", "unopened": "Uåbnet", "resolved": "Løst", "inspected": "Inspiceret", "inTransit": "Under transport", "storeCredit": "Butikskredit", "repair": "Reparation", "refund": "Tilbagebetaling", "openedAt": "Åbnet den", "vehicles": "Køretøjer", "arrivalDate": "Ankomstdato", "departureDate": "Afrejsedato", "driver": "Chauffør", "vehicle": "Køretøj", "room": "Rum", "downtimeInMinutes": "Nedetid (minutter)", "cash": "Kontant", "card": "Kort", "bankTransfer": "Bankoverførsel", "other": "Andet", "wallet": "Tegnebog", "underMaintenance": "Under vedligeholdelse", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Samlet tid",
     "longest": "Længst",
     "shortest": "Kortest",
     "acceptedQuantity": "Godkendt antal", "accountNumber": "Kontonummer", "action": "Handling", "actionActor": "Udførende",

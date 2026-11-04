@@ -1,5 +1,5 @@
 {
-    "openedAt": "کھولنے کا وقت", "vehicles": "گاڑیاں", "arrivalDate": "آمد کی تاریخ", "departureDate": "روانگی کی تاریخ", "driver": "ڈرائیور", "vehicle": "گاڑی", "room": "کمرہ", "downtimeInMinutes": "بند رہنے کا دورانیہ (منٹ)", "cash": "نقد", "card": "کارڈ", "bankTransfer": "بینک منتقلی", "other": "دیگر", "wallet": "والٹ", "underMaintenance": "دیکھ بھال جاری ہے", "contract": "معاہدہ", "contracts": "معاہدے", "totalTime": "کل وقت",
+    "incomplete": "نامکمل", "defective": "ناقص", "damaged": "نقصان زدہ", "resalable": "دوبارہ فروخت کے قابل", "unopened": "بند پیکٹ", "resolved": "حل شدہ", "inspected": "معائنہ شدہ", "inTransit": "راستے میں", "storeCredit": "اسٹور کریڈٹ", "repair": "مرمت", "refund": "رقم کی واپسی", "openedAt": "کھولنے کا وقت", "vehicles": "گاڑیاں", "arrivalDate": "آمد کی تاریخ", "departureDate": "روانگی کی تاریخ", "driver": "ڈرائیور", "vehicle": "گاڑی", "room": "کمرہ", "downtimeInMinutes": "بند رہنے کا دورانیہ (منٹ)", "cash": "نقد", "card": "کارڈ", "bankTransfer": "بینک منتقلی", "other": "دیگر", "wallet": "والٹ", "underMaintenance": "دیکھ بھال جاری ہے", "contract": "معاہدہ", "contracts": "معاہدے", "totalTime": "کل وقت",
     "longest": "سب سے طویل",
     "shortest": "سب سے مختصر",
     "acceptedQuantity": "منظور شدہ مقدار", "accountNumber": "اکاؤنٹ نمبر", "action": "کارروائی", "actionActor": "کارروائی کرنے والا",

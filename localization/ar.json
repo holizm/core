@@ -1,5 +1,5 @@
 {
-    "openedAt": "تاريخ الفتح", "vehicles": "المركبات", "arrivalDate": "تاريخ الوصول", "departureDate": "تاريخ المغادرة", "driver": "السائق", "vehicle": "مركبة", "room": "غرفة", "downtimeInMinutes": "مدة التوقف (بالدقائق)", "cash": "نقدًا", "card": "بطاقة", "bankTransfer": "تحويل بنكي", "other": "أخرى", "wallet": "محفظة", "underMaintenance": "قيد الصيانة", "contract": "عقد", "contracts": "عقود", "totalTime": "الوقت الإجمالي",
+    "incomplete": "غير مكتمل", "defective": "معيب", "damaged": "متضرر", "resalable": "قابل لإعادة البيع", "unopened": "غير مفتوح", "resolved": "تمت معالجته", "inspected": "تم فحصه", "inTransit": "قيد النقل", "storeCredit": "رصيد المتجر", "repair": "إصلاح", "refund": "استرداد المبلغ", "openedAt": "تاريخ الفتح", "vehicles": "المركبات", "arrivalDate": "تاريخ الوصول", "departureDate": "تاريخ المغادرة", "driver": "السائق", "vehicle": "مركبة", "room": "غرفة", "downtimeInMinutes": "مدة التوقف (بالدقائق)", "cash": "نقدًا", "card": "بطاقة", "bankTransfer": "تحويل بنكي", "other": "أخرى", "wallet": "محفظة", "underMaintenance": "قيد الصيانة", "contract": "عقد", "contracts": "عقود", "totalTime": "الوقت الإجمالي",
     "longest": "الأطول",
     "shortest": "الأقصر",
     "acceptedQuantity": "الكمية المقبولة", "accountNumber": "رقم حساب", "action": "إجراء", "actionActor": "منفذ الإجراء",
