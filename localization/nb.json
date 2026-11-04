@@ -177,5 +177,10 @@
     "weight": "Vekting", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv innholdet ditt her...",
     "yes": "Ja",
     "low": "Lav", "normal": "Normal", "high": "Høy",
-    "history": "Historikk"
+    "history": "Historikk",
+    "requested": "Forespurt",
+    "confirmed": "Bekreftet",
+    "rescheduled": "Flyttet",
+    "cancelled": "Avlyst",
+    "noShow": "Ikke møtt"
 }

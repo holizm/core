@@ -177,5 +177,10 @@
     "weight": "ክብደት", "word": "ቃል", "words": "ቃላት", "writeYourContentHere": "ይዘትዎን እዚህ ይጻፉ...",
     "yes": "አዎ",
     "low": "ዝቅተኛ", "normal": "መደበኛ", "high": "ከፍተኛ",
-    "history": "ታሪክ"
+    "history": "ታሪክ",
+    "requested": "ተጠይቋል",
+    "confirmed": "ተረጋግጧል",
+    "rescheduled": "እንደገና ተይዟል",
+    "cancelled": "ተሰርዟል",
+    "noShow": "አልተገኘም"
 }

@@ -177,5 +177,10 @@
     "weight": "Viktning", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv ditt innehåll här...",
     "yes": "Ja",
     "low": "Låg", "normal": "Normal", "high": "Hög",
-    "history": "Historik"
+    "history": "Historik",
+    "requested": "Begärt",
+    "confirmed": "Bekräftat",
+    "rescheduled": "Ombokat",
+    "cancelled": "Avbokat",
+    "noShow": "Uteblivet besök"
 }

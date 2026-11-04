@@ -177,5 +177,10 @@
     "weight": "Súlyozás", "word": "Szó", "words": "Szavak", "writeYourContentHere": "Írja ide a tartalmat...",
     "yes": "Igen",
     "low": "Alacsony", "normal": "Normál", "high": "Magas",
-    "history": "Előzmények"
+    "history": "Előzmények",
+    "requested": "Kérelmezve",
+    "confirmed": "Megerősítve",
+    "rescheduled": "Átütemezve",
+    "cancelled": "Lemondva",
+    "noShow": "Nem jelent meg"
 }

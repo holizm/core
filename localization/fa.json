@@ -177,5 +177,10 @@
     "weight": "ضریب", "word": "واژه", "words": "واژه‌ها", "writeYourContentHere": "مطلب خود را اینجا بنویسید...",
     "yes": "بله",
     "low": "کم", "normal": "عادی", "high": "زیاد",
-    "history": "سابقه"
+    "history": "سابقه",
+    "requested": "درخواست‌شده",
+    "confirmed": "تأییدشده",
+    "rescheduled": "زمان‌بندی مجددشده",
+    "cancelled": "لغوشده",
+    "noShow": "عدم حضور"
 }

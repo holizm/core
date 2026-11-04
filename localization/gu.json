@@ -177,5 +177,10 @@
     "weight": "ભારાંક", "word": "શબ્દ", "words": "શબ્દો", "writeYourContentHere": "તમારી સામગ્રી અહીં લખો...",
     "yes": "હા",
     "low": "નીચું", "normal": "સામાન્ય", "high": "ઊંચું",
-    "history": "ઇતિહાસ"
+    "history": "ઇતિહાસ",
+    "requested": "વિનંતી કરેલી",
+    "confirmed": "પુષ્ટિ કરેલી",
+    "rescheduled": "ફરીથી સુનિશ્ચિત કરેલી",
+    "cancelled": "રદ કરેલી",
+    "noShow": "ગેરહાજર"
 }

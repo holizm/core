@@ -177,5 +177,10 @@
     "weight": "Pondere", "word": "Cuvânt", "words": "Cuvinte", "writeYourContentHere": "Scrieți conținutul aici...",
     "yes": "Da",
     "low": "Scăzută", "normal": "Normală", "high": "Ridicată",
-    "history": "Istoric"
+    "history": "Istoric",
+    "requested": "Solicitat",
+    "confirmed": "Confirmat",
+    "rescheduled": "Reprogramat",
+    "cancelled": "Anulat",
+    "noShow": "Neprezentare"
 }

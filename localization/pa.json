@@ -177,5 +177,10 @@
     "weight": "ਭਾਰ", "word": "ਸ਼ਬਦ", "words": "ਸ਼ਬਦ", "writeYourContentHere": "ਆਪਣੀ ਸਮੱਗਰੀ ਇੱਥੇ ਲਿਖੋ...",
     "yes": "ਹਾਂ",
     "low": "ਘੱਟ", "normal": "ਆਮ", "high": "ਵੱਧ",
-    "history": "ਇਤਿਹਾਸ"
+    "history": "ਇਤਿਹਾਸ",
+    "requested": "ਬੇਨਤੀ ਕੀਤੀ",
+    "confirmed": "ਪੁਸ਼ਟੀ ਕੀਤੀ",
+    "rescheduled": "ਮੁੜ ਨਿਰਧਾਰਤ",
+    "cancelled": "ਰੱਦ",
+    "noShow": "ਗੈਰਹਾਜ਼ਰ"
 }

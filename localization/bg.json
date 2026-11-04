@@ -177,5 +177,10 @@
     "weight": "Тежест", "word": "Дума", "words": "Думи", "writeYourContentHere": "Напишете съдържанието си тук...",
     "yes": "Да",
     "low": "Нисък", "normal": "Нормален", "high": "Висок",
-    "history": "История"
+    "history": "История",
+    "requested": "Заявено",
+    "confirmed": "Потвърдено",
+    "rescheduled": "Пренасрочено",
+    "cancelled": "Отменено",
+    "noShow": "Неявяване"
 }

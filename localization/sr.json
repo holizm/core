@@ -177,5 +177,10 @@
     "weight": "Пондер", "word": "Реч", "words": "Речи", "writeYourContentHere": "Unesite sadržaj ovde...",
     "yes": "Da",
     "low": "Низак", "normal": "Нормалан", "high": "Висок",
-    "history": "Историја"
+    "history": "Историја",
+    "requested": "Затражено",
+    "confirmed": "Потврђено",
+    "rescheduled": "Померен термин",
+    "cancelled": "Отказано",
+    "noShow": "Недолазак"
 }

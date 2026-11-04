@@ -177,5 +177,10 @@
     "weight": "가중치", "word": "단어", "words": "단어", "writeYourContentHere": "여기에 내용을 작성하세요...",
     "yes": "예",
     "low": "낮음", "normal": "보통", "high": "높음",
-    "history": "이력"
+    "history": "이력",
+    "requested": "요청됨",
+    "confirmed": "확인됨",
+    "rescheduled": "일정 변경됨",
+    "cancelled": "취소됨",
+    "noShow": "미방문"
 }

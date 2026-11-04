@@ -177,5 +177,10 @@
     "weight": "Pemberat", "word": "Perkataan", "words": "Perkataan", "writeYourContentHere": "Tulis kandungan anda di sini...",
     "yes": "Ya",
     "low": "Rendah", "normal": "Biasa", "high": "Tinggi",
-    "history": "Sejarah"
+    "history": "Sejarah",
+    "requested": "Diminta",
+    "confirmed": "Disahkan",
+    "rescheduled": "Dijadualkan semula",
+    "cancelled": "Dibatalkan",
+    "noShow": "Tidak hadir"
 }

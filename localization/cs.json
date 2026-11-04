@@ -177,5 +177,10 @@
     "weight": "Váha", "word": "Slovo", "words": "Slova", "writeYourContentHere": "Napište obsah sem...",
     "yes": "Ano",
     "low": "Nízká", "normal": "Normální", "high": "Vysoká",
-    "history": "Historie"
+    "history": "Historie",
+    "requested": "Požadováno",
+    "confirmed": "Potvrzeno",
+    "rescheduled": "Přeplánováno",
+    "cancelled": "Zrušeno",
+    "noShow": "Nedostavil se"
 }

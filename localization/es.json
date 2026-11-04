@@ -177,5 +177,10 @@
     "weight": "Ponderación", "word": "Palabra", "words": "Palabras", "writeYourContentHere": "Escribe tu contenido aquí...",
     "yes": "Sí",
     "low": "Baja", "normal": "Normal", "high": "Alta",
-    "history": "Historial"
+    "history": "Historial",
+    "requested": "Solicitado",
+    "confirmed": "Confirmado",
+    "rescheduled": "Reprogramado",
+    "cancelled": "Cancelado",
+    "noShow": "No se presentó"
 }

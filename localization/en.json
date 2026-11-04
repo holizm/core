@@ -177,5 +177,10 @@
     "weight": "Weight", "word": "Word", "words": "Words", "writeYourContentHere": "Write your content here...",
     "yes": "Yes",
     "low": "Low", "normal": "Normal", "high": "High",
-    "history": "History"
+    "history": "History",
+    "requested": "Requested",
+    "confirmed": "Confirmed",
+    "rescheduled": "Rescheduled",
+    "cancelled": "Cancelled",
+    "noShow": "No-show"
 }

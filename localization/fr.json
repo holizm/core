@@ -177,5 +177,10 @@
     "weight": "Coefficient", "word": "Mot", "words": "Mots", "writeYourContentHere": "Écrivez votre contenu ici...",
     "yes": "Oui",
     "low": "Faible", "normal": "Normale", "high": "Élevée",
-    "history": "Historique"
+    "history": "Historique",
+    "requested": "Demandé",
+    "confirmed": "Confirmé",
+    "rescheduled": "Reprogrammé",
+    "cancelled": "Annulé",
+    "noShow": "Absent au rendez-vous"
 }

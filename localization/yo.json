@@ -177,5 +177,10 @@
     "weight": "Ìwọ̀n", "word": "Ọ̀rọ̀", "words": "Àwọn ọ̀rọ̀", "writeYourContentHere": "Kọ àkóónú rẹ níbí...",
     "yes": "Bẹ́ẹ̀ni",
     "low": "Kékeré", "normal": "Déédéé", "high": "Gíga",
-    "history": "Ìtàn"
+    "history": "Ìtàn",
+    "requested": "A ti béèrè",
+    "confirmed": "A ti fìdí múlẹ̀",
+    "rescheduled": "A ti tún àkókò ṣètò",
+    "cancelled": "A ti fagilé",
+    "noShow": "Kò wá"
 }

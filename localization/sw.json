@@ -177,5 +177,10 @@
     "weight": "Uzito", "word": "Neno", "words": "Maneno", "writeYourContentHere": "Andika maudhui yako hapa...",
     "yes": "Ndiyo",
     "low": "Chini", "normal": "Kawaida", "high": "Juu",
-    "history": "Historia"
+    "history": "Historia",
+    "requested": "Imeombwa",
+    "confirmed": "Imethibitishwa",
+    "rescheduled": "Imepangiwa upya",
+    "cancelled": "Imeghairiwa",
+    "noShow": "Hakufika"
 }

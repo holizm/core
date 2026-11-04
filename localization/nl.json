@@ -177,5 +177,10 @@
     "weight": "Weging", "word": "Woord", "words": "Woorden", "writeYourContentHere": "Schrijf hier uw inhoud...",
     "yes": "Ja",
     "low": "Laag", "normal": "Normaal", "high": "Hoog",
-    "history": "Geschiedenis"
+    "history": "Geschiedenis",
+    "requested": "Aangevraagd",
+    "confirmed": "Bevestigd",
+    "rescheduled": "Opnieuw ingepland",
+    "cancelled": "Geannuleerd",
+    "noShow": "Niet verschenen"
 }

@@ -177,5 +177,10 @@
     "weight": "Ponder", "word": "Riječ", "words": "Riječi", "writeYourContentHere": "Napišite svoj sadržaj ovdje...",
     "yes": "Da",
     "low": "Nizak", "normal": "Normalan", "high": "Visok",
-    "history": "Povijest"
+    "history": "Povijest",
+    "requested": "Zatraženo",
+    "confirmed": "Potvrđeno",
+    "rescheduled": "Promijenjen termin",
+    "cancelled": "Otkazano",
+    "noShow": "Nedolazak"
 }

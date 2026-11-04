@@ -177,5 +177,10 @@
     "weight": "Bigat", "word": "Salita", "words": "Mga salita", "writeYourContentHere": "Isulat ang iyong nilalaman dito...",
     "yes": "Oo",
     "low": "Mababa", "normal": "Karaniwan", "high": "Mataas",
-    "history": "Kasaysayan"
+    "history": "Kasaysayan",
+    "requested": "Hiniling",
+    "confirmed": "Nakumpirma",
+    "rescheduled": "Muling itinakda",
+    "cancelled": "Kinansela",
+    "noShow": "Hindi dumalo"
 }

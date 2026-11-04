@@ -177,5 +177,10 @@
     "weight": "Painotus", "word": "Sana", "words": "Sanat", "writeYourContentHere": "Kirjoita sisältö tähän...",
     "yes": "Kyllä",
     "low": "Matala", "normal": "Normaali", "high": "Korkea",
-    "history": "Historia"
+    "history": "Historia",
+    "requested": "Pyydetty",
+    "confirmed": "Vahvistettu",
+    "rescheduled": "Siirretty",
+    "cancelled": "Peruttu",
+    "noShow": "Ei saapunut"
 }

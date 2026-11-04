@@ -177,5 +177,10 @@
     "weight": "Bobot", "word": "Kata", "words": "Kata", "writeYourContentHere": "Tulis konten Anda di sini...",
     "yes": "Ya",
     "low": "Rendah", "normal": "Normal", "high": "Tinggi",
-    "history": "Riwayat"
+    "history": "Riwayat",
+    "requested": "Diminta",
+    "confirmed": "Dikonfirmasi",
+    "rescheduled": "Dijadwalkan ulang",
+    "cancelled": "Dibatalkan",
+    "noShow": "Tidak hadir"
 }

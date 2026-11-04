@@ -177,5 +177,10 @@
     "weight": "權重", "word": "單字", "words": "單字", "writeYourContentHere": "在此輸入內容...",
     "yes": "是",
     "low": "低", "normal": "一般", "high": "高",
-    "history": "歷史紀錄"
+    "history": "歷史紀錄",
+    "requested": "已請求",
+    "confirmed": "已確認",
+    "rescheduled": "已改期",
+    "cancelled": "已取消",
+    "noShow": "未到場"
 }

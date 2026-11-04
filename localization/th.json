@@ -177,5 +177,10 @@
     "weight": "น้ำหนักคะแนน", "word": "คำ", "words": "คำ", "writeYourContentHere": "เขียนเนื้อหาของคุณที่นี่...",
     "yes": "ใช่",
     "low": "ต่ำ", "normal": "ปกติ", "high": "สูง",
-    "history": "ประวัติ"
+    "history": "ประวัติ",
+    "requested": "ร้องขอแล้ว",
+    "confirmed": "ยืนยันแล้ว",
+    "rescheduled": "เปลี่ยนกำหนดการแล้ว",
+    "cancelled": "ยกเลิกแล้ว",
+    "noShow": "ไม่มาตามนัด"
 }

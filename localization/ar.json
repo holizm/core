@@ -177,5 +177,10 @@
     "weight": "الوزن", "word": "كلمة", "words": "كلمات", "writeYourContentHere": "أكتب المحتوى الخاص بك هنا...",
     "yes": "نعم",
     "low": "منخفضة", "normal": "عادية", "high": "مرتفعة",
-    "history": "السجل"
+    "history": "السجل",
+    "requested": "مطلوب",
+    "confirmed": "مؤكد",
+    "rescheduled": "أعيدت جدولته",
+    "cancelled": "ملغى",
+    "noShow": "لم يحضر"
 }

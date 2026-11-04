@@ -177,5 +177,10 @@
     "weight": "Vægt", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv dit indhold her...",
     "yes": "Ja",
     "low": "Lav", "normal": "Normal", "high": "Høj",
-    "history": "Historik"
+    "history": "Historik",
+    "requested": "Anmodet",
+    "confirmed": "Bekræftet",
+    "rescheduled": "Ombooket",
+    "cancelled": "Annulleret",
+    "noShow": "Udeblevet"
 }

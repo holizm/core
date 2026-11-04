@@ -177,5 +177,10 @@
     "weight": "وزن", "word": "لفظ", "words": "الفاظ", "writeYourContentHere": "اپنا مواد یہاں لکھیں...",
     "yes": "جی ہاں",
     "low": "کم", "normal": "معمول", "high": "زیادہ",
-    "history": "سابقہ ریکارڈ"
+    "history": "سابقہ ریکارڈ",
+    "requested": "درخواست کی گئی",
+    "confirmed": "تصدیق شدہ",
+    "rescheduled": "دوبارہ مقرر کردہ",
+    "cancelled": "منسوخ",
+    "noShow": "غیر حاضر"
 }

@@ -177,5 +177,10 @@
     "weight": "Trọng số", "word": "Từ", "words": "Các từ", "writeYourContentHere": "Viết nội dung của bạn ở đây...",
     "yes": "Đúng",
     "low": "Thấp", "normal": "Bình thường", "high": "Cao",
-    "history": "Lịch sử"
+    "history": "Lịch sử",
+    "requested": "Đã yêu cầu",
+    "confirmed": "Đã xác nhận",
+    "rescheduled": "Đã đổi lịch",
+    "cancelled": "Đã hủy",
+    "noShow": "Không đến"
 }

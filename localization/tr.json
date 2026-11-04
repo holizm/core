@@ -177,5 +177,10 @@
     "weight": "Ağırlık", "word": "Kelime", "words": "Kelimeler", "writeYourContentHere": "İçeriğinizi buraya yazın...",
     "yes": "Evet",
     "low": "Düşük", "normal": "Normal", "high": "Yüksek",
-    "history": "Geçmiş"
+    "history": "Geçmiş",
+    "requested": "Talep edildi",
+    "confirmed": "Onaylandı",
+    "rescheduled": "Yeniden planlandı",
+    "cancelled": "İptal edildi",
+    "noShow": "Gelmedi"
 }

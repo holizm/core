@@ -177,5 +177,10 @@
     "weight": "Вес", "word": "Слово", "words": "Слова", "writeYourContentHere": "Напишите здесь свой контент...",
     "yes": "Да",
     "low": "Низкий", "normal": "Обычный", "high": "Высокий",
-    "history": "История"
+    "history": "История",
+    "requested": "Запрошено",
+    "confirmed": "Подтверждено",
+    "rescheduled": "Перенесено",
+    "cancelled": "Отменено",
+    "noShow": "Неявка"
 }

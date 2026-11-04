@@ -177,5 +177,10 @@
     "weight": "Gewichtung", "word": "Wort", "words": "Wörter", "writeYourContentHere": "Schreiben Sie hier Ihren Inhalt...",
     "yes": "Ja",
     "low": "Niedrig", "normal": "Normal", "high": "Hoch",
-    "history": "Verlauf"
+    "history": "Verlauf",
+    "requested": "Angefragt",
+    "confirmed": "Bestätigt",
+    "rescheduled": "Neu terminiert",
+    "cancelled": "Abgesagt",
+    "noShow": "Nicht erschienen"
 }

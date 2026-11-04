@@ -177,5 +177,10 @@
     "weight": "Nauyi", "word": "Kalma", "words": "Kalmomi", "writeYourContentHere": "Rubuta abun cikinka a nan...",
     "yes": "Eh",
     "low": "Ƙasa", "normal": "Na al’ada", "high": "Babba",
-    "history": "Tarihi"
+    "history": "Tarihi",
+    "requested": "An nema",
+    "confirmed": "An tabbatar",
+    "rescheduled": "An sake tsara lokaci",
+    "cancelled": "An soke",
+    "noShow": "Bai halarta ba"
 }

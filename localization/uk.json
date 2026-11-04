@@ -177,5 +177,10 @@
     "weight": "Вага", "word": "Слово", "words": "Слова", "writeYourContentHere": "Введіть вміст тут...",
     "yes": "Так",
     "low": "Низький", "normal": "Звичайний", "high": "Високий",
-    "history": "Історія"
+    "history": "Історія",
+    "requested": "Запитано",
+    "confirmed": "Підтверджено",
+    "rescheduled": "Перенесено",
+    "cancelled": "Скасовано",
+    "noShow": "Неявка"
 }

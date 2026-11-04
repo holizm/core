@@ -177,5 +177,10 @@
     "weight": "משקל", "word": "מילה", "words": "מילים", "writeYourContentHere": "כתוב את התוכן שלך כאן...",
     "yes": "כן",
     "low": "נמוכה", "normal": "רגילה", "high": "גבוהה",
-    "history": "היסטוריה"
+    "history": "היסטוריה",
+    "requested": "התבקש",
+    "confirmed": "אושר",
+    "rescheduled": "נקבע מחדש",
+    "cancelled": "בוטל",
+    "noShow": "לא הגיע"
 }

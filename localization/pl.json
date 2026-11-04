@@ -177,5 +177,10 @@
     "weight": "Waga", "word": "Słowo", "words": "Słowa", "writeYourContentHere": "Wpisz treść tutaj...",
     "yes": "Tak",
     "low": "Niski", "normal": "Normalny", "high": "Wysoki",
-    "history": "Historia"
+    "history": "Historia",
+    "requested": "Zgłoszono",
+    "confirmed": "Potwierdzono",
+    "rescheduled": "Przełożono",
+    "cancelled": "Anulowano",
+    "noShow": "Nieobecność"
 }

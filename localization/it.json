@@ -177,5 +177,10 @@
     "weight": "Peso", "word": "Parola", "words": "Parole", "writeYourContentHere": "Scrivi qui i tuoi contenuti...",
     "yes": "SÌ",
     "low": "Bassa", "normal": "Normale", "high": "Alta",
-    "history": "Cronologia"
+    "history": "Cronologia",
+    "requested": "Richiesto",
+    "confirmed": "Confermato",
+    "rescheduled": "Riprogrammato",
+    "cancelled": "Annullato",
+    "noShow": "Non presentato"
 }

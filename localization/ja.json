@@ -177,5 +177,10 @@
     "weight": "配点比率", "word": "単語", "words": "単語", "writeYourContentHere": "ここにコンテンツを書き込んでください...",
     "yes": "はい",
     "low": "低", "normal": "通常", "high": "高",
-    "history": "履歴"
+    "history": "履歴",
+    "requested": "リクエスト済み",
+    "confirmed": "確認済み",
+    "rescheduled": "日程変更済み",
+    "cancelled": "キャンセル済み",
+    "noShow": "無断欠席"
 }
