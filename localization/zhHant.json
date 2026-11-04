@@ -1,5 +1,5 @@
-{
-    "incomplete": "不完整", "defective": "有缺陷", "damaged": "已損壞", "resalable": "可再次銷售", "unopened": "未開封", "resolved": "已解決", "inspected": "已檢查", "inTransit": "運送中", "storeCredit": "商店餘額", "repair": "維修", "refund": "退款", "openedAt": "開啟時間", "vehicles": "車輛清單", "arrivalDate": "到達日期", "departureDate": "出發日期", "driver": "司機", "vehicle": "車輛", "room": "房間", "downtimeInMinutes": "停機時間（分鐘）", "cash": "現金", "card": "卡", "bankTransfer": "銀行轉帳", "other": "其他", "wallet": "錢包", "underMaintenance": "維護中", "contract": "合約", "contracts": "合約清單", "totalTime": "總用時",
+{ "underReview": "審核中", "withdrawn": "已撤回", "suspended": "已暫停",
+    "accept": "接受", "inclusions": "包含項目", "incomplete": "不完整", "defective": "有缺陷", "damaged": "已損壞", "resalable": "可再次銷售", "unopened": "未開封", "resolved": "已解決", "inspected": "已檢查", "inTransit": "運送中", "storeCredit": "商店餘額", "repair": "維修", "refund": "退款", "openedAt": "開啟時間", "vehicles": "車輛清單", "arrivalDate": "到達日期", "departureDate": "出發日期", "driver": "司機", "vehicle": "車輛", "room": "房間", "downtimeInMinutes": "停機時間（分鐘）", "cash": "現金", "card": "卡", "bankTransfer": "銀行轉帳", "other": "其他", "wallet": "錢包", "underMaintenance": "維護中", "contract": "合約", "contracts": "合約清單", "totalTime": "總用時",
     "longest": "最長",
     "shortest": "最短",
     "acceptedQuantity": "接受數量", "accountNumber": "帳號", "action": "操作", "actionActor": "操作人",
