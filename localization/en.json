@@ -191,5 +191,6 @@
     "voided": "Voided",
     "sale": "Sale",
     "return": "Return",
-    "exchange": "Exchange"
+    "exchange": "Exchange",
+    "invitations": "Invitations"
 }
