@@ -1,4 +1,4 @@
-{ "underReview": "Sinusuri", "withdrawn": "Binawi", "suspended": "Nasuspinde",
+{ "deliveryInstructions": "Mga tagubilin sa paghahatid", "underReview": "Sinusuri", "withdrawn": "Binawi", "suspended": "Nasuspinde",
     "accept": "Tanggapin", "inclusions": "Mga kasama", "incomplete": "Hindi kumpleto", "defective": "May depekto", "damaged": "Nasira", "resalable": "Maaaring muling ibenta", "unopened": "Hindi pa nabuksan", "resolved": "Nalutas", "inspected": "Nasuri", "inTransit": "Nasa biyahe", "storeCredit": "Kredito sa tindahan", "repair": "Pagkukumpuni", "refund": "Refund", "openedAt": "Binuksan noong", "vehicles": "Mga sasakyan", "arrivalDate": "Petsa ng pagdating", "departureDate": "Petsa ng pag-alis", "driver": "Drayber", "vehicle": "Sasakyan", "room": "Silid", "downtimeInMinutes": "Tagal ng paghinto (minuto)", "cash": "Cash", "card": "Card", "bankTransfer": "Bank transfer", "other": "Iba pa", "wallet": "Wallet", "underMaintenance": "Kasalukuyang minementena", "contract": "Kontrata", "contracts": "Mga kontrata", "totalTime": "Kabuuang oras",
     "longest": "Pinakamatagal",
     "shortest": "Pinakamaikli",

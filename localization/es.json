@@ -1,4 +1,4 @@
-{ "underReview": "En revisión", "withdrawn": "Retirado", "suspended": "Suspendido",
+{ "deliveryInstructions": "Instrucciones de entrega", "underReview": "En revisión", "withdrawn": "Retirado", "suspended": "Suspendido",
     "accept": "Aceptar", "inclusions": "Elementos incluidos", "incomplete": "Incompleto", "defective": "Defectuoso", "damaged": "Dañado", "resalable": "Apto para reventa", "unopened": "Sin abrir", "resolved": "Resuelto", "inspected": "Inspeccionado", "inTransit": "En tránsito", "storeCredit": "Crédito de la tienda", "repair": "Reparación", "refund": "Reembolso", "openedAt": "Fecha de apertura", "vehicles": "Vehículos", "arrivalDate": "Fecha de llegada", "departureDate": "Fecha de salida", "driver": "Conductor", "vehicle": "Vehículo", "room": "Sala", "downtimeInMinutes": "Tiempo de inactividad (minutos)", "cash": "Efectivo", "card": "Tarjeta", "bankTransfer": "Transferencia bancaria", "other": "Otro", "wallet": "Billetera", "underMaintenance": "En mantenimiento", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tiempo total",
     "longest": "Más largo",
     "shortest": "Más corto",

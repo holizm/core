@@ -1,4 +1,4 @@
-{ "underReview": "Under vurdering", "withdrawn": "Trukket tilbake", "suspended": "Suspendert",
+{ "deliveryInstructions": "Leveringsinstruksjoner", "underReview": "Under vurdering", "withdrawn": "Trukket tilbake", "suspended": "Suspendert",
     "accept": "Godta", "inclusions": "Inkluderte elementer", "incomplete": "Ufullstendig", "defective": "Defekt", "damaged": "Skadet", "resalable": "Kan videreselges", "unopened": "Uåpnet", "resolved": "Løst", "inspected": "Inspisert", "inTransit": "Under transport", "storeCredit": "Butikkreditt", "repair": "Reparasjon", "refund": "Refusjon", "openedAt": "Åpnet den", "vehicles": "Kjøretøy", "arrivalDate": "Ankomstdato", "departureDate": "Avreisedato", "driver": "Sjåfør", "vehicle": "Kjøretøy", "room": "Rom", "downtimeInMinutes": "Nedetid (minutter)", "cash": "Kontanter", "card": "Kort", "bankTransfer": "Bankoverføring", "other": "Annet", "wallet": "Lommebok", "underMaintenance": "Under vedlikehold", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Total tid",
     "longest": "Lengst",
     "shortest": "Kortest",

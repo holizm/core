@@ -1,4 +1,4 @@
-{ "underReview": "পর্যালোচনাধীন", "withdrawn": "প্রত্যাহৃত", "suspended": "স্থগিত",
+{ "deliveryInstructions": "ডেলিভারির নির্দেশনা", "underReview": "পর্যালোচনাধীন", "withdrawn": "প্রত্যাহৃত", "suspended": "স্থগিত",
     "accept": "গ্রহণ করুন", "inclusions": "অন্তর্ভুক্ত বিষয়সমূহ", "incomplete": "অসম্পূর্ণ", "defective": "ত্রুটিপূর্ণ", "damaged": "ক্ষতিগ্রস্ত", "resalable": "পুনরায় বিক্রয়যোগ্য", "unopened": "খোলা হয়নি", "resolved": "সমাধান হয়েছে", "inspected": "পরিদর্শিত", "inTransit": "পরিবহনে", "storeCredit": "দোকানের ক্রেডিট", "repair": "মেরামত", "refund": "অর্থ ফেরত", "openedAt": "খোলার সময়", "vehicles": "যানবাহনসমূহ", "arrivalDate": "আগমনের তারিখ", "departureDate": "প্রস্থানের তারিখ", "driver": "চালক", "vehicle": "যানবাহন", "room": "কক্ষ", "downtimeInMinutes": "বন্ধ থাকার সময় (মিনিট)", "cash": "নগদ", "card": "কার্ড", "bankTransfer": "ব্যাংক স্থানান্তর", "other": "অন্যান্য", "wallet": "ওয়ালেট", "underMaintenance": "রক্ষণাবেক্ষণ চলছে", "contract": "চুক্তি", "contracts": "চুক্তিসমূহ", "totalTime": "মোট সময়",
     "longest": "দীর্ঘতম",
     "shortest": "সংক্ষিপ্ততম",

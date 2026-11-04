@@ -1,4 +1,4 @@
-{ "underReview": "审核中", "withdrawn": "已撤回", "suspended": "已暂停",
+{ "deliveryInstructions": "配送说明", "underReview": "审核中", "withdrawn": "已撤回", "suspended": "已暂停",
     "accept": "接受", "inclusions": "包含项目", "incomplete": "不完整", "defective": "有缺陷", "damaged": "已损坏", "resalable": "可再次销售", "unopened": "未开封", "resolved": "已解决", "inspected": "已检查", "inTransit": "运输中", "storeCredit": "店铺余额", "repair": "维修", "refund": "退款", "openedAt": "开启时间", "vehicles": "车辆列表", "arrivalDate": "到达日期", "departureDate": "出发日期", "driver": "司机", "vehicle": "车辆", "room": "房间", "downtimeInMinutes": "停机时间（分钟）", "cash": "现金", "card": "卡", "bankTransfer": "银行转账", "other": "其他", "wallet": "钱包", "underMaintenance": "维护中", "contract": "合同", "contracts": "合同列表", "totalTime": "总用时",
     "longest": "最长",
     "shortest": "最短",

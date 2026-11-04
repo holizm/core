@@ -1,4 +1,4 @@
-{ "underReview": "У разматрању", "withdrawn": "Повучено", "suspended": "Суспендовано",
+{ "deliveryInstructions": "Упутства за доставу", "underReview": "У разматрању", "withdrawn": "Повучено", "suspended": "Суспендовано",
     "accept": "Прихвати", "inclusions": "Укључене ставке", "incomplete": "Непотпуно", "defective": "Неисправно", "damaged": "Оштећено", "resalable": "За поновну продају", "unopened": "Неотворено", "resolved": "Решено", "inspected": "Прегледано", "inTransit": "У превозу", "storeCredit": "Кредит продавнице", "repair": "Поправка", "refund": "Повраћај новца", "openedAt": "Отворено", "vehicles": "Возила", "arrivalDate": "Датум доласка", "departureDate": "Датум поласка", "driver": "Возач", "vehicle": "Возило", "room": "Соба", "downtimeInMinutes": "Време застоја (минути)", "cash": "Готовина", "card": "Картица", "bankTransfer": "Банковни пренос", "other": "Друго", "wallet": "Новчаник", "underMaintenance": "На одржавању", "contract": "Уговор", "contracts": "Уговори", "totalTime": "Укупно време",
     "longest": "Најдуже",
     "shortest": "Најкраће",

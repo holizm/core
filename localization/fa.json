@@ -1,4 +1,4 @@
-{ "underReview": "در حال بررسی", "withdrawn": "پس‌گرفته‌شده", "suspended": "تعلیق‌شده",
+{ "deliveryInstructions": "دستورالعمل تحویل", "underReview": "در حال بررسی", "withdrawn": "پس‌گرفته‌شده", "suspended": "تعلیق‌شده",
     "accept": "پذیرش", "inclusions": "موارد شامل‌شده", "incomplete": "ناقص", "defective": "معیوب", "damaged": "آسیب‌دیده", "resalable": "قابل فروش مجدد", "unopened": "بازنشده", "resolved": "رسیدگی‌شده", "inspected": "بازرسی‌شده", "inTransit": "در حال حمل", "storeCredit": "اعتبار فروشگاه", "repair": "تعمیر", "refund": "بازپرداخت", "openedAt": "تاریخ گشایش", "vehicles": "وسایل نقلیه", "arrivalDate": "تاریخ رسیدن", "departureDate": "تاریخ حرکت", "driver": "راننده", "vehicle": "وسیله نقلیه", "room": "اتاق", "downtimeInMinutes": "مدت توقف (دقیقه)", "cash": "نقدی", "card": "کارت", "bankTransfer": "انتقال بانکی", "other": "سایر", "wallet": "کیف پول", "underMaintenance": "در حال تعمیر و نگهداری", "contract": "قرارداد", "contracts": "قراردادها", "totalTime": "زمان کل",
     "longest": "طولانی‌ترین",
     "shortest": "کوتاه‌ترین",

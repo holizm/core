@@ -1,4 +1,4 @@
-{ "underReview": "पुनरावलोकनाधीन", "withdrawn": "मागे घेतलेले", "suspended": "निलंबित",
+{ "deliveryInstructions": "वितरण सूचना", "underReview": "पुनरावलोकनाधीन", "withdrawn": "मागे घेतलेले", "suspended": "निलंबित",
     "accept": "स्वीकारा", "inclusions": "समाविष्ट बाबी", "incomplete": "अपूर्ण", "defective": "सदोष", "damaged": "नुकसान झालेले", "resalable": "पुन्हा विकण्यायोग्य", "unopened": "न उघडलेले", "resolved": "निराकरण झालेले", "inspected": "तपासलेले", "inTransit": "वाहतुकीत", "storeCredit": "स्टोअर क्रेडिट", "repair": "दुरुस्ती", "refund": "परतावा", "openedAt": "उघडण्याची वेळ", "vehicles": "वाहने", "arrivalDate": "आगमनाची तारीख", "departureDate": "प्रस्थानाची तारीख", "driver": "चालक", "vehicle": "वाहन", "room": "खोली", "downtimeInMinutes": "बंद राहण्याचा कालावधी (मिनिटे)", "cash": "रोख", "card": "कार्ड", "bankTransfer": "बँक हस्तांतरण", "other": "इतर", "wallet": "वॉलेट", "underMaintenance": "देखभाल सुरू आहे", "contract": "करार", "contracts": "करार", "totalTime": "एकूण वेळ",
     "longest": "सर्वात जास्त",
     "shortest": "सर्वात कमी",

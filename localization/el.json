@@ -1,4 +1,4 @@
-{ "underReview": "Υπό εξέταση", "withdrawn": "Αποσύρθηκε", "suspended": "Σε αναστολή",
+{ "deliveryInstructions": "Οδηγίες παράδοσης", "underReview": "Υπό εξέταση", "withdrawn": "Αποσύρθηκε", "suspended": "Σε αναστολή",
     "accept": "Αποδοχή", "inclusions": "Περιλαμβανόμενα στοιχεία", "incomplete": "Ελλιπές", "defective": "Ελαττωματικό", "damaged": "Κατεστραμμένο", "resalable": "Κατάλληλο για μεταπώληση", "unopened": "Μη ανοιγμένο", "resolved": "Επιλύθηκε", "inspected": "Επιθεωρήθηκε", "inTransit": "Σε μεταφορά", "storeCredit": "Πίστωση καταστήματος", "repair": "Επισκευή", "refund": "Επιστροφή χρημάτων", "openedAt": "Άνοιξε στις", "vehicles": "Οχήματα", "arrivalDate": "Ημερομηνία άφιξης", "departureDate": "Ημερομηνία αναχώρησης", "driver": "Οδηγός", "vehicle": "Όχημα", "room": "Δωμάτιο", "downtimeInMinutes": "Χρόνος διακοπής (λεπτά)", "cash": "Μετρητά", "card": "Κάρτα", "bankTransfer": "Τραπεζική μεταφορά", "other": "Άλλο", "wallet": "Πορτοφόλι", "underMaintenance": "Υπό συντήρηση", "contract": "Σύμβαση", "contracts": "Συμβάσεις", "totalTime": "Συνολικός χρόνος",
     "longest": "Μεγαλύτερη διάρκεια",
     "shortest": "Μικρότερη διάρκεια",

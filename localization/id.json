@@ -1,4 +1,4 @@
-{ "underReview": "Sedang ditinjau", "withdrawn": "Ditarik", "suspended": "Ditangguhkan",
+{ "deliveryInstructions": "Petunjuk pengiriman", "underReview": "Sedang ditinjau", "withdrawn": "Ditarik", "suspended": "Ditangguhkan",
     "accept": "Terima", "inclusions": "Hal yang termasuk", "incomplete": "Tidak lengkap", "defective": "Cacat", "damaged": "Rusak", "resalable": "Dapat dijual kembali", "unopened": "Belum dibuka", "resolved": "Diselesaikan", "inspected": "Diperiksa", "inTransit": "Dalam pengiriman", "storeCredit": "Kredit toko", "repair": "Perbaikan", "refund": "Pengembalian dana", "openedAt": "Dibuka pada", "vehicles": "Kendaraan", "arrivalDate": "Tanggal kedatangan", "departureDate": "Tanggal keberangkatan", "driver": "Pengemudi", "vehicle": "Kendaraan", "room": "Ruangan", "downtimeInMinutes": "Waktu henti (menit)", "cash": "Tunai", "card": "Kartu", "bankTransfer": "Transfer bank", "other": "Lainnya", "wallet": "Dompet", "underMaintenance": "Dalam pemeliharaan", "contract": "Kontrak", "contracts": "Kontrak", "totalTime": "Total waktu",
     "longest": "Terpanjang",
     "shortest": "Terpendek",
