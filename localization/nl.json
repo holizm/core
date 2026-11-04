@@ -1,5 +1,5 @@
 {
-    "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
+    "underMaintenance": "In onderhoud", "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
     "longest": "Langste",
     "shortest": "Kortste",
     "acceptedQuantity": "Geaccepteerd aantal", "accountNumber": "Rekeningnummer", "action": "Actie", "actionActor": "Uitvoerder",

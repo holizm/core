@@ -1,5 +1,5 @@
 {
-    "contract": "Smlouva", "contracts": "Smlouvy", "totalTime": "Celkový čas",
+    "underMaintenance": "Probíhá údržba", "contract": "Smlouva", "contracts": "Smlouvy", "totalTime": "Celkový čas",
     "longest": "Nejdelší",
     "shortest": "Nejkratší",
     "acceptedQuantity": "Přijaté množství", "accountNumber": "Číslo účtu", "action": "Akce", "actionActor": "Provádějící",

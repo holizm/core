@@ -1,5 +1,5 @@
 {
-    "contract": "معاہدہ", "contracts": "معاہدے", "totalTime": "کل وقت",
+    "underMaintenance": "دیکھ بھال جاری ہے", "contract": "معاہدہ", "contracts": "معاہدے", "totalTime": "کل وقت",
     "longest": "سب سے طویل",
     "shortest": "سب سے مختصر",
     "acceptedQuantity": "منظور شدہ مقدار", "accountNumber": "اکاؤنٹ نمبر", "action": "کارروائی", "actionActor": "کارروائی کرنے والا",

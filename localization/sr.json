@@ -1,5 +1,5 @@
 {
-    "contract": "Уговор", "contracts": "Уговори", "totalTime": "Укупно време",
+    "underMaintenance": "На одржавању", "contract": "Уговор", "contracts": "Уговори", "totalTime": "Укупно време",
     "longest": "Најдуже",
     "shortest": "Најкраће",
     "acceptedQuantity": "Прихваћена количина", "accountNumber": "Број рачуна", "action": "Radnja", "actionActor": "Извршилац",

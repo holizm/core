@@ -1,5 +1,5 @@
 {
-    "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tempo total",
+    "underMaintenance": "Em manutenção", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tempo total",
     "longest": "Mais longo",
     "shortest": "Mais curto",
     "acceptedQuantity": "Quantidade aceita", "accountNumber": "Número de conta", "action": "Ação", "actionActor": "Interveniente",

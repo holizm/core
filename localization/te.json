@@ -1,5 +1,5 @@
 {
-    "contract": "ఒప్పందం", "contracts": "ఒప్పందాలు", "totalTime": "మొత్తం సమయం",
+    "underMaintenance": "నిర్వహణలో ఉంది", "contract": "ఒప్పందం", "contracts": "ఒప్పందాలు", "totalTime": "మొత్తం సమయం",
     "longest": "అత్యంత ఎక్కువ",
     "shortest": "అత్యంత తక్కువ",
     "acceptedQuantity": "ఆమోదించిన పరిమాణం", "accountNumber": "ఖాతా సంఖ్య", "action": "చర్య", "actionActor": "చర్య తీసుకున్నవారు",

@@ -1,5 +1,5 @@
 {
-    "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
+    "underMaintenance": "Huollossa", "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
     "longest": "Pisin",
     "shortest": "Lyhin",
     "acceptedQuantity": "Hyväksytty määrä", "accountNumber": "Tilinumero", "action": "Toiminto", "actionActor": "Toimija",

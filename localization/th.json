@@ -1,5 +1,5 @@
 {
-    "contract": "สัญญา", "contracts": "รายการสัญญา", "totalTime": "เวลารวม",
+    "underMaintenance": "อยู่ระหว่างการบำรุงรักษา", "contract": "สัญญา", "contracts": "รายการสัญญา", "totalTime": "เวลารวม",
     "longest": "นานที่สุด",
     "shortest": "สั้นที่สุด",
     "acceptedQuantity": "จำนวนที่รับรอง", "accountNumber": "หมายเลขบัญชี", "action": "การดำเนินการ", "actionActor": "ผู้ดำเนินการ",

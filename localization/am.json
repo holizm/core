@@ -1,5 +1,5 @@
 {
-    "contract": "ውል", "contracts": "ውሎች", "totalTime": "ጠቅላላ ጊዜ",
+    "underMaintenance": "በጥገና ላይ", "contract": "ውል", "contracts": "ውሎች", "totalTime": "ጠቅላላ ጊዜ",
     "longest": "ረጅሙ",
     "shortest": "አጭሩ",
     "acceptedQuantity": "ተቀባይነት ያገኘ መጠን", "accountNumber": "የመለያ ቁጥር", "action": "ድርጊት", "actionActor": "ፈጻሚ",

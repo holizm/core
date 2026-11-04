@@ -1,5 +1,5 @@
 {
-    "contract": "契約", "contracts": "契約一覧", "totalTime": "合計時間",
+    "underMaintenance": "メンテナンス中", "contract": "契約", "contracts": "契約一覧", "totalTime": "合計時間",
     "longest": "最長",
     "shortest": "最短",
     "acceptedQuantity": "受入数量", "accountNumber": "口座番号", "action": "アクション", "actionActor": "処理担当者",

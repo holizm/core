@@ -1,5 +1,5 @@
 {
-    "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Total tid",
+    "underMaintenance": "Under vedlikehold", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Total tid",
     "longest": "Lengst",
     "shortest": "Kortest",
     "acceptedQuantity": "Godkjent antall", "accountNumber": "Kontonummer", "action": "Handling", "actionActor": "Utfører",

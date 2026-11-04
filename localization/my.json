@@ -1,5 +1,5 @@
 {
-    "contract": "စာချုပ်", "contracts": "စာချုပ်များ", "totalTime": "စုစုပေါင်းအချိန်",
+    "underMaintenance": "ပြုပြင်ထိန်းသိမ်းနေဆဲ", "contract": "စာချုပ်", "contracts": "စာချုပ်များ", "totalTime": "စုစုပေါင်းအချိန်",
     "longest": "အကြာဆုံး",
     "shortest": "အတိုဆုံး",
     "acceptedQuantity": "လက်ခံသည့်အရေအတွက်", "accountNumber": "အကောင့်နံပါတ်", "action": "လုပ်ဆောင်ချက်", "actionActor": "လုပ်ဆောင်သူ",

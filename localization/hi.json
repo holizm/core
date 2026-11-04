@@ -1,5 +1,5 @@
 {
-    "contract": "अनुबंध", "contracts": "अनुबंध", "totalTime": "कुल समय",
+    "underMaintenance": "रखरखाव जारी है", "contract": "अनुबंध", "contracts": "अनुबंध", "totalTime": "कुल समय",
     "longest": "सबसे लंबा",
     "shortest": "सबसे छोटा",
     "acceptedQuantity": "स्वीकृत मात्रा", "accountNumber": "खाता संख्या", "action": "कार्रवाई", "actionActor": "कार्रवाईकर्ता",

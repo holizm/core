@@ -1,5 +1,5 @@
 {
-    "contract": "合約", "contracts": "合約清單", "totalTime": "總用時",
+    "underMaintenance": "維護中", "contract": "合約", "contracts": "合約清單", "totalTime": "總用時",
     "longest": "最長",
     "shortest": "最短",
     "acceptedQuantity": "接受數量", "accountNumber": "帳號", "action": "操作", "actionActor": "操作人",

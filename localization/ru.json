@@ -1,5 +1,5 @@
 {
-    "contract": "Договор", "contracts": "Договоры", "totalTime": "Общее время",
+    "underMaintenance": "На техническом обслуживании", "contract": "Договор", "contracts": "Договоры", "totalTime": "Общее время",
     "longest": "Самое долгое",
     "shortest": "Самое короткое",
     "acceptedQuantity": "Принятое количество", "accountNumber": "Номер счета", "action": "Действие", "actionActor": "Исполнитель",

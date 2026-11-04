@@ -1,5 +1,5 @@
 {
-    "contract": "عقد", "contracts": "عقود", "totalTime": "الوقت الإجمالي",
+    "underMaintenance": "قيد الصيانة", "contract": "عقد", "contracts": "عقود", "totalTime": "الوقت الإجمالي",
     "longest": "الأطول",
     "shortest": "الأقصر",
     "acceptedQuantity": "الكمية المقبولة", "accountNumber": "رقم حساب", "action": "إجراء", "actionActor": "منفذ الإجراء",

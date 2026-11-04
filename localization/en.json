@@ -1,5 +1,5 @@
 {
-    "contract": "Contract", "contracts": "Contracts", "totalTime": "Total time",
+    "underMaintenance": "Under maintenance", "contract": "Contract", "contracts": "Contracts", "totalTime": "Total time",
     "longest": "Longest",
     "shortest": "Shortest",
     "acceptedQuantity": "Accepted quantity", "accountNumber": "Account number", "action": "Action", "actionActor": "Actor",

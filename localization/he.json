@@ -1,5 +1,5 @@
 {
-    "contract": "חוזה", "contracts": "חוזים", "totalTime": "זמן כולל",
+    "underMaintenance": "בתחזוקה", "contract": "חוזה", "contracts": "חוזים", "totalTime": "זמן כולל",
     "longest": "הארוך ביותר",
     "shortest": "הקצר ביותר",
     "acceptedQuantity": "כמות שאושרה", "accountNumber": "מספר חשבון", "action": "פעולה", "actionActor": "מבצע הפעולה",

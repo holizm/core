@@ -1,5 +1,5 @@
 {
-    "contract": "Szerződés", "contracts": "Szerződések", "totalTime": "Teljes idő",
+    "underMaintenance": "Karbantartás alatt", "contract": "Szerződés", "contracts": "Szerződések", "totalTime": "Teljes idő",
     "longest": "Leghosszabb",
     "shortest": "Legrövidebb",
     "acceptedQuantity": "Elfogadott mennyiség", "accountNumber": "Számlaszám", "action": "Művelet", "actionActor": "Végrehajtó",

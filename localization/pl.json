@@ -1,5 +1,5 @@
 {
-    "contract": "Umowa", "contracts": "Umowy", "totalTime": "Łączny czas",
+    "underMaintenance": "W konserwacji", "contract": "Umowa", "contracts": "Umowy", "totalTime": "Łączny czas",
     "longest": "Najdłuższy",
     "shortest": "Najkrótszy",
     "acceptedQuantity": "Zaakceptowana ilość", "accountNumber": "Numer rachunku", "action": "Działanie", "actionActor": "Wykonawca",

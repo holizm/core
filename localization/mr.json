@@ -1,5 +1,5 @@
 {
-    "contract": "करार", "contracts": "करार", "totalTime": "एकूण वेळ",
+    "underMaintenance": "देखभाल सुरू आहे", "contract": "करार", "contracts": "करार", "totalTime": "एकूण वेळ",
     "longest": "सर्वात जास्त",
     "shortest": "सर्वात कमी",
     "acceptedQuantity": "स्वीकृत प्रमाण", "accountNumber": "खाते क्रमांक", "action": "क्रिया", "actionActor": "कारवाई करणारा",
