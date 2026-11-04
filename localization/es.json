@@ -176,5 +176,6 @@
     "visibleTo": "Visible para", "warning": "Advertencia", "watch": "Mirar", "website": "Sitio web",
     "weight": "Ponderación", "word": "Palabra", "words": "Palabras", "writeYourContentHere": "Escribe tu contenido aquí...",
     "yes": "Sí",
-    "low": "Baja", "normal": "Normal", "high": "Alta"
+    "low": "Baja", "normal": "Normal", "high": "Alta",
+    "history": "Historial"
 }

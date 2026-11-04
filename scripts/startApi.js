@@ -35,7 +35,7 @@ export default params => {
     measure('API: create missing files', () => createMissingApiFiles(params));
     measure('API: create directories', () => createDirectories({
         ...params,
-        extraDirectories: [...getApiUtilityDirectories(params), `/tmp/${params.repo}/migration`, `/tmp/${params.repo}/storage`]
+        extraDirectories: [...getApiUtilityDirectories(params), `/tmp/${params.repo}/migration`, `/tmp/${params.repo}/storage`, `/var/tmp/${params.repo}/privateStorage`]
     }));
     measure('API: remove root-owned directories', () => removeRootOwnedDirectories(params));
     measure('API: link VS Code files', () => linkApiEditorFiles(params));

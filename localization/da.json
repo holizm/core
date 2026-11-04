@@ -176,5 +176,6 @@
     "visibleTo": "Synlig for", "warning": "Advarsel", "watch": "Ur", "website": "Websted",
     "weight": "Vægt", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv dit indhold her...",
     "yes": "Ja",
-    "low": "Lav", "normal": "Normal", "high": "Høj"
+    "low": "Lav", "normal": "Normal", "high": "Høj",
+    "history": "Historik"
 }

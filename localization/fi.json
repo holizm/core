@@ -176,5 +176,6 @@
     "visibleTo": "Näkyy käyttäjille", "warning": "Varoitus", "watch": "Kello", "website": "Verkkosivusto",
     "weight": "Painotus", "word": "Sana", "words": "Sanat", "writeYourContentHere": "Kirjoita sisältö tähän...",
     "yes": "Kyllä",
-    "low": "Matala", "normal": "Normaali", "high": "Korkea"
+    "low": "Matala", "normal": "Normaali", "high": "Korkea",
+    "history": "Historia"
 }

@@ -176,5 +176,6 @@
     "visibleTo": "Viditelné pro", "warning": "Upozornění", "watch": "Hodinky", "website": "Webové stránky",
     "weight": "Váha", "word": "Slovo", "words": "Slova", "writeYourContentHere": "Napište obsah sem...",
     "yes": "Ano",
-    "low": "Nízká", "normal": "Normální", "high": "Vysoká"
+    "low": "Nízká", "normal": "Normální", "high": "Vysoká",
+    "history": "Historie"
 }

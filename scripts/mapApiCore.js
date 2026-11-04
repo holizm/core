@@ -11,6 +11,7 @@ export default params => {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`);
     }
     params.addVolume(`${home}/api`, `${containerHome}/api`);
+    params.addVolume(`/var/tmp/${repo}/privateStorage`, '/privateStorage');
     params.addVolume(`${home}/core/essentialParts`, `${nodeModules}/core/essentialParts`);
     params.addVolume(`${home}/${repo}/${process}/process.js`, `${containerHome}/${repo}/${process}/process.js`);
 };

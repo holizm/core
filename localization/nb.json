@@ -176,5 +176,6 @@
     "visibleTo": "Synlig for", "warning": "Advarsel", "watch": "Klokke", "website": "Nettsted",
     "weight": "Vekting", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv innholdet ditt her...",
     "yes": "Ja",
-    "low": "Lav", "normal": "Normal", "high": "Høy"
+    "low": "Lav", "normal": "Normal", "high": "Høy",
+    "history": "Historikk"
 }

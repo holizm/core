@@ -176,5 +176,6 @@
     "visibleTo": "มองเห็นได้โดย", "warning": "คำเตือน", "watch": "นาฬิกา", "website": "เว็บไซต์",
     "weight": "น้ำหนักคะแนน", "word": "คำ", "words": "คำ", "writeYourContentHere": "เขียนเนื้อหาของคุณที่นี่...",
     "yes": "ใช่",
-    "low": "ต่ำ", "normal": "ปกติ", "high": "สูง"
+    "low": "ต่ำ", "normal": "ปกติ", "high": "สูง",
+    "history": "ประวัติ"
 }

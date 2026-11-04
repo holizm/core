@@ -176,5 +176,6 @@
     "visibleTo": "可見對象", "warning": "警告", "watch": "手錶", "website": "網站",
     "weight": "權重", "word": "單字", "words": "單字", "writeYourContentHere": "在此輸入內容...",
     "yes": "是",
-    "low": "低", "normal": "一般", "high": "高"
+    "low": "低", "normal": "一般", "high": "高",
+    "history": "歷史紀錄"
 }

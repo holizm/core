@@ -176,5 +176,6 @@
     "visibleTo": "Görebilenler", "warning": "Uyarı", "watch": "Kol saati", "website": "İnternet sitesi",
     "weight": "Ağırlık", "word": "Kelime", "words": "Kelimeler", "writeYourContentHere": "İçeriğinizi buraya yazın...",
     "yes": "Evet",
-    "low": "Düşük", "normal": "Normal", "high": "Yüksek"
+    "low": "Düşük", "normal": "Normal", "high": "Yüksek",
+    "history": "Geçmiş"
 }

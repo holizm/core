@@ -176,5 +176,6 @@
     "visibleTo": "閲覧できる対象", "warning": "警告", "watch": "時計", "website": "Webサイト",
     "weight": "配点比率", "word": "単語", "words": "単語", "writeYourContentHere": "ここにコンテンツを書き込んでください...",
     "yes": "はい",
-    "low": "低", "normal": "通常", "high": "高"
+    "low": "低", "normal": "通常", "high": "高",
+    "history": "履歴"
 }

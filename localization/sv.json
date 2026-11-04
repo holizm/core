@@ -176,5 +176,6 @@
     "visibleTo": "Synlig för", "warning": "Varning", "watch": "Klocka", "website": "Webbplats",
     "weight": "Viktning", "word": "Ord", "words": "Ord", "writeYourContentHere": "Skriv ditt innehåll här...",
     "yes": "Ja",
-    "low": "Låg", "normal": "Normal", "high": "Hög"
+    "low": "Låg", "normal": "Normal", "high": "Hög",
+    "history": "Historik"
 }

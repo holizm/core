@@ -176,5 +176,6 @@
     "visibleTo": "Visible par", "warning": "Avertissement", "watch": "Montre", "website": "Site web",
     "weight": "Coefficient", "word": "Mot", "words": "Mots", "writeYourContentHere": "Écrivez votre contenu ici...",
     "yes": "Oui",
-    "low": "Faible", "normal": "Normale", "high": "Élevée"
+    "low": "Faible", "normal": "Normale", "high": "Élevée",
+    "history": "Historique"
 }
