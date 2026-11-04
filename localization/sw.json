@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Inafanyiwa matengenezo", "contract": "Mkataba", "contracts": "Mikataba", "totalTime": "Jumla ya muda",
+    "cash": "Taslimu", "card": "Kadi", "bankTransfer": "Uhamisho wa benki", "other": "Nyingine", "wallet": "Pochi", "underMaintenance": "Inafanyiwa matengenezo", "contract": "Mkataba", "contracts": "Mikataba", "totalTime": "Jumla ya muda",
     "longest": "Mrefu zaidi",
     "shortest": "Mfupi zaidi",
     "acceptedQuantity": "Kiasi kilichokubaliwa", "accountNumber": "Nambari ya akaunti", "action": "Kitendo", "actionActor": "Mtekelezaji",

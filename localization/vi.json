@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Đang bảo trì", "contract": "Hợp đồng", "contracts": "Các hợp đồng", "totalTime": "Tổng thời gian",
+    "cash": "Tiền mặt", "card": "Thẻ", "bankTransfer": "Chuyển khoản ngân hàng", "other": "Khác", "wallet": "Cái ví", "underMaintenance": "Đang bảo trì", "contract": "Hợp đồng", "contracts": "Các hợp đồng", "totalTime": "Tổng thời gian",
     "longest": "Dài nhất",
     "shortest": "Ngắn nhất",
     "acceptedQuantity": "Số lượng được chấp nhận", "accountNumber": "Số tài khoản", "action": "Hành động", "actionActor": "Người thực hiện",

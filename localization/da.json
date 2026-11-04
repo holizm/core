@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Under vedligeholdelse", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Samlet tid",
+    "cash": "Kontant", "card": "Kort", "bankTransfer": "Bankoverførsel", "other": "Andet", "wallet": "Tegnebog", "underMaintenance": "Under vedligeholdelse", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Samlet tid",
     "longest": "Længst",
     "shortest": "Kortest",
     "acceptedQuantity": "Godkendt antal", "accountNumber": "Kontonummer", "action": "Handling", "actionActor": "Udførende",

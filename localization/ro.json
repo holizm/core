@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "În mentenanță", "contract": "Contract", "contracts": "Contracte", "totalTime": "Timp total",
+    "cash": "Numerar", "card": "Card", "bankTransfer": "Transfer bancar", "other": "Altele", "wallet": "Portofel", "underMaintenance": "În mentenanță", "contract": "Contract", "contracts": "Contracte", "totalTime": "Timp total",
     "longest": "Cel mai lung",
     "shortest": "Cel mai scurt",
     "acceptedQuantity": "Cantitate acceptată", "accountNumber": "Număr de cont", "action": "Acțiune", "actionActor": "Executant",

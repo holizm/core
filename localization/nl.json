@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "In onderhoud", "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
+    "cash": "Contant", "card": "Kaart", "bankTransfer": "Bankoverschrijving", "other": "Overig", "wallet": "Portemonnee", "underMaintenance": "In onderhoud", "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
     "longest": "Langste",
     "shortest": "Kortste",
     "acceptedQuantity": "Geaccepteerd aantal", "accountNumber": "Rekeningnummer", "action": "Actie", "actionActor": "Uitvoerder",

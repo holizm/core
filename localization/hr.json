@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Na održavanju", "contract": "Ugovor", "contracts": "Ugovori", "totalTime": "Ukupno vrijeme",
+    "cash": "Gotovina", "card": "Kartica", "bankTransfer": "Bankovni prijenos", "other": "Drugo", "wallet": "Novčanik", "underMaintenance": "Na održavanju", "contract": "Ugovor", "contracts": "Ugovori", "totalTime": "Ukupno vrijeme",
     "longest": "Najdulje",
     "shortest": "Najkraće",
     "acceptedQuantity": "Prihvaćena količina", "accountNumber": "Broj računa", "action": "Radnja", "actionActor": "Izvršitelj",

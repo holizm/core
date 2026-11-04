@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Dalam penyelenggaraan", "contract": "Kontrak", "contracts": "Kontrak", "totalTime": "Jumlah masa",
+    "cash": "Tunai", "card": "Kad", "bankTransfer": "Pindahan bank", "other": "Lain-lain", "wallet": "Dompet", "underMaintenance": "Dalam penyelenggaraan", "contract": "Kontrak", "contracts": "Kontrak", "totalTime": "Jumlah masa",
     "longest": "Paling lama",
     "shortest": "Paling singkat",
     "acceptedQuantity": "Kuantiti diterima", "accountNumber": "Nombor akaun", "action": "Tindakan", "actionActor": "Pelaksana",

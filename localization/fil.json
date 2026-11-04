@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Kasalukuyang minementena", "contract": "Kontrata", "contracts": "Mga kontrata", "totalTime": "Kabuuang oras",
+    "cash": "Cash", "card": "Card", "bankTransfer": "Bank transfer", "other": "Iba pa", "wallet": "Wallet", "underMaintenance": "Kasalukuyang minementena", "contract": "Kontrata", "contracts": "Mga kontrata", "totalTime": "Kabuuang oras",
     "longest": "Pinakamatagal",
     "shortest": "Pinakamaikli",
     "acceptedQuantity": "Tinanggap na dami", "accountNumber": "Numero ng account", "action": "Aksyon", "actionActor": "Gumaganap",

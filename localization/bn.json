@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "রক্ষণাবেক্ষণ চলছে", "contract": "চুক্তি", "contracts": "চুক্তিসমূহ", "totalTime": "মোট সময়",
+    "cash": "নগদ", "card": "কার্ড", "bankTransfer": "ব্যাংক স্থানান্তর", "other": "অন্যান্য", "wallet": "ওয়ালেট", "underMaintenance": "রক্ষণাবেক্ষণ চলছে", "contract": "চুক্তি", "contracts": "চুক্তিসমূহ", "totalTime": "মোট সময়",
     "longest": "দীর্ঘতম",
     "shortest": "সংক্ষিপ্ততম",
     "acceptedQuantity": "গৃহীত পরিমাণ", "accountNumber": "হিসাব নাম্বার", "action": "কার্যক্রম", "actionActor": "কার্যসম্পাদনকারী",

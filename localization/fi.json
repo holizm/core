@@ -1,5 +1,5 @@
 {
-    "underMaintenance": "Huollossa", "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
+    "cash": "Käteinen", "card": "Kortti", "bankTransfer": "Pankkisiirto", "other": "Muu", "wallet": "Lompakko", "underMaintenance": "Huollossa", "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
     "longest": "Pisin",
     "shortest": "Lyhin",
     "acceptedQuantity": "Hyväksytty määrä", "accountNumber": "Tilinumero", "action": "Toiminto", "actionActor": "Toimija",
