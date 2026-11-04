@@ -1,4 +1,4 @@
-{ "deliveryInstructions": "배송 지침", "underReview": "검토 중", "withdrawn": "철회됨", "suspended": "일시 정지됨",
+{ "bedrooms": "침실 수", "bathrooms": "욕실 수", "constructionYear": "건축 연도", "deliveryInstructions": "배송 지침", "underReview": "검토 중", "withdrawn": "철회됨", "suspended": "일시 정지됨",
     "accept": "수락", "inclusions": "포함 항목", "incomplete": "불완전", "defective": "결함 있음", "damaged": "손상됨", "resalable": "재판매 가능", "unopened": "미개봉", "resolved": "해결됨", "inspected": "검사 완료", "inTransit": "운송 중", "storeCredit": "매장 크레딧", "repair": "수리", "refund": "환불", "openedAt": "개설일", "vehicles": "차량 목록", "arrivalDate": "도착일", "departureDate": "출발일", "driver": "운전자", "vehicle": "차량", "room": "방", "downtimeInMinutes": "중단 시간(분)", "cash": "현금", "card": "카드", "bankTransfer": "계좌 이체", "other": "기타", "wallet": "지갑", "underMaintenance": "유지보수 중", "contract": "계약", "contracts": "계약 목록", "totalTime": "총 시간",
     "longest": "가장 긴 시간",
     "shortest": "가장 짧은 시간",

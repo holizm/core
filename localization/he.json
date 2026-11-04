@@ -1,4 +1,4 @@
-{ "deliveryInstructions": "הוראות מסירה", "underReview": "בבדיקה", "withdrawn": "נמשך בחזרה", "suspended": "מושהה",
+{ "bedrooms": "חדרי שינה", "bathrooms": "חדרי רחצה", "constructionYear": "שנת בנייה", "deliveryInstructions": "הוראות מסירה", "underReview": "בבדיקה", "withdrawn": "נמשך בחזרה", "suspended": "מושהה",
     "accept": "קבלה", "inclusions": "פריטים כלולים", "incomplete": "לא שלם", "defective": "פגום", "damaged": "ניזוק", "resalable": "ניתן למכירה חוזרת", "unopened": "לא נפתח", "resolved": "טופל", "inspected": "נבדק", "inTransit": "במשלוח", "storeCredit": "זיכוי בחנות", "repair": "תיקון", "refund": "החזר כספי", "openedAt": "מועד פתיחה", "vehicles": "כלי רכב", "arrivalDate": "תאריך הגעה", "departureDate": "תאריך יציאה", "driver": "נהג", "vehicle": "רכב", "room": "חדר", "downtimeInMinutes": "זמן השבתה (דקות)", "cash": "מזומן", "card": "כרטיס", "bankTransfer": "העברה בנקאית", "other": "אחר", "wallet": "ארנק", "underMaintenance": "בתחזוקה", "contract": "חוזה", "contracts": "חוזים", "totalTime": "זמן כולל",
     "longest": "הארוך ביותר",
     "shortest": "הקצר ביותר",

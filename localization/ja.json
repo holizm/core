@@ -1,4 +1,4 @@
-{ "deliveryInstructions": "配達指示", "underReview": "審査中", "withdrawn": "取り下げ済み", "suspended": "一時停止中",
+{ "bedrooms": "寝室数", "bathrooms": "浴室数", "constructionYear": "建築年", "deliveryInstructions": "配達指示", "underReview": "審査中", "withdrawn": "取り下げ済み", "suspended": "一時停止中",
     "accept": "承諾", "inclusions": "含まれる項目", "incomplete": "不完全", "defective": "不良", "damaged": "破損", "resalable": "再販可能", "unopened": "未開封", "resolved": "解決済み", "inspected": "検査済み", "inTransit": "輸送中", "storeCredit": "店舗クレジット", "repair": "修理", "refund": "返金", "openedAt": "開始日時", "vehicles": "車両一覧", "arrivalDate": "到着日", "departureDate": "出発日", "driver": "運転手", "vehicle": "車両", "room": "部屋", "downtimeInMinutes": "停止時間（分）", "cash": "現金", "card": "カード", "bankTransfer": "銀行振込", "other": "その他", "wallet": "ウォレット", "underMaintenance": "メンテナンス中", "contract": "契約", "contracts": "契約一覧", "totalTime": "合計時間",
     "longest": "最長",
     "shortest": "最短",
