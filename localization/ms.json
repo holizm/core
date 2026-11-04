@@ -192,5 +192,6 @@
     "sale": "Jualan",
     "return": "Pemulangan",
     "exchange": "Pertukaran",
-    "invitations": "Jemputan"
+    "invitations": "Jemputan",
+    "previousStartDate": "Tarikh mula sebelumnya", "newStartDate": "Tarikh mula baharu", "sentDate": "Tarikh dihantar"
 }

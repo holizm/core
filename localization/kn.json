@@ -192,5 +192,6 @@
     "sale": "ಮಾರಾಟ",
     "return": "ಹಿಂತಿರುಗಿಸುವಿಕೆ",
     "exchange": "ವಿನಿಮಯ",
-    "invitations": "ಆಮಂತ್ರಣಗಳು"
+    "invitations": "ಆಮಂತ್ರಣಗಳು",
+    "previousStartDate": "ಹಿಂದಿನ ಪ್ರಾರಂಭ ದಿನಾಂಕ", "newStartDate": "ಹೊಸ ಪ್ರಾರಂಭ ದಿನಾಂಕ", "sentDate": "ಕಳುಹಿಸಿದ ದಿನಾಂಕ"
 }

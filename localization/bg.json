@@ -192,5 +192,6 @@
     "sale": "Продажба",
     "return": "Връщане",
     "exchange": "Замяна",
-    "invitations": "Покани"
+    "invitations": "Покани",
+    "previousStartDate": "Предишна начална дата", "newStartDate": "Нова начална дата", "sentDate": "Дата на изпращане"
 }

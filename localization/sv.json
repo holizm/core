@@ -192,5 +192,6 @@
     "sale": "Försäljning",
     "return": "Retur",
     "exchange": "Byte",
-    "invitations": "Inbjudningar"
+    "invitations": "Inbjudningar",
+    "previousStartDate": "Tidigare startdatum", "newStartDate": "Nytt startdatum", "sentDate": "Sändningsdatum"
 }

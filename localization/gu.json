@@ -192,5 +192,6 @@
     "sale": "વેચાણ",
     "return": "પરત",
     "exchange": "બદલી",
-    "invitations": "આમંત્રણો"
+    "invitations": "આમંત્રણો",
+    "previousStartDate": "અગાઉની શરૂઆતની તારીખ", "newStartDate": "નવી શરૂઆતની તારીખ", "sentDate": "મોકલ્યાની તારીખ"
 }

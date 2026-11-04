@@ -192,5 +192,6 @@
     "sale": "فروش",
     "return": "مرجوعی",
     "exchange": "تعویض",
-    "invitations": "دعوت‌ها"
+    "invitations": "دعوت‌ها",
+    "previousStartDate": "تاریخ شروع قبلی", "newStartDate": "تاریخ شروع جدید", "sentDate": "تاریخ ارسال"
 }

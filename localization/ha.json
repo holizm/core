@@ -192,5 +192,6 @@
     "sale": "Sayarwa",
     "return": "Mayarwa",
     "exchange": "Musanya",
-    "invitations": "Gayyata"
+    "invitations": "Gayyata",
+    "previousStartDate": "Ranar farawa ta baya", "newStartDate": "Sabuwar ranar farawa", "sentDate": "Ranar aikawa"
 }

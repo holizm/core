@@ -192,5 +192,6 @@
     "sale": "विक्री",
     "return": "परतावा",
     "exchange": "अदलाबदल",
-    "invitations": "आमंत्रणे"
+    "invitations": "आमंत्रणे",
+    "previousStartDate": "मागील प्रारंभ तारीख", "newStartDate": "नवीन प्रारंभ तारीख", "sentDate": "पाठविल्याची तारीख"
 }

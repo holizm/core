@@ -192,5 +192,6 @@
     "sale": "Vânzare",
     "return": "Retur",
     "exchange": "Schimb",
-    "invitations": "Invitații"
+    "invitations": "Invitații",
+    "previousStartDate": "Data de început anterioară", "newStartDate": "Noua dată de început", "sentDate": "Data trimiterii"
 }

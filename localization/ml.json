@@ -192,5 +192,6 @@
     "sale": "വിൽപ്പന",
     "return": "തിരിച്ചുനൽകൽ",
     "exchange": "മാറ്റിവാങ്ങൽ",
-    "invitations": "ക്ഷണങ്ങൾ"
+    "invitations": "ക്ഷണങ്ങൾ",
+    "previousStartDate": "മുൻ ആരംഭ തീയതി", "newStartDate": "പുതിയ ആരംഭ തീയതി", "sentDate": "അയച്ച തീയതി"
 }

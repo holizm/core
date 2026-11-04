@@ -192,5 +192,6 @@
     "sale": "అమ్మకం",
     "return": "తిరిగి ఇవ్వడం",
     "exchange": "మార్పిడి",
-    "invitations": "ఆహ్వానాలు"
+    "invitations": "ఆహ్వానాలు",
+    "previousStartDate": "మునుపటి ప్రారంభ తేదీ", "newStartDate": "కొత్త ప్రారంభ తేదీ", "sentDate": "పంపిన తేదీ"
 }

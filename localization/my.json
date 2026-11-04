@@ -192,5 +192,6 @@
     "sale": "ရောင်းချခြင်း",
     "return": "ပြန်အပ်ခြင်း",
     "exchange": "လဲလှယ်ခြင်း",
-    "invitations": "ဖိတ်ကြားချက်များ"
+    "invitations": "ဖိတ်ကြားချက်များ",
+    "previousStartDate": "ယခင်စတင်ရက်", "newStartDate": "စတင်ရက်အသစ်", "sentDate": "ပေးပို့သည့်ရက်"
 }

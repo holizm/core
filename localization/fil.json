@@ -192,5 +192,6 @@
     "sale": "Benta",
     "return": "Pagsasauli",
     "exchange": "Pagpapalit",
-    "invitations": "Mga imbitasyon"
+    "invitations": "Mga imbitasyon",
+    "previousStartDate": "Nakaraang petsa ng pagsisimula", "newStartDate": "Bagong petsa ng pagsisimula", "sentDate": "Petsa ng pagpapadala"
 }

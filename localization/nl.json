@@ -192,5 +192,6 @@
     "sale": "Verkoop",
     "return": "Retour",
     "exchange": "Omruiling",
-    "invitations": "Uitnodigingen"
+    "invitations": "Uitnodigingen",
+    "previousStartDate": "Vorige startdatum", "newStartDate": "Nieuwe startdatum", "sentDate": "Verzenddatum"
 }

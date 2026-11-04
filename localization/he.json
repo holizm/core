@@ -192,5 +192,6 @@
     "sale": "מכירה",
     "return": "החזרה",
     "exchange": "החלפה",
-    "invitations": "הזמנות"
+    "invitations": "הזמנות",
+    "previousStartDate": "תאריך התחלה קודם", "newStartDate": "תאריך התחלה חדש", "sentDate": "תאריך שליחה"
 }

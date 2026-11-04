@@ -192,5 +192,6 @@
     "sale": "Vendita",
     "return": "Reso",
     "exchange": "Cambio",
-    "invitations": "Inviti"
+    "invitations": "Inviti",
+    "previousStartDate": "Data di inizio precedente", "newStartDate": "Nuova data di inizio", "sentDate": "Data di invio"
 }

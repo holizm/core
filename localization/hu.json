@@ -192,5 +192,6 @@
     "sale": "Eladás",
     "return": "Visszáru",
     "exchange": "Csere",
-    "invitations": "Meghívók"
+    "invitations": "Meghívók",
+    "previousStartDate": "Korábbi kezdési dátum", "newStartDate": "Új kezdési dátum", "sentDate": "Küldés dátuma"
 }

@@ -192,5 +192,6 @@
     "sale": "விற்பனை",
     "return": "திருப்பியளித்தல்",
     "exchange": "மாற்றுதல்",
-    "invitations": "அழைப்புகள்"
+    "invitations": "அழைப்புகள்",
+    "previousStartDate": "முந்தைய தொடக்கத் தேதி", "newStartDate": "புதிய தொடக்கத் தேதி", "sentDate": "அனுப்பிய தேதி"
 }

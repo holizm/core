@@ -192,5 +192,6 @@
     "sale": "बिक्री",
     "return": "वापसी",
     "exchange": "बदलाव",
-    "invitations": "आमंत्रण"
+    "invitations": "आमंत्रण",
+    "previousStartDate": "पिछली आरंभ तिथि", "newStartDate": "नई आरंभ तिथि", "sentDate": "भेजने की तिथि"
 }

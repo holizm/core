@@ -192,5 +192,6 @@
     "sale": "বিক্রয়",
     "return": "ফেরত",
     "exchange": "বিনিময়",
-    "invitations": "আমন্ত্রণসমূহ"
+    "invitations": "আমন্ত্রণসমূহ",
+    "previousStartDate": "পূর্ববর্তী শুরুর তারিখ", "newStartDate": "নতুন শুরুর তারিখ", "sentDate": "পাঠানোর তারিখ"
 }

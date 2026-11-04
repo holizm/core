@@ -192,5 +192,6 @@
     "sale": "فروخت",
     "return": "واپسی",
     "exchange": "تبادلہ",
-    "invitations": "دعوتیں"
+    "invitations": "دعوتیں",
+    "previousStartDate": "پچھلی شروعات کی تاریخ", "newStartDate": "نئی شروعات کی تاریخ", "sentDate": "بھیجنے کی تاریخ"
 }

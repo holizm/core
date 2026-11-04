@@ -192,5 +192,6 @@
     "sale": "Mauzo",
     "return": "Urejeshaji",
     "exchange": "Ubadilishaji",
-    "invitations": "Mialiko"
+    "invitations": "Mialiko",
+    "previousStartDate": "Tarehe ya awali ya kuanza", "newStartDate": "Tarehe mpya ya kuanza", "sentDate": "Tarehe ya kutuma"
 }

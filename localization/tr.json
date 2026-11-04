@@ -192,5 +192,6 @@
     "sale": "Satış",
     "return": "İade",
     "exchange": "Değişim",
-    "invitations": "Davetler"
+    "invitations": "Davetler",
+    "previousStartDate": "Önceki başlangıç tarihi", "newStartDate": "Yeni başlangıç tarihi", "sentDate": "Gönderim tarihi"
 }

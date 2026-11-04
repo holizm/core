@@ -192,5 +192,6 @@
     "sale": "Bán hàng",
     "return": "Trả hàng",
     "exchange": "Đổi hàng",
-    "invitations": "Lời mời"
+    "invitations": "Lời mời",
+    "previousStartDate": "Ngày bắt đầu trước đó", "newStartDate": "Ngày bắt đầu mới", "sentDate": "Ngày gửi"
 }

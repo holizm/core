@@ -192,5 +192,6 @@
     "sale": "Prodej",
     "return": "Vrácení",
     "exchange": "Výměna",
-    "invitations": "Pozvánky"
+    "invitations": "Pozvánky",
+    "previousStartDate": "Předchozí datum zahájení", "newStartDate": "Nové datum zahájení", "sentDate": "Datum odeslání"
 }

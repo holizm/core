@@ -192,5 +192,6 @@
     "sale": "بيع",
     "return": "إرجاع",
     "exchange": "استبدال",
-    "invitations": "الدعوات"
+    "invitations": "الدعوات",
+    "previousStartDate": "تاريخ البدء السابق", "newStartDate": "تاريخ البدء الجديد", "sentDate": "تاريخ الإرسال"
 }

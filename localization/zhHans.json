@@ -192,5 +192,6 @@
     "sale": "销售",
     "return": "退货",
     "exchange": "换货",
-    "invitations": "邀请"
+    "invitations": "邀请",
+    "previousStartDate": "原开始日期", "newStartDate": "新开始日期", "sentDate": "发送日期"
 }

@@ -192,5 +192,6 @@
     "sale": "Penjualan",
     "return": "Pengembalian",
     "exchange": "Penukaran",
-    "invitations": "Undangan"
+    "invitations": "Undangan",
+    "previousStartDate": "Tanggal mulai sebelumnya", "newStartDate": "Tanggal mulai baru", "sentDate": "Tanggal pengiriman"
 }

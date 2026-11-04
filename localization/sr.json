@@ -192,5 +192,6 @@
     "sale": "Продаја",
     "return": "Повраћај",
     "exchange": "Замена",
-    "invitations": "Позивнице"
+    "invitations": "Позивнице",
+    "previousStartDate": "Претходни датум почетка", "newStartDate": "Нови датум почетка", "sentDate": "Датум слања"
 }

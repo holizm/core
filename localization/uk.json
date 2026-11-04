@@ -192,5 +192,6 @@
     "sale": "Продаж",
     "return": "Повернення",
     "exchange": "Обмін",
-    "invitations": "Запрошення"
+    "invitations": "Запрошення",
+    "previousStartDate": "Попередня дата початку", "newStartDate": "Нова дата початку", "sentDate": "Дата надсилання"
 }

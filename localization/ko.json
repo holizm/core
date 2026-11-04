@@ -192,5 +192,6 @@
     "sale": "판매",
     "return": "반품",
     "exchange": "교환",
-    "invitations": "초대"
+    "invitations": "초대",
+    "previousStartDate": "이전 시작일", "newStartDate": "새 시작일", "sentDate": "발송일"
 }

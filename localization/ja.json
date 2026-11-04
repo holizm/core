@@ -192,5 +192,6 @@
     "sale": "販売",
     "return": "返品",
     "exchange": "交換",
-    "invitations": "招待"
+    "invitations": "招待",
+    "previousStartDate": "以前の開始日", "newStartDate": "新しい開始日", "sentDate": "送信日"
 }

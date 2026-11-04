@@ -192,5 +192,6 @@
     "sale": "Myynti",
     "return": "Palautus",
     "exchange": "Vaihto",
-    "invitations": "Kutsut"
+    "invitations": "Kutsut",
+    "previousStartDate": "Edellinen aloituspäivä", "newStartDate": "Uusi aloituspäivä", "sentDate": "Lähetyspäivä"
 }
