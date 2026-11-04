@@ -1,5 +1,5 @@
 {
-    "vehicles": "વાહનો", "arrivalDate": "આગમનની તારીખ", "departureDate": "પ્રસ્થાનની તારીખ", "driver": "ચાલક", "vehicle": "વાહન", "room": "ઓરડો", "downtimeInMinutes": "બંધ રહેવાનો સમય (મિનિટ)", "cash": "રોકડ", "card": "કાર્ડ", "bankTransfer": "બેંક ટ્રાન્સફર", "other": "અન્ય", "wallet": "વૉલેટ", "underMaintenance": "જાળવણી હેઠળ", "contract": "કરાર", "contracts": "કરારો", "totalTime": "કુલ સમય",
+    "openedAt": "ખોલવાનો સમય", "vehicles": "વાહનો", "arrivalDate": "આગમનની તારીખ", "departureDate": "પ્રસ્થાનની તારીખ", "driver": "ચાલક", "vehicle": "વાહન", "room": "ઓરડો", "downtimeInMinutes": "બંધ રહેવાનો સમય (મિનિટ)", "cash": "રોકડ", "card": "કાર્ડ", "bankTransfer": "બેંક ટ્રાન્સફર", "other": "અન્ય", "wallet": "વૉલેટ", "underMaintenance": "જાળવણી હેઠળ", "contract": "કરાર", "contracts": "કરારો", "totalTime": "કુલ સમય",
     "longest": "સૌથી લાંબો",
     "shortest": "સૌથી ટૂંકો",
     "acceptedQuantity": "સ્વીકૃત જથ્થો", "accountNumber": "ખાતા નંબર", "action": "ક્રિયા", "actionActor": "કાર્યવાહી કરનાર",

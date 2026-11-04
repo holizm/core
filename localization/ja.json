@@ -1,5 +1,5 @@
 {
-    "vehicles": "車両一覧", "arrivalDate": "到着日", "departureDate": "出発日", "driver": "運転手", "vehicle": "車両", "room": "部屋", "downtimeInMinutes": "停止時間（分）", "cash": "現金", "card": "カード", "bankTransfer": "銀行振込", "other": "その他", "wallet": "ウォレット", "underMaintenance": "メンテナンス中", "contract": "契約", "contracts": "契約一覧", "totalTime": "合計時間",
+    "openedAt": "開始日時", "vehicles": "車両一覧", "arrivalDate": "到着日", "departureDate": "出発日", "driver": "運転手", "vehicle": "車両", "room": "部屋", "downtimeInMinutes": "停止時間（分）", "cash": "現金", "card": "カード", "bankTransfer": "銀行振込", "other": "その他", "wallet": "ウォレット", "underMaintenance": "メンテナンス中", "contract": "契約", "contracts": "契約一覧", "totalTime": "合計時間",
     "longest": "最長",
     "shortest": "最短",
     "acceptedQuantity": "受入数量", "accountNumber": "口座番号", "action": "アクション", "actionActor": "処理担当者",

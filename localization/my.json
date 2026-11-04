@@ -1,5 +1,5 @@
 {
-    "vehicles": "ယာဉ်များ", "arrivalDate": "ရောက်ရှိရက်", "departureDate": "ထွက်ခွာရက်", "driver": "ယာဉ်မောင်း", "vehicle": "ယာဉ်", "room": "အခန်း", "downtimeInMinutes": "ရပ်နားချိန် (မိနစ်)", "cash": "ငွေသား", "card": "ကတ်", "bankTransfer": "ဘဏ်ငွေလွှဲ", "other": "အခြား", "wallet": "ပိုက်ဆံအိတ်", "underMaintenance": "ပြုပြင်ထိန်းသိမ်းနေဆဲ", "contract": "စာချုပ်", "contracts": "စာချုပ်များ", "totalTime": "စုစုပေါင်းအချိန်",
+    "openedAt": "ဖွင့်လှစ်သည့်အချိန်", "vehicles": "ယာဉ်များ", "arrivalDate": "ရောက်ရှိရက်", "departureDate": "ထွက်ခွာရက်", "driver": "ယာဉ်မောင်း", "vehicle": "ယာဉ်", "room": "အခန်း", "downtimeInMinutes": "ရပ်နားချိန် (မိနစ်)", "cash": "ငွေသား", "card": "ကတ်", "bankTransfer": "ဘဏ်ငွေလွှဲ", "other": "အခြား", "wallet": "ပိုက်ဆံအိတ်", "underMaintenance": "ပြုပြင်ထိန်းသိမ်းနေဆဲ", "contract": "စာချုပ်", "contracts": "စာချုပ်များ", "totalTime": "စုစုပေါင်းအချိန်",
     "longest": "အကြာဆုံး",
     "shortest": "အတိုဆုံး",
     "acceptedQuantity": "လက်ခံသည့်အရေအတွက်", "accountNumber": "အကောင့်နံပါတ်", "action": "လုပ်ဆောင်ချက်", "actionActor": "လုပ်ဆောင်သူ",

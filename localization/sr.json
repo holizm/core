@@ -1,5 +1,5 @@
 {
-    "vehicles": "Возила", "arrivalDate": "Датум доласка", "departureDate": "Датум поласка", "driver": "Возач", "vehicle": "Возило", "room": "Соба", "downtimeInMinutes": "Време застоја (минути)", "cash": "Готовина", "card": "Картица", "bankTransfer": "Банковни пренос", "other": "Друго", "wallet": "Новчаник", "underMaintenance": "На одржавању", "contract": "Уговор", "contracts": "Уговори", "totalTime": "Укупно време",
+    "openedAt": "Отворено", "vehicles": "Возила", "arrivalDate": "Датум доласка", "departureDate": "Датум поласка", "driver": "Возач", "vehicle": "Возило", "room": "Соба", "downtimeInMinutes": "Време застоја (минути)", "cash": "Готовина", "card": "Картица", "bankTransfer": "Банковни пренос", "other": "Друго", "wallet": "Новчаник", "underMaintenance": "На одржавању", "contract": "Уговор", "contracts": "Уговори", "totalTime": "Укупно време",
     "longest": "Најдуже",
     "shortest": "Најкраће",
     "acceptedQuantity": "Прихваћена количина", "accountNumber": "Број рачуна", "action": "Radnja", "actionActor": "Извршилац",

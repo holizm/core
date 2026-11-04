@@ -1,5 +1,5 @@
 {
-    "vehicles": "Превозни средства", "arrivalDate": "Дата на пристигане", "departureDate": "Дата на отпътуване", "driver": "Шофьор", "vehicle": "Превозно средство", "room": "Стая", "downtimeInMinutes": "Престой (минути)", "cash": "В брой", "card": "Карта", "bankTransfer": "Банков превод", "other": "Друго", "wallet": "Портфейл", "underMaintenance": "В поддръжка", "contract": "Договор", "contracts": "Договори", "totalTime": "Общо време",
+    "openedAt": "Открита на", "vehicles": "Превозни средства", "arrivalDate": "Дата на пристигане", "departureDate": "Дата на отпътуване", "driver": "Шофьор", "vehicle": "Превозно средство", "room": "Стая", "downtimeInMinutes": "Престой (минути)", "cash": "В брой", "card": "Карта", "bankTransfer": "Банков превод", "other": "Друго", "wallet": "Портфейл", "underMaintenance": "В поддръжка", "contract": "Договор", "contracts": "Договори", "totalTime": "Общо време",
     "longest": "Най-дълго",
     "shortest": "Най-кратко",
     "acceptedQuantity": "Прието количество", "accountNumber": "Номер на сметка", "action": "Действие", "actionActor": "Изпълнител",

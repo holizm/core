@@ -1,5 +1,5 @@
 {
-    "vehicles": "Voertuigen", "arrivalDate": "Aankomstdatum", "departureDate": "Vertrekdatum", "driver": "Chauffeur", "vehicle": "Voertuig", "room": "Kamer", "downtimeInMinutes": "Stilstandtijd (minuten)", "cash": "Contant", "card": "Kaart", "bankTransfer": "Bankoverschrijving", "other": "Overig", "wallet": "Portemonnee", "underMaintenance": "In onderhoud", "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
+    "openedAt": "Geopend op", "vehicles": "Voertuigen", "arrivalDate": "Aankomstdatum", "departureDate": "Vertrekdatum", "driver": "Chauffeur", "vehicle": "Voertuig", "room": "Kamer", "downtimeInMinutes": "Stilstandtijd (minuten)", "cash": "Contant", "card": "Kaart", "bankTransfer": "Bankoverschrijving", "other": "Overig", "wallet": "Portemonnee", "underMaintenance": "In onderhoud", "contract": "Contract", "contracts": "Contracten", "totalTime": "Totale tijd",
     "longest": "Langste",
     "shortest": "Kortste",
     "acceptedQuantity": "Geaccepteerd aantal", "accountNumber": "Rekeningnummer", "action": "Actie", "actionActor": "Uitvoerder",

@@ -1,5 +1,5 @@
 {
-    "vehicles": "Vehículos", "arrivalDate": "Fecha de llegada", "departureDate": "Fecha de salida", "driver": "Conductor", "vehicle": "Vehículo", "room": "Sala", "downtimeInMinutes": "Tiempo de inactividad (minutos)", "cash": "Efectivo", "card": "Tarjeta", "bankTransfer": "Transferencia bancaria", "other": "Otro", "wallet": "Billetera", "underMaintenance": "En mantenimiento", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tiempo total",
+    "openedAt": "Fecha de apertura", "vehicles": "Vehículos", "arrivalDate": "Fecha de llegada", "departureDate": "Fecha de salida", "driver": "Conductor", "vehicle": "Vehículo", "room": "Sala", "downtimeInMinutes": "Tiempo de inactividad (minutos)", "cash": "Efectivo", "card": "Tarjeta", "bankTransfer": "Transferencia bancaria", "other": "Otro", "wallet": "Billetera", "underMaintenance": "En mantenimiento", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tiempo total",
     "longest": "Más largo",
     "shortest": "Más corto",
     "acceptedQuantity": "Cantidad aceptada", "accountNumber": "Número de cuenta", "action": "Acción", "actionActor": "Ejecutor",

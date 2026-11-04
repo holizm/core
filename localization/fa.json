@@ -1,5 +1,5 @@
 {
-    "vehicles": "وسایل نقلیه", "arrivalDate": "تاریخ رسیدن", "departureDate": "تاریخ حرکت", "driver": "راننده", "vehicle": "وسیله نقلیه", "room": "اتاق", "downtimeInMinutes": "مدت توقف (دقیقه)", "cash": "نقدی", "card": "کارت", "bankTransfer": "انتقال بانکی", "other": "سایر", "wallet": "کیف پول", "underMaintenance": "در حال تعمیر و نگهداری", "contract": "قرارداد", "contracts": "قراردادها", "totalTime": "زمان کل",
+    "openedAt": "تاریخ گشایش", "vehicles": "وسایل نقلیه", "arrivalDate": "تاریخ رسیدن", "departureDate": "تاریخ حرکت", "driver": "راننده", "vehicle": "وسیله نقلیه", "room": "اتاق", "downtimeInMinutes": "مدت توقف (دقیقه)", "cash": "نقدی", "card": "کارت", "bankTransfer": "انتقال بانکی", "other": "سایر", "wallet": "کیف پول", "underMaintenance": "در حال تعمیر و نگهداری", "contract": "قرارداد", "contracts": "قراردادها", "totalTime": "زمان کل",
     "longest": "طولانی‌ترین",
     "shortest": "کوتاه‌ترین",
     "acceptedQuantity": "تعداد پذیرفته‌شده", "accountNumber": "شماره حساب", "action": "عملیات", "actionActor": "اقدام‌کننده",

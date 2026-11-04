@@ -1,5 +1,5 @@
 {
-    "vehicles": "Транспортные средства", "arrivalDate": "Дата прибытия", "departureDate": "Дата отправления", "driver": "Водитель", "vehicle": "Транспортное средство", "room": "Комната", "downtimeInMinutes": "Время простоя (минуты)", "cash": "Наличные", "card": "Карта", "bankTransfer": "Банковский перевод", "other": "Другое", "wallet": "Кошелек", "underMaintenance": "На техническом обслуживании", "contract": "Договор", "contracts": "Договоры", "totalTime": "Общее время",
+    "openedAt": "Дата открытия", "vehicles": "Транспортные средства", "arrivalDate": "Дата прибытия", "departureDate": "Дата отправления", "driver": "Водитель", "vehicle": "Транспортное средство", "room": "Комната", "downtimeInMinutes": "Время простоя (минуты)", "cash": "Наличные", "card": "Карта", "bankTransfer": "Банковский перевод", "other": "Другое", "wallet": "Кошелек", "underMaintenance": "На техническом обслуживании", "contract": "Договор", "contracts": "Договоры", "totalTime": "Общее время",
     "longest": "Самое долгое",
     "shortest": "Самое короткое",
     "acceptedQuantity": "Принятое количество", "accountNumber": "Номер счета", "action": "Действие", "actionActor": "Исполнитель",

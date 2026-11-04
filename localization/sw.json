@@ -1,5 +1,5 @@
 {
-    "vehicles": "Magari", "arrivalDate": "Tarehe ya kuwasili", "departureDate": "Tarehe ya kuondoka", "driver": "Dereva", "vehicle": "Gari", "room": "Chumba", "downtimeInMinutes": "Muda wa kusimama (dakika)", "cash": "Taslimu", "card": "Kadi", "bankTransfer": "Uhamisho wa benki", "other": "Nyingine", "wallet": "Pochi", "underMaintenance": "Inafanyiwa matengenezo", "contract": "Mkataba", "contracts": "Mikataba", "totalTime": "Jumla ya muda",
+    "openedAt": "Ilifunguliwa", "vehicles": "Magari", "arrivalDate": "Tarehe ya kuwasili", "departureDate": "Tarehe ya kuondoka", "driver": "Dereva", "vehicle": "Gari", "room": "Chumba", "downtimeInMinutes": "Muda wa kusimama (dakika)", "cash": "Taslimu", "card": "Kadi", "bankTransfer": "Uhamisho wa benki", "other": "Nyingine", "wallet": "Pochi", "underMaintenance": "Inafanyiwa matengenezo", "contract": "Mkataba", "contracts": "Mikataba", "totalTime": "Jumla ya muda",
     "longest": "Mrefu zaidi",
     "shortest": "Mfupi zaidi",
     "acceptedQuantity": "Kiasi kilichokubaliwa", "accountNumber": "Nambari ya akaunti", "action": "Kitendo", "actionActor": "Mtekelezaji",
