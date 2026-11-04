@@ -1,5 +1,5 @@
 {
-    "downtimeInMinutes": "Doba odstávky (minuty)", "cash": "Hotovost", "card": "Karta", "bankTransfer": "Bankovní převod", "other": "Jiné", "wallet": "Peněženka", "underMaintenance": "Probíhá údržba", "contract": "Smlouva", "contracts": "Smlouvy", "totalTime": "Celkový čas",
+    "room": "Místnost", "downtimeInMinutes": "Doba odstávky (minuty)", "cash": "Hotovost", "card": "Karta", "bankTransfer": "Bankovní převod", "other": "Jiné", "wallet": "Peněženka", "underMaintenance": "Probíhá údržba", "contract": "Smlouva", "contracts": "Smlouvy", "totalTime": "Celkový čas",
     "longest": "Nejdelší",
     "shortest": "Nejkratší",
     "acceptedQuantity": "Přijaté množství", "accountNumber": "Číslo účtu", "action": "Akce", "actionActor": "Provádějící",

@@ -1,5 +1,5 @@
 {
-    "downtimeInMinutes": "مدت توقف (دقیقه)", "cash": "نقدی", "card": "کارت", "bankTransfer": "انتقال بانکی", "other": "سایر", "wallet": "کیف پول", "underMaintenance": "در حال تعمیر و نگهداری", "contract": "قرارداد", "contracts": "قراردادها", "totalTime": "زمان کل",
+    "room": "اتاق", "downtimeInMinutes": "مدت توقف (دقیقه)", "cash": "نقدی", "card": "کارت", "bankTransfer": "انتقال بانکی", "other": "سایر", "wallet": "کیف پول", "underMaintenance": "در حال تعمیر و نگهداری", "contract": "قرارداد", "contracts": "قراردادها", "totalTime": "زمان کل",
     "longest": "طولانی‌ترین",
     "shortest": "کوتاه‌ترین",
     "acceptedQuantity": "تعداد پذیرفته‌شده", "accountNumber": "شماره حساب", "action": "عملیات", "actionActor": "اقدام‌کننده",

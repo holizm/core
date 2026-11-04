@@ -1,5 +1,5 @@
 {
-    "downtimeInMinutes": "बंद रहने का समय (मिनट)", "cash": "नकद", "card": "कार्ड", "bankTransfer": "बैंक हस्तांतरण", "other": "अन्य", "wallet": "वॉलेट", "underMaintenance": "रखरखाव जारी है", "contract": "अनुबंध", "contracts": "अनुबंध", "totalTime": "कुल समय",
+    "room": "कमरा", "downtimeInMinutes": "बंद रहने का समय (मिनट)", "cash": "नकद", "card": "कार्ड", "bankTransfer": "बैंक हस्तांतरण", "other": "अन्य", "wallet": "वॉलेट", "underMaintenance": "रखरखाव जारी है", "contract": "अनुबंध", "contracts": "अनुबंध", "totalTime": "कुल समय",
     "longest": "सबसे लंबा",
     "shortest": "सबसे छोटा",
     "acceptedQuantity": "स्वीकृत मात्रा", "accountNumber": "खाता संख्या", "action": "कार्रवाई", "actionActor": "कार्रवाईकर्ता",

@@ -1,5 +1,5 @@
 {
-    "downtimeInMinutes": "నిలిపివేత సమయం (నిమిషాలు)", "cash": "నగదు", "card": "కార్డ్", "bankTransfer": "బ్యాంక్ బదిలీ", "other": "ఇతర", "wallet": "వాలెట్", "underMaintenance": "నిర్వహణలో ఉంది", "contract": "ఒప్పందం", "contracts": "ఒప్పందాలు", "totalTime": "మొత్తం సమయం",
+    "room": "గది", "downtimeInMinutes": "నిలిపివేత సమయం (నిమిషాలు)", "cash": "నగదు", "card": "కార్డ్", "bankTransfer": "బ్యాంక్ బదిలీ", "other": "ఇతర", "wallet": "వాలెట్", "underMaintenance": "నిర్వహణలో ఉంది", "contract": "ఒప్పందం", "contracts": "ఒప్పందాలు", "totalTime": "మొత్తం సమయం",
     "longest": "అత్యంత ఎక్కువ",
     "shortest": "అత్యంత తక్కువ",
     "acceptedQuantity": "ఆమోదించిన పరిమాణం", "accountNumber": "ఖాతా సంఖ్య", "action": "చర్య", "actionActor": "చర్య తీసుకున్నవారు",

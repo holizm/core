@@ -1,5 +1,5 @@
 {
-    "downtimeInMinutes": "Állásidő (perc)", "cash": "Készpénz", "card": "Kártya", "bankTransfer": "Banki átutalás", "other": "Egyéb", "wallet": "Pénztárca", "underMaintenance": "Karbantartás alatt", "contract": "Szerződés", "contracts": "Szerződések", "totalTime": "Teljes idő",
+    "room": "Helyiség", "downtimeInMinutes": "Állásidő (perc)", "cash": "Készpénz", "card": "Kártya", "bankTransfer": "Banki átutalás", "other": "Egyéb", "wallet": "Pénztárca", "underMaintenance": "Karbantartás alatt", "contract": "Szerződés", "contracts": "Szerződések", "totalTime": "Teljes idő",
     "longest": "Leghosszabb",
     "shortest": "Legrövidebb",
     "acceptedQuantity": "Elfogadott mennyiség", "accountNumber": "Számlaszám", "action": "Művelet", "actionActor": "Végrehajtó",
