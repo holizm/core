@@ -178,10 +178,14 @@
     "yes": "Ja",
     "low": "Niedrig", "normal": "Normal", "high": "Hoch",
     "history": "Verlauf",
+    "scheduled": "Geplant",
+    "inProgress": "In Bearbeitung",
+    "paused": "Pausiert",
+    "cancelled": "Storniert",
+    "client": "Klient",
     "requested": "Angefragt",
     "confirmed": "Bestätigt",
     "rescheduled": "Neu terminiert",
-    "cancelled": "Abgesagt",
     "noShow": "Nicht erschienen",
     "previousEndDate": "Bisheriges Enddatum",
     "newEndDate": "Neues Enddatum",
@@ -192,6 +196,6 @@
     "sale": "Verkauf",
     "return": "Rückgabe",
     "exchange": "Umtausch",
-    "invitations": "Einladungen",
+    "supportAgent": "Supportmitarbeiter", "you": "Sie", "invitations": "Einladungen", "internalNote": "Interne Notiz",
     "previousStartDate": "Vorheriges Startdatum", "newStartDate": "Neues Startdatum", "sentDate": "Sendedatum"
 }

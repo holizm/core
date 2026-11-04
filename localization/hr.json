@@ -178,10 +178,14 @@
     "yes": "Da",
     "low": "Nizak", "normal": "Normalan", "high": "Visok",
     "history": "Povijest",
+    "scheduled": "Zakazano",
+    "inProgress": "U tijeku",
+    "paused": "Pauzirano",
+    "cancelled": "Otkazano",
+    "client": "Klijent",
     "requested": "Zatraženo",
     "confirmed": "Potvrđeno",
     "rescheduled": "Promijenjen termin",
-    "cancelled": "Otkazano",
     "noShow": "Nedolazak",
     "previousEndDate": "Prethodni datum završetka",
     "newEndDate": "Novi datum završetka",
@@ -192,6 +196,6 @@
     "sale": "Prodaja",
     "return": "Povrat",
     "exchange": "Zamjena",
-    "invitations": "Pozivnice",
+    "supportAgent": "Djelatnik podrške", "you": "Vi", "invitations": "Pozivnice", "internalNote": "Interna bilješka",
     "previousStartDate": "Prethodni datum početka", "newStartDate": "Novi datum početka", "sentDate": "Datum slanja"
 }

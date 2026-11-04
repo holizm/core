@@ -178,10 +178,14 @@
     "yes": "Oo",
     "low": "Mababa", "normal": "Karaniwan", "high": "Mataas",
     "history": "Kasaysayan",
+    "scheduled": "Naka-iskedyul",
+    "inProgress": "Isinasagawa",
+    "paused": "Pansamantalang itinigil",
+    "cancelled": "Kinansela",
+    "client": "Kliyente",
     "requested": "Hiniling",
     "confirmed": "Nakumpirma",
     "rescheduled": "Muling itinakda",
-    "cancelled": "Kinansela",
     "noShow": "Hindi dumalo",
     "previousEndDate": "Dating petsa ng pagtatapos",
     "newEndDate": "Bagong petsa ng pagtatapos",
@@ -192,6 +196,6 @@
     "sale": "Benta",
     "return": "Pagsasauli",
     "exchange": "Pagpapalit",
-    "invitations": "Mga imbitasyon",
+    "supportAgent": "Ahente ng suporta", "you": "Ikaw", "invitations": "Mga imbitasyon", "internalNote": "Panloob na tala",
     "previousStartDate": "Nakaraang petsa ng pagsisimula", "newStartDate": "Bagong petsa ng pagsisimula", "sentDate": "Petsa ng pagpapadala"
 }

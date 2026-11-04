@@ -178,10 +178,14 @@
     "yes": "Kyllä",
     "low": "Matala", "normal": "Normaali", "high": "Korkea",
     "history": "Historia",
+    "scheduled": "Ajoitettu",
+    "inProgress": "Käynnissä",
+    "paused": "Keskeytetty",
+    "cancelled": "Peruttu",
+    "client": "Asiakas",
     "requested": "Pyydetty",
     "confirmed": "Vahvistettu",
     "rescheduled": "Siirretty",
-    "cancelled": "Peruttu",
     "noShow": "Ei saapunut",
     "previousEndDate": "Edellinen päättymispäivä",
     "newEndDate": "Uusi päättymispäivä",
@@ -192,6 +196,6 @@
     "sale": "Myynti",
     "return": "Palautus",
     "exchange": "Vaihto",
-    "invitations": "Kutsut",
+    "supportAgent": "Tukihenkilö", "you": "Sinä", "invitations": "Kutsut", "internalNote": "Sisäinen huomautus",
     "previousStartDate": "Edellinen aloituspäivä", "newStartDate": "Uusi aloituspäivä", "sentDate": "Lähetyspäivä"
 }

@@ -178,10 +178,14 @@
     "yes": "是",
     "low": "低", "normal": "普通", "high": "高",
     "history": "历史记录",
+    "scheduled": "已排期",
+    "inProgress": "进行中",
+    "paused": "已暂停",
+    "cancelled": "已取消",
+    "client": "客户",
     "requested": "已请求",
     "confirmed": "已确认",
     "rescheduled": "已改期",
-    "cancelled": "已取消",
     "noShow": "未到场",
     "previousEndDate": "原结束日期",
     "newEndDate": "新结束日期",
@@ -192,6 +196,6 @@
     "sale": "销售",
     "return": "退货",
     "exchange": "换货",
-    "invitations": "邀请",
+    "supportAgent": "客服人员", "you": "你", "invitations": "邀请", "internalNote": "内部备注",
     "previousStartDate": "原开始日期", "newStartDate": "新开始日期", "sentDate": "发送日期"
 }

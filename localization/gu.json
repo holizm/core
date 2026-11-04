@@ -178,10 +178,14 @@
     "yes": "હા",
     "low": "નીચું", "normal": "સામાન્ય", "high": "ઊંચું",
     "history": "ઇતિહાસ",
+    "scheduled": "નિર્ધારિત",
+    "inProgress": "પ્રગતિમાં",
+    "paused": "થોભાવેલું",
+    "cancelled": "રદ કરેલું",
+    "client": "ક્લાયન્ટ",
     "requested": "વિનંતી કરેલી",
     "confirmed": "પુષ્ટિ કરેલી",
     "rescheduled": "ફરીથી સુનિશ્ચિત કરેલી",
-    "cancelled": "રદ કરેલી",
     "noShow": "ગેરહાજર",
     "previousEndDate": "અગાઉની સમાપ્તિ તારીખ",
     "newEndDate": "નવી સમાપ્તિ તારીખ",
@@ -192,6 +196,6 @@
     "sale": "વેચાણ",
     "return": "પરત",
     "exchange": "બદલી",
-    "invitations": "આમંત્રણો",
+    "supportAgent": "સહાય પ્રતિનિધિ", "you": "તમે", "invitations": "આમંત્રણો", "internalNote": "આંતરિક નોંધ",
     "previousStartDate": "અગાઉની શરૂઆતની તારીખ", "newStartDate": "નવી શરૂઆતની તારીખ", "sentDate": "મોકલ્યાની તારીખ"
 }

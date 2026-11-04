@@ -178,10 +178,14 @@
     "yes": "అవును",
     "low": "తక్కువ", "normal": "సాధారణ", "high": "ఎక్కువ",
     "history": "చరిత్ర",
+    "scheduled": "షెడ్యూల్ చేయబడింది",
+    "inProgress": "పురోగతిలో ఉంది",
+    "paused": "తాత్కాలికంగా నిలిపివేయబడింది",
+    "cancelled": "రద్దు చేయబడింది",
+    "client": "క్లయింట్",
     "requested": "అభ్యర్థించబడింది",
     "confirmed": "నిర్ధారించబడింది",
     "rescheduled": "మళ్లీ షెడ్యూల్ చేయబడింది",
-    "cancelled": "రద్దు చేయబడింది",
     "noShow": "హాజరు కాలేదు",
     "previousEndDate": "మునుపటి ముగింపు తేదీ",
     "newEndDate": "కొత్త ముగింపు తేదీ",
@@ -192,6 +196,6 @@
     "sale": "అమ్మకం",
     "return": "తిరిగి ఇవ్వడం",
     "exchange": "మార్పిడి",
-    "invitations": "ఆహ్వానాలు",
+    "supportAgent": "సహాయ ప్రతినిధి", "you": "మీరు", "invitations": "ఆహ్వానాలు", "internalNote": "అంతర్గత గమనిక",
     "previousStartDate": "మునుపటి ప్రారంభ తేదీ", "newStartDate": "కొత్త ప్రారంభ తేదీ", "sentDate": "పంపిన తేదీ"
 }

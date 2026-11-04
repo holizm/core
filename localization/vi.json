@@ -178,10 +178,14 @@
     "yes": "Đúng",
     "low": "Thấp", "normal": "Bình thường", "high": "Cao",
     "history": "Lịch sử",
+    "scheduled": "Đã lên lịch",
+    "inProgress": "Đang thực hiện",
+    "paused": "Tạm dừng",
+    "cancelled": "Đã hủy",
+    "client": "Khách hàng",
     "requested": "Đã yêu cầu",
     "confirmed": "Đã xác nhận",
     "rescheduled": "Đã đổi lịch",
-    "cancelled": "Đã hủy",
     "noShow": "Không đến",
     "previousEndDate": "Ngày kết thúc trước đó",
     "newEndDate": "Ngày kết thúc mới",
@@ -192,6 +196,6 @@
     "sale": "Bán hàng",
     "return": "Trả hàng",
     "exchange": "Đổi hàng",
-    "invitations": "Lời mời",
+    "supportAgent": "Nhân viên hỗ trợ", "you": "Bạn", "invitations": "Lời mời", "internalNote": "Ghi chú nội bộ",
     "previousStartDate": "Ngày bắt đầu trước đó", "newStartDate": "Ngày bắt đầu mới", "sentDate": "Ngày gửi"
 }

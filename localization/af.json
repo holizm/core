@@ -178,10 +178,14 @@
     "yes": "Ja",
     "low": "Laag", "normal": "Normaal", "high": "Hoog",
     "history": "Geskiedenis",
+    "scheduled": "Geskeduleer",
+    "inProgress": "Aan die gang",
+    "paused": "Onderbreek",
+    "cancelled": "Gekanselleer",
+    "client": "Kliënt",
     "requested": "Aangevra",
     "confirmed": "Bevestig",
     "rescheduled": "Herskeduleer",
-    "cancelled": "Gekanselleer",
     "noShow": "Nie opgedaag nie",
     "previousEndDate": "Vorige einddatum",
     "newEndDate": "Nuwe einddatum",
@@ -192,6 +196,6 @@
     "sale": "Verkoop",
     "return": "Terugsending",
     "exchange": "Omruiling",
-    "invitations": "Uitnodigings",
+    "supportAgent": "Ondersteuningsagent", "you": "Jy", "invitations": "Uitnodigings", "internalNote": "Interne nota",
     "previousStartDate": "Vorige begindatum", "newStartDate": "Nuwe begindatum", "sentDate": "Versenddatum"
 }

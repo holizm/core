@@ -178,10 +178,14 @@
     "yes": "Ja",
     "low": "Låg", "normal": "Normal", "high": "Hög",
     "history": "Historik",
+    "scheduled": "Schemalagd",
+    "inProgress": "Pågår",
+    "paused": "Pausad",
+    "cancelled": "Avbruten",
+    "client": "Klient",
     "requested": "Begärt",
     "confirmed": "Bekräftat",
     "rescheduled": "Ombokat",
-    "cancelled": "Avbokat",
     "noShow": "Uteblivet besök",
     "previousEndDate": "Tidigare slutdatum",
     "newEndDate": "Nytt slutdatum",
@@ -192,6 +196,6 @@
     "sale": "Försäljning",
     "return": "Retur",
     "exchange": "Byte",
-    "invitations": "Inbjudningar",
+    "supportAgent": "Supportmedarbetare", "you": "Du", "invitations": "Inbjudningar", "internalNote": "Intern anteckning",
     "previousStartDate": "Tidigare startdatum", "newStartDate": "Nytt startdatum", "sentDate": "Sändningsdatum"
 }

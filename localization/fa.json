@@ -178,10 +178,14 @@
     "yes": "بله",
     "low": "کم", "normal": "عادی", "high": "زیاد",
     "history": "سابقه",
+    "scheduled": "زمان‌بندی‌شده",
+    "inProgress": "در حال انجام",
+    "paused": "متوقف‌شده",
+    "cancelled": "لغوشده",
+    "client": "مشتری",
     "requested": "درخواست‌شده",
     "confirmed": "تأییدشده",
     "rescheduled": "زمان‌بندی مجددشده",
-    "cancelled": "لغوشده",
     "noShow": "عدم حضور",
     "previousEndDate": "تاریخ پایان قبلی",
     "newEndDate": "تاریخ پایان جدید",
@@ -192,6 +196,6 @@
     "sale": "فروش",
     "return": "مرجوعی",
     "exchange": "تعویض",
-    "invitations": "دعوت‌ها",
+    "supportAgent": "کارشناس پشتیبانی", "you": "شما", "invitations": "دعوت‌ها", "internalNote": "یادداشت داخلی",
     "previousStartDate": "تاریخ شروع قبلی", "newStartDate": "تاریخ شروع جدید", "sentDate": "تاریخ ارسال"
 }

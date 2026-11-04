@@ -178,10 +178,14 @@
     "yes": "አዎ",
     "low": "ዝቅተኛ", "normal": "መደበኛ", "high": "ከፍተኛ",
     "history": "ታሪክ",
+    "scheduled": "የታቀደ",
+    "inProgress": "በሂደት ላይ",
+    "paused": "ለጊዜው የቆመ",
+    "cancelled": "የተሰረዘ",
+    "client": "ደንበኛ",
     "requested": "ተጠይቋል",
     "confirmed": "ተረጋግጧል",
     "rescheduled": "እንደገና ተይዟል",
-    "cancelled": "ተሰርዟል",
     "noShow": "አልተገኘም",
     "previousEndDate": "የቀድሞ ማብቂያ ቀን",
     "newEndDate": "አዲስ ማብቂያ ቀን",
@@ -192,6 +196,6 @@
     "sale": "ሽያጭ",
     "return": "መመለስ",
     "exchange": "መለዋወጥ",
-    "invitations": "ግብዣዎች",
+    "supportAgent": "የድጋፍ ሰራተኛ", "you": "እርስዎ", "invitations": "ግብዣዎች", "internalNote": "የውስጥ ማስታወሻ",
     "previousStartDate": "ያለፈው የመጀመሪያ ቀን", "newStartDate": "አዲስ የመጀመሪያ ቀን", "sentDate": "የተላከበት ቀን"
 }

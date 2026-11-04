@@ -178,10 +178,14 @@
     "yes": "جی ہاں",
     "low": "کم", "normal": "معمول", "high": "زیادہ",
     "history": "سابقہ ریکارڈ",
+    "scheduled": "طے شدہ",
+    "inProgress": "جاری ہے",
+    "paused": "عارضی طور پر روکا گیا",
+    "cancelled": "منسوخ",
+    "client": "کلائنٹ",
     "requested": "درخواست کی گئی",
     "confirmed": "تصدیق شدہ",
     "rescheduled": "دوبارہ مقرر کردہ",
-    "cancelled": "منسوخ",
     "noShow": "غیر حاضر",
     "previousEndDate": "پچھلی اختتامی تاریخ",
     "newEndDate": "نئی اختتامی تاریخ",
@@ -192,6 +196,6 @@
     "sale": "فروخت",
     "return": "واپسی",
     "exchange": "تبادلہ",
-    "invitations": "دعوتیں",
+    "supportAgent": "معاونت کا نمائندہ", "you": "آپ", "invitations": "دعوتیں", "internalNote": "اندرونی نوٹ",
     "previousStartDate": "پچھلی شروعات کی تاریخ", "newStartDate": "نئی شروعات کی تاریخ", "sentDate": "بھیجنے کی تاریخ"
 }

@@ -178,10 +178,14 @@
     "yes": "예",
     "low": "낮음", "normal": "보통", "high": "높음",
     "history": "이력",
+    "scheduled": "예정됨",
+    "inProgress": "진행 중",
+    "paused": "일시 중지됨",
+    "cancelled": "취소됨",
+    "client": "고객",
     "requested": "요청됨",
     "confirmed": "확인됨",
     "rescheduled": "일정 변경됨",
-    "cancelled": "취소됨",
     "noShow": "미방문",
     "previousEndDate": "이전 종료일",
     "newEndDate": "새 종료일",
@@ -192,6 +196,6 @@
     "sale": "판매",
     "return": "반품",
     "exchange": "교환",
-    "invitations": "초대",
+    "supportAgent": "지원 담당자", "you": "당신", "invitations": "초대", "internalNote": "내부 메모",
     "previousStartDate": "이전 시작일", "newStartDate": "새 시작일", "sentDate": "발송일"
 }

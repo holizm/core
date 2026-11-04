@@ -178,10 +178,14 @@
     "yes": "はい",
     "low": "低", "normal": "通常", "high": "高",
     "history": "履歴",
+    "scheduled": "予定済み",
+    "inProgress": "進行中",
+    "paused": "一時停止中",
+    "cancelled": "キャンセル済み",
+    "client": "顧客",
     "requested": "リクエスト済み",
     "confirmed": "確認済み",
     "rescheduled": "日程変更済み",
-    "cancelled": "キャンセル済み",
     "noShow": "無断欠席",
     "previousEndDate": "以前の終了日",
     "newEndDate": "新しい終了日",
@@ -192,6 +196,6 @@
     "sale": "販売",
     "return": "返品",
     "exchange": "交換",
-    "invitations": "招待",
+    "supportAgent": "サポート担当者", "you": "あなた", "invitations": "招待", "internalNote": "内部メモ",
     "previousStartDate": "以前の開始日", "newStartDate": "新しい開始日", "sentDate": "送信日"
 }

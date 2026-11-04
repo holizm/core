@@ -178,10 +178,14 @@
     "yes": "Evet",
     "low": "Düşük", "normal": "Normal", "high": "Yüksek",
     "history": "Geçmiş",
+    "scheduled": "Planlandı",
+    "inProgress": "Devam ediyor",
+    "paused": "Duraklatıldı",
+    "cancelled": "İptal edildi",
+    "client": "Müşteri",
     "requested": "Talep edildi",
     "confirmed": "Onaylandı",
     "rescheduled": "Yeniden planlandı",
-    "cancelled": "İptal edildi",
     "noShow": "Gelmedi",
     "previousEndDate": "Önceki bitiş tarihi",
     "newEndDate": "Yeni bitiş tarihi",
@@ -192,6 +196,6 @@
     "sale": "Satış",
     "return": "İade",
     "exchange": "Değişim",
-    "invitations": "Davetler",
+    "supportAgent": "Destek temsilcisi", "you": "Siz", "invitations": "Davetler", "internalNote": "Dahili not",
     "previousStartDate": "Önceki başlangıç tarihi", "newStartDate": "Yeni başlangıç tarihi", "sentDate": "Gönderim tarihi"
 }

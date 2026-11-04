@@ -178,10 +178,14 @@
     "yes": "نعم",
     "low": "منخفضة", "normal": "عادية", "high": "مرتفعة",
     "history": "السجل",
+    "scheduled": "مجدول",
+    "inProgress": "قيد التنفيذ",
+    "paused": "متوقف مؤقتًا",
+    "cancelled": "ملغى",
+    "client": "عميل",
     "requested": "مطلوب",
     "confirmed": "مؤكد",
     "rescheduled": "أعيدت جدولته",
-    "cancelled": "ملغى",
     "noShow": "لم يحضر",
     "previousEndDate": "تاريخ الانتهاء السابق",
     "newEndDate": "تاريخ الانتهاء الجديد",
@@ -192,6 +196,6 @@
     "sale": "بيع",
     "return": "إرجاع",
     "exchange": "استبدال",
-    "invitations": "الدعوات",
+    "supportAgent": "موظف الدعم", "you": "أنت", "invitations": "الدعوات", "internalNote": "ملاحظة داخلية",
     "previousStartDate": "تاريخ البدء السابق", "newStartDate": "تاريخ البدء الجديد", "sentDate": "تاريخ الإرسال"
 }

@@ -178,10 +178,14 @@
     "yes": "Ja",
     "low": "Lav", "normal": "Normal", "high": "Høy",
     "history": "Historikk",
+    "scheduled": "Planlagt",
+    "inProgress": "Pågår",
+    "paused": "Satt på pause",
+    "cancelled": "Avbrutt",
+    "client": "Klient",
     "requested": "Forespurt",
     "confirmed": "Bekreftet",
     "rescheduled": "Flyttet",
-    "cancelled": "Avlyst",
     "noShow": "Ikke møtt",
     "previousEndDate": "Tidligere sluttdato",
     "newEndDate": "Ny sluttdato",
@@ -192,6 +196,6 @@
     "sale": "Salg",
     "return": "Retur",
     "exchange": "Bytte",
-    "invitations": "Invitasjoner",
+    "supportAgent": "Brukerstøttemedarbeider", "you": "Deg", "invitations": "Invitasjoner", "internalNote": "Internt notat",
     "previousStartDate": "Tidligere startdato", "newStartDate": "Ny startdato", "sentDate": "Sendedato"
 }

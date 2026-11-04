@@ -178,10 +178,14 @@
     "yes": "Ano",
     "low": "Nízká", "normal": "Normální", "high": "Vysoká",
     "history": "Historie",
+    "scheduled": "Naplánováno",
+    "inProgress": "Probíhá",
+    "paused": "Pozastaveno",
+    "cancelled": "Zrušeno",
+    "client": "Klient",
     "requested": "Požadováno",
     "confirmed": "Potvrzeno",
     "rescheduled": "Přeplánováno",
-    "cancelled": "Zrušeno",
     "noShow": "Nedostavil se",
     "previousEndDate": "Předchozí datum ukončení",
     "newEndDate": "Nové datum ukončení",
@@ -192,6 +196,6 @@
     "sale": "Prodej",
     "return": "Vrácení",
     "exchange": "Výměna",
-    "invitations": "Pozvánky",
+    "supportAgent": "Pracovník podpory", "you": "Vy", "invitations": "Pozvánky", "internalNote": "Interní poznámka",
     "previousStartDate": "Předchozí datum zahájení", "newStartDate": "Nové datum zahájení", "sentDate": "Datum odeslání"
 }

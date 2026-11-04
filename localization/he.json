@@ -178,10 +178,14 @@
     "yes": "כן",
     "low": "נמוכה", "normal": "רגילה", "high": "גבוהה",
     "history": "היסטוריה",
+    "scheduled": "מתוזמן",
+    "inProgress": "בביצוע",
+    "paused": "מושהה",
+    "cancelled": "בוטל",
+    "client": "לקוח",
     "requested": "התבקש",
     "confirmed": "אושר",
     "rescheduled": "נקבע מחדש",
-    "cancelled": "בוטל",
     "noShow": "לא הגיע",
     "previousEndDate": "תאריך סיום קודם",
     "newEndDate": "תאריך סיום חדש",
@@ -192,6 +196,6 @@
     "sale": "מכירה",
     "return": "החזרה",
     "exchange": "החלפה",
-    "invitations": "הזמנות",
+    "supportAgent": "נציג תמיכה", "you": "אתם", "invitations": "הזמנות", "internalNote": "הערה פנימית",
     "previousStartDate": "תאריך התחלה קודם", "newStartDate": "תאריך התחלה חדש", "sentDate": "תאריך שליחה"
 }

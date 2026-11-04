@@ -178,10 +178,14 @@
     "yes": "Так",
     "low": "Низький", "normal": "Звичайний", "high": "Високий",
     "history": "Історія",
+    "scheduled": "Заплановано",
+    "inProgress": "У роботі",
+    "paused": "Призупинено",
+    "cancelled": "Скасовано",
+    "client": "Клієнт",
     "requested": "Запитано",
     "confirmed": "Підтверджено",
     "rescheduled": "Перенесено",
-    "cancelled": "Скасовано",
     "noShow": "Неявка",
     "previousEndDate": "Попередня дата завершення",
     "newEndDate": "Нова дата завершення",
@@ -192,6 +196,6 @@
     "sale": "Продаж",
     "return": "Повернення",
     "exchange": "Обмін",
-    "invitations": "Запрошення",
+    "supportAgent": "Працівник підтримки", "you": "Ви", "invitations": "Запрошення", "internalNote": "Внутрішня примітка",
     "previousStartDate": "Попередня дата початку", "newStartDate": "Нова дата початку", "sentDate": "Дата надсилання"
 }

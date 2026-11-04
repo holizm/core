@@ -178,10 +178,14 @@
     "yes": "Eh",
     "low": "Ƙasa", "normal": "Na al’ada", "high": "Babba",
     "history": "Tarihi",
+    "scheduled": "An tsara",
+    "inProgress": "Ana kan aiki",
+    "paused": "An dakata",
+    "cancelled": "An soke",
+    "client": "Abokin ciniki",
     "requested": "An nema",
     "confirmed": "An tabbatar",
     "rescheduled": "An sake tsara lokaci",
-    "cancelled": "An soke",
     "noShow": "Bai halarta ba",
     "previousEndDate": "Ranar ƙarewa ta baya",
     "newEndDate": "Sabuwar ranar ƙarewa",
@@ -192,6 +196,6 @@
     "sale": "Sayarwa",
     "return": "Mayarwa",
     "exchange": "Musanya",
-    "invitations": "Gayyata",
+    "supportAgent": "Wakilin tallafi", "you": "Kai", "invitations": "Gayyata", "internalNote": "Bayanin cikin gida",
     "previousStartDate": "Ranar farawa ta baya", "newStartDate": "Sabuwar ranar farawa", "sentDate": "Ranar aikawa"
 }

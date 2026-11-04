@@ -178,10 +178,14 @@
     "yes": "ಹೌದು",
     "low": "ಕಡಿಮೆ", "normal": "ಸಾಮಾನ್ಯ", "high": "ಹೆಚ್ಚು",
     "history": "ಇತಿಹಾಸ",
+    "scheduled": "ನಿಗದಿಪಡಿಸಲಾಗಿದೆ",
+    "inProgress": "ಪ್ರಗತಿಯಲ್ಲಿದೆ",
+    "paused": "ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ",
+    "cancelled": "ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
+    "client": "ಗ್ರಾಹಕ",
     "requested": "ವಿನಂತಿಸಲಾಗಿದೆ",
     "confirmed": "ದೃಢೀಕರಿಸಲಾಗಿದೆ",
     "rescheduled": "ಮರುನಿಗದಿಪಡಿಸಲಾಗಿದೆ",
-    "cancelled": "ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
     "noShow": "ಹಾಜರಾಗಿಲ್ಲ",
     "previousEndDate": "ಹಿಂದಿನ ಅಂತಿಮ ದಿನಾಂಕ",
     "newEndDate": "ಹೊಸ ಅಂತಿಮ ದಿನಾಂಕ",
@@ -192,6 +196,6 @@
     "sale": "ಮಾರಾಟ",
     "return": "ಹಿಂತಿರುಗಿಸುವಿಕೆ",
     "exchange": "ವಿನಿಮಯ",
-    "invitations": "ಆಮಂತ್ರಣಗಳು",
+    "supportAgent": "ಬೆಂಬಲ ಪ್ರತಿನಿಧಿ", "you": "ನೀವು", "invitations": "ಆಮಂತ್ರಣಗಳು", "internalNote": "ಆಂತರಿಕ ಟಿಪ್ಪಣಿ",
     "previousStartDate": "ಹಿಂದಿನ ಪ್ರಾರಂಭ ದಿನಾಂಕ", "newStartDate": "ಹೊಸ ಪ್ರಾರಂಭ ದಿನಾಂಕ", "sentDate": "ಕಳುಹಿಸಿದ ದಿನಾಂಕ"
 }

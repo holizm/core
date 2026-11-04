@@ -178,10 +178,14 @@
     "yes": "Ndiyo",
     "low": "Chini", "normal": "Kawaida", "high": "Juu",
     "history": "Historia",
+    "scheduled": "Imepangwa",
+    "inProgress": "Inaendelea",
+    "paused": "Imesitishwa kwa muda",
+    "cancelled": "Imeghairiwa",
+    "client": "Mteja",
     "requested": "Imeombwa",
     "confirmed": "Imethibitishwa",
     "rescheduled": "Imepangiwa upya",
-    "cancelled": "Imeghairiwa",
     "noShow": "Hakufika",
     "previousEndDate": "Tarehe ya mwisho ya awali",
     "newEndDate": "Tarehe mpya ya mwisho",
@@ -192,6 +196,6 @@
     "sale": "Mauzo",
     "return": "Urejeshaji",
     "exchange": "Ubadilishaji",
-    "invitations": "Mialiko",
+    "supportAgent": "Mhudumu wa usaidizi", "you": "Wewe", "invitations": "Mialiko", "internalNote": "Dokezo la ndani",
     "previousStartDate": "Tarehe ya awali ya kuanza", "newStartDate": "Tarehe mpya ya kuanza", "sentDate": "Tarehe ya kutuma"
 }

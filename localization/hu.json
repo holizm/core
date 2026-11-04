@@ -178,10 +178,14 @@
     "yes": "Igen",
     "low": "Alacsony", "normal": "Normál", "high": "Magas",
     "history": "Előzmények",
+    "scheduled": "Ütemezve",
+    "inProgress": "Folyamatban",
+    "paused": "Szüneteltetve",
+    "cancelled": "Törölve",
+    "client": "Ügyfél",
     "requested": "Kérelmezve",
     "confirmed": "Megerősítve",
     "rescheduled": "Átütemezve",
-    "cancelled": "Lemondva",
     "noShow": "Nem jelent meg",
     "previousEndDate": "Korábbi záródátum",
     "newEndDate": "Új záródátum",
@@ -192,6 +196,6 @@
     "sale": "Eladás",
     "return": "Visszáru",
     "exchange": "Csere",
-    "invitations": "Meghívók",
+    "supportAgent": "Ügyfélszolgálati munkatárs", "you": "Ön", "invitations": "Meghívók", "internalNote": "Belső megjegyzés",
     "previousStartDate": "Korábbi kezdési dátum", "newStartDate": "Új kezdési dátum", "sentDate": "Küldés dátuma"
 }

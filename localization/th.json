@@ -178,10 +178,14 @@
     "yes": "ใช่",
     "low": "ต่ำ", "normal": "ปกติ", "high": "สูง",
     "history": "ประวัติ",
+    "scheduled": "กำหนดเวลาแล้ว",
+    "inProgress": "กำลังดำเนินการ",
+    "paused": "หยุดชั่วคราว",
+    "cancelled": "ยกเลิกแล้ว",
+    "client": "ลูกค้า",
     "requested": "ร้องขอแล้ว",
     "confirmed": "ยืนยันแล้ว",
     "rescheduled": "เปลี่ยนกำหนดการแล้ว",
-    "cancelled": "ยกเลิกแล้ว",
     "noShow": "ไม่มาตามนัด",
     "previousEndDate": "วันที่สิ้นสุดเดิม",
     "newEndDate": "วันที่สิ้นสุดใหม่",
@@ -192,6 +196,6 @@
     "sale": "ขาย",
     "return": "คืนสินค้า",
     "exchange": "เปลี่ยนสินค้า",
-    "invitations": "คำเชิญ",
+    "supportAgent": "เจ้าหน้าที่ฝ่ายสนับสนุน", "you": "คุณ", "invitations": "คำเชิญ", "internalNote": "บันทึกภายใน",
     "previousStartDate": "วันที่เริ่มต้นเดิม", "newStartDate": "วันที่เริ่มต้นใหม่", "sentDate": "วันที่ส่ง"
 }

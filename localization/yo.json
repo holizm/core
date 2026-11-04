@@ -178,10 +178,14 @@
     "yes": "Bẹ́ẹ̀ni",
     "low": "Kékeré", "normal": "Déédéé", "high": "Gíga",
     "history": "Ìtàn",
+    "scheduled": "A ti ṣètò",
+    "inProgress": "Ó ń lọ lọ́wọ́",
+    "paused": "A dá dúró fún ìgbà díẹ̀",
+    "cancelled": "A ti fagilé",
+    "client": "Oníbàárà",
     "requested": "A ti béèrè",
     "confirmed": "A ti fìdí múlẹ̀",
     "rescheduled": "A ti tún àkókò ṣètò",
-    "cancelled": "A ti fagilé",
     "noShow": "Kò wá",
     "previousEndDate": "Ọjọ́ ìparí tẹ́lẹ̀",
     "newEndDate": "Ọjọ́ ìparí tuntun",
@@ -192,6 +196,6 @@
     "sale": "Títà",
     "return": "Ìdápadà",
     "exchange": "Pàṣípààrọ̀",
-    "invitations": "Ìfìwépè",
+    "supportAgent": "Aṣojú ìrànlọ́wọ́", "you": "Ìwọ", "invitations": "Ìfìwépè", "internalNote": "Àkọsílẹ̀ inú",
     "previousStartDate": "Ọjọ́ ìbẹ̀rẹ̀ tẹ́lẹ̀", "newStartDate": "Ọjọ́ ìbẹ̀rẹ̀ tuntun", "sentDate": "Ọjọ́ fífiránṣẹ́"
 }

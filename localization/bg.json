@@ -178,10 +178,14 @@
     "yes": "Да",
     "low": "Нисък", "normal": "Нормален", "high": "Висок",
     "history": "История",
+    "scheduled": "Планирано",
+    "inProgress": "В процес",
+    "paused": "На пауза",
+    "cancelled": "Отменено",
+    "client": "Клиент",
     "requested": "Заявено",
     "confirmed": "Потвърдено",
     "rescheduled": "Пренасрочено",
-    "cancelled": "Отменено",
     "noShow": "Неявяване",
     "previousEndDate": "Предишна крайна дата",
     "newEndDate": "Нова крайна дата",
@@ -192,6 +196,6 @@
     "sale": "Продажба",
     "return": "Връщане",
     "exchange": "Замяна",
-    "invitations": "Покани",
+    "supportAgent": "Служител по поддръжката", "you": "Вие", "invitations": "Покани", "internalNote": "Вътрешна бележка",
     "previousStartDate": "Предишна начална дата", "newStartDate": "Нова начална дата", "sentDate": "Дата на изпращане"
 }

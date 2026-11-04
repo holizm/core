@@ -178,10 +178,14 @@
     "yes": "Да",
     "low": "Низкий", "normal": "Обычный", "high": "Высокий",
     "history": "История",
+    "scheduled": "Запланировано",
+    "inProgress": "В работе",
+    "paused": "Приостановлено",
+    "cancelled": "Отменено",
+    "client": "Клиент",
     "requested": "Запрошено",
     "confirmed": "Подтверждено",
     "rescheduled": "Перенесено",
-    "cancelled": "Отменено",
     "noShow": "Неявка",
     "previousEndDate": "Предыдущая дата окончания",
     "newEndDate": "Новая дата окончания",
@@ -192,6 +196,6 @@
     "sale": "Продажа",
     "return": "Возврат",
     "exchange": "Обмен",
-    "invitations": "Приглашения",
+    "supportAgent": "Сотрудник поддержки", "you": "Вы", "invitations": "Приглашения", "internalNote": "Внутренняя заметка",
     "previousStartDate": "Предыдущая дата начала", "newStartDate": "Новая дата начала", "sentDate": "Дата отправки"
 }

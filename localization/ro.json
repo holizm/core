@@ -178,10 +178,14 @@
     "yes": "Da",
     "low": "Scăzută", "normal": "Normală", "high": "Ridicată",
     "history": "Istoric",
+    "scheduled": "Programat",
+    "inProgress": "În desfășurare",
+    "paused": "În pauză",
+    "cancelled": "Anulat",
+    "client": "Client",
     "requested": "Solicitat",
     "confirmed": "Confirmat",
     "rescheduled": "Reprogramat",
-    "cancelled": "Anulat",
     "noShow": "Neprezentare",
     "previousEndDate": "Data de încheiere anterioară",
     "newEndDate": "Noua dată de încheiere",
@@ -192,6 +196,6 @@
     "sale": "Vânzare",
     "return": "Retur",
     "exchange": "Schimb",
-    "invitations": "Invitații",
+    "supportAgent": "Agent de asistență", "you": "Dvs.", "invitations": "Invitații", "internalNote": "Notă internă",
     "previousStartDate": "Data de început anterioară", "newStartDate": "Noua dată de început", "sentDate": "Data trimiterii"
 }

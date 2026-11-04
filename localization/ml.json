@@ -178,10 +178,14 @@
     "yes": "അതെ",
     "low": "കുറവ്", "normal": "സാധാരണ", "high": "ഉയർന്നത്",
     "history": "ചരിത്രം",
+    "scheduled": "ഷെഡ്യൂൾ ചെയ്തത്",
+    "inProgress": "പുരോഗതിയിൽ",
+    "paused": "താൽക്കാലികമായി നിർത്തി",
+    "cancelled": "റദ്ദാക്കി",
+    "client": "ക്ലയന്റ്",
     "requested": "അഭ്യർത്ഥിച്ചു",
     "confirmed": "സ്ഥിരീകരിച്ചു",
     "rescheduled": "സമയം മാറ്റി",
-    "cancelled": "റദ്ദാക്കി",
     "noShow": "ഹാജരായില്ല",
     "previousEndDate": "മുമ്പത്തെ അവസാന തീയതി",
     "newEndDate": "പുതിയ അവസാന തീയതി",
@@ -192,6 +196,6 @@
     "sale": "വിൽപ്പന",
     "return": "തിരിച്ചുനൽകൽ",
     "exchange": "മാറ്റിവാങ്ങൽ",
-    "invitations": "ക്ഷണങ്ങൾ",
+    "supportAgent": "സഹായ പ്രതിനിധി", "you": "നിങ്ങൾ", "invitations": "ക്ഷണങ്ങൾ", "internalNote": "ആന്തരിക കുറിപ്പ്",
     "previousStartDate": "മുൻ ആരംഭ തീയതി", "newStartDate": "പുതിയ ആരംഭ തീയതി", "sentDate": "അയച്ച തീയതി"
 }

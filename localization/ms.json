@@ -178,10 +178,14 @@
     "yes": "Ya",
     "low": "Rendah", "normal": "Biasa", "high": "Tinggi",
     "history": "Sejarah",
+    "scheduled": "Dijadualkan",
+    "inProgress": "Sedang berjalan",
+    "paused": "Dijeda",
+    "cancelled": "Dibatalkan",
+    "client": "Klien",
     "requested": "Diminta",
     "confirmed": "Disahkan",
     "rescheduled": "Dijadualkan semula",
-    "cancelled": "Dibatalkan",
     "noShow": "Tidak hadir",
     "previousEndDate": "Tarikh tamat sebelumnya",
     "newEndDate": "Tarikh tamat baharu",
@@ -192,6 +196,6 @@
     "sale": "Jualan",
     "return": "Pemulangan",
     "exchange": "Pertukaran",
-    "invitations": "Jemputan",
+    "supportAgent": "Ejen sokongan", "you": "Anda", "invitations": "Jemputan", "internalNote": "Nota dalaman",
     "previousStartDate": "Tarikh mula sebelumnya", "newStartDate": "Tarikh mula baharu", "sentDate": "Tarikh dihantar"
 }
