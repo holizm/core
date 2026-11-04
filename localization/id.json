@@ -1,5 +1,5 @@
 {
-    "room": "Ruangan", "downtimeInMinutes": "Waktu henti (menit)", "cash": "Tunai", "card": "Kartu", "bankTransfer": "Transfer bank", "other": "Lainnya", "wallet": "Dompet", "underMaintenance": "Dalam pemeliharaan", "contract": "Kontrak", "contracts": "Kontrak", "totalTime": "Total waktu",
+    "vehicles": "Kendaraan", "arrivalDate": "Tanggal kedatangan", "departureDate": "Tanggal keberangkatan", "driver": "Pengemudi", "vehicle": "Kendaraan", "room": "Ruangan", "downtimeInMinutes": "Waktu henti (menit)", "cash": "Tunai", "card": "Kartu", "bankTransfer": "Transfer bank", "other": "Lainnya", "wallet": "Dompet", "underMaintenance": "Dalam pemeliharaan", "contract": "Kontrak", "contracts": "Kontrak", "totalTime": "Total waktu",
     "longest": "Terpanjang",
     "shortest": "Terpendek",
     "acceptedQuantity": "Jumlah diterima", "accountNumber": "Nomor rekening", "action": "Tindakan", "actionActor": "Pelaksana",

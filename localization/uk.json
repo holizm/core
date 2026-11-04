@@ -1,5 +1,5 @@
 {
-    "room": "Кімната", "downtimeInMinutes": "Час простою (хвилини)", "cash": "Готівка", "card": "Картка", "bankTransfer": "Банківський переказ", "other": "Інше", "wallet": "Гаманець", "underMaintenance": "На технічному обслуговуванні", "contract": "Договір", "contracts": "Договори", "totalTime": "Загальний час",
+    "vehicles": "Транспортні засоби", "arrivalDate": "Дата прибуття", "departureDate": "Дата відправлення", "driver": "Водій", "vehicle": "Транспортний засіб", "room": "Кімната", "downtimeInMinutes": "Час простою (хвилини)", "cash": "Готівка", "card": "Картка", "bankTransfer": "Банківський переказ", "other": "Інше", "wallet": "Гаманець", "underMaintenance": "На технічному обслуговуванні", "contract": "Договір", "contracts": "Договори", "totalTime": "Загальний час",
     "longest": "Найдовший",
     "shortest": "Найкоротший",
     "acceptedQuantity": "Прийнята кількість", "accountNumber": "Номер рахунку", "action": "Дія", "actionActor": "Виконавець",

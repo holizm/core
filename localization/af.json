@@ -1,5 +1,5 @@
 {
-    "room": "Kamer", "downtimeInMinutes": "Stilstandtyd (minute)", "cash": "Kontant", "card": "Kaart", "bankTransfer": "Bankoorplasing", "other": "Ander", "wallet": "Beursie", "underMaintenance": "Onder instandhouding", "contract": "Kontrak", "contracts": "Kontrakte", "totalTime": "Totale tyd",
+    "vehicles": "Voertuie", "arrivalDate": "Aankomsdatum", "departureDate": "Vertrekdatum", "driver": "Bestuurder", "vehicle": "Voertuig", "room": "Kamer", "downtimeInMinutes": "Stilstandtyd (minute)", "cash": "Kontant", "card": "Kaart", "bankTransfer": "Bankoorplasing", "other": "Ander", "wallet": "Beursie", "underMaintenance": "Onder instandhouding", "contract": "Kontrak", "contracts": "Kontrakte", "totalTime": "Totale tyd",
     "longest": "Langste",
     "shortest": "Kortste",
     "acceptedQuantity": "Aanvaarde hoeveelheid", "accountNumber": "Rekeningnommer", "action": "Aksie", "actionActor": "Uitvoerder",

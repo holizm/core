@@ -1,5 +1,5 @@
 {
-    "room": "Δωμάτιο", "downtimeInMinutes": "Χρόνος διακοπής (λεπτά)", "cash": "Μετρητά", "card": "Κάρτα", "bankTransfer": "Τραπεζική μεταφορά", "other": "Άλλο", "wallet": "Πορτοφόλι", "underMaintenance": "Υπό συντήρηση", "contract": "Σύμβαση", "contracts": "Συμβάσεις", "totalTime": "Συνολικός χρόνος",
+    "vehicles": "Οχήματα", "arrivalDate": "Ημερομηνία άφιξης", "departureDate": "Ημερομηνία αναχώρησης", "driver": "Οδηγός", "vehicle": "Όχημα", "room": "Δωμάτιο", "downtimeInMinutes": "Χρόνος διακοπής (λεπτά)", "cash": "Μετρητά", "card": "Κάρτα", "bankTransfer": "Τραπεζική μεταφορά", "other": "Άλλο", "wallet": "Πορτοφόλι", "underMaintenance": "Υπό συντήρηση", "contract": "Σύμβαση", "contracts": "Συμβάσεις", "totalTime": "Συνολικός χρόνος",
     "longest": "Μεγαλύτερη διάρκεια",
     "shortest": "Μικρότερη διάρκεια",
     "acceptedQuantity": "Αποδεκτή ποσότητα", "accountNumber": "Αριθμός λογαριασμού", "action": "Ενέργεια", "actionActor": "Εκτελών",

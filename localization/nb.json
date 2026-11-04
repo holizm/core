@@ -1,5 +1,5 @@
 {
-    "room": "Rom", "downtimeInMinutes": "Nedetid (minutter)", "cash": "Kontanter", "card": "Kort", "bankTransfer": "Bankoverføring", "other": "Annet", "wallet": "Lommebok", "underMaintenance": "Under vedlikehold", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Total tid",
+    "vehicles": "Kjøretøy", "arrivalDate": "Ankomstdato", "departureDate": "Avreisedato", "driver": "Sjåfør", "vehicle": "Kjøretøy", "room": "Rom", "downtimeInMinutes": "Nedetid (minutter)", "cash": "Kontanter", "card": "Kort", "bankTransfer": "Bankoverføring", "other": "Annet", "wallet": "Lommebok", "underMaintenance": "Under vedlikehold", "contract": "Kontrakt", "contracts": "Kontrakter", "totalTime": "Total tid",
     "longest": "Lengst",
     "shortest": "Kortest",
     "acceptedQuantity": "Godkjent antall", "accountNumber": "Kontonummer", "action": "Handling", "actionActor": "Utfører",

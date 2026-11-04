@@ -1,5 +1,5 @@
 {
-    "room": "Pomieszczenie", "downtimeInMinutes": "Czas przestoju (minuty)", "cash": "Gotówka", "card": "Karta", "bankTransfer": "Przelew bankowy", "other": "Inne", "wallet": "Portfel", "underMaintenance": "W konserwacji", "contract": "Umowa", "contracts": "Umowy", "totalTime": "Łączny czas",
+    "vehicles": "Pojazdy", "arrivalDate": "Data przyjazdu", "departureDate": "Data wyjazdu", "driver": "Kierowca", "vehicle": "Pojazd", "room": "Pomieszczenie", "downtimeInMinutes": "Czas przestoju (minuty)", "cash": "Gotówka", "card": "Karta", "bankTransfer": "Przelew bankowy", "other": "Inne", "wallet": "Portfel", "underMaintenance": "W konserwacji", "contract": "Umowa", "contracts": "Umowy", "totalTime": "Łączny czas",
     "longest": "Najdłuższy",
     "shortest": "Najkrótszy",
     "acceptedQuantity": "Zaakceptowana ilość", "accountNumber": "Numer rachunku", "action": "Działanie", "actionActor": "Wykonawca",

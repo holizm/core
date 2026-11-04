@@ -1,5 +1,5 @@
 {
-    "room": "Silid", "downtimeInMinutes": "Tagal ng paghinto (minuto)", "cash": "Cash", "card": "Card", "bankTransfer": "Bank transfer", "other": "Iba pa", "wallet": "Wallet", "underMaintenance": "Kasalukuyang minementena", "contract": "Kontrata", "contracts": "Mga kontrata", "totalTime": "Kabuuang oras",
+    "vehicles": "Mga sasakyan", "arrivalDate": "Petsa ng pagdating", "departureDate": "Petsa ng pag-alis", "driver": "Drayber", "vehicle": "Sasakyan", "room": "Silid", "downtimeInMinutes": "Tagal ng paghinto (minuto)", "cash": "Cash", "card": "Card", "bankTransfer": "Bank transfer", "other": "Iba pa", "wallet": "Wallet", "underMaintenance": "Kasalukuyang minementena", "contract": "Kontrata", "contracts": "Mga kontrata", "totalTime": "Kabuuang oras",
     "longest": "Pinakamatagal",
     "shortest": "Pinakamaikli",
     "acceptedQuantity": "Tinanggap na dami", "accountNumber": "Numero ng account", "action": "Aksyon", "actionActor": "Gumaganap",

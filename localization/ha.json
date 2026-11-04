@@ -1,5 +1,5 @@
 {
-    "room": "Ɗaki", "downtimeInMinutes": "Lokacin tsayawa (mintuna)", "cash": "Kuɗin hannu", "card": "Kati", "bankTransfer": "Canja wurin kuɗi ta banki", "other": "Sauran", "wallet": "Jaka", "underMaintenance": "Ana aikin kulawa", "contract": "Kwangila", "contracts": "Kwangiloli", "totalTime": "Jimillar lokaci",
+    "vehicles": "Ababen hawa", "arrivalDate": "Ranar isowa", "departureDate": "Ranar tashi", "driver": "Direba", "vehicle": "Abin hawa", "room": "Ɗaki", "downtimeInMinutes": "Lokacin tsayawa (mintuna)", "cash": "Kuɗin hannu", "card": "Kati", "bankTransfer": "Canja wurin kuɗi ta banki", "other": "Sauran", "wallet": "Jaka", "underMaintenance": "Ana aikin kulawa", "contract": "Kwangila", "contracts": "Kwangiloli", "totalTime": "Jimillar lokaci",
     "longest": "Mafi tsawo",
     "shortest": "Mafi gajarta",
     "acceptedQuantity": "Adadin da aka amince", "accountNumber": "Lambar asusu", "action": "Aiki", "actionActor": "Mai aiwatarwa",

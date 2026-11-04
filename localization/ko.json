@@ -1,5 +1,5 @@
 {
-    "room": "방", "downtimeInMinutes": "중단 시간(분)", "cash": "현금", "card": "카드", "bankTransfer": "계좌 이체", "other": "기타", "wallet": "지갑", "underMaintenance": "유지보수 중", "contract": "계약", "contracts": "계약 목록", "totalTime": "총 시간",
+    "vehicles": "차량 목록", "arrivalDate": "도착일", "departureDate": "출발일", "driver": "운전자", "vehicle": "차량", "room": "방", "downtimeInMinutes": "중단 시간(분)", "cash": "현금", "card": "카드", "bankTransfer": "계좌 이체", "other": "기타", "wallet": "지갑", "underMaintenance": "유지보수 중", "contract": "계약", "contracts": "계약 목록", "totalTime": "총 시간",
     "longest": "가장 긴 시간",
     "shortest": "가장 짧은 시간",
     "acceptedQuantity": "승인 수량", "accountNumber": "계좌 번호", "action": "작업", "actionActor": "처리자",

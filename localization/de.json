@@ -1,5 +1,5 @@
 {
-    "room": "Raum", "downtimeInMinutes": "Ausfallzeit (Minuten)", "cash": "Bargeld", "card": "Karte", "bankTransfer": "Banküberweisung", "other": "Andere", "wallet": "Wallet", "underMaintenance": "In Wartung", "contract": "Vertrag", "contracts": "Verträge", "totalTime": "Gesamtzeit",
+    "vehicles": "Fahrzeuge", "arrivalDate": "Ankunftsdatum", "departureDate": "Abfahrtsdatum", "driver": "Fahrer", "vehicle": "Fahrzeug", "room": "Raum", "downtimeInMinutes": "Ausfallzeit (Minuten)", "cash": "Bargeld", "card": "Karte", "bankTransfer": "Banküberweisung", "other": "Andere", "wallet": "Wallet", "underMaintenance": "In Wartung", "contract": "Vertrag", "contracts": "Verträge", "totalTime": "Gesamtzeit",
     "longest": "Längste",
     "shortest": "Kürzeste",
     "acceptedQuantity": "Akzeptierte Menge", "accountNumber": "Accountnummer", "action": "Aktion", "actionActor": "Ausführender",

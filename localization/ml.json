@@ -1,5 +1,5 @@
 {
-    "room": "മുറി", "downtimeInMinutes": "പ്രവർത്തനം നിലച്ച സമയം (മിനിറ്റ്)", "cash": "പണം", "card": "കാർഡ്", "bankTransfer": "ബാങ്ക് കൈമാറ്റം", "other": "മറ്റുള്ളവ", "wallet": "വാലറ്റ്", "underMaintenance": "അറ്റകുറ്റപ്പണിയിലാണ്", "contract": "കരാർ", "contracts": "കരാറുകൾ", "totalTime": "ആകെ സമയം",
+    "vehicles": "വാഹനങ്ങൾ", "arrivalDate": "എത്തിച്ചേരുന്ന തീയതി", "departureDate": "പുറപ്പെടുന്ന തീയതി", "driver": "ഡ്രൈവർ", "vehicle": "വാഹനം", "room": "മുറി", "downtimeInMinutes": "പ്രവർത്തനം നിലച്ച സമയം (മിനിറ്റ്)", "cash": "പണം", "card": "കാർഡ്", "bankTransfer": "ബാങ്ക് കൈമാറ്റം", "other": "മറ്റുള്ളവ", "wallet": "വാലറ്റ്", "underMaintenance": "അറ്റകുറ്റപ്പണിയിലാണ്", "contract": "കരാർ", "contracts": "കരാറുകൾ", "totalTime": "ആകെ സമയം",
     "longest": "ഏറ്റവും ദൈർഘ്യമേറിയത്",
     "shortest": "ഏറ്റവും കുറഞ്ഞത്",
     "acceptedQuantity": "സ്വീകരിച്ച അളവ്", "accountNumber": "അക്കൗണ്ട് നമ്പർ", "action": "നടപടി", "actionActor": "നടപടിയെടുത്തയാൾ",

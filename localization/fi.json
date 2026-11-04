@@ -1,5 +1,5 @@
 {
-    "room": "Huone", "downtimeInMinutes": "Seisokkiaika (minuuttia)", "cash": "Käteinen", "card": "Kortti", "bankTransfer": "Pankkisiirto", "other": "Muu", "wallet": "Lompakko", "underMaintenance": "Huollossa", "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
+    "vehicles": "Ajoneuvot", "arrivalDate": "Saapumispäivä", "departureDate": "Lähtöpäivä", "driver": "Kuljettaja", "vehicle": "Ajoneuvo", "room": "Huone", "downtimeInMinutes": "Seisokkiaika (minuuttia)", "cash": "Käteinen", "card": "Kortti", "bankTransfer": "Pankkisiirto", "other": "Muu", "wallet": "Lompakko", "underMaintenance": "Huollossa", "contract": "Sopimus", "contracts": "Sopimukset", "totalTime": "Kokonaisaika",
     "longest": "Pisin",
     "shortest": "Lyhin",
     "acceptedQuantity": "Hyväksytty määrä", "accountNumber": "Tilinumero", "action": "Toiminto", "actionActor": "Toimija",

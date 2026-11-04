@@ -1,5 +1,5 @@
 {
-    "room": "அறை", "downtimeInMinutes": "செயல்நிறுத்த நேரம் (நிமிடங்கள்)", "cash": "ரொக்கம்", "card": "அட்டை", "bankTransfer": "வங்கிப் பரிமாற்றம்", "other": "மற்றவை", "wallet": "பணப்பை", "underMaintenance": "பராமரிப்பில் உள்ளது", "contract": "ஒப்பந்தம்", "contracts": "ஒப்பந்தங்கள்", "totalTime": "மொத்த நேரம்",
+    "vehicles": "வாகனங்கள்", "arrivalDate": "வருகைத் தேதி", "departureDate": "புறப்படும் தேதி", "driver": "ஓட்டுநர்", "vehicle": "வாகனம்", "room": "அறை", "downtimeInMinutes": "செயல்நிறுத்த நேரம் (நிமிடங்கள்)", "cash": "ரொக்கம்", "card": "அட்டை", "bankTransfer": "வங்கிப் பரிமாற்றம்", "other": "மற்றவை", "wallet": "பணப்பை", "underMaintenance": "பராமரிப்பில் உள்ளது", "contract": "ஒப்பந்தம்", "contracts": "ஒப்பந்தங்கள்", "totalTime": "மொத்த நேரம்",
     "longest": "மிக நீண்டது",
     "shortest": "மிகக் குறுகியது",
     "acceptedQuantity": "ஏற்கப்பட்ட அளவு", "accountNumber": "கணக்கு எண்", "action": "செயல்", "actionActor": "செயல்படுத்துபவர்",
