@@ -1,5 +1,5 @@
 {
-    "cash": "Kontanter", "card": "Kort", "bankTransfer": "Banköverföring", "other": "Annat", "wallet": "Plånbok", "underMaintenance": "Under underhåll", "contract": "Avtal", "contracts": "Avtal", "totalTime": "Total tid",
+    "downtimeInMinutes": "Stilleståndstid (minuter)", "cash": "Kontanter", "card": "Kort", "bankTransfer": "Banköverföring", "other": "Annat", "wallet": "Plånbok", "underMaintenance": "Under underhåll", "contract": "Avtal", "contracts": "Avtal", "totalTime": "Total tid",
     "longest": "Längst",
     "shortest": "Kortast",
     "acceptedQuantity": "Godkänd kvantitet", "accountNumber": "Kontonummer", "action": "Åtgärd", "actionActor": "Utförare",

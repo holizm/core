@@ -1,5 +1,5 @@
 {
-    "cash": "Готівка", "card": "Картка", "bankTransfer": "Банківський переказ", "other": "Інше", "wallet": "Гаманець", "underMaintenance": "На технічному обслуговуванні", "contract": "Договір", "contracts": "Договори", "totalTime": "Загальний час",
+    "downtimeInMinutes": "Час простою (хвилини)", "cash": "Готівка", "card": "Картка", "bankTransfer": "Банківський переказ", "other": "Інше", "wallet": "Гаманець", "underMaintenance": "На технічному обслуговуванні", "contract": "Договір", "contracts": "Договори", "totalTime": "Загальний час",
     "longest": "Найдовший",
     "shortest": "Найкоротший",
     "acceptedQuantity": "Прийнята кількість", "accountNumber": "Номер рахунку", "action": "Дія", "actionActor": "Виконавець",

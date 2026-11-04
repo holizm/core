@@ -1,5 +1,5 @@
 {
-    "cash": "מזומן", "card": "כרטיס", "bankTransfer": "העברה בנקאית", "other": "אחר", "wallet": "ארנק", "underMaintenance": "בתחזוקה", "contract": "חוזה", "contracts": "חוזים", "totalTime": "זמן כולל",
+    "downtimeInMinutes": "זמן השבתה (דקות)", "cash": "מזומן", "card": "כרטיס", "bankTransfer": "העברה בנקאית", "other": "אחר", "wallet": "ארנק", "underMaintenance": "בתחזוקה", "contract": "חוזה", "contracts": "חוזים", "totalTime": "זמן כולל",
     "longest": "הארוך ביותר",
     "shortest": "הקצר ביותר",
     "acceptedQuantity": "כמות שאושרה", "accountNumber": "מספר חשבון", "action": "פעולה", "actionActor": "מבצע הפעולה",

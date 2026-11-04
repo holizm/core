@@ -1,5 +1,5 @@
 {
-    "cash": "Contanti", "card": "Carta", "bankTransfer": "Bonifico bancario", "other": "Altro", "wallet": "Portafoglio", "underMaintenance": "In manutenzione", "contract": "Contratto", "contracts": "Contratti", "totalTime": "Tempo totale",
+    "downtimeInMinutes": "Tempo di fermo (minuti)", "cash": "Contanti", "card": "Carta", "bankTransfer": "Bonifico bancario", "other": "Altro", "wallet": "Portafoglio", "underMaintenance": "In manutenzione", "contract": "Contratto", "contracts": "Contratti", "totalTime": "Tempo totale",
     "longest": "Più lungo",
     "shortest": "Più breve",
     "acceptedQuantity": "Quantità accettata", "accountNumber": "Numero di conto", "action": "Azione", "actionActor": "Esecutore",

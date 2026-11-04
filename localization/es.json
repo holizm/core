@@ -1,5 +1,5 @@
 {
-    "cash": "Efectivo", "card": "Tarjeta", "bankTransfer": "Transferencia bancaria", "other": "Otro", "wallet": "Billetera", "underMaintenance": "En mantenimiento", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tiempo total",
+    "downtimeInMinutes": "Tiempo de inactividad (minutos)", "cash": "Efectivo", "card": "Tarjeta", "bankTransfer": "Transferencia bancaria", "other": "Otro", "wallet": "Billetera", "underMaintenance": "En mantenimiento", "contract": "Contrato", "contracts": "Contratos", "totalTime": "Tiempo total",
     "longest": "Más largo",
     "shortest": "Más corto",
     "acceptedQuantity": "Cantidad aceptada", "accountNumber": "Número de cuenta", "action": "Acción", "actionActor": "Ejecutor",

@@ -1,5 +1,5 @@
 {
-    "cash": "Nakit", "card": "Kart", "bankTransfer": "Banka havalesi", "other": "Diğer", "wallet": "Cüzdan", "underMaintenance": "Bakımda", "contract": "Sözleşme", "contracts": "Sözleşmeler", "totalTime": "Toplam süre",
+    "downtimeInMinutes": "Duruş süresi (dakika)", "cash": "Nakit", "card": "Kart", "bankTransfer": "Banka havalesi", "other": "Diğer", "wallet": "Cüzdan", "underMaintenance": "Bakımda", "contract": "Sözleşme", "contracts": "Sözleşmeler", "totalTime": "Toplam süre",
     "longest": "En uzun",
     "shortest": "En kısa",
     "acceptedQuantity": "Kabul edilen miktar", "accountNumber": "Hesap numarası", "action": "Eylem", "actionActor": "İşlemi yapan",

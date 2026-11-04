@@ -1,5 +1,5 @@
 {
-    "cash": "เงินสด", "card": "บัตร", "bankTransfer": "โอนเงินผ่านธนาคาร", "other": "อื่น ๆ", "wallet": "กระเป๋าเงิน", "underMaintenance": "อยู่ระหว่างการบำรุงรักษา", "contract": "สัญญา", "contracts": "รายการสัญญา", "totalTime": "เวลารวม",
+    "downtimeInMinutes": "ระยะเวลาหยุดทำงาน (นาที)", "cash": "เงินสด", "card": "บัตร", "bankTransfer": "โอนเงินผ่านธนาคาร", "other": "อื่น ๆ", "wallet": "กระเป๋าเงิน", "underMaintenance": "อยู่ระหว่างการบำรุงรักษา", "contract": "สัญญา", "contracts": "รายการสัญญา", "totalTime": "เวลารวม",
     "longest": "นานที่สุด",
     "shortest": "สั้นที่สุด",
     "acceptedQuantity": "จำนวนที่รับรอง", "accountNumber": "หมายเลขบัญชี", "action": "การดำเนินการ", "actionActor": "ผู้ดำเนินการ",
