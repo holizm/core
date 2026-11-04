@@ -184,5 +184,12 @@
     "cancelled": "An soke",
     "noShow": "Bai halarta ba",
     "previousEndDate": "Ranar ƙarewa ta baya",
-    "newEndDate": "Sabuwar ranar ƙarewa"
+    "newEndDate": "Sabuwar ranar ƙarewa",
+    "open": "A buɗe",
+    "closing": "Ana rufewa",
+    "pending": "Ana jira",
+    "voided": "An soke",
+    "sale": "Sayarwa",
+    "return": "Mayarwa",
+    "exchange": "Musanya"
 }

@@ -184,5 +184,12 @@
     "cancelled": "Otkazano",
     "noShow": "Nedolazak",
     "previousEndDate": "Prethodni datum završetka",
-    "newEndDate": "Novi datum završetka"
+    "newEndDate": "Novi datum završetka",
+    "open": "Otvoreno",
+    "closing": "Zatvaranje u tijeku",
+    "pending": "Na čekanju",
+    "voided": "Poništeno",
+    "sale": "Prodaja",
+    "return": "Povrat",
+    "exchange": "Zamjena"
 }

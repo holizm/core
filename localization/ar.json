@@ -184,5 +184,12 @@
     "cancelled": "ملغى",
     "noShow": "لم يحضر",
     "previousEndDate": "تاريخ الانتهاء السابق",
-    "newEndDate": "تاريخ الانتهاء الجديد"
+    "newEndDate": "تاريخ الانتهاء الجديد",
+    "open": "مفتوح",
+    "closing": "جارٍ الإغلاق",
+    "pending": "قيد الانتظار",
+    "voided": "مُبطل",
+    "sale": "بيع",
+    "return": "إرجاع",
+    "exchange": "استبدال"
 }

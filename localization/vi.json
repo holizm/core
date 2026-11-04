@@ -184,5 +184,12 @@
     "cancelled": "Đã hủy",
     "noShow": "Không đến",
     "previousEndDate": "Ngày kết thúc trước đó",
-    "newEndDate": "Ngày kết thúc mới"
+    "newEndDate": "Ngày kết thúc mới",
+    "open": "Đang mở",
+    "closing": "Đang đóng",
+    "pending": "Đang chờ",
+    "voided": "Đã hủy hiệu lực",
+    "sale": "Bán hàng",
+    "return": "Trả hàng",
+    "exchange": "Đổi hàng"
 }

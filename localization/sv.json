@@ -184,5 +184,12 @@
     "cancelled": "Avbokat",
     "noShow": "Uteblivet besök",
     "previousEndDate": "Tidigare slutdatum",
-    "newEndDate": "Nytt slutdatum"
+    "newEndDate": "Nytt slutdatum",
+    "open": "Öppen",
+    "closing": "Stängs",
+    "pending": "Väntande",
+    "voided": "Makulerad",
+    "sale": "Försäljning",
+    "return": "Retur",
+    "exchange": "Byte"
 }

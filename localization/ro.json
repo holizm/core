@@ -184,5 +184,12 @@
     "cancelled": "Anulat",
     "noShow": "Neprezentare",
     "previousEndDate": "Data de încheiere anterioară",
-    "newEndDate": "Noua dată de încheiere"
+    "newEndDate": "Noua dată de încheiere",
+    "open": "Deschis",
+    "closing": "În curs de închidere",
+    "pending": "În așteptare",
+    "voided": "Anulat",
+    "sale": "Vânzare",
+    "return": "Retur",
+    "exchange": "Schimb"
 }

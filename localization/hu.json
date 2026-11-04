@@ -184,5 +184,12 @@
     "cancelled": "Lemondva",
     "noShow": "Nem jelent meg",
     "previousEndDate": "Korábbi záródátum",
-    "newEndDate": "Új záródátum"
+    "newEndDate": "Új záródátum",
+    "open": "Nyitva",
+    "closing": "Zárás folyamatban",
+    "pending": "Függőben",
+    "voided": "Érvénytelenítve",
+    "sale": "Eladás",
+    "return": "Visszáru",
+    "exchange": "Csere"
 }

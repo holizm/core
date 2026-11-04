@@ -184,5 +184,12 @@
     "cancelled": "Cancelled",
     "noShow": "No-show",
     "previousEndDate": "Previous end date",
-    "newEndDate": "New end date"
+    "newEndDate": "New end date",
+    "open": "Open",
+    "closing": "Closing",
+    "pending": "Pending",
+    "voided": "Voided",
+    "sale": "Sale",
+    "return": "Return",
+    "exchange": "Exchange"
 }

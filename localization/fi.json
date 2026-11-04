@@ -184,5 +184,12 @@
     "cancelled": "Peruttu",
     "noShow": "Ei saapunut",
     "previousEndDate": "Edellinen päättymispäivä",
-    "newEndDate": "Uusi päättymispäivä"
+    "newEndDate": "Uusi päättymispäivä",
+    "open": "Avoin",
+    "closing": "Suljetaan",
+    "pending": "Odottaa",
+    "voided": "Mitätöity",
+    "sale": "Myynti",
+    "return": "Palautus",
+    "exchange": "Vaihto"
 }

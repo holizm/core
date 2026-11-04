@@ -184,5 +184,12 @@
     "cancelled": "취소됨",
     "noShow": "미방문",
     "previousEndDate": "이전 종료일",
-    "newEndDate": "새 종료일"
+    "newEndDate": "새 종료일",
+    "open": "열림",
+    "closing": "마감 중",
+    "pending": "대기 중",
+    "voided": "무효 처리됨",
+    "sale": "판매",
+    "return": "반품",
+    "exchange": "교환"
 }

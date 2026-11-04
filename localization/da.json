@@ -184,5 +184,12 @@
     "cancelled": "Annulleret",
     "noShow": "Udeblevet",
     "previousEndDate": "Tidligere slutdato",
-    "newEndDate": "Ny slutdato"
+    "newEndDate": "Ny slutdato",
+    "open": "Åben",
+    "closing": "Lukker",
+    "pending": "Afventer",
+    "voided": "Annulleret",
+    "sale": "Salg",
+    "return": "Returnering",
+    "exchange": "Ombytning"
 }

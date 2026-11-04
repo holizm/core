@@ -184,5 +184,12 @@
     "cancelled": "Zrušeno",
     "noShow": "Nedostavil se",
     "previousEndDate": "Předchozí datum ukončení",
-    "newEndDate": "Nové datum ukončení"
+    "newEndDate": "Nové datum ukončení",
+    "open": "Otevřeno",
+    "closing": "Probíhá uzavírání",
+    "pending": "Čeká na vyřízení",
+    "voided": "Stornováno",
+    "sale": "Prodej",
+    "return": "Vrácení",
+    "exchange": "Výměna"
 }

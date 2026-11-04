@@ -184,5 +184,12 @@
     "cancelled": "Imeghairiwa",
     "noShow": "Hakufika",
     "previousEndDate": "Tarehe ya mwisho ya awali",
-    "newEndDate": "Tarehe mpya ya mwisho"
+    "newEndDate": "Tarehe mpya ya mwisho",
+    "open": "Wazi",
+    "closing": "Inafungwa",
+    "pending": "Inasubiri",
+    "voided": "Imebatilishwa",
+    "sale": "Mauzo",
+    "return": "Urejeshaji",
+    "exchange": "Ubadilishaji"
 }

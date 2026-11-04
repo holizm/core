@@ -184,5 +184,12 @@
     "cancelled": "בוטל",
     "noShow": "לא הגיע",
     "previousEndDate": "תאריך סיום קודם",
-    "newEndDate": "תאריך סיום חדש"
+    "newEndDate": "תאריך סיום חדש",
+    "open": "פתוח",
+    "closing": "בתהליך סגירה",
+    "pending": "ממתין",
+    "voided": "בוטל",
+    "sale": "מכירה",
+    "return": "החזרה",
+    "exchange": "החלפה"
 }

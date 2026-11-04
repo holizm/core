@@ -184,5 +184,12 @@
     "cancelled": "キャンセル済み",
     "noShow": "無断欠席",
     "previousEndDate": "以前の終了日",
-    "newEndDate": "新しい終了日"
+    "newEndDate": "新しい終了日",
+    "open": "開始済み",
+    "closing": "締め処理中",
+    "pending": "保留中",
+    "voided": "無効化済み",
+    "sale": "販売",
+    "return": "返品",
+    "exchange": "交換"
 }

@@ -184,5 +184,12 @@
     "cancelled": "Avlyst",
     "noShow": "Ikke møtt",
     "previousEndDate": "Tidligere sluttdato",
-    "newEndDate": "Ny sluttdato"
+    "newEndDate": "Ny sluttdato",
+    "open": "Åpen",
+    "closing": "Lukkes",
+    "pending": "Avventer",
+    "voided": "Annullert",
+    "sale": "Salg",
+    "return": "Retur",
+    "exchange": "Bytte"
 }

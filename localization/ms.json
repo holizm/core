@@ -184,5 +184,12 @@
     "cancelled": "Dibatalkan",
     "noShow": "Tidak hadir",
     "previousEndDate": "Tarikh tamat sebelumnya",
-    "newEndDate": "Tarikh tamat baharu"
+    "newEndDate": "Tarikh tamat baharu",
+    "open": "Terbuka",
+    "closing": "Sedang ditutup",
+    "pending": "Menunggu",
+    "voided": "Dibatalkan",
+    "sale": "Jualan",
+    "return": "Pemulangan",
+    "exchange": "Pertukaran"
 }

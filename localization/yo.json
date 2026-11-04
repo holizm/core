@@ -184,5 +184,12 @@
     "cancelled": "A ti fagilé",
     "noShow": "Kò wá",
     "previousEndDate": "Ọjọ́ ìparí tẹ́lẹ̀",
-    "newEndDate": "Ọjọ́ ìparí tuntun"
+    "newEndDate": "Ọjọ́ ìparí tuntun",
+    "open": "Ṣí sílẹ̀",
+    "closing": "Ń pa dé",
+    "pending": "Ń dúró",
+    "voided": "Ti sọ di aláìnílò",
+    "sale": "Títà",
+    "return": "Ìdápadà",
+    "exchange": "Pàṣípààrọ̀"
 }

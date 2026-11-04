@@ -184,5 +184,12 @@
     "cancelled": "বাতিল",
     "noShow": "উপস্থিত হননি",
     "previousEndDate": "আগের শেষ তারিখ",
-    "newEndDate": "নতুন শেষ তারিখ"
+    "newEndDate": "নতুন শেষ তারিখ",
+    "open": "খোলা",
+    "closing": "বন্ধ হচ্ছে",
+    "pending": "অপেক্ষমাণ",
+    "voided": "বাতিল করা হয়েছে",
+    "sale": "বিক্রয়",
+    "return": "ফেরত",
+    "exchange": "বিনিময়"
 }

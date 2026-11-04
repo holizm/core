@@ -184,5 +184,12 @@
     "cancelled": "रद्द",
     "noShow": "अनुपस्थित",
     "previousEndDate": "मागील समाप्ती तारीख",
-    "newEndDate": "नवीन समाप्ती तारीख"
+    "newEndDate": "नवीन समाप्ती तारीख",
+    "open": "उघडे",
+    "closing": "बंद होत आहे",
+    "pending": "प्रलंबित",
+    "voided": "रद्द केलेले",
+    "sale": "विक्री",
+    "return": "परतावा",
+    "exchange": "अदलाबदल"
 }

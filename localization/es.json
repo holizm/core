@@ -184,5 +184,12 @@
     "cancelled": "Cancelado",
     "noShow": "No se presentó",
     "previousEndDate": "Fecha de finalización anterior",
-    "newEndDate": "Nueva fecha de finalización"
+    "newEndDate": "Nueva fecha de finalización",
+    "open": "Abierto",
+    "closing": "Cerrando",
+    "pending": "Pendiente",
+    "voided": "Anulado",
+    "sale": "Venta",
+    "return": "Devolución",
+    "exchange": "Cambio"
 }

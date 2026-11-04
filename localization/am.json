@@ -184,5 +184,12 @@
     "cancelled": "ተሰርዟል",
     "noShow": "አልተገኘም",
     "previousEndDate": "የቀድሞ ማብቂያ ቀን",
-    "newEndDate": "አዲስ ማብቂያ ቀን"
+    "newEndDate": "አዲስ ማብቂያ ቀን",
+    "open": "ክፍት",
+    "closing": "በመዝጋት ላይ",
+    "pending": "በመጠባበቅ ላይ",
+    "voided": "ውድቅ የተደረገ",
+    "sale": "ሽያጭ",
+    "return": "መመለስ",
+    "exchange": "መለዋወጥ"
 }

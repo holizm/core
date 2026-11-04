@@ -184,5 +184,12 @@
     "cancelled": "لغوشده",
     "noShow": "عدم حضور",
     "previousEndDate": "تاریخ پایان قبلی",
-    "newEndDate": "تاریخ پایان جدید"
+    "newEndDate": "تاریخ پایان جدید",
+    "open": "باز",
+    "closing": "در حال بستن",
+    "pending": "در انتظار",
+    "voided": "باطل‌شده",
+    "sale": "فروش",
+    "return": "مرجوعی",
+    "exchange": "تعویض"
 }

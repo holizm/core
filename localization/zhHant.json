@@ -184,5 +184,12 @@
     "cancelled": "已取消",
     "noShow": "未到場",
     "previousEndDate": "原結束日期",
-    "newEndDate": "新結束日期"
+    "newEndDate": "新結束日期",
+    "open": "已開啟",
+    "closing": "正在關閉",
+    "pending": "待處理",
+    "voided": "已作廢",
+    "sale": "銷售",
+    "return": "退貨",
+    "exchange": "換貨"
 }

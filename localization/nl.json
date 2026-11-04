@@ -184,5 +184,12 @@
     "cancelled": "Geannuleerd",
     "noShow": "Niet verschenen",
     "previousEndDate": "Vorige einddatum",
-    "newEndDate": "Nieuwe einddatum"
+    "newEndDate": "Nieuwe einddatum",
+    "open": "Open",
+    "closing": "Wordt gesloten",
+    "pending": "In afwachting",
+    "voided": "Ongeldig verklaard",
+    "sale": "Verkoop",
+    "return": "Retour",
+    "exchange": "Omruiling"
 }

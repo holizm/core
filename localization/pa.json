@@ -184,5 +184,12 @@
     "cancelled": "ਰੱਦ",
     "noShow": "ਗੈਰਹਾਜ਼ਰ",
     "previousEndDate": "ਪਿਛਲੀ ਸਮਾਪਤੀ ਮਿਤੀ",
-    "newEndDate": "ਨਵੀਂ ਸਮਾਪਤੀ ਮਿਤੀ"
+    "newEndDate": "ਨਵੀਂ ਸਮਾਪਤੀ ਮਿਤੀ",
+    "open": "ਖੁੱਲ੍ਹਾ",
+    "closing": "ਬੰਦ ਹੋ ਰਿਹਾ ਹੈ",
+    "pending": "ਬਕਾਇਆ",
+    "voided": "ਰੱਦ ਕੀਤਾ ਗਿਆ",
+    "sale": "ਵਿਕਰੀ",
+    "return": "ਵਾਪਸੀ",
+    "exchange": "ਬਦਲੀ"
 }

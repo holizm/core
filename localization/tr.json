@@ -184,5 +184,12 @@
     "cancelled": "İptal edildi",
     "noShow": "Gelmedi",
     "previousEndDate": "Önceki bitiş tarihi",
-    "newEndDate": "Yeni bitiş tarihi"
+    "newEndDate": "Yeni bitiş tarihi",
+    "open": "Açık",
+    "closing": "Kapanıyor",
+    "pending": "Beklemede",
+    "voided": "Geçersiz kılındı",
+    "sale": "Satış",
+    "return": "İade",
+    "exchange": "Değişim"
 }

@@ -184,5 +184,12 @@
     "cancelled": "منسوخ",
     "noShow": "غیر حاضر",
     "previousEndDate": "پچھلی اختتامی تاریخ",
-    "newEndDate": "نئی اختتامی تاریخ"
+    "newEndDate": "نئی اختتامی تاریخ",
+    "open": "کھلا",
+    "closing": "بند ہو رہا ہے",
+    "pending": "زیر التوا",
+    "voided": "کالعدم",
+    "sale": "فروخت",
+    "return": "واپسی",
+    "exchange": "تبادلہ"
 }

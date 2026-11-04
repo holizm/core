@@ -184,5 +184,12 @@
     "cancelled": "Kinansela",
     "noShow": "Hindi dumalo",
     "previousEndDate": "Dating petsa ng pagtatapos",
-    "newEndDate": "Bagong petsa ng pagtatapos"
+    "newEndDate": "Bagong petsa ng pagtatapos",
+    "open": "Bukas",
+    "closing": "Isinasara",
+    "pending": "Nakabinbin",
+    "voided": "Pinawalang-bisa",
+    "sale": "Benta",
+    "return": "Pagsasauli",
+    "exchange": "Pagpapalit"
 }
