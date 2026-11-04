@@ -182,5 +182,7 @@
     "confirmed": "Підтверджено",
     "rescheduled": "Перенесено",
     "cancelled": "Скасовано",
-    "noShow": "Неявка"
+    "noShow": "Неявка",
+    "previousEndDate": "Попередня дата завершення",
+    "newEndDate": "Нова дата завершення"
 }

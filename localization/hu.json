@@ -182,5 +182,7 @@
     "confirmed": "Megerősítve",
     "rescheduled": "Átütemezve",
     "cancelled": "Lemondva",
-    "noShow": "Nem jelent meg"
+    "noShow": "Nem jelent meg",
+    "previousEndDate": "Korábbi záródátum",
+    "newEndDate": "Új záródátum"
 }

@@ -182,5 +182,7 @@
     "confirmed": "Bekreftet",
     "rescheduled": "Flyttet",
     "cancelled": "Avlyst",
-    "noShow": "Ikke møtt"
+    "noShow": "Ikke møtt",
+    "previousEndDate": "Tidligere sluttdato",
+    "newEndDate": "Ny sluttdato"
 }

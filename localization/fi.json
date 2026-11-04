@@ -182,5 +182,7 @@
     "confirmed": "Vahvistettu",
     "rescheduled": "Siirretty",
     "cancelled": "Peruttu",
-    "noShow": "Ei saapunut"
+    "noShow": "Ei saapunut",
+    "previousEndDate": "Edellinen päättymispäivä",
+    "newEndDate": "Uusi päättymispäivä"
 }

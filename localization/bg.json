@@ -182,5 +182,7 @@
     "confirmed": "Потвърдено",
     "rescheduled": "Пренасрочено",
     "cancelled": "Отменено",
-    "noShow": "Неявяване"
+    "noShow": "Неявяване",
+    "previousEndDate": "Предишна крайна дата",
+    "newEndDate": "Нова крайна дата"
 }

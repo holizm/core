@@ -182,5 +182,7 @@
     "confirmed": "تأییدشده",
     "rescheduled": "زمان‌بندی مجددشده",
     "cancelled": "لغوشده",
-    "noShow": "عدم حضور"
+    "noShow": "عدم حضور",
+    "previousEndDate": "تاریخ پایان قبلی",
+    "newEndDate": "تاریخ پایان جدید"
 }

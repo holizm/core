@@ -182,5 +182,7 @@
     "confirmed": "ተረጋግጧል",
     "rescheduled": "እንደገና ተይዟል",
     "cancelled": "ተሰርዟል",
-    "noShow": "አልተገኘም"
+    "noShow": "አልተገኘም",
+    "previousEndDate": "የቀድሞ ማብቂያ ቀን",
+    "newEndDate": "አዲስ ማብቂያ ቀን"
 }

@@ -182,5 +182,7 @@
     "confirmed": "確認済み",
     "rescheduled": "日程変更済み",
     "cancelled": "キャンセル済み",
-    "noShow": "無断欠席"
+    "noShow": "無断欠席",
+    "previousEndDate": "以前の終了日",
+    "newEndDate": "新しい終了日"
 }

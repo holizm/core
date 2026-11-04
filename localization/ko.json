@@ -182,5 +182,7 @@
     "confirmed": "확인됨",
     "rescheduled": "일정 변경됨",
     "cancelled": "취소됨",
-    "noShow": "미방문"
+    "noShow": "미방문",
+    "previousEndDate": "이전 종료일",
+    "newEndDate": "새 종료일"
 }

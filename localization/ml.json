@@ -182,5 +182,7 @@
     "confirmed": "സ്ഥിരീകരിച്ചു",
     "rescheduled": "സമയം മാറ്റി",
     "cancelled": "റദ്ദാക്കി",
-    "noShow": "ഹാജരായില്ല"
+    "noShow": "ഹാജരായില്ല",
+    "previousEndDate": "മുമ്പത്തെ അവസാന തീയതി",
+    "newEndDate": "പുതിയ അവസാന തീയതി"
 }

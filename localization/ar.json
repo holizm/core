@@ -182,5 +182,7 @@
     "confirmed": "مؤكد",
     "rescheduled": "أعيدت جدولته",
     "cancelled": "ملغى",
-    "noShow": "لم يحضر"
+    "noShow": "لم يحضر",
+    "previousEndDate": "تاريخ الانتهاء السابق",
+    "newEndDate": "تاريخ الانتهاء الجديد"
 }

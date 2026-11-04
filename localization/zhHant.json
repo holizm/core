@@ -182,5 +182,7 @@
     "confirmed": "已確認",
     "rescheduled": "已改期",
     "cancelled": "已取消",
-    "noShow": "未到場"
+    "noShow": "未到場",
+    "previousEndDate": "原結束日期",
+    "newEndDate": "新結束日期"
 }

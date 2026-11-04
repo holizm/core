@@ -182,5 +182,7 @@
     "confirmed": "Bevestig",
     "rescheduled": "Herskeduleer",
     "cancelled": "Gekanselleer",
-    "noShow": "Nie opgedaag nie"
+    "noShow": "Nie opgedaag nie",
+    "previousEndDate": "Vorige einddatum",
+    "newEndDate": "Nuwe einddatum"
 }

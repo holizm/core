@@ -182,5 +182,7 @@
     "confirmed": "Potvrđeno",
     "rescheduled": "Promijenjen termin",
     "cancelled": "Otkazano",
-    "noShow": "Nedolazak"
+    "noShow": "Nedolazak",
+    "previousEndDate": "Prethodni datum završetka",
+    "newEndDate": "Novi datum završetka"
 }

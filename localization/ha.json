@@ -182,5 +182,7 @@
     "confirmed": "An tabbatar",
     "rescheduled": "An sake tsara lokaci",
     "cancelled": "An soke",
-    "noShow": "Bai halarta ba"
+    "noShow": "Bai halarta ba",
+    "previousEndDate": "Ranar ƙarewa ta baya",
+    "newEndDate": "Sabuwar ranar ƙarewa"
 }

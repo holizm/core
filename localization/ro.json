@@ -182,5 +182,7 @@
     "confirmed": "Confirmat",
     "rescheduled": "Reprogramat",
     "cancelled": "Anulat",
-    "noShow": "Neprezentare"
+    "noShow": "Neprezentare",
+    "previousEndDate": "Data de încheiere anterioară",
+    "newEndDate": "Noua dată de încheiere"
 }

@@ -182,5 +182,7 @@
     "confirmed": "Dikonfirmasi",
     "rescheduled": "Dijadwalkan ulang",
     "cancelled": "Dibatalkan",
-    "noShow": "Tidak hadir"
+    "noShow": "Tidak hadir",
+    "previousEndDate": "Tanggal akhir sebelumnya",
+    "newEndDate": "Tanggal akhir baru"
 }

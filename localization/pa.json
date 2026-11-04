@@ -182,5 +182,7 @@
     "confirmed": "ਪੁਸ਼ਟੀ ਕੀਤੀ",
     "rescheduled": "ਮੁੜ ਨਿਰਧਾਰਤ",
     "cancelled": "ਰੱਦ",
-    "noShow": "ਗੈਰਹਾਜ਼ਰ"
+    "noShow": "ਗੈਰਹਾਜ਼ਰ",
+    "previousEndDate": "ਪਿਛਲੀ ਸਮਾਪਤੀ ਮਿਤੀ",
+    "newEndDate": "ਨਵੀਂ ਸਮਾਪਤੀ ਮਿਤੀ"
 }

@@ -182,5 +182,7 @@
     "confirmed": "पुष्टि की गई",
     "rescheduled": "पुनर्निर्धारित",
     "cancelled": "रद्द",
-    "noShow": "अनुपस्थित"
+    "noShow": "अनुपस्थित",
+    "previousEndDate": "पिछली समाप्ति तिथि",
+    "newEndDate": "नई समाप्ति तिथि"
 }

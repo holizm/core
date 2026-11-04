@@ -182,5 +182,7 @@
     "confirmed": "A ti fìdí múlẹ̀",
     "rescheduled": "A ti tún àkókò ṣètò",
     "cancelled": "A ti fagilé",
-    "noShow": "Kò wá"
+    "noShow": "Kò wá",
+    "previousEndDate": "Ọjọ́ ìparí tẹ́lẹ̀",
+    "newEndDate": "Ọjọ́ ìparí tuntun"
 }

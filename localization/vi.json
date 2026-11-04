@@ -182,5 +182,7 @@
     "confirmed": "Đã xác nhận",
     "rescheduled": "Đã đổi lịch",
     "cancelled": "Đã hủy",
-    "noShow": "Không đến"
+    "noShow": "Không đến",
+    "previousEndDate": "Ngày kết thúc trước đó",
+    "newEndDate": "Ngày kết thúc mới"
 }

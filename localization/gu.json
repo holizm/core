@@ -182,5 +182,7 @@
     "confirmed": "પુષ્ટિ કરેલી",
     "rescheduled": "ફરીથી સુનિશ્ચિત કરેલી",
     "cancelled": "રદ કરેલી",
-    "noShow": "ગેરહાજર"
+    "noShow": "ગેરહાજર",
+    "previousEndDate": "અગાઉની સમાપ્તિ તારીખ",
+    "newEndDate": "નવી સમાપ્તિ તારીખ"
 }

@@ -182,5 +182,7 @@
     "confirmed": "Onaylandı",
     "rescheduled": "Yeniden planlandı",
     "cancelled": "İptal edildi",
-    "noShow": "Gelmedi"
+    "noShow": "Gelmedi",
+    "previousEndDate": "Önceki bitiş tarihi",
+    "newEndDate": "Yeni bitiş tarihi"
 }

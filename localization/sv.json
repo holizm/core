@@ -182,5 +182,7 @@
     "confirmed": "Bekräftat",
     "rescheduled": "Ombokat",
     "cancelled": "Avbokat",
-    "noShow": "Uteblivet besök"
+    "noShow": "Uteblivet besök",
+    "previousEndDate": "Tidigare slutdatum",
+    "newEndDate": "Nytt slutdatum"
 }

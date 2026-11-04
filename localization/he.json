@@ -182,5 +182,7 @@
     "confirmed": "אושר",
     "rescheduled": "נקבע מחדש",
     "cancelled": "בוטל",
-    "noShow": "לא הגיע"
+    "noShow": "לא הגיע",
+    "previousEndDate": "תאריך סיום קודם",
+    "newEndDate": "תאריך סיום חדש"
 }

@@ -182,5 +182,7 @@
     "confirmed": "Bekræftet",
     "rescheduled": "Ombooket",
     "cancelled": "Annulleret",
-    "noShow": "Udeblevet"
+    "noShow": "Udeblevet",
+    "previousEndDate": "Tidligere slutdato",
+    "newEndDate": "Ny slutdato"
 }

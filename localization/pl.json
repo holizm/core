@@ -182,5 +182,7 @@
     "confirmed": "Potwierdzono",
     "rescheduled": "Przełożono",
     "cancelled": "Anulowano",
-    "noShow": "Nieobecność"
+    "noShow": "Nieobecność",
+    "previousEndDate": "Poprzednia data zakończenia",
+    "newEndDate": "Nowa data zakończenia"
 }

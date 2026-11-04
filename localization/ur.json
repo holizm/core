@@ -182,5 +182,7 @@
     "confirmed": "تصدیق شدہ",
     "rescheduled": "دوبارہ مقرر کردہ",
     "cancelled": "منسوخ",
-    "noShow": "غیر حاضر"
+    "noShow": "غیر حاضر",
+    "previousEndDate": "پچھلی اختتامی تاریخ",
+    "newEndDate": "نئی اختتامی تاریخ"
 }

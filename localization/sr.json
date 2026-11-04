@@ -182,5 +182,7 @@
     "confirmed": "Потврђено",
     "rescheduled": "Померен термин",
     "cancelled": "Отказано",
-    "noShow": "Недолазак"
+    "noShow": "Недолазак",
+    "previousEndDate": "Претходни датум завршетка",
+    "newEndDate": "Нови датум завршетка"
 }

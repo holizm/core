@@ -182,5 +182,7 @@
     "confirmed": "Nakumpirma",
     "rescheduled": "Muling itinakda",
     "cancelled": "Kinansela",
-    "noShow": "Hindi dumalo"
+    "noShow": "Hindi dumalo",
+    "previousEndDate": "Dating petsa ng pagtatapos",
+    "newEndDate": "Bagong petsa ng pagtatapos"
 }

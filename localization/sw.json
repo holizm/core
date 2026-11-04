@@ -182,5 +182,7 @@
     "confirmed": "Imethibitishwa",
     "rescheduled": "Imepangiwa upya",
     "cancelled": "Imeghairiwa",
-    "noShow": "Hakufika"
+    "noShow": "Hakufika",
+    "previousEndDate": "Tarehe ya mwisho ya awali",
+    "newEndDate": "Tarehe mpya ya mwisho"
 }

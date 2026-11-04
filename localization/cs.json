@@ -182,5 +182,7 @@
     "confirmed": "Potvrzeno",
     "rescheduled": "Přeplánováno",
     "cancelled": "Zrušeno",
-    "noShow": "Nedostavil se"
+    "noShow": "Nedostavil se",
+    "previousEndDate": "Předchozí datum ukončení",
+    "newEndDate": "Nové datum ukončení"
 }
