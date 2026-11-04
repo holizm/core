@@ -196,6 +196,5 @@
     "sale": "Sayarwa",
     "return": "Mayarwa",
     "exchange": "Musanya",
-    "supportAgent": "Wakilin tallafi", "you": "Kai", "invitations": "Gayyata", "internalNote": "Bayanin cikin gida",
-    "previousStartDate": "Ranar farawa ta baya", "newStartDate": "Sabuwar ranar farawa", "sentDate": "Ranar aikawa"
+    "supportAgent": "Wakilin tallafi", "you": "Kai", "invitations": "Gayyata", "internalNote": "Bayanin cikin gida", "previousStartDate": "Ranar farawa ta baya", "newStartDate": "Sabuwar ranar farawa", "sentDate": "Ranar aikawa", "expectedDate": "Ranar da ake sa ran samu", "submitted": "An miƙa", "approved": "An amince", "rejected": "An ƙi", "ordered": "An yi oda", "accepted": "An karɓa", "expired": "Ya ƙare", "issued": "An fitar", "partiallyReceived": "An samu wani ɓangare", "received": "An karɓa"
 }

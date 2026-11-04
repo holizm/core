@@ -196,6 +196,5 @@
     "sale": "Prodej",
     "return": "Vrácení",
     "exchange": "Výměna",
-    "supportAgent": "Pracovník podpory", "you": "Vy", "invitations": "Pozvánky", "internalNote": "Interní poznámka",
-    "previousStartDate": "Předchozí datum zahájení", "newStartDate": "Nové datum zahájení", "sentDate": "Datum odeslání"
+    "supportAgent": "Pracovník podpory", "you": "Vy", "invitations": "Pozvánky", "internalNote": "Interní poznámka", "previousStartDate": "Předchozí datum zahájení", "newStartDate": "Nové datum zahájení", "sentDate": "Datum odeslání", "expectedDate": "Očekávané datum", "submitted": "Odesláno", "approved": "Schváleno", "rejected": "Zamítnuto", "ordered": "Objednáno", "accepted": "Přijato", "expired": "Platnost vypršela", "issued": "Vydáno", "partiallyReceived": "Částečně přijato", "received": "Přijato"
 }

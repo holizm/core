@@ -196,6 +196,5 @@
     "sale": "विक्री",
     "return": "परतावा",
     "exchange": "अदलाबदल",
-    "supportAgent": "सहाय्य प्रतिनिधी", "you": "तुम्ही", "invitations": "आमंत्रणे", "internalNote": "अंतर्गत नोंद",
-    "previousStartDate": "मागील प्रारंभ तारीख", "newStartDate": "नवीन प्रारंभ तारीख", "sentDate": "पाठविल्याची तारीख"
+    "supportAgent": "सहाय्य प्रतिनिधी", "you": "तुम्ही", "invitations": "आमंत्रणे", "internalNote": "अंतर्गत नोंद", "previousStartDate": "मागील प्रारंभ तारीख", "newStartDate": "नवीन प्रारंभ तारीख", "sentDate": "पाठविल्याची तारीख", "expectedDate": "अपेक्षित तारीख", "submitted": "सादर केले", "approved": "मंजूर", "rejected": "नाकारले", "ordered": "ऑर्डर केले", "accepted": "स्वीकारले", "expired": "मुदत संपली", "issued": "जारी केले", "partiallyReceived": "अंशतः प्राप्त झाले", "received": "प्राप्त झाले"
 }

@@ -196,6 +196,5 @@
     "sale": "વેચાણ",
     "return": "પરત",
     "exchange": "બદલી",
-    "supportAgent": "સહાય પ્રતિનિધિ", "you": "તમે", "invitations": "આમંત્રણો", "internalNote": "આંતરિક નોંધ",
-    "previousStartDate": "અગાઉની શરૂઆતની તારીખ", "newStartDate": "નવી શરૂઆતની તારીખ", "sentDate": "મોકલ્યાની તારીખ"
+    "supportAgent": "સહાય પ્રતિનિધિ", "you": "તમે", "invitations": "આમંત્રણો", "internalNote": "આંતરિક નોંધ", "previousStartDate": "અગાઉની શરૂઆતની તારીખ", "newStartDate": "નવી શરૂઆતની તારીખ", "sentDate": "મોકલ્યાની તારીખ", "expectedDate": "અપેક્ષિત તારીખ", "submitted": "સબમિટ કરેલું", "approved": "મંજૂર", "rejected": "નકારેલું", "ordered": "ઓર્ડર કરેલું", "accepted": "સ્વીકારેલું", "expired": "મુદત પૂરી થયેલી", "issued": "જારી કરેલું", "partiallyReceived": "આંશિક રીતે પ્રાપ્ત", "received": "પ્રાપ્ત થયું"
 }

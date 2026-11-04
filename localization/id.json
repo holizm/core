@@ -196,6 +196,5 @@
     "sale": "Penjualan",
     "return": "Pengembalian",
     "exchange": "Penukaran",
-    "supportAgent": "Petugas dukungan", "you": "Anda", "invitations": "Undangan", "internalNote": "Catatan internal",
-    "previousStartDate": "Tanggal mulai sebelumnya", "newStartDate": "Tanggal mulai baru", "sentDate": "Tanggal pengiriman"
+    "supportAgent": "Petugas dukungan", "you": "Anda", "invitations": "Undangan", "internalNote": "Catatan internal", "previousStartDate": "Tanggal mulai sebelumnya", "newStartDate": "Tanggal mulai baru", "sentDate": "Tanggal pengiriman", "expectedDate": "Tanggal yang diharapkan", "submitted": "Diajukan", "approved": "Disetujui", "rejected": "Ditolak", "ordered": "Dipesan", "accepted": "Diterima", "expired": "Kedaluwarsa", "issued": "Diterbitkan", "partiallyReceived": "Diterima sebagian", "received": "Diterima"
 }

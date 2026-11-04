@@ -196,6 +196,5 @@
     "sale": "Satış",
     "return": "İade",
     "exchange": "Değişim",
-    "supportAgent": "Destek temsilcisi", "you": "Siz", "invitations": "Davetler", "internalNote": "Dahili not",
-    "previousStartDate": "Önceki başlangıç tarihi", "newStartDate": "Yeni başlangıç tarihi", "sentDate": "Gönderim tarihi"
+    "supportAgent": "Destek temsilcisi", "you": "Siz", "invitations": "Davetler", "internalNote": "Dahili not", "previousStartDate": "Önceki başlangıç tarihi", "newStartDate": "Yeni başlangıç tarihi", "sentDate": "Gönderim tarihi", "expectedDate": "Beklenen tarih", "submitted": "Gönderildi", "approved": "Onaylandı", "rejected": "Reddedildi", "ordered": "Sipariş verildi", "accepted": "Kabul edildi", "expired": "Süresi doldu", "issued": "Düzenlendi", "partiallyReceived": "Kısmen alındı", "received": "Alındı"
 }

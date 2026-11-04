@@ -196,6 +196,5 @@
     "sale": "Vente",
     "return": "Retour",
     "exchange": "Échange",
-    "supportAgent": "Agent d’assistance", "you": "Vous", "invitations": "Invitations", "internalNote": "Note interne",
-    "previousStartDate": "Date de début précédente", "newStartDate": "Nouvelle date de début", "sentDate": "Date d’envoi"
+    "supportAgent": "Agent d’assistance", "you": "Vous", "invitations": "Invitations", "internalNote": "Note interne", "previousStartDate": "Date de début précédente", "newStartDate": "Nouvelle date de début", "sentDate": "Date d’envoi", "expectedDate": "Date prévue", "submitted": "Soumis", "approved": "Approuvé", "rejected": "Rejeté", "ordered": "Commandé", "accepted": "Accepté", "expired": "Expiré", "issued": "Émis", "partiallyReceived": "Partiellement reçu", "received": "Reçu"
 }

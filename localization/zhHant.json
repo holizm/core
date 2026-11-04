@@ -196,6 +196,5 @@
     "sale": "銷售",
     "return": "退貨",
     "exchange": "換貨",
-    "supportAgent": "客服人員", "you": "您", "invitations": "邀請", "internalNote": "內部備註",
-    "previousStartDate": "原開始日期", "newStartDate": "新開始日期", "sentDate": "傳送日期"
+    "supportAgent": "客服人員", "you": "您", "invitations": "邀請", "internalNote": "內部備註", "previousStartDate": "原開始日期", "newStartDate": "新開始日期", "sentDate": "傳送日期", "expectedDate": "預計日期", "submitted": "已提交", "approved": "已核准", "rejected": "已拒絕", "ordered": "已訂購", "accepted": "已接受", "expired": "已過期", "issued": "已簽發", "partiallyReceived": "部分已收貨", "received": "已接收"
 }

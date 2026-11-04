@@ -196,6 +196,5 @@
     "sale": "Verkoop",
     "return": "Terugsending",
     "exchange": "Omruiling",
-    "supportAgent": "Ondersteuningsagent", "you": "Jy", "invitations": "Uitnodigings", "internalNote": "Interne nota",
-    "previousStartDate": "Vorige begindatum", "newStartDate": "Nuwe begindatum", "sentDate": "Versenddatum"
+    "supportAgent": "Ondersteuningsagent", "you": "Jy", "invitations": "Uitnodigings", "internalNote": "Interne nota", "previousStartDate": "Vorige begindatum", "newStartDate": "Nuwe begindatum", "sentDate": "Versenddatum", "expectedDate": "Verwagte datum", "submitted": "Ingedien", "approved": "Goedgekeur", "rejected": "Afgekeur", "ordered": "Bestel", "accepted": "Aanvaar", "expired": "Verval", "issued": "Uitgereik", "partiallyReceived": "Gedeeltelik ontvang", "received": "Ontvang"
 }

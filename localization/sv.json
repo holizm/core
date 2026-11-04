@@ -196,6 +196,5 @@
     "sale": "Försäljning",
     "return": "Retur",
     "exchange": "Byte",
-    "supportAgent": "Supportmedarbetare", "you": "Du", "invitations": "Inbjudningar", "internalNote": "Intern anteckning",
-    "previousStartDate": "Tidigare startdatum", "newStartDate": "Nytt startdatum", "sentDate": "Sändningsdatum"
+    "supportAgent": "Supportmedarbetare", "you": "Du", "invitations": "Inbjudningar", "internalNote": "Intern anteckning", "previousStartDate": "Tidigare startdatum", "newStartDate": "Nytt startdatum", "sentDate": "Sändningsdatum", "expectedDate": "Förväntat datum", "submitted": "Inskickat", "approved": "Godkänt", "rejected": "Avvisat", "ordered": "Beställt", "accepted": "Accepterat", "expired": "Utgånget", "issued": "Utfärdat", "partiallyReceived": "Delvis mottaget", "received": "Mottaget"
 }
