@@ -52,7 +52,9 @@ runSetupStep() {
     local output
     output=$(mktemp)
     if ( set -e; "$@" ) >"$output" 2>&1; then
-        rg '^Disabled ' "$output" || true
+        if command -v rg >/dev/null 2>&1; then
+            rg '^Disabled ' "$output" || true
+        fi
         rm -f "$output"
         success "$label $checkMark"
         return 0

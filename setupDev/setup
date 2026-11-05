@@ -3,16 +3,22 @@ set -euo pipefail
 
 . "$scripts/installer.sh"
 
+runSetupStep rg install rg ripgrep
+
 runSetupStep configureApt "$setupDev/configureApt"
 runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
 
-runSetupStep astCstWatcher "$setupDev/astCstWatcher"
-
-runSetupStep protectSecrets "$setupDev/protectSecrets"
-
 runSetupStep curl install curl
 runSetupStep jq install jq
-runSetupStep rg install rg ripgrep
+runSetupStep chrome "$setupDev/chrome"
+runSetupStep git "$setupDev/git"
+runSetupStep gh "$setupDev/gh"
+runSetupStep generateSshKey "$setupDev/generateSshKey"
+runSetupStep configureGit "$setupDev/configureGit"
+runSetupStep configureGitHub "$setupDev/configureGitHub"
+
+runSetupStep astCstWatcher "$setupDev/astCstWatcher"
+runSetupStep protectSecrets "$setupDev/protectSecrets"
 runSetupStep nmap install nmap
 runSetupStep cloc install cloc
 runSetupStep parallel install parallel
@@ -29,9 +35,6 @@ runSetupStep zip install zip
 runSetupStep http install http httpie
 runSetupStep pip install pip python3-pip
 
-runSetupStep git "$setupDev/git"
-runSetupStep gh "$setupDev/gh"
-runSetupStep chrome "$setupDev/chrome"
 runSetupStep vsCode "$setupDev/vsCode"
 # $setupDev/spellChecker
 runSetupStep speedTest "$setupDev/speedTest"
@@ -78,9 +81,6 @@ runSetupStep preventMultipleWorkspaces "$setupDev/preventMultipleWorkspaces"
 runSetupStep disableAutomaticScreenLock "$setupDev/disableAutomaticScreenLock"
 runSetupStep setCalculatorThousandsSeparator "$setupDev/setCalculatorThousandsSeparator"
 runSetupStep setTimeZone "$setupDev/setTimeZone"
-runSetupStep generateSshKey "$setupDev/generateSshKey"
-runSetupStep configureGitHub "$setupDev/configureGitHub"
-runSetupStep configureGit "$setupDev/configureGit"
 runSetupStep enableDnd "$setupDev/enableDnd"
 runSetupStep configureDockerForUser "$setupDev/configureDockerForUser"
 runSetupStep setInstallationDate "$setupDev/setInstallationDate"
