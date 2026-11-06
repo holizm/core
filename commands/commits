@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+scriptDirectory=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)
+source "$scriptDirectory/locales/commits.en.sh"
+
+if [[ $# == 1 && ( $1 == --help || $1 == -h ) ]]; then
+    printf '%s\n' "${messages[help]}"
+    exit 0
+fi
+if [[ $# -gt 1 || ( $# == 1 && ! $1 =~ ^[1-9][0-9]*$ ) ]]; then
+    printf '%s\n' "${messages[usage]}" >&2
+    exit 1
+fi
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    printf '%s\n' "${messages[repository]}" >&2
+    exit 1
+fi
+if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+    printf '%s\n' "${messages[empty]}"
+    exit 0
+fi
+arguments=()
+if [[ $# == 1 ]]; then
+    arguments+=("--max-count=$1")
+fi
+export LESS="${LESS:-R}"
+exec git --paginate log "${arguments[@]}" --date=short --format=medium \
+    --stat --patch --diff-merges=first-parent --no-ext-diff --no-textconv --
