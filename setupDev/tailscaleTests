@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/tailscale
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/scripts" "$testDirectory/bin" "$testDirectory/temp"
+cat > "$testDirectory/scripts/installer.sh" <<'SCRIPT'
+install() {
+    [[ ${SKIP_INSTALL:-} == true ]] || "$2"
+}
+SCRIPT
+cat > "$testDirectory/bin/curl" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ $1 == -fsSL && $2 == https://tailscale.com/install.sh && $3 == -o ]] || exit 1
+[[ ${FAIL_DOWNLOAD:-} != true ]] || exit 22
+printf '%s\n' 'printf installed > "$INSTALL_MARKER"' > "$4"
+SCRIPT
+cat > "$testDirectory/bin/sudo" <<'SCRIPT'
+#!/usr/bin/env bash
+"$@"
+SCRIPT
+chmod +x "$testDirectory/bin/"*
+export scripts="$testDirectory/scripts" TMPDIR="$testDirectory/temp" INSTALL_MARKER="$testDirectory/installed"
+export PATH="$testDirectory/bin:$PATH"
+bash "$sourcePath"
+[[ $(cat "$INSTALL_MARKER") == installed ]]
+[[ -z $(ls -A "$TMPDIR") ]]
+rm "$INSTALL_MARKER"
+SKIP_INSTALL=true bash "$sourcePath"
+[[ ! -e $INSTALL_MARKER ]]
+if FAIL_DOWNLOAD=true bash "$sourcePath"; then exit 1; fi
+[[ ! -e $INSTALL_MARKER && -z $(ls -A "$TMPDIR") ]]

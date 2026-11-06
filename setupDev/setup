@@ -13,6 +13,7 @@ runSetupStep jq install jq
 runSetupStep chrome "$setupDev/chrome"
 runSetupStep git "$setupDev/git"
 runSetupStep gh "$setupDev/gh"
+runSetupStep tailscale "$setupDev/tailscale"
 runSetupStep generateSshKey "$setupDev/generateSshKey"
 runSetupStep configureGit "$setupDev/configureGit"
 runSetupStep configureGitHub "$setupDev/configureGitHub"
@@ -36,9 +37,7 @@ runSetupStep http install http httpie
 runSetupStep pip install pip python3-pip
 
 runSetupStep vsCode "$setupDev/vsCode"
-# $setupDev/spellChecker
 runSetupStep speedTest "$setupDev/speedTest"
-# $setupDev/remoteContainers
 
 runSetupStep docker "$setupDev/docker"
 runSetupStep platformStartup "$setupDev/platformStartup"
@@ -58,13 +57,6 @@ runSetupStep compass "$setupDev/compass"
 runSetupStep beyondCompare "$setupDev/beyondCompare"
 runSetupStep safeEyes "$setupDev/safeEyes"
 
-# $setupDev/dnsmasq
-# $setupDev/stretchly
-# $setupDev/warpCli
-# $setupDev/bashCompletion
-# bash "$(dirname "$0")/npmPackages"
-# bash "$(dirname "$0")/adsPower"
-# bash "$(dirname "$0")/astrill"
 
 runSetupStep giveAccessToRoot "$setupDev/giveAccessToRoot"
 runSetupStep addPersianInputSource "$setupDev/addPersianInputSource"
