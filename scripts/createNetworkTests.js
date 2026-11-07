@@ -16,7 +16,8 @@ case "$1 $2" in
     'network create') printf '%s' "$*" > '${calls}' ;;
     'network inspect') printf 'currentNetwork' ;;
     'ps -aq') printf 'container' ;;
-    'inspect container') printf '%s' '[{"Id":"container","NetworkSettings":{"Networks":{"shopNetwork":{"NetworkID":"oldNetwork","Aliases":["cacheServer"]}}}}]' ;;
+    'inspect --format') printf '%s' '{"Id":"container","NetworkSettings":{"Networks":{"shopNetwork":{"NetworkID":"oldNetwork","Aliases":["cacheServer"]}}}}' ;;
+    'inspect container') head -c 2097152 /dev/zero | tr '\\0' x ;;
     'network disconnect') printf '%s\\n' "$*" >> '${directory}/repairs' ;;
     'network connect') printf '%s\\n' "$*" >> '${directory}/repairs' ;;
 esac

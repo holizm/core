@@ -19,9 +19,11 @@ export default params => {
     if (!containerIds) {
         return
     }
-    const containers = JSON.parse(runOnTerminal(`docker inspect ${containerIds.split('\n').join(' ')}`, {
+    const format = '{"Id":{{json .Id}},"NetworkSettings":{"Networks":{{json .NetworkSettings.Networks}}}}'
+    const containers = runOnTerminal(`docker inspect --format '${format}' ${containerIds.split('\n').join(' ')}`, {
+        splitLines: true,
         throwOnError: true,
-    }))
+    }).map(line => JSON.parse(line))
     for (const container of containers) {
         const network = container.NetworkSettings?.Networks?.[networkName]
         if (!network || network.NetworkID === networkId) {
