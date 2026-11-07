@@ -7,6 +7,9 @@ trap 'rm -rf -- "$testDirectory"' EXIT
 cat > "$testDirectory/installer.sh" <<'SCRIPT'
 setupFailures=0
 runSetupStep() {
+    if [[ $1 == archive ]]; then
+        [[ $2 == install && $3 == 7z && $4 == 7zip ]] || exit 1
+    fi
     if [[ $1 == configureGitHub || $1 == compass ]]; then
         [[ $2 == --interactive && $3 == "$setupDev/$1" ]] || exit 1
     elif [[ ${2:-} == --interactive ]]; then
@@ -22,3 +25,4 @@ mapfile -t steps < "$testDirectory/steps"
 [[ ${steps[3]} == curl ]]
 [[ $(rg -c '^removeProblematicSources$' "$testDirectory/steps") == 1 ]]
 [[ $(rg -c '^compass$' "$testDirectory/steps") == 1 ]]
+[[ $(rg -c '^archive$' "$testDirectory/steps") == 1 ]]

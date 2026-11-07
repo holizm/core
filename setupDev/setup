@@ -33,6 +33,7 @@ runSetupStep sshd install sshd openssh-server
 runSetupStep telnet install telnet
 runSetupStep unzip install unzip
 runSetupStep zip install zip
+runSetupStep archive install 7z 7zip
 runSetupStep http install http httpie
 runSetupStep pip install pip python3-pip
 
