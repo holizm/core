@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+if [[ ${1:-} == --help && $# == 1 ]]; then
+    printf 'Usage: decompress\nExtract ZIP and 7z files in the current directory; prompt for passwords when needed.\n'
+    exit 0
+fi
+if (( $# > 0 )); then
+    printf 'Usage: decompress\n' >&2
+    exit 1
+fi
+if ! command -v 7z >/dev/null 2>&1; then
+    printf 'Install 7zip through setup before using this command.\n' >&2
+    exit 1
+fi
+
+shopt -s dotglob nocaseglob nullglob
+found=false
+failed=false
+for archivePath in ./*.zip ./*.7z; do
+    [[ -f "$archivePath" ]] || continue
+    found=true
+    if ! 7z x -mmt="$(nproc)" -- "$archivePath"; then
+        failed=true
+    fi
+done
+if [[ "$found" == false ]]; then
+    printf 'No ZIP or 7z files found in the current directory.\n' >&2
+    exit 1
+fi
+[[ "$failed" == false ]]

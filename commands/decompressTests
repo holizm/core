@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+commandPath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/decompress
+testDirectory=$(mktemp -d /tmp/decompressTestsXXXXXXXX)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/source" "$testDirectory/plain" "$testDirectory/protected" "$testDirectory/empty"
+printf 'Archive test content\n' > "$testDirectory/source/item"
+cd "$testDirectory/empty"
+"$commandPath" --help | rg -q 'Usage: decompress'
+if "$commandPath" > "$testDirectory/emptyLog" 2>&1; then exit 1; fi
+rg -q 'No ZIP or 7z files found' "$testDirectory/emptyLog"
+if "$commandPath" unexpected > "$testDirectory/usageLog" 2>&1; then exit 1; fi
+cd "$testDirectory/source"
+7z a -tzip "$testDirectory/plain/file with spaces.ZIP" item > "$testDirectory/createLog"
+7z a -t7z "$testDirectory/plain/.hidden.7Z" item >> "$testDirectory/createLog"
+mv item otherItem
+7z a -tzip "$testDirectory/plain/-leading.zip" otherItem >> "$testDirectory/createLog"
+mkdir "$testDirectory/plain/directory.zip" "$testDirectory/plain/nested"
+printf 'Invalid archive\n' > "$testDirectory/plain/nested/ignored.zip"
+cd "$testDirectory/plain"
+printf 'n\n' | "$commandPath" > "$testDirectory/plainLog" 2>&1
+cmp item "$testDirectory/source/otherItem"
+cmp otherItem "$testDirectory/source/otherItem"
+mv -- .hidden.7Z ./-leading.zip "$testDirectory/source/"
+printf 'Keep existing content\n' > item
+printf 'n\n' | "$commandPath" > "$testDirectory/repeatLog" 2>&1
+[[ $(cat item) == 'Keep existing content' ]]
+for format in 7z zip; do
+    for encryption in plain encrypted; do
+        directory="$testDirectory/protected/$format$encryption"
+        mkdir "$directory"
+        cd "$testDirectory/source"
+        arguments=(-t"$format" -pTestPasswordOnly9!)
+        if [[ "$format" == 7z && "$encryption" == encrypted ]]; then arguments+=(-mhe=on); fi
+        if [[ "$format" == zip && "$encryption" == encrypted ]]; then arguments+=(-mem=AES256); fi
+        7z a "${arguments[@]}" "$directory/archive.$format" otherItem >> "$testDirectory/createLog"
+        cd "$directory"
+        if printf 'IncorrectPassword\nIncorrectPassword\n' | "$commandPath" > "$testDirectory/wrongLog" 2>&1; then exit 1; fi
+        rm -f otherItem
+        printf 'TestPasswordOnly9!\n' | "$commandPath" > "$testDirectory/protectedLog" 2>&1
+        cmp otherItem "$testDirectory/source/otherItem"
+    done
+done
+cd "$testDirectory/empty"
+printf 'Invalid archive\n' > broken.7z
+cp "$testDirectory/source/-leading.zip" working.zip
+if "$commandPath" > "$testDirectory/failureLog" 2>&1; then exit 1; fi
+cmp otherItem "$testDirectory/source/otherItem"
+printf 'decompress tests passed\n'
