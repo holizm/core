@@ -6,7 +6,6 @@ set -euo pipefail
 runSetupStep rg install rg ripgrep
 
 runSetupStep configureApt "$setupDev/configureApt"
-runSetupStep removeSources "$setupDev/removeSources"
 runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
 
 runSetupStep curl install curl

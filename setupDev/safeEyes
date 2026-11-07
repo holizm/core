@@ -4,7 +4,7 @@ set -euo pipefail
 . "$scripts/installer.sh"
 
 installSafeEyes() {
-    trap '"$setupDev/removeSources"' EXIT
+    trap '"$setupDev/removeProblematicSources" --configured-only' EXIT
     sudo add-apt-repository --no-update -y ppa:safeeyes-team/safeeyes
     sudo apt-get -o APT::Update::Error-Mode=any update
     sudo apt-get install safeeyes -y

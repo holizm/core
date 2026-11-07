@@ -18,7 +18,6 @@ SCRIPT
 scripts="$testDirectory" setupDev="$testDirectory" homeDir="$testDirectory" \
     bash "$sourcePath" > "$testDirectory/steps"
 mapfile -t steps < "$testDirectory/steps"
-[[ ${steps[2]} == removeSources ]]
-[[ ${steps[3]} == removeProblematicSources ]]
-[[ ${steps[4]} == curl ]]
-[[ $(rg -c '^removeSources$' "$testDirectory/steps") == 1 ]]
+[[ ${steps[2]} == removeProblematicSources ]]
+[[ ${steps[3]} == curl ]]
+[[ $(rg -c '^removeProblematicSources$' "$testDirectory/steps") == 1 ]]

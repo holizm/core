@@ -8,28 +8,34 @@ chmod 755 "$probeDirectory"
 
 for source in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
     [[ -f "$source" ]] || continue
-    if rg -q 'ubuntu-archive-keyring.gpg' "$source"; then
-        continue
-    fi
-    probePath="$probeDirectory/$(basename "$source")"
-    cp "$source" "$probePath"
-    chmod 644 "$probePath"
-    status=0
-    sudo timeout 45 apt-get \
-        -o "Dir::Etc::sourcelist=$probePath" \
-        -o Dir::Etc::sourceparts=- \
-        -o APT::Get::List-Cleanup=0 \
-        -o APT::Update::Error-Mode=any update >"$probeDirectory/output" 2>&1 || status=$?
-    if (( status == 0 )); then
-        printf '%s ✔\n' "$(basename "$source")"
-        continue
-    fi
-    if rg -q 'Could not get lock|Unable to acquire|Permission denied|Malformed|Conflicting values' "$probeDirectory/output"; then
-        cat "$probeDirectory/output" >&2
-        exit "$status"
-    fi
+    case "$(basename "$source")" in
+        safeeyes-team-*.list|safeeyes-team-*.sources) ;;
+        *)
+            [[ "${1:-}" != --configured-only ]] || continue
+            if rg -q 'ubuntu-archive-keyring.gpg' "$source"; then
+                continue
+            fi
+            probePath="$probeDirectory/$(basename "$source")"
+            cp "$source" "$probePath"
+            chmod 644 "$probePath"
+            status=0
+            sudo timeout 45 apt-get \
+                -o "Dir::Etc::sourcelist=$probePath" \
+                -o Dir::Etc::sourceparts=- \
+                -o APT::Get::List-Cleanup=0 \
+                -o APT::Update::Error-Mode=any update >"$probeDirectory/output" 2>&1 || status=$?
+            if (( status == 0 )); then
+                printf '%s ✔\n' "$(basename "$source")"
+                continue
+            fi
+            if rg -q 'Could not get lock|Unable to acquire|Permission denied|Malformed|Conflicting values' "$probeDirectory/output"; then
+                cat "$probeDirectory/output" >&2
+                exit "$status"
+            fi
+            cat "$probeDirectory/output"
+            ;;
+    esac
     sudo mkdir -p "$backupDirectory"
     sudo mv "$source" "$backupDirectory/"
     printf 'Disabled %s; backup: %s\n' "$source" "$backupDirectory/$(basename "$source")"
-    cat "$probeDirectory/output"
 done
