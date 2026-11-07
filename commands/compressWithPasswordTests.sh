@@ -8,6 +8,7 @@ mkdir "$testDirectory/source folder"
 printf 'Secret test content\n' > "$testDirectory/source folder/hidden name"
 printf 'Hidden dotfile\n' > "$testDirectory/source folder/.hidden"
 
+cd "$testDirectory"
 printf 'TestPasswordOnly9!\nTestPasswordOnly9!\n' | "$commandPath" "$testDirectory/source folder" > "$testDirectory/createLog" 2>&1
 archivePath="$testDirectory/source folder.7z"
 [[ -f "$archivePath" ]]
@@ -41,4 +42,12 @@ for passwords in $'\n\n' $'FirstPassword\nOtherPassword\n'; do
     fi
     [[ ! -e 'hidden name.7z' ]]
 done
+printf 'TestPasswordOnly9!\nTestPasswordOnly9!\n' | "$commandPath" > "$testDirectory/defaultLog" 2>&1
+[[ -f "$PWD/source folder.7z" ]]
+7z l -pTestPasswordOnly9! -slt 'source folder.7z' > "$testDirectory/defaultList"
+if rg -q '^Path = source folder/source folder\.7z$' "$testDirectory/defaultList"; then
+    exit 1
+fi
+7z x -pTestPasswordOnly9! "-o$testDirectory/defaultRestored" 'source folder.7z' > "$testDirectory/defaultExtractLog"
+cmp 'hidden name' "$testDirectory/defaultRestored/source folder/hidden name"
 printf 'compressWithPassword tests passed\n'
