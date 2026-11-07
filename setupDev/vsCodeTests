@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/vsCode
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/bin" "$testDirectory/temp"
+cat > "$testDirectory/installer.sh" <<'SCRIPT'
+install() {
+    "$2" || return $?
+}
+error() {
+    printf '%s\n' "$*" >&2
+}
+SCRIPT
+cat > "$testDirectory/bin/curl" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ ${FAIL_DOWNLOAD:-} != true ]] || exit 22
+[[ ${PRIMARY_AVAILABLE:-} == true || $6 != https://packages.microsoft.com/* ]] || exit 7
+printf '%s\n' "$6" > "$8"
+SCRIPT
+cat > "$testDirectory/bin/gpg" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ ${FAIL_KEY:-} != true ]] || exit 2
+cp "$6" "$5"
+SCRIPT
+cat > "$testDirectory/bin/sudo" <<'SCRIPT'
+#!/usr/bin/env bash
+printf '%s\n' "$*" >> "$INSTALL_LOG"
+if [[ $1 == install && ${*: -1} == /etc/apt/sources.list.d/vscode.sources ]]; then
+    cp "${@: -2:1}" "$SOURCE_RESULT"
+fi
+[[ ${FAIL_UPDATE:-} != true || $1 != apt-get || ${*: -1} != update ]] || exit 100
+SCRIPT
+chmod +x "$testDirectory/bin/"*
+export scripts="$testDirectory" TMPDIR="$testDirectory/temp"
+export INSTALL_LOG="$testDirectory/log" SOURCE_RESULT="$testDirectory/source"
+export PATH="$testDirectory/bin:$PATH"
+bash "$sourcePath"
+rg -q '^URIs: https://pmc-geofence.trafficmanager.net/repos/code$' "$SOURCE_RESULT"
+rg -q '^apt-get -o APT::Update::Error-Mode=any update$' "$INSTALL_LOG"
+rg -q '^apt-get install -y apt-transport-https code$' "$INSTALL_LOG"
+[[ -z $(ls -A "$TMPDIR") ]]
+FAIL_DOWNLOAD=true bash -c '
+    source "$1"
+    runSetupStep vsCode "$2"
+    runSetupStep later true
+    [[ $setupFailures == 1 ]]
+' bash "${sourcePath%/*}/../scripts/installer.sh" "$sourcePath" > "$testDirectory/setupOutput" 2>&1
+rg -q 'vsCode failed .*continuing setup' "$testDirectory/setupOutput"
+rg -q 'later ✔' "$testDirectory/setupOutput"
+PRIMARY_AVAILABLE=true bash "$sourcePath"
+rg -q '^URIs: https://packages.microsoft.com/repos/code$' "$SOURCE_RESULT"
+rm "$INSTALL_LOG"
+if FAIL_DOWNLOAD=true bash "$sourcePath"; then exit 1; fi
+[[ ! -e "$INSTALL_LOG" && -z $(ls -A "$TMPDIR") ]]
+if FAIL_KEY=true bash "$sourcePath"; then exit 1; fi
+[[ ! -e "$INSTALL_LOG" && -z $(ls -A "$TMPDIR") ]]
+if FAIL_UPDATE=true bash "$sourcePath"; then exit 1; fi
+if rg -q '^apt-get install ' "$INSTALL_LOG"; then exit 1; fi
+[[ -z $(ls -A "$TMPDIR") ]]

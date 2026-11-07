@@ -3,11 +3,34 @@
 . "$scripts/installer.sh"
 
 installVsCode() {
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-    sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-    rm -f packages.microsoft.gpg
-    sudo apt-get update
+    downloadDirectory=$(mktemp -d) || return $?
+    trap 'rm -rf -- "$downloadDirectory"' EXIT
+    local candidate
+    local repositoryBase=''
+    for candidate in https://packages.microsoft.com https://pmc-geofence.trafficmanager.net; do
+        if curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/keys/microsoft.asc" -o "$downloadDirectory/key.asc" \
+            && gpg --batch --yes --dearmor --output "$downloadDirectory/key.gpg" "$downloadDirectory/key.asc" \
+            && curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/repos/code/dists/stable/InRelease" -o "$downloadDirectory/InRelease"; then
+            repositoryBase="$candidate"
+            break
+        fi
+    done
+    if [[ -z "$repositoryBase" ]]; then
+        error 'Could not retrieve the VS Code signing key and repository index.'
+        return 1
+    fi
+    cat > "$downloadDirectory/source" <<EOF
+Types: deb
+URIs: $repositoryBase/repos/code
+Suites: stable
+Components: main
+Architectures: amd64 arm64 armhf
+Signed-By: /usr/share/keyrings/microsoft.gpg
+EOF
+    sudo install -o root -g root -m 644 "$downloadDirectory/key.gpg" /usr/share/keyrings/microsoft.gpg || return $?
+    sudo install -o root -g root -m 644 "$downloadDirectory/source" /etc/apt/sources.list.d/vscode.sources || return $?
+    sudo rm -f /etc/apt/sources.list.d/vscode.list || return $?
+    sudo apt-get -o APT::Update::Error-Mode=any update || return $?
     sudo apt-get install -y apt-transport-https code
 }
 
