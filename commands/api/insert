@@ -3,8 +3,8 @@
 import isFile from '../../scripts/isFile.js'
 import {
     clear,
-    runOnTerminal,
 } from '../../scripts/terminal.js'
+import findSeedFiles from './findSeedFiles.js'
 import run from './run'
 
 const {
@@ -14,8 +14,7 @@ const {
 
 clear()
 
-const findCmd = `find / -type f -path "*/api/data/*" -not -path '*/node_modules/*' -name "*.json" -printf "%p\n" 2>/dev/null`
-let files = runOnTerminal(findCmd).split('\n')
+const files = findSeedFiles(process.cwd(), home)
 
 let initialFile = `${home}/${apiRepo}/common/initial.js`
 if (isFile(initialFile)) files.push(initialFile)
