@@ -17,7 +17,7 @@ runSetupStep gh "$setupDev/gh"
 runSetupStep tailscale "$setupDev/tailscale"
 runSetupStep generateSshKey "$setupDev/generateSshKey"
 runSetupStep configureGit "$setupDev/configureGit"
-runSetupStep configureGitHub "$setupDev/configureGitHub"
+runSetupStep configureGitHub --interactive "$setupDev/configureGitHub"
 
 runSetupStep astCstWatcher "$setupDev/astCstWatcher"
 runSetupStep protectSecrets "$setupDev/protectSecrets"

@@ -7,6 +7,11 @@ trap 'rm -rf -- "$testDirectory"' EXIT
 cat > "$testDirectory/installer.sh" <<'SCRIPT'
 setupFailures=0
 runSetupStep() {
+    if [[ $1 == configureGitHub ]]; then
+        [[ $2 == --interactive && $3 == "$setupDev/configureGitHub" ]] || exit 1
+    elif [[ ${2:-} == --interactive ]]; then
+        exit 1
+    fi
     printf '%s\n' "$1"
 }
 SCRIPT

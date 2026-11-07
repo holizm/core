@@ -45,7 +45,8 @@ runSetupStep() {
     local label="$1"
     shift
     local status
-    if [[ "$label" == developmentSetup ]]; then
+    if [[ "$label" == developmentSetup || "${1:-}" == --interactive ]]; then
+        [[ "${1:-}" != --interactive ]] || shift
         "$@" || setupFailures=$((setupFailures + 1))
         return 0
     fi
