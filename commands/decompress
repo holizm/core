@@ -21,7 +21,7 @@ failed=false
 for archivePath in ./*.zip ./*.7z; do
     [[ -f "$archivePath" ]] || continue
     found=true
-    if ! 7z x -mmt="$(nproc)" -- "$archivePath"; then
+    if ! 7z x -o. -mmt="$(nproc)" -- "$archivePath"; then
         failed=true
     fi
 done

@@ -5,6 +5,8 @@ commandPath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/compressWithPassword
 testDirectory=$(mktemp -d /tmp/compressWithPasswordTestsXXXXXX)
 trap 'rm -rf -- "$testDirectory"' EXIT
 mkdir "$testDirectory/source folder"
+mkdir "$testDirectory/source folder/nested"
+printf 'Nested content\n' > "$testDirectory/source folder/nested/item"
 printf 'Secret test content\n' > "$testDirectory/source folder/hidden name"
 printf 'Hidden dotfile\n' > "$testDirectory/source folder/.hidden"
 
@@ -23,8 +25,10 @@ if rg -q 'hidden name|\.hidden' "$testDirectory/wrongLog"; then
     exit 1
 fi
 7z x -pTestPasswordOnly9! "-o$testDirectory/restored" "$archivePath" > "$testDirectory/extractLog"
-cmp "$testDirectory/source folder/hidden name" "$testDirectory/restored/source folder/hidden name"
-cmp "$testDirectory/source folder/.hidden" "$testDirectory/restored/source folder/.hidden"
+cmp "$testDirectory/source folder/hidden name" "$testDirectory/restored/hidden name"
+cmp "$testDirectory/source folder/.hidden" "$testDirectory/restored/.hidden"
+cmp "$testDirectory/source folder/nested/item" "$testDirectory/restored/nested/item"
+[[ ! -e "$testDirectory/restored/source folder" ]]
 originalHash=$(sha256sum "$archivePath")
 if "$commandPath" "$testDirectory/source folder" > "$testDirectory/existingLog" 2>&1; then
     exit 1
@@ -44,10 +48,11 @@ for passwords in $'\n\n' $'FirstPassword\nOtherPassword\n'; do
 done
 printf 'TestPasswordOnly9!\nTestPasswordOnly9!\n' | "$commandPath" > "$testDirectory/defaultLog" 2>&1
 [[ -f "$PWD/source folder.7z" ]]
-7z l -pTestPasswordOnly9! -slt 'source folder.7z' > "$testDirectory/defaultList"
-if rg -q '^Path = source folder/source folder\.7z$' "$testDirectory/defaultList"; then
+7z l -pTestPasswordOnly9! -slt -ba 'source folder.7z' > "$testDirectory/defaultList"
+if rg -q '^Path = (source folder/|source folder\.7z$)' "$testDirectory/defaultList"; then
     exit 1
 fi
 7z x -pTestPasswordOnly9! "-o$testDirectory/defaultRestored" 'source folder.7z' > "$testDirectory/defaultExtractLog"
-cmp 'hidden name' "$testDirectory/defaultRestored/source folder/hidden name"
+cmp 'hidden name' "$testDirectory/defaultRestored/hidden name"
+cmp nested/item "$testDirectory/defaultRestored/nested/item"
 printf 'compressWithPassword tests passed\n'

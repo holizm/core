@@ -47,4 +47,16 @@ printf 'Invalid archive\n' > broken.7z
 cp "$testDirectory/source/-leading.zip" working.zip
 if "$commandPath" > "$testDirectory/failureLog" 2>&1; then exit 1; fi
 cmp otherItem "$testDirectory/source/otherItem"
+mkdir -p "$testDirectory/roundTrip/source folder/nested" "$testDirectory/roundTrip/restored"
+printf 'Top-level content\n' > "$testDirectory/roundTrip/source folder/item"
+printf 'Hidden content\n' > "$testDirectory/roundTrip/source folder/.hidden"
+printf 'Nested content\n' > "$testDirectory/roundTrip/source folder/nested/item"
+cd "$testDirectory/roundTrip/restored"
+printf 'TestPasswordOnly9!\nTestPasswordOnly9!\n' | "${commandPath%/*}/compressWithPassword" \
+    "$testDirectory/roundTrip/source folder" > "$testDirectory/roundTripCreateLog" 2>&1
+printf 'TestPasswordOnly9!\n' | "$commandPath" > "$testDirectory/roundTripExtractLog" 2>&1
+cmp item "$testDirectory/roundTrip/source folder/item"
+cmp .hidden "$testDirectory/roundTrip/source folder/.hidden"
+cmp nested/item "$testDirectory/roundTrip/source folder/nested/item"
+[[ ! -e 'source folder' ]]
 printf 'decompress tests passed\n'
