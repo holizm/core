@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repositoryName="$1"
+keyPath="$2"
+repositoryPath="$3"
+suite="$4"
+components="$5"
+shift 5
+downloadDirectory=$(mktemp -d)
+trap 'rm -rf -- "$downloadDirectory"' EXIT
+repositoryBase=''
+
+for candidate in "$@" "$@" "$@"; do
+    if curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/$keyPath" -o "$downloadDirectory/key.asc" \
+        && gpg --batch --yes --dearmor --output "$downloadDirectory/key.gpg" "$downloadDirectory/key.asc" \
+        && {
+            if curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/$repositoryPath/dists/$suite/InRelease" -o "$downloadDirectory/InRelease"; then
+                gpgv --keyring "$downloadDirectory/key.gpg" "$downloadDirectory/InRelease"
+            else
+                curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/$repositoryPath/dists/$suite/Release" -o "$downloadDirectory/Release" \
+                    && curl -fsSL --connect-timeout 10 --max-time 30 "$candidate/$repositoryPath/dists/$suite/Release.gpg" -o "$downloadDirectory/Release.gpg" \
+                    && gpgv --keyring "$downloadDirectory/key.gpg" "$downloadDirectory/Release.gpg" "$downloadDirectory/Release"
+            fi
+        }; then
+        repositoryBase="$candidate"
+        break
+    fi
+done
+
+if [[ -z "$repositoryBase" ]]; then
+    printf 'Could not verify the %s signing key and repository index.\n' "$repositoryName" >&2
+    exit 1
+fi
+
+sourcePath="/etc/apt/sources.list.d/$repositoryName.sources"
+keyringPath="/usr/share/keyrings/$repositoryName.gpg"
+cat > "$downloadDirectory/source" <<SOURCE
+Types: deb
+URIs: $repositoryBase/$repositoryPath
+Suites: $suite
+Components: $components
+Architectures: $(dpkg --print-architecture)
+Signed-By: $keyringPath
+SOURCE
+if ! cmp -s "$downloadDirectory/key.gpg" "$keyringPath"; then
+    sudo install -o root -g root -m 644 "$downloadDirectory/key.gpg" "$keyringPath"
+fi
+if ! cmp -s "$downloadDirectory/source" "$sourcePath"; then
+    sudo install -o root -g root -m 644 "$downloadDirectory/source" "$sourcePath"
+fi
+case "$repositoryName" in
+    vsCode) sudo rm -f /etc/apt/sources.list.d/vscode.list /etc/apt/sources.list.d/vscode.sources ;;
+    azureCli) sudo rm -f /etc/apt/sources.list.d/azure-cli.list /etc/apt/sources.list.d/azure-cli.sources ;;
+    tailscale) sudo rm -f /etc/apt/sources.list.d/tailscale.list ;;
+esac
+sudo apt-get -o "Dir::Etc::sourcelist=$sourcePath" -o Dir::Etc::sourceparts=- \
+    -o APT::Get::List-Cleanup=0 -o APT::Update::Error-Mode=any update

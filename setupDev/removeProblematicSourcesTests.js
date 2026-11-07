@@ -33,12 +33,17 @@ for (const configuredOnly of [false, true]) {
             writeFileSync(join(bin, 'sudo'), '#!/bin/bash\nexec "$@"\n', { mode: 0o755 })
             writeFileSync(join(bin, 'apt-get'), `#!/bin/bash
 for argument in "$@"; do
+    if [[ "$argument" == *transient.sources ]]; then
+        echo '403 Forbidden'
+        echo 'E: The repository is not signed'
+        exit 100
+    fi
     if [[ "$argument" == *safeeyes-team* ]]; then
         echo 'Permission denied: configured sources must not be probed'
         exit 1
     fi
     if [[ "$argument" == *broken.sources ]]; then
-        echo 'E: Failed to fetch repository'
+        echo 'E: Repository does not have a Release file'
         exit 100
     fi
 done
@@ -65,6 +70,18 @@ done
                 env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
             })
             assert.equal(readdirSync(backupDirectory).length, configuredOnly ? 2 : 3)
+            if (!configuredOnly) {
+                writeFileSync(join(sources, 'transient.sources'), 'temporarily unreachable')
+                assert.doesNotThrow(() => execFileSync('bash', argumentsList, {
+                    env: {
+                        ...process.env,
+                        PATH: `${bin}:${process.env.PATH}`,
+                    },
+                    stdio: 'pipe',
+                }))
+                assert.equal(readFileSync(join(sources, 'transient.sources'), 'utf8'), 'temporarily unreachable')
+                assert.equal(readdirSync(backupDirectory).length, 3)
+            }
         } finally {
             rmSync(directory, { force: true, recursive: true })
         }

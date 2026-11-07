@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 . "$scripts/installer.sh"
+. /etc/os-release
 
-installAzureCli() {
-    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-}
-
-install az installAzureCli
+bash "$scripts/configurePackageRepository" azureCli keys/microsoft.asc repos/azure-cli "$VERSION_CODENAME" main \
+    https://packages.microsoft.com https://pmc-geofence.trafficmanager.net
+install az azure-cli

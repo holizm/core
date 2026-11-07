@@ -2,12 +2,8 @@
 set -euo pipefail
 
 . "$scripts/installer.sh"
+. /etc/os-release
 
-installTailscale() (
-    installer=$(mktemp) || exit $?
-    trap 'rm -f -- "$installer"' EXIT
-    curl -fsSL https://tailscale.com/install.sh -o "$installer" || exit $?
-    sudo sh "$installer"
-)
-
-install tailscale installTailscale
+bash "$scripts/configurePackageRepository" tailscale "stable/ubuntu/$VERSION_CODENAME.noarmor.gpg" stable/ubuntu "$VERSION_CODENAME" main \
+    https://pkgs.tailscale.com
+install tailscale tailscale

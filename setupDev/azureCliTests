@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/azureCli
+commandName='az'
+packageName='azure-cli'
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/bin" "$testDirectory/scripts"
+printf 'source "%s"\n' "${sourcePath%/*}/../scripts/installer.sh" > "$testDirectory/scripts/installer.sh"
+cat >> "$testDirectory/scripts/installer.sh" <<'SCRIPT'
+command() {
+    if [[ $1 == -v && $2 == "$commandName" ]]; then
+        [[ -x "$testDirectory/bin/$commandName" ]]
+    else
+        builtin command "$@"
+    fi
+}
+SCRIPT
+cat > "$testDirectory/scripts/configurePackageRepository" <<'SCRIPT'
+#!/usr/bin/env bash
+printf '%s\n' "$*" >> "$REPOSITORY_LOG"
+[[ ${FAIL_REPOSITORY:-} != true ]]
+SCRIPT
+cat > "$testDirectory/bin/sudo" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ $* == "apt-get install -y $packageName" ]] || exit 1
+printf '%s\n' "$*" >> "$INSTALL_LOG"
+printf '#!/usr/bin/env bash\nexit 0\n' > "$testDirectory/bin/$commandName"
+chmod +x "$testDirectory/bin/$commandName"
+SCRIPT
+chmod +x "$testDirectory/bin/sudo"
+export commandName packageName testDirectory
+export scripts="$testDirectory/scripts" PATH="$testDirectory/bin:$PATH"
+export INSTALL_LOG="$testDirectory/installLog" REPOSITORY_LOG="$testDirectory/repositoryLog"
+bash "$sourcePath"
+bash "$sourcePath"
+[[ $(wc -l < "$INSTALL_LOG") == 1 ]]
+[[ $(wc -l < "$REPOSITORY_LOG") == 2 ]]
+rg -q "^${sourcePath##*/} " "$REPOSITORY_LOG"
+if FAIL_REPOSITORY=true bash "$sourcePath"; then exit 1; fi
+[[ $(wc -l < "$INSTALL_LOG") == 1 ]]

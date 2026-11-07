@@ -2,32 +2,41 @@
 set -euo pipefail
 
 sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/tailscale
+commandName='tailscale'
+packageName='tailscale'
 testDirectory=$(mktemp -d)
 trap 'rm -rf -- "$testDirectory"' EXIT
-mkdir "$testDirectory/scripts" "$testDirectory/bin" "$testDirectory/temp"
-cat > "$testDirectory/scripts/installer.sh" <<'SCRIPT'
-install() {
-    [[ ${SKIP_INSTALL:-} == true ]] || "$2"
+mkdir "$testDirectory/bin" "$testDirectory/scripts"
+printf 'source "%s"\n' "${sourcePath%/*}/../scripts/installer.sh" > "$testDirectory/scripts/installer.sh"
+cat >> "$testDirectory/scripts/installer.sh" <<'SCRIPT'
+command() {
+    if [[ $1 == -v && $2 == "$commandName" ]]; then
+        [[ -x "$testDirectory/bin/$commandName" ]]
+    else
+        builtin command "$@"
+    fi
 }
 SCRIPT
-cat > "$testDirectory/bin/curl" <<'SCRIPT'
+cat > "$testDirectory/scripts/configurePackageRepository" <<'SCRIPT'
 #!/usr/bin/env bash
-[[ $1 == -fsSL && $2 == https://tailscale.com/install.sh && $3 == -o ]] || exit 1
-[[ ${FAIL_DOWNLOAD:-} != true ]] || exit 22
-printf '%s\n' 'printf installed > "$INSTALL_MARKER"' > "$4"
+printf '%s\n' "$*" >> "$REPOSITORY_LOG"
+[[ ${FAIL_REPOSITORY:-} != true ]]
 SCRIPT
 cat > "$testDirectory/bin/sudo" <<'SCRIPT'
 #!/usr/bin/env bash
-"$@"
+[[ $* == "apt-get install -y $packageName" ]] || exit 1
+printf '%s\n' "$*" >> "$INSTALL_LOG"
+printf '#!/usr/bin/env bash\nexit 0\n' > "$testDirectory/bin/$commandName"
+chmod +x "$testDirectory/bin/$commandName"
 SCRIPT
-chmod +x "$testDirectory/bin/"*
-export scripts="$testDirectory/scripts" TMPDIR="$testDirectory/temp" INSTALL_MARKER="$testDirectory/installed"
-export PATH="$testDirectory/bin:$PATH"
+chmod +x "$testDirectory/bin/sudo"
+export commandName packageName testDirectory
+export scripts="$testDirectory/scripts" PATH="$testDirectory/bin:$PATH"
+export INSTALL_LOG="$testDirectory/installLog" REPOSITORY_LOG="$testDirectory/repositoryLog"
 bash "$sourcePath"
-[[ $(cat "$INSTALL_MARKER") == installed ]]
-[[ -z $(ls -A "$TMPDIR") ]]
-rm "$INSTALL_MARKER"
-SKIP_INSTALL=true bash "$sourcePath"
-[[ ! -e $INSTALL_MARKER ]]
-if FAIL_DOWNLOAD=true bash "$sourcePath"; then exit 1; fi
-[[ ! -e $INSTALL_MARKER && -z $(ls -A "$TMPDIR") ]]
+bash "$sourcePath"
+[[ $(wc -l < "$INSTALL_LOG") == 1 ]]
+[[ $(wc -l < "$REPOSITORY_LOG") == 2 ]]
+rg -q "^${sourcePath##*/} " "$REPOSITORY_LOG"
+if FAIL_REPOSITORY=true bash "$sourcePath"; then exit 1; fi
+[[ $(wc -l < "$INSTALL_LOG") == 1 ]]

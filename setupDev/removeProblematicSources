@@ -32,6 +32,12 @@ for source in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; 
                 cat "$probeDirectory/output" >&2
                 exit "$status"
             fi
+            if rg -q 'Could not connect|Could not resolve|Temporary failure resolving|Network is unreachable|No route to host|timed out|(^|[[:space:]])(403|429|5[0-9]{2})([[:space:]]|$)' "$probeDirectory/output" \
+                || ! rg -q 'does not have a Release file|404[[:space:]]+Not Found|is not signed|NO_PUBKEY|EXPKEYSIG|BADSIG' "$probeDirectory/output"; then
+                cat "$probeDirectory/output" >&2
+                printf 'Retained %s; repository check failed without proving it invalid.\n' "$source" >&2
+                continue
+            fi
             cat "$probeDirectory/output"
             ;;
     esac

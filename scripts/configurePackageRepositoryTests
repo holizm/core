@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/configurePackageRepository
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/bin" "$testDirectory/temp" "$testDirectory/sources" "$testDirectory/keyrings"
+sed -e "s|/etc/apt/sources.list.d|$testDirectory/sources|g" \
+    -e "s|/usr/share/keyrings|$testDirectory/keyrings|g" "$sourcePath" > "$testDirectory/configure"
+cat > "$testDirectory/bin/curl" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ ${FAIL_DOWNLOAD:-} != true ]] || exit 22
+if [[ ${FAIL_FIRST:-} == true && ! -e "$INSTALL_LOG.firstFailure" ]]; then
+    touch "$INSTALL_LOG.firstFailure"
+    exit 22
+fi
+[[ ${PRIMARY_AVAILABLE:-} == true || $6 != https://packages.microsoft.com/* ]] || exit 7
+[[ ${FAIL_INLINE:-} != true || $6 != */InRelease ]] || exit 22
+printf '%s\n' "${6#https://*/}" > "$8"
+SCRIPT
+cat > "$testDirectory/bin/gpg" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ ${FAIL_KEY:-} != true ]] || exit 2
+cp "$6" "$5"
+SCRIPT
+cat > "$testDirectory/bin/gpgv" <<'SCRIPT'
+#!/usr/bin/env bash
+[[ ${FAIL_SIGNATURE:-} != true ]]
+SCRIPT
+cat > "$testDirectory/bin/sudo" <<'SCRIPT'
+#!/usr/bin/env bash
+printf '%s\n' "$*" >> "$INSTALL_LOG"
+if [[ $1 == apt-get ]]; then
+    [[ ${FAIL_UPDATE:-} != true ]] || exit 100
+elif [[ $1 == install ]]; then
+    install -m 644 "${@: -2}"
+else
+    "$@"
+fi
+SCRIPT
+chmod +x "$testDirectory/bin/"*
+export TMPDIR="$testDirectory/temp" INSTALL_LOG="$testDirectory/log"
+export PATH="$testDirectory/bin:$PATH"
+arguments=(vsCode keys/microsoft.asc repos/code stable main https://packages.microsoft.com https://pmc-geofence.trafficmanager.net)
+bash "$testDirectory/configure" "${arguments[@]}"
+rg -q '^URIs: https://pmc-geofence.trafficmanager.net/repos/code$' "$testDirectory/sources/vsCode.sources"
+rg -q 'APT::Update::Error-Mode=any update$' "$INSTALL_LOG"
+rg -q 'Dir::Etc::sourceparts=-' "$INSTALL_LOG"
+[[ -z $(ls -A "$TMPDIR") ]]
+cp "$testDirectory/sources/vsCode.sources" "$testDirectory/expected"
+FAIL_FIRST=true bash "$testDirectory/configure" "${arguments[@]}"
+[[ -f "$INSTALL_LOG.firstFailure" ]]
+FAIL_INLINE=true bash "$testDirectory/configure" "${arguments[@]}"
+rm "$testDirectory/sources/vsCode.sources"
+bash "$testDirectory/configure" "${arguments[@]}"
+cmp "$testDirectory/expected" "$testDirectory/sources/vsCode.sources"
+: > "$INSTALL_LOG"
+bash "$testDirectory/configure" "${arguments[@]}"
+if rg -q '^install ' "$INSTALL_LOG"; then exit 1; fi
+cmp "$testDirectory/expected" "$testDirectory/sources/vsCode.sources"
+for failure in FAIL_DOWNLOAD FAIL_KEY FAIL_SIGNATURE; do
+    : > "$INSTALL_LOG"
+    if env "$failure=true" bash "$testDirectory/configure" "${arguments[@]}"; then exit 1; fi
+    [[ ! -s "$INSTALL_LOG" && -z $(ls -A "$TMPDIR") ]]
+    cmp "$testDirectory/expected" "$testDirectory/sources/vsCode.sources"
+done
+PRIMARY_AVAILABLE=true bash "$testDirectory/configure" "${arguments[@]}"
+rg -q '^URIs: https://packages.microsoft.com/repos/code$' "$testDirectory/sources/vsCode.sources"
+if FAIL_UPDATE=true bash "$testDirectory/configure" "${arguments[@]}"; then exit 1; fi
+[[ -z $(ls -A "$TMPDIR") ]]
