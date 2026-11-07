@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/safeEyes
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/bin"
+cat > "$testDirectory/installer.sh" <<'SCRIPT'
+install() {
+    [[ ${SKIP_INSTALL:-} == true ]] || "$2"
+}
+SCRIPT
+cat > "$testDirectory/bin/sudo" <<'SCRIPT'
+#!/usr/bin/env bash
+printf '%s\n' "$*" >> "$INSTALL_LOG"
+[[ ${FAIL_UPDATE:-} != true || $1 != apt-get || ${*: -1} != update ]]
+SCRIPT
+cat > "$testDirectory/removeSources" <<'SCRIPT'
+#!/usr/bin/env bash
+printf '%s\n' removeSources >> "$INSTALL_LOG"
+SCRIPT
+chmod +x "$testDirectory/bin/sudo" "$testDirectory/removeSources"
+export scripts="$testDirectory" setupDev="$testDirectory" INSTALL_LOG="$testDirectory/log"
+export PATH="$testDirectory/bin:$PATH"
+bash "$sourcePath"
+mapfile -t steps < "$INSTALL_LOG"
+[[ ${#steps[@]} == 4 ]]
+[[ ${steps[0]} == 'add-apt-repository --no-update -y ppa:safeeyes-team/safeeyes' ]]
+[[ ${steps[1]} == 'apt-get -o APT::Update::Error-Mode=any update' ]]
+[[ ${steps[2]} == 'apt-get install safeeyes -y' ]]
+[[ ${steps[3]} == removeSources ]]
+rm "$INSTALL_LOG"
+SKIP_INSTALL=true bash "$sourcePath"
+[[ ! -e "$INSTALL_LOG" ]]
+if FAIL_UPDATE=true bash "$sourcePath"; then exit 1; fi
+mapfile -t steps < "$INSTALL_LOG"
+[[ ${#steps[@]} == 3 && ${steps[2]} == removeSources ]]

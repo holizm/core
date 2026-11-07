@@ -56,7 +56,7 @@ runSetupStep anyDesk "$setupDev/anyDesk"
 runSetupStep rustDesk "$setupDev/rustDesk"
 runSetupStep compass "$setupDev/compass"
 runSetupStep beyondCompare "$setupDev/beyondCompare"
-runSetupStep safeEyes install safeeyes
+runSetupStep safeEyes "$setupDev/safeEyes"
 
 runSetupStep giveAccessToRoot "$setupDev/giveAccessToRoot"
 runSetupStep addPersianInputSource "$setupDev/addPersianInputSource"
