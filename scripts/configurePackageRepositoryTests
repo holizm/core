@@ -20,6 +20,10 @@ printf '%s\n' "${6#https://*/}" > "$8"
 SCRIPT
 cat > "$testDirectory/bin/gpg" <<'SCRIPT'
 #!/usr/bin/env bash
+if [[ $2 == --show-keys ]]; then
+    [[ ${FAIL_KEY:-} != true && -s $3 ]]
+    exit $?
+fi
 [[ ${FAIL_KEY:-} != true ]] || exit 2
 cp "$6" "$5"
 SCRIPT
@@ -48,8 +52,13 @@ rg -q 'APT::Update::Error-Mode=any update$' "$INSTALL_LOG"
 rg -q 'Dir::Etc::sourceparts=-' "$INSTALL_LOG"
 [[ -z $(ls -A "$TMPDIR") ]]
 cp "$testDirectory/sources/vsCode.sources" "$testDirectory/expected"
+: > "$INSTALL_LOG"
+FAIL_DOWNLOAD=true bash "$testDirectory/configure" "${arguments[@]}"
+if rg -q '^(install|apt-get) ' "$INSTALL_LOG"; then exit 1; fi
+rm "$testDirectory/sources/vsCode.sources"
 FAIL_FIRST=true bash "$testDirectory/configure" "${arguments[@]}"
 [[ -f "$INSTALL_LOG.firstFailure" ]]
+rm "$testDirectory/sources/vsCode.sources"
 FAIL_INLINE=true bash "$testDirectory/configure" "${arguments[@]}"
 rm "$testDirectory/sources/vsCode.sources"
 bash "$testDirectory/configure" "${arguments[@]}"
@@ -58,6 +67,8 @@ cmp "$testDirectory/expected" "$testDirectory/sources/vsCode.sources"
 bash "$testDirectory/configure" "${arguments[@]}"
 if rg -q '^install ' "$INSTALL_LOG"; then exit 1; fi
 cmp "$testDirectory/expected" "$testDirectory/sources/vsCode.sources"
+sed -i 's/Suites: stable/Suites: outdated/' "$testDirectory/sources/vsCode.sources"
+cp "$testDirectory/sources/vsCode.sources" "$testDirectory/expected"
 for failure in FAIL_DOWNLOAD FAIL_KEY FAIL_SIGNATURE; do
     : > "$INSTALL_LOG"
     if env "$failure=true" bash "$testDirectory/configure" "${arguments[@]}"; then exit 1; fi
@@ -66,5 +77,6 @@ for failure in FAIL_DOWNLOAD FAIL_KEY FAIL_SIGNATURE; do
 done
 PRIMARY_AVAILABLE=true bash "$testDirectory/configure" "${arguments[@]}"
 rg -q '^URIs: https://packages.microsoft.com/repos/code$' "$testDirectory/sources/vsCode.sources"
+sed -i 's/Suites: stable/Suites: outdated/' "$testDirectory/sources/vsCode.sources"
 if FAIL_UPDATE=true bash "$testDirectory/configure" "${arguments[@]}"; then exit 1; fi
 [[ -z $(ls -A "$TMPDIR") ]]
