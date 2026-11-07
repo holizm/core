@@ -53,7 +53,7 @@ runSetupStep azureCli "$setupDev/azureCli"
 
 runSetupStep anyDesk "$setupDev/anyDesk"
 runSetupStep rustDesk "$setupDev/rustDesk"
-runSetupStep compass "$setupDev/compass"
+runSetupStep compass --interactive "$setupDev/compass"
 runSetupStep beyondCompare "$setupDev/beyondCompare"
 runSetupStep safeEyes "$setupDev/safeEyes"
 
