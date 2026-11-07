@@ -6,6 +6,7 @@ set -euo pipefail
 runSetupStep rg install rg ripgrep
 
 runSetupStep configureApt "$setupDev/configureApt"
+runSetupStep removeSources "$setupDev/removeSources"
 runSetupStep removeProblematicSources "$setupDev/removeProblematicSources"
 
 runSetupStep curl install curl
@@ -56,7 +57,6 @@ runSetupStep rustDesk "$setupDev/rustDesk"
 runSetupStep compass "$setupDev/compass"
 runSetupStep beyondCompare "$setupDev/beyondCompare"
 runSetupStep safeEyes "$setupDev/safeEyes"
-
 
 runSetupStep giveAccessToRoot "$setupDev/giveAccessToRoot"
 runSetupStep addPersianInputSource "$setupDev/addPersianInputSource"

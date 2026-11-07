@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/safeEyes
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+printf '%s\n' 'install() {' '    [[ $# == 1 && $1 == safeeyes ]]' '}' > "$testDirectory/installer.sh"
+scripts="$testDirectory" bash "$sourcePath"

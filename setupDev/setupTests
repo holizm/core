@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/setup
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+cat > "$testDirectory/installer.sh" <<'SCRIPT'
+setupFailures=0
+runSetupStep() {
+    printf '%s\n' "$1"
+}
+SCRIPT
+scripts="$testDirectory" setupDev="$testDirectory" homeDir="$testDirectory" \
+    bash "$sourcePath" > "$testDirectory/steps"
+mapfile -t steps < "$testDirectory/steps"
+[[ ${steps[2]} == removeSources ]]
+[[ ${steps[3]} == removeProblematicSources ]]
+[[ ${steps[4]} == curl ]]
+[[ $(rg -c '^removeSources$' "$testDirectory/steps") == 1 ]]

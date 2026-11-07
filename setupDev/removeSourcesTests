@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/removeSources
+testDirectory=$(mktemp -d)
+trap 'rm -rf -- "$testDirectory"' EXIT
+mkdir "$testDirectory/sources" "$testDirectory/bin"
+printf '%s\n' '#!/usr/bin/env bash' 'exec "$@"' > "$testDirectory/bin/sudo"
+chmod +x "$testDirectory/bin/sudo"
+export PATH="$testDirectory/bin:$PATH"
+sed -e "s|/etc/apt/sources.list.d|$testDirectory/sources|g" \
+    -e "s|/var/backups/setupApt|$testDirectory/backups|g" \
+    "$sourcePath" > "$testDirectory/removeSources"
+for name in safeeyes-team-ubuntu-safeeyes-resolute.sources safeeyes-team-ubuntu-safeeyes-noble.list; do
+    printf '%s\n' "$name" > "$testDirectory/sources/$name"
+done
+printf '%s\n' 'Ubuntu' > "$testDirectory/sources/ubuntu.sources"
+printf '%s\n' 'Chrome' > "$testDirectory/sources/google-chrome.list"
+bash "$testDirectory/removeSources"
+[[ ! -e "$testDirectory/sources/safeeyes-team-ubuntu-safeeyes-resolute.sources" ]]
+[[ ! -e "$testDirectory/sources/safeeyes-team-ubuntu-safeeyes-noble.list" ]]
+[[ $(cat "$testDirectory/sources/ubuntu.sources") == Ubuntu ]]
+[[ $(cat "$testDirectory/sources/google-chrome.list") == Chrome ]]
+backups=("$testDirectory"/backups/*)
+[[ $(cat "${backups[0]}/safeeyes-team-ubuntu-safeeyes-resolute.sources") == safeeyes-team-ubuntu-safeeyes-resolute.sources ]]
+[[ $(cat "${backups[0]}/safeeyes-team-ubuntu-safeeyes-noble.list") == safeeyes-team-ubuntu-safeeyes-noble.list ]]
+bash "$testDirectory/removeSources"
+[[ $(find "$testDirectory/backups" -type f | wc -l) == 2 ]]
