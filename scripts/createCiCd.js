@@ -36,6 +36,7 @@ export default params => {
     content += replaceVariables(`${home}/core/ciCd/signIn`, params)
     content += replaceVariables(`${home}/core/ciCd/push`, params)
     content += replaceVariables(`${home}/core/ciCd/signOut`, params)
+    content = content.split('\n').map(line => line.trimEnd()).join('\n')
 
     if (isFile(vcsActionPath) && getContent(vcsActionPath) === content) {
         success('CI/CD is up to date')
