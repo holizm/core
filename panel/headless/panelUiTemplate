@@ -4,6 +4,8 @@ import ErrorBoundary from './panel/errorBoundary.jsx'
 import Loader from './panel/loader.jsx'
 import NoAccess from './panel/unauthorized.jsx'
 
+import './panel/index.css'
+
 export default {
     Error,
     ErrorBoundary,
@@ -11,4 +13,3 @@ export default {
     NoAccess,
     Root: Routing,
 }
-import './panel/index.css'
