@@ -33,6 +33,8 @@ test('headless composition supplies its own bootstrap exports and preserves cust
     assert.match(fs.readFileSync(path.join(processPath, 'panel/loader.html'), 'utf8'), /class='loader'/)
     assert.match(fs.readFileSync(path.join(processPath, 'panel/initial.css'), 'utf8'), /@keyframes loaderSpin/)
     assert.ok(volumes.some(([source, target]) => target === '/container/phoneAi/userPanel/src/initial.css'))
+    assert.ok(volumes.some(([source, target]) => target === '/container/phoneAi/userPanel/src/index.css'))
+    assert.equal(fs.readFileSync(path.join(processPath, 'panel/index.css'), 'utf8'), `@import 'tailwindcss';\n`)
     fs.writeFileSync(path.join(processPath, 'panel/initial.css'), '.customLoader {}\n')
     fs.writeFileSync(entryPath, 'export default customUi\n')
     fs.writeFileSync(path.join(processPath, 'panel/error.jsx'), 'export default CustomError\n')

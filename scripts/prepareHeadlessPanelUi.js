@@ -15,6 +15,7 @@ export default params => {
         ['panel/unauthorized.jsx', 'unauthorizedTemplate', 'panel/unauthorized.jsx'],
         ['panel/head.html', 'headTemplate', 'head.html'],
         ['panel/initial.css', 'initialStyleTemplate', 'initial.css'],
+        ['panel/index.css', 'styleTemplate', 'index.css'],
         ['panel/loader.html', 'loaderMarkupTemplate', 'loader.html'],
     ]
     for (const [source, template, target] of files) {

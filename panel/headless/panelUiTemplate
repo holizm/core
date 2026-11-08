@@ -11,3 +11,4 @@ export default {
     NoAccess,
     Root: Routing,
 }
+import './panel/index.css'
