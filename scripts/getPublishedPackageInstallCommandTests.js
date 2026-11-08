@@ -24,13 +24,18 @@ const runInstallation = installation => {
         repo: 'example',
     }, archivePath, processPath).replace('/holism/server/commands/installPackages', () => installation)
     let status = 0
+    let output = ''
     try {
-        execFileSync('bash', ['-c', command], { stdio: 'pipe' })
+        output = execFileSync('bash', ['-c', command], {
+            encoding: 'utf8',
+            stdio: 'pipe',
+        })
     }
     catch (e) {
         status = e.status
     }
     try {
+        assert.equal(output.includes('inflating:'), false)
         assert.equal(fs.existsSync(path.join(processPath, 'node_modules/tenants/tenant.js')), true)
         const exports = fs.readFileSync(path.join(processPath, 'node_modules/tenants/exports.js'), 'utf8')
         assert.ok(exports.includes(path.join(root, 'deployment/api/node_modules/tenants/tenant.js')))
