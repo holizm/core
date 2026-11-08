@@ -19,6 +19,8 @@ export default async (request, configuration) => {
             await request('POST', `${realmPath}/roles`, { name })
         }
     }
+    const scopes = await request('GET', `${realmPath}/client-scopes`)
+    const adminScope = scopes.find(scope => scope.name === 'kc-admin-api')
     for (const desired of getRealmClients(configuration)) {
         const clientPath = `${realmPath}/clients?clientId=${encodeURIComponent(desired.clientId)}`
         let client = (await request('GET', clientPath)).find(item => item.clientId === desired.clientId)
@@ -36,6 +38,9 @@ export default async (request, configuration) => {
                 },
                 id: client.id,
             })
+        }
+        if (desired.clientId === 'adminApi' && adminScope) {
+            await request('PUT', `${realmPath}/clients/${client.id}/default-client-scopes/${adminScope.id}`)
         }
         const mapperPath = `${realmPath}/clients/${client.id}/protocol-mappers/models`
         const mappers = await request('GET', mapperPath)
