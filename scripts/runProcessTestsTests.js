@@ -21,7 +21,11 @@ test('process tests discover nested siblings and fail on a failed test', t => {
     mkdirSync(integration)
     for (const name of ['runProcessTests', 'runTests']) {
         writeFileSync(path.join(directory, `${name}.js`), `throw new Error('runners must not execute as tests')\n`)
+        writeFileSync(path.join(directory, `${name}Tests.js`), `import test from 'test'\ntest('runner source', () => {})\n`)
     }
+    const suite = path.join(directory, 'policy', 'runTests.js')
+    mkdirSync(path.dirname(suite))
+    writeFileSync(suite, `import test from 'test'\ntest('run unit tests stay discoverable', () => {})\n`)
     writeFileSync(path.join(support, 'mockProvider.js'), "throw new Error('support must not execute')\n")
     writeFileSync(path.join(support, 'recordTests.js'), "throw new Error('support must not execute')\n")
     writeFileSync(path.join(integration, 'workflowTests.js'), "import test from 'test'\ntest('workflow', () => {})\n")

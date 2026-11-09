@@ -1,19 +1,21 @@
 import { spawnSync } from 'child_process'
 import { availableParallelism } from 'os'
+import path from 'path'
 import { fileURLToPath } from 'url'
 import fg from 'fast-glob'
 
-const files = (await fg('**/*{Test,Tests}.js', {
+const discovered = new Set(await fg('**/*{Test,Tests}.js', {
     ignore: [
         '**/dist/**',
         '**/node_modules/**',
         '**/server/**',
         '**/testing/**',
-        '**/runProcessTests.js',
-        '**/runTests.js',
     ],
     onlyFiles: true,
-})).sort()
+}))
+const command = fileURLToPath(import.meta.url)
+const files = [...discovered].filter(file => path.resolve(file) !== command
+    && !discovered.has(file.replace(/\.js$/, 'Tests.js'))).sort()
 
 if (files.length) {
     const result = spawnSync(process.execPath, [
