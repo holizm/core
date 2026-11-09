@@ -31,7 +31,7 @@
     "columns": "คอลัมน์", "comment": "ความคิดเห็น", "comments": "ความคิดเห็น", "committedAmount": "จำนวนเงินผูกพัน",
     "completed": "เสร็จสมบูรณ์", "componentType": "ประเภทของส่วนประกอบซอฟต์แวร์", "composable": "ประกอบร่วมกันได้", "compose": "เขียน",
     "composedOf": "ประกอบด้วย", "condition": "เงื่อนไข", "conditions": "เงื่อนไข", "configuration": "การกำหนดค่า",
-    "confirmation": "การยืนยัน", "contact": "ผู้ติดต่อ", "content": "เนื้อหา", "contentLength": "ความยาวเนื้อหา",
+    "confirmation": "การยืนยัน", "contact": "ผู้ติดต่อ", "content": "เนื้อหา", "businessKnowledge": "ข้อมูลธุรกิจ", "contentLength": "ความยาวเนื้อหา",
     "contentType": "ประเภทเนื้อหา", "convertingToActive": "กำลังเปลี่ยนเป็นใช้งาน", "convertingToInactive": "กำลังเปลี่ยนเป็นไม่ใช้งาน", "copied": "คัดลอกแล้ว",
     "copy": "คัดลอก", "count": "จำนวน", "create": "สร้าง", "createdSuccessfully": "สร้างสำเร็จแล้ว",
     "creation": "การสร้าง", "creationDate": "วันที่สร้าง", "creator": "ผู้สร้าง", "ctaLink": "ลิงก์คำกระตุ้นการดำเนินการ",

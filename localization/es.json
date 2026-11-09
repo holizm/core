@@ -31,7 +31,7 @@
     "columns": "Columnas", "comment": "Comentario", "comments": "Comentarios", "committedAmount": "Importe comprometido",
     "completed": "Completado", "componentType": "Tipo de componente de software", "composable": "Componible", "compose": "Componer",
     "composedOf": "Compuesto de", "condition": "Condición", "conditions": "Condiciones", "configuration": "Configuración",
-    "confirmation": "Confirmación", "contact": "Contacto", "content": "Contenido", "contentLength": "Longitud del contenido",
+    "confirmation": "Confirmación", "contact": "Contacto", "content": "Contenido", "businessKnowledge": "Información del negocio", "contentLength": "Longitud del contenido",
     "contentType": "Tipo de contenido", "convertingToActive": "Convirtiendo a activo", "convertingToInactive": "Convertir a inactivo", "copied": "Copiado",
     "copy": "Copiar", "count": "Contar", "create": "Crear", "createdSuccessfully": "Creado con éxito",
     "creation": "Creación", "creationDate": "Fecha de creación", "creator": "Creador", "ctaLink": "Enlace de llamada a la acción",

@@ -31,7 +31,7 @@
     "columns": "ကော်လံများ", "comment": "မှတ်ချက်", "comments": "မှတ်ချက်များ", "committedAmount": "ကတိပြုထားသည့် ပမာဏ",
     "completed": "ပြီးစီးခဲ့သည်", "componentType": "ဆော့ဖ်ဝဲ အစိတ်အပိုင်း အမျိုးအစား", "composable": "ပေါင်းစပ်နိုင်သော", "compose": "ရေးဖွဲ့ရန်",
     "composedOf": "ဖြင့် ဖွဲ့စည်းထားသည်", "condition": "အခြေအနေ", "conditions": "အခြေအနေများ", "configuration": "ဖွဲ့စည်းပုံ",
-    "confirmation": "အတည်ပြုချက်", "contact": "ဆက်သွယ်ရန်", "content": "အကြောင်းအရာ", "contentLength": "အကြောင်းအရာ အရှည်",
+    "confirmation": "အတည်ပြုချက်", "contact": "ဆက်သွယ်ရန်", "content": "အကြောင်းအရာ", "businessKnowledge": "လုပ်ငန်းဆိုင်ရာ အချက်အလက်", "contentLength": "အကြောင်းအရာ အရှည်",
     "contentType": "အကြောင်းအရာ အမျိုးအစား", "convertingToActive": "အသက်ဝင်အဖြစ် ပြောင်းနေသည်", "convertingToInactive": "အသက်မဝင်အဖြစ် ပြောင်းနေသည်", "copied": "ကူးယူပြီး",
     "copy": "ကူးယူရန်", "count": "အရေအတွက်", "create": "ဖန်တီးရန်", "createdSuccessfully": "အောင်မြင်စွာ ဖန်တီးပြီး",
     "creation": "ဖန်တီးခြင်း", "creationDate": "ဖန်တီးသည့် ရက်စွဲ", "creator": "ဖန်တီးသူ", "ctaLink": "လုပ်ဆောင်ရန် လင့်ခ်",

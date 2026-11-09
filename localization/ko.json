@@ -31,7 +31,7 @@
     "columns": "열", "comment": "코멘트", "comments": "코멘트", "committedAmount": "약정 금액",
     "completed": "완성됨", "componentType": "소프트웨어 구성 요소 유형", "composable": "구성 가능", "compose": "구성하다",
     "composedOf": "다음으로 구성됨", "condition": "조건", "conditions": "조건", "configuration": "구성",
-    "confirmation": "확인", "contact": "연락처", "content": "콘텐츠", "contentLength": "콘텐츠 길이",
+    "confirmation": "확인", "contact": "연락처", "content": "콘텐츠", "businessKnowledge": "사업 정보", "contentLength": "콘텐츠 길이",
     "contentType": "콘텐츠 유형", "convertingToActive": "활성으로 전환 중", "convertingToInactive": "비활성으로 전환 중", "copied": "복사됨",
     "copy": "복사", "count": "세다", "create": "만들다", "createdSuccessfully": "성공적으로 생성되었습니다",
     "creation": "창조", "creationDate": "생산 일", "creator": "생성자", "ctaLink": "CTA 링크",

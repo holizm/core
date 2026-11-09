@@ -31,7 +31,7 @@
     "columns": "Колони", "comment": "Коментар", "comments": "Коментари", "committedAmount": "Ангажирана сума",
     "completed": "Завършено", "componentType": "Тип софтуерен компонент", "composable": "Комбинируем", "compose": "Съставяне",
     "composedOf": "Състои се от", "condition": "Условие", "conditions": "Условия", "configuration": "Конфигурация",
-    "confirmation": "Потвърждение", "contact": "Контакт", "content": "Съдържание", "contentLength": "Дължина на съдържанието",
+    "confirmation": "Потвърждение", "contact": "Контакт", "content": "Съдържание", "businessKnowledge": "Информация за бизнеса", "contentLength": "Дължина на съдържанието",
     "contentType": "Тип съдържание", "convertingToActive": "Преобразуване в активен", "convertingToInactive": "Преобразуване в неактивен", "copied": "Копирано",
     "copy": "Копиране", "count": "Брой", "create": "Създаване", "createdSuccessfully": "Създадено успешно",
     "creation": "Създаване", "creationDate": "Дата на създаване", "creator": "Създател", "ctaLink": "Връзка за призив към действие",

@@ -31,7 +31,7 @@
     "columns": "Stupci", "comment": "Komentar", "comments": "Komentari", "committedAmount": "Obvezani iznos",
     "completed": "Dovršeno", "componentType": "Vrsta programske komponente", "composable": "Sastavljivo", "compose": "Sastavi",
     "composedOf": "Sastoji se od", "condition": "Uvjet", "conditions": "Uvjeti", "configuration": "Konfiguracija",
-    "confirmation": "Potvrda", "contact": "Kontakt", "content": "Sadržaj", "contentLength": "Duljina sadržaja",
+    "confirmation": "Potvrda", "contact": "Kontakt", "content": "Sadržaj", "businessKnowledge": "Podaci o poslovanju", "contentLength": "Duljina sadržaja",
     "contentType": "Vrsta sadržaja", "convertingToActive": "Pretvaranje u aktivno", "convertingToInactive": "Pretvaranje u neaktivno", "copied": "Kopirano",
     "copy": "Kopiraj", "count": "Broj", "create": "Izradi", "createdSuccessfully": "Uspješno izrađeno",
     "creation": "Izrada", "creationDate": "Datum izrade", "creator": "Autor", "ctaLink": "Poveznica poziva na radnju",

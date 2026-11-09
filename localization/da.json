@@ -31,7 +31,7 @@
     "columns": "Kolonner", "comment": "Kommentar", "comments": "Kommentarer", "committedAmount": "Forpligtet beløb",
     "completed": "Færdiggjort", "componentType": "Type af en softwarekomponent", "composable": "Kan sammensættes", "compose": "Sammensæt",
     "composedOf": "Består af", "condition": "Betingelse", "conditions": "Betingelser", "configuration": "Konfiguration",
-    "confirmation": "Bekræftelse", "contact": "Kontakt", "content": "Indhold", "contentLength": "Indholdslængde",
+    "confirmation": "Bekræftelse", "contact": "Kontakt", "content": "Indhold", "businessKnowledge": "Virksomhedsviden", "contentLength": "Indholdslængde",
     "contentType": "Indholdstype", "convertingToActive": "Konverterer til aktiv", "convertingToInactive": "Konverterer til inaktiv", "copied": "Kopieret",
     "copy": "Kopiér", "count": "Antal", "create": "Opret", "createdSuccessfully": "Oprettet",
     "creation": "Oprettelse", "creationDate": "Oprettelsesdato", "creator": "Opretter", "ctaLink": "Handlingslink",

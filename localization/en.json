@@ -31,7 +31,7 @@
     "columns": "Columns", "comment": "Comment", "comments": "Comments", "committedAmount": "Committed amount",
     "completed": "Completed", "componentType": "Component type", "composable": "Composable", "compose": "Compose",
     "composedOf": "Composed Of", "condition": "Condition", "conditions": "Conditions", "configuration": "Configuration",
-    "confirmation": "Confirmation", "contact": "Contact", "content": "Content", "contentLength": "Content length",
+    "confirmation": "Confirmation", "contact": "Contact", "content": "Content", "businessKnowledge": "Business knowledge", "contentLength": "Content length",
     "contentType": "Content type", "convertingToActive": "Converting to active", "convertingToInactive": "Converting to inactive", "copied": "Copied",
     "copy": "Copy", "count": "Count", "create": "Create", "createdSuccessfully": "Created successfully",
     "creation": "Creation", "creationDate": "Creation date", "creator": "Creator", "ctaLink": "CTA Link",

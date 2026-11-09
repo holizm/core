@@ -31,7 +31,7 @@
     "columns": "欄", "comment": "留言", "comments": "留言", "committedAmount": "承諾金額",
     "completed": "完成", "componentType": "軟體組件的類型", "composable": "可組合", "compose": "撰寫",
     "composedOf": "由…組成", "condition": "條件", "conditions": "條件", "configuration": "設定",
-    "confirmation": "確認", "contact": "聯絡人", "content": "內容", "contentLength": "內容長度",
+    "confirmation": "確認", "contact": "聯絡人", "content": "內容", "businessKnowledge": "商家資訊", "contentLength": "內容長度",
     "contentType": "內容類型", "convertingToActive": "正在轉為啟用", "convertingToInactive": "正在轉為停用", "copied": "已複製",
     "copy": "複製", "count": "數量", "create": "建立", "createdSuccessfully": "建立成功",
     "creation": "建立", "creationDate": "建立日期", "creator": "建立者", "ctaLink": "行動呼籲連結",

@@ -31,7 +31,7 @@
     "columns": "Kolonner", "comment": "Kommentar", "comments": "Kommentarer", "committedAmount": "Forpliktet beløp",
     "completed": "Fullført", "componentType": "Type programvarekomponent", "composable": "Komponerbar", "compose": "Sett sammen",
     "composedOf": "Består av", "condition": "Betingelse", "conditions": "Vilkår", "configuration": "Konfigurasjon",
-    "confirmation": "Bekreftelse", "contact": "Kontakt", "content": "Innhold", "contentLength": "Innholdslengde",
+    "confirmation": "Bekreftelse", "contact": "Kontakt", "content": "Innhold", "businessKnowledge": "Bedriftsinformasjon", "contentLength": "Innholdslengde",
     "contentType": "Innholdstype", "convertingToActive": "Konverterer til aktiv", "convertingToInactive": "Konverterer til inaktiv", "copied": "Kopiert",
     "copy": "Kopier", "count": "Antall", "create": "Opprett", "createdSuccessfully": "Opprettet",
     "creation": "Opprettelse", "creationDate": "Opprettelsesdato", "creator": "Oppretter", "ctaLink": "Handlingslenke",

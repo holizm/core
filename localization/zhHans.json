@@ -31,7 +31,7 @@
     "columns": "列", "comment": "评论", "comments": "评论", "committedAmount": "承诺金额",
     "completed": "完工", "componentType": "软件组件的类型", "composable": "可组合", "compose": "撰写",
     "composedOf": "由…组成", "condition": "条件", "conditions": "条件", "configuration": "配置",
-    "confirmation": "确认", "contact": "联系人", "content": "内容", "contentLength": "内容长度",
+    "confirmation": "确认", "contact": "联系人", "content": "内容", "businessKnowledge": "商家信息", "contentLength": "内容长度",
     "contentType": "内容类型", "convertingToActive": "正在转为启用", "convertingToInactive": "正在转为停用", "copied": "已复制",
     "copy": "复制", "count": "数量", "create": "创建", "createdSuccessfully": "创建成功",
     "creation": "创建", "creationDate": "创建日期", "creator": "创建者", "ctaLink": "行动号召链接",

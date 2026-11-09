@@ -31,7 +31,7 @@
     "columns": "Kolumner", "comment": "Kommentar", "comments": "Kommentarer", "committedAmount": "Bundet belopp",
     "completed": "Färdigställd", "componentType": "Typ av mjukvarukomponent", "composable": "Komponerbar", "compose": "Skapa",
     "composedOf": "Består av", "condition": "Villkor", "conditions": "Villkor", "configuration": "Konfiguration",
-    "confirmation": "Bekräftelse", "contact": "Kontakt", "content": "Innehåll", "contentLength": "Innehållslängd",
+    "confirmation": "Bekräftelse", "contact": "Kontakt", "content": "Innehåll", "businessKnowledge": "Företagsinformation", "contentLength": "Innehållslängd",
     "contentType": "Innehållstyp", "convertingToActive": "Gör aktiv", "convertingToInactive": "Gör inaktiv", "copied": "Kopierat",
     "copy": "Kopiera", "count": "Antal", "create": "Skapa", "createdSuccessfully": "Skapades",
     "creation": "Skapande", "creationDate": "Skapandedatum", "creator": "Skapare", "ctaLink": "Uppmaningslänk",

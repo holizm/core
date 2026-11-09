@@ -31,7 +31,7 @@
     "columns": "Sarakkeet", "comment": "Kommentti", "comments": "Kommentit", "committedAmount": "Sidottu määrä",
     "completed": "Valmis", "componentType": "Ohjelmistokomponentin tyyppi", "composable": "Koostettava", "compose": "Koosta",
     "composedOf": "Koostuu", "condition": "Ehto", "conditions": "Ehdot", "configuration": "Määritys",
-    "confirmation": "Vahvistus", "contact": "Yhteyshenkilö", "content": "Sisältö", "contentLength": "Sisällön pituus",
+    "confirmation": "Vahvistus", "contact": "Yhteyshenkilö", "content": "Sisältö", "businessKnowledge": "Yrityksen tiedot", "contentLength": "Sisällön pituus",
     "contentType": "Sisältötyyppi", "convertingToActive": "Muunnetaan aktiiviseksi", "convertingToInactive": "Muunnetaan passiiviseksi", "copied": "Kopioitu",
     "copy": "Kopioi", "count": "Määrä", "create": "Luo", "createdSuccessfully": "Luotu onnistuneesti",
     "creation": "Luominen", "creationDate": "Luontipäivä", "creator": "Luoja", "ctaLink": "Toimintakehotteen linkki",

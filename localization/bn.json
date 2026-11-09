@@ -31,7 +31,7 @@
     "columns": "কলাম", "comment": "মন্তব্য", "comments": "মন্তব্য", "committedAmount": "প্রতিশ্রুত পরিমাণ",
     "completed": "সম্পন্ন", "componentType": "একটি সফ্টওয়্যার উপাদানের প্রকার", "composable": "কমপোজেবল", "compose": "রচনা",
     "composedOf": "যা দিয়ে গঠিত", "condition": "শর্ত", "conditions": "শর্তসমূহ", "configuration": "কনফিগারেশন",
-    "confirmation": "নিশ্চিতকরণ", "contact": "যোগাযোগ", "content": "বিষয়বস্তু", "contentLength": "বিষয়বস্তুর দৈর্ঘ্য",
+    "confirmation": "নিশ্চিতকরণ", "contact": "যোগাযোগ", "content": "বিষয়বস্তু", "businessKnowledge": "ব্যবসা সম্পর্কিত তথ্য", "contentLength": "বিষয়বস্তুর দৈর্ঘ্য",
     "contentType": "বিষয়বস্তুর প্রকার", "convertingToActive": "সক্রিয় রূপান্তর", "convertingToInactive": "নিষ্ক্রিয় রূপান্তর", "copied": "কপি করা হয়েছে",
     "copy": "কপি", "count": "গণনা", "create": "সৃষ্টি", "createdSuccessfully": "সফলভাবে তৈরি করা হয়েছে৷",
     "creation": "সৃষ্টি", "creationDate": "তৈরির তারিখ", "creator": "সৃষ্টিকর্তা", "ctaLink": "CTA লিঙ্ক",

@@ -31,7 +31,7 @@
     "columns": "أعمدة", "comment": "تعليق", "comments": "تعليقات", "committedAmount": "المبلغ الملتزم به",
     "completed": "اكتمل", "componentType": "نوع مكون البرنامج", "composable": "قابلية للتأليف", "compose": "تأليف",
     "composedOf": "يتكون من", "condition": "شرط", "conditions": "شروط", "configuration": "الإعدادات",
-    "confirmation": "تأكيد", "contact": "جهة الاتصال", "content": "محتوى", "contentLength": "طول المحتوى",
+    "confirmation": "تأكيد", "contact": "جهة الاتصال", "content": "محتوى", "businessKnowledge": "معلومات النشاط التجاري", "contentLength": "طول المحتوى",
     "contentType": "نوع المحتوى", "convertingToActive": "تحويل إلى نشط", "convertingToInactive": "تحويل إلى غير نشط", "copied": "تم النسخ",
     "copy": "نسخ", "count": "عدد", "create": "يخلق", "createdSuccessfully": "تم الإنشاء بنجاح",
     "creation": "الخلق", "creationDate": "تاريخ الإنشاء", "creator": "المنشئ", "ctaLink": "رابط الحث على اتخاذ إجراء",

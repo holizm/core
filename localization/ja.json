@@ -31,7 +31,7 @@
     "columns": "コラム", "comment": "コメント", "comments": "コメント", "committedAmount": "確定額",
     "completed": "完了", "componentType": "ソフトウェアコンポーネントの種類", "composable": "構成可能", "compose": "構成します",
     "composedOf": "構成元", "condition": "条件", "conditions": "条件", "configuration": "構成",
-    "confirmation": "確認", "contact": "連絡先", "content": "コンテンツ", "contentLength": "コンテンツの長さ",
+    "confirmation": "確認", "contact": "連絡先", "content": "コンテンツ", "businessKnowledge": "事業情報", "contentLength": "コンテンツの長さ",
     "contentType": "コンテンツタイプ", "convertingToActive": "アクティブに変換中", "convertingToInactive": "非アクティブに変換中", "copied": "コピーされました",
     "copy": "コピー", "count": "カウント", "create": "作成する", "createdSuccessfully": "正常に作成されました",
     "creation": "創造", "creationDate": "作成日", "creator": "作成者", "ctaLink": "CTAリンク",

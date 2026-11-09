@@ -31,7 +31,7 @@
     "columns": "Kolommen", "comment": "Reactie", "comments": "Reacties", "committedAmount": "Vastgelegd bedrag",
     "completed": "Voltooid", "componentType": "Type softwarecomponent", "composable": "Samenstelbaar", "compose": "Opstellen",
     "composedOf": "Bestaat uit", "condition": "Voorwaarde", "conditions": "Voorwaarden", "configuration": "Configuratie",
-    "confirmation": "Bevestiging", "contact": "Contactpersoon", "content": "Inhoud", "contentLength": "Inhoudslengte",
+    "confirmation": "Bevestiging", "contact": "Contactpersoon", "content": "Inhoud", "businessKnowledge": "Bedrijfsinformatie", "contentLength": "Inhoudslengte",
     "contentType": "Inhoudstype", "convertingToActive": "Wordt actief gemaakt", "convertingToInactive": "Wordt inactief gemaakt", "copied": "Gekopieerd",
     "copy": "Kopiëren", "count": "Aantal", "create": "Maken", "createdSuccessfully": "Succesvol gemaakt",
     "creation": "Aanmaken", "creationDate": "Aanmaakdatum", "creator": "Maker", "ctaLink": "Actielink",

@@ -31,7 +31,7 @@
     "columns": "Spalten", "comment": "Kommentar", "comments": "Kommentare", "committedAmount": "Gebundener Betrag",
     "completed": "Abgeschlossen", "componentType": "Typ einer Softwarekomponente", "composable": "Komponierbar", "compose": "Komponieren",
     "composedOf": "Besteht aus", "condition": "Bedingung", "conditions": "Bedingungen", "configuration": "Konfiguration",
-    "confirmation": "Bestätigung", "contact": "Kontakt", "content": "Inhalt", "contentLength": "Inhaltslänge",
+    "confirmation": "Bestätigung", "contact": "Kontakt", "content": "Inhalt", "businessKnowledge": "Unternehmenswissen", "contentLength": "Inhaltslänge",
     "contentType": "Inhaltstyp", "convertingToActive": "Konvertieren in aktiv", "convertingToInactive": "Konvertierung in inaktiv", "copied": "Kopiert",
     "copy": "Kopieren", "count": "Zählen", "create": "Erstellen", "createdSuccessfully": "Erfolgreich erstellt",
     "creation": "Schaffung", "creationDate": "Erstellungsdatum", "creator": "Ersteller", "ctaLink": "CTA-Link",

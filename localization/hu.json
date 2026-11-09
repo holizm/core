@@ -31,7 +31,7 @@
     "columns": "Oszlopok", "comment": "Hozzászólás", "comments": "Hozzászólások", "committedAmount": "Lekötött összeg",
     "completed": "Befejezve", "componentType": "Szoftverkomponens típusa", "composable": "Összeállítható", "compose": "Összeállítás",
     "composedOf": "Ezekből áll", "condition": "Feltétel", "conditions": "Feltételek", "configuration": "Konfiguráció",
-    "confirmation": "Megerősítés", "contact": "Kapcsolattartó", "content": "Tartalom", "contentLength": "Tartalom hossza",
+    "confirmation": "Megerősítés", "contact": "Kapcsolattartó", "content": "Tartalom", "businessKnowledge": "Üzleti információk", "contentLength": "Tartalom hossza",
     "contentType": "Tartalomtípus", "convertingToActive": "Átalakítás aktívvá", "convertingToInactive": "Átalakítás inaktívvá", "copied": "Másolva",
     "copy": "Másolás", "count": "Darabszám", "create": "Létrehozás", "createdSuccessfully": "Sikeresen létrehozva",
     "creation": "Létrehozás", "creationDate": "Létrehozás dátuma", "creator": "Létrehozó", "ctaLink": "Cselekvésre ösztönző hivatkozás",

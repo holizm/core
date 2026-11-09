@@ -31,7 +31,7 @@
     "columns": "Столбцы", "comment": "Комментарий", "comments": "Комментарии", "committedAmount": "Зарезервированная сумма",
     "completed": "Завершено", "componentType": "Тип программного компонента", "composable": "Составной", "compose": "Сочинять",
     "composedOf": "Состоит из", "condition": "Условие", "conditions": "Условия", "configuration": "Конфигурация",
-    "confirmation": "Подтверждение", "contact": "Контакт", "content": "Содержание", "contentLength": "Длина контента",
+    "confirmation": "Подтверждение", "contact": "Контакт", "content": "Содержание", "businessKnowledge": "Информация о компании", "contentLength": "Длина контента",
     "contentType": "Тип контента", "convertingToActive": "Преобразование в активный", "convertingToInactive": "Преобразование в неактивный", "copied": "Скопировано",
     "copy": "Копировать", "count": "Считать", "create": "Создавать", "createdSuccessfully": "Создано успешно",
     "creation": "Создание", "creationDate": "Дата создания", "creator": "Создатель", "ctaLink": "Ссылка с призывом к действию",

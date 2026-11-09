@@ -31,7 +31,7 @@
     "columns": "Sütunlar", "comment": "Yorum", "comments": "Yorumlar", "committedAmount": "Taahhüt edilen tutar",
     "completed": "Tamamlandı", "componentType": "Bir yazılım bileşeninin türü", "composable": "Birleştirilebilir", "compose": "Bestelemek",
     "composedOf": "Şunlardan oluşur", "condition": "Koşul", "conditions": "Koşullar", "configuration": "Yapılandırma",
-    "confirmation": "Onayla", "contact": "İletişim kişisi", "content": "İçerik", "contentLength": "İçerik uzunluğu",
+    "confirmation": "Onayla", "contact": "İletişim kişisi", "content": "İçerik", "businessKnowledge": "İşletme bilgileri", "contentLength": "İçerik uzunluğu",
     "contentType": "İçerik türü", "convertingToActive": "Aktif hale dönüştürülüyor", "convertingToInactive": "Etkin olmayan duruma dönüştürülüyor", "copied": "Kopyalandı",
     "copy": "Kopyala", "count": "Saymak", "create": "Yaratmak", "createdSuccessfully": "Başarıyla oluşturuldu",
     "creation": "Yaratılış", "creationDate": "Oluşturulma tarihi", "creator": "Oluşturan", "ctaLink": "CTA Bağlantısı",

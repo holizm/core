@@ -31,7 +31,7 @@
     "columns": "ਕਾਲਮ", "comment": "ਟਿੱਪਣੀ", "comments": "ਟਿੱਪਣੀਆਂ", "committedAmount": "ਵਚਨਬੱਧ ਰਕਮ",
     "completed": "ਪੂਰਾ ਹੋਇਆ", "componentType": "ਇੱਕ ਸਾਫਟਵੇਅਰ ਕੰਪੋਨੈਂਟ ਦੀ ਕਿਸਮ", "composable": "ਜੋੜਨ ਯੋਗ", "compose": "ਤਿਆਰ ਕਰੋ",
     "composedOf": "ਇਸ ਤੋਂ ਬਣਿਆ", "condition": "ਸ਼ਰਤ", "conditions": "ਸ਼ਰਤਾਂ", "configuration": "ਸੰਰਚਨਾ",
-    "confirmation": "ਪੁਸ਼ਟੀ", "contact": "ਸੰਪਰਕ", "content": "ਸਮੱਗਰੀ", "contentLength": "ਸਮੱਗਰੀ ਦੀ ਲੰਬਾਈ",
+    "confirmation": "ਪੁਸ਼ਟੀ", "contact": "ਸੰਪਰਕ", "content": "ਸਮੱਗਰੀ", "businessKnowledge": "ਕਾਰੋਬਾਰ ਦੀ ਜਾਣਕਾਰੀ", "contentLength": "ਸਮੱਗਰੀ ਦੀ ਲੰਬਾਈ",
     "contentType": "ਸਮੱਗਰੀ ਦੀ ਕਿਸਮ", "convertingToActive": "ਸਰਗਰਮ ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਰਿਹਾ ਹੈ", "convertingToInactive": "ਅਸਰਗਰਮ ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਰਿਹਾ ਹੈ", "copied": "ਕਾਪੀ ਕੀਤਾ",
     "copy": "ਕਾਪੀ ਕਰੋ", "count": "ਗਿਣਤੀ", "create": "ਬਣਾਓ", "createdSuccessfully": "ਸਫਲਤਾਪੂਰਵਕ ਬਣਾਇਆ ਗਿਆ",
     "creation": "ਬਣਾਉਣਾ", "creationDate": "ਬਣਾਉਣ ਦੀ ਮਿਤੀ", "creator": "ਸਿਰਜਣਹਾਰ", "ctaLink": "ਕਾਰਵਾਈ ਲਈ ਸੱਦਾ ਲਿੰਕ",
