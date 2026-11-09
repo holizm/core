@@ -1,7 +1,9 @@
 import isFile from './isFile.js'
+import mapTestData from './mapTestData.js'
 import { writeFileIfNotExists } from './os.js'
 
 export default params => {
+    mapTestData(params)
     const {
         containerHome,
         home,

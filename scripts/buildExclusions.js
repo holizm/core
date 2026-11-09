@@ -20,6 +20,8 @@ export default [
     '**/settingsOverride.json',
     '**/spl',
     '**/test',
+    '**/testData',
+    '**/*TestData',
     '**/testFixtures',
     '**/tests',
     '**/*Test.js',
