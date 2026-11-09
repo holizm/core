@@ -6,6 +6,7 @@ import {
 import createCiCd from './createCiCd.js'
 import createDirectories from './createDirectories.js'
 import createSiteConfiguration from './createSiteConfiguration.js'
+import createSiteRenderers from './createSiteRenderers.js'
 import createThemeEntries from './createThemeEntries.js'
 import createThemeStyleEntries from './createThemeStyleEntries.js'
 import findThemeDirectories from './findThemeDirectories.js'
@@ -348,6 +349,7 @@ export default params => {
         ],
     }))
     measure('site: create configuration', () => createSiteConfiguration(params))
+    measure('site: compose renderers', () => createSiteRenderers(params))
     measure('site: create UI parts file', () => createFileIfNotExists(`/tmp/${params.repo}/${params.process}/uiParts.json`))
     measure('site: create CI/CD', () => createCiCd(params))
 

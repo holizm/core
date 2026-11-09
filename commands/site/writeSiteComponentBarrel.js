@@ -20,6 +20,7 @@ export default ({
         :
         ''
     const content = `${defaultExport}export * from '${specifier}'\n`
+    if (fs.existsSync(barrelFile) && fs.readFileSync(barrelFile, 'utf8') === content) return
     fs.mkdirSync(path.dirname(barrelFile), { recursive: true })
     fs.writeFileSync(barrelFile, content)
 }

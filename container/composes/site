@@ -49,7 +49,7 @@ services:
             - ${home}/site/styles/${globalCssFile}:${containerHome}/${repo}/${process}/src/global.css
             - ${home}/site/src/pluginCore.ts:${containerHome}/${repo}/${process}/src/routes/plugin@_core.ts
             - ${home}/site/src/root.jsx:${containerHome}/${repo}/${process}/src/root.tsx
-            - ${home}/site/src/routerHead.jsx:${containerHome}/${repo}/${process}/src/router-head.jsx
+            - ${home}/site/src/routerHead.jsx:${containerHome}/${repo}/${process}/src/routerHead.jsx
             - ${home}/site/src/documentIcons.jsx:${containerHome}/${repo}/${process}/src/documentIcons.jsx
             - ${home}/site/src/documentMetadata.jsx:${containerHome}/${repo}/${process}/src/documentMetadata.jsx
             - ${home}/site/src/documentSchemaScripts.jsx:${containerHome}/${repo}/${process}/src/documentSchemaScripts.jsx
