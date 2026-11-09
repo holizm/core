@@ -24,6 +24,14 @@ if (files.length) {
         fileURLToPath(new URL('./registerTestModules.js', import.meta.url)),
         '--test',
         `--test-concurrency=${availableParallelism()}`,
+        ...(
+            process.env.testTimeoutMilliseconds
+                ? [
+                    `--test-timeout=${process.env.testTimeoutMilliseconds}`,
+                    '--test-force-exit',
+                ]
+                : []
+        ),
         ...files,
     ], {
         env: Object.fromEntries(Object.entries(process.env).filter(([key]) => key !== 'NODE_TEST_CONTEXT')),

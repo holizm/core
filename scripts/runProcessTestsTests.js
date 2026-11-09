@@ -39,3 +39,21 @@ test('process tests discover nested siblings and fail on a failed test', t => {
         stdio: 'pipe',
     }))
 })
+
+test('process tests enforce a configured timeout for stalled suites', t => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'processTimeout'))
+    t.after(() => rmSync(directory, { force: true, recursive: true }))
+    const file = path.join(directory, 'stallTests.js')
+    writeFileSync(file, `import test from 'test'\ntest('waiting', () => new Promise(resolve => setTimeout(resolve, 10000)))\n`)
+    const command = path.join(import.meta.dirname, 'runProcessTests.js')
+    const startedAt = Date.now()
+    assert.throws(() => execFileSync(process.execPath, [command], {
+        cwd: directory,
+        env: {
+            ...process.env,
+            testTimeoutMilliseconds: '500',
+        },
+        stdio: 'pipe',
+    }), e => e.stdout.toString().includes('timed out'))
+    assert.ok(Date.now() - startedAt < 5000)
+})
