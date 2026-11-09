@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+directory=$(mktemp -d /tmp/connectTestsXXXXXX)
+trap 'rm -r -- "$directory"' EXIT
+export connectionTestLog="$directory/arguments"
+mkdir "$directory/bin"
+cat > "$directory/bin/node" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' '22 fixtureUser 127.0.0.1'
+script
+cat > "$directory/bin/ssh" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' "$@" > "$connectionTestLog"
+script
+chmod +x "$directory/bin/node" "$directory/bin/ssh"
+export PATH="$directory/bin:$PATH"
+env -u connectionAttempts -u connectionTimeoutSeconds "$HOME/core/commands/connect" fixture true
+rg -q '^ConnectionAttempts=3$' "$connectionTestLog"
+rg -q '^ConnectTimeout=15$' "$connectionTestLog"
+connectionAttempts=5 connectionTimeoutSeconds=30 "$HOME/core/commands/connect" fixture true
+rg -q '^ConnectionAttempts=5$' "$connectionTestLog"
+rg -q '^ConnectTimeout=30$' "$connectionTestLog"
+connectionAttempts=3 connectionTimeoutSeconds=15 "$HOME/core/commands/connect" fixture
+rg -q '^-t$' "$connectionTestLog"
+rg -q '^ConnectionAttempts=3$' "$connectionTestLog"
+rg -q '^ConnectTimeout=15$' "$connectionTestLog"
+printf '%s\n' 'Bounded default connections and explicit establishment limits verified'

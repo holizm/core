@@ -27,6 +27,10 @@ destinationPath=${@: -1}
 targetPath=${destinationPath#*:}
 if [[ -d "$targetPath" ]]; then targetPath="$targetPath/${sourcePath##*/}"; fi
 if [[ -n "${transferFailChunk:-}" && "${sourcePath##*/}" == "$transferFailChunk" ]]; then exit 1; fi
+if [[ -n "${transferRetryMarker:-}" && "${sourcePath##*/}" == chunk00000001 && ! -e "$transferRetryMarker" ]]; then
+    : > "$transferRetryMarker"
+    exit 1
+fi
 if [[ -n "${transferCorruptChunk:-}" && "${sourcePath##*/}" == "$transferCorruptChunk" ]]; then
     printf '%s' corrupted > "$targetPath"
 else
@@ -49,5 +53,12 @@ export transferCorruptChunk=chunk00000001
 if bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
 cmp -- "$directory/payload" "$directory/resultArchive"
 while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
+unset transferCorruptChunk
+export transferRetryMarker="$directory/retried"
+printf '%s' 0123456789 > "$directory/payload"
+bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"
+test -f "$transferRetryMarker"
+cmp -- "$directory/payload" "$directory/resultArchive"
+while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
 if transferChunkBytes=0 bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
-printf '%s\n' 'Chunk integrity, failure preservation, cleanup and bounded chunk validation verified'
+printf '%s\n' 'Chunk integrity, retry recovery, failure preservation, cleanup and bounded validation verified'
