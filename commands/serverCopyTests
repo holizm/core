@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+directory=$(mktemp -d /tmp/serverCopyTestsXXXXXX)
+trap 'rm -r -- "$directory"' EXIT
+export transferTestLog="$directory/transfers"
+mkdir "$directory/bin"
+printf '%s' payload > "$directory/payload"
+cat > "$directory/bin/node" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' '22 fixtureUser 127.0.0.1'
+script
+cat > "$directory/bin/ssh" <<'script'
+#!/usr/bin/env bash
+exit 0
+script
+cat > "$directory/bin/scp" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' scp >> "$transferTestLog"
+script
+cat > "$directory/bin/rsync" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' rsync >> "$transferTestLog"
+script
+chmod +x "$directory/bin/node" "$directory/bin/ssh" "$directory/bin/scp" "$directory/bin/rsync"
+export PATH="$directory/bin:$PATH"
+
+transferMode=complete "$HOME/core/commands/serverCopy" "$directory/payload" 'fixture:/tmp/payload' changes
+rg -q '^scp$' "$transferTestLog"
+if rg -q '^rsync$' "$transferTestLog"; then exit 1; fi
+: > "$transferTestLog"
+env -u transferMode "$HOME/core/commands/serverCopy" "$directory/payload" 'fixture:/tmp/payload' changes
+rg -q '^rsync$' "$transferTestLog"
+if rg -q '^scp$' "$transferTestLog"; then exit 1; fi
+printf '%s\n' 'Default change transfer and explicit complete-copy transfer verified'
