@@ -33,6 +33,7 @@ if [[ -z "$remotePath" || "$remotePath" == "$remote" ]]; then
 fi
 
 read -r sshPort sshUser sshIp < <(node ~/core/scripts/extractSshParameters.js "$domain")
+copyOptions=(-o "ConnectionAttempts=${connectionAttempts:-3}" -o "ConnectTimeout=${connectionTimeoutSeconds:-15}" -o ServerAliveInterval=15 -o "ServerAliveCountMax=${serverAliveCountMax:-12}")
 
 if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     error "Failed to extract SSH parameters for $domain"
@@ -59,7 +60,7 @@ if [[ "$remoteIsSource" == true ]]; then
         fi
 
         for remoteFile in "${remoteFiles[@]}"; do
-            scp -P "$sshPort" "$sshUser@$sshIp:$remoteDirectory/$remoteFile" "$localPath" || exit 1
+            scp "${copyOptions[@]}" -P "$sshPort" "$sshUser@$sshIp:$remoteDirectory/$remoteFile" "$localPath" || exit 1
         done
 
     elif ssh -p "$sshPort" "$sshUser@$sshIp" \
@@ -78,12 +79,12 @@ if [[ "$remoteIsSource" == true ]]; then
         fi
 
         for remoteFile in "${remoteFiles[@]}"; do
-            scp -P "$sshPort" "$sshUser@$sshIp:$remotePath/$remoteFile" "$localDirectory" || exit 1
+            scp "${copyOptions[@]}" -P "$sshPort" "$sshUser@$sshIp:$remotePath/$remoteFile" "$localDirectory" || exit 1
         done
 
     else
 
-        scp -P "$sshPort" "$sshUser@$sshIp:$remotePath" "$localPath" || exit 1
+        scp "${copyOptions[@]}" -P "$sshPort" "$sshUser@$sshIp:$remotePath" "$localPath" || exit 1
 
     fi
 
@@ -102,7 +103,7 @@ else
         fi
 
         for localFile in "${localFiles[@]}"; do
-            scp -P "$sshPort" "$localDirectory/$localFile" "$sshUser@$sshIp:$remotePath" || exit 1
+            scp "${copyOptions[@]}" -P "$sshPort" "$localDirectory/$localFile" "$sshUser@$sshIp:$remotePath" || exit 1
         done
 
     elif [[ -d "$localPath" ]]; then
@@ -121,7 +122,7 @@ else
         fi
 
         for localFile in "${localFiles[@]}"; do
-            scp -P "$sshPort" "$localPath/$localFile" "$sshUser@$sshIp:$remoteDirectory" || exit 1
+            scp "${copyOptions[@]}" -P "$sshPort" "$localPath/$localFile" "$sshUser@$sshIp:$remoteDirectory" || exit 1
         done
 
     else
@@ -129,7 +130,7 @@ else
         if [[ "$3" == changes && "${transferMode:-changes}" == changes ]] && command -v rsync >/dev/null 2>&1 && "$HOME/core/commands/connect" "$domain" 'command -v rsync' >/dev/null 2>&1; then
             rsync --checksum --protect-args --stats --partial-dir=transferCache -e "$HOME/core/commands/connect $domain --transport" "$localPath" "$domain:$remotePath" || exit 1
         else
-            scp -P "$sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
+            scp "${copyOptions[@]}" -P "$sshPort" "$localPath" "$sshUser@$sshIp:$remotePath" || exit 1
         fi
 
     fi

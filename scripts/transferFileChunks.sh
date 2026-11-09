@@ -14,7 +14,13 @@ copyFile() {
     local copySourcePath=$1
     local copyDestinationPath=$2
     local attempt=0
-    until timeout --kill-after=5 "$timeoutSeconds" env transferMode=complete "$HOME/core/commands/serverCopy" "$copySourcePath" "$domain:$copyDestinationPath"; do
+    until timeout --kill-after=5 "$timeoutSeconds" bash -c '
+        transferProcess=""
+        trap '\''if [[ -n "$transferProcess" ]]; then kill -KILL -- "-$transferProcess" 2>/dev/null || true; fi; exit 124'\'' TERM
+        setsid env transferMode=complete "$HOME/core/commands/serverCopy" "$1" "$2" &
+        transferProcess=$!
+        wait "$transferProcess"
+    ' transfer "$copySourcePath" "$domain:$copyDestinationPath"; do
         attempt=$((attempt + 1))
         if [[ "$attempt" -ge "$attemptLimit" ]]; then return 1; fi
     done

@@ -24,6 +24,11 @@ cat > "$directory/bin/scp" <<'script'
 #!/usr/bin/env bash
 sourcePath=${@: -2:1}
 destinationPath=${@: -1}
+if [[ -n "${transferHangMarker:-}" ]]; then
+    printf '%s\n' "$BASHPID" >> "$transferHangMarker"
+    trap '' TERM
+    sleep 30
+fi
 targetPath=${destinationPath#*:}
 if [[ -d "$targetPath" ]]; then targetPath="$targetPath/${sourcePath##*/}"; fi
 if [[ -n "${transferFailChunk:-}" && "${sourcePath##*/}" == "$transferFailChunk" ]]; then exit 1; fi
@@ -61,4 +66,11 @@ test -f "$transferRetryMarker"
 cmp -- "$directory/payload" "$directory/resultArchive"
 while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
 if transferChunkBytes=0 bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
+export transferHangMarker="$directory/stalledProcesses"
+if transferTimeoutSeconds=1 transferAttempts=1 bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
+while read -r pid; do
+    state=$(ps -o stat= -p "$pid" || true)
+    if [[ -n "$state" && "$state" != Z* ]]; then exit 1; fi
+done < "$transferHangMarker"
+cmp -- "$directory/payload" "$directory/resultArchive"
 printf '%s\n' 'Chunk integrity, retry recovery, failure preservation, cleanup and bounded validation verified'
