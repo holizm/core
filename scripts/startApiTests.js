@@ -4,7 +4,7 @@ import {
     test,
 } from 'node:test';
 const calls = [];
-const names = ['createApiContainer', 'createCiCd', 'createDirectories', 'createMissingApiFiles', 'getApiUtilityDirectories', 'linkApiEditorFiles', 'mapApiCore', 'mapApiDependencies', 'mapApiProcesses', 'mapApiRunnable', 'mapApiUtilities', 'mapLocalizations', 'mapNode', 'mapRunnableSearchableProperties', 'mapSettings', 'mapSystemTenants', 'registerApiDatabaseTasks', 'removeRootOwnedDirectories'];
+const names = ['createApiContainer', 'createCiCd', 'createDirectories', 'createMissingApiFiles', 'getApiUtilityDirectories', 'linkApiEditorFiles', 'mapApiCore', 'mapApiDependencies', 'mapApiProcesses', 'mapApiRunnable', 'mapApiDataOperations', 'mapLocalizations', 'mapNode', 'mapRunnableSearchableProperties', 'mapSettings', 'mapSystemTenants', 'registerApiDatabaseTasks', 'removeRootOwnedDirectories'];
 for (const name of names) mock.module(`./${name}.js`, {
     defaultExport: () => {
         calls.push(name);

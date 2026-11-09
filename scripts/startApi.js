@@ -13,7 +13,7 @@ import mapApiCore from './mapApiCore.js';
 import mapApiDependencies from './mapApiDependencies.js';
 import mapApiProcesses from './mapApiProcesses.js';
 import mapApiRunnable from './mapApiRunnable.js';
-import mapApiUtilities from './mapApiUtilities.js';
+import mapApiDataOperations from './mapApiDataOperations.js';
 import mapLocalizations from './mapLocalizations.js';
 import mapNode from './mapNode.js';
 import mapRunnableSearchableProperties from './mapRunnableSearchableProperties.js';
@@ -47,7 +47,7 @@ export default params => {
     measure('API: map dependencies', () => mapApiDependencies(params));
     measure('API: map localizations', () => mapLocalizations(params));
     measure('API: map runnable files', () => mapApiRunnable(params));
-    measure('API: map utilities', () => mapApiUtilities(params));
+    measure('API: map utilities', () => mapApiDataOperations(params));
     measure('API: map core', () => mapApiCore(params));
     measure('API: join volumes', () => params.joinVolumes());
     if (!isEtl(params)) {

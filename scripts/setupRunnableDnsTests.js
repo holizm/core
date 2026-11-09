@@ -5,7 +5,7 @@ import path from 'path'
 import { registerHooks } from 'module'
 import { test } from 'node:test'
 
-const mockUrl = new URL('./testFixtures/mockRunnableDns.js', import.meta.url).href
+const mockUrl = new URL('../testing/scripts/runnableDnsMockProvider.js', import.meta.url).href
 registerHooks({
     resolve: (specifier, context, nextResolve) => specifier === 'dns/promises' || specifier.endsWith('/setupLocalDns.js')
         ?

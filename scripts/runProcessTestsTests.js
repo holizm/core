@@ -19,6 +19,9 @@ test('process tests discover nested siblings and fail on a failed test', t => {
     const integration = path.join(directory, 'integrationTests')
     mkdirSync(support)
     mkdirSync(integration)
+    for (const name of ['runProcessTests', 'runTests']) {
+        writeFileSync(path.join(directory, `${name}.js`), `throw new Error('runners must not execute as tests')\n`)
+    }
     writeFileSync(path.join(support, 'mockProvider.js'), "throw new Error('support must not execute')\n")
     writeFileSync(path.join(support, 'recordTests.js'), "throw new Error('support must not execute')\n")
     writeFileSync(path.join(integration, 'workflowTests.js'), "import test from 'test'\ntest('workflow', () => {})\n")

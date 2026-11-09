@@ -2,7 +2,7 @@ import assert from 'assert/strict'
 import { registerHooks } from 'module'
 import { test } from 'node:test'
 
-const mockUrl = new URL('./testFixtures/mockWebServerTemplates.js', import.meta.url).href
+const mockUrl = new URL('../testing/scripts/webServerTemplateMockProvider.js', import.meta.url).href
 registerHooks({
     resolve: (specifier, context, nextResolve) => specifier.endsWith('/os.js')
         ?

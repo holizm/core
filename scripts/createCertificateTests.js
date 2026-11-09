@@ -6,7 +6,7 @@ import path from 'path'
 import { registerHooks } from 'module'
 import { test } from 'node:test'
 
-const mockUrl = new URL('./testFixtures/mockRunStreaming.js', import.meta.url).href
+const mockUrl = new URL('../testing/scripts/terminalStreamMockProvider.js', import.meta.url).href
 registerHooks({
     resolve: (specifier, context, nextResolve) => specifier.endsWith('/terminal.js')
         ?

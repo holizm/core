@@ -5,8 +5,8 @@ import path from 'path'
 import { registerHooks } from 'module'
 import { test } from 'node:test'
 
-const serverMockUrl = new URL('./testFixtures/mockRunOnServer.js', import.meta.url).href
-const terminalMockUrl = new URL('./testFixtures/mockRunStreaming.js', import.meta.url).href
+const serverMockUrl = new URL('../testing/scripts/serverCommandMockProvider.js', import.meta.url).href
+const terminalMockUrl = new URL('../testing/scripts/terminalStreamMockProvider.js', import.meta.url).href
 registerHooks({
     resolve: (specifier, context, nextResolve) => specifier.endsWith('/runOnServer.js')
         ?

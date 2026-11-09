@@ -2,8 +2,8 @@ import assert from 'assert/strict'
 import { registerHooks } from 'module'
 import test from 'node:test'
 
-const gateUrl = new URL('./testFixtures/mockBuildGate.js', import.meta.url).href
-const stopUrl = new URL('./testFixtures/mockBuildStart.js', import.meta.url).href
+const gateUrl = new URL('../testing/scripts/buildGateMockProvider.js', import.meta.url).href
+const stopUrl = new URL('../testing/scripts/buildStartMockProvider.js', import.meta.url).href
 registerHooks({
     resolve: (specifier, context, nextResolve) => {
         if (specifier.endsWith('/runBuildTests.js')) return { shortCircuit: true, url: gateUrl }

@@ -30,7 +30,7 @@ const runStop = async params => {
     const dockerContainersPath = join(directory, 'containers.json')
     const previousEnv = { ...process.env }
     try {
-        await copyFile(new URL('./testFixtures/fakeDocker.js', import.meta.url), dockerPath)
+        await copyFile(new URL('../testing/scripts/containerCommandMock.js', import.meta.url), dockerPath)
         await chmod(dockerPath, 0o755)
         await writeFile(dockerCallsPath, '')
         await writeFile(dockerContainersPath, JSON.stringify(containers))

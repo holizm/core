@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 
-import {
-    existsSync,
-    mkdirSync,
-    readFileSync,
-    writeFileSync,
-} from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
 import {
     init,
     parse,
 } from 'es-module-lexer'
+import {
+    exists,
+    getContent,
+    writeFile,
+} from '../../scripts/os.js'
 
 const [, , ...parts] = process.argv
 const {
@@ -49,20 +48,21 @@ await init
 
 for (const part of parts) {
     const businessRoot = `${nodeModules}/${part}/business`
-    if (!existsSync(businessRoot)) continue
+    if (!exists(businessRoot)) continue
     const files = await fg('**/*.js', {
         absolute: true,
         cwd: businessRoot,
         ignore: [
             '**/aggregates/**',
             '**/*Test.js',
-            '**/*Tests.js', '**/testing/**', '**/integrationTests/**',
+            '**/*Tests.js',
+            '**/testing/**',
+            '**/integrationTests/**',
             '**/runTests.js',
         ],
     })
     const modules = files.sort().map(file => {
-        const source = readFileSync(file, 'utf8')
-        const [, exports] = parse(source)
+        const [, exports] = parse(getContent(file))
         const moduleData = {
             exportNames: exports
                 .map(item => item.name ?? item.n)
@@ -101,7 +101,6 @@ for (const part of parts) {
         main: 'exports.js',
         type: 'module',
     }
-    mkdirSync(packageDirectory, { recursive: true })
-    writeFileSync(`${packageDirectory}/exports.js`, `${lines.join('\n')}\n`)
-    writeFileSync(`${packageDirectory}/package.json`, JSON.stringify(packageData, null, 4))
+    writeFile(`${packageDirectory}/exports.js`, `${lines.join('\n')}\n`)
+    writeFile(`${packageDirectory}/package.json`, JSON.stringify(packageData, null, 4))
 }
