@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+directory=$(mktemp -d /tmp/transferFileChunksTestsXXXXXX)
+trap 'rm -r -- "$directory"' EXIT
+export transferTestDirectories="$directory/directories"
+mkdir "$directory/bin"
+cat > "$directory/bin/node" <<'script'
+#!/usr/bin/env bash
+printf '%s\n' '22 fixtureUser 127.0.0.1'
+script
+cat > "$directory/bin/ssh" <<'script'
+#!/usr/bin/env bash
+command=${@: -1}
+if [[ "$command" == 'mktemp -d /tmp/serverTransferXXXXXX' ]]; then
+    path=$(bash -c "$command")
+    printf '%s\n' "$path" >> "$transferTestDirectories"
+    printf '%s\n' "$path"
+else
+    bash -c "$command"
+fi
+script
+cat > "$directory/bin/scp" <<'script'
+#!/usr/bin/env bash
+sourcePath=${@: -2:1}
+destinationPath=${@: -1}
+targetPath=${destinationPath#*:}
+if [[ -d "$targetPath" ]]; then targetPath="$targetPath/${sourcePath##*/}"; fi
+if [[ -n "${transferFailChunk:-}" && "${sourcePath##*/}" == "$transferFailChunk" ]]; then exit 1; fi
+if [[ -n "${transferCorruptChunk:-}" && "${sourcePath##*/}" == "$transferCorruptChunk" ]]; then
+    printf '%s' corrupted > "$targetPath"
+else
+    cp -- "$sourcePath" "$targetPath"
+fi
+script
+chmod +x "$directory/bin/node" "$directory/bin/ssh" "$directory/bin/scp"
+export PATH="$directory/bin:$PATH"
+export transferChunkBytes=3
+printf '%s' ABCDEFGHIJ > "$directory/payload"
+bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"
+cmp -- "$directory/payload" "$directory/resultArchive"
+while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
+export transferFailChunk=chunk00000001
+if bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
+cmp -- "$directory/payload" "$directory/resultArchive"
+while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
+unset transferFailChunk
+export transferCorruptChunk=chunk00000001
+if bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
+cmp -- "$directory/payload" "$directory/resultArchive"
+while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
+if transferChunkBytes=0 bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"; then exit 1; fi
+printf '%s\n' 'Chunk integrity, failure preservation, cleanup and bounded chunk validation verified'

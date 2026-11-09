@@ -32,4 +32,8 @@ if rg -q '^rsync$' "$transferTestLog"; then exit 1; fi
 env -u transferMode "$HOME/core/commands/serverCopy" "$directory/payload" 'fixture:/tmp/payload' changes
 rg -q '^rsync$' "$transferTestLog"
 if rg -q '^scp$' "$transferTestLog"; then exit 1; fi
+: > "$transferTestLog"
+transferMode=chunks "$HOME/core/commands/serverCopy" "$directory/payload" 'fixture:/tmp/payload' changes
+rg -q '^scp$' "$transferTestLog"
+if rg -q '^rsync$' "$transferTestLog"; then exit 1; fi
 printf '%s\n' 'Default change transfer and explicit complete-copy transfer verified'

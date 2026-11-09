@@ -39,6 +39,11 @@ if [[ -z "$sshPort" || -z "$sshUser" || -z "$sshIp" ]]; then
     exit 1
 fi
 
+if [[ "$remoteIsSource" == false && "${transferMode:-changes}" == chunks && -f "$localPath" ]]; then
+    bash "$HOME/core/scripts/transferFileChunks.sh" "$localPath" "$domain" "$remotePath"
+    exit $?
+fi
+
 if [[ "$remoteIsSource" == true ]]; then
 
     if [[ "$remotePath" == *'*'* || "$remotePath" == *'?'* || "$remotePath" == *'['* ]]; then
