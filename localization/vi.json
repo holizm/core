@@ -196,5 +196,5 @@
     "sale": "Bán hàng",
     "return": "Trả hàng",
     "exchange": "Đổi hàng",
-    "supportAgent": "Nhân viên hỗ trợ", "you": "Bạn", "invitations": "Lời mời", "internalNote": "Ghi chú nội bộ", "previousStartDate": "Ngày bắt đầu trước đó", "newStartDate": "Ngày bắt đầu mới", "sentDate": "Ngày gửi", "expectedDate": "Ngày dự kiến", "submitted": "Đã gửi", "approved": "Đã phê duyệt", "rejected": "Đã từ chối", "ordered": "Đã đặt hàng", "accepted": "Đã chấp nhận", "expired": "Đã hết hạn", "issued": "Đã phát hành", "partiallyReceived": "Đã nhận một phần", "received": "Đã nhận"
+    "supportAgent": "Nhân viên hỗ trợ", "you": "Bạn", "invitations": "Lời mời", "internalNote": "Ghi chú nội bộ", "previousStartDate": "Ngày bắt đầu trước đó", "newStartDate": "Ngày bắt đầu mới", "sentDate": "Ngày gửi", "expectedDate": "Ngày dự kiến", "submitted": "Đã gửi", "approved": "Đã phê duyệt", "rejected": "Đã từ chối", "ordered": "Đã đặt hàng", "accepted": "Đã chấp nhận", "expired": "Đã hết hạn", "issued": "Đã phát hành", "partiallyReceived": "Đã nhận một phần", "received": "Đã nhận", "locale": "Thiết lập ngôn ngữ và vùng"
 }

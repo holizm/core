@@ -196,5 +196,5 @@
     "sale": "Продаја",
     "return": "Повраћај",
     "exchange": "Замена",
-    "supportAgent": "Службеник подршке", "you": "Ви", "invitations": "Позивнице", "internalNote": "Интерна белешка", "previousStartDate": "Претходни датум почетка", "newStartDate": "Нови датум почетка", "sentDate": "Датум слања", "expectedDate": "Очекивани датум", "submitted": "Поднето", "approved": "Одобрено", "rejected": "Одбијено", "ordered": "Наручено", "accepted": "Прихваћено", "expired": "Истекло", "issued": "Издато", "partiallyReceived": "Делимично примљено", "received": "Примљено"
+    "supportAgent": "Службеник подршке", "you": "Ви", "invitations": "Позивнице", "internalNote": "Интерна белешка", "previousStartDate": "Претходни датум почетка", "newStartDate": "Нови датум почетка", "sentDate": "Датум слања", "expectedDate": "Очекивани датум", "submitted": "Поднето", "approved": "Одобрено", "rejected": "Одбијено", "ordered": "Наручено", "accepted": "Прихваћено", "expired": "Истекло", "issued": "Издато", "partiallyReceived": "Делимично примљено", "received": "Примљено", "locale": "Локалне поставке"
 }

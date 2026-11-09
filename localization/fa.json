@@ -196,5 +196,5 @@
     "sale": "فروش",
     "return": "مرجوعی",
     "exchange": "تعویض",
-    "supportAgent": "کارشناس پشتیبانی", "you": "شما", "invitations": "دعوت‌ها", "internalNote": "یادداشت داخلی", "previousStartDate": "تاریخ شروع قبلی", "newStartDate": "تاریخ شروع جدید", "sentDate": "تاریخ ارسال", "expectedDate": "تاریخ مورد انتظار", "submitted": "ارسال‌شده", "approved": "تأییدشده", "rejected": "ردشده", "ordered": "سفارش‌داده‌شده", "accepted": "پذیرفته‌شده", "expired": "منقضی‌شده", "issued": "صادرشده", "partiallyReceived": "دریافت‌شده به‌صورت جزئی", "received": "دریافت شد"
+    "supportAgent": "کارشناس پشتیبانی", "you": "شما", "invitations": "دعوت‌ها", "internalNote": "یادداشت داخلی", "previousStartDate": "تاریخ شروع قبلی", "newStartDate": "تاریخ شروع جدید", "sentDate": "تاریخ ارسال", "expectedDate": "تاریخ مورد انتظار", "submitted": "ارسال‌شده", "approved": "تأییدشده", "rejected": "ردشده", "ordered": "سفارش‌داده‌شده", "accepted": "پذیرفته‌شده", "expired": "منقضی‌شده", "issued": "صادرشده", "partiallyReceived": "دریافت‌شده به‌صورت جزئی", "received": "دریافت شد", "locale": "زبان"
 }

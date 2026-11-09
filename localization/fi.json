@@ -196,5 +196,5 @@
     "sale": "Myynti",
     "return": "Palautus",
     "exchange": "Vaihto",
-    "supportAgent": "Tukihenkilö", "you": "Sinä", "invitations": "Kutsut", "internalNote": "Sisäinen huomautus", "previousStartDate": "Edellinen aloituspäivä", "newStartDate": "Uusi aloituspäivä", "sentDate": "Lähetyspäivä", "expectedDate": "Odotettu päivämäärä", "submitted": "Lähetetty", "approved": "Hyväksytty", "rejected": "Hylätty", "ordered": "Tilattu", "accepted": "Hyväksytty", "expired": "Vanhentunut", "issued": "Myönnetty", "partiallyReceived": "Osittain vastaanotettu", "received": "Vastaanotettu"
+    "supportAgent": "Tukihenkilö", "you": "Sinä", "invitations": "Kutsut", "internalNote": "Sisäinen huomautus", "previousStartDate": "Edellinen aloituspäivä", "newStartDate": "Uusi aloituspäivä", "sentDate": "Lähetyspäivä", "expectedDate": "Odotettu päivämäärä", "submitted": "Lähetetty", "approved": "Hyväksytty", "rejected": "Hylätty", "ordered": "Tilattu", "accepted": "Hyväksytty", "expired": "Vanhentunut", "issued": "Myönnetty", "partiallyReceived": "Osittain vastaanotettu", "received": "Vastaanotettu", "locale": "Alueasetus"
 }

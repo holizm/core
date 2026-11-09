@@ -196,5 +196,5 @@
     "sale": "Prodaja",
     "return": "Povrat",
     "exchange": "Zamjena",
-    "supportAgent": "Djelatnik podrške", "you": "Vi", "invitations": "Pozivnice", "internalNote": "Interna bilješka", "previousStartDate": "Prethodni datum početka", "newStartDate": "Novi datum početka", "sentDate": "Datum slanja", "expectedDate": "Očekivani datum", "submitted": "Podneseno", "approved": "Odobreno", "rejected": "Odbijeno", "ordered": "Naručeno", "accepted": "Prihvaćeno", "expired": "Isteklo", "issued": "Izdano", "partiallyReceived": "Djelomično primljeno", "received": "Primljeno"
+    "supportAgent": "Djelatnik podrške", "you": "Vi", "invitations": "Pozivnice", "internalNote": "Interna bilješka", "previousStartDate": "Prethodni datum početka", "newStartDate": "Novi datum početka", "sentDate": "Datum slanja", "expectedDate": "Očekivani datum", "submitted": "Podneseno", "approved": "Odobreno", "rejected": "Odbijeno", "ordered": "Naručeno", "accepted": "Prihvaćeno", "expired": "Isteklo", "issued": "Izdano", "partiallyReceived": "Djelomično primljeno", "received": "Primljeno", "locale": "Lokalne postavke"
 }

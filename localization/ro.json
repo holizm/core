@@ -196,5 +196,5 @@
     "sale": "Vânzare",
     "return": "Retur",
     "exchange": "Schimb",
-    "supportAgent": "Agent de asistență", "you": "Dvs.", "invitations": "Invitații", "internalNote": "Notă internă", "previousStartDate": "Data de început anterioară", "newStartDate": "Noua dată de început", "sentDate": "Data trimiterii", "expectedDate": "Data estimată", "submitted": "Trimis", "approved": "Aprobat", "rejected": "Respins", "ordered": "Comandat", "accepted": "Acceptat", "expired": "Expirat", "issued": "Emis", "partiallyReceived": "Primit parțial", "received": "Primit"
+    "supportAgent": "Agent de asistență", "you": "Dvs.", "invitations": "Invitații", "internalNote": "Notă internă", "previousStartDate": "Data de început anterioară", "newStartDate": "Noua dată de început", "sentDate": "Data trimiterii", "expectedDate": "Data estimată", "submitted": "Trimis", "approved": "Aprobat", "rejected": "Respins", "ordered": "Comandat", "accepted": "Acceptat", "expired": "Expirat", "issued": "Emis", "partiallyReceived": "Primit parțial", "received": "Primit", "locale": "Setări regionale"
 }

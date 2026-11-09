@@ -196,5 +196,5 @@
     "sale": "Benta",
     "return": "Pagsasauli",
     "exchange": "Pagpapalit",
-    "supportAgent": "Ahente ng suporta", "you": "Ikaw", "invitations": "Mga imbitasyon", "internalNote": "Panloob na tala", "previousStartDate": "Nakaraang petsa ng pagsisimula", "newStartDate": "Bagong petsa ng pagsisimula", "sentDate": "Petsa ng pagpapadala", "expectedDate": "Inaasahang petsa", "submitted": "Isinumite", "approved": "Inaprubahan", "rejected": "Tinanggihan", "ordered": "Na-order", "accepted": "Tinanggap", "expired": "Nag-expire", "issued": "Inisyu", "partiallyReceived": "Bahagyang natanggap", "received": "Natanggap"
+    "supportAgent": "Ahente ng suporta", "you": "Ikaw", "invitations": "Mga imbitasyon", "internalNote": "Panloob na tala", "previousStartDate": "Nakaraang petsa ng pagsisimula", "newStartDate": "Bagong petsa ng pagsisimula", "sentDate": "Petsa ng pagpapadala", "expectedDate": "Inaasahang petsa", "submitted": "Isinumite", "approved": "Inaprubahan", "rejected": "Tinanggihan", "ordered": "Na-order", "accepted": "Tinanggap", "expired": "Nag-expire", "issued": "Inisyu", "partiallyReceived": "Bahagyang natanggap", "received": "Natanggap", "locale": "Locale"
 }

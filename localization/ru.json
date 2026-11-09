@@ -196,5 +196,5 @@
     "sale": "Продажа",
     "return": "Возврат",
     "exchange": "Обмен",
-    "supportAgent": "Сотрудник поддержки", "you": "Вы", "invitations": "Приглашения", "internalNote": "Внутренняя заметка", "previousStartDate": "Предыдущая дата начала", "newStartDate": "Новая дата начала", "sentDate": "Дата отправки", "expectedDate": "Ожидаемая дата", "submitted": "Отправлено", "approved": "Одобрено", "rejected": "Отклонено", "ordered": "Заказано", "accepted": "Принято", "expired": "Срок истёк", "issued": "Выдано", "partiallyReceived": "Частично получено", "received": "Получено"
+    "supportAgent": "Сотрудник поддержки", "you": "Вы", "invitations": "Приглашения", "internalNote": "Внутренняя заметка", "previousStartDate": "Предыдущая дата начала", "newStartDate": "Новая дата начала", "sentDate": "Дата отправки", "expectedDate": "Ожидаемая дата", "submitted": "Отправлено", "approved": "Одобрено", "rejected": "Отклонено", "ordered": "Заказано", "accepted": "Принято", "expired": "Срок истёк", "issued": "Выдано", "partiallyReceived": "Частично получено", "received": "Получено", "locale": "Локаль"
 }

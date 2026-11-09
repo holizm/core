@@ -196,5 +196,5 @@
     "sale": "Salg",
     "return": "Returnering",
     "exchange": "Ombytning",
-    "supportAgent": "Supportmedarbejder", "you": "Dig", "invitations": "Invitationer", "internalNote": "Intern note", "previousStartDate": "Tidligere startdato", "newStartDate": "Ny startdato", "sentDate": "Afsendelsesdato", "expectedDate": "Forventet dato", "submitted": "Indsendt", "approved": "Godkendt", "rejected": "Afvist", "ordered": "Bestilt", "accepted": "Accepteret", "expired": "Udløbet", "issued": "Udstedt", "partiallyReceived": "Delvist modtaget", "received": "Modtaget"
+    "supportAgent": "Supportmedarbejder", "you": "Dig", "invitations": "Invitationer", "internalNote": "Intern note", "previousStartDate": "Tidligere startdato", "newStartDate": "Ny startdato", "sentDate": "Afsendelsesdato", "expectedDate": "Forventet dato", "submitted": "Indsendt", "approved": "Godkendt", "rejected": "Afvist", "ordered": "Bestilt", "accepted": "Accepteret", "expired": "Udløbet", "issued": "Udstedt", "partiallyReceived": "Delvist modtaget", "received": "Modtaget", "locale": "Landestandard"
 }

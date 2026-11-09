@@ -196,5 +196,5 @@
     "sale": "ရောင်းချခြင်း",
     "return": "ပြန်အပ်ခြင်း",
     "exchange": "လဲလှယ်ခြင်း",
-    "supportAgent": "ပံ့ပိုးကူညီရေးဝန်ထမ်း", "you": "သင်", "invitations": "ဖိတ်ကြားချက်များ", "internalNote": "အတွင်းပိုင်းမှတ်စု", "previousStartDate": "ယခင်စတင်ရက်", "newStartDate": "စတင်ရက်အသစ်", "sentDate": "ပေးပို့သည့်ရက်", "expectedDate": "မျှော်မှန်းရက်", "submitted": "တင်သွင်းပြီး", "approved": "အတည်ပြုပြီး", "rejected": "ပယ်ချပြီး", "ordered": "မှာယူပြီး", "accepted": "လက်ခံပြီး", "expired": "သက်တမ်းကုန်ပြီ", "issued": "ထုတ်ပေးပြီး", "partiallyReceived": "တစ်စိတ်တစ်ပိုင်း ရရှိပြီး", "received": "လက်ခံရရှိပြီး"
+    "supportAgent": "ပံ့ပိုးကူညီရေးဝန်ထမ်း", "you": "သင်", "invitations": "ဖိတ်ကြားချက်များ", "internalNote": "အတွင်းပိုင်းမှတ်စု", "previousStartDate": "ယခင်စတင်ရက်", "newStartDate": "စတင်ရက်အသစ်", "sentDate": "ပေးပို့သည့်ရက်", "expectedDate": "မျှော်မှန်းရက်", "submitted": "တင်သွင်းပြီး", "approved": "အတည်ပြုပြီး", "rejected": "ပယ်ချပြီး", "ordered": "မှာယူပြီး", "accepted": "လက်ခံပြီး", "expired": "သက်တမ်းကုန်ပြီ", "issued": "ထုတ်ပေးပြီး", "partiallyReceived": "တစ်စိတ်တစ်ပိုင်း ရရှိပြီး", "received": "လက်ခံရရှိပြီး", "locale": "ဒေသဆိုင်ရာ ဆက်တင်"
 }

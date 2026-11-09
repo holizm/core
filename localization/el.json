@@ -196,5 +196,5 @@
     "sale": "Πώληση",
     "return": "Επιστροφή",
     "exchange": "Ανταλλαγή",
-    "supportAgent": "Εκπρόσωπος υποστήριξης", "you": "Εσείς", "invitations": "Προσκλήσεις", "internalNote": "Εσωτερική σημείωση", "previousStartDate": "Προηγούμενη ημερομηνία έναρξης", "newStartDate": "Νέα ημερομηνία έναρξης", "sentDate": "Ημερομηνία αποστολής", "expectedDate": "Αναμενόμενη ημερομηνία", "submitted": "Υποβλήθηκε", "approved": "Εγκρίθηκε", "rejected": "Απορρίφθηκε", "ordered": "Παραγγέλθηκε", "accepted": "Έγινε αποδεκτό", "expired": "Έληξε", "issued": "Εκδόθηκε", "partiallyReceived": "Παραλήφθηκε μερικώς", "received": "Παραλήφθηκε"
+    "supportAgent": "Εκπρόσωπος υποστήριξης", "you": "Εσείς", "invitations": "Προσκλήσεις", "internalNote": "Εσωτερική σημείωση", "previousStartDate": "Προηγούμενη ημερομηνία έναρξης", "newStartDate": "Νέα ημερομηνία έναρξης", "sentDate": "Ημερομηνία αποστολής", "expectedDate": "Αναμενόμενη ημερομηνία", "submitted": "Υποβλήθηκε", "approved": "Εγκρίθηκε", "rejected": "Απορρίφθηκε", "ordered": "Παραγγέλθηκε", "accepted": "Έγινε αποδεκτό", "expired": "Έληξε", "issued": "Εκδόθηκε", "partiallyReceived": "Παραλήφθηκε μερικώς", "received": "Παραλήφθηκε", "locale": "Τοπικές ρυθμίσεις"
 }

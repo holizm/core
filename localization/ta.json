@@ -196,5 +196,5 @@
     "sale": "விற்பனை",
     "return": "திருப்பியளித்தல்",
     "exchange": "மாற்றுதல்",
-    "supportAgent": "ஆதரவு பிரதிநிதி", "you": "நீங்கள்", "invitations": "அழைப்புகள்", "internalNote": "உள் குறிப்பு", "previousStartDate": "முந்தைய தொடக்கத் தேதி", "newStartDate": "புதிய தொடக்கத் தேதி", "sentDate": "அனுப்பிய தேதி", "expectedDate": "எதிர்பார்க்கப்படும் தேதி", "submitted": "சமர்ப்பிக்கப்பட்டது", "approved": "ஒப்புதல் அளிக்கப்பட்டது", "rejected": "நிராகரிக்கப்பட்டது", "ordered": "ஆர்டர் செய்யப்பட்டது", "accepted": "ஏற்கப்பட்டது", "expired": "காலாவதியானது", "issued": "வழங்கப்பட்டது", "partiallyReceived": "பகுதியாகப் பெறப்பட்டது", "received": "பெற்றது"
+    "supportAgent": "ஆதரவு பிரதிநிதி", "you": "நீங்கள்", "invitations": "அழைப்புகள்", "internalNote": "உள் குறிப்பு", "previousStartDate": "முந்தைய தொடக்கத் தேதி", "newStartDate": "புதிய தொடக்கத் தேதி", "sentDate": "அனுப்பிய தேதி", "expectedDate": "எதிர்பார்க்கப்படும் தேதி", "submitted": "சமர்ப்பிக்கப்பட்டது", "approved": "ஒப்புதல் அளிக்கப்பட்டது", "rejected": "நிராகரிக்கப்பட்டது", "ordered": "ஆர்டர் செய்யப்பட்டது", "accepted": "ஏற்கப்பட்டது", "expired": "காலாவதியானது", "issued": "வழங்கப்பட்டது", "partiallyReceived": "பகுதியாகப் பெறப்பட்டது", "received": "பெற்றது", "locale": "மொழியிடம்"
 }
