@@ -52,7 +52,7 @@ if [[ "$remoteIsSource" == true ]]; then
         remoteDirectory="${remotePath%/*}"
         remotePattern="${remotePath##*/}"
 
-        mapfile -t remoteFiles < <(ssh -p "$sshPort" "$sshUser@$sshIp" "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort")
+        mapfile -t remoteFiles < <(ssh "${copyOptions[@]}" -p "$sshPort" "$sshUser@$sshIp" "find '$remoteDirectory' -maxdepth 1 -type f -name '$remotePattern' -printf '%f\n' | LC_ALL=C sort")
 
         if [[ ${#remoteFiles[@]} -eq 0 ]]; then
             error "No files found matching $remotePath"
@@ -63,7 +63,7 @@ if [[ "$remoteIsSource" == true ]]; then
             scp "${copyOptions[@]}" -P "$sshPort" "$sshUser@$sshIp:$remoteDirectory/$remoteFile" "$localPath" || exit 1
         done
 
-    elif ssh -p "$sshPort" "$sshUser@$sshIp" \
+    elif ssh "${copyOptions[@]}" -p "$sshPort" "$sshUser@$sshIp" \
         "test -d '$remotePath'" >/dev/null 2>&1; then
 
         directoryName="${remotePath##*/}"
@@ -71,7 +71,7 @@ if [[ "$remoteIsSource" == true ]]; then
 
         mkdir -p "$localDirectory"
 
-        mapfile -t remoteFiles < <(ssh -p "$sshPort" "$sshUser@$sshIp" "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort")
+        mapfile -t remoteFiles < <(ssh "${copyOptions[@]}" -p "$sshPort" "$sshUser@$sshIp" "find '$remotePath' -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort")
 
         if [[ ${#remoteFiles[@]} -eq 0 ]]; then
             error "No files found in $remotePath"
@@ -111,7 +111,7 @@ else
         directoryName="${localPath##*/}"
         remoteDirectory="$remotePath/$directoryName"
 
-        ssh -p "$sshPort" "$sshUser@$sshIp" \
+        ssh "${copyOptions[@]}" -p "$sshPort" "$sshUser@$sshIp" \
             "mkdir -p '$remoteDirectory'" || exit 1
 
         mapfile -t localFiles < <(find "$localPath" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)

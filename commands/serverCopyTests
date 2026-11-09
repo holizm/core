@@ -12,6 +12,10 @@ printf '%s\n' '22 fixtureUser 127.0.0.1'
 script
 cat > "$directory/bin/ssh" <<'script'
 #!/usr/bin/env bash
+if [[ -n "${transferProbeLog:-}" ]]; then
+    printf '%s\n' "$*" >> "$transferProbeLog"
+    exit 1
+fi
 exit 0
 script
 cat > "$directory/bin/scp" <<'script'
@@ -36,4 +40,7 @@ if rg -q '^scp$' "$transferTestLog"; then exit 1; fi
 transferMode=chunks "$HOME/core/commands/serverCopy" "$directory/payload" 'fixture:/tmp/payload' changes
 rg -q '^scp$' "$transferTestLog"
 if rg -q '^rsync$' "$transferTestLog"; then exit 1; fi
+export transferProbeLog="$directory/probes"
+"$HOME/core/commands/serverCopy" 'fixture:/tmp/payload' "$directory/download"
+rg -q -- 'ConnectionAttempts=3.*ConnectTimeout=15.*ServerAliveInterval=15.*test -d' "$transferProbeLog"
 printf '%s\n' 'Default change transfer and explicit complete-copy transfer verified'
