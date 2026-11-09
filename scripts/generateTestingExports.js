@@ -1,14 +1,22 @@
 import path from 'path'
 import { pathToFileURL } from 'url'
 import fg from 'fast-glob'
+import {
+    init,
+    parse,
+} from 'es-module-lexer'
 import camelize from './camelize.js'
 import isDir from './isDir.js'
-import { writeFile } from './os.js'
+import {
+    getContent,
+    writeFile,
+} from './os.js'
 
 export default async ({
     home,
     outputDirectory,
 }) => {
+    await init
     const aliases = {}
     const dataDirectory = path.join(home, 'testing')
     const directories = await fg('*', {
@@ -29,12 +37,17 @@ export default async ({
             ignore: ['**/*Test.js', '**/*Tests.js', '**/node_modules/**'],
         })
         const names = new Set()
-        const exports = files.sort().map(file => {
+        const exports = files.sort().flatMap(file => {
+            const [, declarations] = parse(getContent(path.join(root, file)))
+            if (!declarations.length) return []
             const name = camelize(file.replace(/\.js$/, '').replaceAll('/', ' '))
             if (names.has(name)) throw new Error(`Duplicate test support export: ${part}.${name}`)
             names.add(name)
             const source = pathToFileURL(path.join(root, file)).href
-            return `export { default as ${name} } from '${source}'`
+            const binding = declarations.some(item => (item.name ?? item.n) === 'default')
+                ? `{ default as ${name} }`
+                : `* as ${name}`
+            return `export ${binding} from '${source}'`
         })
         const barrel = path.join(outputDirectory, `${part}Testing.mjs`)
         writeFile(barrel, `${exports.join('\n')}\n`)

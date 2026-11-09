@@ -22,6 +22,8 @@ test('generated aliases expose data factories, qualify nested names, and exclude
     writeFileSync(path.join(root, 'cleaningSupplyUse.js'), 'export default () => ({ quantity: 3 })')
     writeFileSync(path.join(root, 'room/occupied.js'), 'export default { occupied: true }')
     writeFileSync(path.join(root, 'recordTests.js'), 'throw new Error()')
+    writeFileSync(path.join(root, 'namedProvider.js'), 'export const active = true')
+    writeFileSync(path.join(root, 'registerModules.js'), 'throw new Error()')
     const outputDirectory = path.join(home, 'generated')
     const aliases = await generateTestingExports({
         home,
@@ -29,11 +31,13 @@ test('generated aliases expose data factories, qualify nested names, and exclude
     })
     const {
         cleaningSupplyUse,
+        namedProvider,
         roomOccupied,
     } = await import(aliases.housekeepingTesting)
     assert.deepEqual(cleaningSupplyUse(), { quantity: 3 })
     assert.notEqual(cleaningSupplyUse(), cleaningSupplyUse())
     assert.equal(roomOccupied.occupied, true)
+    assert.equal(namedProvider.active, true)
     assert.equal(readFileSync(path.join(outputDirectory, 'housekeepingTesting.mjs'), 'utf8').includes('recordTests'), false)
     writeFileSync(path.join(root, 'roomOccupied.js'), 'export default true')
     await assert.rejects(generateTestingExports({
