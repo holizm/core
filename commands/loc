@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 
+import {
+    availableParallelism,
+    tmpdir,
+} from 'os'
+import path from 'path'
 import findRepos from '../scripts/findRepos.js'
+import getLineCountFiles from '../scripts/getLineCountFiles.js'
+import {
+    deleteFile,
+    writeFile,
+} from '../scripts/os.js'
 import {
     clear,
     runStreaming,
@@ -8,9 +18,16 @@ import {
 
 clear()
 
-const gits = findRepos()
+const files = await getLineCountFiles(findRepos())
 
-if (!gits.length) process.exit(0)
+if (!files.length) process.exit(0)
 
-const dirs = gits.join(' ')
-await runStreaming(`cloc --fullpath --exclude-dir=node_modules --not-match-d='(^|/)\\.[^/]+' --not-match-f='(^|/)AGENTS\\.md$' ${dirs}`)
+const list = path.join(tmpdir(), `lineCount${process.pid}`)
+try {
+    writeFile(list, files.join('\n'))
+    const quotedList = `'${list.replaceAll("'", "'\\''")}'`
+    await runStreaming(`cloc --processes=${availableParallelism()} --list-file=${quotedList}`)
+}
+finally {
+    deleteFile(list)
+}
