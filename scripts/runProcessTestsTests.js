@@ -16,10 +16,10 @@ test('process tests discover nested siblings and fail on a failed test', t => {
     const nested = path.join(directory, 'src', 'components')
     mkdirSync(nested, { recursive: true })
     const file = path.join(nested, 'rowTests.js')
-    writeFileSync(file, "const test = require('node:test')\ntest('row', () => {})\n")
+    writeFileSync(file, "import test from 'test'\ntest('row', () => {})\n")
     const command = path.join(import.meta.dirname, 'runProcessTests.js')
     assert.doesNotThrow(() => execFileSync(process.execPath, [command], { cwd: directory }))
-    writeFileSync(file, "const test = require('node:test')\ntest('row', () => { throw new Error('failed') })\n")
+    writeFileSync(file, "import test from 'test'\ntest('row', () => { throw new Error('failed') })\n")
     assert.throws(() => execFileSync(process.execPath, [command], {
         cwd: directory,
         stdio: 'pipe',
