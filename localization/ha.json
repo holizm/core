@@ -179,7 +179,7 @@
     "low": "Ƙasa", "normal": "Na al’ada", "high": "Babba",
     "history": "Tarihi",
     "scheduled": "An tsara",
-    "inProgress": "Ana kan aiki",
+    "inProgress": "Ana kan aiki", "progress": "Ci gaba",
     "paused": "An dakata",
     "cancelled": "An soke",
     "client": "Abokin ciniki",

@@ -179,7 +179,7 @@
     "low": "נמוכה", "normal": "רגילה", "high": "גבוהה",
     "history": "היסטוריה",
     "scheduled": "מתוזמן",
-    "inProgress": "בביצוע",
+    "inProgress": "בביצוע", "progress": "התקדמות",
     "paused": "מושהה",
     "cancelled": "בוטל",
     "client": "לקוח",

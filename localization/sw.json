@@ -179,7 +179,7 @@
     "low": "Chini", "normal": "Kawaida", "high": "Juu",
     "history": "Historia",
     "scheduled": "Imepangwa",
-    "inProgress": "Inaendelea",
+    "inProgress": "Inaendelea", "progress": "Maendeleo",
     "paused": "Imesitishwa kwa muda",
     "cancelled": "Imeghairiwa",
     "client": "Mteja",

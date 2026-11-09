@@ -179,7 +179,7 @@
     "low": "ዝቅተኛ", "normal": "መደበኛ", "high": "ከፍተኛ",
     "history": "ታሪክ",
     "scheduled": "የታቀደ",
-    "inProgress": "በሂደት ላይ",
+    "inProgress": "በሂደት ላይ", "progress": "ሂደት",
     "paused": "ለጊዜው የቆመ",
     "cancelled": "የተሰረዘ",
     "client": "ደንበኛ",

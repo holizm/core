@@ -179,7 +179,7 @@
     "low": "Χαμηλή", "normal": "Κανονική", "high": "Υψηλή",
     "history": "Ιστορικό",
     "scheduled": "Προγραμματισμένο",
-    "inProgress": "Σε εξέλιξη",
+    "inProgress": "Σε εξέλιξη", "progress": "Πρόοδος",
     "paused": "Σε παύση",
     "cancelled": "Ακυρωμένο",
     "client": "Πελάτης",

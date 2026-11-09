@@ -179,7 +179,7 @@
     "low": "Matala", "normal": "Normaali", "high": "Korkea",
     "history": "Historia",
     "scheduled": "Ajoitettu",
-    "inProgress": "Käynnissä",
+    "inProgress": "Käynnissä", "progress": "Edistyminen",
     "paused": "Keskeytetty",
     "cancelled": "Peruttu",
     "client": "Asiakas",

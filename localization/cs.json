@@ -179,7 +179,7 @@
     "low": "Nízká", "normal": "Normální", "high": "Vysoká",
     "history": "Historie",
     "scheduled": "Naplánováno",
-    "inProgress": "Probíhá",
+    "inProgress": "Probíhá", "progress": "Průběh",
     "paused": "Pozastaveno",
     "cancelled": "Zrušeno",
     "client": "Klient",

@@ -179,7 +179,7 @@
     "low": "Низький", "normal": "Звичайний", "high": "Високий",
     "history": "Історія",
     "scheduled": "Заплановано",
-    "inProgress": "У роботі",
+    "inProgress": "У роботі", "progress": "Прогрес",
     "paused": "Призупинено",
     "cancelled": "Скасовано",
     "client": "Клієнт",

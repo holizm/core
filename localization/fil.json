@@ -179,7 +179,7 @@
     "low": "Mababa", "normal": "Karaniwan", "high": "Mataas",
     "history": "Kasaysayan",
     "scheduled": "Naka-iskedyul",
-    "inProgress": "Isinasagawa",
+    "inProgress": "Isinasagawa", "progress": "Pag-usad",
     "paused": "Pansamantalang itinigil",
     "cancelled": "Kinansela",
     "client": "Kliyente",

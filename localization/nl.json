@@ -179,7 +179,7 @@
     "low": "Laag", "normal": "Normaal", "high": "Hoog",
     "history": "Geschiedenis",
     "scheduled": "Gepland",
-    "inProgress": "In uitvoering",
+    "inProgress": "In uitvoering", "progress": "Voortgang",
     "paused": "Gepauzeerd",
     "cancelled": "Geannuleerd",
     "client": "Cliënt",

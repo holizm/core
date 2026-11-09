@@ -179,7 +179,7 @@
     "low": "Lav", "normal": "Normal", "high": "Høy",
     "history": "Historikk",
     "scheduled": "Planlagt",
-    "inProgress": "Pågår",
+    "inProgress": "Pågår", "progress": "Fremdrift",
     "paused": "Satt på pause",
     "cancelled": "Avbrutt",
     "client": "Klient",

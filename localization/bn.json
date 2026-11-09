@@ -179,7 +179,7 @@
     "low": "নিম্ন", "normal": "স্বাভাবিক", "high": "উচ্চ",
     "history": "ইতিহাস",
     "scheduled": "নির্ধারিত",
-    "inProgress": "চলমান",
+    "inProgress": "চলমান", "progress": "অগ্রগতি",
     "paused": "সাময়িক বিরতিতে",
     "cancelled": "বাতিল",
     "client": "ক্লায়েন্ট",

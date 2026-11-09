@@ -179,7 +179,7 @@
     "low": "Alacsony", "normal": "Normál", "high": "Magas",
     "history": "Előzmények",
     "scheduled": "Ütemezve",
-    "inProgress": "Folyamatban",
+    "inProgress": "Folyamatban", "progress": "Előrehaladás",
     "paused": "Szüneteltetve",
     "cancelled": "Törölve",
     "client": "Ügyfél",

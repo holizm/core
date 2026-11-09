@@ -179,7 +179,7 @@
     "low": "낮음", "normal": "보통", "high": "높음",
     "history": "이력",
     "scheduled": "예정됨",
-    "inProgress": "진행 중",
+    "inProgress": "진행 중", "progress": "진행 상황",
     "paused": "일시 중지됨",
     "cancelled": "취소됨",
     "client": "고객",

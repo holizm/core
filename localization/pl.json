@@ -179,7 +179,7 @@
     "low": "Niski", "normal": "Normalny", "high": "Wysoki",
     "history": "Historia",
     "scheduled": "Zaplanowane",
-    "inProgress": "W toku",
+    "inProgress": "W toku", "progress": "Postęp",
     "paused": "Wstrzymane",
     "cancelled": "Anulowane",
     "client": "Klient",

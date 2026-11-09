@@ -179,7 +179,7 @@
     "low": "Düşük", "normal": "Normal", "high": "Yüksek",
     "history": "Geçmiş",
     "scheduled": "Planlandı",
-    "inProgress": "Devam ediyor",
+    "inProgress": "Devam ediyor", "progress": "İlerleme",
     "paused": "Duraklatıldı",
     "cancelled": "İptal edildi",
     "client": "Müşteri",

@@ -179,7 +179,7 @@
     "low": "Scăzută", "normal": "Normală", "high": "Ridicată",
     "history": "Istoric",
     "scheduled": "Programat",
-    "inProgress": "În desfășurare",
+    "inProgress": "În desfășurare", "progress": "Progres",
     "paused": "În pauză",
     "cancelled": "Anulat",
     "client": "Client",

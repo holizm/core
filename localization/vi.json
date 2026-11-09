@@ -179,7 +179,7 @@
     "low": "Thấp", "normal": "Bình thường", "high": "Cao",
     "history": "Lịch sử",
     "scheduled": "Đã lên lịch",
-    "inProgress": "Đang thực hiện",
+    "inProgress": "Đang thực hiện", "progress": "Tiến độ",
     "paused": "Tạm dừng",
     "cancelled": "Đã hủy",
     "client": "Khách hàng",

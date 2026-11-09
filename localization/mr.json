@@ -179,7 +179,7 @@
     "low": "कमी", "normal": "सामान्य", "high": "जास्त",
     "history": "इतिहास",
     "scheduled": "नियोजित",
-    "inProgress": "प्रगतीपथावर",
+    "inProgress": "प्रगतीपथावर", "progress": "प्रगती",
     "paused": "विराम दिलेला",
     "cancelled": "रद्द केलेले",
     "client": "क्लायंट",

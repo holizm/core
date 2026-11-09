@@ -179,7 +179,7 @@
     "low": "Nizak", "normal": "Normalan", "high": "Visok",
     "history": "Povijest",
     "scheduled": "Zakazano",
-    "inProgress": "U tijeku",
+    "inProgress": "U tijeku", "progress": "Napredak",
     "paused": "Pauzirano",
     "cancelled": "Otkazano",
     "client": "Klijent",

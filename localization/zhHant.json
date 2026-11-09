@@ -179,7 +179,7 @@
     "low": "低", "normal": "一般", "high": "高",
     "history": "歷史紀錄",
     "scheduled": "已排程",
-    "inProgress": "進行中",
+    "inProgress": "進行中", "progress": "進度",
     "paused": "已暫停",
     "cancelled": "已取消",
     "client": "客戶",

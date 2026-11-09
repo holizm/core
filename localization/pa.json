@@ -179,7 +179,7 @@
     "low": "ਘੱਟ", "normal": "ਆਮ", "high": "ਵੱਧ",
     "history": "ਇਤਿਹਾਸ",
     "scheduled": "ਨਿਯਤ",
-    "inProgress": "ਜਾਰੀ ਹੈ",
+    "inProgress": "ਜਾਰੀ ਹੈ", "progress": "ਤਰੱਕੀ",
     "paused": "ਰੋਕਿਆ ਹੋਇਆ",
     "cancelled": "ਰੱਦ ਕੀਤਾ",
     "client": "ਕਲਾਇੰਟ",

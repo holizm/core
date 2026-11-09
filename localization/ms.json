@@ -179,7 +179,7 @@
     "low": "Rendah", "normal": "Biasa", "high": "Tinggi",
     "history": "Sejarah",
     "scheduled": "Dijadualkan",
-    "inProgress": "Sedang berjalan",
+    "inProgress": "Sedang berjalan", "progress": "Kemajuan",
     "paused": "Dijeda",
     "cancelled": "Dibatalkan",
     "client": "Klien",

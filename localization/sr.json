@@ -179,7 +179,7 @@
     "low": "Низак", "normal": "Нормалан", "high": "Висок",
     "history": "Историја",
     "scheduled": "Заказано",
-    "inProgress": "У току",
+    "inProgress": "У току", "progress": "Напредак",
     "paused": "Паузирано",
     "cancelled": "Отказано",
     "client": "Клијент",
