@@ -19,6 +19,8 @@ export default [
     '**/secrets.json',
     '**/settingsOverride.json',
     '**/spl',
+    '**/testing',
+    '**/integrationTests',
     '**/test',
     '**/testData',
     '**/*TestData',

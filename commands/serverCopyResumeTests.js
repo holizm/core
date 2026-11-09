@@ -8,7 +8,7 @@ import {
 } from 'fs'
 import test from 'node:test'
 import { join } from 'path'
-import createFixture from './serverConnectionFixtureTests.js'
+import createFixture from '../testing/commands/serverConnectionEnvironmentProvider.js'
 
 test('interrupted transfers retain partial data without replacing the published archive', async context => {
     const fixture = createFixture(context)

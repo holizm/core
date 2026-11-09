@@ -3,7 +3,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import test from 'node:test'
-import mapSettings from './mapSettings.js'
+import mapSettings from '../../scripts/mapSettings.js'
 
 test('Panel maps shared public settings into browser assets', () => {
     const home = fs.mkdtempSync(path.join(os.tmpdir(), 'panelSettingsBoundary'))
@@ -74,7 +74,7 @@ test('API and site receive common settings outside public', () => {
 })
 
 test('Compose templates do not map credentials into public', () => {
-    const directory = path.join(import.meta.dirname, '..', 'container', 'composes')
+    const directory = path.join(import.meta.dirname, '../..', 'container', 'composes')
     for (const name of fs.readdirSync(directory)) {
         const source = fs.readFileSync(path.join(directory, name), 'utf8')
         assert.doesNotMatch(source, /\/public\/(?:common|privateCommon|repo|secrets)\.json/)

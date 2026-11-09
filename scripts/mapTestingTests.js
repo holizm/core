@@ -8,10 +8,10 @@ import {
 import { tmpdir } from 'os'
 import path from 'path'
 import test from 'node:test'
-import mapTestData from './mapTestData.js'
+import mapTesting from './mapTesting.js'
 
 test('all process types map shared and runnable part data through the same mechanism', context => {
-    const home = mkdtempSync(path.join(tmpdir(), 'testDataMapping'))
+    const home = mkdtempSync(path.join(tmpdir(), 'testingMapping'))
     context.after(() => rmSync(home, {
         force: true,
         recursive: true,
@@ -20,11 +20,11 @@ test('all process types map shared and runnable part data through the same mecha
         const root = path.join(home, part)
         mkdirSync(root, { recursive: true })
         writeFileSync(path.join(root, 'part'), '')
-        if (part !== 'shop/empty') mkdirSync(path.join(root, 'testData'))
+        if (part !== 'shop/empty') mkdirSync(path.join(root, 'testing'))
     }
     for (const processType of ['api', 'panel', 'site', 'mobile']) {
         const volumes = []
-        mapTestData({
+        mapTesting({
             addVolume: (...rest) => volumes.push(rest),
             containerHome: '/home/dev',
             dependencies: ['contacts', 'housekeeping', 'empty'],
@@ -33,8 +33,8 @@ test('all process types map shared and runnable part data through the same mecha
             repo: 'shopThemes',
         })
         assert.deepEqual(volumes, [
-            [path.join(home, 'contacts/testData'), '/home/dev/testData/contacts:ro'],
-            [path.join(home, 'shop/housekeeping/testData'), '/home/dev/testData/housekeeping:ro'],
+            [path.join(home, 'contacts/testing'), '/home/dev/testing/contacts:ro'],
+            [path.join(home, 'shop/housekeeping/testing'), '/home/dev/testing/housekeeping:ro'],
         ])
     }
 })

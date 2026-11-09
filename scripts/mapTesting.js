@@ -14,8 +14,8 @@ export default params => {
             `${home}/${dependency}`,
         ]
         const root = roots.find(root => isFile(`${root}/part`))
-        if (root && isDir(`${root}/testData`)) {
-            params.addVolume(`${root}/testData`, `${containerHome}/testData/${dependency}:ro`)
+        if (root && isDir(`${root}/testing`)) {
+            params.addVolume(`${root}/testing`, `${containerHome}/testing/${dependency}:ro`)
         }
     }
 }

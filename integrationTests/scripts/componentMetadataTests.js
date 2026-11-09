@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { readFileSync } from 'fs'
 import { test } from 'node:test'
-import componentMetadataVite from './componentMetadataVite.js'
+import componentMetadataVite from '../../scripts/componentMetadataVite.js'
 
 const transform = componentMetadataVite().transform
 

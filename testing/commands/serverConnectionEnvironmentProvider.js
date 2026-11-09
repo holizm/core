@@ -7,7 +7,7 @@ import {
 } from 'fs'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
-import { runOnTerminalAsync } from '../scripts/terminal.js'
+import { runOnTerminalAsync } from '../../scripts/terminal.js'
 
 export default context => {
     const directory = mkdtempSync('/tmp/serverConnection')
@@ -47,7 +47,7 @@ exec /usr/bin/rsync "$@"
     const destinationPath = join(directory, 'targetArchive.zip')
     const bytes = randomBytes(1024 * 1024)
     writeFileSync(sourcePath, bytes)
-    const command = fileURLToPath(new URL('./serverCopy', import.meta.url))
+    const command = fileURLToPath(new URL('../../commands/serverCopy', import.meta.url))
     const env = {
         ...process.env,
         PATH: `${toolsDirectory}:${process.env.PATH}`,

@@ -56,7 +56,7 @@ for (const part of parts) {
         ignore: [
             '**/aggregates/**',
             '**/*Test.js',
-            '**/*Tests.js',
+            '**/*Tests.js', '**/testing/**', '**/integrationTests/**',
             '**/runTests.js',
         ],
     })

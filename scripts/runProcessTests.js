@@ -8,12 +8,16 @@ const files = (await fg('**/*{Test,Tests}.js', {
         '**/dist/**',
         '**/node_modules/**',
         '**/server/**',
+        '**/testing/**',
+        '**/runProcessTests.js',
+        '**/runTests.js',
     ],
     onlyFiles: true,
 })).sort()
 
 if (files.length) {
     const result = spawnSync(process.execPath, [
+        '--experimental-test-module-mocks',
         '--import',
         fileURLToPath(new URL('./registerTestModules.js', import.meta.url)),
         '--test',

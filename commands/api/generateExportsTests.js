@@ -20,6 +20,10 @@ test('generated public exports remain importable after deployment relocation', a
     await fs.writeFile(path.join(root, 'package.json'), '{"type":"module"}')
     await fs.writeFile(path.join(business, 'extendListParameters.js'), 'export const location = true\n')
     await fs.writeFile(path.join(business, 'extendListParametersTests.js'), 'throw new Error()\n')
+    for (const scope of ['testing', 'integrationTests']) {
+        await fs.mkdir(path.join(root, scope))
+        await fs.writeFile(path.join(root, scope, 'mockProvider.js'), 'export const leakedMock = true\n')
+    }
     try {
         await execute(process.execPath, [generator, 'geo'], {
             env: {
@@ -34,6 +38,7 @@ test('generated public exports remain importable after deployment relocation', a
         assert.equal(exports.includes(source), false)
         assert.ok(exports.includes(`'./business/location/extendListParameters.js'`))
         assert.equal(exports.includes('Tests.js'), false)
+        assert.equal(exports.includes('mockProvider'), false)
         await fs.rename(source, target)
         const published = path.join(target, 'sample/siteApi/node_modules/geo/exports.js')
         const output = await execute(process.execPath, [published])

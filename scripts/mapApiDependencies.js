@@ -44,6 +44,11 @@ export default params => {
         if (isDir(businessPath)) {
             params.addVolume(businessPath, `${nodeModules}/${dependency}/business`);
         }
+        for (const directory of ['testing', 'integrationTests']) {
+            if (isDir(`${dependencyBase}/${directory}`)) {
+                params.addVolume(`${dependencyBase}/${directory}`, `${nodeModules}/${dependency}/${directory}`);
+            }
+        }
         const dataPath = `${dependencyBase}/data`;
         if (isDir(dataPath)) {
             params.addVolume(dataPath, `${nodeModules}/${dependency}/data`);

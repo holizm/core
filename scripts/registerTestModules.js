@@ -2,14 +2,14 @@ import { registerHooks } from 'module'
 import { tmpdir } from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import generateTestDataExports from './generateTestDataExports.js'
+import generateTestingExports from './generateTestingExports.js'
 
 const aliases = {
-    ...await generateTestDataExports({
+    ...await generateTestingExports({
         home: fileURLToPath(new URL('../../', import.meta.url)),
-        outputDirectory: path.join(tmpdir(), 'testDataExports', String(process.pid)),
+        outputDirectory: path.join(tmpdir(), 'testingExports', String(process.pid)),
     }),
-    panelTests: new URL('../../panel/test/exports.js', import.meta.url).href,
+    panelTests: new URL('../../panel/testing/exports.js', import.meta.url).href,
     test: 'node:test',
 }
 

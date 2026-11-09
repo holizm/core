@@ -5,7 +5,7 @@ import {
     writeFileSync,
 } from 'fs'
 import test from 'node:test'
-import createFixture from './serverConnectionFixtureTests.js'
+import createFixture from '../testing/commands/serverConnectionEnvironmentProvider.js'
 
 test('changed archives reuse matching data and preserve exact contents', async context => {
     const fixture = createFixture(context)

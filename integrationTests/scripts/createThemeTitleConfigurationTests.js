@@ -3,7 +3,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import test from 'node:test'
-import createSiteConfiguration from './createSiteConfiguration.js'
+import createSiteConfiguration from '../../scripts/createSiteConfiguration.js'
 
 test('theme preview titles are composed from existing branding declarations', t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'themeTitleConfiguration'))

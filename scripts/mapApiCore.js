@@ -10,6 +10,9 @@ export default params => {
     for (const coreItem of coreItems) {
         params.addVolume(`${home}/api/core/${coreItem}`, `${nodeModules}/core/${coreItem}`);
     }
+    for (const directory of ['testing', 'integrationTests']) {
+        params.addVolume(`${home}/api/${directory}`, `${nodeModules}/core/${directory}`);
+    }
     params.addVolume(`${home}/api`, `${containerHome}/api`);
     params.addVolume(`/var/tmp/${repo}/privateStorage`, '/privateStorage');
     params.addVolume(`${home}/core/essentialParts`, `${nodeModules}/core/essentialParts`);

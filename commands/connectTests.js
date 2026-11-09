@@ -2,7 +2,7 @@ import assert from 'assert/strict'
 import test from 'node:test'
 import { fileURLToPath } from 'url'
 import { runOnTerminalAsync } from '../scripts/terminal.js'
-import createFixture from './serverConnectionFixtureTests.js'
+import createFixture from '../testing/commands/serverConnectionEnvironmentProvider.js'
 
 test('machine-readable connection output excludes terminal clearing', async context => {
     const fixture = createFixture(context)

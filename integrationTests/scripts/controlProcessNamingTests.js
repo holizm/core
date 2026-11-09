@@ -1,12 +1,12 @@
 import assert from 'assert/strict'
 import { tmpdir } from 'os'
 import test from 'node:test'
-import getBuildDirectories from './getBuildDirectories.js'
-import getLocalHost from './getLocalHost.js'
-import getProcessRole from './getProcessRole.js'
-import isControlPanel from './isControlPanel.js'
-import isControlProcess from './isControlProcess.js'
-import pascalize from './pascalize.js'
+import getBuildDirectories from '../../scripts/getBuildDirectories.js'
+import getLocalHost from '../../scripts/getLocalHost.js'
+import getProcessRole from '../../scripts/getProcessRole.js'
+import isControlPanel from '../../scripts/isControlPanel.js'
+import isControlProcess from '../../scripts/isControlProcess.js'
+import pascalize from '../../scripts/pascalize.js'
 
 test('control process directories derive names and roles from the repository', () => {
     const api = {

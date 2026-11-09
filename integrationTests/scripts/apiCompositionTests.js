@@ -7,10 +7,10 @@ const calls = [];
 const record = name => (...rest) => {
     calls.push([name, ...rest]);
 };
-mock.module('./isControlRunnable.js', { defaultExport: () => false });
-mock.module('./createDatabaseContainer.js', { defaultExport: record('database') });
-mock.module('./createSearchDatabaseContainer.js', { defaultExport: record('search') });
-mock.module('./os.js', {
+mock.module('../../scripts/isControlRunnable.js', { defaultExport: () => false });
+mock.module('../../scripts/createDatabaseContainer.js', { defaultExport: record('database') });
+mock.module('../../scripts/createSearchDatabaseContainer.js', { defaultExport: record('search') });
+mock.module('../../scripts/os.js', {
     namedExports: {
         copyFileIfNotExists: record('copy'),
         createDirIfNotExists: record('directory'),
@@ -20,7 +20,7 @@ mock.module('./os.js', {
         writeFileIfNotExists: record('write')
     }
 });
-mock.module('./terminal.js', {
+mock.module('../../scripts/terminal.js', {
     namedExports: {
         runOnTerminal: () => '',
         runOnTerminalAsync: async () => 'running'
@@ -45,7 +45,7 @@ const params = {
 };
 test('API composition keeps core mappings and backing-service ownership intact', async () => {
     for (const name of ['createMissingApiFiles', 'linkApiEditorFiles', 'mapApiCore', 'mapApiRunnable', 'createApiContainer', 'registerApiDatabaseTasks', 'ensureApiDatabaseContainer', 'ensureApiSearchDatabaseContainer']) {
-        const { default: compose } = await import(`./${name}.js`);
+        const { default: compose } = await import(`../../scripts/${name}.js`);
         await compose(params);
     }
     assert.ok(calls.some(call => call[0] === 'volume' && call[1] === '/tmp/compositionHome/api/core/data'));
