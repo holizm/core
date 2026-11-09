@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+clear
+exec node "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../scripts/runProcessTests.js" "$@"
