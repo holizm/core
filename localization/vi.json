@@ -1,4 +1,5 @@
-{ "bedrooms": "Phòng ngủ", "bathrooms": "Phòng tắm", "constructionYear": "Năm xây dựng", "deliveryInstructions": "Hướng dẫn giao hàng", "underReview": "Đang xét duyệt", "withdrawn": "Đã rút", "suspended": "Tạm ngừng",
+{
+    "downloads": "Tải xuống", "bedrooms": "Phòng ngủ", "bathrooms": "Phòng tắm", "constructionYear": "Năm xây dựng", "deliveryInstructions": "Hướng dẫn giao hàng", "underReview": "Đang xét duyệt", "withdrawn": "Đã rút", "suspended": "Tạm ngừng",
     "accept": "Chấp nhận", "inclusions": "Các mục bao gồm", "incomplete": "Không đầy đủ", "defective": "Bị lỗi", "damaged": "Hư hỏng", "resalable": "Có thể bán lại", "unopened": "Chưa mở", "resolved": "Đã giải quyết", "inspected": "Đã kiểm tra", "inTransit": "Đang vận chuyển", "storeCredit": "Tín dụng cửa hàng", "repair": "Sửa chữa", "refund": "Hoàn tiền", "openedAt": "Thời điểm mở", "vehicles": "Các xe", "arrivalDate": "Ngày đến", "departureDate": "Ngày khởi hành", "driver": "Tài xế", "vehicle": "Xe", "room": "Phòng", "downtimeInMinutes": "Thời gian ngừng hoạt động (phút)", "cash": "Tiền mặt", "card": "Thẻ", "bankTransfer": "Chuyển khoản ngân hàng", "other": "Khác", "wallet": "Cái ví", "underMaintenance": "Đang bảo trì", "contract": "Hợp đồng", "contracts": "Các hợp đồng", "totalTime": "Tổng thời gian",
     "longest": "Dài nhất",
     "shortest": "Ngắn nhất",

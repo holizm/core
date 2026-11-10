@@ -1,4 +1,5 @@
-{ "bedrooms": "Camere da letto", "bathrooms": "Bagni", "constructionYear": "Anno di costruzione", "deliveryInstructions": "Istruzioni di consegna", "underReview": "In revisione", "withdrawn": "Ritirato", "suspended": "Sospeso",
+{
+    "downloads": "Download", "bedrooms": "Camere da letto", "bathrooms": "Bagni", "constructionYear": "Anno di costruzione", "deliveryInstructions": "Istruzioni di consegna", "underReview": "In revisione", "withdrawn": "Ritirato", "suspended": "Sospeso",
     "accept": "Accetta", "inclusions": "Elementi inclusi", "incomplete": "Incompleto", "defective": "Difettoso", "damaged": "Danneggiato", "resalable": "Rivendibile", "unopened": "Non aperto", "resolved": "Risolto", "inspected": "Ispezionato", "inTransit": "In transito", "storeCredit": "Credito in negozio", "repair": "Riparazione", "refund": "Rimborso", "openedAt": "Data di apertura", "vehicles": "Veicoli", "arrivalDate": "Data di arrivo", "departureDate": "Data di partenza", "driver": "Autista", "vehicle": "Veicolo", "room": "Stanza", "downtimeInMinutes": "Tempo di fermo (minuti)", "cash": "Contanti", "card": "Carta", "bankTransfer": "Bonifico bancario", "other": "Altro", "wallet": "Portafoglio", "underMaintenance": "In manutenzione", "contract": "Contratto", "contracts": "Contratti", "totalTime": "Tempo totale",
     "longest": "Più lungo",
     "shortest": "Più breve",

@@ -1,4 +1,5 @@
-{ "bedrooms": "Yatak odaları", "bathrooms": "Banyolar", "constructionYear": "İnşaat yılı", "deliveryInstructions": "Teslimat talimatları", "underReview": "İnceleniyor", "withdrawn": "Geri çekildi", "suspended": "Askıya alındı",
+{
+    "downloads": "İndirmeler", "bedrooms": "Yatak odaları", "bathrooms": "Banyolar", "constructionYear": "İnşaat yılı", "deliveryInstructions": "Teslimat talimatları", "underReview": "İnceleniyor", "withdrawn": "Geri çekildi", "suspended": "Askıya alındı",
     "accept": "Kabul et", "inclusions": "Dahil olanlar", "incomplete": "Eksik", "defective": "Kusurlu", "damaged": "Hasarlı", "resalable": "Yeniden satılabilir", "unopened": "Açılmamış", "resolved": "Çözüldü", "inspected": "İncelendi", "inTransit": "Taşınıyor", "storeCredit": "Mağaza kredisi", "repair": "Onarım", "refund": "Para iadesi", "openedAt": "Açılış zamanı", "vehicles": "Araçlar", "arrivalDate": "Varış tarihi", "departureDate": "Hareket tarihi", "driver": "Sürücü", "vehicle": "Araç", "room": "Oda", "downtimeInMinutes": "Duruş süresi (dakika)", "cash": "Nakit", "card": "Kart", "bankTransfer": "Banka havalesi", "other": "Diğer", "wallet": "Cüzdan", "underMaintenance": "Bakımda", "contract": "Sözleşme", "contracts": "Sözleşmeler", "totalTime": "Toplam süre",
     "longest": "En uzun",
     "shortest": "En kısa",

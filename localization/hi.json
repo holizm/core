@@ -1,4 +1,5 @@
-{ "bedrooms": "शयनकक्ष", "bathrooms": "स्नानघर", "constructionYear": "निर्माण वर्ष", "deliveryInstructions": "डिलीवरी निर्देश", "underReview": "समीक्षाधीन", "withdrawn": "वापस लिया गया", "suspended": "निलंबित",
+{
+    "downloads": "डाउनलोड", "bedrooms": "शयनकक्ष", "bathrooms": "स्नानघर", "constructionYear": "निर्माण वर्ष", "deliveryInstructions": "डिलीवरी निर्देश", "underReview": "समीक्षाधीन", "withdrawn": "वापस लिया गया", "suspended": "निलंबित",
     "accept": "स्वीकार करें", "inclusions": "शामिल सुविधाएँ", "incomplete": "अपूर्ण", "defective": "दोषपूर्ण", "damaged": "क्षतिग्रस्त", "resalable": "पुनर्विक्रय योग्य", "unopened": "बंद पैकेज", "resolved": "समाधान हो गया", "inspected": "निरीक्षित", "inTransit": "रास्ते में", "storeCredit": "स्टोर क्रेडिट", "repair": "मरम्मत", "refund": "धनवापसी", "openedAt": "खोलने का समय", "vehicles": "वाहन", "arrivalDate": "आगमन की तारीख", "departureDate": "प्रस्थान की तारीख", "driver": "चालक", "vehicle": "वाहन", "room": "कमरा", "downtimeInMinutes": "बंद रहने का समय (मिनट)", "cash": "नकद", "card": "कार्ड", "bankTransfer": "बैंक हस्तांतरण", "other": "अन्य", "wallet": "वॉलेट", "underMaintenance": "रखरखाव जारी है", "contract": "अनुबंध", "contracts": "अनुबंध", "totalTime": "कुल समय",
     "longest": "सबसे लंबा",
     "shortest": "सबसे छोटा",

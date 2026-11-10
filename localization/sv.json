@@ -1,4 +1,5 @@
-{ "bedrooms": "Sovrum", "bathrooms": "Badrum", "constructionYear": "Byggår", "deliveryInstructions": "Leveransinstruktioner", "underReview": "Under granskning", "withdrawn": "Återkallat", "suspended": "Tillfälligt avstängt",
+{
+    "downloads": "Nedladdningar", "bedrooms": "Sovrum", "bathrooms": "Badrum", "constructionYear": "Byggår", "deliveryInstructions": "Leveransinstruktioner", "underReview": "Under granskning", "withdrawn": "Återkallat", "suspended": "Tillfälligt avstängt",
     "accept": "Acceptera", "inclusions": "Inkluderade delar", "incomplete": "Ofullständig", "defective": "Defekt", "damaged": "Skadad", "resalable": "Kan säljas igen", "unopened": "Oöppnad", "resolved": "Löst", "inspected": "Inspekterad", "inTransit": "Under transport", "storeCredit": "Butikskredit", "repair": "Reparation", "refund": "Återbetalning", "openedAt": "Öppnat den", "vehicles": "Fordon", "arrivalDate": "Ankomstdatum", "departureDate": "Avresedatum", "driver": "Förare", "vehicle": "Fordon", "room": "Rum", "downtimeInMinutes": "Stilleståndstid (minuter)", "cash": "Kontanter", "card": "Kort", "bankTransfer": "Banköverföring", "other": "Annat", "wallet": "Plånbok", "underMaintenance": "Under underhåll", "contract": "Avtal", "contracts": "Avtal", "totalTime": "Total tid",
     "longest": "Längst",
     "shortest": "Kortast",
