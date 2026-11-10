@@ -5,6 +5,13 @@ import fg from 'fast-glob'
 export default srcBase => {
     const directory = path.join(srcBase, 'partBarrels')
     const aliases = {}
+    const functions = path.join(srcBase, '..', 'clientFunctions')
+    if (fs.existsSync(functions)) {
+        for (const name of fs.readdirSync(functions)) {
+            const entry = path.join(functions, name, 'exports.js')
+            if (fs.existsSync(entry)) aliases[name] = entry
+        }
+    }
     if (!fs.existsSync(directory)) return aliases
 
     for (const part of fs.readdirSync(directory)) {

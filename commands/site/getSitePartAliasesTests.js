@@ -38,3 +38,15 @@ test('getSitePartAliases supplies absent runnable part layouts', t => {
     fs.writeFileSync(path.join(override, 'layout.jsx'), 'export default () => null\n')
     assert.equal(getSitePartAliases(root).brandsPartsLayout, undefined)
 })
+
+test('getSitePartAliases bundles shared client functions outside installed packages', t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'clientFunctionAliases'))
+    t.after(() => fs.rmSync(root, { force: true, recursive: true }))
+    const source = path.join(root, 'src')
+    const functions = path.join(root, 'clientFunctions', 'messagingFunctions')
+    fs.mkdirSync(path.join(source, 'partBarrels'), { recursive: true })
+    fs.mkdirSync(functions, { recursive: true })
+    const entry = path.join(functions, 'exports.js')
+    fs.writeFileSync(entry, 'export const connect = () => true')
+    assert.equal(getSitePartAliases(source).messagingFunctions, entry)
+})

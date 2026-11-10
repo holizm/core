@@ -1,14 +1,16 @@
-import assert from 'assert/strict'
-import fs from 'fs'
-import os from 'os'
-import path from 'path'
-import test from 'node:test'
-import mapNode from './mapNode.js'
-
+import assert from 'assert/strict';
+import fs from 'fs';
+import test from 'node:test';
+import os from 'os';
+import path from 'path';
+import mapNode from './mapNode.js';
 test('mapNode mounts shared runtime dependencies for a panel without custom packages', t => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mapNode'))
-    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
-    const volumes = []
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mapNode'));
+    t.after(() => fs.rmSync(directory, {
+        force: true,
+        recursive: true
+    }));
+    const volumes = [];
     const params = {
         addVolume: (...args) => volumes.push(args),
         containerHome: '/home/dev',
@@ -16,21 +18,23 @@ test('mapNode mounts shared runtime dependencies for a panel without custom pack
         panelPackageJson: path.join(directory, 'missing.json'),
         process: 'adminPanel',
         processType: 'panel',
-        repo: 'shop',
-    }
-    mapNode(params)
-    assert.equal(params.nodeModules, '/home/dev/shop/adminPanel/node_modules')
-    assert.ok(volumes.some(([source, target]) => source === `${directory}/panel/lock.json` && target.endsWith('/package-lock.json')))
-    assert.ok(volumes.some(([source]) => source === '/var/tmp/panel/nodeModules'))
-})
-
+        repo: 'shop'
+    };
+    mapNode(params);
+    assert.equal(params.nodeModules, '/home/dev/shop/adminPanel/node_modules');
+    assert.ok(volumes.some(([source, target]) => source === `${directory}/panel/lock.json` && target.endsWith('/package-lock.json')));
+    assert.ok(volumes.some(([source]) => source === '/var/tmp/panel/nodeModules'));
+});
 test('mapNode mounts custom API packages and creates its lock file', t => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mapNode'))
-    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
-    const packageJson = path.join(directory, 'api.json')
-    const lock = path.join(directory, 'apiLock.json')
-    fs.writeFileSync(packageJson, '{}')
-    const volumes = []
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mapNode'));
+    t.after(() => fs.rmSync(directory, {
+        force: true,
+        recursive: true
+    }));
+    const packageJson = path.join(directory, 'api.json');
+    const lock = path.join(directory, 'apiLock.json');
+    fs.writeFileSync(packageJson, '{}');
+    const volumes = [];
     const params = {
         addVolume: (...args) => volumes.push(args),
         apiLock: lock,
@@ -39,10 +43,46 @@ test('mapNode mounts custom API packages and creates its lock file', t => {
         home: directory,
         process: 'adminApi',
         processType: 'api',
-        repo: 'shop',
+        repo: 'shop'
+    };
+    mapNode(params);
+    assert.equal(fs.readFileSync(lock, 'utf8'), '{}');
+    assert.ok(volumes.some(([source, target]) => source === '/var/tmp/shop/api/nodeModules' && target === '/home/dev/node_modules'));
+    assert.ok(volumes.some(([source, target]) => source === packageJson && target.endsWith('/api.json')));
+});
+test('client processes mount declared shared function packages from their owning part', t => {
+    const home = fs.mkdtempSync(path.join(os.tmpdir(), 'clientFunctions'));
+    t.after(() => fs.rmSync(home, {
+        force: true,
+        recursive: true
+    }));
+    const part = path.join(home, 'messaging');
+    fs.mkdirSync(path.join(part, 'functions'), { recursive: true });
+    fs.writeFileSync(path.join(part, 'part'), 'conversation\n');
+    fs.writeFileSync(path.join(part, 'functions/package.json'), '{"main":"exports.js"}');
+    for (const processType of ['panel', 'site']) {
+        const volumes = [];
+        mapNode({
+            addVolume: (...rest) => volumes.push(rest),
+            containerHome: '/container',
+            dependencies: ['messaging'],
+            home,
+            process: processType,
+            processType,
+            repo: 'example'
+        });
+        assert.ok(volumes.some(([source, target]) => source === path.join(part, 'functions') && target === `/container/example/${processType}/clientFunctions/messagingFunctions:ro`));
     }
-    mapNode(params)
-    assert.equal(fs.readFileSync(lock, 'utf8'), '{}')
-    assert.ok(volumes.some(([source, target]) => source === '/var/tmp/shop/api/nodeModules' && target === '/home/dev/node_modules'))
-    assert.ok(volumes.some(([source, target]) => source === packageJson && target.endsWith('/api.json')))
-})
+    fs.rmSync(path.join(part, 'functions/package.json'));
+    const volumes = [];
+    mapNode({
+        addVolume: (...rest) => volumes.push(rest),
+        containerHome: '/container',
+        dependencies: ['messaging'],
+        home,
+        process: 'site',
+        processType: 'site',
+        repo: 'example'
+    });
+    assert.ok(!volumes.some(([, target]) => target.includes('messagingFunctions')));
+});
