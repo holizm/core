@@ -6,7 +6,7 @@ export default async ({
     processPath,
     requireListening,
 }) => {
-    const command = `node --input-type=module -e 'import { execFileSync } from "child_process"; import getListeningPort from "/holism/server/scripts/getListeningPort.js"; let port = ""; for (let attempt = 0; attempt < ${requireListening ? 30 : 1}; attempt++) { const pid = execFileSync("${pm2}", ["pid", "${fullProcessName}"], { encoding: "utf8" }).trim().split("\\n").at(-1); port = getListeningPort(pid); if (port) break; await new Promise(resolve => setTimeout(resolve, 500)); } console.log(port);'`
+    const command = `node --input-type=module -e 'import { execFileSync } from "child_process"; import getListeningPort from "/holism/server/scripts/getListeningPort.js"; let port = ""; for (let attempt = 0; attempt < ${requireListening ? 30 : 1}; attempt++) { const pid = JSON.parse(execFileSync("${pm2}", ["jlist"], { encoding: "utf8" })).find(item => item.name === "${fullProcessName}")?.pid; port = getListeningPort(pid); if (port) break; await new Promise(resolve => setTimeout(resolve, 500)); } console.log(port);'`
     const listeningPort = (await runOnServer(domain, command, true)).trim()
     if (/^[1-9]\d*$/.test(listeningPort)) return listeningPort
     if (requireListening) throw new Error(`${fullProcessName} did not start listening after publication`)

@@ -33,7 +33,10 @@ test('publication preserves the serving process port instead of an obsolete comp
     }
 })
 test('a first publication falls back to the configured compose port', async () => {
-    globalThis.mockRunOnServer = async (domain, command) => command.startsWith('node ') ? '' : '54094'
+    globalThis.mockRunOnServer = async (domain, command) => {
+        if (command.includes('["pid",')) throw Error('PM2 rejects an unregistered process')
+        return command.startsWith('node ') ? '' : '54094'
+    }
     try {
         assert.equal(await getPublishedProcessPort(params), '54094')
     } finally {
