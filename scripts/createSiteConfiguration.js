@@ -29,9 +29,11 @@ export default ({
     const themeTitles = {}
     for (const directory of multiThemed ? themeDirectories : []) {
         const brandingPath = join(home, repo, directory, 'data', 'branding.json')
-        if (!isFile(brandingPath)) continue
-        const branding = JSON.parse(getContent(brandingPath))
-        if (branding.documentTitle) themeTitles[getThemeKey(directory)] = branding.documentTitle
+        const contentPath = join(home, repo, directory, 'data', 'home.json')
+        const branding = isFile(brandingPath) ? JSON.parse(getContent(brandingPath)) : null
+        const content = isFile(contentPath) ? JSON.parse(getContent(contentPath)) : null
+        const documentTitle = branding?.documentTitle || content?.seo?.metaTitle || content?.seo?.title
+        if (documentTitle) themeTitles[getThemeKey(directory)] = documentTitle
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     writeFile(

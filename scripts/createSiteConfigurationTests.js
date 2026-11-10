@@ -55,3 +55,26 @@ test('single-themed composition maps the registry builder beside its collector',
         `/container/${repo}/site/buildRichTextRegistry.js`,
     ]])
 })
+
+test('theme preview titles reuse the owning home content', t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'themePreviewTitle'))
+    t.after(() => fs.rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
+    const repo = path.basename(directory)
+    const content = path.join(directory, 'theme01', 'data')
+    fs.mkdirSync(content, { recursive: true })
+    fs.writeFileSync(path.join(content, 'home.json'), JSON.stringify({ seo: { title: 'Travel' } }))
+    createSiteConfiguration({
+        addVolume: () => {},
+        containerHome: '/container',
+        home: path.dirname(directory),
+        multiThemed: true,
+        process: 'site',
+        repo,
+        themeDirectories: ['theme01'],
+    })
+    const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
+    assert.equal(JSON.parse(source.replace(/^export default /, '')).themeTitles['01'], 'Travel')
+})
