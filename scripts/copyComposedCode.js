@@ -1,4 +1,5 @@
 import { info } from './logger.js'
+import buildExclusions from './buildExclusions.js'
 import copyEssentialParts from './copyEssentialParts.js'
 import {
     createDirIfNotExists,
@@ -9,6 +10,8 @@ import {
     runOnTerminal,
     runOnTerminalAsync,
 } from './terminal.js'
+
+const exclusions = buildExclusions.map(pattern => `--exclude="${pattern.replace(/^\*\*\//, '')}"`).join(' ')
 
 const copyTopLevelDirs = async params => {
     const {
@@ -33,7 +36,7 @@ const copyTopLevelDirs = async params => {
         await runOnTerminalAsync(`
             docker exec ${containerName} bash -c '
                 cd "${containerHome}" &&
-                tar --dereference --exclude="node_modules" -cf - "${name}"
+                tar --dereference --exclude="node_modules" ${exclusions} -cf - "${name}"
             ' | tar -xf - -C ${buildDir}
         `)
     }))
@@ -70,7 +73,7 @@ const copyPartModules = async params => {
         await runOnTerminalAsync(`
             docker exec ${containerName} bash -c '
                 cd "${nodeModulesPath}" &&
-                tar -cf - "${name}"
+                tar ${exclusions} -cf - "${name}"
             ' | tar -xf - -C ${buildNodeModulesPath}
         `)
     }))
