@@ -196,5 +196,5 @@
     "sale": "ሽያጭ",
     "return": "መመለስ",
     "exchange": "መለዋወጥ",
-    "supportAgent": "የድጋፍ ሰራተኛ", "you": "እርስዎ", "invitations": "ግብዣዎች", "internalNote": "የውስጥ ማስታወሻ", "previousStartDate": "ያለፈው የመጀመሪያ ቀን", "newStartDate": "አዲስ የመጀመሪያ ቀን", "sentDate": "የተላከበት ቀን", "expectedDate": "የሚጠበቀው ቀን", "submitted": "ገብቷል", "approved": "ጸድቋል", "rejected": "ውድቅ ተደርጓል", "ordered": "ታዟል", "accepted": "ተቀባይነት አግኝቷል", "expired": "ጊዜው አልፏል", "issued": "ተሰጥቷል", "partiallyReceived": "በከፊል ተቀብሏል", "received": "ደርሷል", "locale": "አካባቢያዊ ቅንብር"
+    "supportAgent": "የድጋፍ ሰራተኛ", "you": "እርስዎ", "invitations": "ግብዣዎች", "internalNote": "የውስጥ ማስታወሻ", "previousStartDate": "ያለፈው የመጀመሪያ ቀን", "newStartDate": "አዲስ የመጀመሪያ ቀን", "sentDate": "የተላከበት ቀን", "expectedDate": "የሚጠበቀው ቀን", "submitted": "ገብቷል", "approved": "ጸድቋል", "rejected": "ውድቅ ተደርጓል", "ordered": "ታዟል", "accepted": "ተቀባይነት አግኝቷል", "expired": "ጊዜው አልፏል", "issued": "ተሰጥቷል", "partiallyReceived": "በከፊል ተቀብሏል", "received": "ደርሷል", "locale": "አካባቢያዊ ቅንብር", "permissions": "ፈቃዶች", "escalation": "ወደ ከፍተኛ ድጋፍ ማስተላለፍ", "unknownInformation": "ያልታወቀ መረጃ", "humanHandoff": "ለሰው ሠራተኛ ማስተላለፍ", "noEscalation": "ወደ ከፍተኛ ድጋፍ አይተላለፍ"
 }

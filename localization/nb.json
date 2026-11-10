@@ -196,5 +196,5 @@
     "sale": "Salg",
     "return": "Retur",
     "exchange": "Bytte",
-    "supportAgent": "Brukerstøttemedarbeider", "you": "Deg", "invitations": "Invitasjoner", "internalNote": "Internt notat", "previousStartDate": "Tidligere startdato", "newStartDate": "Ny startdato", "sentDate": "Sendedato", "expectedDate": "Forventet dato", "submitted": "Innsendt", "approved": "Godkjent", "rejected": "Avvist", "ordered": "Bestilt", "accepted": "Akseptert", "expired": "Utløpt", "issued": "Utstedt", "partiallyReceived": "Delvis mottatt", "received": "Mottatt", "locale": "Nasjonal innstilling"
+    "supportAgent": "Brukerstøttemedarbeider", "you": "Deg", "invitations": "Invitasjoner", "internalNote": "Internt notat", "previousStartDate": "Tidligere startdato", "newStartDate": "Ny startdato", "sentDate": "Sendedato", "expectedDate": "Forventet dato", "submitted": "Innsendt", "approved": "Godkjent", "rejected": "Avvist", "ordered": "Bestilt", "accepted": "Akseptert", "expired": "Utløpt", "issued": "Utstedt", "partiallyReceived": "Delvis mottatt", "received": "Mottatt", "locale": "Nasjonal innstilling", "permissions": "Tillatelser", "escalation": "Eskalering", "unknownInformation": "Ukjent informasjon", "humanHandoff": "Overføring til en person", "noEscalation": "Ingen eskalering"
 }

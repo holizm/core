@@ -196,5 +196,5 @@
     "sale": "Verkoop",
     "return": "Retour",
     "exchange": "Omruiling",
-    "supportAgent": "Supportmedewerker", "you": "U", "invitations": "Uitnodigingen", "internalNote": "Interne notitie", "previousStartDate": "Vorige startdatum", "newStartDate": "Nieuwe startdatum", "sentDate": "Verzenddatum", "expectedDate": "Verwachte datum", "submitted": "Ingediend", "approved": "Goedgekeurd", "rejected": "Afgewezen", "ordered": "Besteld", "accepted": "Geaccepteerd", "expired": "Verlopen", "issued": "Uitgegeven", "partiallyReceived": "Gedeeltelijk ontvangen", "received": "Ontvangen", "locale": "Landinstelling"
+    "supportAgent": "Supportmedewerker", "you": "U", "invitations": "Uitnodigingen", "internalNote": "Interne notitie", "previousStartDate": "Vorige startdatum", "newStartDate": "Nieuwe startdatum", "sentDate": "Verzenddatum", "expectedDate": "Verwachte datum", "submitted": "Ingediend", "approved": "Goedgekeurd", "rejected": "Afgewezen", "ordered": "Besteld", "accepted": "Geaccepteerd", "expired": "Verlopen", "issued": "Uitgegeven", "partiallyReceived": "Gedeeltelijk ontvangen", "received": "Ontvangen", "locale": "Landinstelling", "permissions": "Machtigingen", "escalation": "Escalatie", "unknownInformation": "Onbekende informatie", "humanHandoff": "Overdracht aan een medewerker", "noEscalation": "Geen escalatie"
 }

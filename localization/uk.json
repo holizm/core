@@ -196,5 +196,5 @@
     "sale": "Продаж",
     "return": "Повернення",
     "exchange": "Обмін",
-    "supportAgent": "Працівник підтримки", "you": "Ви", "invitations": "Запрошення", "internalNote": "Внутрішня примітка", "previousStartDate": "Попередня дата початку", "newStartDate": "Нова дата початку", "sentDate": "Дата надсилання", "expectedDate": "Очікувана дата", "submitted": "Надіслано", "approved": "Схвалено", "rejected": "Відхилено", "ordered": "Замовлено", "accepted": "Прийнято", "expired": "Термін минув", "issued": "Видано", "partiallyReceived": "Частково отримано", "received": "Отримано", "locale": "Локаль"
+    "supportAgent": "Працівник підтримки", "you": "Ви", "invitations": "Запрошення", "internalNote": "Внутрішня примітка", "previousStartDate": "Попередня дата початку", "newStartDate": "Нова дата початку", "sentDate": "Дата надсилання", "expectedDate": "Очікувана дата", "submitted": "Надіслано", "approved": "Схвалено", "rejected": "Відхилено", "ordered": "Замовлено", "accepted": "Прийнято", "expired": "Термін минув", "issued": "Видано", "partiallyReceived": "Частково отримано", "received": "Отримано", "locale": "Локаль", "permissions": "Дозволи", "escalation": "Ескалація", "unknownInformation": "Невідома інформація", "humanHandoff": "Передача працівнику", "noEscalation": "Без ескалації"
 }

@@ -196,5 +196,5 @@
     "sale": "بيع",
     "return": "إرجاع",
     "exchange": "استبدال",
-    "supportAgent": "موظف الدعم", "you": "أنت", "invitations": "الدعوات", "internalNote": "ملاحظة داخلية", "previousStartDate": "تاريخ البدء السابق", "newStartDate": "تاريخ البدء الجديد", "sentDate": "تاريخ الإرسال", "expectedDate": "التاريخ المتوقع", "submitted": "تم التقديم", "approved": "تمت الموافقة", "rejected": "مرفوض", "ordered": "تم الطلب", "accepted": "مقبول", "expired": "منتهي الصلاحية", "issued": "صادر", "partiallyReceived": "مستلم جزئيًا", "received": "تم الاستلام", "locale": "لغة"
+    "supportAgent": "موظف الدعم", "you": "أنت", "invitations": "الدعوات", "internalNote": "ملاحظة داخلية", "previousStartDate": "تاريخ البدء السابق", "newStartDate": "تاريخ البدء الجديد", "sentDate": "تاريخ الإرسال", "expectedDate": "التاريخ المتوقع", "submitted": "تم التقديم", "approved": "تمت الموافقة", "rejected": "مرفوض", "ordered": "تم الطلب", "accepted": "مقبول", "expired": "منتهي الصلاحية", "issued": "صادر", "partiallyReceived": "مستلم جزئيًا", "received": "تم الاستلام", "locale": "لغة", "permissions": "الأذونات", "escalation": "التصعيد", "unknownInformation": "معلومات غير معروفة", "humanHandoff": "التحويل إلى موظف", "noEscalation": "بدون تصعيد"
 }

@@ -196,5 +196,5 @@
     "sale": "Eladás",
     "return": "Visszáru",
     "exchange": "Csere",
-    "supportAgent": "Ügyfélszolgálati munkatárs", "you": "Ön", "invitations": "Meghívók", "internalNote": "Belső megjegyzés", "previousStartDate": "Korábbi kezdési dátum", "newStartDate": "Új kezdési dátum", "sentDate": "Küldés dátuma", "expectedDate": "Várható dátum", "submitted": "Benyújtva", "approved": "Jóváhagyva", "rejected": "Elutasítva", "ordered": "Megrendelve", "accepted": "Elfogadva", "expired": "Lejárt", "issued": "Kiadva", "partiallyReceived": "Részben beérkezett", "received": "Fogadva", "locale": "Területi beállítás"
+    "supportAgent": "Ügyfélszolgálati munkatárs", "you": "Ön", "invitations": "Meghívók", "internalNote": "Belső megjegyzés", "previousStartDate": "Korábbi kezdési dátum", "newStartDate": "Új kezdési dátum", "sentDate": "Küldés dátuma", "expectedDate": "Várható dátum", "submitted": "Benyújtva", "approved": "Jóváhagyva", "rejected": "Elutasítva", "ordered": "Megrendelve", "accepted": "Elfogadva", "expired": "Lejárt", "issued": "Kiadva", "partiallyReceived": "Részben beérkezett", "received": "Fogadva", "locale": "Területi beállítás", "permissions": "Engedélyek", "escalation": "Eszkaláció", "unknownInformation": "Ismeretlen információ", "humanHandoff": "Átadás munkatársnak", "noEscalation": "Nincs eszkaláció"
 }

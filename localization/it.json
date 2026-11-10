@@ -196,5 +196,5 @@
     "sale": "Vendita",
     "return": "Reso",
     "exchange": "Cambio",
-    "supportAgent": "Operatore di assistenza", "you": "Tu", "invitations": "Inviti", "internalNote": "Nota interna", "previousStartDate": "Data di inizio precedente", "newStartDate": "Nuova data di inizio", "sentDate": "Data di invio", "expectedDate": "Data prevista", "submitted": "Inviato", "approved": "Approvato", "rejected": "Rifiutato", "ordered": "Ordinato", "accepted": "Accettato", "expired": "Scaduto", "issued": "Emesso", "partiallyReceived": "Ricevuto parzialmente", "received": "Ricevuto", "locale": "Locale"
+    "supportAgent": "Operatore di assistenza", "you": "Tu", "invitations": "Inviti", "internalNote": "Nota interna", "previousStartDate": "Data di inizio precedente", "newStartDate": "Nuova data di inizio", "sentDate": "Data di invio", "expectedDate": "Data prevista", "submitted": "Inviato", "approved": "Approvato", "rejected": "Rifiutato", "ordered": "Ordinato", "accepted": "Accettato", "expired": "Scaduto", "issued": "Emesso", "partiallyReceived": "Ricevuto parzialmente", "received": "Ricevuto", "locale": "Locale", "permissions": "Autorizzazioni", "escalation": "Escalation", "unknownInformation": "Informazioni sconosciute", "humanHandoff": "Passaggio a un operatore", "noEscalation": "Nessuna escalation"
 }

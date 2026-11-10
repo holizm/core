@@ -196,5 +196,5 @@
     "sale": "Sprzedaż",
     "return": "Zwrot",
     "exchange": "Wymiana",
-    "supportAgent": "Pracownik pomocy", "you": "Ty", "invitations": "Zaproszenia", "internalNote": "Notatka wewnętrzna", "previousStartDate": "Poprzednia data rozpoczęcia", "newStartDate": "Nowa data rozpoczęcia", "sentDate": "Data wysłania", "expectedDate": "Oczekiwana data", "submitted": "Przesłano", "approved": "Zatwierdzono", "rejected": "Odrzucono", "ordered": "Zamówiono", "accepted": "Zaakceptowano", "expired": "Wygasło", "issued": "Wystawiono", "partiallyReceived": "Częściowo otrzymano", "received": "Odebrano", "locale": "Ustawienia regionalne"
+    "supportAgent": "Pracownik pomocy", "you": "Ty", "invitations": "Zaproszenia", "internalNote": "Notatka wewnętrzna", "previousStartDate": "Poprzednia data rozpoczęcia", "newStartDate": "Nowa data rozpoczęcia", "sentDate": "Data wysłania", "expectedDate": "Oczekiwana data", "submitted": "Przesłano", "approved": "Zatwierdzono", "rejected": "Odrzucono", "ordered": "Zamówiono", "accepted": "Zaakceptowano", "expired": "Wygasło", "issued": "Wystawiono", "partiallyReceived": "Częściowo otrzymano", "received": "Odebrano", "locale": "Ustawienia regionalne", "permissions": "Uprawnienia", "escalation": "Eskalacja", "unknownInformation": "Nieznane informacje", "humanHandoff": "Przekazanie pracownikowi", "noEscalation": "Bez eskalacji"
 }

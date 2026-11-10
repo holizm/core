@@ -196,5 +196,5 @@
     "sale": "Sale",
     "return": "Return",
     "exchange": "Exchange",
-    "supportAgent": "Support agent", "you": "You", "invitations": "Invitations", "internalNote": "Internal note", "previousStartDate": "Previous start date", "newStartDate": "New start date", "sentDate": "Sent date", "expectedDate": "Expected date", "submitted": "Submitted", "approved": "Approved", "rejected": "Rejected", "ordered": "Ordered", "accepted": "Accepted", "expired": "Expired", "issued": "Issued", "partiallyReceived": "Partially received", "received": "Received", "locale": "Locale"
+    "supportAgent": "Support agent", "you": "You", "invitations": "Invitations", "internalNote": "Internal note", "previousStartDate": "Previous start date", "newStartDate": "New start date", "sentDate": "Sent date", "expectedDate": "Expected date", "submitted": "Submitted", "approved": "Approved", "rejected": "Rejected", "ordered": "Ordered", "accepted": "Accepted", "expired": "Expired", "issued": "Issued", "partiallyReceived": "Partially received", "received": "Received", "locale": "Locale", "permissions": "Permissions", "escalation": "Escalation", "unknownInformation": "Unknown information", "humanHandoff": "Human handoff", "noEscalation": "No escalation"
 }

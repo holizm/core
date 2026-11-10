@@ -196,5 +196,5 @@
     "sale": "Verkauf",
     "return": "Rückgabe",
     "exchange": "Umtausch",
-    "supportAgent": "Supportmitarbeiter", "you": "Sie", "invitations": "Einladungen", "internalNote": "Interne Notiz", "previousStartDate": "Vorheriges Startdatum", "newStartDate": "Neues Startdatum", "sentDate": "Sendedatum", "expectedDate": "Erwartetes Datum", "submitted": "Eingereicht", "approved": "Genehmigt", "rejected": "Abgelehnt", "ordered": "Bestellt", "accepted": "Angenommen", "expired": "Abgelaufen", "issued": "Ausgestellt", "partiallyReceived": "Teilweise erhalten", "received": "Empfangen", "locale": "Gebietsschema"
+    "supportAgent": "Supportmitarbeiter", "you": "Sie", "invitations": "Einladungen", "internalNote": "Interne Notiz", "previousStartDate": "Vorheriges Startdatum", "newStartDate": "Neues Startdatum", "sentDate": "Sendedatum", "expectedDate": "Erwartetes Datum", "submitted": "Eingereicht", "approved": "Genehmigt", "rejected": "Abgelehnt", "ordered": "Bestellt", "accepted": "Angenommen", "expired": "Abgelaufen", "issued": "Ausgestellt", "partiallyReceived": "Teilweise erhalten", "received": "Empfangen", "locale": "Gebietsschema", "permissions": "Berechtigungen", "escalation": "Eskalation", "unknownInformation": "Unbekannte Informationen", "humanHandoff": "Übergabe an einen Menschen", "noEscalation": "Keine Eskalation"
 }

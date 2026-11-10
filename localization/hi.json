@@ -196,5 +196,5 @@
     "sale": "बिक्री",
     "return": "वापसी",
     "exchange": "बदलाव",
-    "supportAgent": "सहायता प्रतिनिधि", "you": "आप", "invitations": "आमंत्रण", "internalNote": "आंतरिक टिप्पणी", "previousStartDate": "पिछली आरंभ तिथि", "newStartDate": "नई आरंभ तिथि", "sentDate": "भेजने की तिथि", "expectedDate": "अपेक्षित तारीख", "submitted": "प्रस्तुत", "approved": "अनुमोदित", "rejected": "अस्वीकृत", "ordered": "ऑर्डर किया गया", "accepted": "स्वीकार किया गया", "expired": "समय सीमा समाप्त", "issued": "जारी", "partiallyReceived": "आंशिक रूप से प्राप्त", "received": "प्राप्त", "locale": "लोकेल"
+    "supportAgent": "सहायता प्रतिनिधि", "you": "आप", "invitations": "आमंत्रण", "internalNote": "आंतरिक टिप्पणी", "previousStartDate": "पिछली आरंभ तिथि", "newStartDate": "नई आरंभ तिथि", "sentDate": "भेजने की तिथि", "expectedDate": "अपेक्षित तारीख", "submitted": "प्रस्तुत", "approved": "अनुमोदित", "rejected": "अस्वीकृत", "ordered": "ऑर्डर किया गया", "accepted": "स्वीकार किया गया", "expired": "समय सीमा समाप्त", "issued": "जारी", "partiallyReceived": "आंशिक रूप से प्राप्त", "received": "प्राप्त", "locale": "लोकेल", "permissions": "अनुमतियाँ", "escalation": "आगे भेजना", "unknownInformation": "अज्ञात जानकारी", "humanHandoff": "मानव सहायता को सौंपना", "noEscalation": "आगे न भेजें"
 }
