@@ -1,14 +1,14 @@
 import { runOnTerminal } from './terminal.js'
+import loadProcessRuntimeSettings from './loadProcessRuntimeSettings.js'
 import pruneInactiveWebServerConfigs from './pruneInactiveWebServerConfigs.js'
 
 export default params => {
+    if (loadProcessRuntimeSettings(params).internal) return
     const {
         containerName,
         home,
     } = params
-    const activeContainers = runOnTerminal("docker ps --format '{{.Names}}'", {
-        throwOnError: true,
-    }).split('\n').filter(Boolean)
+    const activeContainers = runOnTerminal(`docker ps --format '{{.Names}}'`, { throwOnError: true }).split('\n').filter(Boolean)
     pruneInactiveWebServerConfigs({
         activeContainers,
         home,

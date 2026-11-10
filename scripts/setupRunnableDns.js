@@ -1,6 +1,7 @@
 import { lookup } from 'dns/promises'
 import { readFileSync } from 'fs'
 import setupLocalDns from './setupLocalDns.js'
+import loadProcessRuntimeSettings from './loadProcessRuntimeSettings.js'
 
 export default async params => {
     const {
@@ -8,6 +9,7 @@ export default async params => {
         repo,
     } = params
     if (params.isCiCd || /(?:Control|Themes)$/.test(repo)) return false
+    if (loadProcessRuntimeSettings(params).internal) return false
     const secrets = JSON.parse(readFileSync(`${home}/secrets/${repo}.json`, 'utf8'))
     const hosts = [`${repo}.local`]
     for (const instance of secrets.deployment?.instances || []) {

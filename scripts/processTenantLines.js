@@ -1,4 +1,5 @@
 import createCertificate from './createCertificate.js'
+import loadProcessRuntimeSettings from './loadProcessRuntimeSettings.js'
 import processTenantLine from './processTenantLine.js'
 import setupLocalDns from './setupLocalDns.js'
 import setupWebServer from './setupWebServer.js'
@@ -8,6 +9,7 @@ import {
 } from './timing.js'
 
 export default async params => {
+    if (loadProcessRuntimeSettings(params).internal) return false
     const {
         hosts,
         lines,

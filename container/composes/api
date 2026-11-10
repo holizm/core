@@ -4,8 +4,7 @@ services:
         ${userLine}
         container_name: ${containerName}
         hostname: api
-        ports:
-            - "127.0.0.1:${deterministicPort}:5000"
+${apiPortBindings}
         working_dir: ${containerHome}/${repo}/${process}
         environment:
             - home=${containerHome}
@@ -22,6 +21,7 @@ services:
             - host=${host}
             - migrationPath=/tmp/${repo}/migration
             - isCiCd=${isCiCd}
+            - isBuild=${processIsBuild}
             - isEtl=${isEtl}
             - MONGOMS_DOWNLOAD_DIR=${containerHome}/.cache/mongodb-memory-server
             - MONGOMS_PREFER_GLOBAL_PATH=false
@@ -29,6 +29,7 @@ services:
 
             ${environmentVariablesPlaceholder}
         volumes:
+${apiReadOnlyMounts}
             - ${home}/packages/api:${containerHome}/.npm
             - ${home}/.cache/mongodb-memory-server:${containerHome}/.cache/mongodb-memory-server
             - /tmp/${repo}/migration:/tmp/${repo}/migration
@@ -48,20 +49,21 @@ services:
 
             ${volumes}
             - /tmp/${repo}/${process}/.vscode:${containerHome}/${repo}/${process}/.vscode
-        command: |
-            bash -lc '
-            set -e
-            export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
-            printf "\e[31m%s %s\e[0m\n" "https://localhost:${deterministicPort}"
-            initializeContainer
-            tail -f /dev/null
-            '
+        command:
+            - bash
+            - -lc
+            - |
+                set -e
+                export PATH=${containerHome}/core/commands/api:${containerHome}/core/commands:$PATH
+                printf '\e[31m%s %s\e[0m\n' 'https://localhost:${deterministicPort}'
+                initializeContainer
+                tail -f /dev/null
         stdin_open: true
         tty: true
         networks:
             - ${networkRepo}Network
         extra_hosts:
-            - "host.docker.internal:host-gateway"
+            - 'host.docker.internal:host-gateway'
 
 networks:
     ${networkRepo}Network:
