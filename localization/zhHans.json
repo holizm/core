@@ -196,5 +196,5 @@
     "sale": "销售",
     "return": "退货",
     "exchange": "换货",
-    "supportAgent": "客服人员", "you": "你", "invitations": "邀请", "internalNote": "内部备注", "previousStartDate": "原开始日期", "newStartDate": "新开始日期", "sentDate": "发送日期", "expectedDate": "预计日期", "submitted": "已提交", "approved": "已批准", "rejected": "已拒绝", "ordered": "已订购", "accepted": "已接受", "expired": "已过期", "issued": "已签发", "partiallyReceived": "部分已收货", "received": "已接收", "locale": "区域设置", "permissions": "权限", "escalation": "升级处理", "unknownInformation": "未知信息", "humanHandoff": "转交人工", "noEscalation": "不升级处理", "start": "开始", "stop": "停止"
+    "supportAgent": "客服人员", "you": "你", "invitations": "邀请", "internalNote": "内部备注", "previousStartDate": "原开始日期", "newStartDate": "新开始日期", "sentDate": "发送日期", "expectedDate": "预计日期", "submitted": "已提交", "approved": "已批准", "rejected": "已拒绝", "ordered": "已订购", "accepted": "已接受", "expired": "已过期", "issued": "已签发", "partiallyReceived": "部分已收货", "received": "已接收", "locale": "区域设置", "permissions": "权限", "escalation": "升级处理", "unknownInformation": "未知信息", "humanHandoff": "转交人工", "noEscalation": "不升级处理", "start": "开始", "stop": "停止", "estimatedEffort": "预计工作量", "recordedTime": "已记录用时", "declaredCapacity": "申报容量", "missingEstimates": "缺少估算", "conflictingCapacity": "容量冲突", "hoursPerDay": "每天小时数", "undeclaredCapacity": "未申报容量", "invalidRecords": "无效记录", "visibleRecords": "可见记录"
 }
