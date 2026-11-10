@@ -196,5 +196,5 @@
     "sale": "מכירה",
     "return": "החזרה",
     "exchange": "החלפה",
-    "supportAgent": "נציג תמיכה", "you": "אתם", "invitations": "הזמנות", "internalNote": "הערה פנימית", "previousStartDate": "תאריך התחלה קודם", "newStartDate": "תאריך התחלה חדש", "sentDate": "תאריך שליחה", "expectedDate": "תאריך צפוי", "submitted": "הוגש", "approved": "אושר", "rejected": "נדחה", "ordered": "הוזמן", "accepted": "התקבל", "expired": "פג תוקף", "issued": "הונפק", "partiallyReceived": "התקבל חלקית", "received": "התקבל", "locale": "הגדרות אזוריות", "permissions": "הרשאות", "escalation": "הסלמה", "unknownInformation": "מידע לא ידוע", "humanHandoff": "העברה לנציג אנושי", "noEscalation": "ללא הסלמה"
+    "supportAgent": "נציג תמיכה", "you": "אתם", "invitations": "הזמנות", "internalNote": "הערה פנימית", "previousStartDate": "תאריך התחלה קודם", "newStartDate": "תאריך התחלה חדש", "sentDate": "תאריך שליחה", "expectedDate": "תאריך צפוי", "submitted": "הוגש", "approved": "אושר", "rejected": "נדחה", "ordered": "הוזמן", "accepted": "התקבל", "expired": "פג תוקף", "issued": "הונפק", "partiallyReceived": "התקבל חלקית", "received": "התקבל", "locale": "הגדרות אזוריות", "permissions": "הרשאות", "escalation": "הסלמה", "unknownInformation": "מידע לא ידוע", "humanHandoff": "העברה לנציג אנושי", "noEscalation": "ללא הסלמה", "start": "התחלה", "stop": "עצירה"
 }
