@@ -1,4 +1,5 @@
-{ "bedrooms": "መኝታ ቤቶች", "bathrooms": "መታጠቢያ ቤቶች", "constructionYear": "የግንባታ ዓመት", "deliveryInstructions": "የማድረስ መመሪያዎች", "underReview": "በግምገማ ላይ", "withdrawn": "ተመልሷል", "suspended": "ታግዷል",
+{
+    "downloads": "የወረዱ ፋይሎች", "bedrooms": "መኝታ ቤቶች", "bathrooms": "መታጠቢያ ቤቶች", "constructionYear": "የግንባታ ዓመት", "deliveryInstructions": "የማድረስ መመሪያዎች", "underReview": "በግምገማ ላይ", "withdrawn": "ተመልሷል", "suspended": "ታግዷል",
     "accept": "ተቀበል", "inclusions": "የተካተቱ ነገሮች", "incomplete": "ያልተሟላ", "defective": "ጉድለት ያለበት", "damaged": "የተጎዳ", "resalable": "እንደገና ሊሸጥ የሚችል", "unopened": "ያልተከፈተ", "resolved": "የተፈታ", "inspected": "የተመረመረ", "inTransit": "በመጓጓዝ ላይ", "storeCredit": "የመደብር ክሬዲት", "repair": "ጥገና", "refund": "ገንዘብ መመለስ", "openedAt": "የተከፈተበት ጊዜ", "vehicles": "ተሽከርካሪዎች", "arrivalDate": "የመድረሻ ቀን", "departureDate": "የመነሻ ቀን", "driver": "አሽከርካሪ", "vehicle": "ተሽከርካሪ", "room": "ክፍል", "downtimeInMinutes": "የሥራ ማቆሚያ ጊዜ (ደቂቃዎች)", "cash": "ጥሬ ገንዘብ", "card": "ካርድ", "bankTransfer": "የባንክ ዝውውር", "other": "ሌላ", "wallet": "የገንዘብ ቦርሳ", "underMaintenance": "በጥገና ላይ", "contract": "ውል", "contracts": "ውሎች", "totalTime": "ጠቅላላ ጊዜ",
     "longest": "ረጅሙ",
     "shortest": "አጭሩ",

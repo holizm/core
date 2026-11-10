@@ -1,4 +1,5 @@
-{ "bedrooms": "Spavaće sobe", "bathrooms": "Kupaonice", "constructionYear": "Godina izgradnje", "deliveryInstructions": "Upute za dostavu", "underReview": "U pregledu", "withdrawn": "Povučeno", "suspended": "Obustavljeno",
+{
+    "downloads": "Preuzimanja", "bedrooms": "Spavaće sobe", "bathrooms": "Kupaonice", "constructionYear": "Godina izgradnje", "deliveryInstructions": "Upute za dostavu", "underReview": "U pregledu", "withdrawn": "Povučeno", "suspended": "Obustavljeno",
     "accept": "Prihvati", "inclusions": "Uključene stavke", "incomplete": "Nepotpuno", "defective": "Neispravno", "damaged": "Oštećeno", "resalable": "Za ponovnu prodaju", "unopened": "Neotvoreno", "resolved": "Riješeno", "inspected": "Pregledano", "inTransit": "U prijevozu", "storeCredit": "Kredit trgovine", "repair": "Popravak", "refund": "Povrat novca", "openedAt": "Otvoreno", "vehicles": "Vozila", "arrivalDate": "Datum dolaska", "departureDate": "Datum polaska", "driver": "Vozač", "vehicle": "Vozilo", "room": "Soba", "downtimeInMinutes": "Vrijeme zastoja (minute)", "cash": "Gotovina", "card": "Kartica", "bankTransfer": "Bankovni prijenos", "other": "Drugo", "wallet": "Novčanik", "underMaintenance": "Na održavanju", "contract": "Ugovor", "contracts": "Ugovori", "totalTime": "Ukupno vrijeme",
     "longest": "Najdulje",
     "shortest": "Najkraće",
