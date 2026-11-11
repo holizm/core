@@ -1,4 +1,5 @@
 import getApiRepo from './getApiRepo.js';
+import isDir from './isDir.js';
 import isFile from './isFile.js';
 import mapTesting from './mapTesting.js';
 import { writeFileIfNotExists } from './os.js';
@@ -33,8 +34,8 @@ export default params => {
     if (processType !== 'api') {
         for (const dependency of params.dependencies || []) {
             const roots = [`${home}/${repo}/${dependency}`, `${home}/${getApiRepo(repo)}/${dependency}`, `${home}/${dependency}`];
-            const root = roots.find(root => isFile(`${root}/part`) && isFile(`${root}/functions/package.json`));
-            if (root) params.addVolume(`${root}/functions`, `${containerHome}/${repo}/${process}/clientFunctions/${dependency}Functions:ro`);
+            const root = roots.find(root => isFile(`${root}/part`) && isDir(`${root}/functions`));
+            if (root) params.addVolume(`${root}/functions`, `${containerHome}/${repo}/${process}/clientFunctions/${dependency}:ro`);
         }
     }
     if (processType === 'api') {

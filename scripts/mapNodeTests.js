@@ -1,8 +1,8 @@
 import assert from 'assert/strict';
 import fs from 'fs';
-import test from 'node:test';
 import os from 'os';
 import path from 'path';
+import test from 'node:test';
 import mapNode from './mapNode.js';
 test('mapNode mounts shared runtime dependencies for a panel without custom packages', t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'mapNode'));
@@ -59,7 +59,7 @@ test('client processes mount declared shared function packages from their owning
     const part = path.join(home, 'messaging');
     fs.mkdirSync(path.join(part, 'functions'), { recursive: true });
     fs.writeFileSync(path.join(part, 'part'), 'conversation\n');
-    fs.writeFileSync(path.join(part, 'functions/package.json'), '{"main":"exports.js"}');
+    fs.writeFileSync(path.join(part, 'functions/connect.js'), 'export default () => true');
     for (const processType of ['panel', 'site']) {
         const volumes = [];
         mapNode({
@@ -71,9 +71,9 @@ test('client processes mount declared shared function packages from their owning
             processType,
             repo: 'example'
         });
-        assert.ok(volumes.some(([source, target]) => source === path.join(part, 'functions') && target === `/container/example/${processType}/clientFunctions/messagingFunctions:ro`));
+        assert.ok(volumes.some(([source, target]) => source === path.join(part, 'functions') && target === `/container/example/${processType}/clientFunctions/messaging:ro`));
     }
-    fs.rmSync(path.join(part, 'functions/package.json'));
+    fs.rmSync(path.join(part, 'functions'), { recursive: true });
     const volumes = [];
     mapNode({
         addVolume: (...rest) => volumes.push(rest),
@@ -84,5 +84,5 @@ test('client processes mount declared shared function packages from their owning
         processType: 'site',
         repo: 'example'
     });
-    assert.ok(!volumes.some(([, target]) => target.includes('messagingFunctions')));
+    assert.ok(!volumes.some(([, target]) => target.includes('clientFunctions/messaging')));
 });

@@ -1,35 +1,32 @@
 #!/usr/bin/env node
-
-import path from 'path'
-import { warning } from '../../scripts/logger.js'
-import { writeFile } from '../../scripts/os.js'
-import { runOnTerminal } from '../../scripts/terminal.js'
-
-const [, , ...directories] = process.argv
+import path from 'path';
+import { warning } from '../../scripts/logger.js';
+import {
+    exists,
+    writeFile,
+} from '../../scripts/os.js';
+import { runOnTerminal } from '../../scripts/terminal.js';
+import './generateBusinessExports.js';
+const [,, ...directories] = process.argv;
 const {
     containerHome,
     home,
     process: proc,
-    repo,
-} = process.env
-
-const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`
-
+    repo
+} = process.env;
+const nodeModules = `${containerHome}/${repo}/${proc}/node_modules`;
 const getFiles = async root => {
-    const command = `find ${root} -mindepth 2 -type f -name '*.js' ! -path '*/business/*/aggregates/*' ! -path '*/test/*' ! -path '*/testing/*' ! -path '*/integrationTests/*' ! -name '*Test.js' ! -name '*Tests.js' ! -name 'runTests.js'`
-    const files = runOnTerminal(command)
-        .split('\n')
-        .filter(Boolean)
-    return files
-}
-
+    const command = `find -H ${root} -mindepth 2 -type f -name '*.js' ! -path '*/business/*/aggregates/*' ! -path '*/test/*' ! -path '*/testing/*' ! -path '*/integrationTests/*' ! -name '*Test.js' ! -name '*Tests.js' ! -name 'runTests.js'`;
+    const files = runOnTerminal(command).split('\n').filter(Boolean);
+    return files;
+};
 for (const directory of directories) {
-    const root = `${nodeModules}/${directory}`
-    const exportsFilePath = `${root}/exports.js`
-    const files = await getFiles(root)
-    if (files.some(file => !file)) {
-        warning(root, files)
-    }
-    const exports = files.map(file => `export * from './${path.relative(root, file).split(path.sep).join('/')}'`).join('\n')
-    writeFile(exportsFilePath, exports)
+    const root = `${nodeModules}/${directory}`;
+    const exportsFilePath = `${root}/exports.js`;
+    const files = await getFiles(root);
+    if (files.some(file => !file)) { warning(root, files); }
+    const exports = files.map(file => `export * from './${path.relative(root, file).split(path.sep).join('/')}'`).join('\n');
+    const business = `${directory}Business`;
+    const content = exists(`${nodeModules}/${business}/exports.js`) ? `${exports}\nexport * from '${business}'\n` : exports;
+    writeFile(exportsFilePath, content);
 }
