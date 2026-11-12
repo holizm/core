@@ -100,7 +100,7 @@ export const mapDependencies = params => {
             translationScopes[dependency] = getPartUses(fs.readFileSync(partPath, 'utf8'))
         }
 
-        if (getProcessRole(process, isControl) === 'admin') {
+        if (getProcessRole(process, isControl) === 'admin' && isDir(`${dependencyBase}/admin`)) {
             params.addVolume(`${dependencyBase}/admin`, `${containerHome}/${repo}/${process}/src/${dependency}/admin`)
         }
 
