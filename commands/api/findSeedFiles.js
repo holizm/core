@@ -1,4 +1,5 @@
 import fg from 'fast-glob'
+import { getContent } from '../../scripts/os.js'
 
 export default (processDirectory, home) => {
     const dependencyDirectory = `${processDirectory}/node_modules`
@@ -10,6 +11,9 @@ export default (processDirectory, home) => {
         absolute: true,
         cwd: dependencyDirectory,
         onlyFiles: true,
-    }).sort()
+    }).sort().filter(file => {
+        const items = JSON.parse(getContent(file))
+        return Array.isArray(items) && items.every(item => typeof item?.id === 'string' && item.id.length > 0)
+    })
     return files
 }

@@ -17,6 +17,8 @@ test('seed discovery includes composed parts and excludes uncomposed repositorie
         fs.writeFileSync(`${directory}/${name}/api/data/nested/items.json`, '[]')
     }
     fs.mkdirSync(`${directory}/process/node_modules`, { recursive: true })
+    fs.writeFileSync(`${directory}/selected/api/data/configuration.json`, '{"enabled":true}')
+    fs.writeFileSync(`${directory}/selected/api/data/generators.json`, '[{"generator":"article"}]')
     fs.symlinkSync(`${directory}/selected`, `${directory}/process/node_modules/selected`)
     assert.deepEqual(findSeedFiles(`${directory}/process`, directory), [
         `${directory}/selected/api/data/nested/items.json`,
