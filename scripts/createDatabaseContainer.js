@@ -28,11 +28,17 @@ const createMongoDatabaseContainer = async params => {
     const {
         home,
         lowercaseRepo,
+        repo,
     } = params
+    const repositorySettings = JSON.parse(getContent(`${home}/secrets/${repo}.json`))
+    const sharedSettings = JSON.parse(getContent(`${home}/secrets/privateCommon.json`))
+    const database = repositorySettings.database || sharedSettings.database
     info('Creating database container')
     const composePath = createDatabaseComposeFile({
         ...params,
         composeTemplatePath: `${home}/core/container/composes/database`,
+        databasePassword: database.password,
+        databaseUser: database.user,
     })
     prepareComposeFile(composePath)
     await runOnTerminalAsync(`docker compose -p ${lowercaseRepo}-databases -f ${composePath} up -d --remove-orphans`, {
