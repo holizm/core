@@ -5,7 +5,12 @@ import {
 } from 'node:test'
 
 test('database creation uses repository credentials and preserves the shared fallback', async () => {
-    let repositorySettings = { database: { password: 'repositoryPassword', user: 'repositoryUser' } }
+    let repositorySettings = {
+        database: {
+            password: 'repositoryPassword',
+            user: 'repositoryUser',
+        },
+    }
     let output
     const template = '${databaseUser}:${databasePassword}'
     mock.module('./createRunnableCompass.js', { defaultExport: async () => {} })
@@ -15,7 +20,12 @@ test('database creation uses repository credentials and preserves the shared fal
             createDirIfNotExists: () => {},
             getContent: path => path.endsWith('/composes/database') ? template : JSON.stringify(
                 path.endsWith('/privateCommon.json')
-                    ? { database: { password: 'sharedPassword', user: 'sharedUser' } }
+                    ? {
+                        database: {
+                            password: 'sharedPassword',
+                            user: 'sharedUser',
+                        },
+                    }
                     : repositorySettings,
             ),
             overrideFile: (path, content) => { output = content },

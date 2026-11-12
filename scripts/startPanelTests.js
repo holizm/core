@@ -39,7 +39,13 @@ test('admin composition includes only implemented admin roles and keeps common m
         assert.ok(volumes.some(([source]) => source === `${home}/messages/panel/common`))
         assert.ok(!volumes.some(([source]) => source === `${home}/messages/panel/admin`))
     } finally {
-        rmSync(home, { force: true, recursive: true })
-        rmSync(target, { force: true, recursive: true })
+        rmSync(home, {
+            force: true,
+            recursive: true,
+        })
+        rmSync(target, {
+            force: true,
+            recursive: true,
+        })
     }
 })
