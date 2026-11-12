@@ -66,6 +66,14 @@ test('theme preview titles reuse the owning home content', t => {
     const content = path.join(directory, 'theme01', 'data')
     fs.mkdirSync(content, { recursive: true })
     fs.writeFileSync(path.join(content, 'home.json'), JSON.stringify({ seo: { title: 'Travel' } }))
+    fs.writeFileSync(path.join(content, 'originalHome.json'), JSON.stringify({ metadata: {
+        description: 'Reference description',
+        title: 'Reference title',
+        url: 'https://original.example/',
+    } }))
+    const reference = path.join(directory, 'theme02', 'data')
+    fs.mkdirSync(reference, { recursive: true })
+    fs.writeFileSync(path.join(reference, 'originalHome.json'), JSON.stringify({ metadata: { title: 'Second title' } }))
     createSiteConfiguration({
         addVolume: () => {},
         containerHome: '/container',
@@ -73,8 +81,12 @@ test('theme preview titles reuse the owning home content', t => {
         multiThemed: true,
         process: 'site',
         repo,
-        themeDirectories: ['theme01'],
+        themeDirectories: ['theme01', 'theme02'],
     })
     const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
-    assert.equal(JSON.parse(source.replace(/^export default /, '')).themeTitles['01'], 'Travel')
+    const configuration = JSON.parse(source.replace(/^export default /, ''))
+    assert.equal(configuration.themeTitles['01'], 'Travel')
+    assert.equal(configuration.themeTitles['02'], 'Second title')
+    assert.equal(configuration.themeDescriptions['01'], 'Reference description')
+    assert.equal(source.includes('https://original.example/'), false)
 })
