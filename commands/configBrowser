@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+import isFile from '../scripts/isFile.js'
+import {
+    errorAndExit,
+    success,
+} from '../scripts/logger.js'
+import {
+    exists,
+    getContent,
+    writeFile,
+} from '../scripts/os.js'
+
+const configDirectory = process.env.CHROME_CONFIG_HOME || process.env.XDG_CONFIG_HOME || `${process.env.HOME}/.config`
+const browserDirectory = process.env.CHROME_USER_DATA_DIR || `${configDirectory}/google-chrome`
+const settingsPath = `${browserDirectory}/Local State`
+
+if (exists(`${browserDirectory}/SingletonSocket`)) {
+    errorAndExit('Close Chrome completely before running configBrowser.')
+}
+
+const settings = isFile(settingsPath) ? JSON.parse(getContent(settingsPath)) : {}
+const browserSettings = {
+    ...settings,
+    devtools: {
+        ...settings.devtools,
+        remote_debugging: {
+            ...settings.devtools?.remote_debugging,
+            'user-enabled': true,
+        },
+    },
+}
+
+writeFile(settingsPath, `${JSON.stringify(browserSettings, null, 4)}\n`)
+success('Browser configured. Remote debugging will be enabled when Chrome starts.')

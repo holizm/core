@@ -50,6 +50,7 @@ runSetupStep configureHosts bash "$scripts/configureHosts.sh"
 runSetupStep policyDependencies "$setupDev/policyDependencies"
 
 runSetupStep configIde node "$homeDir/core/commands/configIde"
+runSetupStep configBrowser node "$homeDir/core/commands/configBrowser"
 runSetupStep configAi node "$homeDir/core/commands/configAi"
 runSetupStep configAgent node "$homeDir/core/commands/configAgent"
 runSetupStep enforce node "$homeDir/core/commands/enforce"
