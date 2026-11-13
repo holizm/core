@@ -42,3 +42,32 @@ test('createThemeEntries includes only existing theme page components', t => {
     assert.doesNotMatch(heads, /Theme02Head/)
     assert.doesNotMatch(indexes, /Theme01Index/)
 })
+
+test('the index registry imports wrappers without evaluating other theme pages', t => {
+    const home = fs.mkdtempSync(path.join(os.tmpdir(), 'themeIndexIsolation'))
+    const repo = path.basename(home)
+    const output = path.join('/tmp', repo, 'site', 'themeIndexes')
+    t.after(() => fs.rmSync(home, {
+        force: true,
+        recursive: true,
+    }))
+    const processPath = path.join(home, 'site')
+    for (const theme of ['theme01', 'theme02']) {
+        const pages = path.join(home, theme, 'pages')
+        fs.mkdirSync(pages, { recursive: true })
+        fs.writeFileSync(path.join(pages, 'index.jsx'), `import missing from 'unavailableThemeResource'`)
+    }
+    createThemeEntries({
+        multiThemed: true,
+        process: 'site',
+        processPath,
+        repo,
+        themeDirectories: ['theme01', 'theme02'],
+    })
+    const registry = fs.readFileSync(path.join(output, 'index.jsx'), 'utf8')
+    assert.match(registry, /import Theme01Index from '\.\/01'/)
+    assert.match(registry, /import Theme02Index from '\.\/02'/)
+    assert.doesNotMatch(registry, /themes\//)
+    assert.equal(fs.existsSync(path.join(output, '01.jsx')), true)
+    assert.equal(fs.existsSync(path.join(output, '02.jsx')), true)
+})

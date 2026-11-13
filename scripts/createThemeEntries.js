@@ -1,4 +1,5 @@
 import { join } from 'path'
+import createThemeIndexEntry from './createThemeIndexEntry.js'
 import getThemeKey from './getThemeKey.js'
 import isFile from './isFile.js'
 import {
@@ -46,7 +47,16 @@ export default params => {
                 properties.push(`    '${theme}': () => import('../themes/${theme}/pages/layout'),`)
             }
             else {
-                imports.push(`import ${component} from '../themes/${theme}/pages/${configuration.type}'`)
+                if (configuration.type === 'index') createThemeIndexEntry({
+                    directory,
+                    theme,
+                })
+                const source = configuration.type === 'index'
+                    ?
+                    `./${theme}`
+                    :
+                    `../themes/${theme}/pages/${configuration.type}`
+                imports.push(`import ${component} from '${source}'`)
                 properties.push(`    '${theme}': ${component},`)
             }
         })
