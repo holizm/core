@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
+import { getContent } from '../../scripts/os.js'
 import addNamedSiteAliases from './addNamedSiteAliases.js'
 import getSiteModuleExports from './getSiteModuleExports.js'
 import writeSiteComponentBarrel from './writeSiteComponentBarrel.js'
@@ -37,7 +38,14 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
     for (const file of files) {
         const extension = path.extname(file)
         const modulePath = file.slice(0, -extension.length)
-        const source = fs.readFileSync(path.join(srcBase, file), 'utf8')
+        let source
+        try {
+            source = getContent(path.join(srcBase, file))
+        }
+        catch (e) {
+            if (['ENOENT', 'ENOTDIR'].includes(e.code)) continue
+            throw e
+        }
         const isData = extension === '.json'
         const moduleExports = isData ? null : getSiteModuleExports(source)
         const hasDefault = isData || moduleExports.hasDefault

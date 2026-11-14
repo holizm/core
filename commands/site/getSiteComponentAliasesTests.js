@@ -3,6 +3,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import test from 'node:test'
+import fg from 'fast-glob'
 import getSiteComponentAliases from './getSiteComponentAliases.js'
 
 test('getSiteComponentAliases maps core and page components to generated barrels', t => {
@@ -60,4 +61,39 @@ test('scoped filename aliases also retain named-export default compatibility', a
     const aliases = getSiteComponentAliases(directory, true)
     const module = await import(`${aliases.coreFunctionsNamedValue}.js`)
     assert.equal(module.default, 7)
+})
+
+test('files removed after enumeration do not stop alias discovery', t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteRemovedAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    const folder = path.join(directory, 'themes', '231', 'data')
+    fs.mkdirSync(folder, { recursive: true })
+    const removed = path.join(folder, 'home.json')
+    const remaining = path.join(folder, 'branding.json')
+    fs.writeFileSync(removed, '{}')
+    fs.writeFileSync(remaining, '{"title":"Museum"}')
+    const scan = fg.sync
+    t.mock.method(fg, 'sync', (...rest) => {
+        const files = scan(...rest)
+        fs.unlinkSync(removed)
+        return files
+    })
+    const aliases = getSiteComponentAliases(directory, true)
+    assert.equal(aliases.theme231DataHome, undefined)
+    assert.equal(aliases.theme231DataBranding, remaining)
+})
+
+test('source read failures other than missing paths still stop discovery', t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'siteUnreadableAlias'))
+    t.after(() => fs.rmSync(directory, { force: true, recursive: true }))
+    const folder = path.join(directory, 'core')
+    fs.mkdirSync(folder)
+    const file = path.join(folder, 'blocked.js')
+    fs.writeFileSync(file, 'export default 1')
+    const read = fs.readFileSync
+    t.mock.method(fs, 'readFileSync', (source, ...rest) => {
+        if (source === file) throw Object.assign(new Error('Denied'), { code: 'EACCES' })
+        return read(source, ...rest)
+    })
+    assert.throws(() => getSiteComponentAliases(directory, true), { code: 'EACCES' })
 })
