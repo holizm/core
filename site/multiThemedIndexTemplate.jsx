@@ -3,6 +3,7 @@ import { routeLoader$ } from '@builder.io/qwik-city'
 import getFromCacheOrApi from 'getFromCacheOrApi'
 import getThemeNumber from 'getThemeNumber'
 import useAsync from 'useAsync'
+import contentsGetPage from 'contentsGetPage'
 import contentsGetValues from 'contentsGetValues'
 import globalizationGetGlobalization from 'globalizationGetGlobalization'
 import themeIndexes from 'themeIndexes'
@@ -11,14 +12,20 @@ const getData = routeLoader$(async props => {
     const [
         globalization,
         page,
+        pageComposition,
         tenant,
     ] = await useAsync([
         globalizationGetGlobalization(props),
         contentsGetValues('shared_shared_contents_page_home', props),
+        contentsGetPage('home', props),
         getFromCacheOrApi('/tenant', props),
     ])
     const data = {
         ...page,
+        ...(pageComposition?.hasSections && {
+            hasSections: true,
+            sections: pageComposition.sections,
+        }),
         globalization,
         theme: tenant?.theme,
     }
