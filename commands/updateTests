@@ -18,24 +18,35 @@ clear() {
     :
 }
 
+warning() {
+    printf '%s\n' "$*" > "$testDirectory/warning"
+}
+
 sudo() {
     printf '%s\n' "$*" >> "$testDirectory/calls"
     if [[ "$*" == 'apt update -o APT::Update::Error-Mode=any' ]]; then
         return "$refreshStatus"
     fi
-    return 0
+    return "$upgradeStatus"
 }
 
-export -f getent clear sudo
-export refreshStatus=0
+export -f getent clear sudo warning
+export refreshStatus=0 upgradeStatus=0
 bash "$commandPath"
 expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y --fix-missing' 'compass')
 [[ "$(cat "$testDirectory/calls")" == "$expected" ]]
 
 export refreshStatus=100
 rm "$testDirectory/calls"
+bash "$commandPath"
+[[ "$(cat "$testDirectory/calls")" == "$expected" ]]
+[[ -s "$testDirectory/warning" ]]
+
+export upgradeStatus=100
+rm "$testDirectory/calls"
 if bash "$commandPath"; then
     exit 1
 fi
-[[ "$(cat "$testDirectory/calls")" == 'apt update -o APT::Update::Error-Mode=any' ]]
+expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y --fix-missing')
+[[ "$(cat "$testDirectory/calls")" == "$expected" ]]
 printf '%s\n' 'Update sequencing tests passed'

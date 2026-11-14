@@ -7,6 +7,8 @@ homeDir=$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)
 
 clear
 
-sudo apt update -o APT::Update::Error-Mode=any
+if ! sudo apt update -o APT::Update::Error-Mode=any; then
+    warning 'Some repositories could not refresh. Continuing with available package indexes.'
+fi
 sudo apt full-upgrade -y --fix-missing
 scripts="$homeDir/core/scripts" "$homeDir/core/setupDev/compass" update
