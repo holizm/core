@@ -29,7 +29,7 @@ sudo() {
 export -f getent clear sudo
 export refreshStatus=0
 bash "$commandPath"
-expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y' 'compass')
+expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y --fix-missing' 'compass')
 [[ "$(cat "$testDirectory/calls")" == "$expected" ]]
 
 export refreshStatus=100
