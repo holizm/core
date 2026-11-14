@@ -10,5 +10,10 @@ clear
 if ! sudo apt update -o APT::Update::Error-Mode=any; then
     warning 'Some repositories could not refresh. Continuing with available package indexes.'
 fi
-sudo apt full-upgrade -y --fix-missing
-scripts="$homeDir/core/scripts" "$homeDir/core/setupDev/compass" update
+updateStatus=0
+sudo apt full-upgrade -y --fix-missing || updateStatus=$?
+if (( updateStatus != 0 )); then
+    warning 'Some system updates failed. Continuing with the Compass update.'
+fi
+scripts="$homeDir/core/scripts" "$homeDir/core/setupDev/compass" update || updateStatus=$?
+exit "$updateStatus"

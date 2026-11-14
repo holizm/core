@@ -7,7 +7,7 @@ trap 'rm -rf "$testDirectory"' EXIT
 export testDirectory
 mkdir -p "$testDirectory/core/scripts" "$testDirectory/core/setupDev"
 touch "$testDirectory/core/scripts/logger.sh"
-printf '%s\n' '#!/usr/bin/env bash' 'echo compass >> "$testDirectory/calls"' > "$testDirectory/core/setupDev/compass"
+printf '%s\n' '#!/usr/bin/env bash' 'echo compass >> "$testDirectory/calls"' 'exit "$compassStatus"' > "$testDirectory/core/setupDev/compass"
 chmod +x "$testDirectory/core/setupDev/compass"
 
 getent() {
@@ -31,7 +31,7 @@ sudo() {
 }
 
 export -f getent clear sudo warning
-export refreshStatus=0 upgradeStatus=0
+export refreshStatus=0 upgradeStatus=0 compassStatus=0
 bash "$commandPath"
 expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y --fix-missing' 'compass')
 [[ "$(cat "$testDirectory/calls")" == "$expected" ]]
@@ -47,6 +47,12 @@ rm "$testDirectory/calls"
 if bash "$commandPath"; then
     exit 1
 fi
-expected=$(printf '%s\n' 'apt update -o APT::Update::Error-Mode=any' 'apt full-upgrade -y --fix-missing')
+[[ "$(cat "$testDirectory/calls")" == "$expected" ]]
+
+export refreshStatus=0 upgradeStatus=0 compassStatus=1
+rm "$testDirectory/calls"
+if bash "$commandPath"; then
+    exit 1
+fi
 [[ "$(cat "$testDirectory/calls")" == "$expected" ]]
 printf '%s\n' 'Update sequencing tests passed'
