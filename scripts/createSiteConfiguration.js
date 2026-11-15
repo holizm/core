@@ -33,12 +33,18 @@ export default ({
         const brandingPath = join(home, repo, directory, 'data', 'branding.json')
         const contentPath = join(home, repo, directory, 'data', 'home.json')
         const referencePath = join(home, repo, directory, 'data', 'originalHome.json')
+        const seoPath = join(home, repo, directory, 'data', 'seo.json')
         const branding = isFile(brandingPath) ? JSON.parse(getContent(brandingPath)) : null
         const content = isFile(contentPath) ? JSON.parse(getContent(contentPath)) : null
         const reference = isFile(referencePath) ? JSON.parse(getContent(referencePath))?.metadata : null
-        if (branding) themeBranding[getThemeKey(directory)] = branding
-        const documentTitle = branding?.documentTitle || content?.seo?.metaTitle || content?.seo?.title || reference?.title
-        const description = content?.seo?.metaDescription || content?.seo?.description || reference?.description
+        const seo = isFile(seoPath) ? JSON.parse(getContent(seoPath)) : content?.seo
+        const icons = branding?.icons || seo?.links?.filter(link => ['icon', 'shortcut icon', 'apple-touch-icon'].includes(link.rel))
+        if (branding || icons?.length) themeBranding[getThemeKey(directory)] = {
+            ...branding,
+            ...(icons?.length ? { icons } : {}),
+        }
+        const documentTitle = branding?.documentTitle || seo?.metaTitle || seo?.title || reference?.title
+        const description = seo?.metaDescription || seo?.description || seo?.meta?.find(entry => entry.name === 'description')?.content || reference?.description
         if (documentTitle) themeTitles[getThemeKey(directory)] = documentTitle
         if (description) themeDescriptions[getThemeKey(directory)] = description
     }

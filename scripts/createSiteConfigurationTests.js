@@ -74,6 +74,13 @@ test('theme preview titles reuse the owning home content', t => {
     const reference = path.join(directory, 'theme02', 'data')
     fs.mkdirSync(reference, { recursive: true })
     fs.writeFileSync(path.join(reference, 'originalHome.json'), JSON.stringify({ metadata: { title: 'Second title' } }))
+    fs.writeFileSync(path.join(reference, 'seo.json'), JSON.stringify({
+        links: [{
+            href: 'https://media.example/icon.ico',
+            rel: 'icon',
+        }],
+        title: 'Split content title',
+    }))
     createSiteConfiguration({
         addVolume: () => {},
         containerHome: '/container',
@@ -86,7 +93,8 @@ test('theme preview titles reuse the owning home content', t => {
     const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
     const configuration = JSON.parse(source.replace(/^export default /, ''))
     assert.equal(configuration.themeTitles['01'], 'Travel')
-    assert.equal(configuration.themeTitles['02'], 'Second title')
+    assert.equal(configuration.themeTitles['02'], 'Split content title')
+    assert.equal(configuration.themeBranding['02'].icons[0].href, 'https://media.example/icon.ico')
     assert.equal(configuration.themeDescriptions['01'], 'Reference description')
     assert.equal(source.includes('https://original.example/'), false)
 })
