@@ -50,6 +50,21 @@ printf -v quotedRemoteDirectory '%q' "$remoteDirectory"
 printf -v quotedPieces '%q' "$remoteDirectory"
 printf -v quotedArchive '%q' "$remoteDirectory/archive"
 printf -v quotedDestination '%q' "$destinationPath"
-for chunk in "$directory"/chunk*; do copyFile "$chunk" "$remoteDirectory/${chunk##*/}"; done
+parallelism=$(node -p 'require("os").availableParallelism()')
+processes=()
+waitForCopies() {
+    local failed=false
+    for transferProcess in "${processes[@]}"; do
+        if ! wait "$transferProcess"; then failed=true; fi
+    done
+    processes=()
+    [[ "$failed" == false ]]
+}
+for chunk in "$directory"/chunk*; do
+    copyFile "$chunk" "$remoteDirectory/${chunk##*/}" &
+    processes+=("$!")
+    if [[ ${#processes[@]} -ge "$parallelism" ]]; then waitForCopies; fi
+done
+waitForCopies
 command="cat $quotedPieces/chunk* > $quotedArchive && printf '%s  %s\\n' '$archiveDigest' $quotedArchive | sha256sum --check --status && mv -- $quotedArchive $quotedDestination"
 "$HOME/core/commands/connect" "$domain" "$command"

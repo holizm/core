@@ -4,9 +4,11 @@ set -euo pipefail
 directory=$(mktemp -d /tmp/transferFileChunksTestsXXXXXX)
 trap 'rm -r -- "$directory"' EXIT
 export transferTestDirectories="$directory/directories"
+export transferTestNode=$(command -v node)
 mkdir "$directory/bin"
 cat > "$directory/bin/node" <<'script'
 #!/usr/bin/env bash
+if [[ "${1:-}" == -p ]]; then exec "$transferTestNode" "$@"; fi
 printf '%s\n' '22 fixtureUser 127.0.0.1'
 script
 cat > "$directory/bin/ssh" <<'script'
@@ -24,6 +26,11 @@ cat > "$directory/bin/scp" <<'script'
 #!/usr/bin/env bash
 sourcePath=${@: -2:1}
 destinationPath=${@: -1}
+if [[ -n "${transferParallelMarker:-}" ]]; then
+    printf 'start\n' >> "$transferParallelMarker"
+    trap 'printf "end\n" >> "$transferParallelMarker"' EXIT
+    sleep .1
+fi
 if [[ -n "${transferHangMarker:-}" ]]; then
     printf '%s\n' "$BASHPID" >> "$transferHangMarker"
     trap '' TERM
@@ -46,7 +53,13 @@ chmod +x "$directory/bin/node" "$directory/bin/ssh" "$directory/bin/scp"
 export PATH="$directory/bin:$PATH"
 export transferChunkBytes=3
 printf '%s' ABCDEFGHIJ > "$directory/payload"
+export transferParallelMarker="$directory/parallelCopies"
 bash "$HOME/core/scripts/transferFileChunks.sh" "$directory/payload" fixture "$directory/resultArchive"
+maximum=$(awk '/start/{active++;if(active>maximum)maximum=active}/end/{active--}END{print maximum}' "$transferParallelMarker")
+parallelism=$("$transferTestNode" -p 'require("os").availableParallelism()')
+test "$maximum" -le "$parallelism"
+if [[ "$parallelism" -gt 1 ]]; then test "$maximum" -gt 1; fi
+unset transferParallelMarker
 cmp -- "$directory/payload" "$directory/resultArchive"
 while read -r path; do test ! -e "$path"; done < "$transferTestDirectories"
 export transferFailChunk=chunk00000001
