@@ -23,6 +23,7 @@ copyFile() {
     ' transfer "$copySourcePath" "$domain:$copyDestinationPath"; do
         attempt=$((attempt + 1))
         if [[ "$attempt" -ge "$attemptLimit" ]]; then return 1; fi
+        sleep "$attempt"
     done
 }
 if [[ "$(stat -c %s -- "$sourcePath")" -le "$chunkBytes" ]]; then
