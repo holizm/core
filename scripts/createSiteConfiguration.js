@@ -29,6 +29,7 @@ export default ({
     const themeTitles = {}
     const themeDescriptions = {}
     const themeBranding = {}
+    const themeViewports = {}
     for (const directory of multiThemed ? themeDirectories : []) {
         const brandingPath = join(home, repo, directory, 'data', 'branding.json')
         const contentPath = join(home, repo, directory, 'data', 'home.json')
@@ -45,12 +46,15 @@ export default ({
         }
         const documentTitle = branding?.documentTitle || seo?.metaTitle || seo?.title || reference?.title
         const description = seo?.metaDescription || seo?.description || seo?.meta?.find(entry => entry.name === 'description')?.content || reference?.description
+        const viewport = seo?.meta?.find(entry => entry.name === 'viewport')?.content
         if (documentTitle) themeTitles[getThemeKey(directory)] = documentTitle
         if (description) themeDescriptions[getThemeKey(directory)] = description
+        if (viewport) themeViewports[getThemeKey(directory)] = viewport
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     if (Object.keys(themeDescriptions).length) configuration.themeDescriptions = themeDescriptions
     if (Object.keys(themeBranding).length) configuration.themeBranding = themeBranding
+    if (Object.keys(themeViewports).length) configuration.themeViewports = themeViewports
     writeFile(
         `/tmp/${repo}/${process}/siteConfiguration.js`,
         `export default ${JSON.stringify(configuration, null, 4)}\n`,
