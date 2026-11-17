@@ -28,6 +28,7 @@ export default ({
     }
     const themeTitles = {}
     const themeDescriptions = {}
+    const themeMetadata = {}
     const themeBranding = {}
     const themeViewports = {}
     for (const directory of multiThemed ? themeDirectories : []) {
@@ -47,12 +48,23 @@ export default ({
         const documentTitle = branding?.documentTitle || seo?.metaTitle || seo?.title || reference?.title
         const description = seo?.metaDescription || seo?.description || seo?.meta?.find(entry => entry.name === 'description')?.content || reference?.description
         const viewport = seo?.meta?.find(entry => entry.name === 'viewport')?.content
+        const metadataLinks = seo?.links?.filter(link => ['canonical', 'alternate'].includes(link.rel)) || []
+        if (seo?.canonical) metadataLinks.push({
+            href: seo.canonical,
+            rel: 'canonical',
+        })
+        const metadata = {
+            links: metadataLinks,
+            meta: seo?.meta,
+        }
+        if (metadata.links.length || metadata.meta?.length) themeMetadata[getThemeKey(directory)] = metadata
         if (documentTitle) themeTitles[getThemeKey(directory)] = documentTitle
         if (description) themeDescriptions[getThemeKey(directory)] = description
         if (viewport) themeViewports[getThemeKey(directory)] = viewport
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     if (Object.keys(themeDescriptions).length) configuration.themeDescriptions = themeDescriptions
+    if (Object.keys(themeMetadata).length) configuration.themeMetadata = themeMetadata
     if (Object.keys(themeBranding).length) configuration.themeBranding = themeBranding
     if (Object.keys(themeViewports).length) configuration.themeViewports = themeViewports
     writeFile(
