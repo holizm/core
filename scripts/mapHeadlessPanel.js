@@ -3,6 +3,7 @@ import isDir from './isDir.js'
 export default params => {
     const {
         containerHome,
+        home,
         process,
         processPath,
         repo,
@@ -20,4 +21,5 @@ export default params => {
             params.addVolume(sourcePath, `${targetBase}/${target}`)
         }
     }
+    params.addVolume(`${home}/complexPanel/src/components/image.jsx`, `${targetBase}/components/image.jsx`)
 }

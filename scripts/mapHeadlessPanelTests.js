@@ -13,9 +13,13 @@ test('headless mappings use runnable-owned component directories', t => {
     mapHeadlessPanel({
         addVolume: (...rest) => volumes.push(rest),
         containerHome: '/container',
+        home: '/platform',
         process: 'userPanel',
         processPath,
         repo: 'phoneAi',
     })
-    assert.deepEqual(volumes, [[path.join(processPath, 'panel'), '/container/phoneAi/userPanel/src/panel']])
+    assert.deepEqual(volumes, [
+        [path.join(processPath, 'panel'), '/container/phoneAi/userPanel/src/panel'],
+        ['/platform/complexPanel/src/components/image.jsx', '/container/phoneAi/userPanel/src/components/image.jsx'],
+    ])
 })
