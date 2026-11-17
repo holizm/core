@@ -31,6 +31,9 @@ test('createSiteConfiguration records the selected theme numbers', t => {
     assert.deepEqual(volumes, [[
         '/source/site/buildRichTextRegistry.js',
         `/container/${repo}/site/buildRichTextRegistry.js`,
+    ], [
+        '/source/site/scripts/initializeAppearance.js',
+        `/container/${repo}/site/scripts/initializeAppearance.js`,
     ]])
 })
 
@@ -53,5 +56,8 @@ test('single-themed composition maps the registry builder beside its collector',
     assert.deepEqual(volumes, [[
         '/source/site/buildRichTextRegistry.js',
         `/container/${repo}/site/buildRichTextRegistry.js`,
+    ], [
+        '/source/site/scripts/initializeAppearance.js',
+        `/container/${repo}/site/scripts/initializeAppearance.js`,
     ]])
 })

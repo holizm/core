@@ -21,6 +21,10 @@ export default ({
             `${home}/site/buildRichTextRegistry.js`,
             `${containerHome}/${repo}/${process}/buildRichTextRegistry.js`,
         )
+        addVolume(
+            `${home}/site/scripts/initializeAppearance.js`,
+            `${containerHome}/${repo}/${process}/scripts/initializeAppearance.js`,
+        )
     }
     const configuration = {
         multiThemed,
@@ -28,10 +32,13 @@ export default ({
     }
     const themeTitles = {}
     const themeDescriptions = {}
+    const themeDefaultAppearances = {}
     const themeMetadata = {}
     const themeBranding = {}
     const themeViewports = {}
     for (const directory of multiThemed ? themeDirectories : []) {
+        const declarationPath = join(home, repo, directory, 'theme.json')
+        const declaration = isFile(declarationPath) ? JSON.parse(getContent(declarationPath)) : null
         const brandingPath = join(home, repo, directory, 'data', 'branding.json')
         const contentPath = join(home, repo, directory, 'data', 'home.json')
         const referencePath = join(home, repo, directory, 'data', 'originalHome.json')
@@ -61,12 +68,14 @@ export default ({
         if (documentTitle) themeTitles[getThemeKey(directory)] = documentTitle
         if (description) themeDescriptions[getThemeKey(directory)] = description
         if (viewport) themeViewports[getThemeKey(directory)] = viewport
+        if (declaration?.defaultAppearance) themeDefaultAppearances[getThemeKey(directory)] = declaration.defaultAppearance
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     if (Object.keys(themeDescriptions).length) configuration.themeDescriptions = themeDescriptions
     if (Object.keys(themeMetadata).length) configuration.themeMetadata = themeMetadata
     if (Object.keys(themeBranding).length) configuration.themeBranding = themeBranding
     if (Object.keys(themeViewports).length) configuration.themeViewports = themeViewports
+    if (Object.keys(themeDefaultAppearances).length) configuration.themeDefaultAppearances = themeDefaultAppearances
     writeFile(
         `/tmp/${repo}/${process}/siteConfiguration.js`,
         `export default ${JSON.stringify(configuration, null, 4)}\n`,
