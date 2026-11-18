@@ -163,7 +163,7 @@
     "timeZones": "Временске зоне", "title": "Наслов", "titleAToZ": "Naslov A-Z", "titles": "Наслови",
     "titleZToA": "Naslov Z-A", "to": "Do", "total": "Укупно", "totalCost": "Ukupni trošak",
     "totalPrice": "Укупна цена", "trackingNumber": "Broj za praćenje", "transaction": "Трансакција", "transactionDate": "Датум трансакције",
-    "transactions": "Transakcije", "transactionType": "Врста трансакције", "translate": "Преведи", "translation": "Prevod",
+    "transactions": "Трансакције", "transactionType": "Врста трансакције", "translate": "Преведи", "translation": "Prevod",
     "translations": "Преводи", "tv": "Televizor", "type": "Tip", "types": "Tipovi",
     "unassigned": "Neraspoređeno", "undefined": "Nedefinisano", "underLine": "Podvučeno", "undo": "Opozovi",
     "undock": "Odvoji", "unit": "Јединица мере", "unitCost": "Jedinični trošak", "unitPrice": "Јединична цена",
@@ -194,8 +194,7 @@
     "closing": "Затварање у току",
     "pending": "На чекању",
     "voided": "Поништено",
-    "sale": "Продаја",
-    "return": "Повраћај",
-    "exchange": "Замена",
-    "supportAgent": "Службеник подршке", "you": "Ви", "invitations": "Позивнице", "internalNote": "Интерна белешка", "previousStartDate": "Претходни датум почетка", "newStartDate": "Нови датум почетка", "sentDate": "Датум слања", "expectedDate": "Очекивани датум", "submitted": "Поднето", "approved": "Одобрено", "rejected": "Одбијено", "ordered": "Наручено", "accepted": "Прихваћено", "expired": "Истекло", "issued": "Издато", "partiallyReceived": "Делимично примљено", "received": "Примљено", "locale": "Локалне поставке", "permissions": "Дозволе", "escalation": "Ескалација", "unknownInformation": "Непознате информације", "humanHandoff": "Предаја запосленом", "noEscalation": "Без ескалације", "start": "Покрени", "stop": "Заустави", "estimatedEffort": "Процењени труд", "recordedTime": "Забележено време", "declaredCapacity": "Пријављени капацитет", "missingEstimates": "Недостајуће процене", "conflictingCapacity": "Противречни капацитет", "hoursPerDay": "Сати дневно", "undeclaredCapacity": "Непријављени капацитет", "invalidRecords": "Неважећи записи", "visibleRecords": "Видљиви записи"
+    "sale": "Продаја", "return": "Повраћај", "exchange": "Замена",
+    "supportAgent": "Службеник подршке", "you": "Ви", "invitations": "Позивнице", "internalNote": "Интерна белешка", "previousStartDate": "Претходни датум почетка", "newStartDate": "Нови датум почетка", "sentDate": "Датум слања", "expectedDate": "Очекивани датум", "submitted": "Поднето", "approved": "Одобрено", "rejected": "Одбијено", "ordered": "Наручено", "accepted": "Прихваћено", "expired": "Истекло", "issued": "Издато", "partiallyReceived": "Делимично примљено", "received": "Примљено", "locale": "Локалне поставке", "permissions": "Дозволе", "escalation": "Ескалација", "unknownInformation": "Непознате информације", "humanHandoff": "Предаја запосленом", "noEscalation": "Без ескалације", "start": "Покрени", "stop": "Заустави", "estimatedEffort": "Процењени труд", "recordedTime": "Забележено време", "declaredCapacity": "Пријављени капацитет", "missingEstimates": "Недостајуће процене", "conflictingCapacity": "Противречни капацитет", "hoursPerDay": "Сати дневно", "undeclaredCapacity": "Непријављени капацитет", "invalidRecords": "Неважећи записи", "visibleRecords": "Видљиви записи",
+    "payments": "Плаћања"
 }

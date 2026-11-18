@@ -69,3 +69,17 @@ test('publication readiness never succeeds merely because a configured port exis
         delete globalThis.mockRunOnServer
     }
 })
+
+test('publication suppresses process manager banners when reading readiness and configured ports', async () => {
+    let calls = 0
+    globalThis.mockRunOnServer = async (domain, command) => {
+        assert.ok(command.includes('["jlist", "--silent"]'))
+        return ++calls === 1 ? '' : '52928'
+    }
+    try {
+        assert.equal(await getPublishedProcessPort(params), '52928')
+        assert.equal(calls, 2)
+    } finally {
+        delete globalThis.mockRunOnServer
+    }
+})
