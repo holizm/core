@@ -26,7 +26,7 @@ test('theme preview titles reuse the owning home content', t => {
     fs.writeFileSync(path.join(reference, 'seo.json'), JSON.stringify({
         links: [{
             href: 'https://media.example/icon.ico',
-            rel: 'icon',
+            rel: 'icon shortcut',
         }],
         meta: [{
             content: 'width=320, user-scalable=yes',
@@ -49,6 +49,7 @@ test('theme preview titles reuse the owning home content', t => {
     assert.equal(configuration.themeTitles['02'], 'Split content title')
     assert.deepEqual(configuration.themeViewports, { '02': 'width=320, user-scalable=yes' })
     assert.equal(configuration.themeBranding['02'].icons[0].href, 'https://media.example/icon.ico')
+    assert.equal(configuration.themeBranding['02'].icons[0].rel, 'icon shortcut')
     assert.equal(configuration.themeDescriptions['01'], 'Reference description')
     assert.equal(source.includes('https://original.example/'), false)
 })

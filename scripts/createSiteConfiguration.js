@@ -47,7 +47,7 @@ export default ({
         const content = isFile(contentPath) ? JSON.parse(getContent(contentPath)) : null
         const reference = isFile(referencePath) ? JSON.parse(getContent(referencePath))?.metadata : null
         const seo = isFile(seoPath) ? JSON.parse(getContent(seoPath)) : content?.seo
-        const icons = branding?.icons || seo?.links?.filter(link => ['icon', 'shortcut icon', 'apple-touch-icon'].includes(link.rel))
+        const icons = branding?.icons || seo?.links?.filter(link => link.rel?.split(/\s+/).some(token => ['icon', 'apple-touch-icon'].includes(token)))
         if (branding || icons?.length) themeBranding[getThemeKey(directory)] = {
             ...branding,
             ...(icons?.length ? { icons } : {}),
