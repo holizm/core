@@ -1,4 +1,5 @@
 import camelize from './camelize.js'
+import getDeterministicPort from './getDeterministicPort.js'
 import getRemoteExecutable from './getRemoteExecutable.js'
 import getPublishedProcessPort from './getPublishedProcessPort.js'
 import runOnServer from './runOnServer.js'
@@ -33,12 +34,13 @@ export default async ({
         obsoleteProcessNames.push(camelize(`${instance?.serverDirectory} control ${process}`))
     }
     const pm2 = await getRemoteExecutable(domain, 'PM2', pm2Paths)
-    const port = await getPublishedProcessPort({
+    const existingPort = await getPublishedProcessPort({
         domain,
         fullProcessName,
         pm2,
         processPath,
     })
+    const port = existingPort || (process === 'worker' ? String(getDeterministicPort(fullProcessName)) : existingPort)
     const restart = command => runOnServer(
         domain,
         `cd ${processPath} && ${obsoleteProcessNames.map(name => `(${pm2} delete ${name} || true)`).join(' && ')} && ${command} && ${pm2} save`,

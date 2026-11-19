@@ -63,3 +63,26 @@ test('propagates a failed process start without issuing a separate save', async 
         delete globalThis.mockRunOnServer
     }
 })
+
+test('assigns an internal port when publishing a worker for the first time', async () => {
+    let port = ''
+    globalThis.mockRunOnServer = async (domain, command) => {
+        if (command.startsWith('test -x')) return '/usr/bin/pm2'
+        if (command.startsWith('node ') || command.startsWith('sed ')) return port
+        if (command.startsWith('cd ')) port = command.match(/--update-env -- (\d+)/)?.[1]
+    }
+    try {
+        await startPublishedProcess({
+            domain: 'example.com',
+            instance: { serverDirectory: 'example' },
+            params: {
+                isApi: true,
+                process: 'worker',
+            },
+        })
+        assert.match(port, /^\d+$/)
+    }
+    finally {
+        delete globalThis.mockRunOnServer
+    }
+})

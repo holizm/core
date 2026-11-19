@@ -15,6 +15,7 @@ test('getPartApiRolePath selects an existing role and validates a role link', t 
     fs.mkdirSync(processPath)
     const params = { dependency: 'blog', dependencyBase, processPath }
     assert.equal(getPartApiRolePath(params), rolePath)
+    assert.equal(getPartApiRolePath({ ...params, processPath: path.join(home, 'worker') }), null)
     fs.symlinkSync(rolePath, path.join(processPath, 'blog'))
     assert.equal(getPartApiRolePath(params), rolePath)
     fs.rmSync(path.join(processPath, 'blog'))

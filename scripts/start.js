@@ -92,7 +92,7 @@ export default async overrides => {
             containerName: `${params.repo}Control${params.pascalizedProcess}`,
         }))
     }
-    params.usesBackingInfrastructure = params.isControlProcess && params.process === 'api'
+    params.usesBackingInfrastructure = params.isControlProcess && ['api', 'worker'].includes(params.process)
     params.networkRepo = params.repo
     if (isSite(params)) params.networkRepo = getApiRepo(params.repo)
     if (params.usesBackingInfrastructure) {

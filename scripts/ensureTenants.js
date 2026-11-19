@@ -16,7 +16,7 @@ export default params => {
     } = params
 
     if (isControl && !isControlProcess) {
-        errorAndExit('Control runnables support tenants only in api and panel')
+        errorAndExit('Control runnables support tenants only in api, panel, and worker')
     }
     if (isControlProcess) {
         const backingRepo = repo.replace(/Control$/, '')

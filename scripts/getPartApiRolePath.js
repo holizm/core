@@ -22,8 +22,9 @@ export default ({
         return selected
     }
     const role = getProcessRole(path.basename(processPath), isControl)
+    if (!role) return null
     const selected = path.join(roleDirectory, role)
-    return role && existsSync(selected)
+    return existsSync(selected)
         ?
         selected
         :
