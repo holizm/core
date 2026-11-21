@@ -12,8 +12,10 @@ test('theme preview titles reuse the owning home content', t => {
         recursive: true,
     }))
     const repo = path.basename(directory)
+    const themeSource = 'https://template.example/'
     const content = path.join(directory, 'theme01', 'data')
     fs.mkdirSync(content, { recursive: true })
+    fs.writeFileSync(path.join(directory, 'theme01', 'theme.json'), JSON.stringify({ source: themeSource }))
     fs.writeFileSync(path.join(content, 'home.json'), JSON.stringify({ seo: { title: 'Travel' } }))
     fs.writeFileSync(path.join(content, 'originalHome.json'), JSON.stringify({ metadata: {
         description: 'Reference description',
@@ -45,6 +47,7 @@ test('theme preview titles reuse the owning home content', t => {
     })
     const source = fs.readFileSync(path.join(directory, 'site', 'siteConfiguration.js'), 'utf8')
     const configuration = JSON.parse(source.replace(/^export default /, ''))
+    assert.deepEqual(configuration.themeSources, { '01': themeSource })
     assert.equal(configuration.themeTitles['01'], 'Travel')
     assert.equal(configuration.themeTitles['02'], 'Split content title')
     assert.deepEqual(configuration.themeViewports, { '02': 'width=320, user-scalable=yes' })

@@ -34,11 +34,15 @@ export default ({
     const themeDescriptions = {}
     const themeDefaultAppearances = {}
     const themeMetadata = {}
+    const themeSources = {}
     const themeBranding = {}
     const themeViewports = {}
     for (const directory of multiThemed ? themeDirectories : []) {
         const declarationPath = join(home, repo, directory, 'theme.json')
         const declaration = isFile(declarationPath) ? JSON.parse(getContent(declarationPath)) : null
+        if (typeof declaration?.source === 'string' && /^https?:\/\//i.test(declaration.source) && URL.canParse(declaration.source)) {
+            themeSources[getThemeKey(directory)] = declaration.source
+        }
         const brandingPath = join(home, repo, directory, 'data', 'branding.json')
         const contentPath = join(home, repo, directory, 'data', 'home.json')
         const referencePath = join(home, repo, directory, 'data', 'originalHome.json')
@@ -72,6 +76,7 @@ export default ({
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     if (Object.keys(themeDescriptions).length) configuration.themeDescriptions = themeDescriptions
+    if (Object.keys(themeSources).length) configuration.themeSources = themeSources
     if (Object.keys(themeMetadata).length) configuration.themeMetadata = themeMetadata
     if (Object.keys(themeBranding).length) configuration.themeBranding = themeBranding
     if (Object.keys(themeViewports).length) configuration.themeViewports = themeViewports
