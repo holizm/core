@@ -34,8 +34,12 @@ export default params => {
     if (processType !== 'api') {
         for (const dependency of params.dependencies || []) {
             const roots = [`${home}/${repo}/${dependency}`, `${home}/${getApiRepo(repo)}/${dependency}`, `${home}/${dependency}`];
-            const root = roots.find(root => isFile(`${root}/part`) && isDir(`${root}/functions`));
-            if (root) params.addVolume(`${root}/functions`, `${containerHome}/${repo}/${process}/clientFunctions/${dependency}:ro`);
+            const functionsRoot = roots.find(root => isFile(`${root}/part`) && isDir(`${root}/functions`));
+            if (functionsRoot) params.addVolume(`${functionsRoot}/functions`, `${containerHome}/${repo}/${process}/clientFunctions/${dependency}:ro`);
+            if (processType === 'site') {
+                const localizationRoot = roots.find(root => isFile(`${root}/part`) && isDir(`${root}/localization`))
+                if (localizationRoot) params.addVolume(`${localizationRoot}/localization`, `${containerHome}/${repo}/${process}/src/parts/${dependency}/localization:ro`)
+            }
         }
     }
     if (processType === 'api') {

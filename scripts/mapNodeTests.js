@@ -58,6 +58,7 @@ test('client processes mount declared shared function packages from their owning
     }));
     const part = path.join(home, 'messaging');
     fs.mkdirSync(path.join(part, 'functions'), { recursive: true });
+    fs.mkdirSync(path.join(part, 'localization'));
     fs.writeFileSync(path.join(part, 'part'), 'conversation\n');
     fs.writeFileSync(path.join(part, 'functions/connect.js'), 'export default () => true');
     for (const processType of ['panel', 'site']) {
@@ -72,6 +73,7 @@ test('client processes mount declared shared function packages from their owning
             repo: 'example'
         });
         assert.ok(volumes.some(([source, target]) => source === path.join(part, 'functions') && target === `/container/example/${processType}/clientFunctions/messaging:ro`));
+        assert.equal(volumes.some(([source, target]) => source === path.join(part, 'localization') && target === `/container/example/${processType}/src/parts/messaging/localization:ro`), processType === 'site');
     }
     fs.rmSync(path.join(part, 'functions'), { recursive: true });
     const volumes = [];
