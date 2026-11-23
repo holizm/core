@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sourcePath=$(cd -- "${BASH_SOURCE[0]%/*}" && pwd)/increaseLimits
+testDirectory=$(mktemp -d /tmp/increaseLimits.XXXXXX)
+trap 'rm -rf -- "$testDirectory"' EXIT
+export testDirectory
+
+sysctl() {
+    [[ $1 == -n && $2 == fs.inotify.max_user_watches ]] || return 1
+    printf '%s\n' "$currentLimit"
+}
+
+sudo() {
+    case "$1" in
+        tee)
+            [[ $2 == /etc/sysctl.d/90-development-watchers.conf ]] || return 1
+            tee "$testDirectory/watchSettings"
+            ;;
+        sysctl)
+            if [[ $2 == -p ]]; then
+                [[ $3 == /etc/sysctl.d/90-development-watchers.conf && -s "$testDirectory/watchSettings" ]] || return 1
+                cp "$testDirectory/watchSettings" "$testDirectory/appliedSettings"
+            else
+                [[ $2 == fs.inotify.max_user_instances=8192 ]]
+            fi
+            ;;
+        sed)
+            [[ $2 == -i && $4 == /etc/systemd/*.conf ]]
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+export -f sudo sysctl
+
+currentLimit=65536 bash "$sourcePath"
+[[ $(< "$testDirectory/appliedSettings") == 'fs.inotify.max_user_watches = 524288' ]]
+currentLimit=1048576 bash "$sourcePath"
+[[ $(< "$testDirectory/appliedSettings") == 'fs.inotify.max_user_watches = 1048576' ]]

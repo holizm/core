@@ -1,5 +1,7 @@
 import { join } from 'path'
+import getSitePreviewSamples from './getSitePreviewSamples.js'
 import getThemeKey from './getThemeKey.js'
+import isDir from './isDir.js'
 import isFile from './isFile.js'
 import {
     getContent,
@@ -14,7 +16,7 @@ export default ({
     process,
     repo,
     siteCore,
-    themeDirectories = [],
+    themeDirectories,
 }) => {
     if (siteCore !== 'newSite') {
         addVolume(
@@ -28,7 +30,7 @@ export default ({
     }
     const configuration = {
         multiThemed,
-        themeNumbers: themeDirectories.map(getThemeKey),
+        themeNumbers: themeDirectories?.map(getThemeKey) ?? [],
     }
     const themeTitles = {}
     const themeDescriptions = {}
@@ -73,6 +75,10 @@ export default ({
         if (description) themeDescriptions[getThemeKey(directory)] = description
         if (viewport) themeViewports[getThemeKey(directory)] = viewport
         if (declaration?.defaultAppearance) themeDefaultAppearances[getThemeKey(directory)] = declaration.defaultAppearance
+    }
+    const previewDirectory = join(home, 'siteThemes', 'data')
+    if (multiThemed && isDir(previewDirectory)) {
+        configuration.previewSamples = getSitePreviewSamples(previewDirectory)
     }
     if (Object.keys(themeTitles).length) configuration.themeTitles = themeTitles
     if (Object.keys(themeDescriptions).length) configuration.themeDescriptions = themeDescriptions

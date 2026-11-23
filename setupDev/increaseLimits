@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+watcherSettings=/etc/sysctl.d/90-development-watchers.conf
+watchLimit=$(sysctl -n fs.inotify.max_user_watches)
+if (( watchLimit < 524288 )); then
+    watchLimit=524288
+fi
+
+printf 'fs.inotify.max_user_watches = %s\n' "$watchLimit" | sudo tee "$watcherSettings" >/dev/null
+sudo sysctl -p "$watcherSettings" >/dev/null
 sudo sysctl fs.inotify.max_user_instances=8192 >/dev/null
 
 sudo sed -i 's/^.*DefaultLimitNOFILE=.*$/DefaultLimitNOFILE=65536/g' /etc/systemd/system.conf
