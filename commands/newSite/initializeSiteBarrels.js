@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'fs'
+import createSitePartConfiguration from '../site/createSitePartConfiguration.js'
 import getSiteComponentAliases from '../site/getSiteComponentAliases.js'
 import getSitePartAliases from '../site/getSitePartAliases.js'
 
@@ -11,22 +12,23 @@ const processName = process.env.process
 const pagePartsBase = `${home}/${repo}/${processName}/src/pageParts`
 const srcBase = `${home}/${repo}/${processName}/src`
 
-const getDirs = base => fs.readdirSync(base, {
-    withFileTypes: true,
-}).filter(entry =>
+const getDirs = base => fs.readdirSync(base, { withFileTypes: true }).filter(entry =>
     entry.isDirectory()
 ).map(entry => entry.name)
 
 const aliases = {
     core: './src/core/exports',
-    richTextComponents: './src/richTextComponents',
     itemRendererComponents: './src/itemRendererComponents',
     loaders: './src/loaders',
     paginationBehaviors: './src/paginationBehaviors',
+    richTextComponents: './src/richTextComponents',
 }
 
 Object.assign(aliases, getSiteComponentAliases(srcBase))
 Object.assign(aliases, getSitePartAliases(srcBase))
+
+createSitePartConfiguration(srcBase)
+aliases.sitePartConfiguration = './src/sitePartConfiguration.js'
 
 const srcDirectories = getDirs(srcBase)
 

@@ -40,6 +40,10 @@ export default params => {
             }
         }
         params.addVolume(`${partFilePath}`, `${nodeModules}/${dependency}/part`);
+        const functionsPath = `${dependencyRoot}/functions/shared`
+        if (isDir(functionsPath)) {
+            params.addVolume(functionsPath, `${nodeModules}/${dependency}/functions/shared:ro`)
+        }
         const businessPath = `${dependencyBase}/business`;
         if (isDir(businessPath)) {
             params.addVolume(businessPath, `${nodeModules}/${dependency}/business`);

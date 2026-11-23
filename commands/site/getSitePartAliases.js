@@ -8,7 +8,7 @@ export default srcBase => {
     if (fs.existsSync(functions)) {
         for (const name of fs.readdirSync(functions)) {
             for (const file of fg.sync('*.js', { cwd: path.join(functions, name) })) {
-                if (/Tests?\.js$/.test(file)) continue;
+                if (file === 'siteConfig.js' || /Tests?\.js$/.test(file)) continue;
                 const base = path.basename(file, '.js');
                 aliases[`${name}${base[0].toUpperCase()}${base.slice(1)}`] = path.join(functions, name, file);
             }
