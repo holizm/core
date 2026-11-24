@@ -9,22 +9,26 @@ import {
     writeFile,
 } from './os.js'
 
-test('loads JSON samples by semantic type and preserves the menu forest', async t => {
+test('loads JSON samples by semantic type and preserves complete menu samples', async t => {
     const directory = mkdtempSync(join(tmpdir(), 'sitePreviewSamples'))
     t.after(() => deleteFile(directory))
     writeFile(join(directory, 'cardCollections', 'cardCollection2.json'), '{"cards":[]}')
     writeFile(join(directory, 'cardCollections', 'cardCollection1.json'), '{"heading":{"title":"Lorem"}}')
     writeFile(join(directory, 'cardCollections', 'temp'), '')
-    writeFile(join(directory, 'menuItems.json'), '[{"children":[],"hasChildren":false}]')
+    writeFile(join(directory, 'menuItems', 'menu02.json'), '{"menuItems":[{"children":[{"title":"Ipsum"}]}],"menuKind":"megaMenu"}')
+    writeFile(join(directory, 'menuItems', 'menu01.json'), '{"menuItems":[{"title":"Lorem"}]}')
 
     const samples = getSitePreviewSamples(directory)
     assert.deepEqual(samples.cards, [
         { heading: { title: 'Lorem' } },
         { cards: [] },
     ])
-    assert.deepEqual(samples.menuItems, [{
-        children: [],
-        hasChildren: false,
-    }])
+    assert.deepEqual(samples.menus, [
+        { menuItems: [{ title: 'Lorem' }] },
+        {
+            menuItems: [{ children: [{ title: 'Ipsum' }] }],
+            menuKind: 'megaMenu',
+        },
+    ])
     assert.deepEqual(samples.layout, [])
 })

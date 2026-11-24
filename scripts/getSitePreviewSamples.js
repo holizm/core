@@ -1,6 +1,5 @@
 import { join } from 'path'
 import isDir from './isDir.js'
-import isFile from './isFile.js'
 import {
     getContent,
     getFiles,
@@ -17,6 +16,7 @@ export default directory => {
         label: 'labels',
         layout: 'layout',
         links: 'linkCollections',
+        menus: 'menuItems',
         quote: 'quotes',
         slider: 'sliders',
         stat: 'stats',
@@ -30,7 +30,5 @@ export default directory => {
             .map(file => JSON.parse(getContent(join(path, file)))) : []
         return [type, entries]
     }))
-    const menuPath = join(directory, 'menuItems.json')
-    samples.menuItems = isFile(menuPath) ? JSON.parse(getContent(menuPath)) : []
     return samples
 }
