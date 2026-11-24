@@ -63,10 +63,10 @@ for (const part of parts) {
     })
     const modules = files.sort().map(file => {
         const [, exports] = parse(getContent(file))
+        const fileName = path.basename(file, '.js')
+        const exportNames = exports.map(item => item.name ?? item.n).filter(Boolean)
         const moduleData = {
-            exportNames: exports
-                .map(item => item.name ?? item.n)
-                .filter(Boolean),
+            exportNames: exportNames.filter(name => name !== 'default' || !exportNames.includes(fileName)),
             file,
         }
         return moduleData
