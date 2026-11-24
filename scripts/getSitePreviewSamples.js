@@ -13,15 +13,19 @@ export default directory => {
         dataSection: 'dataSections',
         description: 'descriptions',
         heading: 'headings',
+        icon: 'icons',
         image: 'images',
         label: 'labels',
+        link: 'links',
         links: 'linkCollections',
+        location: 'locations',
         logos: 'logos',
         menus: 'menuItems',
         quote: 'quotes',
         slider: 'sliders',
         stat: 'stats',
         title: 'titles',
+        url: 'urls',
     }
     const samples = Object.fromEntries(Object.entries(folders).map(([type, folder]) => {
         const path = join(directory, folder)
