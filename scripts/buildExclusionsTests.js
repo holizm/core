@@ -12,9 +12,12 @@ import test from 'node:test'
 import buildExclusions from './buildExclusions.js'
 import { deleteByPatterns } from './os.js'
 
-test('artifact cleanup removes tests while retaining production modules', async t => {
+test('artifact cleanup removes tests and private configuration while retaining production modules', async t => {
     const directory = mkdtempSync(path.join(tmpdir(), 'buildExclusions'))
-    t.after(() => rmSync(directory, { force: true, recursive: true }))
+    t.after(() => rmSync(directory, {
+        force: true,
+        recursive: true,
+    }))
     const source = path.join(directory, 'api', 'feature')
     const tests = path.join(directory, 'api', 'test')
     const fixtures = path.join(directory, 'api', 'testFixtures')
@@ -27,6 +30,8 @@ test('artifact cleanup removes tests while retaining production modules', async 
     mkdirSync(sharedData)
     mkdirSync(integration)
     mkdirSync(generatedData, { recursive: true })
+    writeFileSync(path.join(source, '.env.production'), '')
+    writeFileSync(path.join(source, 'secrets.json'), '{}')
     writeFileSync(path.join(source, 'find.js'), '')
     writeFileSync(path.join(source, 'findTests.js'), '')
     writeFileSync(path.join(tests, 'fixture.js'), '')
