@@ -15,6 +15,7 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
     writeFile(join(directory, 'cardCollections', 'cardCollection2.json'), '{"cards":[]}')
     writeFile(join(directory, 'cardCollections', 'cardCollection1.json'), '{"heading":{"title":"Lorem"}}')
     writeFile(join(directory, 'cardCollections', 'temp'), '')
+    writeFile(join(directory, 'copyrights', 'copyright1.json'), '"© Example Company. All rights reserved."')
     writeFile(join(directory, 'menuItems', 'menu02.json'), '{"menuItems":[{"children":[{"title":"Ipsum"}]}],"menuKind":"megaMenu"}')
     writeFile(join(directory, 'menuItems', 'menu01.json'), '{"menuItems":[{"title":"Lorem"}]}')
 
@@ -30,5 +31,6 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
             menuKind: 'megaMenu',
         },
     ])
-    assert.deepEqual(samples.layout, [])
+    assert.deepEqual(samples.copyright, ['© Example Company. All rights reserved.'])
+    assert.equal(Object.hasOwn(samples, 'layout'), false)
 })

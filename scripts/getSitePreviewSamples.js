@@ -9,12 +9,12 @@ export default directory => {
     const folders = {
         callToAction: 'callToActions',
         cards: 'cardCollections',
+        copyright: 'copyrights',
         dataSection: 'dataSections',
         description: 'descriptions',
         heading: 'headings',
         image: 'images',
         label: 'labels',
-        layout: 'layout',
         links: 'linkCollections',
         menus: 'menuItems',
         quote: 'quotes',
