@@ -19,6 +19,8 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
     writeFile(join(directory, 'menuItems', 'menu02.json'), '{"menuItems":[{"children":[{"title":"Ipsum"}]}],"menuKind":"megaMenu"}')
     writeFile(join(directory, 'menuItems', 'menu01.json'), '{"menuItems":[{"title":"Lorem"}]}')
 
+    writeFile(join(directory, 'logos', 'logo01.json'), '{"logo":"/media/preview/logos/lorem.webp"}')
+
     const samples = getSitePreviewSamples(directory)
     assert.deepEqual(samples.cards, [
         { heading: { title: 'Lorem' } },
@@ -32,5 +34,6 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
         },
     ])
     assert.deepEqual(samples.copyright, ['© Example Company. All rights reserved.'])
+    assert.deepEqual(samples.logos, [{ logo: '/media/preview/logos/lorem.webp' }])
     assert.equal(Object.hasOwn(samples, 'layout'), false)
 })

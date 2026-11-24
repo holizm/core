@@ -16,6 +16,7 @@ export default directory => {
         image: 'images',
         label: 'labels',
         links: 'linkCollections',
+        logos: 'logos',
         menus: 'menuItems',
         quote: 'quotes',
         slider: 'sliders',
