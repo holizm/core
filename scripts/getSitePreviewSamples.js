@@ -7,6 +7,7 @@ import {
 
 export default directory => {
     const folders = {
+        brand: 'brands',
         callToAction: 'callToActions',
         cards: 'cardCollections',
         copyright: 'copyrights',
@@ -23,6 +24,7 @@ export default directory => {
         menus: 'menuItems',
         quote: 'quotes',
         slider: 'sliders',
+        slogan: 'slogans',
         stat: 'stats',
         title: 'titles',
         url: 'urls',

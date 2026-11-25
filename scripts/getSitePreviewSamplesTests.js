@@ -12,6 +12,7 @@ import {
 test('loads JSON samples by semantic type and preserves complete menu samples', async t => {
     const directory = mkdtempSync(join(tmpdir(), 'sitePreviewSamples'))
     t.after(() => deleteFile(directory))
+    writeFile(join(directory, 'brands', 'brand1.json'), '"Alder & Vale"')
     writeFile(join(directory, 'cardCollections', 'cardCollection2.json'), '{"cards":[]}')
     writeFile(join(directory, 'cardCollections', 'cardCollection1.json'), '{"heading":{"title":"Lorem"}}')
     writeFile(join(directory, 'cardCollections', 'temp'), '')
@@ -21,10 +22,13 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
 
     writeFile(join(directory, 'logos', 'logo01.json'), '{"logo":"/media/preview/logos/lorem.webp"}')
 
+    writeFile(join(directory, 'slogans', 'slogan1.json'), '"Make room for better."')
     writeFile(join(directory, 'urls', 'url1.json'), '"/lorem"')
     writeFile(join(directory, 'links', 'link1.json'), '{"url":"/lorem"}')
     writeFile(join(directory, 'locations', 'location1.json'), '{"city":"Lorem"}')
     const samples = getSitePreviewSamples(directory)
+    assert.deepEqual(samples.brand, ['Alder & Vale'])
+    assert.deepEqual(samples.slogan, ['Make room for better.'])
     assert.deepEqual(samples.url, ['/lorem'])
     assert.deepEqual(samples.link, [{ url: '/lorem' }])
     assert.deepEqual(samples.location, [{ city: 'Lorem' }])
