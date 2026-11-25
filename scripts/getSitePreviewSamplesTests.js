@@ -13,6 +13,8 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
     const directory = mkdtempSync(join(tmpdir(), 'sitePreviewSamples'))
     t.after(() => deleteFile(directory))
     writeFile(join(directory, 'brands', 'brand1.json'), '"Alder & Vale"')
+    writeFile(join(directory, 'cards', 'card1.json'), '{"text":"Standalone card"}')
+    writeFile(join(directory, 'dataLoaders', 'dataLoader1.json'), '[{"title":"Loaded item"}]')
     writeFile(join(directory, 'cardCollections', 'cardCollection2.json'), '{"cards":[]}')
     writeFile(join(directory, 'cardCollections', 'cardCollection1.json'), '{"heading":{"title":"Lorem"}}')
     writeFile(join(directory, 'cardCollections', 'temp'), '')
@@ -32,6 +34,8 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
     assert.deepEqual(samples.url, ['/lorem'])
     assert.deepEqual(samples.link, [{ url: '/lorem' }])
     assert.deepEqual(samples.location, [{ city: 'Lorem' }])
+    assert.deepEqual(samples.card, [{ text: 'Standalone card' }])
+    assert.deepEqual(samples.dataLoader, [[{ title: 'Loaded item' }]])
     assert.deepEqual(samples.cards, [
         { heading: { title: 'Lorem' } },
         { cards: [] },

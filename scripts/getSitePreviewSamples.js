@@ -9,8 +9,10 @@ export default directory => {
     const folders = {
         brand: 'brands',
         callToAction: 'callToActions',
+        card: 'cards',
         cards: 'cardCollections',
         copyright: 'copyrights',
+        dataLoader: 'dataLoaders',
         dataSection: 'dataSections',
         description: 'descriptions',
         heading: 'headings',
