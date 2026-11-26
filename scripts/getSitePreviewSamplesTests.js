@@ -28,7 +28,14 @@ test('loads JSON samples by semantic type and preserves complete menu samples', 
     writeFile(join(directory, 'urls', 'url1.json'), '"/lorem"')
     writeFile(join(directory, 'links', 'link1.json'), '{"url":"/lorem"}')
     writeFile(join(directory, 'locations', 'location1.json'), '{"city":"Lorem"}')
+    writeFile(join(directory, 'scrollToTopControls', 'scrollToTop1.json'), '{"label":"Back to top"}')
+    writeFile(join(directory, 'soundControls', 'soundControl1.json'), '{"label":"Interaction sounds","text":"Click anywhere to hear interaction sounds"}')
     const samples = getSitePreviewSamples(directory)
+    assert.deepEqual(samples.scrollToTop, [{ label: 'Back to top' }])
+    assert.deepEqual(samples.soundControl, [{
+        label: 'Interaction sounds',
+        text: 'Click anywhere to hear interaction sounds',
+    }])
     assert.deepEqual(samples.brand, ['Alder & Vale'])
     assert.deepEqual(samples.slogan, ['Make room for better.'])
     assert.deepEqual(samples.url, ['/lorem'])
