@@ -15,9 +15,11 @@ test('getSiteComponentAliases maps core and page components to generated barrels
     fs.mkdirSync(pageDirectory, { recursive: true })
     fs.writeFileSync(path.join(coreDirectory, 'sample.js'), 'export default value => value\n')
     fs.writeFileSync(path.join(pageDirectory, 'title.jsx'), `export default () => 'Title'\n`)
+    fs.writeFileSync(path.join(directory, 'sitePartRoutes.js'), 'export default {}\n')
     const aliases = getSiteComponentAliases(directory, true)
     assert.equal(aliases.coreSample, path.join(directory, 'coreBarrels', 'coreFunctions', 'sample'))
     assert.equal(aliases.homeTitle, path.join(directory, 'coreBarrels', 'pageParts', 'home', 'title'))
+    assert.equal(aliases.sitePartRoutes, path.join(directory, 'coreBarrels', 'sitePartRoutes'))
     assert.match(fs.readFileSync(path.join(directory, 'coreBarrels', 'coreFunctions', 'sample.js'), 'utf8'), /export \{ default \}/)
 })
 

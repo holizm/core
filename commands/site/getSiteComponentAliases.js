@@ -26,6 +26,7 @@ const getSiteComponentAliases = (srcBase, absolute = false) => {
         'themes/**/*.json',
         'document*.jsx',
         'siteConfiguration.js',
+        'sitePartRoutes.js',
     ], {
         cwd: srcBase,
         dot: false,
