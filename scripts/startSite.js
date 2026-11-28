@@ -324,11 +324,13 @@ export default params => {
         params.addVolume(params.siteContentSource.source, params.siteContentSource.target)
     }
     params.sitePartRoutes = {}
+    const isThemesRunnable = params.repo.endsWith('Themes')
     params.themeDirectories = findThemeDirectories(
         join(params.processPath, '..'),
-        params.repo.endsWith('Themes') ? join(params.home, 'siteThemes') : undefined,
+        isThemesRunnable ? join(params.home, 'siteThemes') : undefined,
+        join(params.processPath, 'coreThemes'),
     )
-    params.multiThemed = params.themeDirectories.length > 0
+    params.multiThemed = isThemesRunnable || params.themeDirectories.length > 0
     params.globalCssFile = params.multiThemed
         ?
         'multiThemedGlobal.css'

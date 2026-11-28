@@ -18,7 +18,7 @@ test('findThemeDirectories finds and numerically orders theme directories', t =>
     assert.deepEqual(findThemeDirectories(root), ['theme01', 'theme2', 'theme10'])
 })
 
-test('core themes are all discovered directly without symbolic links', t => {
+test('only listed core themes are discovered alongside local themes', t => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coreThemes'))
     t.after(() => fs.rmSync(root, {
         force: true,
@@ -31,16 +31,17 @@ test('core themes are all discovered directly without symbolic links', t => {
     fs.mkdirSync(path.join(catalog, 'theme032'))
     fs.mkdirSync(path.join(catalog, 'theme100'))
     fs.mkdirSync(path.join(catalog, 'other'))
-    assert.deepEqual(findThemeDirectories(runnable, catalog), [
+    const selection = path.join(runnable, 'coreThemes')
+    fs.writeFileSync(selection, 'theme100\n theme001 \n\ntheme100\n')
+    assert.deepEqual(findThemeDirectories(runnable, catalog, selection), [
         '../siteThemes/theme001',
-        '../siteThemes/theme032',
         '../siteThemes/theme100',
         'theme001',
     ])
-    assert.deepEqual(findThemeDirectories(runnable), ['theme001'])
+    assert.deepEqual(findThemeDirectories(runnable, catalog, path.join(runnable, 'missing')), ['theme001'])
 })
 
-test('a themed runnable without custom themes still includes the entire core catalog', t => {
+test('missing and invalid selections never fall back to the core catalog', t => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coreOnlyThemes'))
     t.after(() => fs.rmSync(root, {
         force: true,
@@ -51,5 +52,8 @@ test('a themed runnable without custom themes still includes the entire core cat
     fs.mkdirSync(runnable)
     fs.mkdirSync(path.join(catalog, 'theme032'), { recursive: true })
     fs.symlinkSync('../siteThemes/theme032', path.join(runnable, 'coreTheme032'))
-    assert.deepEqual(findThemeDirectories(runnable, catalog), ['../siteThemes/theme032'])
+    const selection = path.join(runnable, 'coreThemes')
+    assert.deepEqual(findThemeDirectories(runnable, catalog, selection), [])
+    fs.writeFileSync(selection, 'theme033\n')
+    assert.throws(() => findThemeDirectories(runnable, catalog, selection), /Unknown core theme 'theme033'/)
 })
