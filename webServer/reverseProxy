@@ -18,13 +18,6 @@ server
     ssl_certificate_key ${certificatesPath}/${tenant}/key.pem;
 
     error_page 502 /502.html;
-    error_page 504 /gatewayTimeout.html;
-
-    location = /gatewayTimeout.html
-    {
-        internal;
-        root ${home}/core/webServer;
-    }
 
     location /502
     {

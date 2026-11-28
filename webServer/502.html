@@ -1,29 +1,100 @@
-<style>
-    #code {
-        margin-top: 50px;
-        color: red;
-        text-align: center;
-        font-weight: bold;
-        font-size: 400%;
-    }
-
-    #reasons {
-        margin: auto;
-        margin-top: 50px;
-        font-size: 200%;
-        color: green;
-    }
-
-    #reasons li {
-        margin-top: 25px;
-        text-align: center;
-        list-style: none;
-    }
-</style>
-<div id='code'>502 Bad Gateway</div>
-<ul id='reasons'>
-    <li>Make sure you have run the start command</li>
-    <li>Then wait for the process to load (if you have run start)</li>
-    <li>Or make sure your container is running</li>
-    <li>Or make sure the process in your container is running without errors</li>
-</ul>
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='color-scheme' content='light dark'>
+    <title>502 Bad Gateway</title>
+    <script>
+        (() => {
+            const applyAppearance = () => {
+                try {
+                    const mode = localStorage.getItem('theme')
+                    document.documentElement.dataset.theme = mode === 'dark' || mode === 'light' ? mode : ''
+                }
+                catch (e) {}
+            }
+            applyAppearance()
+            window.addEventListener('storage', applyAppearance)
+        })()
+    </script>
+    <style>
+        :root[data-theme='light'] {
+            color-scheme: light;
+        }
+        :root[data-theme='dark'] {
+            color-scheme: dark;
+        }
+        body {
+            align-items: center;
+            background: light-dark(#f1f5f9, #0c1421);
+            color: light-dark(#182535, #edf4fc);
+            display: grid;
+            font: 1rem/1.6 system-ui, sans-serif;
+            margin: 0;
+            min-height: 100svh;
+            padding: 1.25rem;
+            box-sizing: border-box;
+        }
+        main {
+            background: light-dark(#fff, #152235);
+            border: 1px solid light-dark(#cbd5e1, #33465d);
+            border-radius: 1rem;
+            box-sizing: border-box;
+            margin-inline: auto;
+            max-width: 36rem;
+            padding: clamp(1.5rem, 6vw, 3rem);
+            width: 100%;
+        }
+        .status {
+            color: light-dark(#2054a6, #a1c4ff);
+            font-size: .875rem;
+            font-weight: 700;
+            margin: 0 0 .75rem;
+        }
+        h1 {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            letter-spacing: -.035em;
+            line-height: 1.15;
+            margin: 0;
+        }
+        .description {
+            color: light-dark(#46566a, #b9c8db);
+            margin: 1rem 0 1.5rem;
+        }
+        a {
+            background: light-dark(#2054a6, #a1c4ff);
+            border-radius: .5rem;
+            color: light-dark(#fff, #12223a);
+            display: inline-block;
+            font-weight: 650;
+            padding: .65rem 1rem;
+            text-decoration: none;
+        }
+        details {
+            color: light-dark(#46566a, #b9c8db);
+            margin-top: 1.5rem;
+        }
+        summary {
+            cursor: pointer;
+        }
+        a:focus-visible {
+            outline: 2px solid currentColor;
+            outline-color: light-dark(#2054a6, #a1c4ff);
+            outline-offset: 4px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <p class='status'>502 Bad Gateway</p>
+        <h1>The site is temporarily unavailable</h1>
+        <p class='description'>The web server couldn’t reach the app. Wait a moment, then try again.</p>
+        <a href=''>Try again</a>
+        <details>
+            <summary>Running this site locally?</summary>
+            <p>Run <code>start</code> from the site directory and give it time to load. If it still fails, check that the container is running and review the app logs for errors.</p>
+        </details>
+    </main>
+</body>
+</html>

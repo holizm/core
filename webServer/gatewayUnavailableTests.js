@@ -3,14 +3,14 @@ import { readFileSync } from 'fs'
 import { test } from 'node:test'
 import { runInNewContext } from 'vm'
 
-const page = readFileSync(new URL('./gatewayTimeout.html', import.meta.url), 'utf8')
+const page = readFileSync(new URL('./502.html', import.meta.url), 'utf8')
 const proxy = readFileSync(new URL('./reverseProxy', import.meta.url), 'utf8')
 const appearanceScript = page.match(/<script>([\s\S]*?)<\/script>/)[1]
 
-test('the proxy serves the timeout page internally and preserves the status', () => {
-    assert.match(proxy, /error_page 504 \/gatewayTimeout\.html;/)
-    assert.match(proxy, /location = \/gatewayTimeout\.html\s*\{[^}]*\binternal;/)
-    assert.match(page, /<h1>This page took too long to load<\/h1>/)
+test('the proxy serves the unavailable page internally and preserves the status', () => {
+    assert.match(proxy, /error_page 502 \/502\.html;/)
+    assert.match(proxy, /location \/502\s*\{[\s\S]*?\binternal;/)
+    assert.match(page, /<h1>The site is temporarily unavailable<\/h1>/)
     assert.match(page, /<a href=''>Try again<\/a>/)
 })
 
